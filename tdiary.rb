@@ -1,20 +1,25 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.172 $
+tdiary.rb $Revision: 1.173 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040109'
+TDIARY_VERSION = '1.5.6.20040117'
 
 require 'cgi'
 begin
-	require 'erb'
+	require 'erb_fast'
 	ERbLight = ERB
 rescue LoadError
-	require 'erb/erbl'
+	begin
+		require 'erb'
+		ERbLight = ERB
+	rescue LoadError
+		require 'erb/erbl'
+	end
 end
 
 =begin

@@ -1,3 +1,6 @@
+2004-01-17  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb: use erbscan if possible.
+
 2004.01.12 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: remove TDiaryTrackBackBase#trackback_url.
 	* tdiary.rb: use @conf.base_url in TDiaryTrackBackBase#diary_url.
