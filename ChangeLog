@@ -1,3 +1,8 @@
+2002.09.09 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: implement DiaryBase#title, DiaryBase#set_title.
+	* defaultio.rb, pstoreio.rb: remove title, title=, date method.
+	* rename method: Section#text -> to_src.
+
 2002.08.26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: change TDiary::DIRTY_NONE false to zero.
 	* tdiary.rb, diary.rhtml: add CommentManager#each_visible_comment.

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.15 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.16 $
 #
 module DefaultIO
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -212,7 +212,7 @@ module DefaultIO
 	end
 
 	class TDiarySection
-		attr_reader :subtitle, :body
+		attr_reader :subtitle, :body, :author
 	
 		def initialize( fragment, author = nil )
 			@author = author
@@ -227,7 +227,7 @@ module DefaultIO
 			@body = lines.join( "\n" )
 		end
 	
-		def text
+		def to_src
 			s = ''
 			if @subtitle then
 				s += "[#{@author}]" if @author
@@ -240,16 +240,9 @@ module DefaultIO
 		def to_s
 			"subtitle=#{@subtitle}, body=#{@body}"
 		end
-	
-		def author
-			@author = @auther unless @author
-			@author
-		end
 	end
 
 	class TDiaryDiary
-		attr_reader :date, :title
-	
 		include DiaryBase
 	
 		def initialize( date, title, body, modified = Time::now )
@@ -263,13 +256,8 @@ module DefaultIO
 		end
 	
 		def replace( date, title, body )
-			if date.type == String then
-				y, m, d = date.scan( /(\d{4})(\d\d)(\d\d)/ )[0]
-				@date = Time::local( y, m, d )
-			else
-				@date = date
-			end
-			@title = title
+			set_date( date )
+			set_title( title )
 			@sections = []
 			append( body )
 		end
@@ -283,11 +271,6 @@ module DefaultIO
 			self
 		end
 	
-		def title=( t )
-			@title = t
-			@last_modified = Time::now
-		end
-	
 		def each_section
 			@sections.each do |section|
 				yield section
@@ -295,11 +278,11 @@ module DefaultIO
 		end
 	
 		def to_src
-			text = ''
+			src = ''
 			each_section do |section|
-				text << section.text
+				src << section.to_src
 			end
-			text
+			src
 		end
 	
 		def to_html( opt, mode = :HTML )
@@ -321,7 +304,7 @@ module DefaultIO
 					if opt['anchor'] then
 						r << %Q[name="p#{'%02d' % idx}" ]
 					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
+					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
 					if opt['multi_user'] and section.author then
 						r << %Q|[#{section.author}]|
 					end
@@ -336,7 +319,7 @@ module DefaultIO
 					if opt['anchor'] then
 						r << %Q[name="p#{'%02d' % idx}" ]
 					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
+					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[</div>]
 				idx += 1
@@ -368,7 +351,7 @@ module DefaultIO
 		end
 	
 		def to_s
-			"date=#{@date.strftime('%Y%m%d')}, title=#{@title}, body=[#{@sections.join('][')}]"
+			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
 		end
 	end
 end

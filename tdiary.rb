@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.49 $
+tdiary.rb $Revision: 1.50 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -238,6 +238,28 @@ module DiaryBase
 		init_comments
 		init_referers
 		@show = true
+	end
+
+	def date
+		@date
+	end
+
+	def set_date( date )
+		if date.type == String then
+			y, m, d = date.scan( /(\d{4})(\d\d)(\d\d)/ )[0]
+			@date = Time::local( y, m, d )
+		else
+			@date = date
+		end
+	end
+
+	def title
+		@title || ''
+	end
+
+	def set_title( title )
+		@title = title
+		@last_modified = Time::now
 	end
 
 	def show( s )

@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.11 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.12 $
 #
 require 'pstore'
 
@@ -73,7 +73,7 @@ class Paragraph
 		@body = lines.join( "\n" )
 	end
 
-	def text
+	def to_src
 		s = ''
 		if @subtitle then
 			s += "[#{@author}]" if @author
@@ -98,8 +98,6 @@ end
 Management a day of diary
 =end
 class Diary
-	attr_reader :date, :title
-
 	include DiaryBase
 
 	def initialize( date, title, body )
@@ -112,7 +110,8 @@ class Diary
 	end
 
 	def replace( date, title, body )
-		@date, @title = date, title
+		set_date( date )
+		set_title( title )
 		@paragraphs = []
 		append( body )
 	end
@@ -126,11 +125,6 @@ class Diary
 		self
 	end
 
-	def title=( t )
-		@title = t
-		@last_modified = Time::now
-	end
-
 	def each_section
 		@paragraphs.each do |paragraph|
 			yield paragraph
@@ -138,11 +132,11 @@ class Diary
 	end
 
 	def to_src
-		text = ''
+		src = ''
 		each_section do |para|
-			text << para.text
+			src << para.to_src
 		end
-		text
+		src
 	end
 
 	def to_html( opt, mode = :HTML )
