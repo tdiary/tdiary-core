@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
 	<meta name="Author" content="TADA Tadashi">
 	<link rev="MADE" href="mailto:sho@spc.gr.jp">
-	<link rel="INDEX" href="http://www.tdiary.net/">
+	<link rel="INDEX" href="http://www.tdiary.org/">
 	<meta http-equiv="content-style-type" content="text/css">
 	<link rel="stylesheet" href="doc.css" type="text/css" media="all">
 	<title>tDiary: How to make theme</title>
@@ -12,18 +12,17 @@
 <body>
 <h1>tDiary<br><span style="font-size:medium">テーマの作り方</span></h1>
 
-<h2><span class="title">テーマ作成に先だって</span></h2>
-<div class="section">
-<p>　テーマはtDiary 1.1.0以降で使えるようになった、日記の見栄えを簡単に変更する仕組みです。テーマはCSS(カスケーディングスタイルシート)で実現されているので、CSSの書き方がわかれば作ることができます。CSSの書き方についてはここでは述べません。このドキュメントでは、tDiaryのテーマを作るときの約束事だけを説明します。</p>
+<h2>テーマ作成に先だって</h2>
 
-<p>　なお、tDiaryが生成するHTMLは、1.5から大きく変わりました。基本的に1.4までのテーマとの互換性はありません。自動変換ツール(misc/theme_convert)は付属していますが、完全ではありません。変換後の結果は、きちんと確認するようにしてください。</p>
+<p>テーマはtDiary 1.1.0以降で使えるようになった、日記の見栄えを簡単に変更する仕組みです。テーマはCSS(カスケーディングスタイルシート)で実現されているので、CSSの書き方がわかれば作ることができます。CSSの書き方についてはここでは述べません。このドキュメントでは、tDiaryのテーマを作るときの約束事だけを説明します。</p>
 
-<p>　tDiaryのテーマは、インストールディレクトリにあるthemeディレクトリに入っています。tDiary標準セットではDefaultだけ、フルセットではテーマ集にあるすべてのテーマが入っています。</p>
-</div>
+<p>なお、tDiaryが生成するHTMLは、1.5から大きく変わりました。基本的に1.4までのテーマとの互換性はありません。自動変換ツール(misc/theme_convert)は付属していますが、完全ではありません。変換後の結果は、きちんと確認するようにしてください。</p>
 
-<h2><span class="title">テーマ作成の基本ルール</span></h2>
-<div class="section">
-<p>　tDiaryテーマには、以下のような基本的な約束事があります。もちろん、CSSであればなんでもかまわないのですが、themeディレクトリに配置してtDiaryの設定画面から選択したり、テーマ・ギャラリーに入るようなテーマにするなら、これらの約束事を守った方が良いでしょう。</p>
+<p>tDiaryのテーマは、インストールディレクトリにあるthemeディレクトリに入っています。tDiary標準セットではDefaultだけ、フルセットではテーマ集にあるすべてのテーマが入っています。</p>
+
+<h2>テーマ作成の基本ルール</h2>
+
+<p>tDiaryテーマには、以下のような基本的な約束事があります。もちろん、CSSであればなんでもかまわないのですが、themeディレクトリに配置してtDiaryの設定画面から選択したり、テーマ・ギャラリーに入るようなテーマにするなら、これらの約束事を守った方が良いでしょう。</p>
 <ul>
 	<li>テーマの配置
 	<ul>
@@ -55,13 +54,12 @@
 	</ul></li>
 </ul>
 
-<p>　なお、実際のエレメントやクラスがtDiary上で持つ意味は、付属のdefault/default.cssにコメントとして書かれていますので、参考にしてください。</p>
-</div>
+<p>なお、実際のエレメントやクラスがtDiary上で持つ意味は、付属のdefault/default.cssにコメントとして書かれていますので、参考にしてください。</p>
 
-<h2><span class="title">テーマ・ギャラリー用の説明</span></h2>
-<div class="section">
-<p>　tDiary.Netには、テーマ・ギャラリー&lt;<a href="http://www.tdiary.net/theme.rhtml">http://www.tdiary.net/theme.rhtml</a>&gt;というページがあります。テーマ集に登録されたテーマはここでスクリーンショットともども一覧することができます。ここに表示されている作者名やコメントは、テーマ付属のREADME(1.4の時の名残でcssファイルも利用されている)に一定のフォーマットで書かれているものを自動的に抜き出しているものです。</p>
-<p>　最初からこのフォーマットで書いておくと、テーマ集に入った時に見栄えがします。以下にそのフォーマットについて解説します。</p>
+<h2>テーマ・ギャラリー用の説明</h2>
+
+<p>tDiary.Netには、テーマ・ギャラリー&lt;<a href="http://www.tdiary.net/theme.rhtml">http://www.tdiary.net/theme.rhtml</a>&gt;というページがあります。テーマ集に登録されたテーマはここでスクリーンショットともども一覧することができます。ここに表示されている作者名やコメントは、テーマ付属のREADME(1.4の時の名残でcssファイルも利用されている)に一定のフォーマットで書かれているものを自動的に抜き出しているものです。</p>
+<p>最初からこのフォーマットで書いておくと、テーマ集に入った時に見栄えがします。以下にそのフォーマットについて解説します。</p>
 
 <pre>
 Title: クローバー
@@ -75,8 +73,8 @@ Comment: 四つ葉のクローバーの葉をあしらった、シンプルでかわいらしいテーマ
 calendar2、recent_list、footnote、amazonプラグイン対応。
 </pre>
 
-<p>　この説明は、READMEの最初の行から記述します。「キー」と「値」を「: 」で挟んだ形式で、1項目1行で書きます。日本語を書くときは、文字コードをEUC-JPにして下さい。英語の説明があれば、README.enというファイルにしてください。</p>
-<p>　各項目の意味は以下のとおりです。なお、現在ギャラリーで利用されている項目はTitle、Author、License、Commentだけです。</p>
+<p>この説明は、READMEの最初の行から記述します。「キー」と「値」を「: 」で挟んだ形式で、1項目1行で書きます。日本語を書くときは、文字コードをEUC-JPにして下さい。英語の説明があれば、README.enというファイルにしてください。</p>
+<p>各項目の意味は以下のとおりです。なお、現在ギャラリーで利用されている項目はTitle、Author、License、Commentだけです。</p>
 
 <ul>
 	<li>Title: テーマのタイトルです。ファイル名だけでは味気ないと思ったら、この項目を書いてください。なくてもかまいません。</li>
@@ -86,13 +84,11 @@ calendar2、recent_list、footnote、amazonプラグイン対応。
 	<li>Comment: このテーマに関する簡単な説明</li>
 </ul>
 
-<p>　これらのあとに空改行をあければ、それ以下には何を書いてもかまいません。レイアウト上のアドバイスや、作者の思い入れを語る等、好きなように使ってください。</p>
-</div>
+<p>これらのあとに空改行をあければ、それ以下には何を書いてもかまいません。レイアウト上のアドバイスや、作者の思い入れを語る等、好きなように使ってください。</p>
 
-<h2><span class="title">テーマ・テストベンチ</span></h2>
-<div class="section">
-<p>　テーマの見え方を確認するための、テストベンチ&lt;<a href="http://www.tdiary.net/themebench2.rhtml">http://www.tdiary.net/themebench2.rhtml</a>&gt;というページがあります。ギャラリーのスクリーンショットと異なり、こちらでは様々なエレメントの見え方や、代表的なプラグインの表示を確認することができます。テーマ作成時に利用してください。</p>
-</div>
+<h2>テーマ・テストベンチ</h2>
+
+<p>テーマの見え方を確認するための、テストベンチ&lt;<a href="http://www.tdiary.net/themebench2.rhtml">http://www.tdiary.net/themebench2.rhtml</a>&gt;というページがあります。ギャラリーのスクリーンショットと異なり、こちらでは様々なエレメントの見え方や、代表的なプラグインの表示を確認することができます。テーマ作成時に利用してください。</p>
 
 </body>
 </html>

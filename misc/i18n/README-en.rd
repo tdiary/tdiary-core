@@ -1,5 +1,7 @@
+=begin
+
 = tDiary -- a TSUKKOMI-able Web-log
-tDiary is so called Web-log. tDiary has these features.
+tDiary is so called Weblog. tDiary has these features.
 
 == features
 
@@ -7,10 +9,10 @@ tDiary is so called Web-log. tDiary has these features.
 You can not only read diary, but also write diary, and change the configuration with browser. With tDiary, you can easily use and maintain Web-log system. And you continue to write diary for a long time.
 
 === TSUKKOMI
-'TSUKKOMI' means short, sharp and heartfelt comments in Japanese. 
+'TSUKKOMI' means a short, sharp and heartfelt comment in Japanese. 
 It is possible for diary readers to make a TSUKKOMI your diary. In other words, tDiary is equipped with BBS. With this BBS, you can communicate with your diary readers. tDiary can inform the author of a new TSUKKOMI by mail.
 
-=== today's link(Referer)
+=== Today's Link (Referer)
 When people links their diary to your diary, 
 tDiary shows its URL by the analysis of the referer header. This feature is supported in many Japanese web-log systems. In tDiary, this feature is more user-friendly.
 
@@ -83,7 +85,9 @@ At least, you must change the "AuthUserFile" and "Require User" items. In Additi
 If your WWW server doesn't allow you to change the suffix of the CGI script, you need to change the "AddHandeler" or "DirectoryIndex" item. In this case, you may need to change the filename of "index.rb" or "update.rb".
 
 === creation of tdiary.conf
-You copy "tdiary.conf.sample" as "tdiary.conf" and edit "tdiary.conf". This is loaded as the Ruby script by the CGI scripts, for example, "index.rb" and "update.rb". With tDiary, you can do configuration with browser, so the item that you must change is "@data_path", which is first appeared in "tdiary.conf.sample".
+You copy "misc/i18n/tdiary.conf.sample-en" as "tdiary.conf" and edit "tdiary.conf". Notice! "tdiary.conf.sample" in INSTALLDIR is Japanese version that is not have multi language support.
+
+This is loaded as the Ruby script by the CGI scripts, for example, "index.rb" and "update.rb". With tDiary, you can do configuration with browser, so the item that you must change is "@data_path", which is first appeared in "tdiary.conf.sample".
 
    @data_path = "/home/foo/diary"
 
@@ -139,13 +143,13 @@ If you set the date and click the "Edit this day" button, the title and body of 
 
 In tDiary, You use a bit specialized HTML in order to describe your diary. It is a little characteristic and it takes considerable time for some people to get accustomed to writing diary in this format. Please read HOWTO-write-diary.
  
-== Configuration with browser
+=== Configuration with browser
 
 When you click the "Preferences" button in the "Update" page, the "Preferences" page is shown. Here, you can configure many items with browser. In the "Preferences" page, each items has explanation. When you change a item, it is good to refer to this explanation. Though the "Preferences" page has many "OK" buttons, their role is the same. When any "OK" button is clicked, all the items are stored to the configuration file. These buttons are located for the purpose of convenience. 
 
 The configuration which is done with browser is stored as the "tdiary.conf", which is located in the "@data_path" directory. This "tdiary.conf" is not the "tdiary.conf" which you edit manually. This file is normally loaded after the original "tdiary.conf" is loaded, so the values of the CGI "tdiary.conf" has priority over the values of the original "tdiary.conf". (If you edit the original "tdiary.conf", you can change the timing of loading the cgi "tdiary.conf")
  
-== Read Diary
+=== Read Diary
 When you read your diary, tDiary provides the three kind of the pages, "Latest", "Monthly", and "Daily". In default, tDiary shows "Latest" page. You can read the "Monthly" page if you click the link of the calendar located in the beginning of the page. And you can read the "Daily" page if you click the date.
 
 There is difference between "Latest"/"Monthly" and "Daily" page. In "Latest"/"Monthly" page, today's TSUKKOMIs and today's links are partly omitted. On the other hand, "Daily" page shows all the TSUKKOMIs and links. And "Daily" page has the form for TSUKKOMI. 
@@ -164,3 +168,6 @@ But, all the files that are in "erb/" directory is ERb library created by Seki-s
 You can know the detail about the license of these files from http://www2a.biglobe.ne.jp/~seki/ruby/.
 
 And all of plugins and themes authors have copyright. All plugins can be distributed and modify under the terms of GPL. Most themes are under GPL also, but some have original license. See each theme file.
+
+tDiary is developed on https://sourceforge.net/projects/tdiary/.
+=end

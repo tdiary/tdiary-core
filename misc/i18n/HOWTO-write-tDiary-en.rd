@@ -11,7 +11,7 @@
 == Format of the diary
 Basically, you write your diary in HTML. But, the format of diary has the extra rules in order to write diary without knowledge of HTML. In this format, a linefeed and a character at the beginning of the line have special meanings. These rules are for the purpose of setting sub-title and paragraph easily.
 
-The rules are explained below. To distinguish a linefeed in appearance(HTML) from an actual linefeed(format), Åu$Åvstands for an actual linefeed in this manual.
+The rules are explained below. To distinguish a linefeed in appearance(HTML) from an actual linefeed(format), "$"stands for an actual linefeed in this manual.
 
 
   sub-title(1)$

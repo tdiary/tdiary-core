@@ -1,3 +1,6 @@
+2002.11.13 TADA Tadashi <sho@spc.gr.jp>
+	* update docs.
+
 2002.11.13 Junichiro Kita <kita@kitaj.no-ip.com>
 	*index.rb: fix: put cookies into head after tdiary.eval_rhtml.
 

@@ -1,333 +1,105 @@
 /*
-doc.css: tDiaryドキュメント用テーマ(willベース)
+doc.css: CSS for tDiary documents
 
-Copyright 2002 (C) by TADA Tadashi <sho@spc.gr.jp>
-	validated by W3C.
+2002-11-13 TADA Tadashi <sho@spc.gr.jp>
+	* created
 */
 
-body {
-	line-height: 1.2em;
-	background-color: white;
-	color: black;
-}
-
-a:link {
-	color: #f80;
-	background-color: white;
-}
-
-a:visited {
-	color: #d60;
-	background-color: white;
-}
-
 h1 {
-	background-color: #f80;
-	color: white;
-	margin-bottom: 2px;
-	padding: 8px;
-	line-height: 1.2em;
-}
-
-p {
-	color: black;
-	background-color: white;
-}
-
-p.calendar {
-	color: black;
-	background-color: white;
+	color: #fff;
+	background-color: #32c832;
 	border-style: solid;
-	border-width: 1px;
-	border-color: #f80;
-	padding: 4px;
-	font-size: small;
-}
-
-h2 {
-	font-size: medium;
-	border-style: solid;
-	border-color: #f80;
-	border-width: 0px 0px 1px 0px;
-}
-
-div.day h2 {
-	font-size: medium;
-	border-style: solid;
-	border-color: #f80;
-	border-width: 0px 0px 1px 8px;
-	padding-left: 8px;
-	padding-bottom: 4px;
-}
-
-h3 {
-	font-size: medium;
-	border-style: dashed;
-	border-color: #f80;
-	border-width: 1px;
-	margin-top: 1.5em;
-	margin-bottom: 0.5em;
+	border-width: 0px 0px 2px 0px;
+	border-color: #166416;
 	padding: 4px;
 }
 
-div.body {
-	margin-left: 1em;
-}
-
-div.section {
-	margin-left: 5em;
-}
-
-div.section p {
-	margin-top: 0px;
-	margin-bottom: 0.5em;
-}
-
-div.section pre {
-	color: black;
-	background-color: white;
-	border-style: solid;
-	border-width: 1px 1px 1px 6px;
-	border-color: #f80;
-	padding: 8px;
-	margin-left: 2em;
-}
-
-div.comment {
-	border-style: dashed;
-	border-color: #f80;
-	border-width: 1px;
-	margin-top: 0px;
-	margin-bottom: 0.5em;
-	margin-left: 1em;
-	padding: 4px;
-}
-
-div.comment p {
-	margin-top: 0px;
-	margin-bottom: 0.5em;
-}
-
-div.comment p.commenttitle {
-	border-style: dashed;
-	border-color: #f80;
-	border-width: 0px 0px 1px 0px;
-}
-
-div.comment span.commentator {
-	border-style: solid;
-	border-color: #f80;
-	border-width: 0px 0px 1px 0px;
-}
-
-div.form {
-	border-style: dashed;
-	border-color: #f80;
-	border-width: 1px;
-	margin-top: 0px;
-	margin-bottom: 0.5em;
-	margin-left: 1em;
-}
-
-div.form form {
-	margin: 0;
-	padding: 4px 4px 4px 4px;
-}
-
-div.form p {
-	margin-top: 0px;
-	margin-bottom: 0.5em;
-}
-
-div.form textarea {
-	width: 100%;
-}
-
-p.referer {
+div.footer {
+	margin-right: 4px;
 	text-align: right;
-	font-size: x-small;
-	margin-top: 0px;
+	clear: both;
+	font-size: 80%;
 }
 
-div.refererlist {
-	border-style: dashed;
-	border-color: #f80;
-	border-width: 1px;
-	margin-top: 0px;
-	margin-left: 1em;
-	margin-bottom: 0.5em;
-	font-size: small;
-}
-
-div.refererlist p, div.refererlist ul {
-	margin-top: 0px;
-	margin-bottom: 0em;
-	padding: 4px 4px 4px 4px;
-}
-
-hr {
-	color: #f80;
+a:link, a:visited {
+	color: #32c832;
 	background-color: transparent;
-	margin-top: 0.5em;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 hr.sep {
 	display: none;
 }
 
-dt {
+h2 {
 	border-style: solid;
-	border-color: #f80;
-	border-width: 0px 0px 1px 0px;
-	margin-top: 0.7em;
-	font-weight: bold;
-}
-
-div.section dl {
-	margin-left: 2em;
-}
-
-dd {
-	margin-top: 0.3em;
-	margin-bottom: 0.5em;
-}
-
-dd.sample {
-	border-style: solid;
-	border-color: #f80;
-	border-width: 1px 1px 1px 4px;
-	padding: 0px 8px 0px 8px;
-}
-
-div.section dd {
-	margin-left: 2em;
-}
-
-span.underline {
-	border-style: solid;
-	border-color: #f80;
+	border-color: #32c832;
 	border-width: 0px 0px 1px 0px;
 }
 
-span.small {
-	font-size: small;
+h3 {
+	margin: 1em;
 }
 
-div.article h2 {
-	font-size: small;
-	font-weight: normal;
-	margin-top: 0px;
+h4 {
+	margin: 2em;
 }
 
-span.subject {
-	font-weight: bold;
+p {
+	margin-left: 3em;
 }
 
-p.contents {
-	margin-left: 1em;
-}
-
-p.navi a:link, p.navi a:visited {
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+pre, p.sample {
 	border-style: solid;
-	border-width: 1px;
-	border-color: #f80;
-}
-
-address, p.footer {
-	font-style: normal;
-	text-align: right;
-	font-size: small;
-}
-
-p.sample {
-	line-height: 1.3em;
-	color: black;
-	background-color: white;
-	border-style: solid;
-	border-width: 1px 1px 1px 4px;
-	border-color: #f80;
-	margin-left: 2em;
+	border-color: #32c832;
+	border-width: 1px 1px 1px 3px;
+	margin-left: 5em;
 	padding: 4px;
 }
 
 div.sample {
-	line-height: 1.3em;
-	color: black;
-	background-color: white;
 	border-style: solid;
-	border-width: 1px 1px 1px 4px;
-	border-color: #f80;
-	margin-left: 2em;
+	border-color: #32c832;
+	border-width: 1px 1px 1px 3px;
+	margin-left: 5em;
 	padding: 4px;
 }
 
-div.sample pre {
-	line-height: 1.3em;
-	color: black;
-	background-color: white;
-	padding: 4px;
+dl {
+	margin-left: 5em;
 }
 
-p.sample em {
-	color: #f80;
-	background-color: white;
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-bottom: 0.5em;
+}
+
+ul {
+	margin-left: 5em;
 }
 
 table {
-	margin-bottom: 1em;
-	background-color: #f80;
-	color: black;
+	color: #fff;
+	background-color: #32c832;
 }
 
 th {
-	background-color: #fc4;
-	color: black;
+	color: #fff;
+	background-color: #166416;
 	padding: 0.2em;
 	text-align: left;
 }
 
 td {
-	background-color: white;
-	color: black;
+	color: #000;
+	background-color: #fff;
 	padding: 0.2em;
 }
 
-table.calendar {
-	font-size: smaller;
-	line-height: 100%;
-	border-width: 0px;
-}
-
-table.calendar td {
-	margin: 0px;
-	text-align: right;
-	padding: 0px;
-	margin: 0px;
-}
-
-table.calendar td.calendar-prev-month, table.calendar td.calendar-current-month, table.calendar td.calendar-next-month {
-	text-align: center;
-}
-
-p.recentitem {
-	font-size: x-small;
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-div.recentsubtitles {
-	font-size: x-small;
-	margin-top: 0px;
-	margin-bottom: 1em;
-	margin-left: 1em;
-}
-
-ul {
-	margin-bottom: 1em;
-}
-
-li {
-	margin-bottom: 0.5em;
-}

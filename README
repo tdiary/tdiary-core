@@ -1,4 +1,15 @@
+== Japanese Informaion ==
+
 ■tDiary: ツッコミ可能なWeb日記システム■
 
-最初にdoc/README.htmlを読んでください。
+はじめにdoc/README.htmlを読んでください。
 
+
+
+== English Information ==
+
+tDiary, The TSUKKOMI-able Weblog.
+
+How to use:
+  1. At last, see doc/README.en.html
+  2. Copy file misc/i18n/00lang.en.rb to plugin directory.
