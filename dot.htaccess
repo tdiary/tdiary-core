@@ -3,14 +3,8 @@ Options +ExecCGI
 # if you run tDiary with symbolic link, use settings below.
 #Options +FollowSymLinks
 
-# if making anchor style as 'YYYYMMDD.html', use settings below,
-# then change 'your_URL_of_index.rb' and use html_anchor.rb plugin.
-# But this method makes error into error_log of apache. It is better
-# method to use mod_rewrite.
-#
-#<Files ~ "^([0-9]{4}|[0-9]{6}|[0-9]{8}).html$">
-#    ErrorDocument 404 your_URL_of_index.rb
-#</Files>
+# if making anchor style as 'YYYYMMDD.html', add some settings below.
+# SEE header of html_anchor.rb plugin.
 
 AddHandler cgi-script .rb
 DirectoryIndex index.rb
