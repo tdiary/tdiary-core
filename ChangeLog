@@ -1,5 +1,7 @@
 2002.11.07 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: fix Regexp of private address in @no_referer.
+	* dot.htaccess: more condition setting for 'YYYYMMDD.html' style.
+	* add @plugin_path into conf.
 
 2002.11.05 TADA Tadashi <sho@spc.gr.jp>
 	* misc/i18n/*: spell checking.

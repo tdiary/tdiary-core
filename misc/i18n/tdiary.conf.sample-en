@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.2 $
+# tDiary configuration file $Revision: 1.3 $
 #
 
 #-------
@@ -60,6 +60,12 @@
 #   This item is also used if you want to receive a comment mail which
 #   is sent to the different address from @author_mail.
 @mail_receivers = []
+
+# path of plugins. (optional)
+#   In default, plugins are find from 'plugin' directory under install
+#   path. Although, when @plugin_path is set, tDiary will load plugins
+#   from it.
+#@plugin_path = 'path of plugins'
 
 # options for plugins. (optional)
 #   Some plugins can receive options from tdiary.conf.
