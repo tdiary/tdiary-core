@@ -1,3 +1,6 @@
+2003.10.29 zunda <zunda at freeshell.org>
+	* tdiary.rb: passes yield separate values instead of an Array to follow behavior of yield [ruby-dev:21276]
+
 2003.10.28 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: dup string in apply_plugin.
 	* doc/HOWTO-make-io.rd: add documents for *_to_html.

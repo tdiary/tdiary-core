@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.152 $
+tdiary.rb $Revision: 1.153 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20031028'
+TDIARY_VERSION = '1.5.5.20031029'
 
 require 'cgi'
 begin
@@ -160,7 +160,7 @@ module TDiary
 			s = comments.size - limit
 			s = 0 if s < 0
 			for idx in s...comments.size
-				yield comments[idx] # idx is start with 1.
+				yield comments[idx][0], comments[idx][1] # idx is start with 1.
 			end
 		end
 	
@@ -231,7 +231,7 @@ module TDiary
 			newer_referer
 			@referers.values.sort.reverse.each_with_index do |ary,idx|
 				break if idx >= limit
-				yield [ary[0], ary[1]]
+				yield ary[0], ary[1]
 			end
 		end
 	
