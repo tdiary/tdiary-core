@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.3 2002-05-16 15:51:00 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.4 2002-05-16 16:07:04 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -29,6 +29,7 @@
 ;;
 ;;  (setq tdiary-diary-url "http://example.com/tdiary/")
 ;;  (setq tdiary-text-directory (expand-file-name "~/path-to-saved-diary"))
+;;  (setq tdiary-browser-function 'browse-url)
 ;;  (autoload 'tdiary-mode "tdiary-mode" nil t)
 ;;  (autoload 'tdiary-new "tdiary-mode" nil t)
 ;;  (autoload 'tdiary-new-diary "tdiary-mode" nil t)
@@ -61,7 +62,7 @@
 ;; - bug fix
 ;;
 
-;;; Code:
+;;; Variable:
 
 (require 'http)
 (require 'poe)
@@ -70,6 +71,9 @@
 
 (defvar tdiary-diary-url nil
   "tDiary-mode updates this URL. URL should end with '/'.")
+
+(defvar tdiary-index-rb nil
+  "Name of the 'index.rb'.")
 
 (defvar tdiary-update-rb "update.rb"
   "Name of the 'update.rb'.")
@@ -130,6 +134,10 @@ template.  See tempo.info for details.")
 If non-nil, tdiary buffer is associated to a real file, 
 named `tdiary-date' + `tdiary-text-suffix'.")
 
+(defvar tdiary-browser-function nil
+  "Function to call browser.
+If non-nil, `tdiary-update' calls this function.  The function
+is expected to accept only one argument(URL).")
 
 (defvar tdiary-mode-hook nil
   "Hook run when entering tDiary mode.")
@@ -138,6 +146,8 @@ named `tdiary-date' + `tdiary-text-suffix'.")
 ;  "Path to plugins.  It must be a mounted file system.")
 ;(defvar tdiary-plugin-definition-regexp "^[ \t]*def[ \t]+\\(.+?\\)[ \t]*\\(?:$\\|;\\|([ \t]*\\(.*?\\)[ \t]*)\\)")
 
+
+;;; Code:
 (defun tdiary-tempo-add-tag (def)
   (let* ((plugin (car def))
 	 (element (cadr def))
@@ -344,7 +354,11 @@ Dangerous!!!"
     (save-buffer))
   (tdiary-post tdiary-edit-mode tdiary-date
 	       (buffer-substring (point-min) (point-max)))
-  (message "SUCCESS"))
+  (message "SUCCESS")
+  (and (functionp tdiary-browser-function)
+       (funcall tdiary-browser-function
+		(concat tdiary-diary-url tdiary-index-rb
+			"?date=" tdiary-date))))
 
 (defsubst tdiary-replace-entity-refs (from to)
   (save-excursion
