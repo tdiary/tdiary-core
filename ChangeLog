@@ -1,3 +1,6 @@
+2003.12.09 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: String#make_link replace space to '&nbsp;' only top of lines.
+
 2003.12.01 TADA Tadashi <sho@spc.gr.jp>
 	* misc/posttdiary.rb: support over 10 images. thanks jun.o.
 

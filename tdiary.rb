@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.163 $
+tdiary.rb $Revision: 1.164 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20031127'
+TDIARY_VERSION = '1.5.6.20031209'
 
 require 'cgi'
 begin
@@ -32,7 +32,8 @@ class String
 			gsub( r ){ $1 == $2 ? "<a href=\"#$2\">#$2</a>" : "<a href=\"mailto:#$4\">#$4</a>" }.
 			gsub( /\003/, '&gt;' ).
 			gsub( /\002/, '&lt;' ).
-			gsub( /\001/, '&nbsp;' ).
+			gsub( /^\001+/ ) { $&.gsub( /\001/, '&nbsp;' ) }.
+			gsub( /\001/, ' ' ).
 			gsub( /\t/, '&nbsp;' * 8 )
 	end
 end
