@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.4 $
+# tDiary configuration file $Revision: 1.5 $
 #
 
 #-------
@@ -109,7 +109,8 @@ HEADER
 #   ヘッダ同様、日記ページの末尾に挿入される文字列を指定できます。
 #   「FOOTER」で挟まれた部分を書き換えてください。
 @footer = <<FOOTER
-<p>　これは日記の最下部に表示されます。</p>
+<p>以下のメッセージを削除するには、「設定」画面から「フッタ」を編集してください。</p>
+<p style="font-size: x-large;">あらかじめ<a href="doc/README.html">README</a>と<a href="doc/HOWTO-write-tDiary.html">日記の書き方</a>には目を通すようにしてください。</p>
 FOOTER
 
 # 日付のフォーマットの指定
