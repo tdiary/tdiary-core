@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.67 $
+tdiary.rb $Revision: 1.68 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -437,14 +437,14 @@ module TDiary
 	
 			@index_page = '' unless @index_page
 			@date_format = '%Y-%m-%d' unless @date_format
-			@section_anchor = '<span class="sanchor">_</span>'
-			@comment_anchor = '<span class="canchor">_</span>'
+			@section_anchor = '<span class="sanchor">_</span>' unless @section_anchor
+			@comment_anchor = '<span class="canchor">_</span>' unless @comment_anchor
 			@latest_limit = 10 unless @latest_limit
 			@theme = 'default' if not @theme and not @css
 			@no_referer = [] unless @no_referer
-			@show_comment = true unless @show_comment
+			@show_comment = true unless defined?( @show_comment )
 			@comment_limit = 3 unless @comment_limit
-			@show_referer = true unless @show_referer
+			@show_referer = true unless defined?( @show_referer )
 			@referer_limit = 10 unless @sreferer_limit
 			@no_referer2 = [] unless @no_referer2
 			@no_referer = @no_referer2 + @no_referer
@@ -456,11 +456,12 @@ module TDiary
 			@mail_header = '' unless @mail_header
 			@hour_offset = 0 unless @hour_offset
 
-			@hide_comment_form = false unless @hide_comment_form
+			@hide_comment_form = false unless defined?( @hide_comment_form )
 			@lang = nil if @lang == 'ja'
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
+			$stderr.puts @comment_anchor
 		end
 
 		# loading tdiary.conf in @data_path.
