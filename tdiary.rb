@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.65 $
+tdiary.rb $Revision: 1.66 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20021112'
+TDIARY_VERSION = '1.5.0.20021117'
 
 require 'cgi'
 require 'nkf'
@@ -427,14 +427,25 @@ module TDiary
 	
 			@data_path += '/' if /\/$/ !~ @data_path
 			@smtp_port = 25 unless @smtp_port
+			@author_name = '' unless @author_name
 			@index = './' unless @index
 			@update = 'update.rb' unless @update
+			@html_title = '' unless @html_title
+			@header = '' unless @header
+			@footer = '' unless @footer
 			@options = {} unless @options.class == Hash
 	
 			@index_page = '' unless @index_page
 			@date_format = '%Y-%m-%d' unless @date_format
+			@section_anchor = '<span class="sanchor">_</span>'
+			@comment_anchor = '<span class="canchor">_</span>'
+			@latest_limit = 10 unless @latest_limit
 			@theme = 'default' if not @theme and not @css
 			@no_referer = [] unless @no_referer
+			@show_comment = true unless @show_comment
+			@comment_limit = 3 unless @comment_limit
+			@show_referer = true unless @show_referer
+			@referer_limit = 10 unless @sreferer_limit
 			@no_referer2 = [] unless @no_referer2
 			@no_referer = @no_referer2 + @no_referer
 			@referer_table = [] unless @referer_table
