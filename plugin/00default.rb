@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.7 $
+# $Revision: 1.8 $
 #
 
 #
@@ -110,7 +110,7 @@ def css_tag
 		css = @css
 	end
 	<<-CSS
-	<meta http-equiv="content-style-type" content="text/css" media="all">
+	<meta http-equiv="content-style-type" content="text/css">
 	<link rel="stylesheet" href="#{css}" type="text/css" media="all">
 	CSS
 end
