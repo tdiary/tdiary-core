@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.5 $
+# 01sp.rb - select-plugins plugin $Revision: 1.6 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -34,56 +34,92 @@ See ../ChangeLog for changes after this.
 =end ChangeLog
 
 SP_PREFIX = 'sp'
-@sp_path = @conf["#{SP_PREFIX}.path"] || 'misc/plugin'
+@sp_path = ( @conf["#{SP_PREFIX}.path"] || 'misc/plugin' ).to_a
 
-# get option
+# get plugin option
 def sp_option( key )
 	@conf["#{SP_PREFIX}.#{key}"]
 end
 
-# list of plugins
-def sp_list_plugins
+# hash of paths from array of dirs
+def sp_hash_from_dirs( dirs )
+	r = Hash.new
+	dirs.each do |dir|
+		Dir::glob( "#{dir}/*.rb" ).each do |path|
+			filename = File.basename( path )
+			unless r[ filename ] then
+				r[ filename ] = path
+			else
+				raise PluginError::new( "Dupliacte plugin filename: #{filename}" )
+			end
+		end
+	end
+	r
+end
+
+# hash of paths from array of paths
+# dirs is an array of allowed directories
+def sp_hash_from_paths( paths, dirs )
+	r = Hash.new
+	paths.each do |path|
+		if dirs.include?( File.dirname( path ) ) and FileTest.readable?( path ) then
+			r[ File.basename( path ) ] = path
+		end
+	end
+	r
+end
+
+# <li> list of plugins
+def sp_li_plugins( paths, is_checked )
 	r = ''
-	unless @sp_opt.empty? then
+	paths.collect { |path| File.basename( path ) }.sort.each do |file|
+		r += <<-_HTML
+			<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{is_checked ? ' checked' : ''}>#{CGI::escapeHTML( file )}
+		_HTML
+	end
+	r
+end
+
+# lists of plugins
+def sp_list_plugins( sp_opt )
+	r = ''
+	unless sp_opt.empty? then
+		# categorize the available plugins
+		used = Array.new
+		notused = Array.new
+		unknown = Array.new
+		selected_array = sp_option( 'selected' ) ? sp_option( 'selected').split( /\n/ ) : []
+		notselected_array = sp_option( 'notselected' ) ? sp_option( 'notselected').split( /\n/ ) : []
+		sp_opt.values.each do |path|
+			if selected_array.include?( path ) then
+				used << path
+			elsif notselected_array.include?( path ) then
+				notused << path
+			else
+				unknown << path
+			end
+		end
+
+		# list up
 		r += @sp_label_please_select
-		used = sp_option( 'selected' ) ? sp_option( 'selected' ).split( /\n/ ) : []
-		used.reject! { |plugin| not @sp_opt.keys.include?( plugin ) }
-		notused = sp_option( 'notselected' ) ? sp_option( 'notselected' ).split( /\n/ ) : []
-		notused.reject! { |plugin| not @sp_opt.keys.include?( plugin ) }
-		unknown = @sp_opt.keys.dup
-		unknown.reject! { |plugin| used.include?( plugin ) }
-		unknown.reject! { |plugin| notused.include?( plugin ) }
-		# new plugins
 		unless unknown.empty? then
 			r += @sp_label_new
-			r += "<ul>\n"
-			unknown.sort.each do |file|
-				r += <<-_HTML
-					<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{sp_option( 'usenew' ) ? ' checked' : ''}>#{CGI::escapeHTML( file )}
-				_HTML
-			end
+			r += "<ul>\n" 
+			r += sp_li_plugins( unknown, sp_option( 'usenew' ) )
 			r += "</ul>\n"
 		end
 		# selected plugins
 		unless used.empty? then
 			r += @sp_label_used
 			r += "<ul>\n"
-			used.sort.each do |file|
-				r += <<-_HTML
-					<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t" checked>#{CGI::escapeHTML( file )}
-				_HTML
-			end
+			r += sp_li_plugins( used, true )
 			r += "</ul>\n"
 		end
 		# not selected plugins
 		unless notused.empty? then
 			r += @sp_label_notused
 			r += "<ul>\n"
-			notused.sort.each do |file|
-				r += <<-_HTML
-					<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t">#{CGI::escapeHTML( file )}
-				_HTML
-			end
+			r += sp_li_plugins( notused, false )
 			r += "</ul>\n"
 		end
 	else
@@ -92,12 +128,10 @@ def sp_list_plugins
 	r
 end
 
-if @cgi.params['conf'][0] == SP_PREFIX then
-	# selectable plugins
-	@sp_opt = {}	# path to the plugin
-	Dir::glob( "#{@sp_path}/*.rb" ).each do |path|
-		@sp_opt[ File.basename( path ) ] = path
-	end
+# things needed to configure this plugin
+if SP_PREFIX == @cgi.params['conf'][0] then
+	# list of plugins
+	@sp_opt = sp_hash_from_dirs( @sp_path )
 
 	# update options
 	# we have to do this when we are eval'ed to update the config menu
@@ -106,9 +140,9 @@ if @cgi.params['conf'][0] == SP_PREFIX then
 		@conf["#{SP_PREFIX}.notselected"] = ''
 		@sp_opt.each_key do |file|
 			if 't' == @cgi.params["#{SP_PREFIX}.#{file}"][0] then
-				@conf["#{SP_PREFIX}.selected"] << "#{file}\n"
+				@conf["#{SP_PREFIX}.selected"] << "#{@sp_opt[ file ]}\n"
 			else
-				@conf["#{SP_PREFIX}.notselected"] << "#{file}\n"
+				@conf["#{SP_PREFIX}.notselected"] << "#{@sp_opt[ file ]}\n"
 			end
 		end
 	end
@@ -117,20 +151,19 @@ end
 # configuration menu
 # options are updated when we are eval'ed
 add_conf_proc( SP_PREFIX, @sp_label ) do
-	r = @sp_label_description.dup + sp_list_plugins
+	r = @sp_label_description + sp_list_plugins( @sp_opt )
 end
 
 # Finally, we can eval the selected plugins as tdiary.rb does
 if sp_option( 'selected' ) then
-	sp_option( 'selected' ).split( /\n/ ).sort.each do |file|
-		next if /(\/|\\)/ =~ file	# / or \ should not appear
-		path = "#{@sp_path}/#{file}"
+	used = sp_hash_from_paths( sp_option( 'selected' ).split( /\n/ ), @sp_path )
+	used.keys.sort.each do |filename|
+		path = used[ filename ]
 		begin
-			load_plugin( path.untaint )
+			load_plugin( path )
 			@plugin_files << path
-		rescue IOError, Errno::ENOENT	# for now, just ignore missing plugins
 		rescue Exception
-			raise PluginError::new( "Plugin error in '#{File::basename( path )}'.\n#{$!}" )
+			raise PluginError::new( "Plugin error in '#{filename}'.\n#{$!}" )
 		end
 	end
 end
