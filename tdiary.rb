@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.110 $
+tdiary.rb $Revision: 1.111 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030506'
+TDIARY_VERSION = '1.5.3.20030510'
 
 require 'cgi'
 require 'nkf'
@@ -1700,10 +1700,17 @@ RSSFOOT
 			super
 			@error = nil
 
+			begin
+				require 'uconv'
+				@have_uconv = true
+			rescue LoadError
+				@have_uconv = false
+			end
+
 			url = @cgi.params['url'][0]
-			blog_name = (@cgi.params['blog_name'][0] || '').to_euc
-			title = (@cgi.params['title'][0] || '').to_euc
-			excerpt = (@cgi.params['excerpt'][0] || '').to_euc
+			blog_name = to_euc(@cgi.params['blog_name'][0] || '')
+			title = to_euc(@cgi.params['title'][0] || '')
+			excerpt = to_euc(@cgi.params['excerpt'][0] || '')
 
 			body = [url, blog_name, title, excerpt].join("\n")
 			@comment = Comment::new('TrackBack', '', body)
@@ -1726,6 +1733,19 @@ RSSFOOT
 			raise TDiaryTrackBackError.new(@error) if @error
 			@plugin = load_plugins
 			TDiaryTrackBackBase::success_response
+		end
+	private
+		def to_euc(str)
+			charset = @cgi.params['charset'][0] || ''
+			if @have_uconv and /UTF-8/i === charset
+				begin
+					ret = Uconv.u8toeuc(str)
+				rescue Uconv::Error
+					ret = str.to_euc
+				end
+			else
+				ret = str.to_euc
+			end
 		end
 	end
 
