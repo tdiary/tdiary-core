@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.10 $
+# index.rb $Revision: 1.11 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -47,7 +47,6 @@ begin
 			'Vary' => 'User-Agent'
 		}
 		head['status'] = status if status
-		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		body = ''
 		if @cgi.mobile_agent? then
 			body = tdiary.eval_rhtml( 'i.' ).to_sjis
@@ -60,6 +59,7 @@ begin
 			head['Pragma'] = 'no-cache'
 			head['Cache-Control'] = 'no-cache'
 		end
+		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		print @cgi.header( head )
 		print body if /HEAD/i !~ @cgi.request_method
 	rescue TDiary::ForceRedirect
