@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.8 $
+# tDiary configuration file $Revision: 1.9 $
 #
 
 #-------
@@ -217,10 +217,10 @@ FOOTER
 #   中身は文字列です。比較時には正規表現として扱われますが、Regexpオブジ
 #   ェクトは指定しないでください。
 @no_referer = [
-	'^http://localhost/',
+	'^http://localhost[:/]',
 	'^http://192.168.',
 	'^http://172.1[6789]',
-	'^http://172.2',
+	'^http://172.2[0-9]',
 	'^http://172.3[01]',
 	'^http://10.',
 	# 自分の日記のURLは追加しておくと良い
