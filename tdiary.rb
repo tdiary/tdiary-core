@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.60 $
+tdiary.rb $Revision: 1.61 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20021107'
+TDIARY_VERSION = '1.5.0.20021108'
 
 require 'cgi'
 require 'nkf'
@@ -401,6 +401,19 @@ module TDiary
 			save_cgi_conf
 		end
 
+		def charset( mobile = false )
+			case @lang
+			when 'en'
+				'ISO-8859-1'
+			else
+				if mobile then
+					'Shift_JIS'
+				else
+					'EUC-JP'
+				end
+			end
+		end
+
 	private
 		# loading tdiary.conf in current directory
 		def load
@@ -429,6 +442,7 @@ module TDiary
 			@hour_offset = 0 unless @hour_offset
 
 			@hide_comment_form = false unless @hide_comment_form
+			@lang = nil if @lang == 'ja'
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
@@ -636,7 +650,16 @@ module TDiary
 			else
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
 				rhtml = files.collect {|file|
-					File::open( "#{PATH}/skel/#{prefix}#{file}" ) {|f| f.read }
+					path = "#{PATH}/skel/#{prefix}#{file}"
+					begin
+						if @conf.lang then
+							File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
+						else
+							File::open( path ) {|f| f.read }
+						end
+					rescue
+						File::open( path ) {|f| f.read }
+					end
 				}.join
 				r = ERbLight::new( rhtml.untaint ).result( binding )
 				r = ERbLight::new( r ).src
@@ -1125,8 +1148,18 @@ module TDiary
 				mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
 				mail_header = @date.strftime( mail_header )
 				mail_header = to_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
-	
-				text = ERbLight::new( File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }.untaint ).result( binding )
+
+				rmail = ''
+				begin
+					if @conf.lang then
+						rmail = File::open( "#{PATH}/skel/mail.rtxt.#{@conf.lang}" ){|f| f.read }
+					else
+						rmail = File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }
+					end
+				rescue
+					rmail = File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }
+				end
+				text = ERbLight::new( rmail.untaint ).result( binding )
 				sendmail( text )
 			end
 		end

@@ -1,10 +1,15 @@
 #
-# tDiary configuration file $Revision: 1.3 $
+# tDiary configuration file $Revision: 1.4 $
 #
 
 #-------
 # The items which you can't configure with browser
 #-------
+
+# Language setting
+#   If you use tDiary in English mode, @lang have to set 'en'.
+#   And copy 00lang.en.rb into plugin directory.
+@lang = 'en'
 
 # The directory where the diary's data are stored.(must)
 #   tDiary stores your diary's data in this directory. You usually 
@@ -26,7 +31,7 @@
 
 # Basic mail configuration(optional)
 #   @smtp_host and @smtp_port are assigned to the SMTP server name and
-#   the port number. If you want tDiary to notify a new comment by mail, 
+#   the port number. If you want tDiary to notify a new TSUKKOMI by mail, 
 #   you must configure these variables.
 #
 @smtp_host = 'smtp.example.net'
@@ -55,9 +60,9 @@
 
 # The receivers to whom tDiary sends e-mail.(optional)
 #   You configure @mail_receivers if you use multi-user mode and 
-#   plural persons want to receive a comment mail.
+#   plural persons want to receive a TSUKKOMI mail.
 #   You don't have to set this item if you use tDiary on one's own.
-#   This item is also used if you want to receive a comment mail which
+#   This item is also used if you want to receive a TSUKKOMI mail which
 #   is sent to the different address from @author_mail.
 @mail_receivers = []
 
@@ -145,25 +150,19 @@ FOOTER
 #   "%a"(abbreviated weekday name) and "%A"(full weekday name).
 @date_format = '%Y-%m-%d'
 
-# The anchor of the section and comment
+# The anchor of the section and TSUKKOMI
 #   You specify words which are used as the section anchor(@section_anchor)
-#   and the comment anchor(@comment_anchor).
+#   and the TSUKKOMI anchor(@comment_anchor).
 #   These are enclosed by <a href="...">...</a> in your diary page.
 #   If you use span tag whose attribute is sanchor(section anchor) or canchor
-#   (comment anchor), the image is shown at the anchor in some themes. 
+#   (TSUKKOMI anchor), the image is shown at the anchor in some themes. 
 @section_anchor = '<span class="sanchor">_</span>'
 @comment_anchor = '<span class="canchor">_</span>'
 
-# 誰か書き換えてください（みずほ）
 # How many daily diaries "Latest" page has.
-#   You decide how many daily diaries are shown in "Latest" page.
-#   If the number of the daily diaries doesn't attain the specified number, 
+#   You decide how many days are shown in "Latest" page.
+#   If the number of the days doesn't attain the specified number, 
 #   diaries in the previous month are also shown.
-#
-# 最新表示時に最大何日分の日記を表示するかの指定
-#   最新日記を表示するページで、最大何日分の日記を出力するかを指定します。
-#   指定した日数に達しない場合は、その月のすべての日記を出力します。また、
-#   指定した日数に届かなかった場合には、前月以前まで遡ります。
 @latest_limit = 10
 
 # Theme(theme name or URL of the CSS) 
@@ -178,15 +177,15 @@ FOOTER
 @theme = 'default'
 @css = ''
 
-# Show comments(true or false)
-#   You can decide whether today's comments are shown or not. 
-#   If you set @show_comment to false, you can hide the comments and
+# Show TSUKKOMIs(true or false)
+#   You can decide whether today's TSUKKOMIs are shown or not. 
+#   If you set @show_comment to false, you can hide the TSUKKOMIs and
 #   readers of your diary can't read them. The diary author can 
 #   read them in the "Update" page if you specify date.
 @show_comment = true
 
-# How many comments are shown in "Latest" page and "Daily" page.
-#   If today's comments are shown, you specify how many comments are
+# How many TSUKKOMIs are shown in "Latest" page and "Daily" page.
+#   If today's TSUKKOMIs are shown, you specify how many TSUKKOMIs are
 #   shown at most in "Latest" page and "Daily" page.
 @comment_limit = 3
 
@@ -207,29 +206,21 @@ FOOTER
 #   shown at most in "Latest" page and "Daily" page.
 @referer_limit = 10
 
-# Comment mail configuration
-#   If you want to know when your diary has a new comment, 
+# TSUKKOMI mail configuration
+#   If you want to know when your diary gets a new TSUKKOMI, 
 #   you configure these items. If you set @mail_on_comment to true, 
-#   tDiary send a comment mail to @author_mail according to the below
+#   tDiary send a TSUKKOMI mail to @author_mail according to the below
 #   configuration.
-# 
-#   意味がわかりません。みずほ
-#   ツッコミのE-mailフィールドにアドレスが指定されていなかった場合に
-#   は、Fromヘッダにも@author_mailが指定されます。
+#
+#   If the TSUKKOMI dose not have E-mail address, @author_mail will
+#   be set in the mail.
 #
 #   @mail_header is inserted into the subject of the mail. 
-#   You specify this variable so that you can easily arrange your comment mail. 
-#   The actual subject has the date and comment number. It is like this, 
+#   You specify this variable so that you can easily arrange your TSUKKOMI mail. 
+#   The actual subject has the date and TSUKKOMI serial number. It is like this, 
 #   "@mail_header:@date_format-1". If @mail_header includes a word which begins
-#   with %, it is regarded as the date format. In other words, ":@date_format" 
-#   is not added automatically(comment number is added).
-
-#   訳しましたが、意味がわかりません。(みずほ)
-#   ただし、@mail_header中に%に
-#   続く英字があった場合、それを日付フォーマット指定を見なします。つまり
-#   「:@date_format」の部分は自動的に付加されなくなります(コメント番号は
-#   付加されます)。
-
+#   with %, it means as the date format. Then in this situation, the Subject is
+#   like "@mail_header-1".
 @mail_on_comment = false
 @mail_header = 'foobar'
 
@@ -239,7 +230,6 @@ FOOTER
 #   the page of "update" form. The unit is hour, and you can 
 #   use demical number. 
 #
-#   (誰か書き換えてください) みずほ
 #   For example, if you want to handle the time until 2 a.m. as the previous day,
 #   you set this to -2. tDiary inserts the date which is older by 2 hours than the actual 
 #   time. 
@@ -270,7 +260,7 @@ FOOTER
 	'^http://172.2[0-9]',
 	'^http://172.3[01]',
 	'^http://10.',
-        #It is better to add your diary's URL. 
+   #It is better to add your diary's URL. 
 ]
 
 # The rule which convert the specified URL to the word (Regular Expression)
@@ -282,16 +272,10 @@ FOOTER
 #   the enclosed parts of URL. 
 #
 #   By the below rule, tDiary replaces URLs from google with "google...".
-
-
-#   日本語が読めないので、ここは変更します。(みずほ)
-#   上の例では、tDiary
-#   で運用されている某作者の日記を日付指定、月指定、指定なしのそれぞれの
-#   場合について、別々の文字列に置換しています。
 @referer_table = [
 	['^http://www.google.com/search.*?q=([^&]*).*', 'google(\1)'],
 
-        # 
+	# 
 	# You must add a new rule above here. 
 	#  
 	# This rule abbreviates URLs which are not converted by the rules 

@@ -1,0 +1,15 @@
+From: <%= name %> <<%= mail %>>
+To: <%= @conf.author_mail %>
+Date: <%= date %>
+Message-Id: <%= message_id %>
+Subject: <%= mail_header %>-<%= serial %> 
+ <%= name %>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+Errors-To: <%= @conf.author_mail %>
+X-Mailer: tDiary <%= TDIARY_VERSION %>
+X-URL: http://www.tdiary.net/
+
+<%= body %>
+

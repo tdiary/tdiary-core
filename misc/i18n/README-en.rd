@@ -135,7 +135,7 @@ The "Update" page also has the menu in its beginning. In "Update" page, "Prefere
 
 The "Update" page has the form where you can input the date, title, and body of the diary. Write your diary and put the "Add" button. By this procedure, the diary is added. Because this procedure is "Add", you don't have to show all the diary data if you write diary many times a day. Once you set the title of the diary, tDiary uses it. 
 
-If you set the date and click the "Edit the diary of this date" button, the title and body of the date are loaded(If the data is empty, these data are not loaded.). In this case, the last button of the form is "Register"(Be careful. It is not "Add").
+If you set the date and click the "Edit this day" button, the title and body of the date are loaded(If the data is empty, these data are not loaded.). In this case, the last button of the form is "Register"(Be careful. It is not "Add").
 
 In tDiary, You use a bit specialized HTML in order to describe your diary. It is a little characteristic and it takes considerable time for some people to get accustomed to writing diary in this format. Please read HOWTO-write-diary.
  

@@ -1,3 +1,6 @@
+2002.11.08 TADA Tadashi <sho@spc.gr.jp>
+	* @lang in tdiary.conf and add English resources.
+
 2002.11.07 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: fix Regexp of private address in @no_referer.
 	* dot.htaccess: more condition setting for 'YYYYMMDD.html' style.

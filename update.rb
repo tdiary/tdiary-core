@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# update.rb $Revision: 1.4 $
+# update.rb $Revision: 1.5 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -44,7 +44,7 @@ begin
 		head = @cgi.header(
 			'status' => '200 OK',
 			'type' => 'text/html',
-			'charset' => 'Shift_JIS',
+			'charset' => conf.charset( true ),
 			'Content-Length' => body.size.to_s,
 			'Vary' => 'User-Agent'
 		)
@@ -53,7 +53,7 @@ begin
 		head = @cgi.header(
 			'status' => '200 OK',
 			'type' => 'text/html',
-			'charset' => 'EUC-JP',
+			'charset' => conf.charset,
 			'Content-Length' => body.size.to_s,
 			'Vary' => 'User-Agent'
 		)

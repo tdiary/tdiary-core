@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.9 $
+# $Revision: 1.10 $
 #
 
 #
@@ -67,7 +67,7 @@ end
 #
 add_header_proc do
 	<<-HEADER
-	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+	<meta http-equiv="Content-Type" content="text/html; charset=#{charset}">
 	<meta name="generator" content="tDiary #{TDIARY_VERSION}">
 	#{author_name_tag}
 	#{author_mail_tag}
@@ -75,6 +75,10 @@ add_header_proc do
 	#{css_tag.chomp}
 	#{title_tag.chomp}
 	HEADER
+end
+
+def charset
+	@conf.charset( @cgi.mobile_agent? )
 end
 
 def author_name_tag

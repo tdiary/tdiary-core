@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.9 $
+# index.rb $Revision: 1.10 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -51,11 +51,11 @@ begin
 		body = ''
 		if @cgi.mobile_agent? then
 			body = tdiary.eval_rhtml( 'i.' ).to_sjis
-			head['charset'] = 'Shift_JIS'
+			head['charset'] = conf.charset( true )
 			head['Content-Length'] = body.size.to_s
 		else
 			body = tdiary.eval_rhtml
-			head['charset'] = 'EUC-JP'
+			head['charset'] = conf.charset
 			head['Content-Length'] = body.size.to_s
 			head['Pragma'] = 'no-cache'
 			head['Cache-Control'] = 'no-cache'
