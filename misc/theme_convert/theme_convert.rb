@@ -12,6 +12,9 @@
 #
 
 =begin ChangeLog
+2002-09-04 nt <nt@24i.net>
+	* version 1.0.3
+	* fix bug.
 2002-09-03 nt <nt@24i.net>
 	* version 1.0.2
 	* enable to convert two or more files at once.
@@ -290,7 +293,7 @@ end   # class CFParser
 def simplify_css ( fname )
   comment = false
 
-  File.open( fname.sub( /\.css/, "-simple.css" ), "w" ) do |f|
+  File.open( fname.sub( /\.css/i, "-simple.css" ), "w" ) do |f|
     File.open( fname, "r" ) do |file|
       file.each {|line|
         if %r[/\*] =~ line && %r[\*/] =~ line
@@ -348,7 +351,7 @@ def theme_convert ( fname, hash )
   ]
   flag = false
 
-  File.open ( fname.sub( /\.css/, "-2.css" ), "w" ) do |f|
+  File.open ( fname.sub( /\.css/i, "-2.css" ), "w" ) do |f|
     File.open( fname, "r" ) do |file|
       file.each {|line|
         if /\{/ =~ line
@@ -375,7 +378,7 @@ def theme_convert ( fname, hash )
   end
 
   rcss = File::readlines( "append.rcss" ).join
-  File.open ( fname.sub( /\.css/, "-2.css" ), "a" ) do |f|
+  File.open ( fname.sub( /\.css/i, "-2.css" ), "a" ) do |f|
     f.write( ERbLight::new( rcss ).result( binding ) )
   end
 end 
@@ -389,13 +392,13 @@ while cssname = ARGV.shift
   begin
     simplify_css( cssname )
   rescue
-    File.delete( cssname.sub( /\.css/, "-simple.css" ) ) 
+    File.delete( cssname.sub( /\.css/i, "-simple.css" ) ) 
     puts "Error!: #{$!}"
     next
   end
 
   begin
-    parse_result = parse_css( cssname.sub( /\.css/, "-simple.css" ) )
+    parse_result = parse_css( cssname.sub( /\.css/i, "-simple.css" ) )
     if $CHECK
       parse_result.each{|key, val|
         print "#{key} => "
@@ -411,6 +414,6 @@ while cssname = ARGV.shift
   end
 
   theme_convert( cssname, parse_result )
-  puts %Q[Conversion completed: #{cssname.sub( /\.css/, "-2.css" )} was generated.]
+  puts %Q[Conversion completed: #{cssname.sub( /\.css/i, "-2.css" )} was generated.]
 
 end
