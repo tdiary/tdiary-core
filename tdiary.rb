@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.120 $
+tdiary.rb $Revision: 1.121 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030612'
+TDIARY_VERSION = '1.5.4.20030614'
 
 require 'cgi'
 require 'nkf'
@@ -416,6 +416,17 @@ module TDiary
 			%r[(DoCoMo|J-PHONE|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ ENV['HTTP_USER_AGENT']
 		end
 
+		#
+		# get/set plugin options
+		#
+		def []( key )
+			@options[key]
+		end
+
+		def []=( key, val )
+			@options2[key] = @options[key] = val
+		end
+	
 	private
 		# loading tdiary.conf in current directory
 		def load
@@ -578,12 +589,6 @@ module TDiary
 		end
 
 	private
-		def copy_options2( *keys )
-			keys.each do |key|
-				@conf.options2[key] = @conf.options[key]
-			end
-		end
-	
 		def add_header_proc( block = proc )
 			@header_procs << block
 		end
@@ -668,6 +673,7 @@ module TDiary
 		end
 
 		def add_conf_proc( key, label, block = proc )
+			return unless @mode =~ /^(conf|saveconf)$/
 			@conf_keys << key
 			@conf_procs[key] = [label, block]
 		end

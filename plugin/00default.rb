@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.41 $
+# $Revision: 1.42 $
 #
 
 #
@@ -335,14 +335,14 @@ end
 #
 def comment_mail_send
 	return unless @comment
-	return unless @conf.options['comment_mail.enable']
+	return unless @conf['comment_mail.enable']
 
 	# for compatibility
-	if @conf.options['comment_mail.receivers'].kind_of?( Array ) then
-		@conf.options['comment_mail.receivers'] = @conf.options['comment_mail.receivers'].join( ',' )
+	if @conf['comment_mail.receivers'].kind_of?( Array ) then
+		@conf['comment_mail.receivers'] = @conf['comment_mail.receivers'].join( ',' )
 	end
 
-	receivers = @conf.options['comment_mail.receivers'].split( /[, ]+/ )
+	receivers = @conf['comment_mail.receivers'].split( /[, ]+/ )
 	receivers = [@conf.author_mail] if receivers.empty?
 	return if receivers.compact.empty?
 
@@ -360,9 +360,9 @@ def comment_mail_send
 	date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 
 	serial = @diaries[@date.strftime( '%Y%m%d' )].count_comments( true )
-	message_id = %Q|<tdiary.#{[@options['comment_mail.header']].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
+	message_id = %Q|<tdiary.#{[@conf['comment_mail.header']].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
 
-	mail_header = @options['comment_mail.header'].dup
+	mail_header = @conf['comment_mail.header'].dup
 	mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
 	mail_header = @date.strftime( mail_header )
 	mail_header = comment_mail_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
@@ -394,29 +394,28 @@ def comment_mail( text )
 end
 
 def comment_mail_basic_setting
-	@conf.options['comment_mail.enable'] = @cgi.params['comment_mail.enable'][0] == 'true' ? true : false
-	@conf.options['comment_mail.receivers'] = @cgi.params['comment_mail.receivers'][0].strip.gsub( /[\n\r]+/, ',' )
-	@conf.options['comment_mail.header'] = @cgi.params['comment_mail.header'][0]
-	copy_options2( 'comment_mail.enable', 'comment_mail.receivers', 'comment_mail.header' )
+	@conf['comment_mail.enable'] = @cgi.params['comment_mail.enable'][0] == 'true' ? true : false
+	@conf['comment_mail.receivers'] = @cgi.params['comment_mail.receivers'][0].strip.gsub( /[\n\r]+/, ',' )
+	@conf['comment_mail.header'] = @cgi.params['comment_mail.header'][0]
 end
 
 def comment_mail_basic_html
-	@conf.options['comment_mail.header'] = '' unless @conf.options['comment_mail.header']
-	@conf.options['comment_mail.receivers'] = '' unless @conf.options['comment_mail.receivers']
+	@conf['comment_mail.header'] = '' unless @conf['comment_mail.header']
+	@conf['comment_mail.receivers'] = '' unless @conf['comment_mail.receivers']
 
 	<<-HTML
 	<h3 class="subtitle">ツッコミメールを送る</h3>
 	<p>ツッコミがあった時に、メールを送るかどうかを選択します。</p>
 	<p><select name="comment_mail.enable">
-		<option value="true"#{if @conf.options['comment_mail.enable'] then " selected" end}>送る</option>
-        <option value="false"#{if not @conf.options['comment_mail.enable'] then " selected" end}>送らない</option>
+		<option value="true"#{if @conf['comment_mail.enable'] then " selected" end}>送る</option>
+        <option value="false"#{if not @conf['comment_mail.enable'] then " selected" end}>送らない</option>
 	</select></p>
 	<h3 class="subtitle">送付先</h3>
 	<p>メールの送付先を指定します。1行に1メールアドレスの形で、複数指定可能です。指定のない場合には、あなたのメールアドレスに送られます。</p>
-	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{CGI::escapeHTML( @conf.options['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
+	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{CGI::escapeHTML( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
 	<h3 class="subtitle">メールヘッダ</h3>
 	<p>メールのSubjectにつけるヘッダ文字列を指定します。振り分け等に便利なように指定します。実際のSubjectには「指定文字列:日付-1」のように、日付とコメント番号が付きます。ただし指定文字列中に、%に続く英字があった場合、それを日付フォーマット指定を見なします。つまり「日付」の部分は自動的に付加されなくなります(コメント番号は付加されます)。</p>
-	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf.options['comment_mail.header'])}"></p>
+	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf['comment_mail.header'])}"></p>
 	HTML
 end
 
@@ -424,7 +423,7 @@ end
 # detect bot from User-Agent
 #
 bot = ["googlebot", "Hatena Antenna", "moget@goo.ne.jp"]
-bot += @options['bot'] || []
+bot += @conf['bot'] || []
 @bot = Regexp::new( "(#{bot.join( '|' )})" )
 
 def bot?
@@ -500,8 +499,6 @@ def category_title_latest; "今月"; end
 #
 # preferences
 #
-if @mode =~ /^(saveconf|conf)$/ then
-
 add_conf_proc( 'default', '基本' ) do
 	if @mode == 'saveconf' then
 		@conf.author_name = @cgi.params['author_name'][0].to_euc
@@ -668,5 +665,3 @@ add_conf_proc( 'referer', 'リンク元' ) do
 	<p><textarea name="referer_table" cols="70" rows="20">#{@conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end
-
-end # if @mode =~ /^(saveconf|conf)$/ then

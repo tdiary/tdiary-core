@@ -1,10 +1,10 @@
-<%# conf.rhtml $Revision: 1.16 $ %>
+<%# conf.rhtml $Revision: 1.17 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%=navi_preference%%>]</h1>
 
 <div class="sidebar">
-<ul>
+<ul style="margin-top: 5em;">
 <%% each_conf_key do |key|%%>
 	<li><a href="<%%=@conf.update%%>?conf=<%%=key%%>"><%%=conf_label( key )%%></a></li>
 <%% end %%>
