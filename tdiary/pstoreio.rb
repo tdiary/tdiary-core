@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.17 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.18 $
 #
 require 'pstore'
 
@@ -50,7 +50,7 @@ module TDiary
 			calendar
 		end
 
-		def diary_factory( date, title, body, format = nil )
+		def diary_factory( date, title, body, style = nil )
 			Diary::new( date, title, body )
 		end
 	end
