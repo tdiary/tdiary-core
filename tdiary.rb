@@ -1,16 +1,15 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.142 $
+tdiary.rb $Revision: 1.143 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030916'
+TDIARY_VERSION = '1.5.5.20030925'
 
 require 'cgi'
-require 'nkf'
 begin
 	require 'erb'
 	ERbLight = ERB
@@ -23,18 +22,6 @@ end
 enhanced String class
 =end
 class String
-	def to_euc
-		NKF::nkf( '-m0 -e', self )
-	end
-
-	def to_sjis
-		NKF::nkf( '-m0 -s', self )
-	end
-
-	def to_jis
-		NKF::nkf( '-m0 -j', self )
-	end
-
 	def make_link
 		r = %r<(((http[s]{0,1}|ftp)://[\(\)%#!/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+)|([0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$.&+-,'"*-]+\.[\(\)%!0-9a-zA-Z_$.&+-,'"*-]+))>
 		return self.
@@ -47,12 +34,6 @@ class String
 			gsub( /\002/, '&lt;' ).
 			gsub( /\001/, '&nbsp;' ).
 			gsub( /\t/, '&nbsp;' * 8 )
-	end
-
-	def shorten( len = 120 )
-		lines = NKF::nkf( "-e -m0 -f#{len}", self.gsub( /\n/, ' ' ) ).split( /\n/ )
-		lines[0].concat( '...' ) if lines[0] and lines[1]
-		lines[0]
 	end
 end
 
@@ -108,10 +89,15 @@ module TDiary
 			@show = true
 		end
 	
-		def shorten( len = 120 )
-			@body.shorten( len )
+		def shorten( length = 120 )
+			matched = body.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/ )[0]
+			unless $'.empty? then
+				matched + '..'
+			else
+				matched
+			end
 		end
-	
+
 		def visible?; @show; end
 		def show=( s ); @show = s; end
 	
@@ -245,7 +231,7 @@ module TDiary
 			newer_referer
 			@referers.values.sort.reverse.each_with_index do |ary,idx|
 				break if idx >= limit
-				yield [ary[0], ary[1].to_euc]
+				yield [ary[0], ary[1]]
 			end
 		end
 	
@@ -319,18 +305,6 @@ module TDiary
 	
 		def eval_rhtml( opt, path = '.' )
 			ERbLight::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
-		end
-	
-		def disp_referer( table, ref )
-			ref = CGI::unescape( ref )
-			str = nil
-			table.each do |url, name|
-				if /#{url}/i =~ ref then
-					str = ref.gsub( /#{url}/in, name )
-					break
-				end
-			end
-			str ? str.to_euc : ref.to_euc
 		end
 	end
 
@@ -424,19 +398,6 @@ module TDiary
 			end
 		end
 
-		def charset( mobile = false )
-			case @lang
-			when 'en'
-				'ISO-8859-1'
-			else
-				if mobile then
-					'Shift_JIS'
-				else
-					'EUC-JP'
-				end
-			end
-		end
-
 		def mobile_agent?
 			%r[(DoCoMo|J-PHONE|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ ENV['HTTP_USER_AGENT']
 		end
@@ -463,13 +424,21 @@ module TDiary
 			@secure = true unless @secure
 			@options = {}
 			eval( File::open( "tdiary.conf" ){|f| f.read }.untaint )
+
+			# language setup
+			@lang = 'ja' unless @lang
+			begin
+				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f|f.read} )
+			rescue Errno::ENOENT
+				@lang = 'ja'
+				retry
+			end
 	
 			@data_path += '/' if /\/$/ !~ @data_path
 			@style = 'tDiary' unless @style
 			@index = './' unless @index
 			@update = 'update.rb' unless @update
 			@hide_comment_form = false unless defined?( @hide_comment_form )
-			@lang = nil if @lang == 'ja'
 
 			@author_name = '' unless @author_name
 			@index_page = '' unless @index_page
@@ -608,13 +577,26 @@ module TDiary
 			begin
 				Dir::glob( "#{plugin_path}/*.rb" ).sort.each do |file|
 					plugin_file = file
-					open( plugin_file.untaint ) do |src|
-						instance_eval( src.read.untaint )
-					end
+					load_plugin( file )
 					@plugin_files << plugin_file
 				end
 			rescue Exception
 				raise PluginError::new( "Plugin error in '#{File::basename( plugin_file )}'.\n#{$!}" )
+			end
+		end
+
+		def load_plugin( file )
+			@resource_loaded = false
+			begin
+				res_file = File::dirname( file ) + "/#{@conf.lang}/" + File::basename( file )
+				open( res_file.untaint ) do |src|
+					instance_eval( src.read.untaint )
+				end
+				@resource_loaded = true
+			rescue IOError, Errno::ENOENT
+			end
+			open( file.untaint ) do |src|
+				instance_eval( src.read.untaint )
 			end
 		end
 
@@ -750,8 +732,16 @@ module TDiary
 			r
 		end
 
-		def shorten( str, len = 120 )
-			str.shorten( len )
+		def disp_referer( table, ref )
+			ref = @conf.to_native( CGI::unescape( ref ) )
+			str = nil
+			table.each do |url, name|
+				if /#{url}/i =~ ref then
+					str = ref.gsub( /#{url}/in, name )
+					break
+				end
+			end
+			str ? str : ref
 		end
 
 		def method_missing( *m )
@@ -839,11 +829,7 @@ module TDiary
 				rhtml = files.collect {|file|
 					path = "#{PATH}/skel/#{prefix}#{file}"
 					begin
-						if @conf.lang then
-							File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
-						else
-							File::open( path ) {|f| f.read }
-						end
+						File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
 					rescue
 						File::open( path ) {|f| f.read }
 					end
@@ -1018,8 +1004,8 @@ module TDiary
 		def initialize( cgi, rhtm, conf )
 			super
 	
-			@title = @cgi.params['title'][0].to_euc
-			@body = @cgi.params['body'][0].to_euc
+			@title = @conf.to_native( @cgi.params['title'][0] )
+			@body = @conf.to_native( @cgi.params['body'][0] )
 			@old_date = @cgi.params['old'][0]
 			@hide = @cgi.params['hide'][0] == 'true' ? true : false
 
@@ -1052,8 +1038,8 @@ module TDiary
 	#
 	class TDiaryUpdate < TDiaryAdmin
 		def initialize( cgi, rhtml, conf )
-			@title = cgi.params['title'][0].to_euc
-			@body = cgi.params['body'][0].to_euc
+			@title = conf.to_native( cgi.params['title'][0] )
+			@body = conf.to_native( cgi.params['body'][0] )
 			@hide = cgi.params['hide'][0] == 'true' ? true : false
 			super
 		end
@@ -1368,9 +1354,9 @@ module TDiary
 	
 		def load( date )
 			@date = date
-			@name = @cgi.params['name'][0].to_euc
+			@name = @conf.to_native( @cgi.params['name'][0] )
 			@mail = @cgi.params['mail'][0]
-			@body = @cgi.params['body'][0].to_euc
+			@body = @conf.to_native( @cgi.params['body'][0] )
 			dirty = DIRTY_NONE
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -1721,7 +1707,7 @@ HERE
 			raise TDiaryTrackBackError.new("invalid date: #{@date.strftime('%Y%m%d')}") unless @diary
 			load_plugins
 			r = <<RSSHEAD
-<?xml version="1.0" encoding="EUC-JP"?>
+<?xml version="1.0" encoding="#{@conf.encoding}"?>
 <response>
 <error>0</error>
 <rss version="0.91">
@@ -1729,7 +1715,7 @@ HERE
 <title>#{@diary.title}</title>
 <link>#{diary_url}</link>
 <description></description>
-<language>ja-jp</language>
+<language>#{@conf.html_lang}</language>
 RSSHEAD
 			@diary.each_comment(100) do |com, idx|
 				begin
@@ -1764,17 +1750,10 @@ RSSFOOT
 			super
 			@error = nil
 
-			begin
-				require 'uconv'
-				@have_uconv = true
-			rescue LoadError
-				@have_uconv = false
-			end
-
 			url = @cgi.params['url'][0]
-			blog_name = to_euc(@cgi.params['blog_name'][0] || '')
-			title = to_euc(@cgi.params['title'][0] || '')
-			excerpt = to_euc(@cgi.params['excerpt'][0] || '')
+			blog_name = @conf.to_native( @cgi.params['blog_name'][0] || '' )
+			title = @conf.to_native( @cgi.params['title'][0] || '' )
+			excerpt = @conf.to_native( @cgi.params['excerpt'][0] || '' )
 
 			body = [url, blog_name, title, excerpt].join("\n")
 			@cgi.params['name'] = ['TrackBack']
@@ -1800,18 +1779,6 @@ RSSFOOT
 			raise TDiaryTrackBackError.new(@error) if @error
 			super
 			TDiaryTrackBackBase::success_response
-		end
-	private
-		def to_euc(str)
-			if @have_uconv
-				begin
-					ret = Uconv.u8toeuc(str)
-				rescue Uconv::Error
-					ret = str.to_euc
-				end
-			else
-				ret = str.to_euc
-			end
 		end
 	end
 

@@ -1,4 +1,4 @@
-<%# latest.rhtml $Revision: 1.4 $ %>
+<%# latest.rhtml $Revision: 1.5 $ %>
 <%= @conf.header %>
 <hr class="sep">
 
@@ -16,6 +16,7 @@ param = {
 	'comment_limit' => @conf.comment_limit,
 	'multi_user' => @conf.multi_user,
 	'show_nyear' => @conf.show_nyear,
+	'comment_length' => @conf.comment_length,
 }
 latest( @conf.latest_limit ) do |diary| %>
 	<%= diary.eval_rhtml( param, PATH ) %>

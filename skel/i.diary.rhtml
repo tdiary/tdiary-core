@@ -1,4 +1,4 @@
-<%# i.diary.rhtml $Revision: 1.9 $ %>
+<%# i.diary.rhtml $Revision: 1.10 $ %>
 <H2><%= @date.strftime( opt['date_format'] ) %> <%= title %></H2>
 <%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %>
 <%= to_html( opt, :CHTML ) %>
@@ -9,7 +9,7 @@ if opt['show_comment'] and count_comments > 0 then
 	each_comment(opt['comment_limit'] ) do |comment|
 		if comment.visible? %>
 			<A NAME="c<%= '%02d' % idx += 1 %>">#</A>
-			<%= CGI::escapeHTML( comment.name ) %>&nbsp;[<%= comment.shorten( 200 ).make_link %>]<BR><%
+			<%= CGI::escapeHTML( comment.name ) %>&nbsp;[<%= comment.shorten( 100 ).make_link %>]<BR><%
 		else
 			idx += 1
 		end

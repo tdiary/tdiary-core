@@ -1,4 +1,4 @@
-<%# i.update.rhtml $Revision: 1.14 $ %>
+<%# i.update.rhtml $Revision: 1.15 $ %>
 <H1><%= @conf.html_title %> [<%%= submit_label %>]</H1>
 
 <P>
@@ -32,7 +32,7 @@ idx = 0
 		<%= CGI::escapeHTML( comment.name ) %>
 		(<%= comment.date.strftime( '%m-%d %H:%M' ) %>)
 	</P>
-	<P><%= comment.shorten( 400 ).make_link %></P><%
+	<P><%= comment.shorten( 200 ).make_link %></P><%
 end %>
 <% if idx > 0 then %><P><INPUT TYPE="SUBMIT" NAME="comment" VALUE="ツッコミ表示状態変更"></P><% end %>
 </FORM>

@@ -1,5 +1,5 @@
 #
-# 00lang.en.rb: Language support plugin for English
+# en/00default.rb: English resources of 00default.rb.
 #
 
 #
@@ -33,13 +33,6 @@ end
 
 
 #
-# other resources
-#
-def html_lang
-	"en"
-end
-
-#
 # labels
 #
 def no_diary; "No diary on #{@date.strftime( @conf.date_format )}"; end
@@ -58,6 +51,8 @@ def comment_submit_label; 'Submit'; end
 def comment_submit_label_short; 'Submit'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
 def referer_today; "Today's Link"; end
+def trackback_today; "Today's TrackBacks"; end
+def trackback_total( total ); "(Total: #{total})"; end
 
 def navi_index; 'Top'; end
 def navi_latest; 'Latest'; end
@@ -236,6 +231,10 @@ add_conf_proc( 'referer', "Today's Link" ) do
 end
 
 # comment mail
+def comment_mail_mime( str )
+	str.dup
+end
+
 def comment_mail_conf_label; 'TSUKKOMI Mail'; end
 
 def comment_mail_basic_html

@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.21 $
+# index.rb $Revision: 1.22 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
-$KCODE= 'e'
 BEGIN { $defout.binmode }
 
 begin
@@ -74,12 +73,12 @@ begin
 
 		if /HEAD/i !~ @cgi.request_method then
 			if @cgi.mobile_agent? then
-				body = tdiary.eval_rhtml( 'i.' ).to_sjis
-				head['charset'] = conf.charset( true )
+				body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
+				head['charset'] = conf.mobile_encoding
 				head['Content-Length'] = body.size.to_s
 			else
 				body = tdiary.eval_rhtml
-				head['charset'] = conf.charset
+				head['charset'] = conf.encoding
 				head['Content-Length'] = body.size.to_s
 				head['Pragma'] = 'no-cache'
 				head['Cache-Control'] = 'no-cache'

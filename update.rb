@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.13 $
+# update.rb $Revision: 1.14 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
-$KCODE= 'e'
 BEGIN { $defout.binmode }
 
 begin
@@ -50,11 +49,11 @@ begin
 	begin
 		head = body = ''
 		if @cgi.mobile_agent? then
-			body = tdiary.eval_rhtml( 'i.' ).to_sjis
+			body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 			head = @cgi.header(
 				'status' => '200 OK',
 				'type' => 'text/html',
-				'charset' => conf.charset( true ),
+				'charset' => conf.mobile_encoding,
 				'Content-Length' => body.size.to_s,
 				'Vary' => 'User-Agent'
 			)
@@ -63,7 +62,7 @@ begin
 			head = @cgi.header(
 				'status' => '200 OK',
 				'type' => 'text/html',
-				'charset' => conf.charset,
+				'charset' => conf.encoding,
 				'Content-Length' => body.size.to_s,
 				'Vary' => 'User-Agent'
 			)
