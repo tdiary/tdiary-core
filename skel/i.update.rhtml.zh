@@ -1,4 +1,4 @@
-<%# i.update.rhtml $Revision: 1.1 $ %>
+<%# i.update.rhtml $Revision: 1.2 $ %>
 <H1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</H1>
 
 <P>
@@ -17,7 +17,7 @@
 <P>Article(<%= @conf.style %> style):<BR>
 <TEXTAREA NAME="body" TABINDEX="6" ACCESSKEY="C"><%= CGI::escapeHTML( @diary.to_src ) %></TEXTAREA></P>
 <P><INPUT TYPE="SUBMIT" TABINDEX="7" ACCESSKEY="A" NAME="<%%= submit_command %>" VALUE=" <%%= submit_label %> "></P>
-<p><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">Hidden</a>
+<P><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">Hidden</P>
 </FORM>
 
 <FORM METHOD="POST" ACTION="<%= @conf.update %>">

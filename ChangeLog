@@ -1,3 +1,7 @@
+2005-03-09 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: add mobile user agents; 'Vodafone' and 'MOT-'. thanks Masaru Yokoi <masaru at masaru.org>
+	* skel/i.update.rhtml: fix HTML tag typo. thanks Masaru Yokoi <masaru at masaru.org>
+
 2005-01-27 zunda <zunda at freeshell.org>
 	* skel/i.update.rhtml: bug fix - Kanji code converted from shift-jis to euc
 	* skel/i.month.rhtml: use labels from plugin for i18n
