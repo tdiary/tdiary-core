@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.9 $
+# tDiary configuration file $Revision: 1.10 $
 #
 
 #-------
@@ -254,6 +254,13 @@ FOOTER
 	['^http://www.kensaku.(jp|org)/search.cgi.*?key=([^&]*).*', 'kensaku.jp検索(\2)'],
 	['^http://search.msn.co.jp/.*?(q|MT)=([^&]*).*', 'msn検索(\2)'],
 	["^http://cgi.search.biglobe.ne.jp/cgi-bin/search.*?q=([^&]*).*", "BIGLOBE検索(\\1)"],
+	#
+	# 以下の設定は、上記の置換リストで変換されなかったリンク元URLのうち、
+	# 50文字を越えるものの後半を省略するという設定です。これはかならず
+	# @referer_tableの末尾に入っていないと意味がありません。@referer_table
+	# に新しい置換ルールを追加する場合は、この上に挿入してください。
+	#
+	['^(.{50}).*$', '\1...'],
 ]
 
 #----

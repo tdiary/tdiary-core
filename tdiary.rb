@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.32 $
+tdiary.rb $Revision: 1.33 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.4.2'
+TDIARY_VERSION = '1.4.2.20020514'
 
 require 'cgi'
 require 'nkf'
@@ -282,7 +282,7 @@ class Diary
 		str = nil
 		table.each do |url, name|
 			if /#{url}/i =~ ref then
-				str = ref.gsub( /#{url}/i, name )
+				str = ref.gsub( /#{url}/in, name )
 				break
 			end
 		end

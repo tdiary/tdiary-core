@@ -1,3 +1,7 @@
+2002.05.14 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: ignore $KCODE in disp_referer.
+	* tdiary.conf.sample: shorten referer URL in @referer_table.
+
 2002.05.12 TADA Tadashi <sho@spc.gr.jp>
 	* 1.4.2.
 	* README.html: add notice about copyright of themes and plugins.
