@@ -1,4 +1,7 @@
 2004-12-01 zunda <zunda at freeshell.org>
+	* skel/tdiary.rconf: bug fix - could not saveconf unless icon and description are set
+
+2004-12-01 zunda <zunda at freeshell.org>
 	* plugin/00default.rb, plugin/ja/00default.rb: added icon_tag and description_tag
 
 2004-11-29 zunda <zunda at freeshell.org>
