@@ -1,5 +1,6 @@
 2003.01.21 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: fix style require bug.
+	* pstoreio.rb: fix about style.
 
 2003.01.20 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: rescue SyntaxError in plugins, and support mod_ruby.

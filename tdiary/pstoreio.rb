@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.16 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.17 $
 #
 require 'pstore'
 
@@ -132,7 +132,7 @@ class Diary
 		replace( date, title, body )
 	end
 
-	def format
+	def style
 		'tDiary'
 	end
 
