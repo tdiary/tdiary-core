@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.18 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.19 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -45,7 +45,7 @@ module RD
 				if @td_opt['anchor'] then
 					r << %Q[name="p#{'%02d' % @td_idx}"]
 				end
-				r << %Q[href="#{@td_opt['index']}<%=anchor "#{@td_date.strftime( '%Y%m%d' )}#p#{'%02d' % @td_idx}" %>">#{@td_opt['section_anchor']}</a>]
+				r << %Q[href="#{@td_opt['index']}<%=anchor "#{@td_date.strftime( '%Y%m%d' )}#p#{'%02d' % @td_idx}" %>">#{@td_opt['section_anchor']}</a> ]
 				if @td_opt['multi_user'] and @td_author then
 					r << %Q|[#{@td_author}]|
 				end
