@@ -96,6 +96,10 @@ div.button {
 /*
 更新フォーム
 */
+div.update.day div.form {
+        border: none;
+}
+
 form.update {
         padding-top: 0.5em;
         padding-bottom: 0.5em;
