@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.24 $
+# $Revision: 1.25 $
 #
 
 #
@@ -176,12 +176,14 @@ def theme_url; 'theme'; end
 def css_tag
 	if @theme and @theme.length > 0 then
 		css = "#{theme_url}/#{@theme}/#{@theme}.css"
+		title = css
 	else
 		css = @css
 	end
+	title = CGI::escapeHTML( File::basename( css, '.css' ) )
 	<<-CSS
 	<meta http-equiv="content-style-type" content="text/css">
-	<link rel="stylesheet" href="#{css}" type="text/css" media="all">
+	<link rel="stylesheet" href="#{css}" title="#{title}" type="text/css" media="all">
 	CSS
 end
 
