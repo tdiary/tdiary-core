@@ -5,10 +5,10 @@
 require 'erb/compile'
 
 class ERbLight
-  Revision = '$Date: 2002/03/11 16:42:29 $'
+  Revision = '$Date: 2002/03/14 16:23:43 $'
 
   def self.version
-    "erbl.rb [1.4.0 #{ERbLight::Revision.split[1]}]"
+    "erbl.rb [1.4.1 #{ERbLight::Revision.split[1]}]"
   end
 
   def initialize(str, safe_level=nil, trim_mode=nil, eoutvar='_erbout')

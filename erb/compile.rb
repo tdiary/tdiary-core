@@ -5,7 +5,7 @@
 class ERbCompiler
   ERbTag = "<%% %%> <%= <%# <% %>".split
   private
-  def self.is_erb_tag?(s)
+  def is_erb_tag?(s)
     ERbTag.member?(s)
   end
 
