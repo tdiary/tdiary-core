@@ -177,6 +177,7 @@ end
 <tr><th>メソッド名</th><th>説明</th></tr>
 <tr><th style="white-space: nowrap;">add_cookie( cookie )</th><td>Webブラウザに返すCookieを追加します。プラグインから何らかの情報をWebブラウザ側に保持しておいて欲しい時に使います。引数cookieはCGI::Cookieインスタンスです。なお、逆にCookieを受けとる時は、@cgiインスタンス変数から取得してください。</td></tr>
 <tr><th style="white-space: nowrap;">apply_plugin( str, remove_tag )</th><td>プラグイン内で生成した文字列の中に、さらにプラグイン呼出しの指定がある場合、もう一度プラグインの呼出しを行います。第二引数をtrueにすると(省略可能でデフォルトはfalse)、さらにHTMLタグを削除します。</td></tr>
+<tr><th style="white-space: nowrap;">shorten( str, limit )</th><td>文字列strをlimitで指定されたバイト数に切り詰めます。切り詰められた場合には末尾に「...」が付加されます。プラグイン内で生成した文字列の表示文字数を制限したい場合に使います。</td></tr>
 <tr><th style="white-space: nowrap;">add_XXX_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body_enter、body_leave、footerが入る。引数procにはProcインスタンス、もしくはブロックを与える。<a href="#callback">コールバック系プラグイン</a>を参照。</td></tr>
 </table>
 

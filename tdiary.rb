@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.82 $
+tdiary.rb $Revision: 1.83 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -659,6 +659,10 @@ module TDiary
 			end
 			r.gsub!( /<.*?>/, '' ) if remove_tag
 			r
+		end
+
+		def shorten( str, len = 120 )
+			str.shorten( len )
 		end
 
 		def method_missing( *m )
