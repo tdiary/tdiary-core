@@ -1,5 +1,6 @@
 2002.11.17 TADA Tadashi <sho@spc.gr.jp>
 	* specify configuration value in deffault.
+	* navi_user plugin: send Time object to navi_{prev|next}_diary.
 
 2002.11.16 Minero Aoki <aamine@loveruby.net>
 	* avoid ruby 1.7 warnings.

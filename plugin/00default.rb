@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.16 $
+# $Revision: 1.17 $
 #
 
 #
@@ -38,7 +38,7 @@ def navi_user
 		days.unshift(nil).push(nil)
 		prev_day, dymmy, next_day = days[days.index(today) - 1, 3]
 		if prev_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&lt;#{navi_prev_diary Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}</a></span>\n]
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&laquo;#{navi_prev_diary Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n]
 		else
 			if prev_month
 				y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
@@ -48,19 +48,19 @@ def navi_user
 					y, m = y.to_i, m.to_i + 1
 				end
 				pday = Time.local(y, m, 1) - 24*60*60
-				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%Y%m%d')}">&lt;#{navi_prev_diary pday.strftime(@date_format)}</a></span>\n]
+				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%Y%m%d')}">&laquo;#{navi_prev_diary pday}</a></span>\n]
 			end
 		end
 
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
 
 		if next_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor next_day}">#{navi_next_diary Time::local(*next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}&gt;</a></span>\n]
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor next_day}">#{navi_next_diary Time::local(*next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;</a></span>\n]
 		else
 			if next_month
 				y, m = next_month.scan(/(\d{4})(\d\d)/)[0]
 				nday = Time.local(y, m, 1)
-				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_diary nday.strftime(@date_format)}&gt;</a></span>\n]
+				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_diary nday}&raquo;</a></span>\n]
 			end
 		end
 	else
@@ -274,8 +274,8 @@ def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
 def navi_update; "更新"; end
 def navi_preference; "設定"; end
-def navi_prev_diary(date); "前の日記(#{date})"; end
-def navi_next_diary(date); "次の日記(#{date})"; end
+def navi_prev_diary(date); "前の日記(#{date.strftime(@date_format)})"; end
+def navi_next_diary(date); "次の日記(#{date.strftime(@date_format)})"; end
 
 def submit_label
 	if @mode == 'form' then
