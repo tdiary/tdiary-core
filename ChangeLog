@@ -1,5 +1,5 @@
-2002.04.21 TADA Tadashi <sho@spc.gr.jp>
-	* i.diary.rhtml: fix bug of paragraph number increment.
+2002.04.23 MUTOH Masao <mutoh@highway.ne.jp>
+	* tdiary.rb: add @debug for Plugin#method_missing.
 
 2002.04.19 TADA Tadashi <sho@spc.gr.jp>
 	* i.diary.rhtml: fix bug of paragraph number.

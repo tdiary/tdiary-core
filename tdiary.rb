@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.27 $
+tdiary.rb $Revision: 1.28 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -378,6 +378,7 @@ class TDiary
 		end
 
 		def method_missing( *m )
+			super if @debug
 			# ignore when no plugin
 		end
 	end
