@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.3 $
+# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.4 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # You can distribute this under GPL.
@@ -37,7 +37,7 @@ class WikiParser
 		@q = ParserQueue::new
 		nest = 0
 		f.each do |l|
-			l.sub!( /[\r\n]+$/, '' )
+			l.sub!( /[\r\n]+\Z/, '' )
 			case l
 			when /^$/ # null string
 				@q << nil unless @q.last == nil
@@ -85,14 +85,23 @@ class WikiParser
 				inline( $2 )
 				@q << :DDE << :DE
 
-			when /^""\s*(.*)/ # block quote
+			when /^""$/ # block quote (null line)
 				if @q.last == :QE then
 					@q.pop
 				else
 					@q << :QS
 				end
+				@q << :PS << :PE << :QE
+
+			when /^""\s*(.*)/ # block quote
+				if @q.last == :QE then
+					@q.pop
+					@q.pop
+				else
+					@q << :QS << :PS
+				end
 				inline( $1 )
-				@q << :QE
+				@q << :PE << :QE
 
 			when /^\s(.*)/ # formatted text
 				if @q.last == :FE then

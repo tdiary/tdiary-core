@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.1 2003-02-12 15:37:45 kitaj Exp $
+# $Id: etdiary_style.rb,v 1.2 2003-02-23 07:18:12 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -143,10 +143,16 @@ module TDiary
 			end
 		end
 		def p_start
-			"<p>\n"
+			"<p>"
 		end
 		def p_end
-			"\n</p>\n"
+			"</p>"
+		end
+		def pre_start
+			"<pre>"
+		end
+		def pre_end
+			"</pre>"
 		end
 	end
 
@@ -189,10 +195,16 @@ module TDiary
 			end
 		end
 		def p_start
-			"<P>\n"
+			"<P>"
 		end
 		def p_end
-			"\n</P>\n"
+			"</P>"
+		end
+		def pre_start
+			"<PRE>"
+		end
+		def pre_end
+			"</PRE>"
 		end
 	end
 
@@ -200,8 +212,9 @@ module TDiary
 		include DiaryBase
 		include CategorizableDiary
 	
-		PRE_BEG_REGEXP = /\A<(PRE|pre)[ >]/
-		PRE_END_REGEXP = /<\/(PRE|pre)>\n*\z/
+		TAG_BEG_REGEXP = /\A<([A-Za-z]*)([^>]*)>([^\r]*)\z/
+		TAG_END_REGEXP = /\A([^\r]*)<\/([A-Za-z]*)>\n*\z/
+		PRE_REGEXP     = /\A<[Pp][Rr][Ee][^>]*>([^\r]*)<\/[Pp][Rr][Ee]>\n*\z/
 		TITLE_REGEXP   = /\A<<([^\r]*?)>>[^>]/
 	
 		def initialize( date, title, body, modified = Time::now )
@@ -223,13 +236,15 @@ module TDiary
 
 		def append( body, author = nil )
 			section = EtdiarySection::new( nil, author )
-			pre_string = nil
+			buffer = nil
+			tag_kind = nil
 			( body.gsub("\r",'').sub(/\A\n*/,'') + "\n" ).each("") do |fragment|
-				if pre_string and PRE_END_REGEXP =~ fragment then
-					section << pre_string + fragment.sub(/\n*\z/,"\n")
-					pre_string = nil
-				elsif pre_string then
-					pre_string << fragment
+				if buffer and TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then
+					section << buffer + fragment.sub(/\n*\z/,"\n\n")
+					tag_kind = nil
+					buffer = nil
+				elsif buffer then
+					buffer << fragment
 				else
 					title = TITLE_REGEXP.match(fragment+"\n").to_a[1]
 					if title then
@@ -237,14 +252,17 @@ module TDiary
 						section = EtdiarySection::new( title, author )
 						fragment = fragment[ title.length + 4 .. -1 ]
 					end
-					if PRE_END_REGEXP =~ fragment then
-						section << fragment
-					elsif PRE_BEG_REGEXP =~ fragment then
-						pre_string = fragment
+					if TAG_BEG_REGEXP =~ fragment then
+						tag_kind = $1.downcase
+						if TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then
+							section << fragment.sub(/\n*\z/,"\n\n")
+							tag_kind = nil
+						else
+							buffer = fragment
+						end
 					else
 						section << fragment
 					end
-
 				end
 			end
 			@zerosection = @sections.shift
@@ -267,15 +285,20 @@ module TDiary
 			src.sub(/\n*\z/,"\n")
 		end
 	
-		def to_html_section(section, factory)
+		def to_html_section(section, factory, title = nil)
 			return '' unless section.bodies
 			r = ''
 			section.bodies.each do |fragment|
-				if /\A</ =~ fragment then
+				if PRE_REGEXP =~ fragment then
+					r << factory.pre_start
+					r << $1.gsub("&","&amp;").gsub("<","&lt;").gsub(">","&gt;")
+					r << factory.pre_end << "\n"
+				elsif /\A</ =~ fragment then
 					r << fragment.sub( /\n*\z/, "\n" )
 				else
 					r << factory.p_start
-					r << fragment.sub( /\n*\z/, factory.p_end )
+					r << title if title
+					r << fragment.sub(/\A\n*/,"\n").sub( /\n*\z/, "\n" + factory.p_end + "\n" )
 				end
 			end
 			r
@@ -300,11 +323,10 @@ module TDiary
 				title = f.title( date, section ) || ''
 				if f.block_title?(section) then
 					r << title << s
-				elsif /\A</ !~ section.body then
-					s[4...4] = title
-					r << s
-				else
+				elsif /\A</ =~ section.body then
 					r << f.p_start << title << f.p_end << s
+				elsif s then
+					r << to_html_section( section, f, title )
 				end
 			end
 			r + f.section_end
@@ -316,11 +338,3 @@ module TDiary
 		end
 	end
 end
-
-# 
-
-=begin
-Local Variables:
-ruby-indent-level: 8
-End:
-=end
