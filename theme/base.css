@@ -6,6 +6,15 @@ usage:
 */
 
 /*
+for printer
+*/
+@media print {
+	div.adminmenu { display: none; }
+	div.footer { display: none; }
+	div.sidebar { display: none; }
+}
+
+/*
 nyear
 */
 h2 span.nyear {

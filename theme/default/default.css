@@ -1,6 +1,6 @@
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.14 $
+Revision: $Revision: 1.15 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -141,6 +141,7 @@ div.body {
 */
 div.section {
 	margin-top: 0.7em;
+	margin-left: 0em;
 	margin-bottom: 0.7em;
 }
 
@@ -480,8 +481,13 @@ div.body blockquote p {
 箇条書きの設定
 */
 div.body ul, div.body ol {
-	margin-left: 6em;
+	margin-left: 5em;
 	margin-right: 3em;
+}
+div.body ul ul, div.body ol ol {
+	margin-left: 1.7em;
+	margin-right: 1em;
+	margin-bottom: 0.5em;
 }
 
 /*
@@ -541,7 +547,7 @@ div.recentsubtitles {
 /* footnote */
 div.body span.footnote {
 	vertical-align: super;
-	font-size: 0.7em;
+	font-size: 70%;
 }
 
 div.footnote {
