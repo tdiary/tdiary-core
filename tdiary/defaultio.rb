@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.26 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.27 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -182,7 +182,7 @@ module TDiary
 			# read and parse diary
 			while l = fh.gets( "\n.\n" )
 				begin
-					headers, body = parse_tdiary( l )
+					headers, body = TDiary::parse_tdiary( l )
 					style = headers['Format'] || 'tDiary'
 					diary = eval( "#{style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
 					diary.show( headers['Visible'] == 'true' ? true : false )

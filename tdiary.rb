@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.101 $
+tdiary.rb $Revision: 1.102 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030405'
+TDIARY_VERSION = '1.5.3.20030406'
 
 require 'cgi'
 require 'nkf'
@@ -737,35 +737,8 @@ module TDiary
 	
 		def eval_rhtml( prefix = '' )
 			begin
-				# load plugin files
-				@plugin = load_plugins
-
-				# load and apply rhtmls
-				if cache_enable?( prefix ) then
-					r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read }
-				else
-					files = ["header.rhtml", @rhtml, "footer.rhtml"]
-					rhtml = files.collect {|file|
-						path = "#{PATH}/skel/#{prefix}#{file}"
-						begin
-							if @conf.lang then
-								File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
-							else
-								File::open( path ) {|f| f.read }
-							end
-						rescue
-							File::open( path ) {|f| f.read }
-						end
-					}.join
-					r = ERbLight::new( rhtml.untaint ).result( binding )
-					r = ERbLight::new( r ).src
-					store_cache( r, prefix )
-				end
-	
-				# apply plugins
-				r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
-				@cookies += @plugin.cookies
-			rescue PluginError, SyntaxError
+				r = do_eval_rhtml( prefix )
+			rescue PluginError, SyntaxError, ArgumentError
 				r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
 			rescue Exception
 				raise
@@ -786,6 +759,38 @@ module TDiary
 		end
 	
 	protected
+		def do_eval_rhtml( prefix )
+			# load plugin files
+			@plugin = load_plugins
+
+			# load and apply rhtmls
+			if cache_enable?( prefix ) then
+				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read }
+			else
+				files = ["header.rhtml", @rhtml, "footer.rhtml"]
+				rhtml = files.collect {|file|
+					path = "#{PATH}/skel/#{prefix}#{file}"
+					begin
+						if @conf.lang then
+							File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
+						else
+							File::open( path ) {|f| f.read }
+						end
+					rescue
+						File::open( path ) {|f| f.read }
+					end
+				}.join
+				r = ERbLight::new( rhtml.untaint ).result( binding )
+				r = ERbLight::new( r ).src
+				store_cache( r, prefix )
+			end
+
+			# apply plugins
+			r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
+			@cookies += @plugin.cookies
+			r
+		end
+
 		def mode
 			self.class.to_s.sub( /^TDiary::TDiary/, '' ).downcase
 		end
@@ -1023,6 +1028,18 @@ module TDiary
 				@diary.show( ! @hide )
 				DIRTY_NONE
 			end
+		end
+
+		def eval_rhtml( prefix = '' )
+			begin
+				@show_result = true
+				r = do_eval_rhtml( prefix )
+			rescue PluginError, SyntaxError, ArgumentError
+				@exception = $!.dup
+				@show_result = false
+				r = super
+			end
+			r
 		end
 	end
 

@@ -1,4 +1,4 @@
-<%# show.rhtml $Revision: 1.1 $ %>
+<%# preview.rhtml.en $Revision: 1.2 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%=preview_label%%>]</h1>
@@ -19,15 +19,25 @@ param = {
 	'anchor' => false,
 	'show_nyear' => @conf.show_nyear,
 } %>
-<%= @diary.eval_rhtml( param, PATH ) %>
+<% if @show_result %>
+	<%= @diary.eval_rhtml( param, PATH ) %>
+<% else %>
+	<div class="day">
+	<h2><span class="title">プラグイン・エラー</span></h2>
+	<div class="body">
+	<div class="section">
+		<h3><%= CGI::escapeHTML( @exception.class.to_s ) %></strong></h3>
+		<pre><%= CGI::escapeHTML( @exception.to_s ).gsub( / /, '&nbsp;' ) %></pre>
+	</div>
+	</div>
+	</div>
+<% end %>
 
 <hr class="sep">
 
 <div class="update day">
+<h2><span class="title">更新フォーム</span></h2>
 <div class="form">
-	<div class="caption">
-		更新フォーム
-	</div>
 	<form class="update" method="post" action="<%= @conf.update %>"><div>
 		<input type="hidden" name="old" value="<%= @old_date %>">
 		<span class="field year">
