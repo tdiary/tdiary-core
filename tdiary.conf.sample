@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.18 $
+# tDiary configuration file $Revision: 1.19 $
 #
 
 #-------
@@ -252,7 +252,7 @@ FOOTER
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.Net[\1](\2-\3)'],
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],
 	['^http://www.google.(com|co\.jp)/search.*?q=([^&]*).*', 'google¸¡º÷(\2)'],
-	['^http://google.yahoo.(com|co\.jp)/.*?p=([^&]*).*', 'YahooÆâgoogle¸¡º÷(\2)'],
+	['^http://(google|websearch).yahoo.(com|co\.jp)/.*?p=([^&]*).*', 'Yahoo¸¡º÷(\3)'],
 	['^http://www.infoseek.co.jp/.*?qt=([^&]*).*', 'Infoseek¸¡º÷(\1)'],
 	['^http://www.lycos.co.jp/cgi-bin/.*?query=([^&]*).*', 'Lycos¸¡º÷(\1)'],
 	["^http://wisenut.lycos.co.jp/.*?q=([^&]*).*", "LycosÆâWisenut¸¡º÷(\\1)"],
