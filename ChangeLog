@@ -1,3 +1,6 @@
+2002.03.15 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix duplicated referer on day mode.
+
 2002.03.14 TADA Tadashi <sho@spc.gr.jp>
 	* update.rhtml: remove 'class="commenttitle"' from changing comment status button.
 	* default.css: add style for blockquote and some plugins.

@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.12 $
+tdiary.rb $Revision: 1.13 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.3.4.20020312'
+TDIARY_VERSION = '1.3.4.20020315'
 
 require 'cgi'
 require 'nkf'
@@ -888,7 +888,7 @@ class TDiaryDay < TDiaryView
 	end
 
 	def load( date )
-		if not @diary or @diary.date.dup.gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
+		if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
 			@date = date
 			transaction( @date, @diaries = {} ) do
 				dirty = false
