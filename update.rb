@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.11 $
+# update.rb $Revision: 1.12 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -34,12 +34,12 @@ begin
 			tdiary = TDiary::TDiaryFormPlugin::new( @cgi, 'update.rhtml', conf )
 		elsif @cgi.valid?( 'comment' )
 			tdiary = TDiary::TDiaryShowComment::new( @cgi, 'update.rhtml', conf )
+		elsif @cgi.valid?( 'saveconf' )
+			tdiary = TDiary::TDiarySaveConf::new( @cgi, 'conf.rhtml', conf )
 		elsif @cgi.valid?( 'conf' )
 			tdiary = TDiary::TDiaryConf::new( @cgi, 'conf.rhtml', conf )
 		elsif @cgi.valid?( 'referer' )
 			tdiary = TDiary::TDiaryConf::new( @cgi, 'referer.rhtml', conf )
-		elsif @cgi.valid?( 'saveconf' )
-			tdiary = TDiary::TDiarySaveConf::new( @cgi, 'conf.rhtml', conf )
 		else
 			tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
 		end

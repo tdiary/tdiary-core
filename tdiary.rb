@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.118 $
+tdiary.rb $Revision: 1.119 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030606'
+TDIARY_VERSION = '1.5.4.20030612'
 
 require 'cgi'
 require 'nkf'
@@ -387,52 +387,16 @@ module TDiary
 			end
 		end
 
-		def save( cgi )
-			@author_name = cgi.params['author_name'][0].to_euc
-			@author_mail = cgi.params['author_mail'][0]
-			@index_page = cgi.params['index_page'][0]
-	
-			@html_title = cgi.params['html_title'][0].to_euc
-			@header = cgi.params['header'][0].to_euc.gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
-			@footer = cgi.params['footer'][0].to_euc.gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
-	
-			@section_anchor = cgi.params['section_anchor'][0].to_euc
-			@comment_anchor = cgi.params['comment_anchor'][0].to_euc
-			@date_format = cgi.params['date_format'][0].to_euc
-			@latest_limit = cgi.params['latest_limit'][0].to_i
-			@latest_limit = 10 if @latest_limit < 1
-	
-			@theme = cgi.params['theme'][0]
-			@css = cgi.params['css'][0]
-	
-			@show_comment = cgi.params['show_comment'][0] == 'true' ? true : false
-			@comment_limit = cgi.params['comment_limit'][0].to_i
-			@comment_limit = 3 if @comment_limit < 1
-	
-			@show_referer = cgi.params['show_referer'][0] == 'true' ? true : false
-			@referer_limit = cgi.params['referer_limit'][0].to_i
-			@referer_limit = 10 if @referer_limit < 1
-			no_referer2 = []
-			cgi.params['no_referer'][0].to_euc.each do |ref|
-				ref.strip!
-				no_referer2 << ref if ref.length > 0
+		# saving to tdiary.conf in @data_path
+		def save
+			result = ERbLight::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
+			result.untaint unless @secure
+			Safe::safe( @secure ? 4 : 1 ) do
+				eval( result )
 			end
-			@no_referer2 = no_referer2
-			referer_table2 = []
-			cgi.params['referer_table'][0].to_euc.each do |pair|
-				u, n = pair.sub( /[\r\n]+/, '' ).split( /[ \t]+/, 2 )
-				referer_table2 << [u,n] if u and n
+			File::open( "#{@data_path}tdiary.conf", 'w' ) do |o|
+				o.print result
 			end
-			@referer_table2 = referer_table2
-	
-			@mail_on_comment = cgi.params['mail_on_comment'][0] == 'true' ? true : false
-			@mail_header = cgi.params['mail_header'][0]
-	
-			@hour_offset = cgi.params['hour_offset'][0].to_f
-
-			@show_nyear = cgi.params['show_nyear'][0] == 'true' ? true : false
-
-			save_cgi_conf
 		end
 
 		def charset( mobile = false )
@@ -461,39 +425,41 @@ module TDiary
 	
 			@data_path += '/' if /\/$/ !~ @data_path
 			@style = 'tDiary' unless @style
-			@smtp_port = 25 unless @smtp_port
-			@author_name = '' unless @author_name
 			@index = './' unless @index
 			@update = 'update.rb' unless @update
+			@hide_comment_form = false unless defined?( @hide_comment_form )
+			@lang = nil if @lang == 'ja'
+
+			@author_name = '' unless @author_name
+			@index_page = '' unless @index_page
+			@hour_offset = 0 unless @hour_offset
+
 			@html_title = '' unless @html_title
 			@header = '' unless @header
 			@footer = '' unless @footer
-			@options = {} unless @options.class == Hash
 	
-			@index_page = '' unless @index_page
-			@date_format = '%Y-%m-%d' unless @date_format
 			@section_anchor = '<span class="sanchor">_</span>' unless @section_anchor
 			@comment_anchor = '<span class="canchor">_</span>' unless @comment_anchor
+			@date_format = '%Y-%m-%d' unless @date_format
 			@latest_limit = 10 unless @latest_limit
+			@show_nyear = false unless @show_nyear
+
 			@theme = 'default' if not @theme and not @css
-			@no_referer = [] unless @no_referer
+
 			@show_comment = true unless defined?( @show_comment )
 			@comment_limit = 3 unless @comment_limit
+
 			@show_referer = true unless defined?( @show_referer )
 			@referer_limit = 10 unless @referer_limit
+			@no_referer = [] unless @no_referer
 			@no_referer2 = [] unless @no_referer2
 			@no_referer = @no_referer2 + @no_referer
 			@referer_table = [] unless @referer_table
 			@referer_table2 = [] unless @referer_table2
 			@referer_table = @referer_table2 + @referer_table
-			@mail_on_comment = false unless @mail_on_comment
-			@mail_receivers = [@author_mail] if not @mail_receivers or @mail_receivers.size == 0
-			@mail_header = '' unless @mail_header
-			@hour_offset = 0 unless @hour_offset
-			@show_nyear = false unless @show_nyear
 
-			@hide_comment_form = false unless defined?( @hide_comment_form )
-			@lang = nil if @lang == 'ja'
+			@options = {} unless @options.class == Hash
+			@options.update( @options2 ) if @options2
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
@@ -507,15 +473,13 @@ module TDiary
 			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{PATH}/"
 	
 			variables = [
-				:author_name, :author_mail,
-				:index_page, :html_title,
-				:header, :footer,
-				:section_anchor, :comment_anchor,
-				:date_format, :latest_limit, :hour_offset,
+				:author_name, :author_mail, :index_page, :hour_offset,
+				:html_title, :header, :footer,
+				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
 				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
 				:show_referer, :referer_limit, :no_referer2, :referer_table2,
-				:show_nyear,
+				:options2,
 			]
 			begin
 				cgi_conf = File::open( "#{@data_path}tdiary.conf" ){|f| f.read }
@@ -528,18 +492,6 @@ module TDiary
 				end
 				variables.each do |var| eval "@#{var} = #{var} if #{var} != nil" end
 			rescue IOError, Errno::ENOENT
-			end
-		end
-
-		# saving tdiary.conf in @data_path
-		def save_cgi_conf
-			result = ERbLight::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
-			result.untaint unless @secure
-			Safe::safe( @secure ? 4 : 1 ) do
-				eval( result )
-			end
-			File::open( "#{@data_path}tdiary.conf", 'w' ) do |o|
-				o.print result
 			end
 		end
 
@@ -574,6 +526,8 @@ module TDiary
 			@body_leave_procs = []
 			@edit_procs = []
 			@form_procs = []
+			@conf_keys = []
+			@conf_procs = {}
 			@cookies = []
 
 			params.each_key do |key|
@@ -620,6 +574,12 @@ module TDiary
 		end
 
 	private
+		def copy_options2( *keys )
+			keys.each do |key|
+				@conf.options2[key] = @conf.options[key]
+			end
+		end
+	
 		def add_header_proc( block = proc )
 			@header_procs << block
 		end
@@ -701,6 +661,29 @@ module TDiary
 				r << proc.call( date )
 			end
 			r.join
+		end
+
+		def add_conf_proc( key, label, block = proc )
+			@conf_keys << key
+			@conf_procs[key] = [label, block]
+		end
+
+		def each_conf_key
+			@conf_keys.each do |key|
+				yield key
+			end
+		end
+
+		def conf_proc( key )
+			r = ''
+			label, block = @conf_procs[key]
+			r = block.call if block
+			r
+		end
+
+		def conf_label( key )
+			label, block = @conf_procs[key]
+			label
 		end
 
 		def add_cookie( cookie )
@@ -1143,14 +1126,15 @@ module TDiary
 	class TDiaryConf < TDiaryBase
 		def initialize( cgi, rhtml, conf )
 			super
+			@key = @cgi.params['conf'][0]
 	
-			@themes = []
-			Dir::glob( "#{PATH}/theme/*" ).sort.each do |dir|
-				theme = dir.sub( %r[.*/theme/], '')
-				next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
-				name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
-				@themes << [theme,name]
-			end
+#			@themes = []
+#			Dir::glob( "#{PATH}/theme/*" ).sort.each do |dir|
+#				theme = dir.sub( %r[.*/theme/], '')
+#				next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
+#				name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
+#				@themes << [theme,name]
+#			end
 		end
 	end
 
@@ -1161,13 +1145,19 @@ module TDiary
 	class TDiarySaveConf < TDiaryConf
 		def initialize( cgi, rhtml, conf )
 			super
+		end
+
+		def eval_rhtml( prefix = '' )
+			r = super
 	
 			begin
-				@conf.save( @cgi )
+				@conf.save
 				clear_cache
 			rescue
 				@error = [$!.dup, $@.dup]
 			end
+
+			r
 		end
 	end
 
