@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.174 $
+tdiary.rb $Revision: 1.175 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1829,7 +1829,8 @@ RSSFOOT
 
 		def eval_rhtml( prefix = '' )
 			raise TDiaryTrackBackError.new(@error) if @error
-			super
+			load_plugins
+			@plugin.instance_eval { update_proc }
 			TDiaryTrackBackBase::success_response
 		end
 	end
