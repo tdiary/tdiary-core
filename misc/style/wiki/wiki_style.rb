@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.19 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.20 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -354,7 +354,12 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			@subtitle.sub(/^(\[[^\[]+?\])+\s*/,'')
+			r = @subtitle.sub(/^(\[[^\[]+?\])+\s*/,'')
+			if r == ""
+				nil
+			else
+				r
+			end
 		end
 	end
 

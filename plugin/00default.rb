@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.64 $
+# $Revision: 1.65 $
 #
 
 #
@@ -276,7 +276,7 @@ end
 # make anchor tag in my diary
 #
 def my( a, str, title = nil )
-	date, noise, frag = a.scan( /^(\d{8}|\d{6}|\d{4})([^\dcp]*)?([cpt]\d\d)?/ )[0]
+	date, noise, frag = a.scan( /^(\d{8}|\d{6}|\d{4})([^\dcpt]*)?([cpt]\d\d)?/ )[0]
 	anc = frag ? "#{date}#{frag}" : date
 	if title then
 		%Q[<a href="#{@index}#{anchor anc}" title="#{title}">#{str}</a>]

@@ -1,3 +1,7 @@
+2003.12.30 Junichiro Kita <kita@kitaj.no-ip.com>
+	* plugin/00default.rb: my can handle 'yyyymmdd#txx'.
+	* wiki_style.rb: strip_subtitle returns nil if sibtitle == ''. thanks to YAA.
+
 2003.12.26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/pstoreio.rb: fix bug: enable running 1.5.6 or later.
 
