@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.6 2002-05-18 08:34:49 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.7 2002-05-22 01:03:08 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -144,6 +144,9 @@ is expected to accept only one argument(URL).")
 
 (defvar tdiary-mode-hook nil
   "Hook run when entering tDiary mode.")
+
+(defvar tdiary-mode-initialized nil)
+(defvar tdiary-init-file "~/.tdiary")
 
 ;(defvar tdiary-plugin-dir nil
 ;  "Path to plugins.  It must be a mounted file system.")
@@ -437,12 +440,29 @@ Otherwise replace all entity references within current buffer."
   (interactive)
   (tdiary-new-or-replace t))
 
-(put 'tdiary-mode 'font-lock-defaults '(html-font-lock-keywords nil t))
-
 (defun tdiary-setup-keys ()
+  "Set up keymap for tdiary-mode.
+If you want to set up your own key bindings, use `tdiary-mode-hook'."
   (define-key tdiary-mode-map [(control return)] 'tdiary-complete-plugin)
   (define-key tdiary-mode-map "\C-c\C-c" 'tdiary-update)
   )
+
+(defun tdiary-init-file-modified-p (init-file)
+  (if tdiary-mode-initialized
+      (let ((mtime (nth 5 (file-attributes init-file))))
+	(or (> (nth 0 mtime) (nth 0 tdiary-mode-initialized))
+	    (> (nth 1 mtime) (nth 1 tdiary-mode-initialized))))
+    t))
+
+(defun tdiary-mode-init ()
+  "Initialize tdiary-mode.
+Load `tdiary-init-file' if modified."
+  (unless tdiary-mode-initialized
+    (let ((init-file (expand-file-name tdiary-init-file)))
+      (when (and (file-readable-p init-file)
+		 (tdiary-init-file-modified-p init-file))
+	(load init-file t t)
+	(setq tdiary-mode-initialized (nth 5 (file-attributes init-file)))))))
 
 (define-derived-mode tdiary-mode html-mode "tDiary"
   "Major mode for tDiary editing.
@@ -455,9 +475,12 @@ Otherwise replace all entity references within current buffer."
 	indent-tabs-mode nil)
   (setq tdiary-edit-mode "append"
 	tdiary-date (format-time-string "%Y%m%d" (tdiary-today)))
-  (set-buffer-file-coding-system 'euc-japan-dos)
+
   (tdiary-setup-keys)
 
+  (tdiary-mode-init)
+
+  (set-buffer-file-coding-system tdiary-coding-system)
   (tdiary-tempo-define (append tdiary-plugin-initial-definition
 			       tdiary-plugin-definition))
   (tempo-use-tag-list 'tdiary-tempo-tags tdiary-completion-finder)
@@ -465,7 +488,12 @@ Otherwise replace all entity references within current buffer."
   (or tdiary-passwd-cache
       (tdiary-passwd-file-load))
 
-  (run-hooks 'tdiary-mode-hook))
+  (font-lock-set-defaults)
+
+  (run-hooks 'tdiary-mode-hook)
+)
+
+(put 'tdiary-mode 'font-lock-defaults '(html-font-lock-keywords nil t))
 
 (provide 'tdiary-mode)
 ;;; tdiary-mode.el ends here
