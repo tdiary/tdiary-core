@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.38 $
+tdiary.rb $Revision: 1.39 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020520'
+TDIARY_VERSION = '1.5.0.20020522'
 
 require 'cgi'
 require 'nkf'
@@ -228,8 +228,8 @@ module DiaryBase
 	include RefererManager
 
 	def init_diary
-		init_comment
-		init_referer
+		init_comments
+		init_referers
 		@show = true
 	end
 
