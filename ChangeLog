@@ -1,5 +1,6 @@
 2003.09.27 zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: better to have default opt values set nil: hide* -> show*
+	* plugin/01sp.rb: shows help in the resouce file if there is
 
 2003.09.27 TADA Tadashi <sho@spc.gr.jp>
 	* add plugin/01sp.rb and resources of ja and en.

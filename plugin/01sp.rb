@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.2 $
+# 01sp.rb - select-plugins plugin $Revision: 1.3 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -84,11 +84,15 @@ end
 # comments
 # file is prefixed with 'o' (optional/selectable) or 'd' (default/mandatory)
 def sp_help( file )
-	help = nil
 	if sp_option( 'showhelp' ) and @sp_src[file] then
-		if /^=begin$(.*?)^=end$/m =~ @sp_src[file] then
+		if @sp_resource[file] then
+			commentsource = @sp_resource[file]
+		else
+			commentsource = @sp_src[file]
+		end
+		if /^=begin$(.*?)^=end$/m =~ commentsource then
 			help =  $1
-		elsif /((^#.*?\n)+)/ =~ @sp_src[file] then
+		elsif /((^#.*?\n)+)/ =~ commentsource then
 			help =  $1.gsub( /^#/, '' )
 		end
 		if help then
@@ -176,7 +180,7 @@ if @cgi.params['conf'][0] == SP_PREFIX then
 	# mandatory plugins
 	if sp_option( 'showmandatory' ) then
 		@sp_defs = {}	# path to the plugin
-		def_paths = Dir::glob( ( @conf.plugin_path || "#{PATH}/plugin" ) + "/*.rb" )
+		def_paths = Dir::glob( ( @conf.plugin_path || "#{PATH}/plugin" ) + '/*.rb' )
 		def_paths.each do |path|
 			@sp_defs[ File.basename( path ) ] = path
 		end
@@ -190,6 +194,7 @@ if @cgi.params['conf'][0] == SP_PREFIX then
 	# other information
 	@sp_ver = {}	# revision number of the plugin
 	@sp_src = {}	# source
+	@sp_resource = {}	# l10n resource
 	[['d', def_paths], ['o', opt_paths]].each do |prefix, paths|
 		next unless paths
 		paths.each do |path|
@@ -202,6 +207,12 @@ if @cgi.params['conf'][0] == SP_PREFIX then
 				@sp_ver[ prefix + file ] = $1
 			elsif /\$(Id.*?)\s*\$/ =~ source then
 				@sp_ver[ prefix + file ] = $1
+			end
+			# l10n resource
+			rcpath = File.dirname( path ) + '/' + @conf.lang + '/' + File.basename( path )
+			rcpath.untaint
+			if File.exist?( rcpath ) then
+				@sp_resource[ prefix + file ] = File.open( rcpath ) { |f| f.read }
 			end
 		end
 	end
