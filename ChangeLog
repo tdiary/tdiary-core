@@ -1,3 +1,7 @@
+2003.01.10 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb: making @prev_day and @next_day in calc_link. for navi_user
+	* 00default.rb: add link elements into head: start, first, prev, next and last.
+
 2003.01.09 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: add title attr into specifying stylesheet.
 	* tdiary.rb: Plugin#shorten.

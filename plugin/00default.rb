@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.25 $
+# $Revision: 1.26 $
 #
 
 #
@@ -16,72 +16,20 @@ end
 def navi_user
 	result = ''
 	result << %Q[<span class="adminmenu"><a href="#{@index_page}">#{navi_index}</a></span>\n] unless @index_page.empty?
-	if /^(day|comment)$/ === @mode
-		years = []
-		@years.each do |k, v|
-			v.each do |m|
-				years << k + m
-			end
-		end
-		this_month = @date.strftime('%Y%m')
-		years |= [this_month]
-		years.sort!
-		years.unshift(nil).push(nil)
-		prev_month, dummy, next_month = years[years.index(this_month) - 1, 3]
-
-		days = []
-		today = @date.strftime('%Y%m%d')
-		days += @diaries.keys
-		days |= [today]
-
-		days.sort!
-		days.unshift(nil).push(nil)
-		prev_day = next_day = nil
-		days.index( today ).times do |i|
-			prev_day = days[days.index( today ) - i - 1]
-			break unless prev_day
-			break if @diaries[prev_day].visible?
-		end
-		days.index( today ).times do |i|
-			next_day = days[days.index( today ) + i + 1]
-			break unless next_day
-			break if @diaries[next_day].visible?
-		end
-
-		if prev_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&laquo;#{navi_prev_diary Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n]
-		else
-			if prev_month
-				y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
-				if m == "12"
-					y, m = y.to_i + 1, 1
-				else
-					y, m = y.to_i, m.to_i + 1
-				end
-				pday = Time.local(y, m, 1) - 24*60*60
-				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%Y%m%d')}">&laquo;#{navi_prev_diary pday}</a></span>\n]
-			end
+	if @mode == 'day' then
+		if @prev_day then
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @prev_day}">&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n]
 		end
 
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
 
-		if next_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor next_day}">#{navi_next_diary Time::local(*next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;</a></span>\n]
-		else
-			if next_month
-				y, m = next_month.scan(/(\d{4})(\d\d)/)[0]
-				nday = Time.local(y, m, 1)
-				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_diary nday}&raquo;</a></span>\n]
-			end
+		if @next_day
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @next_day}">#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;</a></span>\n]
 		end
-	elsif /^nyear$/ === @mode
-		y = 2000 # specify leam year
-		m, d = @cgi['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
-		pday = Time.local(y, m, d) - 24*60*60
-		nday = Time.local(y, m, d) + 24*60*60
-		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%m%d')}">&laquo;#{navi_prev_nyear pday}</a></span>\n]
+	elsif @mode == 'nyear'
+		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @prev_day[4,4]}">&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n] if @prev_day
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
-		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%m%d')}">#{navi_next_nyear nday}&raquo;</a></span>\n]
+		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @next_day[4,4]}">#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;</a></span>\n] if @next_day
 	else
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
 	end
@@ -132,6 +80,7 @@ end
 # default HTML header
 #
 add_header_proc do
+	calc_links
 	<<-HEADER
 	<meta http-equiv="Content-Type" content="text/html; charset=#{charset}">
 	<meta name="generator" content="tDiary #{TDIARY_VERSION}">
@@ -143,13 +92,66 @@ add_header_proc do
 	HEADER
 end
 
+def calc_links
+	if @mode == 'day' then
+		years = []
+		@years.each do |k, v|
+			v.each do |m|
+				years << k + m
+			end
+		end
+		this_month = @date.strftime('%Y%m')
+		years |= [this_month]
+		years.sort!
+		years.unshift(nil).push(nil)
+		prev_month, dummy, next_month = years[years.index(this_month) - 1, 3]
+
+		days = []
+		today = @date.strftime('%Y%m%d')
+		days += @diaries.keys
+		days |= [today]
+		days.sort!
+		days.unshift(nil).push(nil)
+
+		days.index( today ).times do |i|
+			@prev_day = days[days.index( today ) - i - 1]
+			break unless @prev_day
+			break if @diaries[@prev_day].visible?
+		end
+		if not @prev_day and prev_month then
+			y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
+			if m == "12"
+				y, m = y.to_i + 1, 1
+			else
+				y, m = y.to_i, m.to_i + 1
+			end
+			@prev_day = (Time.local(y, m, 1) - 24*60*60).strftime( '%Y%m%d' )
+		end
+
+		days.index( today ).times do |i|
+			@next_day = days[days.index( today ) + i + 1]
+			break unless @next_day
+			break if @diaries[@next_day].visible?
+		end
+		if not @next_day and next_month then
+			y, m = next_month.scan(/(\d{4})(\d\d)/)[0]
+			@next_day = Time.local(y, m, 1).strftime( '%Y%m%d' )
+		end
+	elsif @mode == 'nyear'
+		y = 2000 # specify leam year
+		m, d = @cgi['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
+		@prev_day = (Time.local(y, m, d) - 24*60*60).strftime( '%Y%m%d' )
+		@next_day = (Time.local(y, m, d) + 24*60*60).strftime( '%Y%m%d' )
+	end
+end
+
 def charset
 	@conf.charset( @conf.mobile_agent? )
 end
 
 def author_name_tag
 	if @author_name then
-		%Q[<meta name="Author" content="#{@author_name}">]
+		%Q[<meta name="author" content="#{@author_name}">]
 	else
 		''
 	end
@@ -157,18 +159,39 @@ end
 
 def author_mail_tag
 	if @author_mail then
-		%Q[<link rev="MADE" href="mailto:#{@author_mail}">]
+		%Q[<link rev="made" href="mailto:#{@author_mail}">]
 	else
 		''
 	end
 end
 
 def index_page_tag
+	result = ''
 	if @index_page and @index_page.size > 0 then
-		%Q[<link rel="INDEX" href="#{@index_page}">]
-	else
-		''
+		result << %Q[<link rel="start" title="#{navi_index}" href="#{@index_page}">\n\t]
 	end
+	oldest = @years.keys.sort[0]
+	if oldest then
+		result << %Q[<link rel="first" title="#{navi_oldest}" href="#{@index}#{anchor( oldest + @years[oldest][0])}">\n\t]
+	end
+	if @prev_day then
+		case @mode
+		when 'day'
+			result << %Q[<link rel="prev" title="#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @prev_day}">\n\t]
+		when 'nyear'
+			result << %Q[<link rel="prev" title="#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @prev_day[4,4]}">\n\t]
+		end
+	end
+	if @next_day then
+		case @mode
+		when 'day'
+			result << %Q[<link rel="next" title="#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @next_day}">\n\t]
+		when 'nyear'
+			result << %Q[<link rel="next" title="#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @next_day[4,4]}">\n\t]
+		end
+	end
+	result << %Q[<link rel="last" title="#{navi_latest}" href="#{@index}">\n\t]
+	result.chop.chop
 end
 
 def theme_url; 'theme'; end
@@ -182,7 +205,7 @@ def css_tag
 	end
 	title = CGI::escapeHTML( File::basename( css, '.css' ) )
 	<<-CSS
-	<meta http-equiv="content-style-type" content="text/css">
+<meta http-equiv="content-style-type" content="text/css">
 	<link rel="stylesheet" href="#{css}" title="#{title}" type="text/css" media="all">
 	CSS
 end
@@ -310,6 +333,7 @@ def referer_today; '本日のリンク元'; end
 
 def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
+def navi_oldest; '最古'; end
 def navi_update; "更新"; end
 def navi_preference; "設定"; end
 def navi_prev_diary(date); "前の日記(#{date.strftime(@date_format)})"; end

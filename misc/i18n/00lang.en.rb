@@ -59,6 +59,7 @@ def referer_today; "Today's Link"; end
 
 def navi_index; 'Top'; end
 def navi_latest; 'Latest'; end
+def navi_oldest; 'Oldest'; end
 def navi_update; "Update"; end
 def navi_preference; "Preference"; end
 def navi_prev_diary(date); "Prev(#{date.strftime(@date_format)})"; end
