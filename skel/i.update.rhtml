@@ -1,8 +1,8 @@
-<%# i.update.rhtml $Revision: 1.12 $ %>
-<H1><%= @conf.html_title %> [<%%= submit_label %%>]</H1>
+<%# i.update.rhtml $Revision: 1.13 $ %>
+<H1><%= @conf.html_title %> [<%%= submit_label %>]</H1>
 
 <P>
-<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]<%%=mobile_navi_latest%%></A>|<A HREF="<%= @conf.update %>?conf=default" ACCESSKEY="9">[9]<%%=mobile_navi_preference%%></A>
+<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]<%%=mobile_navi_latest%></A>|<A HREF="<%= @conf.update %>?conf=default" ACCESSKEY="9">[9]<%%=mobile_navi_preference%></A>
 </P>
 
 <FORM METHOD="POST" ACTION="<%= @conf.update %>">
@@ -16,7 +16,7 @@
 <P>タイトル: <INPUT NAME="title" TABINDEX="5" ACCESSKEY="T" SIZE="40" VALUE="<%= CGI::escapeHTML( @diary.title ) %>"></P>
 <P>本文(<%= @conf.style %>スタイル):<BR>
 <TEXTAREA NAME="body" TABINDEX="6" ACCESSKEY="C"><%= CGI::escapeHTML( @diary.to_src ) %></TEXTAREA></P>
-<P><INPUT TYPE="SUBMIT" TABINDEX="7" ACCESSKEY="A" NAME="<%%= submit_command %%>" VALUE=" <%%= submit_label %%> "></P>
+<P><INPUT TYPE="SUBMIT" TABINDEX="7" ACCESSKEY="A" NAME="<%%= submit_command %>" VALUE=" <%%= submit_label %> "></P>
 <p><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">隠す</a>
 </FORM>
 
@@ -24,7 +24,7 @@
 <INPUT TYPE="HIDDEN" NAME="year" VALUE="<%= @date.year %>">
 <INPUT TYPE="HIDDEN" NAME="month" VALUE="<%= @date.month %>">
 <INPUT TYPE="HIDDEN" NAME="day" VALUE="<%= @date.day %>">
-<P><%%=comment_today%%></P><%
+<P><%%=comment_today%></P><%
 idx = 0
 @diary.each_comment( 100 ) do |comment| %>
 	<P>

@@ -1,4 +1,4 @@
-<%# day.rhtml $Revision: 1.7 $ %>
+<%# day.rhtml $Revision: 1.8 $ %>
 <%= @conf.header %>
 <hr class="sep">
 
@@ -25,7 +25,7 @@ if @diary then
 	<%= @diary.eval_rhtml( param, PATH ) %><%
 else %>
 	<p class="message">
-	<%%=no_diary%%>
+	<%%=no_diary%>
 	</p><%
 end %>
 <hr class="sep">

@@ -1,11 +1,11 @@
-<%# i.diary.rhtml $Revision: 1.8 $ %>
+<%# i.diary.rhtml $Revision: 1.9 $ %>
 <H2><%= @date.strftime( opt['date_format'] ) %> <%= title %></H2>
-<%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %%>
+<%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %>
 <%= to_html( opt, :CHTML ) %>
-<%%= body_leave_proc( Time::at( <%=@date.to_i%> ) ) %%><%
+<%%= body_leave_proc( Time::at( <%=@date.to_i%> ) ) %><%
 if opt['show_comment'] and count_comments > 0 then
 	idx = 0 %>
-	<P><%%=comment_today%%><%%=comment_total( <%=count_comments%> )%%>:<BR><%
+	<P><%%=comment_today%><%%=comment_total( <%=count_comments%> )%>:<BR><%
 	each_comment(opt['comment_limit'] ) do |comment|
 		if comment.visible? %>
 			<A NAME="c<%= '%02d' % idx += 1 %>">#</A>

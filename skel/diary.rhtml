@@ -1,50 +1,50 @@
-<%# diary.rhtml $Revision: 1.17 $ %>
+<%# diary.rhtml $Revision: 1.18 $ %>
 <div class="day">
-<h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span><%
+<h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span><%
 if opt['show_nyear'] then
-%> <span class="nyear"><%%=nyear "<%= @date.strftime('%Y%m%d') %>" %%></span><%
+%> <span class="nyear"><%%=nyear "<%= @date.strftime('%Y%m%d') %>" %></span><%
 end
 %></h2>
 
 <div class="body">
-<%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %%>
+<%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %>
 <%= to_html( opt ) %>
-<%%= body_leave_proc( Time::at( <%=@date.to_i%> ) ) %%>
+<%%= body_leave_proc( Time::at( <%=@date.to_i%> ) ) %>
 </div>
 
 <div class="comment">
 <%
 if opt['show_comment'] and count_comments > 0 then
 	if opt['long_mode'] then %>
-		<div class="caption"><%%=comment_today%%><%%=comment_total( <%=count_comments%> )%%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %%>"><%%=comment_new%%></a>]</div>
+		<div class="caption"><%%=comment_today%><%%=comment_total( <%=count_comments%> )%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div>
 		<div class="commentbody"><%
 		each_visible_comment( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>
 				<div class="commentator">
-					<a <% if opt['anchor'] then %>name="c<%= '%02d' % idx %>" <% end %>href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %%>"><%= opt['comment_anchor'] %></a>
+					<a <% if opt['anchor'] then %>name="c<%= '%02d' % idx %>" <% end %>href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %>"><%= opt['comment_anchor'] %></a>
 					<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
-					<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%></span>
+					<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
 				</div>
 				<p><%= comment.body.make_link.gsub( /\n/ , "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
 			end
 		end %>
 		</div><%
 	else %>
-		<div class="caption"><%%=comment_today%%><%%=comment_total( <%=count_comments%> )%%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %%>"><%%=comment_new%%></a>]</div>
+		<div class="caption"><%%=comment_today%><%%=comment_total( <%=count_comments%> )%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div>
 		<div class="commentshort"><%
 		if count_comments > opt['comment_limit'] then %>
-			<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c01" %%>">Before...</a></p><%
+			<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c01" %>">Before...</a></p><%
 		end
 		each_comment_tail( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>
-				<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %%>"><%= opt['comment_anchor'] %></a>
+				<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %>"><%= opt['comment_anchor'] %></a>
 				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>&nbsp;[<%= CGI::escapeHTML( comment.shorten( 120 ) ) %>]</p><%
 			end
 		end %>
 		</div><%
 	end
 elsif opt['show_comment'] %>
-	<div class="caption">[<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %%>"><%%=comment_new%%></a>]</div><%
+	<div class="caption">[<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div><%
 end %>
 </div>
 
@@ -52,20 +52,20 @@ end %>
 <%
 if not opt['hide_comment_form'] and opt['long_mode'] then %>
 	<div class="form">
-		<div class="caption"><a name="c"><%%=comment_description%%></a></div>
+		<div class="caption"><a name="c"><%%=comment_description%></a></div>
 		<form class="comment" method="post" action="<%= opt['index'] %>"><div>
 		<input type="hidden" name="date" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<div class="field name">
-			<%%=comment_name_label%%>:<input class="field" name="name" value="<%= CGI::escapeHTML( opt['cookie_name'] ) %>">
+			<%%=comment_name_label%>:<input class="field" name="name" value="<%= CGI::escapeHTML( opt['cookie_name'] ) %>">
 		</div>
 		<div class="field mail">
-			<%%=comment_mail_label%%>:<input class="field" name="mail" value="<%= CGI::escapeHTML( opt['cookie_mail'] ) %>">
+			<%%=comment_mail_label%>:<input class="field" name="mail" value="<%= CGI::escapeHTML( opt['cookie_mail'] ) %>">
 		</div>
 		<div class="textarea">
-			<%%=comment_body_label%%>:<textarea name="body" cols="60" rows="5"></textarea>
+			<%%=comment_body_label%>:<textarea name="body" cols="60" rows="5"></textarea>
 		</div>
 		<div class="button">
-			<input type="submit" name="comment" value="<%%=comment_submit_label%%>">
+			<input type="submit" name="comment" value="<%%=comment_submit_label%>">
 		</div>
 		</div></form>
 	</div><%
@@ -76,11 +76,11 @@ end %>
 if opt['show_referer'] then
 	if opt['long_mode'] then %>
 		<div class="refererlist">
-		<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%%>
+		<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%>
 		</div><%
 	else %>
 		<div class="referer">
-		<%%=referer_of_today_short( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%%>
+		<%%=referer_of_today_short( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%>
 		</div><%
 	end
 end %>

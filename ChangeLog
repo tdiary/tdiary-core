@@ -1,3 +1,6 @@
+2003.08.04 TADA Tadashi <sho@spc.gr.jp>
+	* support ruby 1.8.0 preview7.
+
 2003.07.31 Junichiro Kita <kita@kitaj.no-ip.com>
 	* index.rb: tdiary.cookies is set after tdiary.eval_rhtml, at least in case of whats_new plugin.
 

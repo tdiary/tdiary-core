@@ -1,22 +1,22 @@
-<%# conf.rhtml $Revision: 1.18 $ %>
-<%%=navi%%>
+<%# conf.rhtml $Revision: 1.19 $ %>
+<%%=navi%>
 
-<h1><%= @conf.html_title %> [<%%=navi_preference%%>]</h1>
+<h1><%= @conf.html_title %> [<%%=navi_preference%>]</h1>
 
 <div class="sidebar">
 <ul style="margin-top: 5em;">
-<%% each_conf_key do |key|%%>
-	<li><a href="<%%=@conf.update%%>?conf=<%%=key%%>"><%%=conf_label( key )%%></a></li>
-<%% end %%>
+<%% each_conf_key do |key|%>
+	<li><a href="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></a></li>
+<%% end %>
 </ul>
 </div>
 <div class="main">
 <form method="post" action="<%= @conf.update %>">
 <div class="conf day">
 	<input type="hidden" name="conf" value="<%=@key%>">
-	<h2><span class="title"><%%=conf_label( '<%=@key%>' )%%></span></h2>
+	<h2><span class="title"><%%=conf_label( '<%=@key%>' )%></span></h2>
 	<div class="body">
-	<%%=conf_proc( "#{@cgi.params['conf'][0]}" )%%>
+	<%%=conf_proc( "#{@cgi.params['conf'][0]}" )%>
 	<div><input type="submit" name="saveconf" value="OK"></div>
 	</div>
 </div>

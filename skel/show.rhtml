@@ -1,8 +1,8 @@
-<%# show.rhtml $Revision: 1.8 $ %>
-<%%=navi%%><%%update_proc%%>
+<%# show.rhtml $Revision: 1.9 $ %>
+<%%=navi%><%%update_proc%>
 
-<h1><%= @conf.html_title %> <%%=label_update_complete%%></h1>
-<% unless @diary.visible? then %><p class="message"><%%=label_hidden_diary%%></p><% end %>
+<h1><%= @conf.html_title %> <%%=label_update_complete%></h1>
+<% unless @diary.visible? then %><p class="message"><%%=label_hidden_diary%></p><% end %>
 <%
 param = {
 	'date_format' => @conf.date_format,
@@ -26,6 +26,6 @@ param = {
 <input type="hidden" name="year" value="<%= @date.year %>">
 <input type="hidden" name="month" value="<%= @date.mon %>">
 <input type="hidden" name="day" value="<%= @date.mday %>">
-<p><input type="submit" tabindex="1" accesskey="E" name="edit" value="<%%=label_reedit%%>"></p>
+<p><input type="submit" tabindex="1" accesskey="E" name="edit" value="<%%=label_reedit%>"></p>
 </form>
 <hr class="sep">

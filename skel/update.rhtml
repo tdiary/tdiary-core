@@ -1,7 +1,7 @@
-<%# update.rhtml $Revision: 1.22 $ %>
-<%%=navi%%>
+<%# update.rhtml $Revision: 1.23 $ %>
+<%%=navi%>
 
-<h1><%= @conf.html_title %> [<%%= submit_label %%>]</h1>
+<h1><%= @conf.html_title %> [<%%= submit_label %>]</h1>
 
 <div class="update day">
 <div class="form">
@@ -28,12 +28,12 @@
 		<div class="textarea">
 			本文(<%= @conf.style %>スタイル):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
 		</div>
-		<%%=edit_proc( @date )%%>
+		<%%=edit_proc( @date )%>
 		<span class="button preview">
-			<input type="submit" tabindex="998" accesskey="P" name="<%%= preview_command %%>" value="<%%= preview_label %%>">
+			<input type="submit" tabindex="998" accesskey="P" name="<%%= preview_command %>" value="<%%= preview_label %>">
 		</span>
 		<span class="button append">
-			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
+			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
 		</span>
 		<span class="checkbox hidediary">
 			この日の日記を隠す<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">
@@ -41,12 +41,12 @@
 	</div></form>
 </div>
 
-<%%=form_proc( @date )%%>
+<%%=form_proc( @date )%>
 
 <hr class="sep">
 
 <div class="comment">
-	<div class="caption"><%%=comment_today%%></div>
+	<div class="caption"><%%=comment_today%></div>
 	<form class="commentstat" method="post" action="<%= @conf.update %>"><div>
 		<input type="hidden" name="year" value="<%= @date.year %>">
 		<input type="hidden" name="month" value="<%= @date.month %>">
@@ -59,7 +59,7 @@
 					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
 				</span>
 				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
-				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%></span>
+				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
 			</div>
 			<p><%= comment.body.make_link.gsub( /\n/, "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
 		end
@@ -75,7 +75,7 @@
 <hr class="sep">
 
 <div class="refererlist">
-	<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], 100 )%%>
+	<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], 100 )%>
 </div>
 
 </div>
