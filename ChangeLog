@@ -1,3 +1,6 @@
+2004-05-19 ZnZ <zn@mbf.nifty.com>
+	* 00default.rb, mail.rtxt: against empty @author_mail or @author_name.
+
 2004-05-16 TADA Tadashi <sho@spc.gr.jp>
 	* misc/style/wiki/wiki_parser.rb: ignore any elements in plugin.
 	* tdiary.conf.sample: add self URL into @no_referer. thanks ZnZ <zn@mbf.nifty.com>.

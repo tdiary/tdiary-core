@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.68 $
+# $Revision: 1.69 $
 #
 
 #
@@ -196,7 +196,7 @@ def content_script_type
 end
 
 def author_name_tag
-	if @author_name then
+	if @author_name and not(@author_name.empty?) then
 		%Q[<meta name="author" content="#{@author_name}">]
 	else
 		''
@@ -204,7 +204,7 @@ def author_name_tag
 end
 
 def author_mail_tag
-	if @author_mail then
+	if @author_mail and not(@author_mail.empty?) then
 		%Q[<link rev="made" href="mailto:#{@author_mail}">]
 	else
 		''
@@ -361,6 +361,7 @@ def comment_mail_send
 	body = @conf.to_mail( @comment.body.sub( /[\r\n]+\Z/, '' ) )
 	mail = @comment.mail
 	mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
+	mail = receivers[0] if mail.empty?
 	
 	now = Time::now
 	g = now.dup.gmtime
