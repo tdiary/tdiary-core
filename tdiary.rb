@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.75 $
+tdiary.rb $Revision: 1.76 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -649,6 +649,16 @@ module TDiary
 
 		def add_cookie( cookie )
 			@cookies << cookie
+		end
+
+		def apply_plugin( str, remove_tag = false )
+			r = str
+			if str.index( '<%' ) then
+				r = str.untaint if $SAFE < 3
+				r = ERbLight.new( r ).result( binding )
+			end
+			r.gsub!( /<.*?>/, '' ) if remove_tag
+			r
 		end
 
 		def method_missing( *m )

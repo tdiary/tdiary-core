@@ -1,3 +1,6 @@
+2002.12.20 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, HOWTO-make-plugin.html: add Plugin#apply_plugin method.
+
 2002.12.19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: change URL of yahoo search.
 	* document update: theme gallery and theme bench to tDiary.org.
