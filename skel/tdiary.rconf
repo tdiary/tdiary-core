@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.7 $
+# tdiary configuration file via CGI $Revision: 1.8 $
 #
 
 #
@@ -55,6 +55,13 @@ referer_table2 = <%= @referer_table2.inspect %>
 #
 options2 = {
 <% @options2.keys.sort.each do |k|
-	if @options2[k].class.to_s =~ /^(String|Fixnum|FalseClass|TrueClass|NilClass|Array|Hash)$/ then %>	'<%= k %>' => <%= @options2[k].inspect %>,<%end%>
-<% end %>}
+	if @options2[k].class.to_s == "String" then
+		v = @options2[k].dump
+	elsif @options2[k].class.to_s =~ /^(Fixnum|FalseClass|TrueClass|NilClass)$/
+		v = @options2[k].inspect
+	else
+		next
+	end %>
+	'<%= k %>' => <%= v %>,<% end %>
+}
 
