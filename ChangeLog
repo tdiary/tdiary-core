@@ -1,3 +1,7 @@
+2003.06.16 TADA Tadashi <sho@spc.gr.jp>
+	* conf_proc: English support.
+	* conf_proc: mobile agent support.
+
 2003.06.15 Hideki SAKAMOTO <hs@on-sky.net>
 	* tdiary.rb: initialize @css in Config class.
 

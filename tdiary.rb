@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.122 $
+tdiary.rb $Revision: 1.123 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030615'
+TDIARY_VERSION = '1.5.4.20030616'
 
 require 'cgi'
 require 'nkf'
@@ -675,7 +675,7 @@ module TDiary
 
 		def add_conf_proc( key, label, block = proc )
 			return unless @mode =~ /^(conf|saveconf)$/
-			@conf_keys << key
+			@conf_keys << key unless @conf_keys.index( key )
 			@conf_procs[key] = [label, block]
 		end
 
@@ -1138,14 +1138,6 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 			@key = @cgi.params['conf'][0]
-	
-#			@themes = []
-#			Dir::glob( "#{PATH}/theme/*" ).sort.each do |dir|
-#				theme = dir.sub( %r[.*/theme/], '')
-#				next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
-#				name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
-#				@themes << [theme,name]
-#			end
 		end
 	end
 
