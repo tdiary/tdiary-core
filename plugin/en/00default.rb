@@ -103,6 +103,8 @@ def category_anchor(c); "[#{c}]"; end
 # basic (default)
 add_conf_proc( 'default', 'Basic' ) do
 	saveconf_default
+	@conf.icon ||= ''
+	@conf.description ||= ''
 	<<-HTML
 	<h3 class="subtitle">Author</h3>
 	#{"<p>Specify your name. This value is into HTML header.</p>" unless @conf.mobile_agent?}
@@ -113,6 +115,12 @@ add_conf_proc( 'default', 'Basic' ) do
 	<h3 class="subtitle">URL of index page</h3>
 	#{"<p>The URL of index of your website if you have.</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
+	<h3 class="subtitle">Site icon</h3>
+	#{"<p>URL for the icon of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="50"></p>
+	<h3 class="subtitle">Description</h3>
+	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="50"></p>
 	<h3 class="subtitle">Time difference adjustment</h3>
 	#{"<p>When updating diary, you can adjust date which is automatically inserted into the form. The unit is hour. For example, if you want to handle the time until 2 a.m. as the previous day, you set this to -2. tDiary inserts the date which is older by 2 hours than the actual time. </p>" unless @conf.mobile_agent?}
 	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>

@@ -103,6 +103,8 @@ def category_anchor(c); "[#{c}]"; end
 # basic (default)
 add_conf_proc( 'default', '基本設定' ) do
 	saveconf_default
+	@conf.icon ||= ''
+	@conf.description ||= ''
 	<<-HTML
 	<h3 class="subtitle">作者</h3>
 	#{"<p>填上您的大名吧！此欄位的值將會用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
@@ -113,6 +115,12 @@ add_conf_proc( 'default', '基本設定' ) do
 	<h3 class="subtitle">您索引網頁(首頁)的 URL</h3>
 	#{"<p>若您有自己的網站位址，可以填註在下面。</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
+	<h3 class="subtitle">Site icon</h3>
+	#{"<p>URL for the icon of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="50"></p>
+	<h3 class="subtitle">Description</h3>
+	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="50"></p>
 	<h3 class="subtitle">時間差的調整</h3>
 	#{"<p>若是您更新了日誌，您可以透過此欄位(單位為小時)來做自動調整時間差。例如說，您若想要指定在清晨兩點所發表的日誌被當成是昨天的日誌，您就可以在這裡填入 -2。tDiary 會參考此數值來判定這篇日誌的發表日期。 </p>" unless @conf.mobile_agent?}
 	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>

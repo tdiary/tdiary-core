@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.71 $
+# $Revision: 1.72 $
 #
 
 #
@@ -420,6 +420,8 @@ def saveconf_default
 		@conf.author_name = @conf.to_native( @cgi.params['author_name'][0] )
 		@conf.author_mail = @cgi.params['author_mail'][0]
 		@conf.index_page = @cgi.params['index_page'][0]
+		@conf.icon = @cgi.params['icon'][0]
+		@conf.description = @conf.to_native( @cgi.params['description'][0] )
 		@conf.hour_offset = @cgi.params['hour_offset'][0].to_f
 	end
 end
