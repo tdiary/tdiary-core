@@ -1,3 +1,6 @@
+2002.03.27 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, update.rb: $:.unshift orig_path.
+
 2002.03.26 TADA Tadashi <sho@spc.gr.jp>
 	* @options support in tdiary.conf and plugins.
 
