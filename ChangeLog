@@ -1,6 +1,7 @@
 2003.11.17 TADA Tadashi <sho@spc.gr.jp>
 	* dot.htaccess: move comment about YYYYMMDD.html access to html_anchor.rb plugin.
 	* tdiary/lang/ja.rb: remove decoding of charref.
+	* plugin/00default.rb: remove sub from hostname in comment_mail_send.
 
 2003.11.14 TADA Tadashi <sho@spc.gr.jp>
 	* misc/jtime.rb: removed. use plugin/jdate.rb.

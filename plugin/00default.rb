@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.61 $
+# $Revision: 1.62 $
 #
 
 #
@@ -371,7 +371,7 @@ def comment_mail_send
 	date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 
 	serial = @diaries[@date.strftime( '%Y%m%d' )].count_comments( true )
-	message_id = %Q!<tdiary.#{[@conf['comment_mail.header'] || ''].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>!
+	message_id = %Q!<tdiary.#{[@conf['comment_mail.header'] || ''].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname}>!
 
 	mail_header = (@conf['comment_mail.header'] || '').dup
 	mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
