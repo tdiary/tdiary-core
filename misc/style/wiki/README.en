@@ -4,11 +4,15 @@
 
 Like original style of WikiWikiWeb.
 
-!! »È¤¤Êý
+!! How to use
 
-Specify into tdiary.conf below:
+Copy wiki_parser.rb and wiki_style.rb into tdiary directory in you
+tdiary installed. And specify into tdiary.conf below:
 
  @style = 'Wiki'
+
+If you want to use link feature, find kw.rb from tDiary plugins and
+copy it into plugin directory of tDiary.
 
 !! How to write Wiki Style
 

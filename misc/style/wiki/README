@@ -8,9 +8,13 @@ WikiWikiのオリジナル文法に近い形式で日記が書けるスタイル。HTMLよりで
 
 !! 使い方
 
-tdiary.confに、以下の設定をする。
+wiki_parser.rbとwiki_style.rbを、インストールディレクトリにあるtdiary
+ディレクトリにコピーし、tdiary.confに以下の設定をする。
 
  @style = 'Wiki'
+
+また、リンク機能を使う場合には、プラグイン集に含まれているkw.rbをtDiary
+のpluginディレクトリにコピーしておく必要がある。
 
 !! Wikiスタイルの文法
 
