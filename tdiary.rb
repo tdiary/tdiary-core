@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.108 $
+tdiary.rb $Revision: 1.109 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030502'
+TDIARY_VERSION = '1.5.3.20030503'
 
 require 'cgi'
 require 'nkf'
@@ -1593,6 +1593,161 @@ module TDiary
 				DIRTY_NONE
 			end
 			categorize
+		end
+	end
+
+	#
+	# exception class for TrackBack
+	#
+	class TDiaryTrackBackError < StandardError
+	end
+
+	#
+	# class TDiaryTrackBackBase
+	#
+	class TDiaryTrackBackBase < TDiaryBase
+		public :mode
+		def initialize( cgi, rhtml, conf )
+			super
+			date = ENV['REQUEST_URI'].scan(%r!/(\d{4})(\d\d)(\d\d)!)[0]
+			@date = Time::local(*date)
+		end
+
+		def referer?
+			nil
+		end
+
+		def trackback_url
+			'http://' + ENV['HTTP_HOST'] +
+				(ENV['SERVER_PORT'] == '80' ? '' : ":#{ENV['SERVER_PORT']}") +
+				ENV['REQUEST_URI']
+		end
+
+		def diary_url
+			trackback_url.sub(/#{File::basename(ENV['SCRIPT_NAME'])}.*$/, '') +
+				@conf.index.sub(%r|^\./|, '') +
+				@plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
+		end
+
+		def self.success_response
+			<<HERE
+<?xml version="1.0" encoding="iso-8859-1"?>
+<response>
+<error>0</error>
+</response>
+HERE
+		end
+
+		def self.fail_response(reason)
+			<<HERE
+<?xml version="1.0" encoding="iso-8859-1"?>
+<response>
+<error>1</error>
+<message>#{reason}</message>
+</response>
+HERE
+		end
+	end
+
+	#
+	# class TDiaryTrackBackRSS
+	#  generate RSS
+	#
+	class TDiaryTrackBackRSS < TDiaryTrackBackBase
+		def initialize( cgi, rhtml, conf )
+			super
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				@diary = @diaries[@date.strftime('%Y%m%d')]
+				DIRTY_NONE
+			end
+		end
+
+		def eval_rhtml( prefix = '' )
+			raise TDiaryTrackBackError.new("invalid date: #{@date.strftime('%Y%m%d')}") unless @diary
+			@plugin = load_plugins
+			r = <<RSSHEAD
+<?xml version="1.0" encoding="EUC-JP"?>
+<response>
+<error>0</error>
+<rss version="0.91">
+<channel>
+<title>#{@diary.title}</title>
+<link>#{diary_url}</link>
+<description></description>
+<language>ja-jp</language>
+RSSHEAD
+			@diary.each_comment(100) do |com, idx|
+				begin
+					next unless com.visible_true?
+				rescue NameError, NoMethodError
+					next unless com.visible?
+				end
+				next unless /^(Track|Ping)Back$/ =~ com.name
+				url, blog_name, title, excerpt = com.body.split(/\n/, 4)
+				r << <<RSSITEM
+<item>
+<title>#{CGI::escapeHTML( title )}</title>
+<link>#{CGI::escapeHTML( url )}</link>
+<description>#{CGI::escapeHTML( excerpt )}</description>
+</item>
+RSSITEM
+			end
+			r << <<RSSFOOT
+</channel>
+</rss>
+</response>
+RSSFOOT
+		end
+	end
+
+	#
+	# class TDiaryTrackBackReceive
+	#  receive TrackBack ping and store as comment
+	#
+	class TDiaryTrackBackReceive < TDiaryTrackBackBase
+		def initialize( cgi, rhtml, conf )
+			super
+			@error = nil
+
+			url = @cgi.params['url'][0]
+			blog_name = (@cgi.params['blog_name'][0] || '').to_euc
+			title = (@cgi.params['title'][0] || '').to_euc
+			excerpt = (@cgi.params['excerpt'][0] || '').to_euc
+
+			body = [url, blog_name, title, excerpt].join("\n")
+			@comment = Comment::new('TrackBack', '', body)
+			begin
+				@io.transaction( @date ) do |diaries|
+					@diaries = diaries
+					if @diaries[@date.strftime('%Y%m%d')].add_comment(@comment)
+						DIRTY_COMMENT
+					else
+						@error = "repeated TrackBack Ping"
+						DIRTY_NONE
+					end
+				end
+			rescue
+				@error = $!.message
+			end
+		end
+
+		def eval_rhtml( prefix = '' )
+			raise TDiaryTrackBackError.new(@error) if @error
+			@plugin = load_plugins
+			TDiaryTrackBackBase::success_response
+		end
+	end
+
+	#
+	# class TDiaryTrackBackShow
+	#  show TrackBacks
+	#
+	class TDiaryTrackBackShow < TDiaryTrackBackBase
+		def eval_rhtml( prefix = '' )
+			@plugin = load_plugins
+			anchor = @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
+			raise ForceRedirect::new("../#{@conf.index}#{anchor}#t")
 		end
 	end
 end

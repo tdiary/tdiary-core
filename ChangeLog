@@ -1,3 +1,6 @@
+2003.05.03 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: import classes for TrackBack(TDiary::TDiaryTrackBack*) from tb.rb.
+
 2003.05.02 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, updatre.rb: untaint org_path. thanks mput.
 
