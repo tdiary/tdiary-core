@@ -1,3 +1,6 @@
+2003.11.21 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: Url returned by base_url ends with '/'.
+
 2003-11-21  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb: remove tail '/' of base_url.
 
