@@ -1,7 +1,7 @@
-<%# i.conf.rhtml $Revision: 1.6 $ %>
+<%# i.conf.rhtml $Revision: 1.7 $ %>
 <h1><%= @conf.html_title %> [<%%=navi_preference%>]</h1>
 <P>
-<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]<%%=mobile_navi_latest%></a>|<A HREF="<%= @conf.update %>" ACCESSKEY="0">[0]<%%=mobile_navi_update%></a>
+<%%= mobile_navi %>
 </P>
 <P>|<%% each_conf_key do |key|%><A HREF="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></A>|<%% end %></P>
 

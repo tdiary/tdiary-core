@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.52 $
+# $Revision: 1.53 $
 #
 
 #
@@ -44,6 +44,26 @@ def navi_admin
 	end
 	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=default">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
+end
+
+def mobile_navi
+	calc_links if /^(latest|month|day|nyear)$/ === @mode
+	result = []
+	i = 1
+	if @prev_day
+		result << %Q[<A HREF="#{@index}#{anchor @prev_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_prev_diary}</A>]
+		i += 1
+	end
+	if @mode != 'latest'
+		result << %Q[<A HREF="#{@index}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_latest}</A>]
+		i += 1
+	end
+	if @next_day
+		result << %Q[<A HREF="#{@index}#{anchor @next_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_next_diary}</A>]
+	end
+	result << %Q[<A HREF="#{@update}" ACCESSKEY="0">[0]#{mobile_navi_update}</A>]
+	result << %Q[<A HREF="#{@update}?conf=default" ACCESSKEY="9">[9]#{mobile_navi_preference#}</A>] unless /^(latest|month|day|conf|nyear)$/ === @mode
+	result.join('|')
 end
 
 #
@@ -99,7 +119,7 @@ add_header_proc do
 end
 
 def calc_links
-	if @mode == 'day' then
+	if @mode == 'day' or @conf.mobile_agent? then
 		years = []
 		@years.each do |k, v|
 			v.each do |m|
@@ -514,8 +534,8 @@ def nyear_diary_title(date, years); "長年日記"; end
 def mobile_navi_latest; '最新'; end
 def mobile_navi_update; "追記"; end
 def mobile_navi_preference; "設定"; end
-def mobile_navi_prev_diary; "前日"; end
-def mobile_navi_next_diary; "翌日"; end
+def mobile_navi_prev_diary; "前"; end
+def mobile_navi_next_diary; "次"; end
 def mobile_label_hidden_diary; 'この日は【非表示】です'; end
 
 #
