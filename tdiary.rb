@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.40 $
+tdiary.rb $Revision: 1.41 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020530'
+TDIARY_VERSION = '1.5.0.20020531'
 
 require 'cgi'
 require 'nkf'
@@ -573,7 +573,7 @@ class TDiaryAppend < TDiaryAdmin
 		@hide = @cgi['hide'][0] ? true : false
 
 		@io.transaction( @date, @diaries = {} ) do
-			@diary = self[@date] || Diary::new( @date, @title, '' )
+			@diary = self[@date] || @io.diary_factory( @date, @title, '' )
 			self << @diary.append( @body, @author )
 			@diary.title = @title unless @title.empty?
 			@diary.show( ! @hide )
@@ -589,7 +589,7 @@ class TDiaryEdit < TDiaryAdmin
 		#raise TDiaryError, 'cannot edit in multi user mode' if @multi_user
 
 		@io.transaction( @date, @diaries = {} ) do
-			@diary = self[@date] || Diary::new( @date, '', '' )
+			@diary = self[@date] || @io.diary_factory( @date, '', '' )
 			false
 		end
 	end
@@ -609,7 +609,7 @@ class TDiaryReplace < TDiaryAdmin
 				delete( old_date )
 				@diary = old.replace( @date, @title, @body )
 			else
-				@diary = Diary::new( @date, @title, @body )
+				@diary = @io.diary_factory( @date, @title, @body )
 			end
 			@diary.show( ! @hide )
 			self << @diary
@@ -625,7 +625,7 @@ class TDiaryForm < TDiaryAdmin
 		rescue TDiaryError
 		end
 		@date = Time::now + (@hour_offset * 3600).to_i
-		@diary = Diary::new( @date, '', '' )
+		@diary = @io.diary_factory( @date, '', '' )
 	end
 end
 

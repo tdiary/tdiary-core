@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.1 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.2 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -64,11 +64,13 @@ end
 class TDiaryConvert2 < TDiary
 	def initialize
 		super( nil, 'day.rhtml' )
-		calendar
+		require "#{PATH}/tdiary/pstoreio"
+		@io_old = TDiary::PStoreIO::new( @data_path )
+		@years = @io_old.calendar
 		@years.keys.sort.each do |year|
 			@years[year.to_s].sort.each do |month|
 				date = Time::local( year.to_i, month.to_i )
-				@io.transaction( date ) do |diaries|
+				@io_old.transaction( date ) do |diaries|
 					@diaries = diaries
 					false
 				end

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.1 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.2 $
 #
 module DefaultIO
 	class IO
@@ -49,6 +49,15 @@ module DefaultIO
 				end
 			end
 			calendar
+		end
+
+		def diary_factory( date, title, body, format = 'tDiary' )
+			case format
+			when 'tDiary'
+				TDiaryDiary::new( date, title, body )
+			else
+				raise "bad format"
+			end
 		end
 
 		private
