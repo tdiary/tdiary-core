@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.11 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.12 $
 #
 module DefaultIO
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -149,8 +149,8 @@ module DefaultIO
 		def calendar
 			calendar = {}
 			Dir["#{@tdiary.data_path}????"].sort.each do |dir|
-				next unless %r[/\d{4}] =~ dir
-				Dir["#{dir}/??????.td2"].sort.each do |file|
+				next unless %r[/\d{4}$] =~ dir
+				Dir["#{dir.untaint}/??????.td2"].sort.each do |file|
 					year, month = file.scan( %r[/(\d{4})(\d\d)\.td2$] )[0]
 					next unless year
 					calendar[year] = [] unless calendar[year]

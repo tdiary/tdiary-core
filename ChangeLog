@@ -1,3 +1,6 @@
+2002.08.22 TADA Tadashi <sho@spc.gr.jp>
+	* defaultio.rb: untaint directory name in calendar method. thanks Mizuho <gha@intrastore.cdc.com>.
+
 2002.08.16 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: create cache directory before using perser cache. thanks Mizuho <gha@intrastore.cdc.com>.
 	* paragraph_anchor -> section_anchor.
