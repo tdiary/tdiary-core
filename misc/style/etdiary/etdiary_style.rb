@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.6 2003-10-27 15:49:45 kitaj Exp $
+# $Id: etdiary_style.rb,v 1.7 2004-03-17 15:22:11 kitaj Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -251,11 +251,9 @@ module TDiary
 					buffer << fragment
 				else
 					title = TITLE_REGEXP.match(fragment+"\n").to_a[1]
-					if title then
-						@sections << section
-						section = EtdiarySection::new( title, author )
-						fragment = fragment[ title.length + 4 .. -1 ]
-					end
+					@sections << section
+					section = EtdiarySection::new( title, author )
+					fragment = fragment[ title.length + 4 .. -1 ] if title
 					if TAG_BEG_REGEXP =~ fragment then
 						tag_kind = $1.downcase
 						if TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then

@@ -1,3 +1,6 @@
+2004.03.15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* misc/style/etdiary/etdiary_style.rb: fix bug: section without subtitle.
+
 2004-03-15  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb (apply_plugin): return empty string if input string is
 	nil.
