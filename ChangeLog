@@ -1,3 +1,6 @@
+2003.06.05 TADA Tadashi <sho@spc.gr.jp>
+	* base.css: add some plugin's default settings. thanks Nana.
+
 2003.06.02 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix error in 1st preview in the new day.
 

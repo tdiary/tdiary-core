@@ -1,8 +1,5 @@
 /*
 shared style sheet for tDiary.
-
-usage:
-   @import url(../base.css);
 */
 
 /*
@@ -21,8 +18,90 @@ h2 span.nyear {
 	font-size: small;
 }
 
+/* 
+calendar2 plugin
+*/
+table.calendar {
+	font-size: 90%;
+	line-height: 1.1em;
+}
+table.calendar td {
+	margin: 0px;
+	text-align: right;
+	padding: 0px;
+}
+table.calendar td.calendar-prev-month, table.calendar td.calendar-current-month, table.calendar td.calendar-next-month {
+	text-align: center;
+}
+
 /*
-calendar3
+recent_list plugin
+*/
+p.recentitem {
+	font-size: 90%;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+div.recentsubtitles {
+	font-size: 90%;
+	margin-top: 0px;
+	margin-bottom: 1em;
+	margin-left: 1em;
+}
+
+/*
+footnote plugin
+*/
+div.body span.footnote {
+	vertical-align: super;
+	font-size: 70%;
+}
+div.footnote {
+	font-size: small;
+}
+p.footnote {
+	margin: 0.5em;
+	padding: 0em;
+}
+
+/*
+quoted source
+*/
+p.source{
+	margin-right: 1.5em;
+	text-align: right;
+	font-size:90%;
+	font-style: italic;
+}
+
+/*
+amazon plugin
+*/
+img.left {
+	float: left;
+	margin: 0.5em;
+}
+
+img.right {
+	float: right;
+	margin: 0.5em;
+}
+
+div.section, div.comment {
+	clear: both;
+}
+
+/*
+image plugin
+*/
+img.photo {
+	float: right;
+	margin: 0.5em;
+}
+
+/*
+calendar3 plugin
 */
 .calendar-popup {
 	display: none;
