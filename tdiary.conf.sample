@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.13 $
+# tDiary configuration file $Revision: 1.14 $
 #
 
 #-------
@@ -214,11 +214,11 @@ FOOTER
 #   ェクトは指定しないでください。
 @no_referer = [
 	'^http://localhost[:/]',
-	'^http://192.168.',
-	'^http://172.1[6789]',
-	'^http://172.2[0-9]',
-	'^http://172.3[01]',
-	'^http://10.',
+	'^http://192\.168\.',
+	'^http://172\.1[6789]',
+	'^http://172\.2[0-9]',
+	'^http://172\.3[01]',
+	'^http://10\.',
 	# 自分の日記のURLは追加しておくと良い
 ]
 
@@ -234,7 +234,7 @@ FOOTER
 	['^http://www\.tdiary\.net/.*', 'tDiary.Net'],
 	['^http://sho\.tdiary.net/(\d{4})(\d\d)(\d\d)\.html', 'Asumi日記(\1-\2-\3)'],
 	['^http://sho\.tdiary.net/(\d{4})(\d\d)\.html', 'Asumi日記(\1-\2)'],
-	['^http://sho\.tdiary.net/.*', 'Asumi日記'],
+	['^http://sho\.tdiary.net/', 'Asumi日記'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.net[\1](\2-\3-\4)'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.net[\1](\2-\3)'],
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.net[\1]'],
