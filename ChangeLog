@@ -1,3 +1,9 @@
+2003.08.21 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: remove debug message.
+	* tdiary.rb, 00default.rb: add Plugin@last_modified and insert it into HTML header.
+	* 00default.rb, update.rhtml*, preview.rhtml*: add style_howto plugin.
+	* index.rb, update.rb: waiting 1 second after post.
+
 2003.08.20 TADA Tadashi <sho@spc.gr.jp>
 	* skel/tdiary.rconf: cancel saving Array and Hash.
 

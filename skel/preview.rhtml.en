@@ -1,4 +1,4 @@
-<%# preview.rhtml.en $Revision: 1.7 $ %>
+<%# preview.rhtml.en $Revision: 1.8 $ %>
 <%%=navi%>
 
 <h1><%= @conf.html_title %> [<%%=preview_label%>]</h1>
@@ -53,7 +53,7 @@ param = {
 			Title: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
 		</div>
 		<div class="textarea">
-			Article(<%= @conf.style %> style):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+			Article(<%= @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.51 $
+# $Revision: 1.52 $
 #
 
 #
@@ -88,6 +88,7 @@ add_header_proc do
 	<<-HEADER
 	<meta http-equiv="Content-Type" content="text/html; charset=#{charset}">
 	<meta name="generator" content="tDiary #{TDIARY_VERSION}">
+	#{last_modified_header}
 	#{content_script_type}
 	#{author_name_tag}
 	#{author_mail_tag}
@@ -152,6 +153,14 @@ end
 
 def charset
 	@conf.charset( @conf.mobile_agent? )
+end
+
+def last_modified_header
+	if @last_modified then
+		%Q|<meta http-equiv="Last-Modified" content="#{CGI::rfc1123_date( @last_modified )}">|
+	else
+		''
+	end
 end
 
 def content_script_type
@@ -436,6 +445,21 @@ bot += @conf['bot'] || []
 
 def bot?
 	@bot =~ @cgi.user_agent
+end
+
+#
+# link to HOWTO write diary
+#
+def style_howto
+	key = case @conf.style
+		when /^tDiary$/i; 'tDiary%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^Wiki$/i; 'Wiki%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^etDiary$/i; 'etDiary%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^RD$/i; 'RD%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^emptDiary$/i; 'emptDiary%A5%B9%A5%BF%A5%A4%A5%EB'
+		else;	return ''
+		end
+	%Q|/<a href="http://tdiary-users.sourceforge.jp/cgi-bin/wiki.cgi?#{key}">½ñ¤­Êý</a>|
 end
 
 #

@@ -258,3 +258,18 @@ def comment_mail_basic_html
 	HTML
 end
 
+#
+# link to HOWTO write diary
+#
+def style_howto
+	key = case @conf.style
+		when /^tDiary$/i; 'tDiary%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^Wiki$/i; 'Wiki%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^etDiary$/i; 'etDiary%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^RD$/i; 'RD%A5%B9%A5%BF%A5%A4%A5%EB'
+		when /^emptDiary$/i; 'emptDiary%A5%B9%A5%BF%A5%A4%A5%EB'
+		else;	return ''
+		end
+	'' # not supported English page yet.
+end
+

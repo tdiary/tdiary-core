@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.138 $
+tdiary.rb $Revision: 1.139 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030820'
+TDIARY_VERSION = '1.5.5.20030821'
 
 require 'cgi'
 require 'nkf'
@@ -801,6 +801,10 @@ module TDiary
 		def clear_parser_cache( date )
 			parser_cache( date )
 		end
+
+		def last_modified
+			nil
+		end
 	
 	protected
 		def do_eval_rhtml( prefix )
@@ -849,7 +853,8 @@ module TDiary
 				'years' => @years,
 				'cache_path' => cache_path,
 				'date' => @date,
-				'comment' => @comment
+				'comment' => @comment,
+				'last_modified' => last_modified
 			)
 		end
 	
@@ -1257,7 +1262,6 @@ module TDiary
 	
 		def referer?
 			if /[\x00-\x20\x7f-\xff]/ =~ @cgi.referer then
-				$stderr.puts "reject referer: #{@cgi.referer}"
 				return false
 			elsif @cgi.referer and %r|^https?://|i =~ @cgi.referer
 				ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )

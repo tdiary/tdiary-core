@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.12 $
+# update.rb $Revision: 1.13 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -80,7 +80,7 @@ begin
 		print %Q[
 			<html>
 			<head>
-			<meta http-equiv="refresh" content="0;url=#{$!.path}">
+			<meta http-equiv="refresh" content="1;url=#{$!.path}">
 			<title>moving...</title>
 			</head>
 			<body>Wait or <a href="#{$!.path}">Click here!</a></body>
