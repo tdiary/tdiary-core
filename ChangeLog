@@ -1,4 +1,5 @@
 2002.11.18 TADA Tadashi <sho@spc.gr.jp>
+	* remove Japanese char in diary.rhtml and 00lang.en.rb.
 	* fix: setting default values in Config.
 	* release 1.5.1.
 

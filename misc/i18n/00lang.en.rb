@@ -37,7 +37,7 @@ end
 #
 # labels
 #
-def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end
+def no_diary; "No diary on #{@date.strftime( @conf.date_format )}"; end
 def comment_today; "Today's TSUKKOMI"; end
 def comment_total( total ); "(Total: #{total})"; end
 def comment_new; 'Make a TSUKKOMI'; end

@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.13 $ %>
+<%# diary.rhtml $Revision: 1.14 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -34,7 +34,7 @@ if opt['show_comment'] and count_comments > 0 then
 		each_comment_tail( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>
 				<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %%>"><%= opt['comment_anchor'] %></a>
-				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>¡Ø<%= CGI::escapeHTML( comment.body.shorten( 120 ) ) %>¡Ù</p><%
+				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>&nbsp;[<%= CGI::escapeHTML( comment.body.shorten( 120 ) ) %>]</p><%
 			end
 		end %>
 		</div><%
