@@ -1,10 +1,10 @@
 /*
-Title: tDiary2.0デフォルト
-Revision: $Revision: 1.9 $
-Author: ただただし
+Title: tDiary2 default
+Revision: $Revision: 1.10 $
+Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
-Comment: tDiary2.0デフォルト
+Comment: default theme for tDiary 1.5 or later.
 
 validated by W3C.
 */
@@ -100,6 +100,13 @@ div.day {
 */
 h2 {
 	margin: 0.1em 1em 0.1em 0.5em;
+}
+
+/*
+長年日記ラベルの設定
+*/
+h2 span.nyear {
+	font-size: small;
 }
 
 /*

@@ -75,6 +75,9 @@ def label_hidden_diary; 'This day is HIDDEN now.'; end
 def label_no_referer; "Today's Link Excluding List"; end
 def label_referer_table; "Today's Link Conversion Rule"; end
 
+def nyear_diary_label(date, years); "same days in past"; end
+def nyear_diary_title(date, years); "same days in past"; end
+
 #
 # labels (for mobile)
 #
