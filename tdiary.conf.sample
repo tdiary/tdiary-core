@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.15 $
+# tDiary configuration file $Revision: 1.16 $
 #
 
 #-------
@@ -243,9 +243,9 @@ FOOTER
 	['^http://sho\.tdiary.net/(\d{4})(\d\d)(\d\d)\.html', 'Asumi日記(\1-\2-\3)'],
 	['^http://sho\.tdiary.net/(\d{4})(\d\d)\.html', 'Asumi日記(\1-\2)'],
 	['^http://sho\.tdiary.net/', 'Asumi日記'],
-	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.net[\1](\2-\3-\4)'],
-	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.net[\1](\2-\3)'],
-	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.net[\1]'],
+	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.Net[\1](\2-\3-\4)'],
+	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.Net[\1](\2-\3)'],
+	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],
 	['^http://www.google.(com|co\.jp)/search.*?q=([^&]*).*', 'google検索(\2)'],
 	['^http://google.yahoo.(com|co\.jp)/.*?p=([^&]*).*', 'Yahoo内google検索(\2)'],
 	['^http://www.infoseek.co.jp/.*?qt=([^&]*).*', 'Infoseek検索(\1)'],
