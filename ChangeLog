@@ -1,3 +1,6 @@
+2002.03.04 TADA Tadashi <sho@spc.gr.jp>
+	* jtime.rb: add discription.
+
 2002.03.02 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: fix comment of @latest_limit.
 
