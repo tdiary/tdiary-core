@@ -17,15 +17,17 @@ TDiaryComment#sendmailメソッドを再定義することで、メール送信メソッド
 分注意してください。
 =end
 
-class TDiaryComment
-	def sendmail( text )
-		return unless @smtp_host
-		begin
-			require 'net/smtp'
-			Net::SMTP.start( @smtp_host, @smtp_port ) do |smtp|
-				smtp.ready( @author_mail, @mail_receivers ) do |adapter| adapter.write( text ) end
+module TDiary
+	class TDiaryComment
+		def sendmail( text )
+			return unless @smtp_host
+			begin
+				require 'net/smtp'
+				Net::SMTP.start( @smtp_host, @smtp_port ) do |smtp|
+					smtp.ready( @author_mail, @mail_receivers ) do |adapter| adapter.write( text ) end
+				end
+			rescue
 			end
-		rescue
 		end
 	end
 end

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.5 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.6 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -16,6 +16,9 @@ ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]
 =end
 
 =begin ChangeLog
+2002-10-08 TADA Tadashi <sho@spc.gr.jp>
+	* for tDiary 1.5.0.20021003.
+
 2002-08-16 TADA Tadashi <sho@spc.gr.jp>
 	* follow new IO classes specification.
 
@@ -71,40 +74,42 @@ rescue LoadError
 end
 
 
-class TDiaryConvert2 < TDiary
-	def initialize
-		super( nil, 'day.rhtml' )
-		require "#{PATH}/tdiary/pstoreio"
-		@io_old = TDiary::PStoreIO::new( self )
-		@years = @io_old.calendar
-		@years.keys.sort.each do |year|
-			@years[year.to_s].sort.each do |month|
-				puts "#{year}-#{month}"
-				date = Time::local( year.to_i, month.to_i )
-				@io_old.transaction( date ) do |diaries|
-					@diaries = diaries
-					false
+module TDiary
+	class TDiaryConvert2 < TDiaryBase
+		def initialize
+			super( nil, 'day.rhtml', Config::new )
+			require "#{PATH}/tdiary/pstoreio"
+			@io_old = PStoreIO::new( self )
+			@years = @io_old.calendar
+			@years.keys.sort.each do |year|
+				@years[year.to_s].sort.each do |month|
+					puts "#{year}-#{month}"
+					date = Time::local( year.to_i, month.to_i )
+					@io_old.transaction( date ) do |diaries|
+						@diaries = diaries
+						false
+					end
+	
+					require 'tdiary/defaultio'
+					DefaultIO::new( self ).transaction( date ) do |diaries|
+						diaries.update( @diaries )
+						TDiaryBase::DIRTY_DIARY | TDiaryBase::DIRTY_COMMENT | TDiaryBase::DIRTY_REFERER
+					end
+					clear_parser_cache( date )
 				end
-
-				require 'tdiary/defaultio'
-				DefaultIO::IO::new( self ).transaction( date ) do |diaries|
-					diaries.update( @diaries )
-					TDiary::DIRTY_DIARY | TDiary::DIRTY_COMMENT | TDiary::DIRTY_REFERER
-				end
-				clear_parser_cache( date )
 			end
 		end
-	end
-
-protected
-	def cookie_name
-		''
-	end
-
-	def cookie_mail
-		''
+	
+	protected
+		def cookie_name
+			''
+		end
+	
+		def cookie_mail
+			''
+		end
 	end
 end
 
-TDiaryConvert2::new
+TDiary::TDiaryConvert2::new
 

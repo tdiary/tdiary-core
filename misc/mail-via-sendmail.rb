@@ -16,14 +16,16 @@ TDiaryComment#sendmailメソッドを再定義することで、メール送信メソッド
 分注意してください。
 =end
 
-class TDiaryComment
-	def sendmail( text )
-		return unless @sendmail
-		begin
-			open( "|#{@sendmail} #{@mail_receivers.join(' ')}", 'w' ) do |o|
-				o.write( text )
+module TDiary
+	class TDiaryComment
+		def sendmail( text )
+			return unless @sendmail
+			begin
+				open( "|#{@sendmail} #{@mail_receivers.join(' ')}", 'w' ) do |o|
+					o.write( text )
+				end
+			rescue
 			end
-		rescue
 		end
 	end
 end
