@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.19 $
+# $Revision: 1.20 $
 #
 
 #
@@ -63,6 +63,14 @@ def navi_user
 				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_diary nday}&raquo;</a></span>\n]
 			end
 		end
+	elsif /^nyear$/ === @mode
+		y = 2000 # specify leam year
+		m, d = @cgi['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
+		pday = Time.local(y, m, d) - 24*60*60
+		nday = Time.local(y, m, d) + 24*60*60
+		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%m%d')}">&laquo;#{navi_prev_nyear pday}</a></span>\n]
+		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
+		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%m%d')}">#{navi_next_nyear nday}&raquo;</a></span>\n]
 	else
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
 	end

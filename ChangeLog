@@ -1,3 +1,6 @@
+2002.12.11 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb: prev and next navi when NYEAR mode.
+
 2002.12.04 Junichiro Kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: bugfix in navi_user.
 
