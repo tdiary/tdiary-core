@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.3 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.4 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -251,10 +251,6 @@ module TDiary
 		public
 		def subtitle
 			manufacture(@subtitle)
-				visitor = RD2tDiaryVisitor.new
-				tree = RDTree.new( ["=begin\n", r.strip, "=end\n"], nil, nil )
-				visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
-			end
 		end
 	end
 
