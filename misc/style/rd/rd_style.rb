@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.8 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.9 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -55,6 +55,40 @@ module RD
 				r = %Q[<h#{element.level}>#{title}</h#{element.level}>]
 			end
 			r
+		end
+
+		def apply_to_DescListItem(element, term, description)
+			%Q[<dt>#{term}</dt>] +
+			if description.empty? then
+				"\n"
+			else
+				%Q[\n<dd>\n#{description.join("\n").chomp}\n</dd>]
+			end
+		end
+
+		def apply_to_MethodList(element, items)
+			if /^(<.+>)?$/ =~ element.items[0].term.to_label
+				%Q[#{items.join("\n").chomp}\n]
+			else
+				%Q[<dl>\n#{items.join("\n").chomp}\n</dl>]
+			end
+		end
+
+		def apply_to_MethodListItem(element, term, description)
+			case term
+			when /^&lt;([^\s]+)\s*.*&gt;/
+				closetag = "</#{CGI.unescapeHTML($1)}>"
+				r = CGI.unescapeHTML(term)
+				if description.size > 0
+					r << %Q[\n#{description.join("\n")}\n]
+					r << closetag
+				end
+				r
+			when ''
+				"<hr>"
+			else
+				super
+			end
 		end
 
 		# use for tDiary plugin :-p

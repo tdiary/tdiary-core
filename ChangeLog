@@ -1,3 +1,7 @@
+2003-04-02 UECHI Yasumasa <uh@u.dhis.portside.net>
+	* rd_style.rb: fix nested <a> tag in DescList. thanx mput.
+	* rd_style.rb: MethodList use for HTML block element.
+
 2003.03.25 TADA Tadashi <sho@spc.gr.jp>
 	* wiki_style.rb: disable WikiName in WikiSection#strip_subtitle.
 
