@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.95 $
+tdiary.rb $Revision: 1.96 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030317'
+TDIARY_VERSION = '1.5.3.20030319'
 
 require 'cgi'
 require 'nkf'
@@ -736,30 +736,33 @@ module TDiary
 		end
 	
 		def eval_rhtml( prefix = '' )
-			if cache_enable?( prefix ) then
-				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read }
-			else
-				files = ["header.rhtml", @rhtml, "footer.rhtml"]
-				rhtml = files.collect {|file|
-					path = "#{PATH}/skel/#{prefix}#{file}"
-					begin
-						if @conf.lang then
-							File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
-						else
+			begin
+				# load plugin files
+				@plugin = load_plugins
+
+				# load and apply rhtmls
+				if cache_enable?( prefix ) then
+					r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read }
+				else
+					files = ["header.rhtml", @rhtml, "footer.rhtml"]
+					rhtml = files.collect {|file|
+						path = "#{PATH}/skel/#{prefix}#{file}"
+						begin
+							if @conf.lang then
+								File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
+							else
+								File::open( path ) {|f| f.read }
+							end
+						rescue
 							File::open( path ) {|f| f.read }
 						end
-					rescue
-						File::open( path ) {|f| f.read }
-					end
-				}.join
-				r = ERbLight::new( rhtml.untaint ).result( binding )
-				r = ERbLight::new( r ).src
-				store_cache( r, prefix )
-			end
+					}.join
+					r = ERbLight::new( rhtml.untaint ).result( binding )
+					r = ERbLight::new( r ).src
+					store_cache( r, prefix )
+				end
 	
-			# apply plugins
-			begin
-				@plugin = load_plugins
+				# apply plugins
 				r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
 				@cookies += @plugin.cookies
 			rescue PluginError, SyntaxError
