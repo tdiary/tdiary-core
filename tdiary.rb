@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.183 $
+tdiary.rb $Revision: 1.184 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040315'
+TDIARY_VERSION = '1.5.6.20040404'
 
 require 'cgi'
 begin
@@ -1735,8 +1735,14 @@ RSSFOOT
 			begin
 				@io.transaction( @date ) do |diaries|
 					@diaries = diaries
-					@diaries[@date.strftime('%Y%m%d')].add_comment(@comment)
-					DIRTY_COMMENT
+					@diary = @diaries[@date.strftime('%Y%m%d')]
+					if @diary and comment_filter( @diary, @comment ) then
+						@diary.add_comment(@comment)
+						DIRTY_COMMENT
+					else
+						@comment = nil
+						DIRTY_NONE
+					end
 				end
 			rescue
 				@error = $!.message

@@ -6,6 +6,9 @@ module TDiary
 	module Filter
 		class DefaultFilter < Filter
 			def comment_filter( diary, comment )
+				if /post/i !~ ENV['REQUEST_METHOD'] then
+					return false
+				end
 				if comment.name.strip.empty? or comment.body.strip.empty? then
 					return false
 				end
