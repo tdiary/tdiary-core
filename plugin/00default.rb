@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.12 $
+# $Revision: 1.13 $
 #
 
 #
@@ -104,7 +104,7 @@ add_header_proc do
 end
 
 def charset
-	@conf.charset( @cgi.mobile_agent? )
+	@conf.charset( @conf.mobile_agent? )
 end
 
 def author_name_tag

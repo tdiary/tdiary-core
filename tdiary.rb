@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.61 $
+tdiary.rb $Revision: 1.62 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20021108'
+TDIARY_VERSION = '1.5.0.20021109'
 
 require 'cgi'
 require 'nkf'
@@ -412,6 +412,10 @@ module TDiary
 					'EUC-JP'
 				end
 			end
+		end
+
+		def mobile_agent?
+			%r[(DoCoMo|J-PHONE|UP\.Browser|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ ENV['HTTP_USER_AGENT']
 		end
 
 	private
