@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.112 $
+tdiary.rb $Revision: 1.113 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030511'
+TDIARY_VERSION = '1.5.3.20030513'
 
 require 'cgi'
 require 'nkf'
@@ -1739,8 +1739,7 @@ RSSFOOT
 		end
 	private
 		def to_euc(str)
-			charset = @cgi.params['charset'][0] || ''
-			if @have_uconv and /UTF-8/i === charset
+			if @have_uconv
 				begin
 					ret = Uconv.u8toeuc(str)
 				rescue Uconv::Error
