@@ -1,22 +1,27 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# squeeze: make HTML text files from tDiary's database. $Revision: 1.2 $
+# squeeze: make HTML text files from tDiary's database. $Revision: 1.3 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 
 =begin How to usage
-ruby squeeze.rb [-p <tDiary path>] [-c <tdiary.conf path>] <dest path>
+ruby squeeze.rb [-p <tDiary path>] [-c <tdiary.conf path>] [-d] <dest path>
 
 -p <tDiary path>     : tDiaryのインストールパス。未指定時はカレントディレクトリ
                        例: -p /usr/local/tdiary
 -c <tdiary.conf path>: tdiary.confが存在するパス。未指定時はカレントディレクトリ
                        例: -c /home/hoge/public_html/diary
+-d                   : 隠された日のHTMLファイルを削除する
 <dest path>          : HTMLファイルの生成先ディレクトリ
 =end
 
 =begin ChangeLog
+2002-03-13 Junichiro Kita <kita@kitaj.no-ip.com>
+	* version 1.0.4
+	* -d option.
+	* opt['hide_comment_form'] force true.
 2002-02-27 TADA Tadashi <sho@spc.gr.jp>
 	* version 1.0.3
 	* -c option.
@@ -35,7 +40,7 @@ ruby squeeze.rb [-p <tDiary path>] [-c <tdiary.conf path>] <dest path>
 
 def usage
 	puts "squeeze: making html files from tDiary's database."
-	puts "usage: ruby squeeze.rb [-p <tDiary path>] [-c <tdiary.conf path>] <dest path>"
+	puts "usage: ruby squeeze.rb [-p <tDiary path>] [-c <tdiary.conf path>] [-d] <dest path>"
 	exit
 end
 
@@ -43,9 +48,11 @@ require 'getoptlong'
 parser = GetoptLong::new
 tdiary_path = '.'
 tdiary_conf = nil
+$opt_delete = nil
 parser.set_options(
 	['--path', '-p', GetoptLong::REQUIRED_ARGUMENT],
-	['--conf', '-c', GetoptLong::REQUIRED_ARGUMENT]
+	['--conf', '-c', GetoptLong::REQUIRED_ARGUMENT],
+	['--delete', '-d', GetoptLong::NO_ARGUMENT]
 )
 begin
 	parser.each do |opt, arg|
@@ -54,6 +61,8 @@ begin
 			tdiary_path = arg
 		when '--conf'
 			tdiary_conf = arg
+		when '--delete'
+			$opt_delete = true
 		end
 	end
 rescue
@@ -75,6 +84,14 @@ rescue LoadError
 	exit
 end
 
+class Diary
+	alias :__eval_rhtml :eval_rhtml
+	def eval_rhtml(opt, path)
+		opt['hide_comment_form'] = true
+		__eval_rhtml(opt, path)
+	end
+end
+
 class TDiarySqueeze < TDiary
 	def initialize( dest )
 		super( nil, 'day.rhtml' )
@@ -90,7 +107,12 @@ class TDiarySqueeze < TDiary
 						@diary = diary
 						@date = @diary.date
 						file = "#{dest}#{day}"
-						if not FileTest::exist?( file ) or File::mtime( file ) < @diary.last_modified then
+						if not @diary.visible?
+							if $opt_delete and FileTest::exist?( file )
+								puts "#{file} -> removed."
+								File::delete( file )
+							end
+						elsif not FileTest::exist?( file ) or File::mtime( file ) < @diary.last_modified then
 							puts file
 							File::open( file, 'w' ) do |f| f.write( eval_rhtml ) end
 						end
