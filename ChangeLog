@@ -1,3 +1,6 @@
+2003.10.21 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary/lang/ja.rb: shorten('') returns '' instead of nil.
+
 2003.10.14 Junichiro Kita <kita@kitaj.no-ip.com>
 	* misc/style/wiki/wiki_style.rb: support '[[string|inter:key]]'.
 
