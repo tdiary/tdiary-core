@@ -1,3 +1,6 @@
+2004-07-18 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb, tdiary/defaultio.rb: delete dispensable data dir and cache.
+
 2004-07-01 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary_style.rb: implement body_to_html method.
 

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.27 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.28 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -126,7 +126,7 @@ module TDiary
 				rescue
 					fh = File::open( @dfile, 'w+' )
 				end
-      		fh.flock( File::LOCK_EX )
+				fh.flock( File::LOCK_EX )
 
 				cache = @tdiary.restore_parser_cache( date, 'defaultio' )
 				unless cache then
@@ -145,7 +145,13 @@ module TDiary
 				end
 
 				fh.close
-				File::delete( @dfile ) if diaries.empty?
+				if diaries.empty?
+					File::delete( @dfile )
+					# also delete parser cache
+					@tdiary.store_parser_cache( date, nil, nil)
+				end
+				# delete dispensable data directory
+				Dir.delete( dir ) if Dir.new( dir ).entries.reject {|f| "." == f or ".." == f}.empty?
 			end
 		end
 	

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.193 $
+tdiary.rb $Revision: 1.194 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -894,7 +894,7 @@ module TDiary
 				}.join
 				r = ERbLight::new( rhtml.untaint ).result( binding )
 				r = ERbLight::new( r ).src
-				store_cache( r, prefix )
+				store_cache( r, prefix ) unless @diaries.empty?
 			end
 
 			# apply plugins
