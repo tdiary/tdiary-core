@@ -1,6 +1,9 @@
+2002.06.01 TADA Tadashi <sho@spc.gr.jp>
+	* defaultio.rb: fix IO#calendar.
+
 2002.05.31 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: remove media="all" from meta element in HTML header.
-	* implement tDary2 file format [update support].
+	* implement tDiary2 file format [update support].
 	* update.rhtml, default.css: change class of 'hide diary' checkbox 'hide' to 'hidediary'.
 
 2002.05.30 TADA Tadashi <sho@spc.gr.jp>

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.2 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.3 $
 #
 module DefaultIO
 	class IO
@@ -41,13 +41,14 @@ module DefaultIO
 			calendar = {}
 			Dir["#{@data_path}????"].sort.each do |dir|
 				next unless %r[/\d{4}] =~ dir
-				Dir["#{dir}/??????"].sort.each do |file|
-					year, month = file.scan( %r[/(\d{4})(\d\d)$] )[0]
+				Dir["#{dir}/??????.td2"].sort.each do |file|
+					year, month = file.scan( %r[/(\d{4})(\d\d)\.td2$] )[0]
 					next unless year
 					calendar[year] = [] unless calendar[year]
 					calendar[year] << month
 				end
 			end
+			$stderr.puts calendar.inspect
 			calendar
 		end
 
