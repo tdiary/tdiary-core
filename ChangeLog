@@ -1,3 +1,6 @@
+2002.10.07 TADA Tadashi <sho@spc.gr.jp>
+	* fix @mode value in TDiary::TDiaryBase#load_plugins.
+
 2002.10.03 TADA Tadashi <sho@spc.gr.jp>
 	* marge with Test_TDiary_modile branch, so...
 		* split namespace by TDiary module.

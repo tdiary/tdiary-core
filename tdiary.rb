@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.54 $
+tdiary.rb $Revision: 1.55 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20021003'
+TDIARY_VERSION = '1.5.0.20021007'
 
 require 'cgi'
 require 'nkf'
@@ -670,7 +670,7 @@ module TDiary
 			calendar
 			Plugin::new(
 				'conf' => @conf,
-				'mode' => self.type.to_s.sub( /^TDiary/, '' ).downcase,
+				'mode' => self.type.to_s.sub( /^TDiary::TDiary/, '' ).downcase,
 				'diaries' => @diaries,
 				'cgi' => @cgi,
 				'years' => @years,
