@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.10 $
+# update.rb $Revision: 1.11 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -47,28 +47,46 @@ begin
 		tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
 	end
 
-	head = body = ''
-	if @cgi.mobile_agent? then
-		body = tdiary.eval_rhtml( 'i.' ).to_sjis
-		head = @cgi.header(
-			'status' => '200 OK',
+	begin
+		head = body = ''
+		if @cgi.mobile_agent? then
+			body = tdiary.eval_rhtml( 'i.' ).to_sjis
+			head = @cgi.header(
+				'status' => '200 OK',
+				'type' => 'text/html',
+				'charset' => conf.charset( true ),
+				'Content-Length' => body.size.to_s,
+				'Vary' => 'User-Agent'
+			)
+		else
+			body = tdiary.eval_rhtml
+			head = @cgi.header(
+				'status' => '200 OK',
+				'type' => 'text/html',
+				'charset' => conf.charset,
+				'Content-Length' => body.size.to_s,
+				'Vary' => 'User-Agent'
+			)
+		end
+		print head
+		print body if /HEAD/i !~ @cgi.request_method
+	rescue TDiary::ForceRedirect
+		head = {
+			#'Location' => $!.path
 			'type' => 'text/html',
-			'charset' => conf.charset( true ),
-			'Content-Length' => body.size.to_s,
-			'Vary' => 'User-Agent'
-		)
-	else
-		body = tdiary.eval_rhtml
-		head = @cgi.header(
-			'status' => '200 OK',
-			'type' => 'text/html',
-			'charset' => conf.charset,
-			'Content-Length' => body.size.to_s,
-			'Vary' => 'User-Agent'
-		)
+		}
+		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
+		print @cgi.header( head )
+		print %Q[
+			<html>
+			<head>
+			<meta http-equiv="refresh" content="0;url=#{$!.path}">
+			<title>moving...</title>
+			</head>
+			<body>Wait or <a href="#{$!.path}">Click here!</a></body>
+			</html>]
 	end
-	print head
-	print body if /HEAD/i !~ @cgi.request_method
+	
 rescue Exception
 	puts "Content-Type: text/plain\n\n"
 	puts "#$! (#{$!.class})"

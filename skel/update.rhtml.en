@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.5 $ %>
+<%# update.rhtml $Revision: 1.6 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%= submit_label %%>]</h1>
@@ -29,11 +29,11 @@
 			Article(<%= @conf.style %> style):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
 		</div>
 		<%%=edit_proc( @date )%%>
-		<span class="button append">
-			<input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
-		</span>
 		<span class="button preview">
 			<input type="submit" tabindex="8" accesskey="P" name="<%%= preview_command %%>" value="<%%= preview_label %%>">
+		</span>
+		<span class="button append">
+			<input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
 		</span>
 		<span class="checkbox hidediary">
 			Hide this day<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="9" accesskey="H">

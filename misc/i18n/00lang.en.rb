@@ -13,9 +13,9 @@ def title_tag
 	when 'month'
 		r << "(#{@date.strftime( '%Y-%m' )})" if @date
 	when 'form'
-		r << '(Update)'
-	when 'append', 'replace'
-		r << '(Update Completed)'
+		r << '(Append)'
+	when 'edit'
+		r << '(Edit)'
 	when 'preview'
 		r << '(Preview)'
 	when 'showcomment'
@@ -62,7 +62,7 @@ def referer_today; "Today's Link"; end
 def navi_index; 'Top'; end
 def navi_latest; 'Latest'; end
 def navi_oldest; 'Oldest'; end
-def navi_update; "Update"; end
+def navi_update; "Append"; end
 def navi_edit; "Edit"; end
 def navi_preference; "Preference"; end
 def navi_prev_diary(date); "Prev(#{date.strftime(@date_format)})"; end
@@ -78,9 +78,6 @@ def submit_label
 	end
 end
 def preview_label; 'Preview'; end
-def label_update_complete; '[Update Completed]'; end
-def label_reedit; 'Edit Again'; end
-def label_hidden_diary; 'This day is HIDDEN now.'; end
 
 def label_no_referer; "Today's Link Excluding List"; end
 def label_referer_table; "Today's Link Conversion Rule"; end
@@ -98,3 +95,12 @@ def mobile_navi_preference; 'Prefs'; end
 def mobile_navi_prev_diary; 'Prev'; end
 def mobile_navi_next_diary; 'Next'; end
 def mobile_label_hidden_diary; 'This day is HIDDEN.'; end
+
+#
+# category
+#
+def category_title; "Categorized"; end
+def category_title_year(year); "#{year}"; end
+def category_title_month(year, month); "#{year}-#{month}"; end
+def category_title_quarter(year, q); "#{year}-#{q}Q"; end
+def category_title_latest; "Currnet Month"; end

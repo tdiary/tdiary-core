@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.117 $
+tdiary.rb $Revision: 1.118 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030602'
+TDIARY_VERSION = '1.5.4.20030606'
 
 require 'cgi'
 require 'nkf'
@@ -938,7 +938,7 @@ module TDiary
 
 	#
 	# class TDiaryForm
-	#  show update diary form
+	#  show diary append form
 	#
 	class TDiaryForm < TDiaryAdmin
 		def initialize( cgi, rhtml, conf )
@@ -948,30 +948,6 @@ module TDiary
 			end
 			@date = Time::now + (@conf.hour_offset * 3600).to_i
 			@diary = @io.diary_factory( @date, '', '', @conf.style )
-		end
-	end
-
-	#
-	# class TDiaryAppend
-	#  append diary
-	#
-	class TDiaryAppend < TDiaryAdmin
-		def initialize( cgi, rhtml, conf )
-			super
-	
-			@title = @cgi.params['title'][0].to_euc
-			@body = @cgi.params['body'][0].to_euc
-			@author = @conf.multi_user ? @cgi.remote_user : nil
-			@hide = @cgi.params['hide'][0] == 'true' ? true : false
-	
-			@io.transaction( @date ) do |diaries|
-				@diaries = diaries
-				@diary = self[@date] || @io.diary_factory( @date, @title, '', @conf.style )
-				self << @diary.append( @body, @author )
-				@diary.set_title( @title ) unless @title.empty?
-				@diary.show( ! @hide )
-				DIRTY_DIARY
-			end
 		end
 	end
 
@@ -992,39 +968,6 @@ module TDiary
 					@diary =  @io.diary_factory( @date, '', '', @conf.style )
 				end
 				DIRTY_NONE
-			end
-		end
-	end
-
-	#
-	# class TDiaryReplace
-	#  replace diary
-	#
-	class TDiaryReplace < TDiaryAdmin
-		def initialize( cgi, rhtm, confl )
-			super
-	
-			@title = @cgi.params['title'][0].to_euc
-			@body = @cgi.params['body'][0].to_euc
-			old_date = @cgi.params['old'][0]
-			@hide = @cgi.params['hide'][0] == 'true' ? true : false
-	
-			@io.transaction( @date ) do |diaries|
-				@diaries = diaries
-				@diary = self[@date]
-				if @diary then
-					if @date.strftime( '%Y%m%d' ) != old_date then
-						@diary.append( @body, @append )
-						@diary.set_title( @title ) if @title.length > 0
-					else
-						@diary.replace( @date, @title, @body )
-					end
-				else
-					@diary = @io.diary_factory( @date, @title, @body, @conf.style )
-				end
-				@diary.show( ! @hide )
-				self << @diary
-				DIRTY_DIARY
 			end
 		end
 	end
@@ -1062,6 +1005,75 @@ module TDiary
 				r = super
 			end
 			r
+		end
+	end
+
+	#
+	# class TDiaryUpdate
+	#  super class of diary saving classes
+	#
+	class TDiaryUpdate < TDiaryAdmin
+		def initialize( cgi, rhtml, conf )
+			super
+			@title = @cgi.params['title'][0].to_euc
+			@body = @cgi.params['body'][0].to_euc
+			@hide = @cgi.params['hide'][0] == 'true' ? true : false
+		end
+	
+	protected
+		def do_eval_rhtml( prefix )
+			super
+			anchor = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
+			raise ForceRedirect::new( "#{@conf.index}#{anchor}" )
+		end
+	end
+
+	#
+	# class TDiaryAppend
+	#  append diary
+	#
+	class TDiaryAppend < TDiaryUpdate
+		def initialize( cgi, rhtml, conf )
+			super
+			@author = @conf.multi_user ? @cgi.remote_user : nil
+	
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				@diary = self[@date] || @io.diary_factory( @date, @title, '', @conf.style )
+				self << @diary.append( @body, @author )
+				@diary.set_title( @title ) unless @title.empty?
+				@diary.show( ! @hide )
+				DIRTY_DIARY
+			end
+		end
+	end
+
+	#
+	# class TDiaryReplace
+	#  replace diary
+	#
+	class TDiaryReplace < TDiaryUpdate
+		def initialize( cgi, rhtm, confl )
+			super
+			old_date = @cgi.params['old'][0]
+	
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				@diary = self[@date]
+				if @diary then
+					if @date.strftime( '%Y%m%d' ) != old_date then
+						@diary.append( @body, @append )
+						@diary.set_title( @title ) if @title.length > 0
+					else
+						@diary.replace( @date, @title, @body )
+					end
+				else
+					@diary = @io.diary_factory( @date, @title, @body, @conf.style )
+				end
+				@diary.show( ! @hide )
+				self << @diary
+				DIRTY_DIARY
+			end
 		end
 	end
 

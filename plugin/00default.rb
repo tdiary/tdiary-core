@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.37 $
+# $Revision: 1.38 $
 #
 
 #
@@ -37,7 +37,11 @@ def navi_user
 end
 
 def navi_admin
-	result = %Q[<span class="adminmenu"><a href="#{@update}">#{navi_update}</a></span>\n]
+	if @mode == 'day' then
+		result = %Q[<span class="adminmenu"><a href="#{@update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}">#{navi_edit}</a></span>\n]
+	else
+		result = %Q[<span class="adminmenu"><a href="#{@update}">#{navi_update}</a></span>\n]
+	end
 	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
 end
@@ -223,9 +227,9 @@ def title_tag
 	when 'month'
 		r << "(#{@date.strftime( '%Y-%m' )})" if @date
 	when 'form'
-		r << '(更新)'
-	when 'append', 'replace'
-		r << '(更新完了)'
+		r << '(追記)'
+	when 'edit'
+		r << '(編集)'
 	when 'preview'
 		r << '(プレビュー)'
 	when 'showcomment'
@@ -419,7 +423,7 @@ def referer_today; '本日のリンク元'; end
 def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
 def navi_oldest; '最古'; end
-def navi_update; "更新"; end
+def navi_update; "追記"; end
 def navi_edit; "編集"; end
 def navi_preference; "設定"; end
 def navi_prev_diary(date); "前の日記(#{date.strftime(@date_format)})"; end
@@ -429,15 +433,12 @@ def navi_next_nyear(date); "次の日(#{date.strftime('%m-%d')})"; end
 
 def submit_label
 	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
-		'追加'
+		'追記'
 	else
 		'登録'
 	end
 end
 def preview_label; 'プレビュー'; end
-def label_update_complete; '[更新完了]'; end
-def label_reedit; ' 再編集 '; end
-def label_hidden_diary; 'この日の日記は現在【非表示】になっています。'; end
 
 def label_no_referer; 'リンク元記録除外リスト'; end
 def label_referer_table; 'リンク置換リスト'; end
@@ -449,7 +450,7 @@ def nyear_diary_title(date, years); "長年日記"; end
 # labels (for mobile)
 #
 def mobile_navi_latest; '最新'; end
-def mobile_navi_update; "更新"; end
+def mobile_navi_update; "追記"; end
 def mobile_navi_preference; "設定"; end
 def mobile_navi_prev_diary; "前日"; end
 def mobile_navi_next_diary; "翌日"; end

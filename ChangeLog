@@ -1,3 +1,8 @@
+2003.06.06 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, update.rb: redirection to day page after append or replace diary.
+	* update.rhtml, preview.rhtml: change update form layout.
+	* 00default.rb, 00lang.en.rb: marge edit.rb and change some labels.
+
 2003.06.05 TADA Tadashi <sho@spc.gr.jp>
 	* base.css: add some plugin's default settings. thanks Nana.
 
