@@ -146,13 +146,14 @@ def theme_url; 'theme'; end
 	<li><code>header_proc</code>: HTMLヘッダ情報の生成時に呼び出される</li>
 	<li><code>body_enter_proc</code>: 日記本文開始の直前で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>body_leave_proc</code>: 日記本文終了の直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
+	<li><code>footer_proc</code>: footer生成時に呼び出される</li>
 </ul>
 
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
 
 <pre>
 # 検索キーワードをheadに挿入する
@@ -175,7 +176,7 @@ end
 <table border="1" style="margin-left: 3em;" summary="Pluginクラスの標準メソッド一覧">
 <tr><th>メソッド名</th><th>説明</th></tr>
 <tr><th style="white-space: nowrap;">add_cookie( cookie )</th><td>Webブラウザに返すCookieを追加します。プラグインから何らかの情報をWebブラウザ側に保持しておいて欲しい時に使います。引数cookieはCGI::Cookieインスタンスです。なお、逆にCookieを受けとる時は、@cgiインスタンス変数から取得してください。</td></tr>
-<tr><th style="white-space: nowrap;">add_XXX_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body_enter、body_leaveが入る。引数procにはProcインスタンス、もしくはブロックを与える。<a href="#callback">コールバック系プラグイン</a>を参照。</td></tr>
+<tr><th style="white-space: nowrap;">add_XXX_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body_enter、body_leave、footerが入る。引数procにはProcインスタンス、もしくはブロックを与える。<a href="#callback">コールバック系プラグイン</a>を参照。</td></tr>
 </table>
 
 <h2><a name="option">プラグインへのオプションの渡し方</a></h2>

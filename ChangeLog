@@ -1,4 +1,7 @@
 2002.12.01 Junichiro Kita <kita@kitaj.no-ip.com>
+	* doc/HOWTO-make-plugin.html: add about footer_proc.
+
+2002.12.01 Junichiro Kita <kita@kitaj.no-ip.com>
 	* merge from Test_NYEAR.
 
 2002.11.26 TADA Tadashi <sho@spc.gr.jp>
