@@ -1,3 +1,6 @@
+2002.12.02 Junichiro Kita <kita@kitaj.no-ip.com>
+	* skel/diary.rhtml: let nyear into <span>.
+
 2002.12.01 Junichiro Kita <kita@kitaj.no-ip.com>
 	* doc/HOWTO-make-plugin.html: add about footer_proc.
 

@@ -1,10 +1,10 @@
-<%# diary.rhtml $Revision: 1.15 $ %>
+<%# diary.rhtml $Revision: 1.16 $ %>
 <div class="day">
-<h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %><%
+<h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span><%
 if opt['show_nyear'] then
-%><%%=nyear "<%= @date.strftime('%Y%m%d') %>" %%><%
+%> <span class="nyear"><%%=nyear "<%= @date.strftime('%Y%m%d') %>" %%></span><%
 end
-%></span></h2>
+%></h2>
 
 <div class="body">
 <%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %%>
