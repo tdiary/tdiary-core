@@ -1,3 +1,9 @@
+2002.08.13 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, defaultio.rb pstoreio.rb: change intarface of io#transaction method.
+	* diary#each_paragraph -> each_section
+	* update.rhtml, defaultio.rb pstoreio.rb: to_text -> to_src.
+	* HOWTO-make-io.html: add a document for IO class builders (cont.)
+
 2002.08.07 TADA Tadashi <sho@spc.gr.jp>
 	* update.rhtml: replace Diary#each_paragraph to Diary#to_text.
 

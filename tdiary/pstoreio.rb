@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.8 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.9 $
 #
 require 'pstore'
 
@@ -12,7 +12,8 @@ class TDiary
 		#
 		# block must be return boolean which dirty diaries.
 		#
-		def transaction( date, diaries = {} )
+		def transaction( date )
+			diaries = {}
 			filename = date.strftime( "#{@data_path}%Y%m" )
 			begin
 				PStore::new( filename ).transaction do |db|
@@ -130,15 +131,15 @@ class Diary
 		@last_modified = Time::now
 	end
 
-	def each_paragraph
+	def each_section
 		@paragraphs.each do |paragraph|
 			yield paragraph
 		end
 	end
 
-	def to_text
+	def to_src
 		text = ''
-		each_paragraph do |para|
+		each_section do |para|
 			text << para.text
 		end
 		text
@@ -156,7 +157,7 @@ class Diary
 	def to_html4( opt )
 		idx = 1
 		r = ''
-		each_paragraph do |paragraph|
+		each_section do |paragraph|
 			r << %Q[<div class="section">\n]
 			if paragraph.subtitle then
 				r << %Q[<h3><a ]
@@ -189,7 +190,7 @@ class Diary
 	def to_chtml( opt )
 		idx = 0
 		r = ''
-		each_paragraph do |paragraph|
+		each_section do |paragraph|
 			if paragraph.subtitle then
 				r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{paragraph.subtitle}</P>]
 			end

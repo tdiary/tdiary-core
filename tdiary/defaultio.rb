@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.9 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.10 $
 #
 module DefaultIO
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -110,7 +110,8 @@ module DefaultIO
 		#
 		# block must be return boolean which dirty diaries.
 		#
-		def transaction( date, diaries = {} )
+		def transaction( date )
+			diaries = {}
 			dir = date.strftime( "#{@tdiary.data_path}%Y" )
 			@dfile = date.strftime( "#{@tdiary.data_path}%Y/%Y%m.td2" )
 			cfile = comment_file( @tdiary.data_path, date )
@@ -164,7 +165,7 @@ module DefaultIO
 			when 'tDiary'
 				TDiaryDiary::new( date, title, body )
 			else
-				raise "bad format"
+				raise StandardError, "bad format"
 			end
 		end
 
@@ -173,7 +174,7 @@ module DefaultIO
 			fh.seek( 0 )
 			begin
 				major, minor = fh.gets.split( '.', 2 )
-				raise 'bad format' unless DefaultIO::TDIARY_MAGIC_MAJOR == major
+				raise StandardError, 'bad format' unless DefaultIO::TDIARY_MAGIC_MAJOR == major
 			rescue NameError
 				# no magic number when it is new file.
 			end
@@ -203,13 +204,13 @@ module DefaultIO
 				fh.puts( "Visible: #{diary.visible? ? 'true' : 'false'}" )
 				fh.puts( "Format: #{diary.format}" )
 				fh.puts
-				fh.puts( diary.to_text.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
+				fh.puts( diary.to_src.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
 				fh.puts( '.' )
 			end
 		end
 	end
 
-	class TDiaryParagraph
+	class TDiarySection
 		attr_reader :subtitle, :body
 	
 		def initialize( fragment, author = nil )
@@ -268,14 +269,14 @@ module DefaultIO
 				@date = date
 			end
 			@title = title
-			@paragraphs = []
+			@sections = []
 			append( body )
 		end
 	
 		def append( body, author = nil )
 			body.gsub( "\r", '' ).split( /\n\n+/ ).each do |fragment|
-				paragraph = TDiaryParagraph::new( fragment, author )
-				@paragraphs << paragraph if paragraph
+				section = TDiarySection::new( fragment, author )
+				@sections << section if section
 			end
 			@last_modified = Time::now
 			self
@@ -286,16 +287,16 @@ module DefaultIO
 			@last_modified = Time::now
 		end
 	
-		def each_paragraph
-			@paragraphs.each do |paragraph|
-				yield paragraph
+		def each_section
+			@sections.each do |section|
+				yield section
 			end
 		end
 	
-		def to_text
+		def to_src
 			text = ''
-			each_paragraph do |para|
-				text << para.text
+			each_section do |section|
+				text << section.text
 			end
 			text
 		end
@@ -312,29 +313,29 @@ module DefaultIO
 		def to_html4( opt )
 			idx = 1
 			r = ''
-			each_paragraph do |paragraph|
+			each_section do |section|
 				r << %Q[<div class="section">\n]
-				if paragraph.subtitle then
+				if section.subtitle then
 					r << %Q[<h3><a ]
 					if opt['anchor'] then
 						r << %Q[name="p#{'%02d' % idx}" ]
 					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['paragraph_anchor']}</a> ]
-					if opt['multi_user'] and paragraph.author then
-						r << %Q|[#{paragraph.author}]|
+					r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
+					if opt['multi_user'] and section.author then
+						r << %Q|[#{section.author}]|
 					end
-					r << %Q[#{paragraph.subtitle}</h3>]
+					r << %Q[#{section.subtitle}</h3>]
 				end
-				if /^</ =~ paragraph.body then
-					r << %Q[#{paragraph.body}]
-				elsif paragraph.subtitle
-					r << %Q[<p>#{paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
+				if /^</ =~ section.body then
+					r << %Q[#{section.body}]
+				elsif section.subtitle
+					r << %Q[<p>#{section.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
 				else
 					r << %Q[<p><a ]
 					if opt['anchor'] then
 						r << %Q[name="p#{'%02d' % idx}" ]
 					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['paragraph_anchor']}</a> #{paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
+					r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[</div>]
 				idx += 1
@@ -345,28 +346,28 @@ module DefaultIO
 		def to_chtml( opt )
 			idx = 0
 			r = ''
-			each_paragraph do |paragraph|
-				if paragraph.subtitle then
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{paragraph.subtitle}</P>]
+			each_section do |section|
+				if section.subtitle then
+					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</P>]
 				end
-				if /^</ =~ paragraph.body then
+				if /^</ =~ section.body then
 					idx += 1
-					r << paragraph.body
-				elsif paragraph.subtitle
-					r << %Q[<P>#{paragraph.body.collect{|l|l.chomp}.join( "</P>\n<P>" )}</P>]
+					r << section.body
+				elsif section.subtitle
+					r << %Q[<P>#{section.body.collect{|l|l.chomp}.join( "</P>\n<P>" )}</P>]
 				else
 					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
-					if opt['multi_user'] and paragraph.author then
-						r << %Q|[#{paragraph.author}]|
+					if opt['multi_user'] and section.author then
+						r << %Q|[#{section.author}]|
 					end
-					r << %Q[#{paragraph.body.collect{|l|l.chomp}.join( "</P>\n<P>" )}</P>]
+					r << %Q[#{section.body.collect{|l|l.chomp}.join( "</P>\n<P>" )}</P>]
 				end
 			end
 			r
 		end
 	
 		def to_s
-			"date=#{@date.strftime('%Y%m%d')}, title=#{@title}, body=[#{@paragraphs.join('][')}]"
+			"date=#{@date.strftime('%Y%m%d')}, title=#{@title}, body=[#{@sections.join('][')}]"
 		end
 	end
 end

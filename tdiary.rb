@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.46 $
+tdiary.rb $Revision: 1.47 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020806'
+TDIARY_VERSION = '1.5.0.20020813'
 
 require 'cgi'
 require 'nkf'
@@ -269,6 +269,21 @@ class TDiary
 	class TDiaryError < StandardError; end
 	class PermissionError < TDiaryError; end
 	class PluginError < TDiaryError; end
+
+	# base of IO class
+	class IOBase
+		def calendar
+			raise StandardError, 'not implemented'
+		end
+		
+		def transaction( date )
+			raise StandardError, 'not implemented'
+		end
+
+		def diary_factory( date, title, body, format = nil )
+			raise StandardError, 'not implemented'
+		end
+	end
 
 	# force redirect to another page
 	class ForceRedirect < StandardError
@@ -621,7 +636,8 @@ class TDiaryAppend < TDiaryAdmin
 		@author = @multi_user ? @cgi.remote_user : nil
 		@hide = @cgi['hide'][0] ? true : false
 
-		@io.transaction( @date, @diaries = {} ) do
+		@io.transaction( @date ) do |diaries|
+			@diaries = diaries
 			@diary = self[@date] || @io.diary_factory( @date, @title, '' )
 			self << @diary.append( @body, @author )
 			@diary.title = @title unless @title.empty?
@@ -637,7 +653,8 @@ class TDiaryEdit < TDiaryAdmin
 
 		#raise TDiaryError, 'cannot edit in multi user mode' if @multi_user
 
-		@io.transaction( @date, @diaries = {} ) do
+		@io.transaction( @date ) do |diaries|
+			@diaries = diaries
 			@diary = self[@date] || @io.diary_factory( @date, '', '' )
 			DIRTY_NONE
 		end
@@ -654,7 +671,8 @@ class TDiaryReplace < TDiaryAdmin
 		old_date, = @cgi['old']
 		@hide = @cgi['hide'][0] ? true : false
 
-		@io.transaction( @date, @diaries = {} ) do
+		@io.transaction( @date ) do |diaries|
+			@diaries = diaries
 			@diary = self[@date]
 			if @diary then
 				if @date.strftime( '%Y%m%d' ) != old_date then
@@ -688,7 +706,8 @@ class TDiaryShowComment < TDiaryAdmin
 	def initialize( cgi, rhtml )
 		super
 
-		@io.transaction( @date, @diaries = {} ) do
+		@io.transaction( @date ) do |diaries|
+			@diaries = diaries
 			dirty = DIRTY_NONE
 			@diary = self[@date]
 			if @diary then
@@ -790,7 +809,8 @@ class TDiaryView < TDiary
 		if referer?
 			ym = latest_month
 			@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
-			@io.transaction( @date, @diaries = {} ) do
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
 				dirty = DIRTY_NONE
 				@diaries.keys.sort.reverse_each do |key|
 					@diary = @diaries[key]
@@ -882,7 +902,8 @@ class TDiaryDay < TDiaryView
 	def load( date )
 		if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
 			@date = date
-			@io.transaction( @date, @diaries = {} ) do
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
 				dirty = DIRTY_NONE
 				@diary = self[@date]
 				if @diary and referer? then
@@ -922,7 +943,8 @@ class TDiaryComment < TDiaryDay
 		@mail, = @cgi['mail']
 		@body = @cgi['body'][0].to_euc
 		dirty = DIRTY_NONE
-		@io.transaction( @date, @diaries = {} ) do
+		@io.transaction( @date ) do |diaries|
+			@diaries = diaries
 			@diary = self[@date]
 			if @diary and not (@name.strip.empty? or @body.strip.empty?) then
 				if @diary.add_comment( Comment::new( @name, @mail, @body ) ) then
@@ -1003,7 +1025,8 @@ class TDiaryMonth < TDiaryView
 			d2 = date.dup.gmtime
 			if not @date or d1.year != d2.year or d1.month != d2.month then
 				@date = date
-				@io.transaction( @date, @diaries = {} ) do
+				@io.transaction( @date ) do |diaries|
+					@diaries = diaries
 					dirty = DIRTY_NONE
 					@diary = @diaries[@diaries.keys.sort.reverse[0]]
 					if referer? and @diary then
@@ -1030,7 +1053,8 @@ class TDiaryLatest < TDiaryView
 		ym = latest_month
 		unless @date then
 			@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
-			@io.transaction( @date, @diaries = {} ) do
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
 				@diary = @diaries[@diaries.keys.sort.reverse[0]]
 				DIRTY_NONE
 			end
