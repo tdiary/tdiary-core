@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.4 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.5 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 
 =begin ChangeLog
+2002-04-16 TADA Tadashi <sho@spc.gr.jp>
+	* bmp support for feelH". if found Ruby::Magick use it, else use convert.
+
 2002-04-07 TADA Tadashi <sho@spc.gr.jp>
 	* fix mojibake: -mQ -> -m0.
 
@@ -39,8 +42,8 @@ def usage
 		          If To: field of the mail likes "user-passwd@example.com",
 		          you can omit user and passwd arguments.
 		options:
-		  --image-dir, -i: directory of image saving into.
-		  --image-url, -u: URL of image.
+		  --image-path, -i: directory of image saving into.
+		  --image-url,  -u: URL of image.
 		          You have to specify both options when using images.
   TEXT
   text.gsub( "\t", '' )
@@ -49,13 +52,30 @@ end
 def image_list( date, path )
 	image_path = []
 	Dir.foreach( path ) do |file|
-		if file =~ /(.*)\_(.*)\.(.*)/ then
+		if file =~ /(\d{8,})_(\d)\.(.*)/ then
 			if $1 == date then
 				image_path[$2.to_i] = file
 			end
 		end
 	end
 	image_path
+end
+
+def bmp_to_png( bmp )
+	png = bmp.sub( /\.bmp$/, '.png' )
+	begin
+		require 'magick'
+		img = Magick::Image::new( bmp )
+		img.write( 'magick' => 'png', 'filename' => png )
+	rescue LoadError
+		system( "convert #{bmp} #{png}" )
+	end
+	if FileTest::exist?( png )
+		File::delete( bmp )
+		png
+	else
+		bmp
+	end
 end
 
 begin
@@ -111,6 +131,7 @@ begin
 
 	require 'base64'
 	require 'nkf'
+	image_name = nil
 
 	if head =~ /Content-Type:\s*Multipart\/Mixed.*boundary=\"(.*?)\"/im then
 		if not image_dir or not image_url then
@@ -126,14 +147,18 @@ begin
 
 			if sub_head =~ %r[^Content-Type:\s*text/plain]i then
 				@body = NKF::nkf( '-m0 -Xed', sub_body )
-			elsif sub_head =~ /^Content-Type:\s*image.*name=\".*(\..*?)\"/im
-				image_ext = $1
+			elsif sub_head =~ %r[^Content-Type:\s*(image/|application/octet-stream).*name=".*(\..*?)"]im
+				image_ext = $2
 				now = Time::now
 				list = image_list( now.strftime( "%Y%m%d" ), image_dir )
 				image_name = now.strftime( "%Y%m%d" ) + "_" + list.length.to_s + image_ext
 				File::umask( 022 )
 				open( image_dir + image_name, "wb" ) do |s|
 					s.print decode64( sub_body.strip )
+				end
+				if /\.bmp$/i =~ image_name then
+					bmp_to_png( image_dir + image_name )
+					image_name.sub!( /\.bmp$/, '.png' )
 				end
 				@image_name = [] unless @image_name
 				@image_name << image_name
@@ -144,7 +169,7 @@ begin
 	else
 		raise "can not read this mail"
 	end
-	
+
 	if @image_name then
 		img_src = ""
 		@image_name.each do |i|
@@ -196,6 +221,7 @@ begin
 
 rescue
 	$stderr.puts $!
+	File::delete( image_dir + image_name ) if FileTest::exist?( image_dir + image_name )
 	exit 1
 end
 
