@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.28 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.29 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -28,6 +28,7 @@ module TDiary
 		def restore_comment( file, diaries )
 			begin
 				File::open( file, 'r' ) do |fh|
+					fh.flock( File::LOCK_SH )
 					while l = fh.gets( "\n.\n" )
 						headers, body = TDiary::parse_tdiary( l )
 						next unless body
@@ -45,21 +46,22 @@ module TDiary
 		end
 
 		def store_comment( file, diaries )
-			fhc = File::open( file, 'w' )
-			fhc.puts( TDIARY_MAGIC )
-			diaries.each do |date,diary|
-				diary.each_comment( diary.count_comments( true ) ) do |com|
-					fhc.puts( "Date: #{date}" )
-					fhc.puts( "Name: #{com.name}" )
-					fhc.puts( "Mail: #{com.mail}" )
-					fhc.puts( "Last-Modified: #{com.date.to_i}" )
-					fhc.puts( "Visible: #{com.visible? ? 'true' : 'false'}" )
-					fhc.puts
-					fhc.puts( com.body.gsub( /\r/, '' ).sub( /\n+\Z/, '' ).gsub( /\n\./, "\n.." ) )
-					fhc.puts( '.' )
+			File::open( file, 'w' ) do |fhc|
+				fhc.flock( File::LOCK_EX )
+				fhc.puts( TDIARY_MAGIC )
+				diaries.each do |date,diary|
+					diary.each_comment( diary.count_comments( true ) ) do |com|
+						fhc.puts( "Date: #{date}" )
+						fhc.puts( "Name: #{com.name}" )
+						fhc.puts( "Mail: #{com.mail}" )
+						fhc.puts( "Last-Modified: #{com.date.to_i}" )
+						fhc.puts( "Visible: #{com.visible? ? 'true' : 'false'}" )
+						fhc.puts
+						fhc.puts( com.body.gsub( /\r/, '' ).sub( /\n+\Z/, '' ).gsub( /\n\./, "\n.." ) )
+						fhc.puts( '.' )
+					end
 				end
 			end
-			fhc.close
 		end
 	end
 
@@ -71,6 +73,7 @@ module TDiary
 		def restore_referer( file, diaries )
 			begin
 				File::open( file, 'r' ) do |fh|
+					fh.flock( File::LOCK_SH )
 					while l = fh.gets( "\n.\n" )
 						headers, body = TDiary::parse_tdiary( l )
 						next unless body
@@ -86,17 +89,18 @@ module TDiary
 		end
 
 		def store_referer( file, diaries )
-			fhr = File::open( file, 'w' )
-			fhr.puts( TDiary::TDIARY_MAGIC )
-			diaries.each do |date,diary|
-				fhr.puts( "Date: #{date}" )
-				fhr.puts 
-				diary.each_referer( diary.count_referers ) do |count,ref|
-					fhr.puts( "#{count} #{ref}" )
+			File::open( file, 'w' ) do |fhr|
+				fhr.flock( File::LOCK_EX )
+				fhr.puts( TDiary::TDIARY_MAGIC )
+				diaries.each do |date,diary|
+					fhr.puts( "Date: #{date}" )
+					fhr.puts 
+					diary.each_referer( diary.count_referers ) do |count,ref|
+						fhr.puts( "#{count} #{ref}" )
+					end
+					fhr.puts( '.' )
 				end
-				fhr.puts( '.' )
 			end
-			fhr.close
 		end
 	end
 
@@ -126,7 +130,6 @@ module TDiary
 				rescue
 					fh = File::open( @dfile, 'w+' )
 				end
-				fh.flock( File::LOCK_EX )
 
 				cache = @tdiary.restore_parser_cache( date, 'defaultio' )
 				unless cache then
@@ -144,7 +147,6 @@ module TDiary
 					@tdiary.store_parser_cache( date, 'defaultio', diaries )
 				end
 
-				fh.close
 				if diaries.empty?
 					File::delete( @dfile )
 					# also delete parser cache
@@ -152,6 +154,8 @@ module TDiary
 				end
 				# delete dispensable data directory
 				Dir.delete( dir ) if Dir.new( dir ).entries.reject {|f| "." == f or ".." == f}.empty?
+			ensure
+				fh.close
 			end
 		end
 	
@@ -175,46 +179,56 @@ module TDiary
 
 	private
 		def restore( fh, diaries )
-			fh.seek( 0 )
+			fh.flock( File::LOCK_SH )
 			begin
-				major, minor = fh.gets.split( /\./, 2 )
-				unless TDIARY_MAGIC_MAJOR == major then
-					raise StandardError, 'bad file format.'
-				end
-			rescue NameError
-				# no magic number when it is new file.
-			end
-
-			# read and parse diary
-			while l = fh.gets( "\n.\n" )
+				fh.seek( 0 )
 				begin
-					headers, body = TDiary::parse_tdiary( l )
-					style = headers['Format'] || 'tDiary'
-					diary = eval( "#{style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
-					diary.show( headers['Visible'] == 'true' ? true : false )
-					diaries[headers['Date']] = diary
+					major, minor = fh.gets.split( /\./, 2 )
+					unless TDIARY_MAGIC_MAJOR == major then
+						raise StandardError, 'bad file format.'
+					end
 				rescue NameError
-				rescue
-					raise
+					# no magic number when it is new file.
 				end
+
+				# read and parse diary
+				while l = fh.gets( "\n.\n" )
+					begin
+						headers, body = TDiary::parse_tdiary( l )
+						style = headers['Format'] || 'tDiary'
+						diary = eval( "#{style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
+						diary.show( headers['Visible'] == 'true' ? true : false )
+						diaries[headers['Date']] = diary
+					rescue NameError
+					rescue
+						raise
+					end
+				end
+			ensure
+				fh.flock( File::LOCK_UN )
 			end
 		end
 
 		def store( fh, diaries )
-			fh.seek( 0 )
-			fh.puts( TDIARY_MAGIC )
-			diaries.each do |date,diary|
-				# save diaries
-				fh.puts( "Date: #{date}" )
-				fh.puts( "Title: #{diary.title}" )
-				fh.puts( "Last-Modified: #{diary.last_modified.to_i}" )
-				fh.puts( "Visible: #{diary.visible? ? 'true' : 'false'}" )
-				fh.puts( "Format: #{diary.style}" )
-				fh.puts
-				fh.puts( diary.to_src.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
-				fh.puts( '.' )
+			fh.flock( File::LOCK_EX )
+			begin
+				fh.seek( 0 )
+				fh.puts( TDIARY_MAGIC )
+				diaries.each do |date,diary|
+					# save diaries
+					fh.puts( "Date: #{date}" )
+					fh.puts( "Title: #{diary.title}" )
+					fh.puts( "Last-Modified: #{diary.last_modified.to_i}" )
+					fh.puts( "Visible: #{diary.visible? ? 'true' : 'false'}" )
+					fh.puts( "Format: #{diary.style}" )
+					fh.puts
+					fh.puts( diary.to_src.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
+					fh.puts( '.' )
+				end
+				fh.truncate( fh.tell )
+			ensure
+				fh.flock( File::LOCK_UN )
 			end
-			fh.truncate( fh.tell )
 		end
 	end
 end

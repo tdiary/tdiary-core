@@ -1,3 +1,7 @@
+2005-01-12  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/defaultio.rb: separate each transaction and use exclusive
+	lock in writing transaction only.
+
 2004-12-22 zunda <zunda at freeshell.org>
 	* misc/style/emptdiary/emptdiary_style.rb: body_to_html defined, thanks to dai <d+r at vdr.jp>.
 
