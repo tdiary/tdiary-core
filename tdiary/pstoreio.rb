@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.18 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.19 $
 #
 require 'pstore'
 
@@ -126,6 +126,7 @@ Management a day of diary
 =end
 class Diary
 	include TDiary::DiaryBase
+	include TDiary::UncategorizableDiary
 
 	def initialize( date, title, body )
 		init_diary

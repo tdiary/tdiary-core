@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.87 $
+tdiary.rb $Revision: 1.88 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.2.20030122'
+TDIARY_VERSION = '1.5.2.20030212'
 
 require 'cgi'
 require 'nkf'
@@ -326,6 +326,27 @@ module TDiary
 
 		def diary_factory( date, title, body, style = nil )
 			raise StandardError, 'not implemented'
+		end
+
+		def styled_diary_factory( date, title, body, style = 'tDiary' )
+			begin
+				eval( "#{style( style.downcase )}::new( date, title, body )" )
+			rescue
+				raise StandardError, "bad style"
+			end
+		end
+
+		def load_styles
+			@styles = {}
+			Dir::glob( "#{TDiary::PATH}/tdiary/*_style.rb" ) do |style_file|
+				require style_file.untaint
+				style = File::basename( style_file ).sub( /_style\.rb$/, '' )
+				eval( "@styles[style] = TDiary::#{style.capitalize}Diary" )
+			end
+		end
+
+		def style( s )
+			@styles ? @styles[s.downcase] : nil
 		end
 	end
 
@@ -670,6 +691,20 @@ module TDiary
 			super if @debug
 			# ignore when no plugin
 		end
+	end
+
+	#
+	# module CategorizableDiary
+	#
+	module CategorizableDiary
+		def categorizable?; true; end
+	end
+
+	#
+	# module UncategorizableDiary
+	#
+	module UncategorizableDiary
+		def categorizable?; false; end
 	end
 
 	#
@@ -1380,5 +1415,122 @@ module TDiary
 			"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
 		end
 	end
-end
 
+	#
+	# class TDiaryCategoryView
+	#  base of category view mode classes
+	#
+	class TDiaryCategoryView < TDiaryBase
+		attr_reader :last_modified
+		def initialize(cgi, rhtml, conf)
+			super
+			@specified = @cgi['category']
+			@specified.delete("ALL")
+			@categorized = {}
+			@last_modified = Time.at(0)
+			@year, @months, @quarter = parse_cgi_param
+		end
+
+		def each_day
+			@diaries.keys.sort.each do |date|
+				diary = @diaries[date]
+				next unless diary.visible?
+				yield diary
+			end
+		end
+
+		def categorize
+			each_day do |d|
+				next unless d.categorizable?
+				idx = 1
+				d.each_section do |s|
+					s.categories.each do |c|
+						if @specified.size == 0 or @specified.include?(c)
+							@categorized[c] ||= []
+							@categorized[c] << [d.date, idx, s]
+							if @last_modified < d.last_modified
+								@last_modified = d.last_modified
+							end
+						end
+					end
+					idx += 1
+				end
+			end
+		end
+
+		def parse_cgi_param
+			if @cgi.valid?('year')
+				year = @cgi['year'][0].to_i
+			end
+			if @cgi.valid?('month')
+				case @cgi['month'][0]
+				when /(\d)Q/
+					q = $1.to_i
+					months = (((q - 1) * 3 + 1)..((q - 1) * 3 + 3)).to_a
+				when /\d{1,2}/
+					month = @cgi['month'][0].to_i
+					if (1..12).include?(month)
+						months = [month]
+					end
+				end
+			end
+			year ||= Time.now.year
+			months ||= [Time.now.month]
+			[year, months, q]
+		end
+	end
+
+	#
+	# class TDiaryCategoryMonth
+	#  show category by month
+	#
+	class TDiaryCategoryMonth < TDiaryCategoryView
+		def initialize(cgi, rhtml, conf)
+			super
+			@months.each do |m|
+				@date = Time::local(@year, m, 1)
+				@io.transaction(@date) do |diaries|
+					@diaries = diaries
+					DIRTY_NONE
+				end
+				categorize
+			end
+		end
+	end
+
+	#
+	# class TDiaryCategoryYear
+	#  show category by year
+	#
+	class TDiaryCategoryYear < TDiaryCategoryView
+		def initialize(cgi, rhtml, conf)
+			super
+			calendar
+			@date = Time::local(@year, 1, 1)
+			@years[@year.to_s].each do |m|
+				@date = Time::local(@year, m, 1)
+				@io.transaction(@date) do |diaries|
+					@diaries = diaries
+					DIRTY_NONE
+				end
+				categorize
+			end
+		end
+	end
+
+	#
+	# class TDiaryCategoryLatest
+	#  show category in latest month
+	#
+	class TDiaryCategoryLatest < TDiaryCategoryView
+		def initialize(cgi, rhtml, conf)
+			super
+			@date = Time.now
+			@io.transaction(@date) do |diaries|
+				@diaries = diaries
+				DIRTY_NONE
+			end
+			categorize
+		end
+	end
+end

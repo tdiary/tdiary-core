@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.23 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.24 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -100,28 +100,14 @@ module TDiary
 		end
 	end
 
-	class DefaultIO
+	class DefaultIO < IOBase
 		include CommentIO
 		include RefererIO
-
-		@@styles = {}
-
-		def DefaultIO::style( style )
-			@@styles[style]
-		end
-
-		def DefaultIO::add_style( style, style_class )
-			@@styles[style] = style_class
-		end
 
 		def initialize( tdiary )
 			@tdiary = tdiary
 			@data_path = @tdiary.conf.data_path
-
-			# require all styles
-			Dir::glob( "#{TDiary::PATH}/tdiary/*_style.rb" ) do |style|
-				require style.untaint
-			end
+			load_styles
 		end
 	
 		#
@@ -178,11 +164,7 @@ module TDiary
 		end
 
 		def diary_factory( date, title, body, style = 'tDiary' )
-			begin
-				eval( "#{DefaultIO::style( style )}::new( date, title, body )" )
-			rescue
-				raise StandardError, "bad style"
-			end
+			styled_diary_factory( date, title, body, style )
 		end
 
 	private
@@ -190,7 +172,9 @@ module TDiary
 			fh.seek( 0 )
 			begin
 				major, minor = fh.gets.split( '.', 2 )
-				raise StandardError, 'bad style' unless TDiary::TDIARY_MAGIC_MAJOR == major
+				unless TDiary::TDIARY_MAGIC_MAJOR == major then
+					raise StandardError, 'bad file format.'
+				end
 			rescue NameError
 				# no magic number when it is new file.
 			end
@@ -200,7 +184,7 @@ module TDiary
 				begin
 					headers, body = TDiary::parse_tdiary( l )
 					style = headers['Format'] || 'tDiary'
-					diary = eval( "#{DefaultIO::style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
+					diary = eval( "#{style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
 					diary.show( headers['Visible'] == 'true' ? true : false )
 					diaries[headers['Date']] = diary
 				rescue NameError

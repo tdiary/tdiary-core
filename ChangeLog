@@ -1,3 +1,28 @@
+2003.02.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* merge from Test_Category.
+
+2003.02.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary/pstoreio.rb: class Diary include UncategorizableDiary.
+
+2003.02.11 Junichiro Kita <kita@kitaj.no-ip.com>
+	* wiki_style.rb, tdiary_style.rb: stripped_subtitle returns nil if @subtitle or stripped subtitle is nil.
+
+2003.02.11 Junichiro Kita <kita@kitaj.no-ip.com>
+	* plugin/category.rb, skel/category.rhtml: separate cgi parameters with ';'.
+
+2003.02.10 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: valid HTML. thanks Yoshimi KURUMA <yoshimik@iris.dti.ne.jp>
+
+2003.02.08 Junichiro Kita <kita@kitaj.no-ip.com>
+	* move CategorizableDiary/UncategorizableDiary into tdiary.rb.
+	* HOWTO-make-io.rd: add about category.
+
+2003.02.08 TADA Tadashi <sho@spc.gr.jp>
+	* change IO <-> style interface: IOBase#load_styles.
+
+2003.02.06 TADA Tadashi <sho@spc.gr.jp>
+	* support WikiWord and table in Wiki parser.
+
 2003.01.22 TADA Tadashi <sho@spc.gr.jp>
 	* fix the term of style.
 

@@ -82,7 +82,7 @@ transactionメソッドはdateで指定された月の日記データをファイル(または
     end
  end
 
-==== diary_factory( date, title, body, style = nil )
+==== diary_factory( date, title, body, style = 'tDiary' )
 diary_factoryは、指定されたフォーマットの日記オブジェクトを生成して
 返します。
 
@@ -94,13 +94,20 @@ diary_factoryは、指定されたフォーマットの日記オブジェクトを生成して
 
 以下にdiary_factoryの例を示します。
 
- def diary_factory( date, title, body, style = nil )
+ def diary_factory( date, title, body, style = 'tDiary' )
     case style
     when 'tDiary'
        DefaultDiary::new( date, title, body )
     default
        raise StandardError, 'bad style'
     end
+ end
+
+もし、スタイルに対応したIOクラスを作るなら、initializeでload_styleを
+呼んだ上で、以下のようにstyled_diary_factoryを呼ぶだけで良いです。
+
+ def diary_factory( date, title, body, style = 'tDiary' )
+ 	styled_diary_factory( date, title, body, style )
  end
 
 == 日記データ
@@ -128,9 +135,34 @@ TDiary::DefaultDiary を参照してください。
 的なデータを持ったり、
 セクションがいくつかのサブセクションに分かれたりしても良いです。
 
+== カテゴリ機能について
+カテゴリ機能とは、日記中のセクションにキーワードを付けて、
+あとで同じキーワードをまとめて一覧できる機能のことです。
+
+セクションのカテゴリは、サブタイトル中で指定します。
+tDiaryスタイルでは
+
+  [カテゴリ] サブタイトル
+
+のようにカテゴリを指定することにしていますが、
+IOクラス/スタイル作者が各IOクラス/スタイルに適した
+カテゴリ指定の文法を定義して下さい。
+
+カテゴリ機能の実装は必須ではありません。
+日記データをカテゴリ機能に対応させるかどうかはIOクラスの作者が判断して下さい。
+
 == 日記データのクラス
 日記データからはその日付、タイトル、最終更新日、日記本文、
 コメント、Referer、セクションなどを参照できる必要があります。
+
+もし、この日記データをスタイルとして設計するのであれば、IOクラスとは
+分離して、別のファイルにする必要があります。この場合、スタイル名と
+ファイル名、日記データクラス名には強い依存性があります。「Hoge」という
+スタイルを作る場合、以下のように作る必要があります。
+
+* スタイル名: Hoge
+* ファイル名: hoge_style.rb
+* クラス名　: TDiary::HogeDiary (スタイル名.capitalize + 'Diary')
 
 === DiaryBaseモジュール
 tdiary.rbにはDiaryBaseというモジュールが定義されており、
@@ -140,6 +172,20 @@ tdiary.rbにはDiaryBaseというモジュールが定義されており、
 
    class HogeDiary
      include DiaryBase
+
+     .....
+   end
+
+=== CategorizableDiary/UncategorizableDiaryモジュール
+tdiary.rbにはCategorizableDiaryとUncategorizableDiaryというモジュールが定義されています。
+日記データのクラスは、カテゴリ機能に対応している場合はCategorizableDiaryモジュールを、
+カテゴリ機能に対応していない場合はUncategorizableDiaryモジュールを
+includeしなければなりません。
+
+下記の例はHogeDiaryにCategoriabeleDiaryをincludeしています。
+
+   class HogeDiary
+     include CategorizableDiary
 
      .....
    end
@@ -163,16 +209,6 @@ DiaryBaseモジュールには日記データのクラスに必要な幾つかのメソッドが
 キャッシュの更新がうまくいきません。
 
 * @last_modified
-
-もし保存形式をDefaultIOにする場合、この記述形式をDefaultIOに登録しておく必要が
-あります。このクラスの定義中に、以下のようにDefaultIOのクラスメソッドを呼び出す
-ようにして下さい。第一引数は記述形式名(文字列)、第二引数は日記データを表すクラス
-です。
-
- class DefaultDiary
-    include DiaryBase
-    TDiary::DefaultIO::add_style( 'tDiary', self )
-    (以下略)
 
 ==== initialize
 日記データを初期化します。引数はIOクラスによって違うものになります。
@@ -244,13 +280,16 @@ each_section は各セクションをブロックパラメータとして返します。
 optの内容によって、日記のリンク先を変更しなければならないので、注意
 が必要です。
 
+カテゴリ機能に対応した日記データのクラスでは、
+各セクションのサブタイトル中のカテゴリ指定をcategory_anchorプラグインの呼出しに変換して下さい。
+
 ==== to_src
 日記の本文を返します。
 
 ==== style
 日記データを記述するスタイル名を返します。
 tDiary標準の記述形式の場合は「tDiary」です。
-
+この文字列は、システム上は大小文字を区別しません。
 
 
 == セクションのクラス
@@ -268,6 +307,11 @@ TDiary::DefaultSectionクラスを参照してください。
 * to_src
 * author
 
+カテゴリ機能に対応させるには、以下のメソッドを実装する必要があります。
+
+* stripped_subtitle
+* categories
+
 ==== subtitle
 セクションのタイトルを文字列として返します。
 タイトルがない場合はnilを返します。
@@ -284,6 +328,14 @@ TDiary::DefaultSectionクラスを参照してください。
 セクションを書いた人の名前を文字列として返します。
 書いた人の名前がない場合は nil を返します。
 
+==== stripped_subtitle
+セクションのタイトルからカテゴリ指定部分を取り除いた文字列を返します。
+タイトルがない場合や、カテゴリ指定部分を取り除いた文字列が空文字("")の場合は
+nilを返します。
+
+==== categories
+セクションのカテゴリを文字列の配列として返します。
+タイトル中にカテゴリ指定がない場合は[]を返します。
 
 =end
 

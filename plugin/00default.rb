@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.26 $
+# $Revision: 1.27 $
 #
 
 #
@@ -367,3 +367,13 @@ def mobile_navi_preference; "設定"; end
 def mobile_navi_prev_diary; "前日"; end
 def mobile_navi_next_diary; "翌日"; end
 def mobile_label_hidden_diary; 'この日は【非表示】です'; end
+
+#
+# category
+#
+def category_anchor(c); "[#{c}]"; end
+def category_title; "カテゴリ別"; end
+def category_title_year(year); "#{year}年"; end
+def category_title_month(year, month); "#{year}年#{month}月"; end
+def category_title_quarter(year, q); "#{year}年#{q}Q"; end
+def category_title_latest; "今月"; end

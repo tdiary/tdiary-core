@@ -1,13 +1,14 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.1 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.2 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
 #    @style = 'tDiary'
 #
 module TDiary
-	class DefaultSection
+	class TdiarySection
 		attr_reader :subtitle, :body, :author
+		attr_reader :categories, :stripped_subtitle
 	
 		def initialize( fragment, author = nil )
 			@author = author
@@ -20,6 +21,9 @@ module TDiary
 				end
 			end
 			@body = lines.join( "\n" )
+
+			@categories = get_categories
+			@stripped_subtitle = strip_subtitle
 		end
 	
 		def to_src
@@ -35,12 +39,37 @@ module TDiary
 		def to_s
 			"subtitle=#{@subtitle}, body=#{@body}"
 		end
+
+		def categorized_subtitle
+			@categories.collect do |c|
+				%Q|<%= category_anchor("#{c}") %>|
+			end.join + @stripped_subtitle
+		end
+
+	private
+		def get_categories
+			return [] unless @subtitle
+			cat = /^(\[(.*?)\])+/.match(@subtitle).to_a[0]
+			return [] unless cat
+			cat.scan(/\[(.*?)\]/).collect do |c|
+				c[0].split(/,/)
+			end.flatten
+		end
+
+		def strip_subtitle
+			return nil unless @subtitle
+			r = @subtitle.sub(/^(\[(.*?)\])+/,'')
+			if r == ""
+				nil
+			else
+				r
+			end
+		end
 	end
 
-	class DefaultDiary
+	class TdiaryDiary
 		include DiaryBase
-		@@style = 'tDiary'
-		TDiary::DefaultIO::add_style( @@style, self )
+		include CategorizableDiary
 	
 		def initialize( date, title, body, modified = Time::now )
 			init_diary
@@ -49,7 +78,7 @@ module TDiary
 		end
 	
 		def style
-			@@style
+			'tDiary'
 		end
 	
 		def replace( date, title, body )
@@ -61,7 +90,7 @@ module TDiary
 	
 		def append( body, author = nil )
 			body.gsub( "\r", '' ).split( /\n\n+/ ).each do |fragment|
-				section = DefaultSection::new( fragment, author )
+				section = TdiarySection::new( fragment, author )
 				@sections << section if section
 			end
 			@last_modified = Time::now
@@ -105,7 +134,7 @@ module TDiary
 					if opt['multi_user'] and section.author then
 						r << %Q|[#{section.author}]|
 					end
-					r << %Q[#{section.subtitle}</h3>]
+					r << %Q[#{section.categorized_subtitle}</h3>]
 				end
 				if /^</ =~ section.body then
 					r << %Q[#{section.body}]
@@ -152,4 +181,3 @@ module TDiary
 		end
 	end
 end
-

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.13 $
+# index.rb $Revision: 1.14 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -32,6 +32,18 @@ begin
 				tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )
 			elsif /^\d{4}$/ =~ date then
 				tdiary = TDiary::TDiaryNYear::new( @cgi, "month.rhtml", conf )
+			end
+		elsif @cgi.valid?( 'category' )
+			if @cgi.valid?( 'month' )
+				if @cgi['month'][0] == 'ALL'
+					tdiary = TDiary::TDiaryCategoryYear::new( @cgi, "category.rhtml", conf )
+				else
+					tdiary = TDiary::TDiaryCategoryMonth::new( @cgi, "category.rhtml", conf )
+				end
+			elsif @cgi.valid?( 'year' )
+				tdiary = TDiary::TDiaryCategoryYear::new( @cgi, "category.rhtml", conf )
+			else
+				tdiary = TDiary::TDiaryCategoryLatest::new( @cgi, "category.rhtml", conf )
 			end
 		else
 			tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
