@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.194 $
+tdiary.rb $Revision: 1.195 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1615,7 +1615,7 @@ module TDiary
 		attr_reader :last_modified
 		def initialize(cgi, rhtml, conf)
 			super
-			@last_modified = Time.at(0)
+			@last_modified = Time.now
 		end
 	end
 

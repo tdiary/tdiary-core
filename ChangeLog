@@ -1,3 +1,6 @@
+2004-08-08 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: TDiaryCategoryView's @last_modified changed to Time.now from Time.at(0). Thanks MATSUOKA Kohei <kohei@machu.jp>.
+
 2004-07-18 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb, tdiary/defaultio.rb: delete dispensable data dir and cache.
 
