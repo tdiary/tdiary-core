@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.4 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.5 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -228,8 +228,8 @@ module TDiary
 				when :RE
 
 				# blockquote
-				when :QS; r << "<BLOCKQUOTE>\n"
-				when :QE; r << "</BLOCKQUOTE>\n"
+				when :QS; r << "<BLOCKQUOTE>\n<P>"
+				when :QE; r << "</P>\n</BLOCKQUOTE>\n"
 
 				# list
 				when :US; r << "<UL>\n"
@@ -306,7 +306,9 @@ module TDiary
 					when :XS
 						r << s << '">' << s.sub( /^mailto:/, '' )
 					when :QS
-						r << "<P>#{s}</P>\n" if s.class == String
+						if s.class == String then
+							r << (s.length == 0 ? "</P>\n<P>" : s)
+						end
 					else
 						r << s if s.class == String
 					end
