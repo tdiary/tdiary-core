@@ -1,5 +1,6 @@
 2002.03.15 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix duplicated referer on day mode.
+	* update.rb: move hide checkbox to right of submit button.
 
 2002.03.14 TADA Tadashi <sho@spc.gr.jp>
 	* update.rhtml: remove 'class="commenttitle"' from changing comment status button.

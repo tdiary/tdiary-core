@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.4 $ %>
+<%# update.rhtml $Revision: 1.5 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [<%%= submit_label %%>]</h1>
@@ -14,8 +14,7 @@
 <p>タイトル: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>"></p>
 <p>本文:<br>
 <textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><% @diary.each_paragraph do |paragraph, idx| %><%= CGI::escapeHTML( paragraph.text ) %><% end %></textarea></p>
-<p><input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> "></p>
-<p><input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="8" accesskey="H"> この日の日記を隠す</a>
+<p><input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">&nbsp;&nbsp;この日の日記を隠す<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="8" accesskey="H"></a>
 </form>
 
 <div class="comment"><form method="post" action="<%= @update %>">
