@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.3 $
+# tDiary configuration file $Revision: 1.4 $
 #
 
 #-------
@@ -177,7 +177,10 @@ FOOTER
 #   は、Fromヘッダにも@author_mailが指定されます。
 #   @mail_headerは、メールのSubjectに使う文字列です。振り分け等に便利な
 #   ように指定してください。実際のSubjectは、「@mail_header:@date_format-1」
-#   のように、日付とコメント番号が付きます。
+#   のように、日付とコメント番号が付きます。ただし、@mail_header中に%に
+#   続く英字があった場合、それを日付フォーマット指定を見なします。つまり
+#   「:@date_format」の部分は自動的に付加されなくなります(コメント番号は
+#   付加されます)。
 @mail_on_comment = false
 @mail_header = 'hogehoge'
 

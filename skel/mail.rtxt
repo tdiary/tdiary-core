@@ -2,7 +2,7 @@ From: <%= name %> <<%= mail %>>
 To: <%= @author_mail %>
 Date: <%= date %>
 Message-Id: <%= message_id %>
-Subject: <%= to_mime( "#{@mail_header}:#{@date.strftime( @date_format )}".to_jis ).join( "\n " ) %>-<%= serial %>
+Subject: <%= mail_header %>-<%= serial %>
  <%= to_mime( @name.to_jis ).join( "\n " ) %>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"

@@ -1,3 +1,6 @@
+2002.03.06 TADA Tadashi <sho@spc.gr.jp>
+	* @mail_header accept the format of Time#strftime.
+
 2002.03.05 TADA Tadashi <sho@spc.gr.jp>
 	* documents moved to doc.
 	* HOWTO-use-plugin.html, HOWTO-make-plugin.html: add.

@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.7 $
+tdiary.rb $Revision: 1.8 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.3.3.20020305'
+TDIARY_VERSION = '1.3.3.20020306'
 
 require 'cgi'
 require 'nkf'
@@ -962,6 +962,11 @@ class TDiaryComment < TDiaryDay
 	
 			serial = @diary.count_comments( true )
 			message_id = %Q|<tdiary.#{[@mail_header].pack('m').gsub("\n",'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
+
+			mail_header = @mail_header.dup
+			mail_header << ":#{@date_format}" unless /%[a-zA-Z%]/ =~ mail_header
+			mail_header = now.strftime( mail_header )
+			mail_header = to_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
 
 			text = ERbLight::new( File::readlines( "#{PATH}/skel/mail.rtxt" ).join.untaint ).result( binding )
 			sendmail( text )
