@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.2 $ %>
+<%# diary.rhtml $Revision: 1.3 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -65,7 +65,7 @@ if not opt['hide_comment_form'] and opt['long_mode'] then %>
 	<div class="form"><form method="post" action="<%= opt['index'] %>">
 	<input type="hidden" name="date" value="<%= @date.strftime( '%Y%m%d' ) %>">
 	<p><a name="c"><%%=comment_description%%></a></p>
-	<p><%%=comment_name_label%%>: <input class="field" name="name" value="<%= opt['cookie_name'] %>">¡¡<%%=comment_mail_label%%>: <input class="field" name="mail" value="<%= opt['cookie_mail'] %>"><br></p>
+	<p><%%=comment_name_label%%>: <input class="field" name="name" value="<%= CGI::escapeHTML( opt['cookie_name'] ) %>">¡¡<%%=comment_mail_label%%>: <input class="field" name="mail" value="<%= CGI::escapeHTML( opt['cookie_mail'] ) %>"><br></p>
 	<p><%%=comment_body_label%%>:<br>
 	<textarea name="body" cols="60" rows="5"></textarea></p>
 	<p><input type="submit" name="comment" value="<%%=comment_submit_label%%>"></p>

@@ -2,6 +2,8 @@
 	* tdiary.rb: Plugin#add_xxx_proc can receive a block.
 	* 00default.rb: follow new add_xxx_proc style.
 	* HOWTO-make-plugin.html: follow new add_xxx_proc style.
+	* diary.rhtml: escape HTML in comment form.
+	* tdiary.rb: shorten commentator's nsme and mail address validation in comment mail.
 
 2002.03.20 TADA Tadashi <sho@spc.gr.jp>
 	* doctype plugin.

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.18 $
+tdiary.rb $Revision: 1.19 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -956,9 +956,10 @@ class TDiaryComment < TDiaryDay
 		if dirty and @mail_on_comment then
 			require 'socket'
 
-			name = to_mime( @name.to_jis ).join( "\n " )
+			name = to_mime( @name.to_jis )[0]
 			body = @body.to_jis
-			mail = @mail.length == 0 ? @author_mail : @mail
+			mail = @mail
+			mail = @author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
 			
 			now = Time::now
 			g = now.dup.gmtime
