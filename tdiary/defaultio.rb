@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.22 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.23 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -117,6 +117,11 @@ module TDiary
 		def initialize( tdiary )
 			@tdiary = tdiary
 			@data_path = @tdiary.conf.data_path
+
+			# require all styles
+			Dir::glob( "#{TDiary::PATH}/tdiary/*_style.rb" ) do |style|
+				require style.untaint
+			end
 		end
 	
 		#
@@ -174,9 +179,6 @@ module TDiary
 
 		def diary_factory( date, title, body, style = 'tDiary' )
 			begin
-				unless DefaultIO::style( style ) then
-					require "tdiary/#{style.downcase}_style"
-				end
 				eval( "#{DefaultIO::style( style )}::new( date, title, body )" )
 			rescue
 				raise StandardError, "bad style"
@@ -198,11 +200,7 @@ module TDiary
 				begin
 					headers, body = TDiary::parse_tdiary( l )
 					style = headers['Format'] || 'tDiary'
-					unless DefaultIO::style( style ) then
-						require "tdiary/#{style.downcase}_style"
-					end
 					diary = eval( "#{DefaultIO::style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
-					$stderr.puts diary.class
 					diary.show( headers['Visible'] == 'true' ? true : false )
 					diaries[headers['Date']] = diary
 				rescue NameError
