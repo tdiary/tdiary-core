@@ -1,28 +1,28 @@
-<%# i.day.rhtml $Revision: 1.4 $ %>
+<%# i.day.rhtml $Revision: 1.5 $ %>
 <%%update_proc if @mode == 'comment'%%>
-<H1><%= @html_title %></H1>
+<H1><%= @conf.html_title %></H1>
 <P>
-<A HREF="<%= @index %><%%=anchor "<%= (@date-24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="1">[1]前日</A>|<A HREF="<%= @index %><%%=anchor "<%= (@date+24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="2">[2]翌日</A>|<A HREF="<%= @index %>" ACCESSKEY="3">[3]最新</A>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</A>
+<A HREF="<%= @conf.index %><%%=anchor "<%= (@date-24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="1">[1]前日</A>|<A HREF="<%= @conf.index %><%%=anchor "<%= (@date+24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="2">[2]翌日</A>|<A HREF="<%= @conf.index %>" ACCESSKEY="3">[3]最新</A>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</A>
 </P>
 <%
 if @diary then
 	param = {
 		'prefix' => 'i.',
-		'index' => @index,
-		'date_format' => @date_format,
-		'section_anchor' => @section_anchor,
-		'comment_anchor' => @comment_anchor,
+		'index' => @conf.index,
+		'date_format' => @conf.date_format,
+		'section_anchor' => @conf.section_anchor,
+		'comment_anchor' => @conf.comment_anchor,
 		'long_mode' => false,
 		'show_referer' => false,
 		'referer_limit' => 0,
-		'show_comment' => @show_comment,
+		'show_comment' => @conf.show_comment,
 		'comment_limit' => 100,
-		'multi_user' => @multi_user,
+		'multi_user' => @conf.multi_user,
 		'anchor' => true,
 	} %>
 	<%= @diary.eval_rhtml( param, PATH ) %>
 	<HR>
-	<FORM METHOD="POST" ACTION="<%= @index %>">
+	<FORM METHOD="POST" ACTION="<%= @conf.index %>">
 	<INPUT TYPE="HIDDEN" NAME="date" VALUE="<%= @date.strftime( '%Y%m%d' ) %>">
 	<P><%%=comment_description_short%%><BR>
 	<%%=comment_name_label_short%%>: <input NAME="name"><BR>
@@ -32,6 +32,6 @@ if @diary then
 	<INPUT TYPE="SUBMIT" NAME="comment" value="<%%=comment_submit_label_short%%>"></P>
 	</FORM><%
 else %>
-	<p><%= @date.strftime( @date_format ) %>の日記はありません。</P><%
+	<p><%= @date.strftime( @conf.date_format ) %>の日記はありません。</P><%
 end %>
 

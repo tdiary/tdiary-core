@@ -1,3 +1,12 @@
+2002.10.03 TADA Tadashi <sho@spc.gr.jp>
+	* marge with Test_TDiary_modile branch, so...
+		* split namespace by TDiary module.
+		* load plugin files in TDiary::Plugin class.
+		* split TDiary::Config class.
+		* add @conf into Plugin class.
+		* HOWTO-make-io.rd: update.
+	* HOWTO-make-plugin.html: update.
+
 2002.09.30 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
 	* update.rhtml: add "update" into class selector in <div class="day">.
 	* conf.rhtml: add "conf" into class selector in <div class="day">.

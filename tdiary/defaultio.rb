@@ -1,12 +1,12 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.16 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.17 $
 #
-module DefaultIO
+module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
 	TDIARY_MAGIC_MINOR = '00.00'
 	TDIARY_MAGIC = "#{TDIARY_MAGIC_MAJOR}.#{TDIARY_MAGIC_MINOR}"
 
-	def DefaultIO::parse_tdiary( data )
+	def TDiary::parse_tdiary( data )
 		header, body = data.split( "\n\n", 2 )
 		if header and body
 			body.gsub!( /^\./, '' )
@@ -29,7 +29,7 @@ module DefaultIO
 			begin
 				File::open( file, 'r' ) do |fh|
 					while l = fh.gets( "\n.\n" )
-						headers, body = DefaultIO::parse_tdiary( l )
+						headers, body = TDiary::parse_tdiary( l )
 						next unless body
 						comment = Comment::new(
 								headers['Name'],
@@ -72,7 +72,7 @@ module DefaultIO
 			begin
 				File::open( file, 'r' ) do |fh|
 					while l = fh.gets( "\n.\n" )
-						headers, body = DefaultIO::parse_tdiary( l )
+						headers, body = TDiary::parse_tdiary( l )
 						next unless body
 						body.each do |r|
 							count, ref = r.chomp.split( ' ', 2 )
@@ -87,7 +87,7 @@ module DefaultIO
 
 		def store_referer( file, diaries )
 			fhr = File::open( file, 'w' )
-			fhr.puts( DefaultIO::TDIARY_MAGIC )
+			fhr.puts( TDiary::TDIARY_MAGIC )
 			diaries.each do |date,diary|
 				fhr.puts( "Date: #{date}" )
 				fhr.puts 
@@ -100,12 +100,13 @@ module DefaultIO
 		end
 	end
 
-	class IO
+	class DefaultIO
 		include CommentIO
 		include RefererIO
 
 		def initialize( tdiary )
 			@tdiary = tdiary
+			@data_path = @tdiary.conf.data_path
 		end
 	
 		#
@@ -113,10 +114,10 @@ module DefaultIO
 		#
 		def transaction( date )
 			diaries = {}
-			dir = date.strftime( "#{@tdiary.data_path}%Y" )
-			@dfile = date.strftime( "#{@tdiary.data_path}%Y/%Y%m.td2" )
-			cfile = comment_file( @tdiary.data_path, date )
-			rfile = referer_file( @tdiary.data_path, date )
+			dir = date.strftime( "#{@data_path}%Y" )
+			@dfile = date.strftime( "#{@data_path}%Y/%Y%m.td2" )
+			cfile = comment_file( @data_path, date )
+			rfile = referer_file( @data_path, date )
 			begin
 				Dir::mkdir( dir ) unless FileTest::directory?( dir )
 				begin
@@ -135,9 +136,9 @@ module DefaultIO
 					diaries.update( cache )
 				end
 				dirty = yield( diaries ) if iterator?
-				store( fh, diaries ) if dirty & TDiary::DIRTY_DIARY != 0
-				store_comment( cfile, diaries ) if dirty & TDiary::DIRTY_COMMENT != 0
-				store_referer( rfile, diaries ) if dirty & TDiary::DIRTY_REFERER != 0
+				store( fh, diaries ) if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
+				store_comment( cfile, diaries ) if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
+				store_referer( rfile, diaries ) if dirty & TDiary::TDiaryBase::DIRTY_REFERER != 0
 				if dirty or not cache then
 					@tdiary.store_parser_cache( date, 'defaultio', diaries )
 				end
@@ -149,7 +150,7 @@ module DefaultIO
 	
 		def calendar
 			calendar = {}
-			Dir["#{@tdiary.data_path}????"].sort.each do |dir|
+			Dir["#{@data_path}????"].sort.each do |dir|
 				next unless %r[/\d{4}$] =~ dir
 				Dir["#{dir.untaint}/??????.td2"].sort.each do |file|
 					year, month = file.scan( %r[/(\d{4})(\d\d)\.td2$] )[0]
@@ -164,7 +165,7 @@ module DefaultIO
 		def diary_factory( date, title, body, format = 'tDiary' )
 			case format
 			when 'tDiary'
-				TDiaryDiary::new( date, title, body )
+				DefaultDiary::new( date, title, body )
 			else
 				raise StandardError, "bad format"
 			end
@@ -175,7 +176,7 @@ module DefaultIO
 			fh.seek( 0 )
 			begin
 				major, minor = fh.gets.split( '.', 2 )
-				raise StandardError, 'bad format' unless DefaultIO::TDIARY_MAGIC_MAJOR == major
+				raise StandardError, 'bad format' unless TDiary::TDIARY_MAGIC_MAJOR == major
 			rescue NameError
 				# no magic number when it is new file.
 			end
@@ -183,10 +184,10 @@ module DefaultIO
 			# read and parse diary
 			while l = fh.gets( "\n.\n" )
 				begin
-					headers, body = DefaultIO::parse_tdiary( l )
+					headers, body = TDiary::parse_tdiary( l )
 					case headers['Format']
 					when 'tDiary'
-						diary = TDiaryDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
+						diary = DefaultDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
 						diaries[headers['Date']] = diary
 					end
 				rescue NameError
@@ -196,7 +197,7 @@ module DefaultIO
 
 		def store( fh, diaries )
 			fh.seek( 0 )
-			fh.puts( DefaultIO::TDIARY_MAGIC )
+			fh.puts( TDiary::TDIARY_MAGIC )
 			diaries.each do |date,diary|
 				# save diaries
 				fh.puts( "Date: #{date}" )
@@ -211,7 +212,7 @@ module DefaultIO
 		end
 	end
 
-	class TDiarySection
+	class DefaultSection
 		attr_reader :subtitle, :body, :author
 	
 		def initialize( fragment, author = nil )
@@ -242,7 +243,7 @@ module DefaultIO
 		end
 	end
 
-	class TDiaryDiary
+	class DefaultDiary
 		include DiaryBase
 	
 		def initialize( date, title, body, modified = Time::now )
@@ -264,7 +265,7 @@ module DefaultIO
 	
 		def append( body, author = nil )
 			body.gsub( "\r", '' ).split( /\n\n+/ ).each do |fragment|
-				section = TDiarySection::new( fragment, author )
+				section = DefaultSection::new( fragment, author )
 				@sections << section if section
 			end
 			@last_modified = Time::now

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.5 $
+# index.rb $Revision: 1.6 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -13,26 +13,27 @@ begin
 	require 'tdiary'
 
 	@cgi = CGI::new
+	conf = TDiary::Config::new
 	tdiary = nil
 
 	begin
 		if @cgi.valid?( 'comment' ) then
-			tdiary = TDiaryComment::new( @cgi, "day.rhtml" )
+			tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
 		elsif @cgi.valid?( 'date' )
 			date, = @cgi['date']
 			if /^\d{8}$/ =~ date then
-				tdiary = TDiaryDay::new( @cgi, "day.rhtml" )
+				tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
 			elsif /^\d{6}$/ =~ date then
-				tdiary = TDiaryMonth::new( @cgi, "month.rhtml" )
+				tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )
 			end
 		else
-			tdiary = TDiaryLatest::new( @cgi, "latest.rhtml" )
+			tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
 		end
 	rescue TDiary::PermissionError
 		raise
 	rescue TDiary::TDiaryError
 	end
-	tdiary = TDiaryLatest::new( @cgi, "latest.rhtml" ) if not tdiary
+	tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf ) if not tdiary
 
 	begin
 		head = body = ''

@@ -1,12 +1,12 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.12 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.13 $
 #
 require 'pstore'
 
-class TDiary
+module TDiary
 	class PStoreIO
 		def initialize( tdiary )
-			@data_path = tdiary.data_path
+			@data_path = tdiary.conf.data_path
 		end
 	
 		#
@@ -23,14 +23,14 @@ class TDiary
 					rescue PStore::Error
 					end
 					dirty = yield( diaries ) if iterator?
-					if dirty != TDiary::DIRTY_NONE then
+					if dirty != TDiary::TDiaryBase::DIRTY_NONE then
 						db['diary'] = diaries
 					else
 						db.abort
 					end
 				end
 			rescue PStore::Error, NameError, Errno::EACCES
-				raise PermissionError::new( 'make your @data_path to writable via httpd.' )
+				raise PermissionError::new( "make your @data_path to writable via httpd. #$!" )
 			end
 			File::delete( filename ) if diaries.empty?
 			return diaries
@@ -50,6 +50,30 @@ class TDiary
 		def diary_factory( date, title, body, format = nil )
 			Diary::new( date, title, body )
 		end
+	end
+end
+
+=begin
+== class Comment
+  Management a comment.
+=end
+class Comment
+	attr_reader :name, :mail, :body, :date
+
+	def initialize( name, mail, body, date = Time::now )
+		@name, @mail, @body, @date = name, mail, body, date
+		@show = true
+	end
+
+	def shorten( len = 120 )
+		@body.shorten( len )
+	end
+
+	def visible?; @show; end
+	def show=( s ); @show = s; end
+
+	def ==( c )
+		(@name == c.name) and (@mail == c.mail) and (@body == c.body)
 	end
 end
 
@@ -98,7 +122,7 @@ end
 Management a day of diary
 =end
 class Diary
-	include DiaryBase
+	include TDiary::DiaryBase
 
 	def initialize( date, title, body )
 		init_diary

@@ -1,25 +1,25 @@
-<%# latest.rhtml $Revision: 1.2 $ %>
-<%= @header %>
+<%# latest.rhtml $Revision: 1.3 $ %>
+<%= @conf.header %>
 <hr class="sep">
 
 <%
 param = {
-	'date_format' => @date_format,
-	'index' => @index,
-	'section_anchor' => @section_anchor,
-	'comment_anchor' => @comment_anchor,
+	'date_format' => @conf.date_format,
+	'index' => @conf.index,
+	'section_anchor' => @conf.section_anchor,
+	'comment_anchor' => @conf.comment_anchor,
 	'long_mode' => false,
-	'show_referer' => @show_referer,
-	'referer_limit' => @referer_limit,
-	'referer_table' => @referer_table,
-	'show_comment' => @show_comment,
-	'comment_limit' => @comment_limit,
-	'multi_user' => @multi_user
+	'show_referer' => @conf.show_referer,
+	'referer_limit' => @conf.referer_limit,
+	'referer_table' => @conf.referer_table,
+	'show_comment' => @conf.show_comment,
+	'comment_limit' => @conf.comment_limit,
+	'multi_user' => @conf.multi_user
 }
-latest( @latest_limit ) do |diary| %>
+latest( @conf.latest_limit ) do |diary| %>
 	<%= diary.eval_rhtml( param, PATH ) %>
 	<hr class="sep"><%
 end %>
 
-<%= @footer %>
+<%= @conf.footer %>
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# update.rb $Revision: 1.2 $
+# update.rb $Revision: 1.3 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -13,28 +13,29 @@ begin
 	require 'tdiary'
 
 	@cgi = CGI::new
+	conf = TDiary::Config::new
 	tdiary = nil
 
 	begin
 		if @cgi.valid?( 'append' )
-			tdiary = TDiaryAppend::new( @cgi, 'show.rhtml' )
+			tdiary = TDiary::TDiaryAppend::new( @cgi, 'show.rhtml', conf )
 		elsif @cgi.valid?( 'edit' )
-			tdiary = TDiaryEdit::new( @cgi, 'update.rhtml' )
+			tdiary = TDiary::TDiaryEdit::new( @cgi, 'update.rhtml', conf )
 		elsif @cgi.valid?( 'replace' )
-			tdiary = TDiaryReplace::new( @cgi, 'show.rhtml' )
+			tdiary = TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
 		elsif @cgi.valid?( 'comment' )
-			tdiary = TDiaryShowComment::new( @cgi, 'update.rhtml' )
+			tdiary = TDiary::TDiaryShowComment::new( @cgi, 'update.rhtml', conf )
 		elsif @cgi.valid?( 'conf' )
-			tdiary = TDiaryConf::new( @cgi, 'conf.rhtml' )
+			tdiary = TDiary::TDiaryConf::new( @cgi, 'conf.rhtml', conf )
 		elsif @cgi.valid?( 'referer' )
-			tdiary = TDiaryConf::new( @cgi, 'referer.rhtml' )
+			tdiary = TDiary::TDiaryConf::new( @cgi, 'referer.rhtml', conf )
 		elsif @cgi.valid?( 'saveconf' )
-			tdiary = TDiarySaveConf::new( @cgi, 'conf.rhtml' )
+			tdiary = TDiary::TDiarySaveConf::new( @cgi, 'conf.rhtml', conf )
 		else
-			tdiary = TDiaryForm::new( @cgi, 'update.rhtml' )
+			tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
 		end
 	rescue TDiary::TDiaryError
-		tdiary = TDiaryForm::new( @cgi, 'update.rhtml' )
+		tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
 	end
 
 	head = body = ''

@@ -89,7 +89,6 @@ div.section pre {
 	border-style: solid;
 	border-width: 1px 1px 1px 6px;
 	border-color: #f80;
-	overflow: auto;
 	padding: 8px;
 	margin-left: 2em;
 }

@@ -1,11 +1,11 @@
-<%# i.update.rhtml $Revision: 1.6 $ %>
-<H1><%= @html_title %> [<%%= submit_label %%>]</H1>
+<%# i.update.rhtml $Revision: 1.7 $ %>
+<H1><%= @conf.html_title %> [<%%= submit_label %%>]</H1>
 
 <P>
-<A HREF="<%= @index %>" ACCESSKEY="1">[1]ÅV</A>|<A HREF="<%= @update %>?conf=OK" ACCESSKEY="9">[9]İ’è</A>
+<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]ÅV</A>|<A HREF="<%= @conf.update %>?conf=OK" ACCESSKEY="9">[9]İ’è</A>
 </P>
 
-<FORM METHOD="POST" ACTION="<%= @update %>">
+<FORM METHOD="POST" ACTION="<%= @conf.update %>">
 <INPUT TYPE="HIDDEN" NAME="old" VALUE="<%= @date.strftime( '%Y%m%d' ) %>">
 <P>
 <INPUT NAME="year" TABINDEX="1" ACCESSKEY="Y" SIZE="4" VALUE="<%= @date.year %>">”N
@@ -20,7 +20,7 @@
 <p><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">‰B‚·</a>
 </FORM>
 
-<FORM METHOD="POST" ACTION="<%= @update %>">
+<FORM METHOD="POST" ACTION="<%= @conf.update %>">
 <INPUT TYPE="HIDDEN" NAME="year" VALUE="<%= @date.year %>">
 <INPUT TYPE="HIDDEN" NAME="month" VALUE="<%= @date.month %>">
 <INPUT TYPE="HIDDEN" NAME="day" VALUE="<%= @date.day %>">

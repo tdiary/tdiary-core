@@ -63,21 +63,21 @@ transactionメソッドはdateで指定された月の日記データをファイル(または
 の処理を行えます。以下にtDiaryからの返り値を示します。実際にはこれら
 の論理和が返ります。
 
-* TDiary::DIRTY_NONE: 日記データに変更はありませんでした
-* TDiary::DIRTY_DIARY: 日記本文に変更がありました
-* TDiary::DIRTY_COMMENT: ツッコミに変更がありました
-* TDiary::DIRTY_REFERER: リンク元に変更がありました
+* TDiary::TDiaryBase::DIRTY_NONE: 日記データに変更はありませんでした
+* TDiary::TDiaryBase::DIRTY_DIARY: 日記本文に変更がありました
+* TDiary::TDiaryBase::DIRTY_COMMENT: ツッコミに変更がありました
+* TDiary::TDiaryBase::DIRTY_REFERER: リンク元に変更がありました
 
 以下にtransactionの例を示します。
 
  def trasaction( date )
     diaries = { ... } # restore data
     dirty = yield( diaries )
-    if dirty & TDiary::DIRTY_DIARY != 0 then
+    if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0 then
        ... # saving diary data
-    if dirty & TDiary::DIRTY_COMMENT != 0 then
+    if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0 then
        ... # saving comment data
-    if dirty & TDiary::DIRTY_REFERER != 0 then
+    if dirty & TDiary::TDiaryBase::DIRTY_REFERER != 0 then
        ... # saving referer data
     end
  end
@@ -107,7 +107,7 @@ diary_factoryは、指定されたフォーマットの日記オブジェクトを生成して
 続いて、IOクラスのtransactionメソッドの返り値に含まれる日記データが
 満たすべき条件について述べます。
 日記データの具体例としては tdiary/defaultio.rb で定義されている
-DefaultIO::TDiaryDiary を参照してください。
+TDiary::DefaultDiary を参照してください。
 
 「日記データ」は以下の要素から構成されています。
 
@@ -248,6 +248,8 @@ tDiary標準の記述形式の場合は「tDiary」です。
 日記本文は幾つかのセクションに分かれます。
 セクションは日記本文、セクションのタイトル、セクションを書いた人の名前
 などをデータとして保持しています。
+セクションクラスの例としては、tdiary/defaultio.rbにある
+TDiary::DefaultSectionクラスを参照してください。
 
 === 最低限実装すべきメソッド
 以下にセクションのクラスが実装すべきメソッドを列挙します。

@@ -135,19 +135,12 @@ def theme_url; 'theme'; end
 <table border="1" style="margin-left: 3em;" summary="Pluginクラスのインスタンス変数一覧">
 <tr><th>変数名</th><th>説明</th></tr>
 <tr><th>@mode</th><td>現在動作中のモードを表現する文字列です。tdiary.rb中で使われているTDiaryクラスの策クラス名から、TDiaryを取って、downcaseしたものが含まれています。上手に利用するにはtDiaryの内部構造を知っている必要があるでしょう(いずれちゃんと説明書きます。すまぬ)</td></tr>
+<tr><th>@conf</th><td>TDiary::Configクラスのインスタンスで、tdiary.confから読み込んだ設定値が入っています。「@conf.index」のようにアクセスできます。</td></tr>
 <tr><th>@diaries</th><td>日記データを保持するDiaryインスタンスのHashです。現在表示対象になっている日付を含む月全体が含まれます(最新表示で月をまたいでいる場合は、2ヶ月分含まれることがあります)。Hashのキーは「yyyymmdd」形式の日付で、Hashの値がDiaryインスタンスです。</td></tr>
 <tr><th>@cgi</th><td>CGIクラスのインスタンスで、現在実行中のCGIに渡されてきたパラメタやCookieのデータが含まれています。スクリプトのパスや、パラメタの値を取得したい場合に利用できます。。</td></tr>
 <tr><th>@years</th><td>現存するすべての日記の年月データを保持するHashです。キーは年、値は月のArrayです。</td></tr>
 <tr><th>@cache_path</th><td>キャッシュファイルのあるディレクトリ。プラグインでキャッシュを使いたい場合は、ここに独自のディレクトリを掘って利用します。</td></tr>
-<tr><th>@index</th><td>日記の本体を示すページのURLです。デフォルトは「./」。tdiary.confで指定した物と同じです。</td></tr>
-<tr><th>@update</th><td>日記の更新ページを示すURLです。デフォルトは「update.rb」。tdiary.confで指定した物と同じです。</td></tr>
-<tr><th>@author_name</th><td>日記著者(あなた)の名前です。tdiary.confで指定したものと同じです。</td></tr>
-<tr><th>@author_mail</th><td>日記著者(あなた)のE-mailアドレスです。tdiary.confで指定したものと同じです。</td></tr>
-<tr><th>@index_page</th><td>トップページのURLです。tdiary.confで指定したものと同じです。</td></tr>
-<tr><th>@html_title</th><td>日記のタイトル。tdiary.confで指定したものと同じです。</td></tr>
 <tr><th>@date</th><td>現在表示中の日付。特定の日か、月を表現したものかどうかは、@modeを見なければ判断できません。</td></tr>
-<tr><th>@date_format</th><td>日付のフォーマットを示す文字列。tdiary.confで指定したものと同じです。</td></tr>
-<tr><th>@referer_table</th><td>「本日のリンク元」で特定のURLを指定した文字列に変換するためのテーブル。Hashです。</td></tr>
 <tr><th>@debug</th><td>プラグイン開発時のデバッグ用フラグです。この値をメソッド内でtrueにすると、プラグイン実行時に存在しないメソッドを呼んでもエラーになります(通常時には無視されています)。この変数を利用するのはプラグイン開発時のみにとどめ、プラグイン配布時には必ず削除してください。</td></tr>
 </table>
 </div>

@@ -1,14 +1,14 @@
-<%# update.rhtml $Revision: 1.14 $ %>
+<%# update.rhtml $Revision: 1.15 $ %>
 <%%=navi%%>
 
-<h1><%= @html_title %> [<%%= submit_label %%>]</h1>
+<h1><%= @conf.html_title %> [<%%= submit_label %%>]</h1>
 
 <div class="update day">
 <div class="form">
 	<div class="caption">
 		更新フォーム
 	</div>
-	<form class="update" method="post" action="<%= @update %>"><div>
+	<form class="update" method="post" action="<%= @conf.update %>"><div>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<span class="field year">
 			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">年
@@ -41,7 +41,7 @@
 
 <div class="comment">
 	<div class="caption"><%%=comment_today%%></div>
-	<form class="commentstat" method="post" action="<%= @update %>"><div>
+	<form class="commentstat" method="post" action="<%= @conf.update %>"><div>
 		<input type="hidden" name="year" value="<%= @date.year %>">
 		<input type="hidden" name="month" value="<%= @date.month %>">
 		<input type="hidden" name="day" value="<%= @date.day %>">

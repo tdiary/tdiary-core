@@ -1,5 +1,5 @@
 From: <%= name %> <<%= mail %>>
-To: <%= @author_mail %>
+To: <%= @conf.author_mail %>
 Date: <%= date %>
 Message-Id: <%= message_id %>
 Subject: <%= mail_header %>-<%= serial %> 
@@ -7,7 +7,7 @@ Subject: <%= mail_header %>-<%= serial %>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: 7bit
-Errors-To: <%= @author_mail %>
+Errors-To: <%= @conf.author_mail %>
 X-Mailer: tDiary <%= TDIARY_VERSION %>
 X-URL: http://www.tdiary.net/
 

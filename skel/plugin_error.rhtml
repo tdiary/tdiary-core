@@ -8,11 +8,11 @@
 <h1>Plugin Error</h1>
 <p style="font-size: large;"><strong>
 	Errors in plugins?
-	Retry to <a href="<%= @update %>">Update</a> or <a href="<%= @update %>?conf=OK">Configure</a>.
+	Retry to <a href="<%= @conf.update %>">Update</a> or <a href="<%= @conf.update %>?conf=OK">Configure</a>.
 </strong></p>
 <blockquote>
-	<strong><%= $!.type %></strong><br>
-	<code><%= $!.to_s.gsub( "\n", "<br>\n" ).gsub( ' ', '&nbsp;' ) %></code>
+	<strong><%= CGI::escapeHTML( $!.type.to_s ) %></strong><br>
+	<code><%= CGI::escapeHTML( $!.to_s.gsub( "\n", "<br>\n" ) ).gsub( ' ', '&nbsp;' ) %></code>
 </blockquote>
 </body>
 </html>

@@ -1,21 +1,21 @@
-<%# day.rhtml $Revision: 1.2 $ %>
-<%= @header %><%%update_proc if @mode == 'comment'%%>
+<%# day.rhtml $Revision: 1.3 $ %>
+<%= @conf.header %><%%update_proc if @mode == 'comment'%%>
 <hr class="sep">
 
 <%
 if @diary then
 	param = {
-		'date_format' => @date_format,
-		'index' => @index,
-		'section_anchor' => @section_anchor,
-		'comment_anchor' => @comment_anchor,
+		'date_format' => @conf.date_format,
+		'index' => @conf.index,
+		'section_anchor' => @conf.section_anchor,
+		'comment_anchor' => @conf.comment_anchor,
 		'long_mode' => true,
-		'show_referer' => @show_referer,
+		'show_referer' => @conf.show_referer,
 		'referer_limit' => 100,
-		'referer_table' => @referer_table,
-		'show_comment' => @show_comment,
+		'referer_table' => @conf.referer_table,
+		'show_comment' => @conf.show_comment,
 		'comment_limit' => 100,
-		'multi_user' => @multi_user,
+		'multi_user' => @conf.multi_user,
 		'cookie_name' => cookie_name,
 		'cookie_mail' => cookie_mail,
 		'anchor' => true,
@@ -23,9 +23,9 @@ if @diary then
 	<%= @diary.eval_rhtml( param, PATH ) %><%
 else %>
 	<p class="message">
-	<%= @date.strftime( @date_format ) %>の日記はありません。
+	<%= @date.strftime( @conf.date_format ) %>の日記はありません。
 	</p><%
 end %>
 <hr class="sep">
 
-<%= @footer %>
+<%= @conf.footer %>
