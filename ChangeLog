@@ -1,3 +1,6 @@
+2003-12-24  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/style/wiki/wiki_style.rb: bug fix of parsing categories. thanks to yowa.
+
 2003-12-26 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
 	* tdiary.rb: catch StandardError when broken cache.
 

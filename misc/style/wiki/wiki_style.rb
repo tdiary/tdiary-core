@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.18 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.19 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -173,10 +173,12 @@ module TDiary
 							r << %Q[<a href="#{s}">#{s}</a>]
 						end
 					when :HS1
-						r << s.gsub(/\[(.*?)\]/) do
-							$1.split(/,/).collect do |c|
-								%Q|<%= category_anchor("#{c}") %>|
-							end.join
+						r << s.sub(/^(\[([^\[]+?)\])+/) do
+							$&.gsub(/\[(.*?)\]/) do
+								$1.split(/,/).collect do |c|
+									%Q|<%= category_anchor("#{c}") %>|
+								end.join
+							end
 						end
 					else
 						r << s if s.class == String
