@@ -326,3 +326,11 @@ div.recentsubtitles {
 	margin-bottom: 1em;
 	margin-left: 1em;
 }
+
+ul {
+	margin-bottom: 1em;
+}
+
+li {
+	margin-bottom: 0.5em;
+}

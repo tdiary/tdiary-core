@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja-JP">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+	<meta name="Author" content="TADA Tadashi">
+	<link rev="MADE" href="mailto:sho@spc.gr.jp">
+	<link rel="INDEX" href="http://www.tdiary.net/">
+	<meta http-equiv="content-style-type" content="text/css">
+	<link rel="stylesheet" href="doc.css" type="text/css" media="all">
+	<title>tDiary: How to make theme</title>
+</head>
+<body>
+<h1>tDiary<br><span style="font-size:medium">テーマの作り方</span></h1>
+
+<p>　テーマはtDiary 1.1.0以降で使えるようになった、日記の見栄えを簡単に変更する仕組みです。テーマはCSS(カスケーディングスタイルシート)で実現されているので、CSSの書き方がわかれば作ることができます。CSSの書き方についてはここでは述べません。以下には、tDiaryのテーマを作るときの約束事だけを説明します。</p>
+
+<p>　tDiaryのテーマは、インストールディレクトリにあるthemeディレクトリに入っています。tDiary標準セットではdefault.cssだけ、フルセットではテーマ集にあるすべてのテーマが入っています。フルセットの構成を見ればわかるように、テーマファイルはthemeディレクトリにまとめて入っています。このため、CSSや付属のイメージファイルには何らかの命名規約が必要です。また、テーマファイルの内容にも多少の縛りがあります。これを以下のように定めます。厳密な意味での規約ではないので、守るも守らないも作者の勝手ですが、多くの人に利用されるのですから、できるだけこれに沿うように作ってください。</p>
+
+<ul>
+	<li>テーマファイル(.css)の中身
+	<ul>
+		<li>ファイルの先頭には、必ず作者名と連絡先を明記する</li>
+		<li>最低限default.cssに含まれているエレメントは含むようにする</li>
+	</ul></li>
+	<li>テーマファイル名(.css)
+	<ul>
+		<li>英小文字または数字で始まる英小文字・数字・「_」「-」からつける。なお「_」で単語を区切ると、tDiaryの設定画面の一覧で「_」が空白に置き換えられることを覚えておいて損はない</li>
+		<li>文字数に制限はないが、あまり長くしすぎないように</li>
+		<li>(少なくとも公開する気があるのなら)テーマ集にまだ含まれていない名称をつけるべきである</li>
+		<li>そのテーマが表現するものを端的に現した名称が望ましい</li>
+	</ul></li>
+	<li>付属ファイル名(.png、.jpg、.gif)
+	<ul>
+		<li>ファイル名には「テーマ名_イメージ名.png」のように、「_」で区切ってイメージファイルを特定できる名称を付ける。先頭のテーマ名を省略したり、別の名称を使ってはいけない。</li>
+		<li>画像フォーマットはpngやjpgが望ましいが、透明
+	</ul></li>
+</ul>
+
+<p>　なお、実際のエレメントやクラスがtDiary上で持つ意味は、付属のdefault.cssにコメントとして書かれていますので、参考にしてください。</p>
+
+</body>
+</html>
