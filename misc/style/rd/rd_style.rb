@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.20 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.21 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -185,6 +185,20 @@ module RD
 		MARK2LEVEL["===="] = 6
 	end
 
+	class RDInlineParser
+		def on_error(et, ev, values)
+			lines_of_rest = @src.rest.to_a.length
+			prev_words = prev_words_on_error(ev)
+			at = 4 + prev_words.length
+			message = <<-MSG
+RD syntax error: line #{@blockp.line_index - lines_of_rest - 1}:
+...#{prev_words} #{(ev||'')} #{next_words_on_error()} ...
+MSG
+			message << " " * at + "^" * (ev ? ev.length : 0) + "\n"
+			raise ParseError, message
+		end
+	end
+
 end
 
 module TDiary
@@ -239,7 +253,11 @@ module TDiary
 			src = to_src.to_a
 			src.unshift("=begin\n").push("=end\n")
 			tree = RDTree.new( src, nil, nil)
-			tree.parse
+			begin
+				tree.parse
+			rescue ParseError
+				raise SyntaxError, $!.message
+			end
 
 			r = "#{section_open}#{visitor.visit( tree )}#{section_close}"
 		end
@@ -250,7 +268,11 @@ module TDiary
 			src = str.strip.to_a.unshift("=begin\n").push("=end\n")
 			visitor = RD2tDiaryVisitor.new
 			tree = RDTree.new(src, nil, nil)
-			visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
+			begin
+				visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
+			rescue ParseError
+				str
+			end
 		end
 
 		def get_categories
