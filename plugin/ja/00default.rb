@@ -67,15 +67,7 @@ end
 # link to HOWTO write diary
 #
 def style_howto
-	key = case @conf.style
-		when /^tDiary$/i; 'tDiary%A5%B9%A5%BF%A5%A4%A5%EB'
-		when /^Wiki$/i; 'Wiki%A5%B9%A5%BF%A5%A4%A5%EB'
-		when /^etDiary$/i; 'etDiary%A5%B9%A5%BF%A5%A4%A5%EB'
-		when /^RD$/i; 'RD%A5%B9%A5%BF%A5%A4%A5%EB'
-		when /^emptDiary$/i; 'emptDiary%A5%B9%A5%BF%A5%A4%A5%EB'
-		else;	return ''
-		end
-	%Q|/<a href="http://tdiary-users.sourceforge.jp/cgi-bin/wiki.cgi?#{key}">書き方</a>|
+	%Q|/<a href="http://docs.tdiary.org/ja/?#{@conf.style}%A5%B9%A5%BF%A5%A4%A5%EB">書き方</a>|
 end
 
 #

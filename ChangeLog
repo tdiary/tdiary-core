@@ -1,3 +1,6 @@
+2003.11.06 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/{ja,en}/00default.rb: looks up style documents in docs.tdiary.org wiki.
+
 2003.11.05 Junichiro Kita <kita@kitaj.no-ip.com>
 	* misc/style/wiki/README*: add document for kw plugin.
 
