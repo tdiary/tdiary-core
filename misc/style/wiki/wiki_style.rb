@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.17 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.18 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -14,6 +14,7 @@ module TDiary
 	class WikiSection
 		attr_reader :subtitle, :author
 		attr_reader :categories, :stripped_subtitle
+		attr_reader :subtitle_to_html, :stripped_subtitle_to_html, :body_to_html
 	
 		def initialize( fragment, author = nil )
 			@author = author
@@ -31,6 +32,10 @@ module TDiary
 
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
+
+			@subtitle_to_html = @subtitle ? to_html("!#{@subtitle}") : nil
+			@stripped_subtitle_to_html = @stripped_subtitle ? to_html("!#{@stripped_subtitle}") : nil
+			@body_to_html = to_html(@body)
 		end
 
 		def body
@@ -49,7 +54,7 @@ module TDiary
 			r << "</div>\n"
 		end
 
-		def do_html4( parser, date, idx, opt, in_stripped_subtitle = nil )
+		def do_html4( parser, date, idx, opt )
 			r = ""
 			stat = nil
 			subtitle = false
@@ -59,11 +64,14 @@ module TDiary
 
 				# subtitle heading
 				when :HS1
-					r << "<h3><a "
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
+					r << "<h3>"
+					if date
+						r << "<a "
+						if opt['anchor'] then
+							r << %Q[name="p#{'%02d' % idx}" ]
+						end
+						r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
 					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
 					if opt['multi_user'] and @author then
 						r << %Q|[#{@author}]|
 					end
@@ -77,7 +85,7 @@ module TDiary
 				# pargraph
 				when :PS
 					r << '<p>'
-					unless subtitle then
+					if (!subtitle and date) then
 						r << '<a '
 						if opt['anchor'] then
 							r << %Q[name="p#{'%02d' % idx}" ]
@@ -321,6 +329,18 @@ module TDiary
 			r
 		end
 
+		def to_html(string)
+			parser = WikiParser::new( :wikiname => false ).parse( string )
+			parser.delete_at(0) if parser[0] == :HS1
+			parser.delete_at(-1) if parser[-1] == :HE1
+			r = do_html4(parser, nil, nil, {})
+			if r == ""
+				nil
+			else
+				r
+			end
+		end
+
 		def get_categories
 			return [] unless @subtitle
 			cat = /^(\[([^\[]+?)\])+/.match(@subtitle).to_a[0]
@@ -332,15 +352,7 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			parser = WikiParser::new( :wikiname => false ).parse( @subtitle.sub(/^(\[[^\[]+?\])+\s*/,'') )
-			parser.delete_at(0)   # remove :PS
-			parser.delete_at(-1)  # remove :PE
-			r = do_html4(parser, nil, nil, true)
-			if r == ""
-				nil
-			else
-				r
-			end
+			@subtitle.sub(/^(\[[^\[]+?\])+\s*/,'')
 		end
 	end
 

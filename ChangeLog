@@ -1,3 +1,9 @@
+2003.10.28 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: dup string in apply_plugin.
+	* doc/HOWTO-make-io.rd: add documents for *_to_html.
+	* misc/style/etdiary/etdiary_style.rb, misc/style/rd/rd_style.rb,
+	misc/style/wiki/wiki_style.rb, tdiary/pstoreio.rb, tdiary/tdiary_style.rb: add *_to_html.
+
 2003.10.25 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: auto invalidation of parser cache and ERb cache.
 

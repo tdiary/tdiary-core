@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.21 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.22 $
 #
 require 'pstore'
 
@@ -85,6 +85,8 @@ Management a paragraph.
 =end
 class Paragraph
 	attr_reader :subtitle, :body
+	alias :body_to_html :body
+	alias :subtitle_to_html :subtitle
 
 	def initialize( fragment, author = nil )
 		@author = author

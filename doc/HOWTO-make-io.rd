@@ -306,19 +306,26 @@ TDiary::DefaultSectionクラスを参照してください。
 * body
 * to_src
 * author
+* subtitle_to_html
+* body_to_html
 
 カテゴリ機能に対応させるには、以下のメソッドを実装する必要があります。
 
 * stripped_subtitle
+* stripped_subtitle_to_html
 * categories
 
-==== subtitle
+==== subtitleとsubtitle_to_html
 セクションのタイトルを文字列として返します。
 タイトルがない場合はnilを返します。
 
-==== body
+subtitleはスタイルの文法で記述された本文を、subtitle_to_htmlはHTMLに変換後の本文を返します。
+
+==== bodyとbody_to_html
 セクションに対応する本文を返します。返り値の文字列にはタイトルも著者も含まれません。
 本文がない場合は空文字("")を返します。
+
+bodyはスタイルの文法で記述された本文を、body_to_htmlはHTMLに変換後の本文を返します。
 
 ==== to_src
 セクションに対応する本文を返します。返り値の文字列にはタイトルと著者が含まれます。
@@ -328,10 +335,12 @@ TDiary::DefaultSectionクラスを参照してください。
 セクションを書いた人の名前を文字列として返します。
 書いた人の名前がない場合は nil を返します。
 
-==== stripped_subtitle
+==== stripped_subtitleとstripped_subtitle_to_html
 セクションのタイトルからカテゴリ指定部分を取り除いた文字列を返します。
 タイトルがない場合や、カテゴリ指定部分を取り除いた文字列が空文字("")の場合は
 nilを返します。
+
+stripped_subtitleはスタイルの文法で記述された本文を、stripped_subtitle_to_htmlはHTMLに変換後の本文を返します。
 
 ==== categories
 セクションのカテゴリを文字列の配列として返します。

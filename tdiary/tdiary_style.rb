@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.5 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.6 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -9,7 +9,11 @@ module TDiary
 	class TdiarySection
 		attr_reader :subtitle, :body, :author
 		attr_reader :categories, :stripped_subtitle
-	
+
+		alias :body_to_html :body
+		alias :subtitle_to_html :subtitle
+		alias :stripped_subtitle_to_html :stripped_subtitle
+
 		def initialize( fragment, author = nil )
 			@author = author
 			lines = fragment.split( /\n+/ )

@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.5 2003-03-21 16:37:45 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.6 2003-10-27 15:49:45 kitaj Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -10,6 +10,9 @@ module TDiary
 	class EtdiarySection
 		attr_reader :subtitle, :bodies, :author, :anchor_type
 		attr_reader :categories, :stripped_subtitle
+
+		alias :subtitle_to_html :subtitle
+		alias :stripped_subtitle_to_html :stripped_subtitle
 	
 		def initialize( title, author = nil )
 			@subtitle = title
@@ -42,6 +45,7 @@ module TDiary
 				''
 			end
 		end
+		alias :body_to_html :body
 
 		def << (string)
 			@bodies << string

@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.151 $
+tdiary.rb $Revision: 1.152 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20031025'
+TDIARY_VERSION = '1.5.5.20031028'
 
 require 'cgi'
 begin
@@ -736,7 +736,7 @@ module TDiary
 		end
 
 		def apply_plugin( str, remove_tag = false )
-			r = str
+			r = str.dup
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
 				r = ERbLight.new( r ).result( binding )

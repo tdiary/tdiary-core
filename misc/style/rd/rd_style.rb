@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.15 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.16 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -191,7 +191,8 @@ module TDiary
 	class RDSection
 		include RD
 
-		attr_reader :author, :categories, :stripped_subtitle
+		attr_reader :author, :categories, :subtitle, :stripped_subtitle
+		attr_reader :body_to_html, :subtitle_to_html, :stripped_subtitle_to_html
 	
 		def initialize( fragment, author = nil )
 			@author = author
@@ -208,6 +209,10 @@ module TDiary
 
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
+
+			@subtitle_to_html = manufacture(@subtitle)
+			@stripped_subtitle_to_html = manufacture(@stripped_subtitle)
+			@body_to_html = manufacture(@body)
 		end
 
 		def body
@@ -258,17 +263,7 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			r = @subtitle.sub(/^(\[(.*?)\])+/,'')
-			if r == ""
-				nil
-			else
-				manufacture(r)
-  			end
-		end
-
-		public
-		def subtitle
-			manufacture(@subtitle)
+			@subtitle.sub(/^(\[(.*?)\])+/,'')
 		end
 	end
 
