@@ -1,4 +1,7 @@
-2003-12-20  Kazuhiko  <kazuhiko@fdiary.net>
+2003-12-26 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
+	* tdiary.rb: catch StandardError when broken cache.
+
+2003-12-20 Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/style/rd/rd_style.rb: bug fix. 
 
 2003.12.19 TADA Tadashi <sho@spc.gr.jp>

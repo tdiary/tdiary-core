@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.166 $
+tdiary.rb $Revision: 1.167 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20031216'
+TDIARY_VERSION = '1.5.6.20031223'
 
 require 'cgi'
 begin
@@ -981,7 +981,7 @@ module TDiary
 					rescue PStore::Error
 					end
 				end
-			rescue ArgumentError
+			rescue
 				File::delete( file )
 				File::delete( file + '~' )
 				return nil
@@ -1840,3 +1840,5 @@ RSSFOOT
 		end
 	end
 end
+
+# vim: ts=3
