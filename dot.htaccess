@@ -15,7 +15,7 @@ Options +ExecCGI
 AddHandler cgi-script .rb
 DirectoryIndex index.rb
 
-<Files "*.rhtml">
+<Files "*.rhtml*">
 	deny from all
 </Files>
 

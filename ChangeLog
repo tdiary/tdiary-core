@@ -1,3 +1,10 @@
+2003.09.02 KAKUTANI Shintaro <shintaro@kakutani.com>
+	* skel/plugin_error.rhtml: follow conf proc.
+
+2003.09.02 TADA Tadashi <sho@spc.gr.jp>
+	* dot.htaccess: deny "*.rhtml*".
+	* plugin/00default.rb: mobile_navi supports ruby 1.8.
+
 2003.09.01 Junichiro kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb, skel/i.*.rhtml: create navigation link with mobile_navi.
 
