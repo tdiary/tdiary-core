@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.15 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.16 $
 #
 require 'pstore'
 
@@ -32,7 +32,10 @@ module TDiary
 			rescue PStore::Error, NameError, Errno::EACCES
 				raise PermissionError::new( "make your @data_path to writable via httpd. #$!" )
 			end
-			File::delete( filename ) if diaries.empty?
+			begin
+				File::delete( filename ) if diaries.empty?
+			rescue Errno::ENOENT
+			end
 			return diaries
 		end
 

@@ -1,4 +1,7 @@
 2002.12.25 TADA Tadashi <sho@spc.gr.jp>
+	* pstoreio.rb: for PStore of ruby 1.6.8.
+
+2002.12.25 TADA Tadashi <sho@spc.gr.jp>
 	* release 1.5.2.
 
 2002.12.24 TADA Tadashi <sho@spc.gr.jp>
