@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.20 $
+tdiary.rb $Revision: 1.21 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -456,7 +456,10 @@ protected
 	end
 
 	def load_cgi_conf
-		return unless @data_path
+		raise TDiaryError, 'No @data_path variable.' unless @data_path
+
+		@data_path += '/' if /\/$/ !~ @data_path
+		raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{PATH}/"
 
 		variables = [
 			:author_name,
@@ -481,7 +484,6 @@ protected
 			:mail_header,
 			:hour_offset,
 		]
-		@data_path += '/' if /\/$/ !~ @data_path
 		begin
 			cgi_conf = File::readlines( "#{@data_path}tdiary.conf" ).join
 			cgi_conf.untaint unless @secure
