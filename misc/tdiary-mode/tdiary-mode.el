@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.1 2002-05-14 12:57:53 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.2 2002-05-16 04:16:25 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -114,6 +114,8 @@ template.  See tempo.info for details.")
 (defvar tdiary-passwd-cache nil
   "Cache for username and password.")
 
+(defvar tdiary-hour-offset 0)
+
 (defvar tdiary-mode-hook nil
   "Hook run when entering tDiary mode.")
 
@@ -200,6 +202,14 @@ If there are no completable text, call `tdiary-do-complete-plugin'."
 		   (tempo-display-completions match-string
 					      collection)))))))
 
+(defun tdiary-today ()
+  (let* ((offset-second (* tdiary-hour-offset 60 60))
+	 (now (current-time))
+	 (now-second (+ (* (nth 0 now) 65536) (nth 1 now)))
+	 (pseudo-second (+ now-second offset-second))
+	 (high (/ pseudo-second 65536))
+	 (low (% pseudo-second 65536)))
+    (list high low (nth 2 now))))
 
 (defun tdiary-read-username (url)
   (let ((username (tdiary-passwd-cache-read-username url)))
@@ -214,7 +224,7 @@ If there are no completable text, call `tdiary-do-complete-plugin'."
 (defun tdiary-read-date (date)
   (read-string "Date: "
 	       (or date
-		   (format-time-string "%Y%m%d"))))
+		   (format-time-string "%Y%m%d" (tdiary-today)))))
 
 (defun tdiary-read-title (date)
   (read-string (concat "Title for " date ": ")))
@@ -326,13 +336,15 @@ Dangerous!!!"
     (if replacep
 	(save-excursion
 	  (setq buf (tdiary-post "edit" tdiary-date nil))
-	  (if (bufferp buf)
+	  (when (bufferp buf)
 	    (let (start end body)
-	      (re-search-forward "<textarea [^>]+>" nil t nil buf)
-	      (setq start (match-end 0))
-	      (re-search-forward "</textarea>" nil t nil buf)
-	      (setq end (match-beginning 0))
-	      (setq body (buffer-substring start end buf))
+	      (save-excursion
+		(set-buffer buf)
+		(re-search-forward "<textarea [^>]+>" nil t nil)
+		(setq start (match-end 0))
+		(re-search-forward "</textarea>" nil t nil)
+		(setq end (match-beginning 0))
+		(setq body (buffer-substring start end buf)))
 	      (insert body)))
 	  (setq tdiary-edit-mode "replace")
 	  (goto-char (point-min))
@@ -371,7 +383,7 @@ Dangerous!!!"
   (setq require-final-newline t
 	indent-tabs-mode nil)
   (setq tdiary-edit-mode "append"
-	tdiary-date (format-time-string "%Y%m%d"))
+	tdiary-date (format-time-string "%Y%m%d" (tdiary-today)))
   (set-buffer-file-coding-system 'euc-japan-dos)
   (tdiary-setup-keys)
 
