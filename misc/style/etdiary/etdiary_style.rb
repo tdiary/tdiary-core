@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.4 2003-03-05 23:42:19 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.5 2003-03-21 16:37:45 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -238,7 +238,7 @@ module TDiary
 			section = EtdiarySection::new( nil, author )
 			buffer = nil
 			tag_kind = nil
-			( body.gsub("\r",'').sub(/\A\n*/,'') + "\n" ).each("") do |fragment|
+			( body.gsub(/\r/,'').sub(/\A\n*/,'') + "\n" ).each("") do |fragment|
 				if buffer and TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then
 					section << buffer + fragment.sub(/\n*\z/,"\n\n")
 					tag_kind = nil
@@ -291,7 +291,7 @@ module TDiary
 			section.bodies.each do |fragment|
 				if PRE_REGEXP =~ fragment then
 					r << factory.pre_start
-					r << $1.gsub("&","&amp;").gsub("<","&lt;").gsub(">","&gt;")
+					r << $1.gsub(/&/,"&amp;").gsub(/</,"&lt;").gsub(/>/,"&gt;")
 					r << factory.pre_end << "\n"
 				elsif /\A</ =~ fragment then
 					r << fragment.sub( /\n*\z/, "\n" )

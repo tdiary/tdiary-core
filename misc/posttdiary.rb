@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.6 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.7 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -49,7 +49,7 @@ def usage
 		  --image-url,  -u: URL of image.
 		          You have to specify both options when using images.
   TEXT
-  text.gsub( "\t", '' )
+  text.gsub( /\t/, '' )
 end
 
 def image_list( date, path )
@@ -130,7 +130,7 @@ begin
 	mail = ARGF.read
 	raise "no mail text." if not mail or mail.length == 0
 	
-	head, body = mail.split( "\n\n", 2 )
+	head, body = mail.split( /\n\n/, 2 )
 
 	require 'base64'
 	require 'nkf'
@@ -142,9 +142,9 @@ begin
 		end
 	
 		bound = "--" + $1
-		body_sub = body.split( Regexp.escape( bound ) )
+		body_sub = body.split( Regexp.compile( Regexp.escape( bound ) ) )
 		body_sub.each do |b|
-			sub_head, sub_body = b.split( "\n\n", 2 )
+			sub_head, sub_body = b.split( /\n\n/, 2 )
 
 			next unless sub_head =~ /Content-Type/
 

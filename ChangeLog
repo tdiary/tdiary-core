@@ -1,3 +1,10 @@
+2003.03.22 Minero Aoki <aamine@loveruby.net>
+	* misc/jtime.rb, misc/posttdiary.rb, misc/theme_convert/theme_conver.rb: remove warning on ruby 1.8.
+	* emptdiary_style.rb, etdiary_style.rb, rd_style.rb, wiki_style.rb: remove warning on ruby 1.8.
+	* skel/plugin_error.rb: remove warning on ruby 1.8.
+	* tdiary/defaultio.rb, tdiary/pstoreio.rb, tdiary/tdiary_style.rb: remove warning on ruby 1.8.
+	* tdiary.rb: remove warning on ruby 1.8.
+
 2003.03.21 zunda <zunda@freeshell.org>
 	* skel/(i.)diary.rhtml, i.update.rhtml(.en): comment.body.shorten -> comment.shorten
 

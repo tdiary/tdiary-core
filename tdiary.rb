@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.97 $
+tdiary.rb $Revision: 1.98 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030321'
+TDIARY_VERSION = '1.5.3.20030322'
 
 require 'cgi'
 require 'nkf'
@@ -44,7 +44,7 @@ class String
 	end
 
 	def shorten( len = 120 )
-		lines = NKF::nkf( "-e -m0 -f#{len}", self.gsub( "\n", ' ' ) ).split( "\n" )
+		lines = NKF::nkf( "-e -m0 -f#{len}", self.gsub( /\n/, ' ' ) ).split( /\n/ )
 		lines[0].concat( '...' ) if lines[0] and lines[1]
 		lines[0]
 	end
@@ -369,7 +369,7 @@ module TDiary
 			load
 
 			instance_variables.each do |v|
-				v.sub!( '@', '' )
+				v.sub!( /@/, '' )
 				instance_eval( <<-SRC
 					def #{v}
 						@#{v}
@@ -388,8 +388,8 @@ module TDiary
 			@index_page = cgi.params['index_page'][0]
 	
 			@html_title = cgi.params['html_title'][0].to_euc
-			@header = cgi.params['header'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
-			@footer = cgi.params['footer'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
+			@header = cgi.params['header'][0].to_euc.gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
+			@footer = cgi.params['footer'][0].to_euc.gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
 	
 			@section_anchor = cgi.params['section_anchor'][0].to_euc
 			@comment_anchor = cgi.params['comment_anchor'][0].to_euc
@@ -1245,7 +1245,7 @@ module TDiary
 				date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 		
 				serial = @diary.count_comments( true )
-				message_id = %Q|<tdiary.#{[@conf.mail_header].pack('m').gsub("\n",'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
+				message_id = %Q|<tdiary.#{[@conf.mail_header].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
 	
 				mail_header = @conf.mail_header.dup
 				mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
@@ -1287,7 +1287,7 @@ module TDiary
 	
 		def to_mime( str )
 			NKF::nkf( "-j -m0 -f50", str ).collect do |s|
-				%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( "\n", '' )}?=|
+				%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( /\n/, '' )}?=|
 			end
 		end
 	end

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.24 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.25 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -7,7 +7,7 @@ module TDiary
 	TDIARY_MAGIC = "#{TDIARY_MAGIC_MAJOR}.#{TDIARY_MAGIC_MINOR}"
 
 	def TDiary::parse_tdiary( data )
-		header, body = data.split( "\n\n", 2 )
+		header, body = data.split( /\n\n/, 2 )
 		if header and body
 			body.gsub!( /^\./, '' )
 			headers = {}
@@ -75,7 +75,7 @@ module TDiary
 						headers, body = TDiary::parse_tdiary( l )
 						next unless body
 						body.each do |r|
-							count, ref = r.chomp.split( ' ', 2 )
+							count, ref = r.chomp.split( / /, 2 )
 							next unless ref
 							diaries[headers['Date']].add_referer( ref.chomp, count.to_i )
 						end
@@ -171,7 +171,7 @@ module TDiary
 		def restore( fh, diaries )
 			fh.seek( 0 )
 			begin
-				major, minor = fh.gets.split( '.', 2 )
+				major, minor = fh.gets.split( /\./, 2 )
 				unless TDiary::TDIARY_MAGIC_MAJOR == major then
 					raise StandardError, 'bad file format.'
 				end

@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.4 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.5 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -89,7 +89,7 @@ module TDiary
 		end
 	
 		def append( body, author = nil )
-			body.gsub( "\r", '' ).split( /\n\n+/ ).each do |fragment|
+			body.gsub( /\r/, '' ).split( /\n\n+/ ).each do |fragment|
 				section = TdiarySection::new( fragment, author )
 				@sections << section if section
 			end

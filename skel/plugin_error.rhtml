@@ -11,8 +11,8 @@
 	Retry to <a href="<%= @conf.update %>">Update</a> or <a href="<%= @conf.update %>?conf=OK">Configure</a>.
 </strong></p>
 <blockquote>
-	<strong><%= CGI::escapeHTML( $!.type.to_s ) %></strong><br>
-	<code><%= CGI::escapeHTML( $!.to_s ).gsub( ' ', '&nbsp;' ).gsub( "\n", "<br>\n" ) %></code>
+	<strong><%= CGI::escapeHTML( $!.class.to_s ) %></strong><br>
+	<code><%= CGI::escapeHTML( $!.to_s ).gsub( / /, '&nbsp;' ).gsub( /\n/, "<br>\n" ) %></code>
 </blockquote>
 </body>
 </html>

@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.19 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.20 $
 #
 require 'pstore'
 
@@ -145,7 +145,7 @@ class Diary
 	end
 
 	def append( body, author = nil )
-		body.gsub( "\r", '' ).split( /\n\n+/ ).each do |fragment|
+		body.gsub( /\r/, '' ).split( /\n\n+/ ).each do |fragment|
 			paragraph = Paragraph::new( fragment, author )
 			@paragraphs << paragraph if paragraph
 		end

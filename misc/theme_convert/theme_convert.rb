@@ -374,7 +374,7 @@ def theme_convert ( fname, hash )
   ]
   flag = false
 
-  File.open ( fname.sub( /\.css/i, "-2.css" ), "w" ) do |f|
+  File.open( fname.sub( /\.css/i, "-2.css" ), "w" ) do |f|
     File.open( fname, "r" ) do |file|
       file.each {|line|
         if /\{/ =~ line
@@ -404,7 +404,7 @@ def theme_convert ( fname, hash )
   end
 
   rcss = File::readlines( "append.rcss" ).join
-  File.open ( fname.sub( /\.css/i, "-2.css" ), "a" ) do |f|
+  File.open( fname.sub( /\.css/i, "-2.css" ), "a" ) do |f|
     f.write( ERbLight::new( rcss ).result( binding ) )
   end
 end 
