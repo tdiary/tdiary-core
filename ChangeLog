@@ -1,3 +1,6 @@
+2002.12.25 Junichiro Kita <kita@kitaj.no-ip.com>
+	* apply_plugin apply ERb when @options['apply_plugin'] == true
+
 2002.12.25 TADA Tadashi <sho@spc.gr.jp>
 	* pstoreio.rb: for PStore of ruby 1.6.8.
 
