@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.48 $
+# $Revision: 1.49 $
 #
 
 #
@@ -344,6 +344,8 @@ def comment_mail_send
 		receivers = @conf['comment_mail.receivers']
 	when String
 		receivers = @conf['comment_mail.receivers'].split( /[, ]+/ )
+	else
+		receivers = []
 	end
 	receivers = [@conf.author_mail] if receivers.compact.empty?
 	return if receivers.empty?
