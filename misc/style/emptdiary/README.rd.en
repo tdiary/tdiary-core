@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: README.rd.en,v 1.3 2003-02-25 08:56:43 tadatadashi Exp $-))
+= emptDiary style((-$Id: README.rd.en,v 1.4 2003-02-27 03:31:53 kitaj Exp $-))
 
 == Summary
 ((:emptDiary style:))((-emptDiary is an abbreviation for 'empty line
@@ -14,10 +14,11 @@ the program list makes a second section. ((:emptDiary style:)) permits
 empty lines in the arguments of plug-ins. Thus, using e.g. pre.rb
 plugin, you can show your program list without modifying your it.
 
+
 The latest version of this style can be downloaded from
-((<URL:http://zunda.freeshell.org/d/tdiary/emptdiary_style.rb>)), and
-the latest version of this document can be downloaded from
-((<URL:http://zunda.freeshell.org/d/tdiary/emptdiary_style.rd.en>)).
+((<URL:http://zunda.freeshell.org/d/misc/style/emptdiary/emptdiary_style.rb>)),
+and the latest version of this document can be downloaded from
+((<URL:http://zunda.freeshell.org/d/misc/style/emptdiary/README.rd.en>)).
 
 == Usage
 If you want to use this style

@@ -1,5 +1,5 @@
 =begin
-= emptDiaryスタイル((-$Id: README.rd,v 1.3 2003-02-25 08:56:41 tadatadashi Exp $-))
+= emptDiaryスタイル((-$Id: README.rd,v 1.4 2003-02-27 03:31:52 kitaj Exp $-))
 
 == 概要
 ((:emptDiaryスタイル:))((-emptDiaryは'empty line permitted tDiary style'
@@ -15,10 +15,10 @@
 きます。
 
 ((:emptDiaryスタイル:))の最新版は、
-((<URL:http://zunda.freeshell.org/d/tdiary/emptdiary_style.rb>))から、 
+((<URL:http://zunda.freeshell.org/d/misc/style/emptdiary/emptdiary_style.rb>))から、
 このファイルの最新版は、
-((<URL:http://zunda.freeshell.org/d/tdiary/emptdiary_style.rd.ja>))から 
-入手できるでしょう。
+((<URL:http://zunda.freeshell.org/d/misc/style/emptdiary/README.rd>))か
+ら、 入手できるでしょう。
 
 また、pre.rbの最新版は、
 ((<URL:http://zunda.freeshell.org/d/plugin/pre.rb>))から入手できるはずで
