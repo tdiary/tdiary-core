@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.34 $
+# $Revision: 1.35 $
 #
 
 #
@@ -379,7 +379,7 @@ def comment_mail( text )
 	# no action in default.
 end
 
-if @mode == 'comment' and @comment then
+if (@mode == 'comment' or @mode == 'trackbackreceive') and @comment then
 	# setting conversion
 	@options['comment_mail.header'] ||= @conf.mail_header || ''
 	@options['comment_mail.receivers'] ||= @conf.mail_receivers
