@@ -1,3 +1,6 @@
+2002.05.20 TADA Tadashi <sho@spc.gr.jp>
+	* fix security hole about apply plugin.
+
 2002.05.16 TADA Tadashi <sho@spc.gr.jp>
 	* replace new default theme.
 

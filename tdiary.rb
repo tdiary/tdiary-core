@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.36 $
+tdiary.rb $Revision: 1.37 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020515'
+TDIARY_VERSION = '1.5.0.20020520'
 
 require 'cgi'
 require 'nkf'
@@ -245,7 +245,7 @@ class TDiary
 		def eval_src( src, secure )
 			@body_enter_procs.taint
 			@body_leave_procs.taint
-			return Safe::safe( @secure ? 4 : 1 ) do
+			return Safe::safe( secure ? 4 : 1 ) do
 				eval( src )
 			end
 		end
