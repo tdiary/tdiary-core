@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: README.rd.en,v 1.1 2003-02-18 01:38:04 tadatadashi Exp $-))
+= emptDiary style((-$Id: README.rd.en,v 1.2 2003-02-18 13:42:24 tadatadashi Exp $-))
 
 == Summary
 ((:emptDiary style:))((-emptDiary is an abbreviation for 'empty line
@@ -31,8 +31,8 @@ In short:
 * Lines following the ((:section title:)) become the body of the
   ((:section:)),
 * An empty line changes ((:section:))s, but
-* You can ((*no longer*)) create a ((:section anchor:)) in a section
-  beginning a line with a double-byte white space: '¡¡'.
+* You can create a ((:section:)) with a ((:section anchor:)) but a
+  ((:section title:)) with the first line beginning with a space.
 
 ((:emptDiary style:)) adds the follwing rules:
 * Empty lines between <% and %> are ignored when parsing your text into

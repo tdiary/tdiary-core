@@ -6,6 +6,8 @@ doc.css: CSS for tDiary documents
 */
 
 body {
+	color: #000;
+	background-color: #fff;
 	line-height: 130%;
 }
 
