@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.199 $
+tdiary.rb $Revision: 1.200 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -857,6 +857,8 @@ module TDiary
 	
 		attr_reader :cookies
 		attr_reader :conf
+		attr_reader :date
+		attr_reader :diaries
 	
 		def initialize( cgi, rhtml, conf )
 			@cgi, @rhtml, @conf = cgi, rhtml, conf
@@ -895,6 +897,14 @@ module TDiary
 
 		def last_modified
 			nil
+		end
+	
+		def []( date )
+			@diaries[date.strftime( '%Y%m%d' )]
+		end
+	
+		def calendar
+			@years = @io.calendar unless @years
 		end
 	
 	protected
@@ -944,10 +954,6 @@ module TDiary
 				'comment' => @comment,
 				'last_modified' => last_modified
 			)
-		end
-	
-		def []( date )
-			@diaries[date.strftime( '%Y%m%d' )]
 		end
 	
 		def <<( diary )
@@ -1039,10 +1045,6 @@ module TDiary
 				return nil
 			end
 			obj
-		end
-	
-		def calendar
-			@years = @io.calendar unless @years
 		end
 
 		def load_filters
@@ -1607,14 +1609,6 @@ module TDiary
 			end
 		end
 	
-	protected
-		def calc_diaries_size
-			@diaries_size = 0
-			@diaries.each_value do |diary|
-				@diaries_size += 1 if diary.visible?
-			end
-		end
-	
 		def latest( limit = 5 )
 			idx = 0
 			@diaries.keys.sort.reverse_each do |date|
@@ -1623,6 +1617,14 @@ module TDiary
 				next unless diary.visible?
 				yield diary
 				idx += 1
+			end
+		end
+	
+	protected
+		def calc_diaries_size
+			@diaries_size = 0
+			@diaries.each_value do |diary|
+				@diaries_size += 1 if diary.visible?
 			end
 		end
 	
