@@ -1,3 +1,6 @@
+2002.09.15 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix bug in TDiaryAppend and TDiaryReplace: title= -> set_title.
+
 2002.09.13 TADA Tadashi <sho@spc.gr.jp>
 	* HOWTO-make-io.rd: about Section#body.
 

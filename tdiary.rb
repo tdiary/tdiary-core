@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.52 $
+tdiary.rb $Revision: 1.53 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020912'
+TDIARY_VERSION = '1.5.0.20020915'
 
 require 'cgi'
 require 'nkf'
@@ -678,7 +678,7 @@ class TDiaryAppend < TDiaryAdmin
 			@diaries = diaries
 			@diary = self[@date] || @io.diary_factory( @date, @title, '' )
 			self << @diary.append( @body, @author )
-			@diary.title = @title unless @title.empty?
+			@diary.set_title( @title ) unless @title.empty?
 			@diary.show( ! @hide )
 			DIRTY_DIARY
 		end
@@ -715,7 +715,7 @@ class TDiaryReplace < TDiaryAdmin
 			if @diary then
 				if @date.strftime( '%Y%m%d' ) != old_date then
 					@diary.append( @body, @append )
-					@diary.title = @title if @title.length > 0
+					@diary.set_title( @title ) if @title.length > 0
 				else
 					@diary.replace( @date, @title, @body )
 				end
