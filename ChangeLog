@@ -1,3 +1,6 @@
+2003.12.16 Takeru KOMORIYA <komoriya@paken.org>
+	* tdiary.rb: do not count up last-modified when the diary disabled.
+
 2003.12.16 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: accept fuzzy anchor style.
 

@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.165 $
+tdiary.rb $Revision: 1.166 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20031211'
+TDIARY_VERSION = '1.5.6.20031216'
 
 require 'cgi'
 begin
@@ -1284,7 +1284,7 @@ module TDiary
 			lm = Time::at( 0 )
 			@diaries.each_value do |diary|
 				lmd = diary.last_modified
-				lm = lmd if lm < lmd
+				lm = lmd if lm < lmd and diary.visible?
 			end
 			lm
 		end
