@@ -1,3 +1,6 @@
+2004-05-22 TADA Tadashi <sho@spc.gr.jp>
+	* default.css, tdiary1.css: add '@charset "euc-jp";'.
+
 2004-05-20  Kazuhiko  <kazuhiko@fdiary.net>
 	* skel/mail.rtxt, skel/mail.rtxt.en: separate each address by
 	comma.
