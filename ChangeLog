@@ -1,3 +1,6 @@
+2004-09-24 Fri UECHI Yasumasa <uechi@potaway.net>
+	* rd_style.rb: fix tainted name space of RD Headline class. Thanks Shugo Maeda <maeda@shugo.net>. 
+
 2004-08-08 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: TDiaryCategoryView's @last_modified changed to Time.now from Time.at(0). Thanks MATSUOKA Kohei <kohei@machu.jp>.
 

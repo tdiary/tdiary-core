@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.22 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.23 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -18,6 +18,8 @@ require 'rd/rdfmt'
 require 'rd/rd2html-lib'
 
 module RD
+	TDIARY_BASE_LEVEL = 2
+
 	class RD2tDiaryVisitor < RD2HTMLVisitor
 		def initialize( date=nil, idx=nil, opt=nil, author=nil )
 		  	@td_date = date
@@ -39,8 +41,9 @@ module RD
 		private :html_body
 
 		def apply_to_Headline(element, title)
-			if element.level == 3
-				r = %Q[<h#{element.level}><a ]
+			level = element.level + TDIARY_BASE_LEVEL
+			if level == 3
+				r = %Q[<h#{level}><a ]
 
 				if @td_opt['anchor'] then
 					r << %Q[name="p#{'%02d' % @td_idx}"]
@@ -50,9 +53,9 @@ module RD
 					r << %Q|[#{@td_author}]|
 				end
 
-				r << %Q[#{categorized_subtitle(title)}</h#{element.level}>]
+				r << %Q[#{categorized_subtitle(title)}</h#{level}>]
 			else
-				r = %Q[<h#{element.level}>#{title}</h#{element.level}>]
+				r = %Q[<h#{level}>#{title}</h#{level}>]
 			end
 			r
 		end
@@ -163,26 +166,20 @@ module RD
 
 	class RD2tDiaryCHTMLVistor < RD2tDiaryVisitor
 		def apply_to_Headline(element, title)
-			if element.level == 3
-				r = %Q[<H#{element.level}><A NAME="p#{'%02d' % @td_idx}">*</A> ]
+			level = element.level + TDIARY_BASE_LEVEL
+			if level == 3
+				r = %Q[<H#{level}><A NAME="p#{'%02d' % @td_idx}">*</A> ]
 
 				if @td_opt['multi_user'] and @td_author then
 					r << %Q|[#{@td_author}]|
 				end
 				
-				r << %Q[#{categorized_subtitle(title)}</H#{element.level}>]
+				r << %Q[#{categorized_subtitle(title)}</H#{level}>]
 			else
-				r = %Q[<H#{element.level}>#{title}</H#{element.level}>]
+				r = %Q[<H#{level}>#{title}</H#{level}>]
 			end
 			r
 		end
-	end
-
-	class Headline
-		MARK2LEVEL["="] = 3
-		MARK2LEVEL["=="] = 4
-		MARK2LEVEL["==="] = 5
-		MARK2LEVEL["===="] = 6
 	end
 
 	class RDInlineParser
