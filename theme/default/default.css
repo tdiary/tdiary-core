@@ -1,6 +1,6 @@
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.13 $
+Revision: $Revision: 1.14 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -151,6 +151,15 @@ h3 {
 	font-size: medium;
 	margin: 0em;
 	font-weight: bold;
+}
+
+/*
+その他の見出し(必要なら)
+*/
+h4 {
+	margin: 2em;
+	font-weight: bold;
+	margin-bottom: 0em;
 }
 
 /*
