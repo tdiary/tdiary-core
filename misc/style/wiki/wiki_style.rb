@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.16 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.17 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -154,18 +154,7 @@ module TDiary
 					s = CGI::escapeHTML( s ) unless stat == :GS
 					case stat
 					when :KS
-						if /\|/ =~ s
-							k, u = s.split( /\|/, 2 )
-							if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pct]\d\d)?$/ =~ u then
-								r << "%=my '" << $1
-								r << $2 if $2
-								r << "', '" << k << "'%"
-							else
-								r << %Q[a href="#{u}">#{k}</a]
-							end
-						else
-							r << "%=kw '" << s << "'%"
-						end
+						r << keyword(s)
 					when :XS
 						case s
 						when /^mailto:/
@@ -290,18 +279,7 @@ module TDiary
 					s = CGI::escapeHTML( s ) unless stat == :GS
 					case stat
 					when :KS
-						if /\|/ =~ s
-							k, u = s.split( /\|/, 2 )
-							if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pct]\d\d)?$/ =~ u then
-								r << "%=my '" << $1
-								r << $2 if $2
-								r << "', '" << k << "'%"
-							else
-								r << %Q[A HREF="#{u}">#{k}</A]
-							end
-						else
-							r << "%=kw '" << s << "'%"
-						end
+						r << keyword(s, true)
 					when :XS
 						r << s << '">' << s.sub( /^mailto:/, '' )
 					else
@@ -317,6 +295,32 @@ module TDiary
 		end
 
 	private
+		def keyword( s, mobile = false )
+			r = ''
+			if /\|/ =~ s
+				k, u = s.split( /\|/, 2 )
+				if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pct]\d\d)?$/ =~ u then
+					r << %Q[%=my '#{$1}#{$2}', '#{k}' %]
+				elsif /:/ =~ u
+					scheme, path = u.split( /:/, 2 )
+					if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
+						if mobile
+							r << %Q[A HREF="#{u}">#{k}</A]
+						else
+							r << %Q[a href="#{u}">#{k}</a]
+						end
+					else
+						r << %Q[%=kw '#{u}', '#{k}'%]
+					end
+				else
+					r << %Q[a href="#{u}">#{k}</a]
+				end
+			else
+				r << %Q[%=kw '#{s}' %]
+			end
+			r
+		end
+
 		def get_categories
 			return [] unless @subtitle
 			cat = /^(\[([^\[]+?)\])+/.match(@subtitle).to_a[0]
