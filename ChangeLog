@@ -1,3 +1,7 @@
+2003.10.01 zunda <zunda at freeshell.org>
+	* plugin/01sp.rb: no more revision information, links to sources and comments
+	* plugin/01sp.rb: user friendlier sequence of plugin list
+
 2003.10.01 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
 	* tdiary.rb: change security error message in Plugin#add_cookie.
 

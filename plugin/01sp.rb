@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.4 $
+# 01sp.rb - select-plugins plugin $Revision: 1.5 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -38,183 +38,65 @@ SP_PREFIX = 'sp'
 
 # get option
 def sp_option( key )
-	@conf["#{SP_PREFIX}.#{key}"] || nil
+	@conf["#{SP_PREFIX}.#{key}"]
 end
 
 # list of plugins
 def sp_list_plugins
 	r = ''
-	if sp_option( 'showmandatory' ) then
-		r << @sp_label_mandatory
-		r << "<ul>\n"
-		@sp_defs.keys.sort.each do |file|
-			r << <<-_HTML
-			<li>#{CGI::escapeHTML( file )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';help=d' + CGI::escape( file ) + '">' + @sp_label_comment + '</a>' if sp_option( 'showhelp' )}
-				#{', ' if sp_option( 'showhelp' ) and sp_option( 'showsource' )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=d' + CGI::escape( file ) + '">' + @sp_label_source + '</a>' if sp_option( 'showsource' )}
-				#{"(#{@sp_ver[ 'd' + file ]})" if @sp_ver[ 'd' + file ]}
-			_HTML
-		end
-		r << "</ul>\n"
-		r << @sp_label_optional
-	end	# if sp_option( 'showmandatory' )
 	unless @sp_opt.empty? then
-		known = ( sp_option( 'selected' ) ? sp_option( 'selected' ).split( /\n/ ) : []) + ( sp_option( 'notselected' ) ? sp_option( 'notselected' ).split( /\n/ ) : [])
-		r << @sp_label_optional2
-		r << "<ul>\n"
-		@sp_opt.keys.sort.each do |file|
-			r << <<-_HTML
-			<li><input name="sp.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{((sp_option( 'selected' ) and sp_option( 'selected' ).split( /\n/ ).include?( file )) or (sp_option( 'usenew' ) and not known.include?( file ))) ? ' checked' : ''}>
-				#{CGI::escapeHTML( file )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';help=o' + CGI::escape( file ) + '">' + @sp_label_comment + '</a>' if sp_option( 'showhelp' )}
-				#{', ' if sp_option( 'showhelp' ) and sp_option( 'showsource' )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=o' + CGI::escape( file ) + '">' + @sp_label_source + '</a>' if sp_option( 'showsource' )}
-				#{'(' + @sp_ver[ 'o' + file ] + ')' if @sp_ver[ 'o' + file ]}
-				#{@sp_label_new unless known.include?( file )}
-			_HTML
+		r += @sp_label_please_select
+		used = sp_option( 'selected' ) ? sp_option( 'selected' ).split( /\n/ ) : []
+		used.reject! { |plugin| not @sp_opt.keys.include?( plugin ) }
+		notused = sp_option( 'notselected' ) ? sp_option( 'notselected' ).split( /\n/ ) : []
+		notused.reject! { |plugin| not @sp_opt.keys.include?( plugin ) }
+		unknown = @sp_opt.keys.dup
+		unknown.reject! { |plugin| used.include?( plugin ) }
+		unknown.reject! { |plugin| notused.include?( plugin ) }
+		# new plugins
+		unless unknown.empty? then
+			r += @sp_label_new
+			r += "<ul>\n"
+			unknown.sort.each do |file|
+				r += <<-_HTML
+					<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{sp_option( 'usenew' ) ? ' checked' : ''}>#{CGI::escapeHTML( file )}
+				_HTML
+			end
+			r += "</ul>\n"
 		end
-		r << "</ul>\n"
+		# selected plugins
+		unless used.empty? then
+			r += @sp_label_used
+			r += "<ul>\n"
+			used.sort.each do |file|
+				r += <<-_HTML
+					<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t" checked>#{CGI::escapeHTML( file )}
+				_HTML
+			end
+			r += "</ul>\n"
+		end
+		# not selected plugins
+		unless notused.empty? then
+			r += @sp_label_notused
+			r += "<ul>\n"
+			notused.sort.each do |file|
+				r += <<-_HTML
+					<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t">#{CGI::escapeHTML( file )}
+				_HTML
+			end
+			r += "</ul>\n"
+		end
 	else
-		r << @sp_label_noplugin
+		r += @sp_label_noplugin
 	end
 	r
 end
 
-# comments
-# file is prefixed with 'o' (optional/selectable) or 'd' (default/mandatory)
-def sp_help( file )
-	if sp_option( 'showhelp' ) and @sp_src[file] then
-		if @sp_resource[file] then
-			commentsource = @sp_resource[file]
-		else
-			commentsource = @sp_src[file]
-		end
-		if /^=begin$(.*?)^=end$/m =~ commentsource then
-			help =  $1
-		elsif /((^#.*?\n)+)/ =~ commentsource then
-			help =  $1.gsub( /^#/, '' )
-		end
-		if help then
-			case @conf.lang
-			when 'en'
-				<<-_HTML
-					<p>Comments in #{CGI::escapeHTML( file.slice( 1..-1 ) )}.#{' Click <a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">here</a> for the source.' if sp_option( 'showsource' )}</p>
-					<p><a href="#{@conf.update}?conf=#{SP_PREFIX}">Back</a>
-					<hr>
-					<pre>#{CGI::escapeHTML( help )}</pre>
-					<hr>
-				_HTML
-			else
-				<<-_HTML
-					<p>#{CGI::escapeHTML( file.slice( 1..-1 ) )}の注釈です。#{'ソースを見るには、<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">こちら</a>。' if sp_option( 'showsource' )}</p>
-					<p><a href="#{@conf.update}?conf=#{SP_PREFIX}">戻る</a>
-					<hr>
-					<pre>#{CGI::escapeHTML( help )}</pre>
-					<hr>
-				_HTML
-			end
-		else
-			case @conf.lang
-			when 'en'
-				<<-_HTML
-					<p>There is no comment in #{CGI::escapeHTML( file.slice( 1..-1 ))}.#{' Click <a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">here</a> for the source.' if sp_option( 'showsource' ) and @sp_src[file]}</p>
-				_HTML
-			else
-				<<-_HTML
-					<p>#{CGI::escapeHTML( file.slice( 1..-1 ))}の注釈はありません。#{'ソースを見るには、<a href="'+ @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">こちら</a>。' if sp_option( 'showsource' ) and @sp_src[file]}</p>
-				_HTML
-			end
-		end
-	else
-		case @conf.lang
-		when 'en'
-			<<-_HTML
-			<p>Comments from #{CGI::escapeHTML( file.slice( 1..-1 ))} can't be viewed.</p>
-			_HTML
-		else
-			<<-_HTML
-			<p>#{CGI::escapeHTML( file.slice( 1..-1 ))}の注釈は見られません。</p>
-			_HTML
-		end
-	end
-end
-
-# source
-# file is prefixed with 'o' (optional/selectable) or 'd' (default/mandatory)
-def sp_src( file )
-	if sp_option( 'showsource' ) and @sp_src[file] then
-		case @conf.lang
-		when 'en'
-			<<-_HTML
-			<p>Source for #{CGI::escapeHTML( file.slice( 1..-1 ) )}</p>
-			<p><a href="#{@conf.update}?conf=#{SP_PREFIX}">Back</a>
-			<hr>
-			<pre>#{CGI::escapeHTML( @sp_src[file] )}</pre>
-			<hr>
-			_HTML
-		else
-			<<-_HTML
-			<p>#{CGI::escapeHTML( file.slice( 1..-1 ) )}のソースです。</p>
-			<p><a href="#{@conf.update}?conf=#{SP_PREFIX}">戻る</a>
-			<hr>
-			<pre>#{CGI::escapeHTML( @sp_src[file] )}</pre>
-			<hr>
-			_HTML
-		end
-	else
-		case @conf.lang
-		when 'en'
-			<<-_HTML
-			<p>Source for #{CGI::escapeHTML( file.slice( 1..-1 ) )} can't be viewed.</p>
-			_HTML
-		else
-			<<-_HTML
-			<p>#{CGI::escapeHTML( file.slice( 1..-1 ) )}のソースは見られません。</p>
-			_HTML
-		end
-	end
-end 
-
 if @cgi.params['conf'][0] == SP_PREFIX then
-	# mandatory plugins
-	if sp_option( 'showmandatory' ) then
-		@sp_defs = {}	# path to the plugin
-		def_paths = Dir::glob( ( @conf.plugin_path || "#{PATH}/plugin" ) + '/*.rb' )
-		def_paths.each do |path|
-			@sp_defs[ File.basename( path ) ] = path
-		end
-	end
 	# selectable plugins
 	@sp_opt = {}	# path to the plugin
-	opt_paths = Dir::glob( "#{@sp_path}/*.rb" )
-	opt_paths.each do |path|
+	Dir::glob( "#{@sp_path}/*.rb" ).each do |path|
 		@sp_opt[ File.basename( path ) ] = path
-	end
-	# other information
-	@sp_ver = {}	# revision number of the plugin
-	@sp_src = {}	# source
-	@sp_resource = {}	# l10n resource
-	[['d', def_paths], ['o', opt_paths]].each do |prefix, paths|
-		next unless paths
-		paths.each do |path|
-			file = File.basename( path )
-			source = File.open( path.untaint ) { |f| f.read }
-			# source
-			@sp_src[ prefix + file ] = source
-			# versions
-			if /\$(Revision.*?)\s*\$/ =~ source then
-				@sp_ver[ prefix + file ] = $1
-			elsif /\$(Id.*?)\s*\$/ =~ source then
-				@sp_ver[ prefix + file ] = $1
-			end
-			# l10n resource
-			rcpath = File.dirname( path ) + '/' + @conf.lang + '/' + File.basename( path )
-			rcpath.untaint
-			if File.exist?( rcpath ) then
-				@sp_resource[ prefix + file ] = File.open( rcpath ) { |f| f.read }
-			end
-		end
 	end
 
 	# update options
@@ -235,14 +117,7 @@ end
 # configuration menu
 # options are updated when we are eval'ed
 add_conf_proc( SP_PREFIX, @sp_label ) do
-	r = @sp_label_description.dup
-	if @cgi.params['help'][0] then
-		r += sp_help( @cgi.params['help'][0] )
-	elsif sp_option( 'showsource' ) and @cgi.params['src'][0] then
-		r += sp_src( @cgi.params['src'][0] )
-	else
-		r += sp_list_plugins
-	end
+	r = @sp_label_description.dup + sp_list_plugins
 end
 
 # Finally, we can eval the selected plugins as tdiary.rb does
@@ -254,6 +129,8 @@ if sp_option( 'selected' ) then
 			load_plugin( path.untaint )
 			@plugin_files << path
 		rescue IOError, Errno::ENOENT	# for now, just ignore missing plugins
+		rescue Exception
+			raise PluginError::new( "Plugin error in '#{File::basename( path )}'.\n#{$!}" )
 		end
 	end
 end

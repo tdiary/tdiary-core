@@ -1,7 +1,7 @@
-# Japanese resources of 01sp.rb $Revision: 1.2 $
+# Japanese resources of 01sp.rb $Revision: 1.3 $
 
 =begin
-= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.2 2003-09-30 09:41:21 tadatadashi Exp $-))
+= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.3 2003-10-01 14:47:30 zunda Exp $-))
 Please see below for an English description.
 
 == 概要
@@ -31,15 +31,6 @@ secure==trueな日記でも使えます。
   'plugin/selectable'などと、選択できるプラグインのあるディレクトリを、
   tdiary.rbのあるディレクトリからの相対パスか絶対パスで指定してください。
 
-:@options['sp.showhelp']
-  注釈を表示したい場合にはtrueに設定してください。
-
-:@options['sp.showsource']
-  ソースを表示したい場合にはtrueに設定してください。
-
-:@options['sp.showmandatory']
-  絶対に必要なプラグインの情報を表示したい場合にはtrueに設定してください。
-
 :@options['sp.usenew']
   新しくインストールされたプラグインをデフォルトで使うようにする場合は
   trueに設定してください。新しくインストールされたプラグインを検出するの
@@ -55,19 +46,13 @@ Copyright (C) 2003 zunda <zunda at freeshell.org>
 Permission is granted for use, copying, modification, distribution, and
 distribution of modified versions of this work under the terms of GPL
 version 2 or later.
-
-You should be able to find the latest version of this pluigin at
-((<URL:http://zunda.freeshell.org/d/plugin/select_plugins.rb>)).
 =end
 
 
 @sp_label = 'プラグイン選択'
 @sp_label_description = '<p>どのプラグインを使うか選択します。</p>'
-@sp_label_mandatory = %Q|<h4>常に使われるプラグイン</h4>
-				<p>使うかどうか選択することはできません。</p>|
-@sp_label_optional = "<h4>使うかどうか選択できるプラグイン</h4>"
-@sp_label_optional2 = "<p>有効にしたいプラグインにチェックしてください。</p>"
-@sp_label_comment = "注釈"
-@sp_label_source = "ソース"
-@sp_label_new = '[新入荷！お試しください。]'
-@sp_label_noplugin = "<li>選択可能なプラグインはありません。"
+@sp_label_please_select = '<p>有効にしたいプラグインにチェックしてください。</p>'
+@sp_label_new = '<h4>新入荷！お試しください</h4>'
+@sp_label_used = '<h4>使用中</h4>'
+@sp_label_notused = '<h4>休憩中</h4>'
+@sp_label_noplugin = '<p>選択可能なプラグインはありません。</p>'

@@ -1,4 +1,4 @@
-# English resources of 01sp.rb $Revision: 1.2 $
+# English resources of 01sp.rb $Revision: 1.3 $
 
 =begin
 = Select-plugin plugin
@@ -26,18 +26,6 @@ You can use this plugin in a secure diary.
 	Directory name where the optional plugins are, relative from the
   directory where tdiary.rb is or absolute.
 
-:@options['sp.showhelp']
-	Define true when you want the users (writers of the diaries) to see
-  the comments of the plugins.
-
-:@options['sp.showsource']
-	Define true when you want the users  to see the sources of the
-	plugins.
-
-:@options['sp.showmandatory']
-	Define true when you want to show what plugins are installed in the
-  non-optional path.
-
 :@options['sp.usenew']
   Define true if you want to the users to try a newly installed plugin.
 	Newly installed plugins are detected next time when the user configures
@@ -49,18 +37,12 @@ Copyright (C) 2003 zunda <zunda at freeshell.org>
 Permission is granted for use, copying, modification, distribution, and
 distribution of modified versions of this work under the terms of GPL
 version 2 or later.
-
-You should be able to find the latest version of this pluigin at
-((<URL:http://zunda.freeshell.org/d/plugin/select_plugins.rb>)).
 =end
 
 @sp_label = 'Plugin selection'
 @sp_label_description = '<p>Selects which plugins you want to use.</p>'
-@sp_label_mandatory = %Q|<h4>Mandatory plugins</h4>
-				<p>These plugins must always be used.</p>|
-@sp_label_optional = "<h4>Optional plugins</h4>"
-@sp_label_optional2 = "<p>Please check the plugins you want to use.</p>"
-@sp_label_comment = "comments"
-@sp_label_source = "source"
-@sp_label_new = '[New! Try this.]'
-@sp_label_noplugin = "<li>There is no optional plugins."
+@sp_label_please_select = '<p>Please check the plugins you want to use.</p>'
+@sp_label_new = '<h4>New! Give it a try.</h4>'
+@sp_label_used = '<h4>Being used</h4>'
+@sp_label_notused = '<h4>Currently not used</h4>'
+@sp_label_noplugin = '<p>There is no optional plugins.</p>'
