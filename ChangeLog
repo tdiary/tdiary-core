@@ -1,3 +1,7 @@
+2004-05-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/style/etdiary/etdiary_style.rb: fix a bug that causes a
+	problem in 'to_html' without options.
+
 2004-05-04  Kazuhiko  <kazuhiko@fdiary.net>
 	* skel/update.rhtml: display an e-mail address of comment if
 	exists.

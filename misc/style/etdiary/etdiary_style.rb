@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.7 2004-03-17 15:22:11 kitaj Exp $
+# $Id: etdiary_style.rb,v 1.8 2004-05-04 15:18:28 kazuhiko Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -115,11 +115,14 @@ module TDiary
 				end
 			end
 
-			r = "<a"
-			r << " name=\"#{name}\"" if @opt['anchor']
-			r << " href=\"" + @opt['index']
-			r << "<%=anchor \"" + date.strftime('%Y%m%d') + "#" + name + "\" %>\">"
-			r << @opt['section_anchor'] + "</a>"
+			r = ''
+			if @opt['index']
+				r << "<a"
+				r << " name=\"#{name}\"" if @opt['anchor']
+				r << " href=\"" + @opt['index']
+				r << "<%=anchor \"" + date.strftime('%Y%m%d') + "#" + name + "\" %>\">"
+				r << @opt['section_anchor'] + "</a>"
+			end
 			r << "[" + fragment.author + "]" if fragment.author
 			r << fragment.categorized_subtitle if fragment.subtitle
 
