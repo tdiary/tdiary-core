@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.1 $
+# tDiary configuration file $Revision: 1.2 $
 #
 
 #-------
@@ -28,10 +28,6 @@
 #   @smtp_host and @smtp_port are assigned to the SMTP server name and
 #   the port number. If you want tDiary to notify a new comment by mail, 
 #   you must configure these variables.
-#
-#   この2行を訳すと、misc/mail-via-*.rbまで訳さないといけないんですが。 （みずほ）
-#   なお、メールの送信手段としては、SMTP以外にも差し替え可能になっていま
-#   す。misc/mail-via-*.rbファイルを参照してください。
 #
 @smtp_host = 'smtp.example.net'
 @smtp_port = 25
@@ -65,14 +61,11 @@
 #   is sent to the different address from @author_mail.
 @mail_receivers = []
 
-# プラグインの説明は書いていないので、無視します（みずほ）
-# プラグインに渡すオプション【オプション】
-#   プラグインによっては、tdiary.conf経由でオプションを渡すことで挙動を
-#   変更できるものがあります。@optionsはそのオプションを指定する時に使う
-#   変数です。指定方法は以下のとおりです。詳しくは各プラグインの説明を参
-#   照照して下さい。
-#     例: sampleプラグインのhogeオプションを設定
-#         @options[sample.hoge] = 'foobar'
+# options for plugins. (optional)
+#   Some plugins can receive options from tdiary.conf.
+#   See below.
+#     ex: a option 'foo' of plugin 'sample'.
+#         @options[sample.foo] = 'foobar'
 
 #-------
 # Items which you can configure with browser
@@ -84,7 +77,7 @@
 
 # your name and mail address
 #   you set @author_name to your name and @author_mail to your mail 
-#   address. These values is embeded in the HTML header of your diary.
+#   address. These values is embedded in the HTML header of your diary.
 @author_name = 'Your name'
 @author_mail = 'foo@example.net'
 
@@ -92,24 +85,24 @@
 #   if your website has contents other than diary, you 
 #   set @index_page to URL of your website page, for example,
 #   the front page of your diary or the top page of your website.
-#   This is emebeded in the HTML header and the beginning of 
+#   This is embedded in the HTML header and the beginning of 
 #   your diary page.
 @index_page = 'http://www.example.net/~foo/'
 
 # The title 
 #   This is the title of your diary.
 #   This must not have the HTML tag.
-@html_title = 'hogehoge diary'
+@html_title = 'foobar diary'
 
 # Diary header
-#   You sepecify setences which are embeded in the beginning 
+#   You specify sentences which are embedded in the beginning 
 #   of your diary. Please change the sentences enclosed by the "HEADER".
-#   Because this value is embeded as it is, you can use HTML tag. You 
-#   can also use eRuby tag. You feel inconvenient if "%canlendar" and "%navi" 
+#   Because this value is embedded as it is, you can use HTML tag. You 
+#   can also use eRuby tag. You feel inconvenient if "%calendar" and "%navi" 
 #   are not in the diary header.
 #   
 #   <%=calendar%>
-#       This is replaced with the calendar. This canlendar has the links to 
+#       This is replaced with the calendar. This calendar has the links to 
 #       other monthly page.
 #   <%=navi%>
 #       This is replaced with the menu through which you can update your diary,
@@ -183,11 +176,11 @@ FOOTER
 #   You can decide whether today's comments are shown or not. 
 #   If you set @show_comment to false, you can hide the comments and
 #   readers of your diary can't read them. The diary author can 
-#   raed them in the "Update" page if you specify date.
+#   read them in the "Update" page if you specify date.
 @show_comment = true
 
 # How many comments are shown in "Latest" page and "Daily" page.
-#   If today's comments are shown, you sepcify how many comments are
+#   If today's comments are shown, you specify how many comments are
 #   shown at most in "Latest" page and "Daily" page.
 @comment_limit = 3
 
@@ -204,13 +197,13 @@ FOOTER
 
 
 # How many links are shown in "Latest" page and "Daily" page.
-#   If today's links are shown, you sepcify how many links are
+#   If today's links are shown, you specify how many links are
 #   shown at most in "Latest" page and "Daily" page.
 @referer_limit = 10
 
 # Comment mail configuration
 #   If you want to know when your diary has a new comment, 
-#   you configure these items. If you set @mail_on_commnet to true, 
+#   you configure these items. If you set @mail_on_comment to true, 
 #   tDiary send a comment mail to @author_mail according to the below
 #   configuration.
 # 
@@ -219,7 +212,7 @@ FOOTER
 #   は、Fromヘッダにも@author_mailが指定されます。
 #
 #   @mail_header is inserted into the subject of the mail. 
-#   You specfiy this variable so that you can easily arrange your comment mail. 
+#   You specify this variable so that you can easily arrange your comment mail. 
 #   The actual subject has the date and comment number. It is like this, 
 #   "@mail_header:@date_format-1". If @mail_header includes a word which begins
 #   with %, it is regarded as the date format. In other words, ":@date_format" 
@@ -232,7 +225,7 @@ FOOTER
 #   付加されます)。
 
 @mail_on_comment = false
-@mail_header = 'hogehoge'
+@mail_header = 'foobar'
 
 
 # Time difference adjustment 
@@ -258,7 +251,7 @@ FOOTER
 #   If all the access are recorded, today's link has some noisy URLs. 
 #   Because the purpose of today's link is to find URL which is linked to 
 #   your diary, these accesses are annoying; a search engine's access, 
-#   an access from your website, and a website fetcher's accesss. 
+#   an access from your website, and a website fetcher's access. 
 #   They are excluded if you set their URLs to @no_referer.
 #   It is better to add your diary's URL to @no_referer. 
 #   The value must be the Array of Ruby and Array's contents are String 
