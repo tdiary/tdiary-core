@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.35 $
+tdiary.rb $Revision: 1.36 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -110,6 +110,7 @@ end
 Management comments in a day. Include in Diary class.
 =end
 module CommentManager
+private
 	#
 	# call this method when initialize
 	#
@@ -117,10 +118,11 @@ module CommentManager
 		@comments = []
 	end
 
+public
 	def add_comment( com )
 		if @comments[-1] != com then
 			@comments << com
-			last_modified = Time::now
+			@last_modified = Time::now
 			com
 		else
 			nil
@@ -165,6 +167,7 @@ end
 Management referers in a day. Include in Diary class.
 =end
 module RefererManager
+private
 	#
 	# call this method when initialize
 	#
@@ -173,6 +176,7 @@ module RefererManager
 		@new_referer = true # for compatibility
 	end
 
+public
 	def add_referer( ref )
 		newer_referer
 		ref = ref.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' )
@@ -200,6 +204,7 @@ module RefererManager
 		end
 	end
 
+private
 	def newer_referer
 		unless @new_referer then # for compatibility
 			@referers.keys.each do |ref|
@@ -606,9 +611,11 @@ class TDiaryConf < TDiary
 		super
 
 		@themes = []
-		Dir::glob( "#{PATH}/theme/*.css" ).sort.each do |css|
-			name = css.gsub( %r[(.*/theme/|\.css$)], '')
-			@themes << [name,name.gsub(/_/,' ').capitalize]
+		Dir::glob( "#{PATH}/theme/*" ).sort.each do |dir|
+			theme = dir.sub( %r[.*/theme/], '')
+			next unless FileTest::file?( "#{dir}/#{theme}.css" )
+			name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
+			@themes << [theme,name]
 		end
 	end
 end

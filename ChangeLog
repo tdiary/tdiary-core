@@ -1,5 +1,6 @@
 2002.05.15 TADA Tadashi <sho@spc.gr.jp>
 	* split CommentManager and RefererManager from Diary class.
+	* move theme files into each directory.
 
 2002.05.14 TADA Tadashi <sho@spc.gr.jp>
 	* split IO class to tdiary/pstoreio.rb.

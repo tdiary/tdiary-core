@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.4 $
+# $Revision: 1.5 $
 #
 
 #
@@ -105,7 +105,7 @@ def theme_url; 'theme'; end
 
 def css_tag
 	if @theme and @theme.length > 0 then
-		css = "#{theme_url}/#{@theme}.css"
+		css = "#{theme_url}/#{@theme}/#{@theme}.css"
 	else
 		css = @css
 	end

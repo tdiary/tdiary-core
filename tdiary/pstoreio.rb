@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.2 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.3 $
 #
 require 'pstore'
 
@@ -133,10 +133,6 @@ class Diary
 
 	def last_modified
 		@last_modified ? @last_modified : Time::at( 0 )
-	end
-
-	def last_modified=( time )
-		@last_modified = time
 	end
 
 	def eval_rhtml( opt, path = '.' )
