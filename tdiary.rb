@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.5 $
+tdiary.rb $Revision: 1.6 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -239,9 +239,11 @@ class Diary
 		end
 	end
 
-	def count_comments
+	def count_comments( all = false )
 		i = 0
-		@comments.each do |comment| i += 1 if comment.visible?  end
+		@comments.each do |comment|
+			i += 1 if all or comment.visible?
+		end
 		i
 	end
 
@@ -948,7 +950,7 @@ class TDiaryComment < TDiaryDay
 		if dirty and @mail_on_comment then
 			require 'socket'
 
-			name = to_mime( @name )
+			name = to_mime( @name ).join( "\n " )
 			body = @body.to_jis
 			mail = @mail.length == 0 ? @author_mail : @mail
 			
@@ -958,8 +960,8 @@ class TDiaryComment < TDiaryDay
 			tz = (g.to_i - l.to_i) / 36
 			date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 	
-			serial = @diary.count_comments
-			message_id = "<tdiary.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>"
+			serial = @diary.count_comments( true )
+			message_id = "<tdiary.#{[@mail_header].pack('m').gsub("\n",'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>"
 
 			text = ERbLight::new( File::readlines( "#{PATH}/skel/mail.rtxt" ).join.untaint ).result( binding )
 			sendmail( text )
@@ -979,7 +981,9 @@ protected
 	end
 
 	def to_mime( str )
-		"=?ISO-2022-JP?B?" + [str.to_jis].pack( 'm' ).gsub( "\n", '' ) + "?="
+		[str.to_jis].pack( 'm' ).collect {|s|
+			"=?ISO-2022-JP?B?#{s.chomp}?="
+		}
 	end
 end
 
