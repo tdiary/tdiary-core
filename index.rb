@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.8 $
+# index.rb $Revision: 1.9 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -18,7 +18,7 @@ begin
 	status = nil
 	if %r[/\d{6,8}\.html?$] =~ ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
 		@cgi.params['date'] = [ENV['REDIRECT_URL'].sub( /.*\/(\d+)\.html$/, '\1' )]
-		status = 'OK'
+		status = '200 OK'
 	end
 
 	begin
