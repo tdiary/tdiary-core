@@ -1,4 +1,4 @@
-<%# i.day.rhtml $Revision: 1.10 $ %>
+<%# i.day.rhtml $Revision: 1.11 $ %>
 <%%update_proc if @mode == 'comment'%%>
 <H1><%= @conf.html_title %></H1>
 <P>
@@ -28,7 +28,7 @@ if @diary then
 	<FORM METHOD="POST" ACTION="<%= @conf.index %>">
 	<INPUT TYPE="HIDDEN" NAME="date" VALUE="<%= @date.strftime( '%Y%m%d' ) %>">
 	<P><%%=comment_description_short%%><BR>
-	<%%=comment_name_label_short%%>: <input NAME="name"><BR>
+	<%%=comment_name_label_short%%>: <INPUT NAME="name"><BR>
 	<%%=comment_mail_label_short%%>: <INPUT NAME="mail"><BR>
 	<%%=comment_body_label_short%%>:<BR>
 	<TEXTAREA NAME="body"></TEXTAREA><BR>

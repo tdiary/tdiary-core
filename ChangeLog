@@ -1,3 +1,6 @@
+2003.04.11 zunda <zunda@freeshell.org>
+	* skel/i.day.rhtml, skel/i.latest.rhtml, skel/i.month.rhtml: <input ... -> <INPUT ...
+
 2003.04.07 TADA Tadashi <sho@spc.gr.jp>
 	* plugin_error.rhtml: 'Update' -> 'Edit' when error in updating.
 
