@@ -1,7 +1,7 @@
-# Japanese resources of 01sp.rb $Revision: 1.1 $
+# Japanese resources of 01sp.rb $Revision: 1.2 $
 
 =begin
-= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.1 2003-09-26 16:34:23 tadatadashi Exp $-))
+= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.2 2003-09-30 09:41:21 tadatadashi Exp $-))
 Please see below for an English description.
 
 == 概要
@@ -31,14 +31,14 @@ secure==trueな日記でも使えます。
   'plugin/selectable'などと、選択できるプラグインのあるディレクトリを、
   tdiary.rbのあるディレクトリからの相対パスか絶対パスで指定してください。
 
-:@options['sp.hidehelp']
-  注釈を表示したい場合にはfalseに設定してください。
+:@options['sp.showhelp']
+  注釈を表示したい場合にはtrueに設定してください。
 
-:@options['sp.hidesource']
-  ソースを表示したい場合にはfalseに設定してください。
+:@options['sp.showsource']
+  ソースを表示したい場合にはtrueに設定してください。
 
-:@options['sp.hidemandatory']
-  絶対に必要なプラグインの情報を表示したい場合にはfalseに設定してください。
+:@options['sp.showmandatory']
+  絶対に必要なプラグインの情報を表示したい場合にはtrueに設定してください。
 
 :@options['sp.usenew']
   新しくインストールされたプラグインをデフォルトで使うようにする場合は

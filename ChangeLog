@@ -1,3 +1,6 @@
+2003.09.29 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/01sp.rb: support sucure mode.
+
 2003.09.28 TADA Tadashi <sho@spc.gr.jp>
 	* add new setting @referer_day_only to reduce 'referer noise'.
 

@@ -1,4 +1,4 @@
-# English resources of 01sp.rb $Revision: 1.1 $
+# English resources of 01sp.rb $Revision: 1.2 $
 
 =begin
 = Select-plugin plugin
@@ -26,16 +26,16 @@ You can use this plugin in a secure diary.
 	Directory name where the optional plugins are, relative from the
   directory where tdiary.rb is or absolute.
 
-:@options['sp.hidehelp']
-	Define false when you want the users (writers of the diaries) to see
+:@options['sp.showhelp']
+	Define true when you want the users (writers of the diaries) to see
   the comments of the plugins.
 
-:@options['sp.hidesource']
-	Define false when you want the users  to see the sources of the
+:@options['sp.showsource']
+	Define true when you want the users  to see the sources of the
 	plugins.
 
-:@options['sp.hidemandatory']
-	Define false when you want to show what plugins are installed in the
+:@options['sp.showmandatory']
+	Define true when you want to show what plugins are installed in the
   non-optional path.
 
 :@options['sp.usenew']

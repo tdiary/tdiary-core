@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.3 $
+# 01sp.rb - select-plugins plugin $Revision: 1.4 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -237,11 +237,11 @@ end
 add_conf_proc( SP_PREFIX, @sp_label ) do
 	r = @sp_label_description.dup
 	if @cgi.params['help'][0] then
-		r << sp_help( @cgi.params['help'][0] )
+		r += sp_help( @cgi.params['help'][0] )
 	elsif sp_option( 'showsource' ) and @cgi.params['src'][0] then
-		r << sp_src( @cgi.params['src'][0] )
+		r += sp_src( @cgi.params['src'][0] )
 	else
-		r << sp_list_plugins
+		r += sp_list_plugins
 	end
 end
 
