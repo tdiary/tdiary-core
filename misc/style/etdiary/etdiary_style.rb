@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.11 2004-08-13 07:06:48 shirai-kaoru Exp $
+# $Id: etdiary_style.rb,v 1.12 2004-08-22 11:56:59 shirai-kaoru Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -36,6 +36,10 @@ module TDiary
 			@bodies = []
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
+		end
+	
+		def set_body( bodies )
+			@bodies = bodies
 		end
 	
 		def body
@@ -287,16 +291,30 @@ module TDiary
 			self
 		end
 	
-		def each_section
-			@sections.each do |section|
-				yield section
+		def each_paragraph
+			@sections.each do |fragment|
+				yield fragment
 			end
+		end
+	
+		def each_section
+			section = nil
+			each_paragraph do |fragment|
+				if section and nil == fragment.anchor_type then
+					section << fragment.body
+				else
+					yield section if section and section.anchor_type
+					section = fragment.dup
+					section.set_body( [ fragment.body ] )
+				end
+			end
+			yield section if section
 		end
 	
 		def to_src
 			src = ''
-			each_section do |section|
-				src << section.to_src
+			each_paragraph do |fragment|
+				src << fragment.to_src
 			end
 			src.sub(/\n*\z/,"\n")
 		end
@@ -334,11 +352,11 @@ module TDiary
 				f = EtHtml4Factory::new(opt)
 			end
 			r = f.section_start
-			each_section do |section|
-				if :H3 == section.anchor_type and r != f.section_start then
+			each_paragraph do |fragment|
+				if :H3 == fragment.anchor_type and r != f.section_start then
 					r << f.section_end << "\n" << f.section_start
 				end
-				r << to_html_section(section,f)
+				r << to_html_section(fragment,f)
 			end
 			r + f.section_end
 		end

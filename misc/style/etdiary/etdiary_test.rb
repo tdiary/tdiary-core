@@ -3,8 +3,8 @@
 require "test/unit"
 
 thisdir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift(thisdir)
-$LOAD_PATH.unshift("#{thisdir}/../../..")
+$LOAD_PATH << thisdir
+$LOAD_PATH << "#{thisdir}/../../.."
 
 require "tdiary"
 require "etdiary_style"
@@ -202,6 +202,36 @@ fuga
     EOF
 
     checkConversion(source, html)
+  end
+
+  # 2004.08.19 Reported by Shun-ichi TAHARA, thanks!
+  def test_etdiary_badAnchorNumber
+    source = <<-'EOF'
+sect0-para0
+
+<<sect1>>
+sect1-para0
+
+sect1-para1
+
+sect1-para2
+
+<<sect2>>
+sect2-para0
+    EOF
+    diary = TDiary::EtdiaryDiary.new(Time.local(2003, 1, 1), "TITLE", "")
+    diary.append(source)
+    sections = []
+    diary.each_section { |sect|
+      sections << sect
+    }
+
+    anchorNumber = 0
+    sections.find { |sect|
+      anchorNumber += 1
+      (sect.subtitle == "sect2")
+    } or assert_fail("Section not found.")
+    assert_equal(2, anchorNumber)
   end
 
   def checkConversion(source, htmlExpected, opt = nil)
