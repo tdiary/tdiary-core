@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.18 $
+# $Revision: 1.19 $
 #
 
 #
@@ -42,7 +42,7 @@ def navi_user
 		else
 			if prev_month
 				y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
-				if m == 12
+				if m == "12"
 					y, m = y.to_i + 1, 1
 				else
 					y, m = y.to_i, m.to_i + 1
