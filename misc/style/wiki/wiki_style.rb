@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.11 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.12 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -422,10 +422,6 @@ module TDiary
 	
 		def to_s
 			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
-		end
-
-		def categorizable?
-			true
 		end
 	end
 end

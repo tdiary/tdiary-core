@@ -1,3 +1,6 @@
+2003.06.07 Junichiro Kita <kita@kitaj.no-ip.com>
+	* wiki_style.rb: remove categorizable?
+
 2003.06.06 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, update.rb: redirection to day page after append or replace diary.
 	* update.rhtml, preview.rhtml: change update form layout.
