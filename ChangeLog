@@ -2,9 +2,9 @@
 	* 00default.rb: remove media="all" from meta element in HTML header.
 
 2002.05.30 TADA Tadashi <sho@spc.gr.jp>
-	* implement tDary2 file format [read only].
+	* implement tDairy2 file format [read only].
 	* diary.rhtml, update.rhtml: change class of form.
-	* misc/conver2.rb: added.
+	* misc/convert2.rb: added.
 
 2002.05.23 TADA Tadashi <sho@spc.gr.jp>
 	* follow i.diary.rhtml also.
