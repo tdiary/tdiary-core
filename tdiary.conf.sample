@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.25 $
+# tDiary configuration file $Revision: 1.26 $
 #
 
 #-------
@@ -70,7 +70,7 @@
 #   変数です。指定方法は以下のとおりです。詳しくは各プラグインの説明を参
 #   照照して下さい。
 #     例: sampleプラグインのhogeオプションを設定
-#         @options[sample.hoge] = 'foobar'
+#         @options['sample.hoge'] = 'foobar'
 #@options['apply_plugin'] = true
 #@options['bot'] = []
 
