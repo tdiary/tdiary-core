@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.60 $
+# $Revision: 1.61 $
 #
 
 #
@@ -385,6 +385,7 @@ def comment_mail_send
 		rmail = File::open( "#{TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
 	end
 	text = ERbLight::new( rmail.untaint ).result( binding )
+	receivers.each { |i| i.untaint }
 	comment_mail( text, receivers )
 end
 
