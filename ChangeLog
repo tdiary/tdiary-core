@@ -1,3 +1,6 @@
+2002.11.20 TADA Tadashi <sho@spc.gr.jp>
+	* fix: bad last modified setting in CommentManager::add_comment.
+
 2002.11.19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: remove a debugging message.
 	* defaultio.rb, pstoreio.rb: support Ruby 1.6.8 (ad hoc).

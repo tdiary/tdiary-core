@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.69 $
+tdiary.rb $Revision: 1.70 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -127,7 +127,9 @@ module TDiary
 		def add_comment( com )
 			if @comments[-1] != com then
 				@comments << com
-				@last_modified = Time::now
+				if not @last_modified or @last_modified < com.date
+					@last_modified = com.date
+				end
 				com
 			else
 				nil
