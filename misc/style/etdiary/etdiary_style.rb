@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.8 2004-05-04 15:18:28 kazuhiko Exp $
+# $Id: etdiary_style.rb,v 1.9 2004-05-18 03:58:32 shirai-kaoru Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -218,9 +218,9 @@ module TDiary
 	class EtdiaryDiary
 		include DiaryBase
 		include CategorizableDiary
-	
-		TAG_BEG_REGEXP = /\A<([A-Za-z]+)([^>]*)>([^\r]*)\z/
-		TAG_END_REGEXP = /\A([^\r]*)<\/([A-Za-z]+)>\n*\z/
+		
+		TAG_BEG_REGEXP = /\A<([A-Za-z][0-9A-Za-z]*)([^>]*)>([^\r]*)\z/
+		TAG_END_REGEXP = /\A([^\r]*)<\/([A-Za-z][0-9A-Za-z]*)>\n*\z/
 		PRE_REGEXP     = /\A<[Pp][Rr][Ee][^>]*>([^\r]*)<\/[Pp][Rr][Ee]>\n*\z/
 		TITLE_REGEXP   = /\A<<([^\r]*?)>>[^>]/
 	
