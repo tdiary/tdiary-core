@@ -1,3 +1,6 @@
+2004-07-01 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary_style.rb: implement body_to_html method.
+
 2004-06-28 Junichiro Kita <kita@kitaj.no-ip.com>
 	* misc/i18n/tdiary.conf.sample-en: fix typo. thanks to jfkimura@yahoo.co.jp
 

@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.6 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.7 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -10,7 +10,6 @@ module TDiary
 		attr_reader :subtitle, :body, :author
 		attr_reader :categories, :stripped_subtitle
 
-		alias :body_to_html :body
 		alias :subtitle_to_html :subtitle
 		alias :stripped_subtitle_to_html :stripped_subtitle
 
@@ -39,7 +38,20 @@ module TDiary
 			end
 			"#{s}#{@body}\n\n"
 		end
-	
+
+		def body_to_html
+			html = ""
+			tag = false
+			@body.each do |p|
+				if p[0] == ?< then
+					html = @body.dup
+					break
+				end
+				html << "<p>#{p}</p>"
+			end
+			html
+		end
+
 		def to_s
 			"subtitle=#{@subtitle}, body=#{@body}"
 		end
