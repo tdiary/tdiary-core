@@ -1,3 +1,6 @@
+2003.06.15 Hideki SAKAMOTO <hs@on-sky.net>
+	* tdiary.rb: initialize @css in Config class.
+
 2003.06.14 TADA Tadashi <sho@spc.gr.jp>
 	* conf_proc plugin modify.
 	* conf.rhtml.en: deleted.

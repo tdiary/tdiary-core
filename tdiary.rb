@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.121 $
+tdiary.rb $Revision: 1.122 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030614'
+TDIARY_VERSION = '1.5.4.20030615'
 
 require 'cgi'
 require 'nkf'
@@ -456,6 +456,7 @@ module TDiary
 			@show_nyear = false unless @show_nyear
 
 			@theme = 'default' if not @theme and not @css
+			@css = '' unless @css
 
 			@show_comment = true unless defined?( @show_comment )
 			@comment_limit = 3 unless @comment_limit
