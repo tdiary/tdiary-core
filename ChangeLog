@@ -1,3 +1,6 @@
+2003.05.09 Junichiro Kita <kita@kitaj.no-ip.com>
+	* plugin/00default.rb: add bot?
+
 2003.05.06 Junichiro Kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: anchor can handle yyyymmdd#txx.
 

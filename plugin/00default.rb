@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.36 $
+# $Revision: 1.37 $
 #
 
 #
@@ -383,6 +383,17 @@ if (@mode == 'comment' or @mode == 'trackbackreceive') and @comment then
 	# setting conversion
 	@options['comment_mail.header'] ||= @conf.mail_header || ''
 	@options['comment_mail.receivers'] ||= @conf.mail_receivers
+end
+
+#
+# detect bot from User-Agent
+#
+bot = ["googlebot", "Hatena Antenna", "moget@goo.ne.jp"]
+bot += @options['bot'] || []
+@bot = Regexp::new( "(#{bot.join( '|' )})" )
+
+def bot?
+	@bot =~ @cgi.user_agent
 end
 
 #
