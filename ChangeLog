@@ -1,3 +1,6 @@
+2002.03.17 TADA Tadashi <sho@spc.gr.jp>
+	* conf.rhtml, tdiary.conf.sample, default.css: image anchor in default.
+
 2002.03.15 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix duplicated referer on day mode.
 	* update.rb: move hide checkbox to right of submit button.

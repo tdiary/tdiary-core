@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.5 $
+# tDiary configuration file $Revision: 1.6 $
 #
 
 #-------
@@ -125,8 +125,11 @@ FOOTER
 #   日記のセクションアンカー(@paragraph_anchor)および「ツッコミ」アンカー
 #   (@comment_anchor))に使う文字を指定します。
 #   それぞれの文字列が<a href="...">〜</a>に挟まれてHTMLに展開されます。
-@paragraph_anchor = '■'
-@comment_anchor = '#'
+#   なお、classがpanchor(セクションアンカーの場合)やcanchor(ツッコミアン
+#   カーの場合)のspanタグを使うと、テーマによっては自動的に画像によるア
+#   ンカーが付くようになります。
+@paragraph_anchor = '<span class="panchor">_</span>'
+@comment_anchor = '<span class="canchor">_</span>'
 
 # 最新表示時に最大何日分の日記を表示するかの指定
 #   最新日記を表示するページで、最大何日分の日記を出力するかを指定します。

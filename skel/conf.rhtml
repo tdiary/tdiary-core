@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.5 $ %>
+<%# conf.rhtml $Revision: 1.6 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [設定]</h1>
@@ -45,10 +45,10 @@
 <h2><span class="title">表示設定(1) - 基本</span></h2>
 <div class="body">
 <h3 class="subtitle">セクションアンカー</h3>
-<p>日記のセクションの先頭(サブタイトルの行頭)に挿入される、リンク用のアンカー文字列を指定します。</p>
+<p>日記のセクションの先頭(サブタイトルの行頭)に挿入される、リンク用のアンカー文字列を指定します。なお「&lt;span class="panchor"&gt;_&lt;/span&gt;」を指定すると、テーマによっては自動的に画像アンカーがつくようになります。</p>
 <p><input name="paragraph_anchor" value="<%= CGI::escapeHTML @paragraph_anchor %>" size="40"></p>
 <h3 class="subtitle">ツッコミアンカー</h3>
-<p>読者からのツッコミの先頭に挿入される、リンク用のアンカー文字列を指定します。</p>
+<p>読者からのツッコミの先頭に挿入される、リンク用のアンカー文字列を指定します。なお「&lt;span class="canchor"&gt;_&lt;/span&gt;」を指定すると、テーマによっては自動的に画像アンカーがつくようになります。</p>
 <p><input name="comment_anchor" value="<%= CGI::escapeHTML @comment_anchor %>" size="40"></p>
 <h3 class="subtitle">日付フォーマット</h3>
 <p>日付の表示部分に使われるフォーマットを指定します。任意の文字が使えますが、「%」で始まる英字には次のような特殊な意味があります。「%Y」(西暦年)、「%m」(月数値)、「%b」(短月名)、「%B」(長月名)、「%d」(日)、「%a」(短曜日名)、「%A」(長曜日名)。</p>

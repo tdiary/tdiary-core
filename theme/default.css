@@ -1,6 +1,5 @@
 /*
-	default.css: Default Style Sheet of tDiary $Revision: 1.2 $
-		2002/02/22 Valid CSS
+	default.css: Default Style Sheet of tDiary $Revision: 1.3 $
 	validated by W3C.
  */
 
@@ -107,6 +106,38 @@ h3.subtitle {
 	margin: 0em;
 	font-weight: bold;
 }
+
+/*
+イメージアンカーの設定
+ただしDefaultテーマではイメージアンカーは使っていないのでコメントにしてある
+指定のコツは以下の通り
+  - span.panchorはセクションアンカー、span.canchorはツッコミアンカー
+  - background-imageにアンカー画像を指定
+  - paddingのtop(最初)とright(2番目)に画像の縦横サイズを指定
+  - colorに背景色と同じ色を指定(文字を見えなくするため)
+*/
+/*
+div.day span.panchor {
+	background-image: url(default_panchor.png);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	padding: 16px 16px 0px 0px;
+	color: #fff;
+	background-color: transparent;
+	font-size: 1px;
+}
+
+div.day span.canchor {
+	background-image: url(default_canchor.png);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	padding: 16px 16px 0px 0px;
+	color: #fff;
+	background-color: transparent;
+	font-size: 1px;
+}
+
+*/
 
 /*
 日記の本文(段落)の設定
