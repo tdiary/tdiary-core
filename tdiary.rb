@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.57 $
+tdiary.rb $Revision: 1.58 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20021017'
+TDIARY_VERSION = '1.5.0.20021023'
 
 require 'cgi'
 require 'nkf'
@@ -427,7 +427,9 @@ module TDiary
 			@mail_receivers = [@author_mail] if not @mail_receivers or @mail_receivers.size == 0
 			@mail_header = '' unless @mail_header
 			@hour_offset = 0 unless @hour_offset
-	
+
+			@hide_comment_form = false unless @hide_comment_form
+
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
 		end
@@ -1095,7 +1097,7 @@ module TDiary
 			end
 	
 			# sending mail
-			if dirty and @conf.mail_on_comment then
+			if dirty & DIRTY_COMMENT != 0 and @conf.mail_on_comment then
 				require 'socket'
 	
 				name = to_mime( @name.to_jis )[0]
