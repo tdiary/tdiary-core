@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.167 $
+tdiary.rb $Revision: 1.168 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20031223'
+TDIARY_VERSION = '1.5.6.20031225'
 
 require 'cgi'
 begin
@@ -939,9 +939,9 @@ module TDiary
 			end
 		end
 	
-		def clear_cache
+		def clear_cache( target = /.*/ )
 			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
-				File::delete( c.untaint )
+				File::delete( c.untaint ) if target =~ c
 			end
 		end
 	
@@ -1097,6 +1097,7 @@ module TDiary
 		def do_eval_rhtml( prefix )
 			super
 			anchor = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
+			clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 			raise ForceRedirect::new( "#{@conf.index}#{anchor}" )
 		end
 	end
@@ -1177,7 +1178,7 @@ module TDiary
 						com.show = @cgi.params[(idx += 1).to_s][0] == 'true' ? true : false;
 					end
 					self << @diary
-					clear_cache
+					clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 					dirty = DIRTY_COMMENT
 				end
 				dirty

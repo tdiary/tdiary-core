@@ -1,16 +1,19 @@
-2003-12-24  Kazuhiko  <kazuhiko@fdiary.net>
+2003.12.25 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: TDiaryBase#clear_cache support parameter of file name pattern.
+
+2003.12.26 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
 	* misc/style/wiki/wiki_style.rb: bug fix of parsing categories. thanks to yowa.
 
-2003-12-26 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
+2003.12.26 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
 	* tdiary.rb: catch StandardError when broken cache.
 
-2003-12-20 Kazuhiko  <kazuhiko@fdiary.net>
+2003.12.20 Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/style/rd/rd_style.rb: bug fix. 
 
 2003.12.19 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: set $KCODE to 'n'.
 
-2003-12-19 Fri UECHI Yasumasa <uh@u.dhis.portside.net>
+2003.12.19 Fri UECHI Yasumasa <uh@u.dhis.portside.net>
 	* misc/style/rd/rd_style.rb: accept lower level headlines without upper level headlines.
 
 2003.12.18 TADA Tadashi <sho@spc.gr.jp>
@@ -38,7 +41,7 @@
 2003.11.21 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: Url returned by base_url ends with '/'.
 
-2003-11-21  Kazuhiko  <kazuhiko@fdiary.net>
+2003.11.21  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb: remove tail '/' of base_url.
 
 2003.11.19 Junichiro Kita <kita@kitaj.no-ip.com>
@@ -88,7 +91,7 @@
 2003.10.25 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: auto invalidation of parser cache and ERb cache.
 
-2003-10-23  Kazuhiko  <kazuhiko@fdiary.net>
+2003.10.23  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/ja/00default.rb, plugin/ja/00default.rb,
 	skel/category.rhtml, skel/conf.rhtml, skel/i.conf.rhtml,
 	skel/i.day.rhtml, skel/i.latest.rhtml, skel/i.month.rhtml,
@@ -108,23 +111,23 @@
 2003.10.10 TADA Tadashi <sho@spc.gr.jp>
 	* misc/posttdiary.rb: --image-format.
 
-2003-10-10  zunda <zunda at freeshell.org>
+2003.10.10  zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: CGI::escape instead of CGI::escapeHTML to make a URL
 
-2003-10-09  zunda <zunda at freeshell.org>
+2003.10.09  zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: links to plugin documents
 
-2003-10-09  Kazuhiko  <kazuhiko@fdiary.net>
+2003.10.09  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/00default.rb: untaint receivers for mod_ruby.
 
 2003.10.09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, 00default.rb: move Plugin#bot? to Config class, and make wrapper in Plugin.
 	* tdiary.rb: suppress saving referer from bot.
 
-2003-10-08 Kazuhiko <kazuhiko@fdiary.net>
+2003.10.08 Kazuhiko <kazuhiko@fdiary.net>
 	* plugin/01sp.rb: untaint sp_option( 'selected' ) for mod_ruby.
 
-2003-10-07 Kazuhiko <kazuhiko@fdiary.net>
+2003.10.07 Kazuhiko <kazuhiko@fdiary.net>
 	* tdiary.rb: untaint '#{@lang}.rb' for mod_ruby.
 
 2003.10.07 Yasuaki Gohko <gony@sm.rim.or.jp>
