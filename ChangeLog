@@ -1,3 +1,6 @@
+2003-08-28 Thu UECHI Yasumasa <uh@u.dhis.portside.net>
+	* rd_style.rb: fix bug when last section dosen't terminate by CR.
+
 2003.08.21 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: remove debug message.
 	* tdiary.rb, 00default.rb: add Plugin@last_modified and insert it into HTML header.

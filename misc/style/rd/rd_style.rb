@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.12 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.13 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -202,19 +202,22 @@ module TDiary
 				@subtitle = nil
 				@body = fragment.dup
 			end
+			@body = @body || ''
+			@body.sub!( /[\n\r]+\Z/, '' )
+			@body << "\n"
 
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
 		end
 
 		def body
-		  	@body + "\n"
+		  	@body.dup
 		end
 
 		def to_src
 			r = ''
 			r << "= #{@subtitle}\n" if @subtitle
-			r << @body.dup
+			r << @body
 		end
 
 		def html( date, idx, opt, mode = :HTML)
