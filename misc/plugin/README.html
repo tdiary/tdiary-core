@@ -110,6 +110,18 @@
 <p>　このプラグインは、ファイルにアクセスするため、tdiary.confで@secureがfalseに設定されていないと利用できません。</p>
 </div>
 
+<h3 class="subtitle">myプラグイン</h3>
+<div class="section">
+<p>　日記本文中で、自分の日記内へのリンクを簡単に作成します。&lt;a href="〜"&gt;...&lt;/a&gt;とやってもよいのですが、こちらの方がサーバの引っ越しやmod_rewriteを利用してURLを変更した場合などに強くできます。</p>
+<p>　最初のパラメタにリンク先の日付とアンカーを「YYYYMMDD#pXX」(YYYY年MM月DD日のXX番目のセクション)や「YYYYMMDD#cXX」(YYYY年MM月DD日のXX番目のツッコミ)のような形式で指定します。2番目のパラメタには、リンクにする文字列を指定します。</p>
+</div>
+
+<div class="section">
+<pre>
+&lt;%=my '20020301#c01', 'そのツッコミ' %&gt;はひどい(笑)。
+</pre>
+</div>
+
 <h2><span class="title">サンプルプラグインの説明</span></h2>
 <p>　続いて、サンプルプラグインについて説明します。以下のプラグインは自分でpluginディレクトリに移動しなければ使うことはできません。</p>
 

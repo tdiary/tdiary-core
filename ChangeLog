@@ -1,5 +1,10 @@
+2002.03.01 TADA Tadashi <sho@spc.gr.jp>
+	* i.update.rhtml: adjust comment number when some comments hidden.
+	* add 'anchor' plugin. for mod_rewrite.
+	* add 'my' plugin.
+
 2002.02.28 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary.rb: adjust comment number when some comments hidden.
+	* tdiary.rb, update.rhtml: adjust comment number when some comments hidden.
 
 2002.02.27 TADA Tadashi <sho@spc.gr.jp>
 	* i.diary.rhtml: paragraph/comment anchor fixed in mobile mode.
@@ -28,7 +33,6 @@
 	* title_list.rb: HTML tags have compatibility with recent_list.
 
 2002.02.19 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.3.20020219
 	* tdiary.rb: enable when no @no_referer in tdiary.conf.
 	* tdiaty.rb: untaint cache file name when clear cache.
 	* tdiary.rb: rescue when errors in eval plugins.
@@ -39,12 +43,10 @@
 	* tdiary.rb: clear cache after changing comment status.
 
 2002.02.12 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.3.20020212
 	* mail.rhtml: URL change.
 	* 00default.rb: escape HTML tags in referer table. thanks KT <pakira@bd6.so-net.ne.jp>.
 	
 2002.02.07 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.3.20020207
 	* tdiary.rb, 00default.rb: leap second again.
 	* dot.htaccess: ExecCGI -> +ExecCGI.
 	* tdiary.rb: mail-via-smtp as default.
@@ -53,14 +55,12 @@
 	* tdiary.rb: correct message_id. thanks woods <sodium@da2.so-net.ne.jp>
 	
 2002.01.31 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.3.20020131
 	* misc/plugin/README.html: fix bug: description of insert plugin.
 	* 00default.rb: support leap second in navi_user.
 	* tdiary.rb: ignore case hostname in Diary#add_referer. thanks munemasa <munemasa@msi.biglobe.ne.jp>.
 	* conf.rhtml: insert 'navi plugin'.
 
 2002.01.24 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.3.20020124
 	* @@update_proc -> add_update_proc, @@header_proc -> add_header_proc.
 	* modify document misc/plugin/README.html.
 	* call update_proc when a new comment appended.
@@ -71,7 +71,6 @@
 	* fix error in mobile mode.
 
 2002.01.23 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.3.20020123
 	* add @@header into plugin.
 	* fix error handling for loading plugins.
 	* tdiary.conf.sample: maintain referer_table.
@@ -85,18 +84,13 @@
 	* 00default.rb: add plugins, "comment_total" and "comment_date".
 
 2002.01.13 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.2.20020113
 	* 00default.rb: fix navi_user plugin when comment mode.
 	* edit.rb: add new plugin into misc/plugin.
 	* index.rb, update.rb: move 'begin' to top of script.
 	* posttdiary.rb: add into misc.
 
 2002.01.10 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.2.20020110.1
 	* fix cache bug.
-
-2002.01.10 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.2.20020110
 	* conf.rhtml: fix typo.
 	* tdiary.rb: bug fix: error when @index_page is nil in navi_user.
 	* dropdown_calendar.rb: fix unclosed tag.
@@ -115,12 +109,10 @@
 	* update plugin test implement.
 
 2001.12.21 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.1.20011221
 	* over monthes in latest mode. thanks gekisive <gekisive@84ch.net>
 	* misc/squeeze.rb: 1.0.1.
 
 2001.12.20 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.1.20011220
 	* tdiary.rb: add @diaries to Plugin, again.
 	* 00default.rb: bug fix: error when @index_page is empty in navi_user.
 	* diary.rhtml, show.rhtm: hide comment form after update.
@@ -131,17 +123,12 @@
 	* CHANGES -> ChangeLog
 
 2001.12.19 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.1.20011219.2
+	* tdiary.rb, diary.rhtml: bug fix: adjust number of comments.
 	* tdiary.rb: some refactoring.
 	* tdiary.rb: add @diaries to Plugin.
 	* diary:rhtml: bug fix: @index -> opt['index'] in comment form.
 
 2001.12.19 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.1.20011219.1
-	* tdiary.rb, diary.rhtml: bug fix: adjust number of comments.
-
-2001.12.19 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.1.20011219
 	* index.rb, update.rb: remove Accept-Ranges header field in HTTP response.
 	* tdiary.rb: add Plugin#method_missing.
 	* tdiary.rb: comment summary upto 120 bytes.
@@ -153,7 +140,6 @@
 	* diary.rhtml: add '<div class="section">...</div>'.
 
 2001.12.17 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.1.20011217
 	* fix bug: error with mod_ruby.
 
 2001.12.16 TADA Tadashi <sho@spc.gr.jp>
@@ -164,31 +150,25 @@
 	* added navi plugin.
 
 2001.11.26 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.0.20011126
 	* index.rb, update.rb: $defout.bimmode.
 	* link to tDiary Themes.
 	* misc/squeeze.rb: added.
 	* diary.rhtml: escape html to comment.name.
 
 2001.11.18 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.0.20011118
 	* tdiary.rb, diary.rhtml: HTMLescape for referer.
 
 2001.11.15 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.0.20011115
 	* index.rb, tdiary.rb: traped permission error again.
 
 2001.11.12 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.0.20011112
 	* index.rb, tdiary.rb: traped permission error.
 	* tdiary.rb: PStore#abort when unless @dirty. thanks sakai <zvm01052@nifty.ne.jp>.
 
 2001.10.12 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.0.20011012
 	* tdiary.rb: fix no effective show_referer/show_comment in CGI conf.
 
 2001.10.01 TADA Tadashi <sho@spc.gr.jp>
-	* 1.3.0.20011001
 	* tdiary.rb: Xiino and L-mode into mobile terminal.
 	* tdiary.conf.sample: referer_table update.
 	* tdiary.rb: added 'Xiino' to mobile agent list.
@@ -203,7 +183,6 @@
 	* tdiary.rb: exactly match for no_referer.
 
 2001.08.30 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.4.20010830
 	* update.rb: remove no-cache.
 	* HOWTO-write-tDiary.html: added.
 	* update.rhtml: hide change comment mode button when no comments.
@@ -214,20 +193,16 @@
 	* tdiary.conf.sample: document update.
 
 2001.08.27 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.3.20010827
 	* split referer.rhtml from conf.rhtml.
 	* update/configration page for i-mode.
 
 2001.08.24 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.3.20010824
 	* add Windows CE's IE to mobile terminal.
 
 2001.08.19 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.3.20010819
 	* theme: maroon by Shinchan.
 
 2001.08.18 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.3.20010818
 	* add ASTEL DOTi and H" to mobile terminal.
 	* @index, @update.
 	* owner can hide any comments.
@@ -240,15 +215,12 @@
 	* diary.conf: hidden 'new comment' when @show_comment was false.
 
 2001.08.16 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.2.20010816.2
 	* testing for mod_ruby (3).
 
 2001.08.16 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.2.20010816
 	* testing for mod_ruby (2).
 
 2001.08.11 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.2.20010811
 	* testing for mod_ruby.
 
 2001.08.07 TADA Tadashi <sho@spc.gr.jp>
@@ -256,7 +228,6 @@
 	* conf.rhtml: CGI::escapeHTML for each data.
 
 2001.08.03 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.1.20010803
 	* tdiary.rb: fix bug not saving @latest_limit via CGI.
 	* tdiary.rb: secure CGI setting. changing format of @data_path/tdiary.conf.
 	* header.rhtml: showing error message.
@@ -272,26 +243,21 @@
 	* changing term: "Referer" -> "リンク元"
 
 2001.07.25 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.0.20010725
 	* tdiary.rb: fix bug bad cookie when running on root directory.
 
 2001.07.21 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.0.20010721
 	* <%=calendar%> added into tdiary.conf.sample.
 
 2001.07.20 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.0.20010720
 	* make editable when multi user mode.
 	* @date_format for comment.
 	* referer_table into title attr in referer list.
 	* Diary#eval_rhtml requires Hash parameter.
 
 2001.07.19 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.0.20010719
 	* @date_format.
 
 2001.07.18 TADA Tadashi <sho@spc.gr.jp>
-	* 1.1.0.20010718
 	* testing code for multi user mode.
 
 2001.07.14 TADA Tadashi <sho@spc.gr.jp>

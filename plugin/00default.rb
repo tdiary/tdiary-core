@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 #
 
 #
@@ -16,8 +16,8 @@ end
 def navi_user
 	result = ''
 	result << %Q[<span class="adminmenu"><a href="#{@index_page}">トップ</a></span>\n] unless @index_page.empty?
-	result << %Q[<span class="adminmenu"><a href="#{@index}?date=#{(@date-24*60*60).strftime( '%Y%m%d' )}">&lt;前日</a></span>\n] if /^(day|comment)$/ =~ @mode
-	result << %Q[<span class="adminmenu"><a href="#{@index}?date=#{(@date+24*60*60).strftime( '%Y%m%d' )#}">翌日&gt;</a></span>\n] if /^(day|comment)$/ =~ @mode
+	result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor( (@date-24*60*60).strftime( '%Y%m%d' ) )}">&lt;前日</a></span>\n] if /^(day|comment)$/ =~ @mode
+	result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor( (@date+24*60*60).strftime( '%Y%m%d' ) )}">翌日&gt;</a></span>\n] if /^(day|comment)$/ =~ @mode
 	result << %Q[<span class="adminmenu"><a href="#{@index}">最新</a></span>\n] unless @mode == 'latest'
 	result
 end
@@ -36,7 +36,8 @@ def calendar
 	@years.keys.sort.each do |year|
 		result << %Q[#{year}|]
 		@years[year.to_s].sort.each do |month|
-			result << %Q[<a href="#{@index}?date=#{year}#{month}">#{month}</a>|]
+			m = "#{year}#{month}"
+			result << %Q[<a href="#{@index}#{anchor m}">#{month}</a>|]
 		end
 		result << "<br>\n"
 	end
@@ -128,6 +129,27 @@ def title_tag
 	r << '</title>'
 end
 
+#
+# make anchor string
+#
+def anchor( s )
+	if /^(\d+)#?([pc]\d*)?$/ =~ s then
+		if $2 then
+			"?date=#$1##$2"
+		else
+			"?date=#$1"
+		end
+	else
+		""
+	end
+end
+
+#
+# make anchor tag in my diary
+#
+def my( a, str )
+	%Q[<a href="#{@index}#{anchor a}">#{str}</a>]
+end
 
 #
 # referer of today

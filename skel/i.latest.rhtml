@@ -1,4 +1,4 @@
-<%# i.latest.rhtml $Revision: 1.1 $ %>
+<%# i.latest.rhtml $Revision: 1.2 $ %>
 <H1><%= @html_title %></H1>
 <%
 param = {
@@ -16,7 +16,7 @@ param = {
 }
 latest( 1 ) do |diary| %>
 	<P>
-	<A HREF="<%= @index %>?date=<%= (diary.date-24*60*60).strftime( '%Y%m%d' ) %>" ACCESSKEY="1">[1]前日</A>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</A>
+	<A HREF="<%= @index %><%%=anchor "<%= (diary.date-24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="1">[1]前日</A>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</A>
 	</P>
 	<%= diary.eval_rhtml( param, PATH ) %>
 <HR>
