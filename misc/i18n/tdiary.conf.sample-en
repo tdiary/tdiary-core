@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.12 $
+# tDiary configuration file $Revision: 1.13 $
 #
 
 #-------
@@ -140,7 +140,7 @@ HEADER
 #   Please change sentences enclosed by "FOOTER".
 @footer = <<FOOTER
 <p>If you want to delete this message, you move to "preferences" page and 
-edit the footer.<p>
+edit the footer.</p>
 
 <p style="font-size: x-large;">
 It is better to read 
