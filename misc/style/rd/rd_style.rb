@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.21 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.22 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -224,9 +224,9 @@ module TDiary
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
 
-			@subtitle_to_html = manufacture(@subtitle)
-			@stripped_subtitle_to_html = manufacture(@stripped_subtitle)
-			@body_to_html = manufacture(@body)
+			@subtitle_to_html = manufacture(@subtitle, true)
+			@stripped_subtitle_to_html = manufacture(@stripped_subtitle, true)
+			@body_to_html = manufacture(@body, false)
 		end
 
 		def body
@@ -263,13 +263,15 @@ module TDiary
 		end
 
 		private
-		def manufacture(str)
+		def manufacture(str, subtitle = false)
 			return nil unless str
 			src = str.strip.to_a.unshift("=begin\n").push("=end\n")
 			visitor = RD2tDiaryVisitor.new
 			tree = RDTree.new(src, nil, nil)
 			begin
-				visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
+				r = visitor.visit( tree.parse )
+				r.gsub!(/<\/?p>/, '') if subtitle
+				r
 			rescue ParseError
 				str
 			end

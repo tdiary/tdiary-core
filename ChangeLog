@@ -1,3 +1,6 @@
+2004-06-15 Tue UECHI Yasumasa <uechi@potaway.net>
+	* rd_style.rb: remove <p> tags in manufacture(*_to_html) only subtitles is given.
+
 2004-06-09 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: remove debug code.
 
