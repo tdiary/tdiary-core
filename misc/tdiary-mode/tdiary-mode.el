@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.12 2002-10-11 15:30:32 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.13 2002-10-15 01:41:54 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -27,7 +27,8 @@
 ;;
 ;; Put the following in your .emacs file:
 ;;
-;;  (setq tdiary-diary-list '("my 1st diary" "http://example.com/tdiary/"))
+;;  (setq tdiary-diary-list '(("my 1st diary" "http://example.com/tdiary/")
+;;                            ("my 2nd diary" "http://example.com/tdiary2/")))
 ;;  (setq tdiary-text-directory (expand-file-name "~/path-to-saved-diary"))
 ;;  (setq tdiary-browser-function 'browse-url)
 ;;  (autoload 'tdiary-mode "tdiary-mode" nil t)
