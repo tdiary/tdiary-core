@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.69 $
+# $Revision: 1.70 $
 #
 
 #
@@ -445,7 +445,6 @@ if @mode =~ /^(conf|saveconf)$/ and @cgi.params['conf'][0] == 'theme' then
 	if @mode == 'saveconf' then
 		@conf.theme = @cgi.params['theme'][0]
 		@conf.css = @cgi.params['css'][0]
-		$stderr.puts "saveconf: #{@conf.theme}"
 	end
 
 	@conf_theme_list = []
