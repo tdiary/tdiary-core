@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.179 $
+tdiary.rb $Revision: 1.180 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040217'
+TDIARY_VERSION = '1.5.6.20040227'
 
 require 'cgi'
 begin
@@ -1144,6 +1144,7 @@ module TDiary
 	protected
 		def do_eval_rhtml( prefix )
 			super
+			@plugin.instance_eval { update_proc }
 			anchor = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
 			clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 			raise ForceRedirect::new( "#{@conf.index}#{anchor}" )

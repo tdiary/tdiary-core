@@ -1,3 +1,6 @@
+2004-02-27 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, skel/*: call update_proc after all plugins loaded.
+
 2004-02-17 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix TDiary::Filter::Filter#comment_filter prototype.
 
