@@ -1,6 +1,8 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.1 $
+# 01sp.rb - select-plugins plugin $Revision: 1.2 $
 
 =begin ChangeLog
+See ../ChangeLog for changes after this.
+
 * Thu Aug 28, 2003 zunda <zunda at freeshell.org>
 - 1.3
 - simpler configuration display
@@ -36,38 +38,38 @@ SP_PREFIX = 'sp'
 
 # get option
 def sp_option( key )
-	@conf["#{SP_PREFIX}.#{key}"] || true
+	@conf["#{SP_PREFIX}.#{key}"] || nil
 end
 
 # list of plugins
 def sp_list_plugins
 	r = ''
-	unless sp_option( 'hidemandatory' ) then
+	if sp_option( 'showmandatory' ) then
 		r << @sp_label_mandatory
 		r << "<ul>\n"
 		@sp_defs.keys.sort.each do |file|
 			r << <<-_HTML
 			<li>#{CGI::escapeHTML( file )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';help=d' + CGI::escape( file ) + '">' + @sp_label_comment + '</a>' unless sp_option( 'hidehelp' )}
-				#{', ' if ! sp_option( 'hidehelp' ) and ! sp_option( 'hidesource' )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=d' + CGI::escape( file ) + '">' + @sp_label_source + '</a>' unless sp_option( 'hidesource' )}
+				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';help=d' + CGI::escape( file ) + '">' + @sp_label_comment + '</a>' if sp_option( 'showhelp' )}
+				#{', ' if sp_option( 'showhelp' ) and sp_option( 'showsource' )}
+				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=d' + CGI::escape( file ) + '">' + @sp_label_source + '</a>' if sp_option( 'showsource' )}
 				#{"(#{@sp_ver[ 'd' + file ]})" if @sp_ver[ 'd' + file ]}
 			_HTML
 		end
 		r << "</ul>\n"
 		r << @sp_label_optional
-	end	# unless sp_option( 'hidemandatory' )
+	end	# if sp_option( 'showmandatory' )
 	unless @sp_opt.empty? then
 		known = ( sp_option( 'selected' ) ? sp_option( 'selected' ).split( /\n/ ) : []) + ( sp_option( 'notselected' ) ? sp_option( 'notselected' ).split( /\n/ ) : [])
 		r << @sp_label_optional2
-		r << "</ul>\n"
+		r << "<ul>\n"
 		@sp_opt.keys.sort.each do |file|
 			r << <<-_HTML
 			<li><input name="sp.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{((sp_option( 'selected' ) and sp_option( 'selected' ).split( /\n/ ).include?( file )) or (sp_option( 'usenew' ) and not known.include?( file ))) ? ' checked' : ''}>
 				#{CGI::escapeHTML( file )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';help=o' + CGI::escape( file ) + '">' + @sp_label_comment + '</a>' unless sp_option( 'hidehelp' )}
-				#{', ' if ! sp_option( 'hidehelp' ) and ! sp_option( 'hidesource' )}
-				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=o' + CGI::escape( file ) + '">' + @sp_label_source + '</a>' unless sp_option( 'hidesource' )}
+				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';help=o' + CGI::escape( file ) + '">' + @sp_label_comment + '</a>' if sp_option( 'showhelp' )}
+				#{', ' if sp_option( 'showhelp' ) and sp_option( 'showsource' )}
+				#{'<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=o' + CGI::escape( file ) + '">' + @sp_label_source + '</a>' if sp_option( 'showsource' )}
 				#{'(' + @sp_ver[ 'o' + file ] + ')' if @sp_ver[ 'o' + file ]}
 				#{@sp_label_new unless known.include?( file )}
 			_HTML
@@ -83,7 +85,7 @@ end
 # file is prefixed with 'o' (optional/selectable) or 'd' (default/mandatory)
 def sp_help( file )
 	help = nil
-	if ! sp_option( 'hidehelp' ) and @sp_src[file] then
+	if sp_option( 'showhelp' ) and @sp_src[file] then
 		if /^=begin$(.*?)^=end$/m =~ @sp_src[file] then
 			help =  $1
 		elsif /((^#.*?\n)+)/ =~ @sp_src[file] then
@@ -93,7 +95,7 @@ def sp_help( file )
 			case @conf.lang
 			when 'en'
 				<<-_HTML
-					<p>Comments in #{CGI::escapeHTML( file.slice( 1..-1 ) )}.#{' Click <a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">here</a> for the source.' unless sp_option( 'hidesource' )}</p>
+					<p>Comments in #{CGI::escapeHTML( file.slice( 1..-1 ) )}.#{' Click <a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">here</a> for the source.' if sp_option( 'showsource' )}</p>
 					<p><a href="#{@conf.update}?conf=#{SP_PREFIX}">Back</a>
 					<hr>
 					<pre>#{CGI::escapeHTML( help )}</pre>
@@ -101,7 +103,7 @@ def sp_help( file )
 				_HTML
 			else
 				<<-_HTML
-					<p>#{CGI::escapeHTML( file.slice( 1..-1 ) )}の注釈です。#{'ソースを見るには、<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">こちら</a>。' unless sp_option( 'hidesource' )}</p>
+					<p>#{CGI::escapeHTML( file.slice( 1..-1 ) )}の注釈です。#{'ソースを見るには、<a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">こちら</a>。' if sp_option( 'showsource' )}</p>
 					<p><a href="#{@conf.update}?conf=#{SP_PREFIX}">戻る</a>
 					<hr>
 					<pre>#{CGI::escapeHTML( help )}</pre>
@@ -112,11 +114,11 @@ def sp_help( file )
 			case @conf.lang
 			when 'en'
 				<<-_HTML
-					<p>There is no comment in #{CGI::escapeHTML( file.slice( 1..-1 ))}.#{' Click <a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">here</a> for the source.' if ! sp_option( 'hidesource' ) and @sp_src[file]}</p>
+					<p>There is no comment in #{CGI::escapeHTML( file.slice( 1..-1 ))}.#{' Click <a href="' + @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">here</a> for the source.' if sp_option( 'showsource' ) and @sp_src[file]}</p>
 				_HTML
 			else
 				<<-_HTML
-					<p>#{CGI::escapeHTML( file.slice( 1..-1 ))}の注釈はありません。#{'ソースを見るには、<a href="'+ @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">こちら</a>。' if ! sp_option( 'hidesource' ) and @sp_src[file]}</p>
+					<p>#{CGI::escapeHTML( file.slice( 1..-1 ))}の注釈はありません。#{'ソースを見るには、<a href="'+ @conf.update + '?conf=' + SP_PREFIX + ';src=' + CGI::escape( file ) + '">こちら</a>。' if sp_option( 'showsource' ) and @sp_src[file]}</p>
 				_HTML
 			end
 		end
@@ -137,7 +139,7 @@ end
 # source
 # file is prefixed with 'o' (optional/selectable) or 'd' (default/mandatory)
 def sp_src( file )
-	if ! sp_option( 'hidesource' ) and @sp_src[file] then
+	if sp_option( 'showsource' ) and @sp_src[file] then
 		case @conf.lang
 		when 'en'
 			<<-_HTML
@@ -172,7 +174,7 @@ end
 
 if @cgi.params['conf'][0] == SP_PREFIX then
 	# mandatory plugins
-	unless sp_option( 'hidemandatory' ) then
+	if sp_option( 'showmandatory' ) then
 		@sp_defs = {}	# path to the plugin
 		def_paths = Dir::glob( ( @conf.plugin_path || "#{PATH}/plugin" ) + "/*.rb" )
 		def_paths.each do |path|
@@ -225,7 +227,7 @@ add_conf_proc( SP_PREFIX, @sp_label ) do
 	r = @sp_label_description.dup
 	if @cgi.params['help'][0] then
 		r << sp_help( @cgi.params['help'][0] )
-	elsif ! sp_option( 'hidesource' ) and @cgi.params['src'][0] then
+	elsif sp_option( 'showsource' ) and @cgi.params['src'][0] then
 		r << sp_src( @cgi.params['src'][0] )
 	else
 		r << sp_list_plugins
