@@ -1,3 +1,6 @@
+2004.02.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary/filter/default.rb: support ruby 1.6.x.
+
 2004-02-11 zunda <zunda at freeshell.org>
 	* tdiary.rb, tdiary/filter/default.rb: fix bugs.
 
