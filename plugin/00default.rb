@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.28 $
+# $Revision: 1.29 $
 #
 
 #
@@ -335,6 +335,7 @@ def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
 def navi_oldest; '最古'; end
 def navi_update; "更新"; end
+def navi_edit; "編集"; end
 def navi_preference; "設定"; end
 def navi_prev_diary(date); "前の日記(#{date.strftime(@date_format)})"; end
 def navi_next_diary(date); "次の日記(#{date.strftime(@date_format)})"; end

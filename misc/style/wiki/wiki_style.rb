@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.7 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.8 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -25,6 +25,7 @@ module TDiary
 				@body = fragment.dup
 			end
 			@body.sub!( /[\n\r]+\Z/, '' )
+			@body << "\n"
 			@parser = WikiParser::new( :wikiname => false ).parse( to_src )
 
 			@categories = get_categories
@@ -32,13 +33,13 @@ module TDiary
 		end
 
 		def body
-			@body + "\n\n"
+			@body.dup
 		end
 
 		def to_src
 			r = ''
-			r << "!#{@subtitle}\n" if @subtitle
-			r << body.dup
+			r << "! #{@subtitle}\n" if @subtitle
+			r << @body
 		end
 
 		def html4( date, idx, opt )
