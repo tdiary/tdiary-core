@@ -12,6 +12,9 @@
 #
 
 =begin ChangeLog
+2005-01-01 nt <nt@be.to>
+	* adjusted to ruby 1.8
+
 2003-01-19 nt <nt@be.to>
 	* version 1.1.2
 	* modify theme_convert().
@@ -392,7 +395,7 @@ def theme_convert ( fname, hash )
             end
           }
         else
-          if flag && /}/ =~ line #元々ある span.commentator を消す（続き）
+          if flag && /\}/ =~ line #元々ある span.commentator を消す（続き）
             flag = false
           elsif flag
           else
