@@ -1,3 +1,6 @@
+2004-06-16 TADA Tadashi <sho@spc.gr.jp>
+	* add zh (Traditional Chinese) language resources. thanks Hiroshi Yui <thinker60@mail2000.com.tw>.
+
 2004-06-15 Tue UECHI Yasumasa <uechi@potaway.net>
 	* rd_style.rb: remove <p> tags in manufacture(*_to_html) only subtitles is given.
 

@@ -1,0 +1,84 @@
+<%# update.rhtml $Revision: 1.1 $ %>
+<%%=navi%>
+
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
+
+<div class="update day">
+<div class="form">
+	<div class="caption">
+		更新日誌
+	</div>
+	<form class="update" method="post" action="<%= @conf.update %>"><div>
+		<h3 class="subtitle">日誌主體</h3>
+		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
+		<span class="field year">
+			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">-
+		</span>
+		<span class="field month">
+			<input class="field" name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">-
+		</span>
+		<span class="field day">
+			<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">
+		</span>
+		<span class="button edit">
+			<input type="submit" tabindex="4" accesskey="E" name="edit" value="編輯這一天的日誌">
+		</span>
+		<div class="field title">
+			標題: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
+		</div>
+		<div class="textarea">
+			內文(<%= @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+		</div>
+		<%%=edit_proc( @date )%>
+		<span class="button preview">
+			<input type="submit" tabindex="998" accesskey="P" name="<%%= preview_command %>" value="<%%= preview_label %>">
+		</span>
+		<span class="button append">
+			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
+		</span>
+		<span class="checkbox hidediary">
+			不要刊出這一天的日誌(隱藏)<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">
+		</span>
+	</div></form>
+</div>
+
+<%%=form_proc( @date )%>
+
+<hr class="sep">
+
+<div class="comment">
+	<div class="caption"><%%=comment_today%></div>
+	<form class="commentstat" method="post" action="<%= @conf.update %>"><div>
+		<input type="hidden" name="year" value="<%= @date.year %>">
+		<input type="hidden" name="month" value="<%= @date.month %>">
+		<input type="hidden" name="day" value="<%= @date.day %>">
+		<div class="commentbody"><%
+		idx = 0
+		@diary.each_comment( 100 ) do |comment| %>
+			<div class="commentator">
+				<span class="checkbox">
+					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
+				</span>
+				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
+				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
+			</div>
+			<p><%= comment.body.make_link.gsub( /\n/, "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
+		end
+		if idx > 0 then %>
+			<div class="button">
+				<input type="submit" tabindex="<%=2000+idx%>" name="comment" value="Change display status of TSUKKOMI">
+			</div><%
+		end %>
+		</div>
+	</div></form>
+</div>
+
+<hr class="sep">
+
+<div class="refererlist">
+	<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], 100 )%>
+</div>
+
+</div>
+
+<hr class="sep">

@@ -1,0 +1,72 @@
+<%# preview.rhtml.en $Revision: 1.1 $ %>
+<%%=navi%>
+
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=preview_label%>]</h1>
+<%
+param = {
+	'date_format' => @conf.date_format,
+	'index' => @conf.index,
+	'section_anchor' => @conf.section_anchor,
+	'comment_anchor' => @conf.comment_anchor,
+	'long_mode' => false,
+	'show_referer' => false,
+	'referer_limit' => 100,
+	'referer_table' => @conf.referer_table,
+	'show_comment' => false,
+	'comment_limit' => 100,
+	'multi_user' => @conf.multi_user,
+	'hide_comment_form' => true,
+	'anchor' => false,
+	'show_nyear' => @conf.show_nyear,
+} %>
+<% if @show_result %>
+	<%= @diary.eval_rhtml( param, PATH ) %>
+<% else %>
+	<div class="day">
+	<h2><span class="title">Plugin Error</span></h2>
+	<div class="body">
+	<div class="section">
+		<h3><%= CGI::escapeHTML( @exception.class.to_s ) %></strong></h3>
+		<pre><%= CGI::escapeHTML( @exception.to_s ).gsub( / /, '&nbsp;' ) %></pre>
+	</div>
+	</div>
+	</div>
+<% end %>
+
+<hr class="sep">
+
+<div class="update day">
+<h2><span class="title">更新日誌</span></h2>
+<div class="form">
+	<form class="update" method="post" action="<%= @conf.update %>"><div>
+		<input type="hidden" name="old" value="<%= @old_date %>">
+		<span class="field year">
+			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>-
+		</span>
+		<span class="field month">
+			<input type="hidden" name="month" value="<%= @date.mon %>"><%= @date.mon %>-
+		</span>
+		<span class="field day">
+			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>
+		</span>
+		<div class="field title">
+			標題: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
+		</div>
+		<div class="textarea">
+			內容(<%= @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+		</div>
+		<%%=edit_proc( @date )%>
+		<span class="button preview">
+			<input type="submit" tabindex="998" accesskey="P" name="<%%= preview_command %>" value="<%%= preview_label %>">
+		</span>
+		<span class="button append">
+			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
+		</span>
+		<span class="checkbox hidediary">
+			不要刊出這天的日誌(隱藏)<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">
+		</span>
+	</div></form>
+</div>
+</div>
+
+<hr class="sep">
