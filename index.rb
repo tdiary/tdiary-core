@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.11 $
+# index.rb $Revision: 1.12 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -16,7 +16,7 @@ begin
 	conf = TDiary::Config::new
 	tdiary = nil
 	status = nil
-	if %r[/\d{6,8}\.html?$] =~ ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
+	if %r[/\d{4,8}\.html?$] =~ ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
 		@cgi.params['date'] = [ENV['REDIRECT_URL'].sub( /.*\/(\d+)\.html$/, '\1' )]
 		status = '200 OK'
 	end
@@ -30,6 +30,8 @@ begin
 				tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
 			elsif /^\d{6}$/ =~ date then
 				tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )
+			elsif /^\d{4}$/ =~ date then
+				tdiary = TDiary::TDiaryNYear::new( @cgi, "month.rhtml", conf )
 			end
 		else
 			tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )

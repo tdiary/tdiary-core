@@ -1,4 +1,4 @@
-<%# i.day.rhtml $Revision: 1.8 $ %>
+<%# i.day.rhtml $Revision: 1.9 $ %>
 <%%update_proc if @mode == 'comment'%%>
 <H1><%= @conf.html_title %></H1>
 <P>
@@ -19,6 +19,7 @@ if @diary then
 		'comment_limit' => 100,
 		'multi_user' => @conf.multi_user,
 		'anchor' => true,
+		'show_nyear' => false,
 	} %>
 	<%= @diary.eval_rhtml( param, PATH ) %>
 	<HR>

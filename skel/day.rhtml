@@ -1,4 +1,4 @@
-<%# day.rhtml $Revision: 1.5 $ %>
+<%# day.rhtml $Revision: 1.6 $ %>
 <%= @conf.header %><%%update_proc if @mode == 'comment'%%>
 <hr class="sep">
 
@@ -20,6 +20,7 @@ if @diary then
 		'cookie_mail' => cookie_mail,
 		'anchor' => true,
 		'hide_comment_form' => @conf.hide_comment_form,
+		'show_nyear' => @conf.show_nyear,
 	} %>
 	<%= @diary.eval_rhtml( param, PATH ) %><%
 else %>

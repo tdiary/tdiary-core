@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.11 $ %>
+<%# conf.rhtml $Revision: 1.12 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [設定]</h1>
@@ -121,6 +121,21 @@ end %>
 <p>リンク元リストのURLを、特定の文字列に変換する対応表を指定できます。1件につき、URLと表示文字列を空白で区切って指定します。正規表現が使えるので、URL中に現れた「(〜)」は、置換文字列中で「\1」のような「\数字」で利用できます。</p>
 <p>→<a href="<%= @conf.update %>?referer=table" target="referer">既存設定はこちら</a></p>
 <p><textarea name="referer_table" cols="70" rows="20"><%= @conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" ) %></textarea></p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="conf day">
+<h2><span class="title">表示設定(5) - n年日記</span></h2>
+<div class="body">
+<h3 class="subtitle">n年日記の表示</h4>
+<p>n年日記を表示するためのリンクを表示するかどうかを指定します。</p>
+<p><select name="show_nyear">
+        <option value="true"<% if @conf.show_nyear then %> selected<% end %>>表示</option>
+        <option value="false"<% if not @conf.show_nyear then %> selected<% end %>>非表示</option>
+</select></p>
 <p><input type="submit" name="saveconf" value="OK"></p>
 </div>
 </div>

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.17 $
+# $Revision: 1.18 $
 #
 
 #
@@ -183,6 +183,9 @@ def title_tag
 		r << '(設定)'
 	when 'saveconf'
 		r << '(設定完了)'
+	when 'nyear'
+		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
+		r << "(#{@date.strftime('%m-%d')}[#{nyear_diary_label @date, years})" if @date
 	end
 	r << '</title>'
 end
@@ -251,6 +254,20 @@ def submit_command
 end
 
 #
+# nyear
+#
+def nyear(ymd)
+	y, m, d = ymd.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]
+	date = Time.local(y, m, d)
+	years = @years.find_all {|year, months| months.include? m}
+	if @mode != 'nyear' and years.length >= 2
+		%Q|[<a href="#{@index}#{anchor m + d}" title="#{nyear_diary_title date, years}">#{nyear_diary_label date, years}</a>]|
+	else
+		""
+	end
+end
+
+#
 # labels (normal)
 #
 def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end
@@ -290,6 +307,9 @@ def label_hidden_diary; 'この日の日記は現在【非表示】になっています。'; end
 
 def label_no_referer; 'リンク元記録除外リスト'; end
 def label_referer_table; 'リンク置換リスト'; end
+
+def nyear_diary_label(date, years); "長年日記"; end
+def nyear_diary_title(date, years); "長年日記"; end
 
 #
 # labels (for mobile)

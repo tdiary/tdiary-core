@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.2 $
+# tdiary configuration file via CGI $Revision: 1.3 $
 #
 
 #
@@ -47,6 +47,11 @@ show_referer = <%= @show_referer %>
 referer_limit = <%= @referer_limit %>
 no_referer2 = <%= @no_referer2.inspect %>
 referer_table2 = <%= @referer_table2.inspect %>
+
+#
+# diaplay(5) - nyear
+#
+show_nyear = <%= @show_nyear %>
 
 #
 # mail

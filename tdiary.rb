@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.71 $
+tdiary.rb $Revision: 1.72 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.1.20021121'
+TDIARY_VERSION = '1.5.1.20021201'
 
 require 'cgi'
 require 'nkf'
@@ -400,6 +400,8 @@ module TDiary
 	
 			@hour_offset = cgi['hour_offset'][0].to_f
 
+			@show_nyear = cgi['show_nyear'][0] == 'true' ? true : false
+
 			save_cgi_conf
 		end
 
@@ -457,6 +459,7 @@ module TDiary
 			@mail_receivers = [@author_mail] if not @mail_receivers or @mail_receivers.size == 0
 			@mail_header = '' unless @mail_header
 			@hour_offset = 0 unless @hour_offset
+			@show_nyear = false unless @show_nyear
 
 			@hide_comment_form = false unless defined?( @hide_comment_form )
 			@lang = nil if @lang == 'ja'
@@ -481,6 +484,7 @@ module TDiary
 				:theme, :css,
 				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
 				:show_referer, :referer_limit, :no_referer2, :referer_table2,
+				:show_nyear,
 			]
 			begin
 				cgi_conf = File::open( "#{@data_path}tdiary.conf" ){|f| f.read }
@@ -533,6 +537,7 @@ module TDiary
 
 		def initialize( params )
 			@header_procs = []
+			@footer_procs = []
 			@update_procs = []
 			@body_enter_procs = []
 			@body_leave_procs = []
@@ -586,6 +591,18 @@ module TDiary
 		def header_proc
 			r = []
 			@header_procs.each do |proc|
+				r << proc.call
+			end
+			r.join.chomp
+		end
+
+		def add_footer_proc( block = proc )
+			@footer_procs << block
+		end
+
+		def footer_proc
+			r = []
+			@footer_procs.each do |proc|
 				r << proc.call
 			end
 			r.join.chomp
@@ -1245,6 +1262,38 @@ module TDiary
 			"#{prefix}#{@rhtml.sub( /month/, @date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
 		end
 	end
+
+	#
+	# class TDiaryNYear
+	#  show nyear mode view
+	#
+	class TDiaryNYear < TDiaryView
+		def initialize(cgi, rhtml, conf)
+			super
+
+			@diaries = {}
+			month, day = @cgi['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
+			nyear(month).each do |y, m|
+				@date = Time::local(y, m)
+				@io.transaction(@date) do |diaries|
+					ymd = y + m + day
+					@diaries[ymd] = diaries[ymd] if diaries[ymd]
+					DIRTY_NONE
+				end
+			end
+		end
+
+	protected
+		def nyear(month)
+			r = []
+			calendar
+			@years.keys.reverse_each do |year|
+				r << [year, month] if @years[year].include? month
+			end
+			r
+		end
+	end
+			
 
 	#
 	# class TDiaryLatest

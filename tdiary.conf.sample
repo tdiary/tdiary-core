@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.16 $
+# tDiary configuration file $Revision: 1.17 $
 #
 
 #-------
@@ -205,6 +205,11 @@ FOOTER
 #   と指定することで、実際の時刻から2時間が引かれた日付が入ります。また、
 #   海外サーバ上で運用している場合の時差調整にも利用できます。
 @hour_offset = 0
+
+# n年日記を表示するためのリンクを表示するかどうか(true or false)
+#  「n年日記」とは、前年以前の同じ日の日記を一度に参照できるページを生成
+#  する機能です。
+@show_nyear = false
 
 #-----
 # CGIで追加設定できるが、ここに(CGIからは編集できない)標準設定を記述でき

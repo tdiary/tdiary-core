@@ -1,4 +1,4 @@
-<%# i.show.rhtml $Revision: 1.5 $ %>
+<%# i.show.rhtml $Revision: 1.6 $ %>
 <%%update_proc%%>
 <H1><%= @conf.html_title %> <%%=label_update_complete%%></H1>
 <P>
@@ -17,7 +17,8 @@ param = {
 	'referer_limit' => 0,
 	'show_comment' => @conf.show_comment,
 	'comment_limit' => 100,
-	'multi_user' => @conf.multi_user
+	'multi_user' => @conf.multi_user,
+	'show_nyear' => false,
 } %>
 <%= @diary.eval_rhtml( param, PATH ) %>
 
