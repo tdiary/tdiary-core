@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.153 $
+tdiary.rb $Revision: 1.154 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -314,6 +314,7 @@ module TDiary
 	class TDiaryError < StandardError; end
 	class PermissionError < TDiaryError; end
 	class PluginError < TDiaryError; end
+	class BadStyleError < TDiaryError; end
 
 	#
 	# class IOBase
@@ -335,8 +336,8 @@ module TDiary
 		def styled_diary_factory( date, title, body, style = 'tDiary' )
 			begin
 				eval( "#{style( style.downcase )}::new( date, title, body )" )
-			rescue
-				raise StandardError, "bad style"
+			rescue SyntaxError
+				raise BadStyleError, "bad style: #{style}"
 			end
 		end
 

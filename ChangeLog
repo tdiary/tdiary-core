@@ -1,3 +1,6 @@
+2003.11.05 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: rescue SyntaxError and raise BadStyleError when bad style is specified.
+
 2003.11.03 Junichiro Kita <kita@kitaj.no-ip.com>
 	* ske/category.rhtml: stripped_subtitle -> stripped_subtitle_to_html.
 
