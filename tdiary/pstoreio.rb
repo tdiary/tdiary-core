@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.3 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.4 $
 #
 require 'pstore'
 
@@ -95,13 +95,10 @@ Management a day of diary
 class Diary
 	attr_reader :date, :title
 
-	include CommentManager
-	include RefererManager
+	include DiaryBase
 
 	def initialize( date, title, body )
-		init_comments
-		init_referers
-		@show = true
+		init_diary
 		replace( date, title, body )
 	end
 
@@ -131,28 +128,38 @@ class Diary
 		end
 	end
 
-	def last_modified
-		@last_modified ? @last_modified : Time::at( 0 )
-	end
-
-	def eval_rhtml( opt, path = '.' )
-		ERbLight::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
-	end
-
-	def disp_referer( table, ref )
-		ref = CGI::unescape( ref )
-		str = nil
-		table.each do |url, name|
-			if /#{url}/i =~ ref then
-				str = ref.gsub( /#{url}/in, name )
-				break
+	def to_html( opt, mode = :HTML )
+		idx = 1
+		r = ''
+		each_paragraph do |paragraph|
+			r << %Q[<div class="section">\n]
+			if paragraph.subtitle then
+				r << %Q[<h3><a ]
+				if opt['anchor'] then
+					r << %Q[name="p#{'%02d' % idx}" ]
+				end
+				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['paragraph_anchor']}</a> ]
+				if opt['multi_user'] and paragraph.author then
+					r << %Q|[#{paragraph.author}]|
+				end
+				r << %Q[#{paragraph.subtitle}</h3>]
 			end
+			if /^</ =~ paragraph.body then
+				r << %Q[#{paragraph.body}]
+			elsif paragraph.subtitle
+				r << %Q[<p>#{paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
+			else
+				r << %Q[<p><a ]
+				if opt['anchor'] then
+					r << %Q[name="p#{'%02d' % idx}" ]
+				end
+				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['paragraph_anchor']}</a> #{paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
+			end
+			r << %Q[</div>]
+			idx += 1
 		end
-		str ? str.to_euc : ref.to_euc
+		r
 	end
-
-	def visible?; @show != false; end
-	def show( s ); @show = s; end
 
 	def to_s
 		"date=#{@date.strftime('%Y%m%d')}, title=#{@title}, body=[#{@paragraphs.join('][')}]"

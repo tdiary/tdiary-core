@@ -1,25 +1,10 @@
-<%# diary.rhtml $Revision: 1.5 $ %>
+<%# diary.rhtml $Revision: 1.6 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
 <div class="body">
-<%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %%><%
-idx = 1
-each_paragraph do |paragraph| %>
-	<div class="section"><%
-	if paragraph.subtitle then %>
-		<h3><a <% if opt['anchor'] then %>name="p<%= '%02d' % idx %>" <% end %>href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#p<%= '%02d' % idx %>" %%>"><%= opt['paragraph_anchor'] %></a> <% if opt['multi_user'] and paragraph.author then %>[<%= paragraph.author %>]<% end %><%= paragraph.subtitle %></h3><%
-	end
-	if /^</ =~ paragraph.body then %>
-		<%= paragraph.body %><%
-	elsif paragraph.subtitle %>
-		<p><%= paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" ) %></p><%
-	else %>
-		<p><a <% if opt['anchor'] then %>name="p<%= '%02d' % idx %>" <% end %>href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#p<%= '%02d' % idx %>" %%>"><%= opt['paragraph_anchor'] %></a> <%= paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" ) %></p><%
-	end %>
-	</div><%
-	idx += 1
-end %>
+<%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %%>
+<%= to_html( opt ) %>
 <%%= body_leave_proc( Time::at( <%=@date.to_i%> ) ) %%>
 </div>
 

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.37 $
+tdiary.rb $Revision: 1.38 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -216,6 +216,49 @@ private
 			end
 			@new_referer = true
 		end
+	end
+end
+
+=begin
+== DiaryBase module
+Base module of Diary.
+=end
+module DiaryBase
+	include CommentManager
+	include RefererManager
+
+	def init_diary
+		init_comment
+		init_referer
+		@show = true
+	end
+
+	def show( s )
+		@show = s
+	end
+
+	def visible?
+		@show != false;
+	end
+
+	def last_modified
+		@last_modified ? @last_modified : Time::at( 0 )
+	end
+
+	def eval_rhtml( opt, path = '.' )
+		ERbLight::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
+	end
+
+	def disp_referer( table, ref )
+		ref = CGI::unescape( ref )
+		str = nil
+		table.each do |url, name|
+			if /#{url}/i =~ ref then
+				str = ref.gsub( /#{url}/in, name )
+				break
+			end
+		end
+		str ? str.to_euc : ref.to_euc
 	end
 end
 
