@@ -20,3 +20,40 @@ nyear
 h2 span.nyear {
 	font-size: small;
 }
+
+/*
+calendar3
+*/
+.calendar-popup {
+	display: none;
+	text-align: left;
+	position: absolute;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0 1ex 0 1ex;
+}
+
+.calendar-day .calendar-sunday, .calendar-normal .calendar-sunday {
+	color: red;
+}
+
+.calendar-day .calendar-saturday, .calendar-normal .calendar-saturday {
+	color: blue;
+}
+
+.calendar-day .calendar-weekday, .calendar-normal .calendar-weekday {
+	color: black;
+}
+
+.calendar-normal {
+}
+
+.calendar-day {
+}
+
+.calendar-todo {
+	border-style: solid;
+	border-color: red;
+	border-width: 1px;
+}
+
