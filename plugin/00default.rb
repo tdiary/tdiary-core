@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.13 $
+# $Revision: 1.14 $
 #
 
 #
@@ -16,7 +16,19 @@ end
 def navi_user
 	result = ''
 	result << %Q[<span class="adminmenu"><a href="#{@index_page}">#{navi_index}</a></span>\n] unless @index_page.empty?
-	if /^(day|comment)$/ =~ @mode
+	if /^(day|comment)$/ === @mode
+		years = []
+		@years.each do |k, v|
+			v.each do |m|
+				years << k + m
+			end
+		end
+		this_month = @date.strftime('%Y%m')
+		years |= [this_month]
+		years.sort!
+		years.unshift(nil).push(nil)
+		prev_month, dummy, next_month = years[years.index(this_month) - 1, 3]
+
 		days = []
 		today = @date.strftime('%Y%m%d')
 		days += @diaries.keys
@@ -24,23 +36,32 @@ def navi_user
 
 		days.sort!
 		days.unshift(nil).push(nil)
-		prev_day, cur_day, next_day = days[days.index(today) - 1, 3]
+		prev_day, dymmy, next_day = days[days.index(today) - 1, 3]
 		if prev_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&lt;#{navi_prev_day Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}</a></span>\n]
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&lt;#{navi_prev_diary Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}</a></span>\n]
 		else
-			pday = Time.local(@date.year, @date.month, 1) - 24*60*60
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%Y%m%d')}">&lt;#{navi_prev_day2 pday.strftime(@date_format)}</a></span>\n]
-		end
-		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
-		if next_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor next_day}">#{navi_next_day Time::local(*next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}&gt;</a></span>\n]
-		else
-			nday = if @date.month == 12
-				Time.local(@date.year + 1, 1, 1)
-			else
-				Time.local(@date.year, @date.month + 1, 1)
+			if prev_month
+				y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
+				if m == 12
+					y, m = y.to_i + 1, 1
+				else
+					y, m = y.to_i, m.to_i + 1
+				end
+				pday = Time.local(y, m, 1) - 24*60*60
+				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%Y%m%d')}">&lt;#{navi_prev_diary pday.strftime(@date_format)}</a></span>\n]
 			end
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_day2 nday.strftime(@date_format)}&gt;</a></span>\n]
+		end
+
+		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
+
+		if next_day
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor next_day}">#{navi_next_diary Time::local(*next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}&gt;</a></span>\n]
+		else
+			if next_month
+				y, m = next_month.scan(/(\d{4})(\d\d)/)[0]
+				nday = Time.local(y, m, 1)
+				result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_diary nday.strftime(@date_format)}&gt;</a></span>\n]
+			end
 		end
 	else
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
@@ -231,12 +252,10 @@ def referer_today; '本日のリンク元'; end
 
 def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
-def navi_prev_day(date); "前の日記(#{date})"; end
-def navi_next_day(date); "次の日記(#{date})"; end
-def navi_prev_day2(date); "先月末日(#{date})"; end
-def navi_next_day2(date); "翌月1日(#{date})"; end
 def navi_update; "更新"; end
 def navi_preference; "設定"; end
+def navi_prev_diary(date); "前の日記(#{date})"; end
+def navi_next_diary(date); "次の日記(#{date})"; end
 
 def submit_command
 	if @mode == 'form' then

@@ -1,3 +1,6 @@
+2002.11.08 Junichiro Kita <kita@kitaj.no-ip.com
+	* 00default.rb: use @years to make links to prev/next month in navi_user
+
 2002.11.09 TADA Tadashi <sho@spc.gr.jp>
 	* add TDiary::Config::mobile_agent? (for squeeze's error...)
 
