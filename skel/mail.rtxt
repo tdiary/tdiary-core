@@ -1,5 +1,5 @@
 From: <%= name %> <<%= mail %>>
-To: <%= receivers %>
+To: <%= receivers.join(', ') %>
 Date: <%= date %>
 Message-Id: <%= message_id %>
 Subject: <%= mail_header %>-<%= serial %> 

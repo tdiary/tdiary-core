@@ -1,5 +1,5 @@
 From: <%= name %> <<%= mail %>>
-To: <%= receivers %>
+To: <%= receivers.join(', ') %>
 Date: <%= date %>
 Message-Id: <%= message_id %>
 Subject: <%= mail_header %>-<%= serial %> 
@@ -13,4 +13,4 @@ X-URL: http://www.tdiary.org/
 
 <%= body %>
 --
-<%= @conf.base_url %><%= @conf.index.sub(%r|^\./|, '') %><%= anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial)) %>
+<%= @conf.index =~ %r|^https?://|i ? '': @conf.base_url %><%= @conf.index.sub(%r|^\./|, '') %><%= anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial)) %>
