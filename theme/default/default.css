@@ -1,6 +1,6 @@
 /*
 Title: tDiary2.0デフォルト
-Revision: $Revision: 1.4 $
+Revision: $Revision: 1.5 $
 Author: ただただし
 Access: sho@spc.gr.jp
 License: GPL
@@ -389,11 +389,11 @@ form.update span.field {
 	margin-right: 0.5em;
 }
 
-form.update div.field#div-title {
+form.update div.field.title {
 	display: block;
 	margin-top: 1em;
 }
-form.update div.field#div-title input {
+form.update div.field.title input {
 	margin-left: 0.5em;
 }
 
@@ -409,7 +409,7 @@ form.update textarea {
 	height: 15em;
 }
 
-form.update span.checkbox#div-hide {
+form.update span.checkbox.hide {
 	margin-left: 1em;
 }
 

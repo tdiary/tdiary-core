@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.7 $ %>
+<%# diary.rhtml $Revision: 1.8 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -19,8 +19,8 @@ if opt['show_comment'] and count_comments > 0 then
 			if comment.visible? %>
 				<div class="commentator">
 					<a <% if opt['anchor'] then %>name="c<%= '%02d' % idx %>" <% end %>href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %%>"><%= opt['comment_anchor'] %></a>
-					<%= CGI::escapeHTML( comment.name ) %>
-					<%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%>
+					<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
+					<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%></span>
 				</div>
 				<p><%= comment.body.make_link.gsub("\n","</p>\n<p>") %></p><%
 			end
@@ -53,10 +53,10 @@ if not opt['hide_comment_form'] and opt['long_mode'] then %>
 		<div class="caption"><a name="c"><%%=comment_description%%></a></div>
 		<form class="comment" method="post" action="<%= opt['index'] %>"><div>
 		<input type="hidden" name="date" value="<%= @date.strftime( '%Y%m%d' ) %>">
-		<div class="field">
+		<div class="field name">
 			<%%=comment_name_label%%>:<input class="field" name="name" value="<%= CGI::escapeHTML( opt['cookie_name'] ) %>">
 		</div>
-		<div class="field">
+		<div class="field mail">
 			<%%=comment_mail_label%%>:<input class="field" name="mail" value="<%= CGI::escapeHTML( opt['cookie_mail'] ) %>">
 		</div>
 		<div class="textarea">

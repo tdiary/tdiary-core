@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.5 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.6 $
 #
 require 'pstore'
 
@@ -102,6 +102,10 @@ class Diary
 		replace( date, title, body )
 	end
 
+	def format
+		'tDiary'
+	end
+
 	def replace( date, title, body )
 		@date, @title = date, title
 		@paragraphs = []
@@ -126,6 +130,14 @@ class Diary
 		@paragraphs.each do |paragraph|
 			yield paragraph
 		end
+	end
+
+	def to_text
+		text = ''
+		each_paragraph do |para|
+			text << para.text
+		end
+		text
 	end
 
 	def to_html( opt, mode = :HTML )

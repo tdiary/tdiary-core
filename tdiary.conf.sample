@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.10 $
+# tDiary configuration file $Revision: 1.11 $
 #
 
 #-------
@@ -12,6 +12,14 @@
 #   す。このディレクトリは、WWWサーバの権限で書き込めるパーミッションに
 #   しておく必要があります。
 @data_path = '/home/foo/diary'
+
+# 日記保存形式の指定【オプション】
+#   日記の保存形式を標準から変更する場合には、必要な設定をしなければなり
+#   ません。何も指定しない場合にはtDiary2形式(テキスト)になります。
+#   何を指定するかは、その保存形式用プログラムの説明に従ってください。
+#   以下の2行のコメント(#)をはずすと、tDiary1形式(バイナリ)になります。
+#require 'tdiary/pstoreio'
+#@io_class = TDiary::PStoreIO
 
 # ツッコミメールの基本設定【オプション】
 #   @smtp_hostと@smtp_portは、メール発信に使うSMTPサーバ名とポート番号を

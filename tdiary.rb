@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.39 $
+tdiary.rb $Revision: 1.40 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020522'
+TDIARY_VERSION = '1.5.0.20020530'
 
 require 'cgi'
 require 'nkf'
@@ -87,9 +87,8 @@ Management a comment.
 class Comment
 	attr_reader :name, :mail, :body, :date
 
-	def initialize( name, mail, body )
-		@name, @mail, @body = name, mail, body
-		@date = Time::now
+	def initialize( name, mail, body, date = Time::now )
+		@name, @mail, @body, @date = name, mail, body, date
 		@show = true
 	end
 
@@ -177,7 +176,7 @@ private
 	end
 
 public
-	def add_referer( ref )
+	def add_referer( ref, count = 1 )
 		newer_referer
 		ref = ref.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' )
 		if /^([^:]+:\/\/)([^\/]+)/ =~ ref
@@ -186,9 +185,9 @@ public
 		uref = CGI::unescape( ref )
 		if pair = @referers[uref] then
 			pair = [pair, ref] if pair.type != Array # for compatibility
-			@referers[uref] = [pair[0]+1, pair[1]]
+			@referers[uref] = [pair[0] + count, pair[1]]
 		else
-			@referers[uref] = [1, ref]
+			@referers[uref] = [count, ref]
 		end
 	end
 
@@ -363,6 +362,8 @@ class TDiary
 		load_conf
 
 		unless @io_class then
+			#require 'tdiary/defaultio'
+			#@io_class = DefaultIO::IO
 			require 'tdiary/pstoreio'
 			@io_class = TDiary::PStoreIO
 		end

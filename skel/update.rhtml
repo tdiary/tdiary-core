@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.6 $ %>
+<%# update.rhtml $Revision: 1.7 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [<%%= submit_label %%>]</h1>
@@ -10,28 +10,28 @@
 	</div>
 	<form class="update" method="post" action="<%= @update %>"><div>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
-		<span class="field" id="div-year">
+		<span class="field year">
 			<input name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">年
 		</span>
-		<span class="field" id="div-month">
+		<span class="field month">
 			<input name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">月
 		</span>
-		<span class="field" id="div-day">
+		<span class="field day">
 			<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">日
 		</span>
-		<span class="button" id="div-edit">
+		<span class="button edit">
 			<input type="submit" tabindex="4" accesskey="E" name="edit" value="この日付の日記を編集">
 		</span>
-		<div class="field" id="div-title">
+		<div class="field title">
 			タイトル: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
 		</div>
-		<div class="textarea" id="div-body">
+		<div class="textarea">
 			本文:<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><% @diary.each_paragraph do |paragraph, idx| %><%= CGI::escapeHTML( paragraph.text ) %><% end %></textarea>
 		</div>
-		<span class="button" id="div-append">
+		<span class="button append">
 			<input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
 		</span>
-		<span class="checkbox" id="div-hide">
+		<span class="checkbox hide">
 			この日の日記を隠す<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="8" accesskey="H">
 		</span>
 	</div></form>
