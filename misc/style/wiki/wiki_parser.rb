@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.4 $
+# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.5 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # You can distribute this under GPL.
@@ -78,8 +78,9 @@ class WikiParser
 				if @q.last == :DE then
 					@q.pop
 				else
-					@q << :DS << :DTS
+					@q << :DS
 				end
+				@q << :DTS
 				inline( $1 )
 				@q << :DTE << :DDS
 				inline( $2 )
@@ -273,7 +274,5 @@ if $0 == __FILE__
 end
 
 __END__
-""aaaa
-""bbbb
-""[[aaa]]
-""cccc
+:a:aaaa
+:b:bbbb

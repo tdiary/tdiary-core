@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.8 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.9 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -106,10 +106,10 @@ module TDiary
 				when :LE; r << "</li>\n"
 
 				# definition list
-				when :DS; r << "<dl>"
+				when :DS; r << "<dl>\n"
 				when :DE; r << "</dl>\n"
 				when :DTS; r << "<dt>"
-				when :DTE; r << "</dt>\n"
+				when :DTE; r << "</dt>"
 				when :DDS; r << "<dd>"
 				when :DDE; r << "</dd>\n"
 
@@ -242,10 +242,10 @@ module TDiary
 				when :LE; r << "</LI>\n"
 
 				# definition list
-				when :DS; r << "<DL>"
+				when :DS; r << "<DL>\n"
 				when :DE; r << "</DL>\n"
 				when :DTS; r << "<DT>"
-				when :DTE; r << "</DT>\n"
+				when :DTE; r << "</DT>"
 				when :DDS; r << "<DD>"
 				when :DDE; r << "</DD>\n"
 

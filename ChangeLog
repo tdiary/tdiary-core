@@ -1,5 +1,9 @@
+2003.03.05 TADA Tadashi <sho@spc.gr.jp>
+	* Wiki style: fix bug of definition list.
+
 2003.03.04 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: change apply_to_RefToElement calls ref_ext_* methods directly.
+
 2003.03.04 TADA Tadashi <sho@spc.gr.jp>
 	* suport ruby 1.8.0 preview2 (again).
 
