@@ -1,3 +1,6 @@
+2004-02-10 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, tdiary/filter/default.rb: TSUKKOMI and referer filter feature.
+
 2004-02-09 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: fuzzy regexp in my plugin.
 	* skel/mail.rtxt*: anchor move to the bottom of body.

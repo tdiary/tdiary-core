@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.176 $
+tdiary.rb $Revision: 1.177 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040209'
+TDIARY_VERSION = '1.5.6.20040210'
 
 require 'cgi'
 begin
@@ -131,15 +131,11 @@ module TDiary
 	
 	public
 		def add_comment( com )
-			if @comments[-1] != com then
-				@comments << com
-				if not @last_modified or @last_modified < com.date
-					@last_modified = com.date
-				end
-				com
-			else
-				nil
+			@comments << com
+			if not @last_modified or @last_modified < com.date
+				@last_modified = com.date
 			end
+			com
 		end
 	
 		def count_comments( all = false )
@@ -260,6 +256,25 @@ module TDiary
 		end
 	end
 
+	#
+	# module/class Filter
+	#
+	module Filter
+		class Filter
+			def initialize( cgi, conf )
+				@cgi, @conf = cgi, conf
+			end
+
+			def comment_filter( comment )
+				true
+			end
+
+			def referer_filter( referer )
+				true
+			end
+		end
+	end
+	
 	#
 	# module DiaryBase
 	#  Base module of Diary.
@@ -998,6 +1013,33 @@ module TDiary
 		def calendar
 			@years = @io.calendar unless @years
 		end
+
+		def load_filters
+			return if @filters
+
+			@filters = []
+			filter_path = @conf.filter_path || "#{PATH}/tdiary/filter"
+			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
+				require file
+				eval( "@filters << TDiary::Filter::#{File::basename( file, '.rb' ).capitalize}Filter::new( @cgi, @conf )" )
+			end
+		end
+
+		def comment_filter( diary, comment )
+			load_filters unless @filters
+			@filters.each do |filter|
+				return false unless filter.comment_filter( diary, comment )
+			end
+			true
+		end
+
+		def referer_filter( referer )
+			load_filters unless @filters
+			@filters.each do |filter|
+				return false unless filter.referer_filter( referer )
+			end
+			true
+		end
 	end
 
 	#
@@ -1268,7 +1310,7 @@ module TDiary
 			super
 	
 			# save referer to latest
-			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and referer?
+			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and referer_filter( @cgi.referer ) then
 				ym = latest_month
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
@@ -1331,22 +1373,6 @@ module TDiary
 			result
 		end
 	
-		def referer?
-			if /[\x00-\x20\x7f-\xff]/ =~ @cgi.referer then
-				return false
-			elsif @conf.bot?
-				return false
-			elsif @cgi.referer and %r|^https?://|i =~ @cgi.referer
-				ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
-				@conf.no_referer.each do |noref|
-					return false if /#{noref}/i =~ ref
-				end
-			else
-				return false
-			end
-			return true
-		end
-	
 		def cache_enable?( prefix )
 			super and (File::mtime( "#{cache_path}/#{cache_file( prefix )}" ) > last_modified )
 		end
@@ -1380,7 +1406,7 @@ module TDiary
 					@diaries = diaries
 					dirty = DIRTY_NONE
 					@diary = self[@date]
-					if @diary and referer? then
+					if @diary and referer_filter( @cgi.referer ) then
 						@diary.add_referer( @cgi.referer )
 						dirty = DIRTY_REFERER
 					end
@@ -1416,23 +1442,25 @@ module TDiary
 			@name = @conf.to_native( @cgi.params['name'][0] )
 			@mail = @cgi.params['mail'][0]
 			@body = @conf.to_native( @cgi.params['body'][0] )
+			@comment = Comment::new( @name, @mail, @body )
+
 			dirty = DIRTY_NONE
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				@diary = self[@date]
-				if @diary and not (@name.strip.empty? or @body.strip.empty?) then
-					@comment = Comment::new( @name, @mail, @body )
-					if @diary.add_comment( @comment ) then
-						dirty = DIRTY_COMMENT
-						cookie_path = File::dirname( @cgi.script_name )
-						cookie_path += '/' if cookie_path !~ /\/$/
-						@cookies << CGI::Cookie::new( {
-							'name' => 'tdiary',
-							'value' => [@name,@mail],
-							'path' => cookie_path,
-							'expires' => Time::now.gmtime + 90*24*60*60 # 90days
-						} )
-					end
+				if @diary and comment_filter( @diary, @comment ) then
+					@diary.add_comment( @comment )
+					dirty = DIRTY_COMMENT
+					cookie_path = File::dirname( @cgi.script_name )
+					cookie_path += '/' if cookie_path !~ /\/$/
+					@cookies << CGI::Cookie::new( {
+						'name' => 'tdiary',
+						'value' => [@name,@mail],
+						'path' => cookie_path,
+						'expires' => Time::now.gmtime + 90*24*60*60 # 90days
+					} )
+				else
+					@comment = nil
 				end
 				dirty
 			end
@@ -1710,10 +1738,6 @@ module TDiary
 			end
 		end
 
-		def referer?
-			nil
-		end
-
 		def diary_url
 			@conf.base_url + @conf.index.sub(%r|^\./|, '') + @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
 		end
@@ -1815,12 +1839,8 @@ RSSFOOT
 			begin
 				@io.transaction( @date ) do |diaries|
 					@diaries = diaries
-					if @diaries[@date.strftime('%Y%m%d')].add_comment(@comment)
-						DIRTY_COMMENT
-					else
-						@error = "repeated TrackBack Ping"
-						DIRTY_NONE
-					end
+					@diaries[@date.strftime('%Y%m%d')].add_comment(@comment)
+					DIRTY_COMMENT
 				end
 			rescue
 				@error = $!.message
