@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.38 $
+# $Revision: 1.39 $
 #
 
 #
@@ -340,7 +340,7 @@ def comment_mail_send
 	require 'socket'
 
 	name = comment_mail_mime( @comment.name.to_jis )[0]
-	body = @comment.body.to_jis
+	body = @comment.body.sub( /[\r\n]+\Z/, '' ).to_jis
 	mail = @comment.mail
 	mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
 	

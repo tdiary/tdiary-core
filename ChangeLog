@@ -1,3 +1,6 @@
+2003.06.12 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb, mail.rtxt: optimize comment mail.
+
 2003.06.07 TADA Tadashi <sho@spc.gr.jp>
 	* update.rhtml, preview.rhtml: renumbering tabindex.
 
