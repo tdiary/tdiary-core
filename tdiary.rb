@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.8 $
+tdiary.rb $Revision: 1.9 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.3.3.20020306'
+TDIARY_VERSION = '1.3.3.20020307'
 
 require 'cgi'
 require 'nkf'
@@ -129,7 +129,7 @@ class Comment
 	end
 
 	def shorten( len = 120 )
-		lines = NKF::nkf( "-e -m0 -f#{len}", @body ).split( "\n" )
+		lines = NKF::nkf( "-e -m0 -f#{len}", @body.gsub( "\n", ' ' ) ).split( "\n" )
 		lines[0].concat( '...' ) if lines[0] and lines[1]
 		lines[0]
 	end

@@ -1,5 +1,6 @@
 2002.03.07 TADA Tadashi <sho@spc.gr.jp>
 	* add doc/HOWTO-make-theme.html.
+	* tdiay.rb: join all lines in Comment#shorten.
 
 2002.03.06 TADA Tadashi <sho@spc.gr.jp>
 	* @mail_header accept the format of Time#strftime.
