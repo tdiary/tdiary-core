@@ -1,3 +1,6 @@
+2004-02-17 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix TDiary::Filter::Filter#comment_filter prototype.
+
 2004.02.12 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary/filter/default.rb: support ruby 1.6.x.
 

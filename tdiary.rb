@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.178 $
+tdiary.rb $Revision: 1.179 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040211'
+TDIARY_VERSION = '1.5.6.20040217'
 
 require 'cgi'
 begin
@@ -265,7 +265,7 @@ module TDiary
 				@cgi, @conf = cgi, conf
 			end
 
-			def comment_filter( comment )
+			def comment_filter( diary, comment )
 				true
 			end
 
