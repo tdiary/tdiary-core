@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.9 $
+# 01sp.rb - select-plugins plugin $Revision: 1.10 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -35,6 +35,9 @@ See ../ChangeLog for changes after this.
 
 SP_PREFIX = 'sp'
 @sp_path = ( @conf["#{SP_PREFIX}.path"] || 'misc/plugin' ).to_a
+@sp_path = @sp_path.collect do |path|
+	/\/$/ =~ path ? path.chop : path
+end
 
 # get plugin option
 def sp_option( key )
