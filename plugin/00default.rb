@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.43 $
+# $Revision: 1.44 $
 #
 
 #
@@ -337,13 +337,15 @@ def comment_mail_send
 	return unless @comment
 	return unless @conf['comment_mail.enable']
 
-	# for compatibility
-	if @conf['comment_mail.receivers'].kind_of?( Array ) then
-		@conf['comment_mail.receivers'] = @conf['comment_mail.receivers'].join( ',' )
+	case @conf['comment_mail.receivers']
+	when Array
+		# for compatibility
+		receivers = @conf['comment_mail.receivers']
+	when String
+		receivers = @conf['comment_mail.receivers'].split( /[, ]+/ )
+	else
+		receivers = [@conf.author_mail]
 	end
-
-	receivers = @conf['comment_mail.receivers'].split( /[, ]+/ )
-	receivers = [@conf.author_mail] if receivers.empty?
 	return if receivers.compact.empty?
 
 	require 'socket'

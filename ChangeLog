@@ -1,3 +1,6 @@
+2003.06.16 Junichiro Kita <kita@kitaj.no-ip.com>
+	* 00default.rb: use @conf.author_mail when @conf['comment_mail.receivers'] is nil.
+
 2003.06.16 TADA Tadashi <sho@spc.gr.jp>
 	* conf_proc: English support.
 	* conf_proc: mobile agent support.
