@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.11 $
+# $Revision: 1.12 $
 #
 
 #
@@ -15,7 +15,7 @@ end
 
 def navi_user
 	result = ''
-	result << %Q[<span class="adminmenu"><a href="#{@index_page}">トップ</a></span>\n] unless @index_page.empty?
+	result << %Q[<span class="adminmenu"><a href="#{@index_page}">#{navi_index}</a></span>\n] unless @index_page.empty?
 	if /^(day|comment)$/ =~ @mode
 		days = []
 		today = @date.strftime('%Y%m%d')
@@ -45,6 +45,12 @@ def navi_user
 	else
 		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
 	end
+	result
+end
+
+def navi_admin
+	result = %Q[<span class="adminmenu"><a href="#{@update}">#{navi_update}</a></span>\n]
+	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf)$/ !~ @mode
 	result
 end
 
@@ -223,11 +229,14 @@ def comment_submit_label_short; '投稿'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
 def referer_today; '本日のリンク元'; end
 
+def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
 def navi_prev_day(date); "前の日記(#{date})"; end
 def navi_next_day(date); "次の日記(#{date})"; end
 def navi_prev_day2(date); "先月末日(#{date})"; end
 def navi_next_day2(date); "翌月1日(#{date})"; end
+def navi_update; "更新"; end
+def navi_preference; "設定"; end
 
 def submit_command
 	if @mode == 'form' then

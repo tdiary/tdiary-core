@@ -3,24 +3,6 @@
 #
 
 #
-# navi
-#
-def navi_user
-	result = ''
-	result << %Q[<span class="adminmenu"><a href="#{@index_page}">Index</a></span>\n] unless @index_page.empty?
-	result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor( (@date-24*60*60).strftime( '%Y%m%d' ) )}">&lt;Prev</a></span>\n] if /^(day|comment)$/ =~ @mode
-	result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor( (@date+24*60*60).strftime( '%Y%m%d' ) )}">Next&gt;</a></span>\n] if /^(day|comment)$/ =~ @mode
-	result << %Q[<span class="adminmenu"><a href="#{@index}">Latest</a></span>\n] unless @mode == 'latest'
-	result
-end
-
-def navi_admin
-	result = %Q[<span class="adminmenu"><a href="#{@update}">Update</a></span>\n]
-	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">Preference</a></span>\n] if /^(latest|month|day|comment|conf)$/ !~ @mode
-	result
-end
-
-#
 # header
 #
 def title_tag
@@ -63,6 +45,15 @@ def comment_submit_label; 'Submit'; end
 def comment_submit_label_short; 'Submit'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
 def referer_today; "Today's Link"; end
+
+def navi_index; 'Top'; end
+def navi_latest; 'Latest'; end
+def navi_prev_day(date); "Prev(#{date})"; end
+def navi_next_day(date); "Next(#{date})"; end
+def navi_prev_day2(date); "Prev Month(#{date})"; end
+def navi_next_day2(date); "Next Month(#{date})"; end
+def navi_update; "Update"; end
+def navi_preference; "Preference"; end
 
 def submit_label
 	if @mode == 'form' then
