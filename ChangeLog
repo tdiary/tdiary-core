@@ -1,3 +1,6 @@
+2003.02.17 TADA Tadashi <sho@spc.gr.jp>
+	* add rd_style.rb.
+
 2003.02.16 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary_style.rb: fix bug when subtitle has only category.
 	* tdiary.rb: taint Plugin instance.
