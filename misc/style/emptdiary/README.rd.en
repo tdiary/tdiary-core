@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: README.rd.en,v 1.2 2003-02-18 13:42:24 tadatadashi Exp $-))
+= emptDiary style((-$Id: README.rd.en,v 1.3 2003-02-25 08:56:43 tadatadashi Exp $-))
 
 == Summary
 ((:emptDiary style:))((-emptDiary is an abbreviation for 'empty line
@@ -20,8 +20,11 @@ the latest version of this document can be downloaded from
 ((<URL:http://zunda.freeshell.org/d/tdiary/emptdiary_style.rd.en>)).
 
 == Usage
-If you want to use this style, add the following line into tdiary.conf:
-  @style = 'emptdiary'
+If you want to use this style
+(1) copy the file emptdiary_style.rb into the tdiary/ directory under
+    the top directory where tdiary.rb sits.
+(2) add the following line into tdiary.conf:
+      @style = 'emptdiary'
 
 You can write your diaries in almost the same manner as you have done
 with the tDiary style as described in the file HOWTO-write-tDiary.html.

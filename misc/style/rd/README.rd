@@ -12,6 +12,11 @@ RDスタイルを使うには RDtool がインストールされている必要があります。 RDtool
 
 ((<RDtool|URL:http://raa.ruby-lang.org/list.rhtml?name=rdtool>))
 
+rd_style.rbはtDiaryインストールディレクトリにあるtdiary/ディレクトリにコピーします。
+そして、tdiary.confに以下の1行を追加します。
+
+ @style = 'RD'
+
 == RD との違い
 === Headline element
 '=' 1つが <h3> になりセクションの開始になります。'==' が <h4>、'===' が <h5>、

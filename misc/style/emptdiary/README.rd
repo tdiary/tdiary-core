@@ -1,5 +1,5 @@
 =begin
-= emptDiaryスタイル((-$Id: README.rd,v 1.2 2003-02-18 13:42:24 tadatadashi Exp $-))
+= emptDiaryスタイル((-$Id: README.rd,v 1.3 2003-02-25 08:56:41 tadatadashi Exp $-))
 
 == 概要
 ((:emptDiaryスタイル:))((-emptDiaryは'empty line permitted tDiary style'
@@ -25,8 +25,12 @@
 す。
 
 == Usage
-このスタイルを使うには、tdiary.confに以下の行を書いてください。
-  @style = 'emptdiary'
+このスタイルを使うには、
+(1) emptdiary_style.rb ファイルを、tdiary/ ディレクトリにコピーしてくだ
+    さい。tdiary/ ディレクトリは、tdiary.rb ファイルのあるトップディレク
+    トリの下にあります。
+(2) tdiary.confに以下の行を書いてください。
+      @style = 'emptdiary'
 
 日記は、((:tDiaryスタイル:))とほとんど同じように書くことができます。
 HOWTO-write-tDiary.htmlに書かれている通り、

@@ -1,3 +1,7 @@
+2003.02.25 TADA Tadashi <sho@spc.gr.jp>
+	* wiki style: fix bug when last section dosen't terminate by CR.
+	* some styles: update document about install.
+
 2003.02.23 TADA Tadashi <sho@spc.gr.jp>
 	* wiki style: fix bug about blockquote grammar.
 	* etDiary style: update.
