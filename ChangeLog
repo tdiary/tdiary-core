@@ -1,3 +1,6 @@
+2003.12.11 TADA Tadashi <sho@spc.gr.jp>
+	* skel/day.rhtml, skel/diary.rhtml: do not make link URL when access from bot.
+
 2003.12.09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: String#make_link replace space to '&nbsp;' only top of lines.
 

@@ -1,4 +1,4 @@
-<%# day.rhtml $Revision: 1.8 $ %>
+<%# day.rhtml $Revision: 1.9 $ %>
 <%= @conf.header %>
 <hr class="sep">
 
@@ -21,6 +21,7 @@ if @diary then
 		'anchor' => true,
 		'hide_comment_form' => @conf.hide_comment_form,
 		'show_nyear' => @conf.show_nyear,
+		'bot' => @conf.bot?,
 	} %>
 	<%= @diary.eval_rhtml( param, PATH ) %><%
 else %>
