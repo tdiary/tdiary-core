@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.10 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.11 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -86,12 +86,11 @@ begin
 	end
 	raise usage if (image_dir and not image_url) or (not image_dir and image_url)
 	if image_dir then
-		image_dir << '/' unless %r[/$] =~ image_dir
+		image_dir += '/' unless %r[/$] =~ image_dir
 	end
 	if image_url then
-		image_url << '/' unless %r[/$] =~ image_url
+		image_url += '/' unless %r[/$] =~ image_url
 	end
-
 	url = ARGV.shift
 	if %r|http://([^:/]*):?(\d*)(/.*)| =~ url then
 		host = $1
