@@ -1,3 +1,6 @@
+2002.10.29 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: rescue ArgumentError in parser_cache
+
 2002.10.28 TADA Tadashi <sho@spc.gr.jp>
 	* misc/mail-via-*: follow up for TDiary::Config.
 
