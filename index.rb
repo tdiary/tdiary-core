@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.15 $
+# index.rb $Revision: 1.16 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -25,7 +25,7 @@ begin
 		if @cgi.valid?( 'comment' ) then
 			tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
 		elsif @cgi.valid?( 'date' )
-			date, = @cgi['date']
+			date = @cgi.params['date'][0]
 			if /^\d{8}$/ =~ date then
 				tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
 			elsif /^\d{6}$/ =~ date then
@@ -35,7 +35,7 @@ begin
 			end
 		elsif @cgi.valid?( 'category' )
 			if @cgi.valid?( 'month' )
-				if @cgi['month'][0] == 'ALL'
+				if @cgi.params['month'][0] == 'ALL'
 					tdiary = TDiary::TDiaryCategoryYear::new( @cgi, "category.rhtml", conf )
 				else
 					tdiary = TDiary::TDiaryCategoryMonth::new( @cgi, "category.rhtml", conf )

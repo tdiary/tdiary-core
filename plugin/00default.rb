@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.29 $
+# $Revision: 1.30 $
 #
 
 #
@@ -139,7 +139,7 @@ def calc_links
 		end
 	elsif @mode == 'nyear'
 		y = 2000 # specify leam year
-		m, d = @cgi['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
+		m, d = @cgi.params['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
 		@prev_day = (Time.local(y, m, d) - 24*60*60).strftime( '%Y%m%d' )
 		@next_day = (Time.local(y, m, d) + 24*60*60).strftime( '%Y%m%d' )
 	end
@@ -229,7 +229,7 @@ def title_tag
 		r << '(ÀßÄê´°Î»)'
 	when 'nyear'
 		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
-		r << "(#{@cgi['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
+		r << "(#{@cgi.params['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
 	end
 	r << '</title>'
 end

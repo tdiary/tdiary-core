@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.92 $
+tdiary.rb $Revision: 1.93 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030303'
+TDIARY_VERSION = '1.5.3.20030304'
 
 require 'cgi'
 require 'nkf'
@@ -56,7 +56,7 @@ enhanced CGI class
 =end
 class CGI
 	def valid?( param, idx = 0 )
-		self[param] and self[param][idx] and self[param][idx].length > 0
+		self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
 	end
 
 	def mobile_agent?
@@ -383,49 +383,49 @@ module TDiary
 		end
 
 		def save( cgi )
-			@author_name = cgi['author_name'][0].to_euc
-			@author_mail, = cgi['author_mail']
-			@index_page, = cgi['index_page']
+			@author_name = cgi.params['author_name'][0].to_euc
+			@author_mail = cgi.params['author_mail'][0]
+			@index_page = cgi.params['index_page'][0]
 	
-			@html_title = cgi['html_title'][0].to_euc
-			@header = cgi['header'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
-			@footer = cgi['footer'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
+			@html_title = cgi.params['html_title'][0].to_euc
+			@header = cgi.params['header'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
+			@footer = cgi.params['footer'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
 	
-			@section_anchor = cgi['section_anchor'][0].to_euc
-			@comment_anchor = cgi['comment_anchor'][0].to_euc
-			@date_format = cgi['date_format'][0].to_euc
-			@latest_limit = cgi['latest_limit'][0].to_i
+			@section_anchor = cgi.params['section_anchor'][0].to_euc
+			@comment_anchor = cgi.params['comment_anchor'][0].to_euc
+			@date_format = cgi.params['date_format'][0].to_euc
+			@latest_limit = cgi.params['latest_limit'][0].to_i
 			@latest_limit = 10 if @latest_limit < 1
 	
-			@theme, = cgi['theme']
-			@css, = cgi['css']
+			@theme = cgi.params['theme'][0]
+			@css = cgi.params['css'][0]
 	
-			@show_comment = cgi['show_comment'][0] == 'true' ? true : false
-			@comment_limit = cgi['comment_limit'][0].to_i
+			@show_comment = cgi.params['show_comment'][0] == 'true' ? true : false
+			@comment_limit = cgi.params['comment_limit'][0].to_i
 			@comment_limit = 3 if @comment_limit < 1
 	
-			@show_referer = cgi['show_referer'][0] == 'true' ? true : false
-			@referer_limit = cgi['referer_limit'][0].to_i
+			@show_referer = cgi.params['show_referer'][0] == 'true' ? true : false
+			@referer_limit = cgi.params['referer_limit'][0].to_i
 			@referer_limit = 10 if @referer_limit < 1
 			no_referer2 = []
-			cgi['no_referer'][0].to_euc.each do |ref|
+			cgi.params['no_referer'][0].to_euc.each do |ref|
 				ref.strip!
 				no_referer2 << ref if ref.length > 0
 			end
 			@no_referer2 = no_referer2
 			referer_table2 = []
-			cgi['referer_table'][0].to_euc.each do |pair|
+			cgi.params['referer_table'][0].to_euc.each do |pair|
 				u, n = pair.sub( /[\r\n]+/, '' ).split( /[ \t]+/, 2 )
 				referer_table2 << [u,n] if u and n
 			end
 			@referer_table2 = referer_table2
 	
-			@mail_on_comment = cgi['mail_on_comment'][0] == 'true' ? true : false
-			@mail_header, = cgi['mail_header']
+			@mail_on_comment = cgi.params['mail_on_comment'][0] == 'true' ? true : false
+			@mail_header = cgi.params['mail_header'][0]
 	
-			@hour_offset = cgi['hour_offset'][0].to_f
+			@hour_offset = cgi.params['hour_offset'][0].to_f
 
-			@show_nyear = cgi['show_nyear'][0] == 'true' ? true : false
+			@show_nyear = cgi.params['show_nyear'][0] == 'true' ? true : false
 
 			save_cgi_conf
 		end
@@ -887,7 +887,7 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 			begin
-				@date = Time::local( @cgi['year'][0].to_i, @cgi['month'][0].to_i, @cgi['day'][0].to_i )
+				@date = Time::local( @cgi.params['year'][0].to_i, @cgi.params['month'][0].to_i, @cgi.params['day'][0].to_i )
 			rescue ArgumentError, NameError
 				raise TDiaryError, 'bad date'
 			end
@@ -917,11 +917,10 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 	
-			@title = @cgi['title'][0].to_euc
-			@body = @cgi['body'][0].to_euc
+			@title = @cgi.params['title'][0].to_euc
+			@body = @cgi.params['body'][0].to_euc
 			@author = @conf.multi_user ? @cgi.remote_user : nil
-			hide, = @cgi['hide']
-			@hide = hide == 'true' ? true : false
+			@hide = @cgi.params['hide'][0] == 'true' ? true : false
 	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -965,12 +964,11 @@ module TDiary
 		def initialize( cgi, rhtm, confl )
 			super
 	
-			@title = @cgi['title'][0].to_euc
-			@body = @cgi['body'][0].to_euc
-			old_date = Time::local( *@cgi['old'][0].scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
-			old_date, = @cgi['old']
-			hide, = @cgi['hide']
-			@hide = hide == 'true' ? true : false
+			@title = @cgi.params['title'][0].to_euc
+			@body = @cgi.params['body'][0].to_euc
+			old_date = Time::local( *@cgi.params['old'][0].scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
+			old_date = @cgi.params['old'][0]
+			@hide = @cgi.params['hide'][0] == 'true' ? true : false
 	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -1007,7 +1005,7 @@ module TDiary
 				if @diary then
 					idx = 0
 					@diary.each_comment( 100 ) do |com|
-						com.show = @cgi[(idx += 1).to_s][0] == 'true' ? true : false;
+						com.show = @cgi.params[(idx += 1).to_s][0] == 'true' ? true : false;
 					end
 					self << @diary
 					clear_cache
@@ -1152,7 +1150,7 @@ module TDiary
 			super
 			begin
 				# time is noon for easy to calc leap second.
-				load( Time::local( *@cgi['date'][0].scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60 )
+				load( Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60 )
 			rescue ArgumentError, NameError
 				raise TDiaryError, 'bad date'
 			end
@@ -1203,9 +1201,9 @@ module TDiary
 	
 		def load( date )
 			@date = date
-			@name = @cgi['name'][0].to_euc
-			@mail, = @cgi['mail']
-			@body = @cgi['body'][0].to_euc
+			@name = @cgi.params['name'][0].to_euc
+			@mail = @cgi.params['mail'][0]
+			@body = @cgi.params['body'][0].to_euc
 			dirty = DIRTY_NONE
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -1298,7 +1296,7 @@ module TDiary
 			super
 	
 			begin
-				date = Time::local( *@cgi['date'][0].scan( /^(\d{4})(\d\d)$/ )[0] )
+				date = Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)$/ )[0] )
 				d1 = @date.dup.gmtime if @date
 				d2 = date.dup.gmtime
 				if not @date or d1.year != d2.year or d1.month != d2.month then
@@ -1334,7 +1332,7 @@ module TDiary
 			super
 
 			@diaries = {}
-			month, day = @cgi['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
+			month, day = @cgi.params['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
 			nyear(month).each do |y, m|
 				@date = Time::local(y, m)
 				@io.transaction(@date) do |diaries|
@@ -1427,7 +1425,7 @@ module TDiary
 		attr_reader :last_modified
 		def initialize(cgi, rhtml, conf)
 			super
-			@specified = @cgi['category']
+			@specified = @cgi.params['category']
 			@specified.delete("ALL")
 			@categorized = {}
 			@last_modified = Time.at(0)
@@ -1463,15 +1461,15 @@ module TDiary
 
 		def parse_cgi_param
 			if @cgi.valid?('year')
-				year = @cgi['year'][0].to_i
+				year = @cgi.params['year'][0].to_i
 			end
 			if @cgi.valid?('month')
-				case @cgi['month'][0]
+				case @cgi.params['month'][0]
 				when /(\d)Q/
 					q = $1.to_i
 					months = (((q - 1) * 3 + 1)..((q - 1) * 3 + 3)).to_a
 				when /\d{1,2}/
-					month = @cgi['month'][0].to_i
+					month = @cgi.params['month'][0].to_i
 					if (1..12).include?(month)
 						months = [month]
 					end
