@@ -5,6 +5,10 @@ doc.css: CSS for tDiary documents
 	* created
 */
 
+body {
+	line-height: 130%;
+}
+
 h1 {
 	color: #fff;
 	background-color: #32c832;
@@ -81,8 +85,12 @@ dd {
 	margin-bottom: 0.5em;
 }
 
-ul {
+ul, ol {
 	margin-left: 5em;
+}
+
+li {
+	margin-bottom: 0.5em;
 }
 
 table {
