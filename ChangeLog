@@ -1,3 +1,6 @@
+2002.05.16 TADA Tadashi <sho@spc.gr.jp>
+	* replace new default theme.
+
 2002.05.15 TADA Tadashi <sho@spc.gr.jp>
 	* split CommentManager and RefererManager from Diary class.
 	* move theme files into each directory.
