@@ -1,7 +1,11 @@
-2003-07-29 UECHI Yasumasa <uh@u.dhis.portside.net>
+2003.07.30 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: use ERB2 when running on ruby 1.8 or later (testing).
+	* wiki_style.rb: support TrackBack anchor.
+
+2003.07.29 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style: fix Refference element to recognize trackbacks
 
-2003-07-29  Kazuhiko  <kazuhiko@fdiary.net>
+2003.07.29  Kazuhiko  <kazuhiko@fdiary.net>
 	* index.rb: don't make 'body' in case of HEAD request.
 
 2003.07.22 TADA Tadashi <sho@spc.gr.jp>

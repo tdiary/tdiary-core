@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.14 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.15 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -156,7 +156,7 @@ module TDiary
 					when :KS
 						if /\|/ =~ s
 							k, u = s.split( /\|/, 2 )
-							if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pc]\d\d)?$/ =~ u then
+							if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pct]\d\d)?$/ =~ u then
 								r << "%=my '" << $1
 								r << $2 if $2
 								r << "', '" << k << "'%"
@@ -292,7 +292,7 @@ module TDiary
 					when :KS
 						if /\|/ =~ s
 							k, u = s.split( /\|/, 2 )
-							if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pc]\d\d)?$/ =~ u then
+							if /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pct]\d\d)?$/ =~ u then
 								r << "%=my '" << $1
 								r << $2 if $2
 								r << "', '" << k << "'%"
