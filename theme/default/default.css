@@ -1,6 +1,6 @@
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.15 $
+Revision: $Revision: 1.16 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -200,10 +200,6 @@ div.day span.canchor {
 div.section p {
 	margin: 0.5em 1em 0.7em 3em;
 	line-height: 150%;
-}
-ul, ol {
-	margin-left: 0em;
-	padding-left: 0em;
 }
 
 /*
@@ -454,7 +450,7 @@ p.message {
 /*
 整形済みテキスト(preタグ)の設定
 */
-pre {
+div.section pre {
 	background-color: #eef;
 	color: #000;
 	margin-left: 5em;
@@ -465,7 +461,7 @@ pre {
 /*
 引用(blockquoteタグ)の設定
 */
-div.body blockquote {
+div.section blockquote {
 	border-style: solid;
 	border-color: #ddf;
 	border-width: 2px 2px 2px 2px;
@@ -473,18 +469,19 @@ div.body blockquote {
 	margin-right: 3em;
 	padding: 4px 4px 4px 4px;
 }
-div.body blockquote p {
+div.section blockquote p {
 	margin: 0.5em 0em 0.5em 0em;
 }
 
 /*
 箇条書きの設定
 */
-div.body ul, div.body ol {
+div.section ul, div.section ol {
 	margin-left: 5em;
 	margin-right: 3em;
+	padding-left: 0px;
 }
-div.body ul ul, div.body ol ol {
+div.section ul ul, div.section ol ol {
 	margin-left: 1.7em;
 	margin-right: 1em;
 	margin-bottom: 0.5em;
@@ -493,17 +490,34 @@ div.body ul ul, div.body ol ol {
 /*
 項目リストの設定
 */
-div.body dl {
+div.section dl {
 	margin-left: 5em;
 }
 
-div.body dt {
+div.section dt {
 	margin-bottom: 0.2em;
 	font-weight: bold;
 }
 
-div.body dd {
+div.section dd {
 	margin: 0em 3em 0.5em 1em;
+}
+
+/*
+テーブルの設定
+*/
+div.section table {
+	margin: 0.5em 1em 0.5em 5em;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #aaf;
+	border-collapse: collapse;
+}
+div.section th, div.section td {
+	padding: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aaf;
 }
 
 /*

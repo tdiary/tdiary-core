@@ -1,11 +1,14 @@
 Title: tDiary2デフォルト
-Revision: $Revision: 1.3 $
+Revision: $Revision: 1.4 $
 Author: ただただし
 Access: sho@spc.gr.jp
 License: GPL
 Comment: tDiary 1.5以降に付属するデフォルトテーマ
 
 ChangeLog
+2003-04-17 TADA Tadashi <sho@spc.gr.jp?
+	* add table settings.
+
 2003-03-12 TADA Tadashi <sho@spc.gr.jp?
 	* little modified.
 

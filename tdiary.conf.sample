@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.20 $
+# tDiary configuration file $Revision: 1.21 $
 #
 
 #-------
@@ -251,9 +251,9 @@ FOOTER
 #   場合について、別々の文字列に置換しています。
 @referer_table = [
 	['^http://www\.tdiary\.net/.*', 'tDiary.Net'],
-	['^http://sho\.tdiary.net/(\d{4})(\d\d)(\d\d)\.html', 'Asumi日記(\1-\2-\3)'],
-	['^http://sho\.tdiary.net/(\d{4})(\d\d)\.html', 'Asumi日記(\1-\2)'],
-	['^http://sho\.tdiary.net/', 'Asumi日記'],
+	['^http://sho\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'ただのにっき(\1-\2-\3)'],
+	['^http://sho\.tdiary\.net/(\d{4})(\d\d)\.html', 'ただのにっき(\1-\2)'],
+	['^http://sho\.tdiary\.net/antenna/', 'ただのあんてな'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.Net[\1](\2-\3-\4)'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.Net[\1](\2-\3)'],
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],

@@ -1,3 +1,7 @@
+2003.04.17 TADA Tadashi <sho@spc.gr.jp>
+	* default.css: add table settings.
+	* tdiary.conf.sample: updated.
+
 2003.04.15 TADA Tadashi <sho@spc.gr.jp>
 	* support edit_proc plugin.
 
