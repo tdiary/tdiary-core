@@ -1,3 +1,8 @@
+2002.08.06 TADA Tadashi <sho@spc.gr.jp>
+	* diary.rhtml: remove commenttitle class.
+	* tdiary.rb: call plugins after posting a comment.
+	* tdiary.rb: use Plugin#anchor to make new location after posting comment.
+
 2002.08.05 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, defaultio.rb: implement parser cache.
 	* defaultio.rb: split modules CommentIO and RefererIO.

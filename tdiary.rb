@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.45 $
+tdiary.rb $Revision: 1.46 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020805'
+TDIARY_VERSION = '1.5.0.20020806'
 
 require 'cgi'
 require 'nkf'
@@ -399,9 +399,9 @@ class TDiary
 
 		# apply plugins
 		begin
-			plugin = load_plugins
-			r = plugin.eval_src( r.untaint, @secure ) if plugin
-			@cookies += plugin.cookies
+			@plugin = load_plugins
+			r = @plugin.eval_src( r.untaint, @secure ) if @plugin
+			@cookies += @plugin.cookies
 		rescue PluginError
 			raise
 		rescue Exception
@@ -969,7 +969,9 @@ class TDiaryComment < TDiaryDay
 	end
 
 	def eval_rhtml( prefix = '' )
-		raise ForceRedirect::new( @diary.date.strftime( "#{@index}?date=%Y%m%d#c#{'%02d' % @diary.count_comments( true )}" ) )
+		super
+		anchor = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
+		raise ForceRedirect::new( "#{@index}#{anchor}#c#{'%02d' % @diary.count_comments( true )}" )
 	end
 
 protected

@@ -1,6 +1,6 @@
 /*
 Title: tDiary2.0デフォルト
-Revision: $Revision: 1.6 $
+Revision: $Revision: 1.7 $
 Author: ただただし
 Access: sho@spc.gr.jp
 License: GPL
@@ -76,6 +76,7 @@ div.calendar {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	line-height: 1.1em;
+	font-size: 0.9em;
 }
 
 div.calendar div.year {

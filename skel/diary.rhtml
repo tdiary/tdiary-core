@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.11 $ %>
+<%# diary.rhtml $Revision: 1.12 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -42,7 +42,7 @@ if opt['show_comment'] and count_comments > 0 then
 		</div><%
 	end
 elsif opt['show_comment'] %>
-	 <div class="commenttitle">[<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %%>"><%%=comment_new%%></a>]</div><%
+	<div class="caption">[<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %%>"><%%=comment_new%%></a>]</div><%
 end %>
 </div>
 
