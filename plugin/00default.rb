@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.72 $
+# $Revision: 1.73 $
 #
 
 #
@@ -113,6 +113,8 @@ add_header_proc do
 	#{author_name_tag}
 	#{author_mail_tag}
 	#{index_page_tag}
+	#{icon_tag}
+	#{description_tag}
 	#{css_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
@@ -235,6 +237,22 @@ def index_page_tag
 	end
 	result << %Q[<link rel="start" title="#{navi_latest}" href="#{@index}">\n\t]
 	result.chop.chop
+end
+
+def icon_tag
+	if @conf.icon and not(@conf.icon.empty?) then
+		%Q[<link rel="icon" href="#{CGI::escapeHTML @conf.icon}">]
+	else
+		''
+	end
+end
+
+def description_tag
+	if @conf.description and not(@conf.description.empty?) then
+		%Q[<meta name="description" content="#{CGI::escapeHTML @conf.description}">]
+	else
+		''
+	end
 end
 
 def theme_url; 'theme'; end

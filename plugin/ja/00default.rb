@@ -151,10 +151,10 @@ add_conf_proc( 'default', '基本' ) do
 	#{"<p>日記よりも上位のコンテンツがあれば指定します。存在しない場合は何も入力しなくてかまいません。</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
 	<h3 class="subtitle">サイトアイコン</h3>
-	#{"<p>この日記のアイコン画像があればそのURLを指定します。存在しない場合は何も入力しなくてかまいません。</p>" unless @conf.mobile_agent?}
+	#{"<p>この日記のアイコン画像があればそのURLを指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
 	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="50"></p>
 	<h3 class="subtitle">日記の説明</h3>
-	#{"<p>この日記の簡単な説明を指定します。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
+	#{"<p>この日記の簡単な説明を指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
 	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="50"></p>
 	<h3 class="subtitle">時差調整</h3>
 	#{"<p>更新時、フォームに挿入される日付を時間単位で調整できます。例えば午前2時までは前日として扱いたい場合には「-2」のように指定することで、2時間分引かれた日付が挿入されるようになります。また、この日付はWebサーバ上の時刻になっているので、海外のサーバで運営している場合の時差調整にも利用できます。</p>" unless @conf.mobile_agent?}

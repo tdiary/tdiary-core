@@ -1,3 +1,9 @@
+2004-12-01 zunda <zunda at freeshell.org>
+	* plugin/00default.rb, plugin/ja/00default.rb: added icon_tag and description_tag
+
+2004-11-29 zunda <zunda at freeshell.org>
+	* tdiary.rb, skel/tdiary.rconf, plugin/00default.rb, plugin/{ja,en,zh}/00default.rb: added @conf.icon and @conf.description
+
 2004-11-05 MoonWolf <moonwolf@moonwolf.com>
 	* tdiary/tdiary_style.rb: XML-RPC API support
 	* misc/style/emptdiary: XML-RPC API support
