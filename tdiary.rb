@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.190 $
+tdiary.rb $Revision: 1.191 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.7.20040519'
+TDIARY_VERSION = '1.5.7.20040520'
 
 require 'cgi'
 begin
@@ -980,8 +980,11 @@ module TDiary
 			file = date.strftime( "#{cache_path}/%Y%m.parser" )
 	
 			unless key then
-				File::delete( file )
-				File::delete( file + '~' )
+				begin
+					File::delete( file )
+					File::delete( file + '~' )
+				rescue
+				end
 				return nil
 			end
 	
@@ -1004,8 +1007,11 @@ module TDiary
 					end
 				end
 			rescue
-				File::delete( file )
-				File::delete( file + '~' )
+				begin
+					File::delete( file )
+					File::delete( file + '~' )
+				rescue
+				end
 				return nil
 			end
 			obj
