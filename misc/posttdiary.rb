@@ -1,44 +1,10 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.9 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.10 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
-
-=begin ChangeLog
-2003-10-10 TADA Tadashi <sho@spc.gr.jp>
-	* --image-formt option.
-
-2003-09-10 TADA Tadashi <sho@spc.gr.jp>
-	* unset date to request for tDiary.
-
-2002-09-29 TADA Tadashi <sho@spc.gr.jp>
-	* fix bug when boundary has special charactor of Regexp.
-
-2002-04-16 TADA Tadashi <sho@spc.gr.jp>
-	* bmp support for feelH". if found Ruby::Magick use it, else use convert.
-
-2002-04-07 TADA Tadashi <sho@spc.gr.jp>
-	* fix mojibake: -mQ -> -m0.
-
-2002-04-05 TADA Tadashi <sho@spc.gr.jp>
-	* version 0.9.3
-	* set permission of image to readable everybody.
-	* --image-path and --image-url options.
-
-2002-02-22 Daisuke Kato <dai@kato-agri.com>
-	* version 0.9.2
-	* support Multipart Mail
-
-2002-01-12 TADA Tadashi <sho@spc.gr.jp>
-	* version 0.9.1
-	* support null subject.
-
-2002-01-12 TADA Tadashi <sho@spc.gr.jp>
-	* version 0.9.0
-=end
-
 
 def usage
 	text = <<-TEXT
@@ -64,7 +30,7 @@ end
 def image_list( date, path )
 	image_path = []
 	Dir.foreach( path ) do |file|
-		if file =~ /(\d{8,})_(\d)\.(.*)/ then
+		if file =~ /(\d{8,})_(\d+)\.(.*)/ then
 			if $1 == date then
 				image_path[$2.to_i] = file
 			end

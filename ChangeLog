@@ -1,3 +1,6 @@
+2003.12.01 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb: support over 10 images. thanks jun.o.
+
 2003.11.27 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: no 'Content-Type' in error message running on mod_ruby.
 	* plugin/01sp.rb: sp.path can terminate by '/'.
@@ -144,6 +147,7 @@
 	* skel/tdiary.rconf: fix typo.
 	* tdiary.rb: automatic generate date when Append.
 	* misc/posttdiary.rb: not send date to update CGI.
+	* misc/posttdiary.rb: unset date to request for tDiary.
 
 2003.09.02 Junichiro kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: calc_links works correctly with mobile agent.
@@ -666,6 +670,9 @@
 	* update.rhtml: add "update" into class selector in <div class="day">.
 	* conf.rhtml: add "conf" into class selector in <div class="day">.
 
+2002.09.29 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb:fix bug when boundary has special charactor of Regexp.
+
 2002.09.28 TADA Tadashi <sho@spc.gr.jp>
 	* update.rb: remove an unnecessary </div>.
 
@@ -834,8 +841,18 @@
 2002.04.17 MUTOH Masao <mutoh@highway.ne.jp>
 	* index.rb, tdiary.rb: add Plugin#add_cookie.
 
+2002.04.16 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb:bmp support for feelH". if found Ruby::Magick use it, else use convert.
+
+2002.04.07 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb:fix mojibake: -mQ -> -m0.
+
 2002.04.05 TADA Tadashi <sho@spc.gr.jp>
 	* 1.4.1
+
+2002.04.05 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb: set permission of image to readable everybody.
+	* misc/posttdiary.rb:--image-path and --image-url options.
 
 2002.04.02 TADA Tadashi <sho@spc.gr.jp>
 	* conf.rhtml: make link to new Theme Gallery.
@@ -939,6 +956,9 @@
 	* mail-via-{qmail,sendmail}.rb: fix typo.
 	* recent_list: fix paragraph numbering.
 
+2002.02.22 Daisuke Kato <dai@kato-agri.com>
+	* posttdiary.rb: support Multipart Mail.
+
 2002.02.22 TADA Tadashi <sho@spc.gr.jp>
 	* *.css: valid by W3C. thanks shinchan <stakei@nga.jp>.
 	* update.rhtml, i.update.rhtml: change tabsindexs.
@@ -1010,6 +1030,9 @@
 	* edit.rb: add new plugin into misc/plugin.
 	* index.rb, update.rb: move 'begin' to top of script.
 	* posttdiary.rb: add into misc.
+
+2002.01.12 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb: added and support null subject.
 
 2002.01.10 TADA Tadashi <sho@spc.gr.jp>
 	* fix cache bug.
