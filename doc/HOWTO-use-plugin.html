@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja-JP">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
@@ -49,6 +49,7 @@
 
 <p>　プラグインを使えるのは、日記のタイトルと本文、およびヘッダとフッタです。日付フォーマットで使えるものもあります。すべてのページに表示したい場合にはヘッダかフッタを、その日の日記にだけ使いたい場合にはタイトルや本文に使います。また、ツッコミには使えません。</p>
 </div>
+</div>
 
 <h2><span class="title">デフォルトプラグインの説明</span></h2>
 <div class="body">
@@ -71,7 +72,7 @@
 
 <h3 class="subtitle">navi_userプラグイン</h3>
 <div class="section">
-<p>　naviプラグインから内部的に呼び出されているプラグインですが、単独で使うこともできます。このプラグインは、ナビゲーションボタンのうち、日記閲覧者にのみ必要なボタン(「トップ」「最新」「<前日」「翌日>」)を表示します。これを使うことで、「更新」のような日記オーナーにだけ必要なボタンを表示させないなどのカスタマイズを行えます。</p>
+<p>　naviプラグインから内部的に呼び出されているプラグインですが、単独で使うこともできます。このプラグインは、ナビゲーションボタンのうち、日記閲覧者にのみ必要なボタン(「トップ」「最新」「&lt;前日」「翌日&gt;」)を表示します。これを使うことで、「更新」のような日記オーナーにだけ必要なボタンを表示させないなどのカスタマイズを行えます。</p>
 </div>
 
 <div class="section">
@@ -80,7 +81,7 @@
 
 <div class="section">
 <pre>
-&lt;p class="adminmenu"&gt;&lt;%=navi_user%&gt;&lt;/p&gt;
+&lt;p class=&quot;adminmenu&quot;&gt;&lt;%=navi_user%&gt;&lt;/p&gt;
 </pre>
 </div>
 
@@ -111,7 +112,7 @@
 
 <h3 class="subtitle">myプラグイン</h3>
 <div class="section">
-<p>　日記本文中で、自分の日記内へのリンクを簡単に作成します。&lt;a href="〜"&gt;...&lt;/a&gt;とやってもよいのですが、こちらの方がサーバの引っ越しやmod_rewriteを利用してURLを変更した場合などに強くできます。</p>
+<p>　日記本文中で、自分の日記内へのリンクを簡単に作成します。&lt;a href=&quot;〜&quot;&gt;...&lt;/a&gt;とやってもよいのですが、こちらの方がサーバの引っ越しやmod_rewriteを利用してURLを変更した場合などに強くできます。</p>
 <p>　最初のパラメタにリンク先の日付とアンカーを「YYYYMMDD#pXX」(YYYY年MM月DD日のXX番目のセクション)や「YYYYMMDD#cXX」(YYYY年MM月DD日のXX番目のツッコミ)のような形式で指定します。2番目のパラメタには、リンクにする文字列を指定します。</p>
 </div>
 
@@ -176,7 +177,7 @@ TEXT
 
 <h3 class="subtitle">calendarプラグイン(ドロップダウンリスト)</h3>
 <div class="section">
-<p>　dropdown_calendar.rbには、デフォルトのcalendarを置き換えるプラグインが含まれています。このように、同名のプラグインを作ると、元のプラグインを置き換えることが可能です。<p>
+<p>　dropdown_calendar.rbには、デフォルトのcalendarを置き換えるプラグインが含まれています。このように、同名のプラグインを作ると、元のプラグインを置き換えることが可能です。</p>
 </div>
 
 <div class="section">

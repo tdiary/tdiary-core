@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja-JP">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
@@ -132,7 +132,7 @@ def theme_url; 'theme'; end
 </div>
 
 <div class="section">
-<table border style="margin-left: 3em;">
+<table border="1" style="margin-left: 3em;" summary="Pluginクラスのインスタンス変数一覧">
 <tr><th>変数名</th><th>説明</th></tr>
 <tr><th>@mode</th><td>現在動作中のモードを表現する文字列です。tdiary.rb中で使われているTDiaryクラスの策クラス名から、TDiaryを取って、downcaseしたものが含まれています。上手に利用するにはtDiaryの内部構造を知っている必要があるでしょう(いずれちゃんと説明書きます。すまぬ)</td></tr>
 <tr><th>@diaries</th><td>日記データを保持するDiaryインスタンスのHashです。現在表示対象になっている日付を含む月全体が含まれます(最新表示で月をまたいでいる場合は、2ヶ月分含まれることがあります)。Hashのキーは「yyyymmdd」形式の日付で、Hashの値がDiaryインスタンスです。</td></tr>
@@ -198,7 +198,7 @@ end
 <p>　プラグインは、TDiary::Pluginクラスのインスタンス内に定義された特異メソッドとして動作します(コールバックは除く)。そのため、すでにPluginインスタンス中で定義されているメソッドは、プラグインから自由に呼び出すことが可能です。例えばあるプラグインの機能を別のプラグインから通常のメソッド呼び出しの形式で利用できるわけです。</p>
 <p>　この他に、Pluginクラスには以下のようなメソッドが用意されています。通常はPluginクラス外へ影響を及ぼせないプラグインですが、これらのメソッドを使うことでそれが一部可能になっています。</p>
 
-<table border style="margin-left: 3em;">
+<table border="1" style="margin-left: 3em;" summary="Pluginクラスの標準メソッド一覧">
 <tr><th>メソッド名</th><th>説明</th></tr>
 <tr><th style="white-space: nowrap;">add_cookie( cookie )</th><td>Webブラウザに返すCookieを追加します。プラグインから何らかの情報をWebブラウザ側に保持しておいて欲しい時に使います。引数cookieはCGI::Cookieインスタンスです。なお、逆にCookieを受けとる時は、@cgiインスタンス変数から取得してください。</td></tr>
 <tr><th style="white-space: nowrap;">add_XXX_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body_enter、body_leaveが入る。引数procにはProcインスタンス、もしくはブロックを与える。<a href="#callback">コールバック系プラグイン</a>を参照。</td></tr>

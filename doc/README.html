@@ -1,11 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja-JP">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
 	<meta name="Author" content="TADA Tadashi">
 	<link rev="MADE" href="mailto:sho@spc.gr.jp">
 	<link rel="INDEX" href="http://www.tdiary.net/">
-	<meta http-equiv="content-style-type" content="text/css" media="all">
+	<meta http-equiv="content-style-type" content="text/css">
 	<link rel="stylesheet" href="doc.css" type="text/css" media="all">
 	<title>tDiary README</title>
 </head>
@@ -19,7 +19,7 @@
 <dt>更新や設定までCGIでできる</dt>
 	<dd>　日記の参照だけでなく、日記の更新、設定までもCGIでサポートします。さえあれば面倒なメンテナンスは不要。手軽に使えて、長く続けられます。</dd>
 
-<dt>「ツッコミ」が入れられる</dd>
+<dt>「ツッコミ」が入れられる</dt>
 	<dd>　日記の読者が、日記に「ツッコミ」を入れられます。ようするに、日付ごとに掲示板がついています。これを通じて、読者とのコミュニケーションが生まれます。 ツッコミがあったことを著者にメールで知らせる機能もあります。</dd>
 
 <dt>「本日のリンク元」(Referer)機能</dt>
@@ -29,10 +29,13 @@
 	<dd>　iモードに限らず、ほとんどの携帯電話やPalm・ザウルスなどの携帯端末からも日記を参照できます。専用の特別なURLは必要なく、自動認識して最適なページを生成します。通信料金のシビアな端末向けには無駄を省いた小さなページを送るようになっています。</dd>
 
 <dt>CSSを使ったテーマ機能</dt>
-	<dd>スタイルシートを使って見た目をがらりを変えることができます。これは「テーマ」と呼ばれ、あらかじめいくつか添付されています。もちろん自分で作ることも可能です。テーマは設定画面で簡単に切り替えることができます。</dd>
+	<dd>スタイルシートを使って見た目をがらりを変えることができます。これは「テーマ」と呼ばれ、別パッケージとして配布されているテーマ集には、100を越えるテーマが収録されています。もちろん自分で作ることも可能です。テーマは設定画面で簡単に切り替えることができます。</dd>
 
 <dt>プラグインによる機能追加</dt>
 	<dd>プラグインというモジュールを追加することで、日記の機能を増やしたり変更したりすることが可能です。詳しくは<a href="HOWTO-use-plugin.html">HOWTO-use-plugin.html</a>(使い方)・<a href="HOWTO-make-plugin.html">HOWTO-make-plugin.html</a>(作り方)を参照してください。</dd>
+
+<dt>記述形式や保存形式を変更できる機能</dt>
+	<dd>標準のtDiary独自記述形式や独自保存形式以外の形式をサポート可能になっています。ただしプログラミングが必要です。詳しくは<a href="HOWTO-make-io.rd">HOWTO-make-io.rd</a>を参照してください。</dd>
 
 <dt>Rubyで書かれている</dt>
 	<dd>　重要なポイントでしょう:-)&nbsp;実行にはRuby 1.6.3以上が必要です。</dd>
@@ -75,16 +78,16 @@
 
 <div class="section">
 <pre>
-Options ExecCGI
+Options +ExecCGI
 AddHandler cgi-script .rb
 DirectoryIndex index.rb
 
-&lt;Files "*.rhtml"&gt;
-	deny from all
+&lt;Files &quot;*.rhtml&quot;&gt;
+   deny from all
 &lt;/Files&gt;
 
-&lt;Files "tdiary.*"&gt;
-	deny from all
+&lt;Files &quot;tdiary.*&quot;&gt;
+   deny from all
 &lt;/Files&gt;
 
 &lt;Files update.rb&gt;
@@ -130,7 +133,7 @@ Require user  foo
 </div>
 
 <div class="section">
-<p>　<code>@data_path</code>は、日記のデータを保存するディレクトリです。このディレクトリは通常、WWW経由でアクセスできない(<code>public_html</code>配下でない)ディレクトリを指定します。このディレクトリは、WWWサーバの権限で書き込めるパーミッションにしておく必要があります。<p>
+<p>　<code>@data_path</code>は、日記のデータを保存するディレクトリです。このディレクトリは通常、WWW経由でアクセスできない(<code>public_html</code>配下でない)ディレクトリを指定します。このディレクトリは、WWWサーバの権限で書き込めるパーミッションにしておく必要があります。</p>
 </div>
 
 <div class="section">
@@ -205,7 +208,7 @@ load_cgi_conf
 </div>
 
 <div class="section">
-<p>　更新ページには、日記の日付とその日のタイトル、本文を入力するフォームがあります。日付、タイトル(指定しなくても良い)、本文を入力して「追加」ボタンを押すと、その日の日記に追加されます。追加なので、一日に何度も日記を書く場合に、わざわざ以前のデータを呼び出す必要はありません。また、すでにタイトルが指定されている場合、タイトルを入力しなければ以前指定したものが使われます。</p>
+<p>　更新ページには、日記の日付とその日のタイトル、本文を入力するフォームがあります。日付、タイトル、本文を入力して「追加」ボタンを押すと、その日の日記に追加されます。タイトルと本文はどちらも省略可能です。追加なので、一日に何度も日記を書く場合に、わざわざ以前のデータを呼び出す必要はありません。また、すでにタイトルが指定されている場合、タイトルを入力しなければ以前指定したものが使われます。</p>
 </div>
 
 <div class="section">
@@ -251,6 +254,7 @@ load_cgi_conf
 <h3 class="subtitle">あとは……</h3>
 <div class="section">
 <p>　日記をつけ続けるだけです(これが一番難しい:-)。Have fun!!</p>
+</div>
 </div>
 
 <h2><span class="title">著作権、サポートなど</span></h2>
