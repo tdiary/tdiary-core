@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.7 $
+# index.rb $Revision: 1.8 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -15,8 +15,10 @@ begin
 	@cgi = CGI::new
 	conf = TDiary::Config::new
 	tdiary = nil
-	if ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
+	status = nil
+	if %r[/\d{6,8}\.html?$] =~ ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
 		@cgi.params['date'] = [ENV['REDIRECT_URL'].sub( /.*\/(\d+)\.html$/, '\1' )]
+		status = 'OK'
 	end
 
 	begin
@@ -39,49 +41,41 @@ begin
 	tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf ) if not tdiary
 
 	begin
-		head = body = ''
+		head = {
+			'type' => 'text/html',
+			'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
+			'Vary' => 'User-Agent'
+		}
+		head['status'] = status if status
+		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
+		body = ''
 		if @cgi.mobile_agent? then
 			body = tdiary.eval_rhtml( 'i.' ).to_sjis
-			head = @cgi.header(
-				'status' => '200 OK',
-				'type' => 'text/html',
-				'charset' => 'Shift_JIS',
-				'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
-				'Content-Length' => body.size.to_s,
-				'Vary' => 'User-Agent'
-			)
+			head['charset'] = 'Shift_JIS'
+			head['Content-Length'] = body.size.to_s
 		else
 			body = tdiary.eval_rhtml
-			hash = {
-				'status' => '200 OK',
-				'type' => 'text/html',
-				'charset' => 'EUC-JP',
-				'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
-				'Content-Length' => body.size.to_s,
-				'Pragma' => 'no-cache',
-				'Cache-Control' => 'no-cache',
-				'Vary' => 'User-Agent',
-			}
-			hash['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-			head = @cgi.header( hash )
+			head['charset'] = 'EUC-JP'
+			head['Content-Length'] = body.size.to_s
+			head['Pragma'] = 'no-cache'
+			head['Cache-Control'] = 'no-cache'
 		end
-		print head
+		print @cgi.header( head )
 		print body if /HEAD/i !~ @cgi.request_method
 	rescue TDiary::ForceRedirect
-		hash = {
+		head = {
 			#'Location' => $!.path
 			'type' => 'text/html',
 		}
-		hash['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-		head = @cgi.header( hash )
-		print head
+		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
+		print @cgi.header( head )
 		print %Q[
 			<html>
 			<head>
 			<meta http-equiv="refresh" content="0;url=#{$!.path}">
 			<title>moving...</title>
 			</head>
-			<body><a href="#{$!.path}">Click here!</a></body>
+			<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 			</html>]
 	end
 rescue Exception
