@@ -1,3 +1,6 @@
+2003-11-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb: remove tail '/' of base_url.
+
 2003.11.19 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: import base_url method from RWiki.
 
