@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.5 2002-05-17 13:13:04 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.6 2002-05-18 08:34:49 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -192,7 +192,6 @@ is expected to accept only one argument(URL).")
 
 (defun tdiary-do-complete-plugin (&optional name)
   "Complete function for plugin."
-  (interactive)
   (let (command)
     (when (null name)
       (setq name 
@@ -441,7 +440,6 @@ Otherwise replace all entity references within current buffer."
 (put 'tdiary-mode 'font-lock-defaults '(html-font-lock-keywords nil t))
 
 (defun tdiary-setup-keys ()
-  (interactive)
   (define-key tdiary-mode-map [(control return)] 'tdiary-complete-plugin)
   (define-key tdiary-mode-map "\C-c\C-c" 'tdiary-update)
   )
