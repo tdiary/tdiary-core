@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.43 $
+tdiary.rb $Revision: 1.44 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020724'
+TDIARY_VERSION = '1.5.0.20020725'
 
 require 'cgi'
 require 'nkf'
@@ -610,12 +610,18 @@ class TDiaryReplace < TDiaryAdmin
 		@title = @cgi['title'][0].to_euc
 		@body = @cgi['body'][0].to_euc
 		old_date = Time::local( *@cgi['old'][0].scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
+		old_date, = @cgi['old']
 		@hide = @cgi['hide'][0] ? true : false
 
 		@io.transaction( @date, @diaries = {} ) do
-			if old = self[old_date] then
-				delete( old_date )
-				@diary = old.replace( @date, @title, @body )
+			@diary = self[@date]
+			if @diary then
+				if @date.strftime( '%Y%m%d' ) != old_date then
+					@diary.append( @body, @append )
+					@diary.title = @title if @title.length > 0
+				else
+					@diary.replace( @date, @title, @body )
+				end
 			else
 				@diary = @io.diary_factory( @date, @title, @body )
 			end
@@ -923,7 +929,7 @@ class TDiaryComment < TDiaryDay
 	end
 
 	def eval_rhtml( prefix = '' )
-		raise ForceRedirect::new( @diary.date.strftime( "#{@index}?date=%Y%m%d#c#{@diary.count_comments( true )}" ) )
+		raise ForceRedirect::new( @diary.date.strftime( "#{@index}?date=%Y%m%d#c#{'%02d' % @diary.count_comments( true )}" ) )
 	end
 
 protected

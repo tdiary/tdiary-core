@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.10 $ %>
+<%# diary.rhtml $Revision: 1.11 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -22,7 +22,7 @@ if opt['show_comment'] and count_comments > 0 then
 					<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
 					<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%></span>
 				</div>
-				<p><%= comment.body.make_link.gsub( /\n([^\z])/ , "<br>\\1" ) %></p><%
+				<p><%= comment.body.make_link.gsub( /\n/ , "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
 			end
 			idx += 1
 		end %>

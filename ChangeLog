@@ -1,9 +1,14 @@
-2002.06.24 TADA Tadashi <sho@spc.gr.jp>
+2002.07.25 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix of bad fragment of redirection after posting comment. thanks NT.
+	* diary.rhtml: separate CR/LF in comments by <br>: try again.
+	* append text when the target diary existed on replace mode (porting from Rev.1.31.2.4).
+
+2002.07.24 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, tdiary.rb: redirect to day page after posting comment.
 	* diary.rhtml: separate CR/LF in comments by <br>: more try.
 	* defaultio.rb: cut surplus \n in tail of comments.
 
-2002.06.23 TADA Tadashi <sho@spc.gr.jp>
+2002.07.23 TADA Tadashi <sho@spc.gr.jp>
 	* diary.rhtml: separate CR/LF in comments by <br>.
 	* defauldio.rb: restore last modified into diaries.
 	* convert2.rb: fix bugs.

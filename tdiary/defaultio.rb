@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.7 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.8 $
 #
 module DefaultIO
 	class IO
@@ -73,10 +73,14 @@ module DefaultIO
 
 				# read and parse diary
 				while l = fh.gets( "\n.\n" )
-					headers, body = parse( l )
-					if headers['Format'] == 'tDiary' then
-						diary = TDiaryDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
-						diaries[headers['Date']] = diary
+					begin
+						headers, body = parse( l )
+						case headers['Format']
+						when 'tDiary'
+							diary = TDiaryDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
+							diaries[headers['Date']] = diary
+						end
+					rescue NameError
 					end
 				end
 

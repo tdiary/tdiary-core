@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.3 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.4 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -16,6 +16,9 @@ ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]
 =end
 
 =begin ChangeLog
+2002-07-25 TADA Tadashi <sho@spc.gr.jp>
+	* display progress.
+
 2002-07-23 TADA Tadashi <sho@spc.gr.jp>
 	* fix some bugs.
 
@@ -73,6 +76,7 @@ class TDiaryConvert2 < TDiary
 		@years = @io_old.calendar
 		@years.keys.sort.each do |year|
 			@years[year.to_s].sort.each do |month|
+				puts "#{year}-#{month}"
 				date = Time::local( year.to_i, month.to_i )
 				@io_old.transaction( date ) do |diaries|
 					@diaries = diaries
