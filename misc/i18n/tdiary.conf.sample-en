@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.9 $
+# tDiary configuration file $Revision: 1.10 $
 #
 
 #-------
@@ -65,8 +65,26 @@
 #   Some plugins can receive options from tdiary.conf.
 #     ex: a option "foo" of plugin "sample".
 #         @options[sample.foo] = 'foobar'
-#@options['apply_plugin'] = true
-#@options['bot'] = []
+
+# apply plugins after 1st applyeds plugin (true/false)
+@options['apply_plugin'] = true
+
+# User-Agent list that is considered as bot.
+@options['bot'] = [
+	'^(Naverbot|Cowbot)-',
+	'^BlogLines/',
+	'^blogmap',
+	'^FAST-WebCrawler/',
+	'^Hatena Antenna/',
+	'MI[CK]AN/',
+	'^msnbot/',
+	'^NG/',
+	'^Openbot/',
+	'^samidare',
+	'^TAMATEBAKO/',
+	'^TomSoftAntenna'
+]
+
 
 #-------
 # Items which you can configure with browser

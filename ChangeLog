@@ -1,3 +1,7 @@
+2004-04-19 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.conf.sample: uncomment @options['apply_plugin'] and @options['bot'].
+	* tdiary.conf.sample: some robots add to @options['bot'].
+
 2004-04-06 zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: records only plug-in filenames. When more than one plug-ins in different directories have the same filename, first occurance in sp.path will be used, without raising an error.
 

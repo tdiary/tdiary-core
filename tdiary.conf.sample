@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.26 $
+# tDiary configuration file $Revision: 1.27 $
 #
 
 #-------
@@ -71,8 +71,25 @@
 #   照照して下さい。
 #     例: sampleプラグインのhogeオプションを設定
 #         @options['sample.hoge'] = 'foobar'
-#@options['apply_plugin'] = true
-#@options['bot'] = []
+
+# プラグイン適用後にもういちどプラグインを適用するかどうか(true/false)
+@options['apply_plugin'] = true
+
+# bot扱いすべきUser-Agentたち。Googlebotなどはデフォルトで対応している
+@options['bot'] = [
+	'^(Naverbot|Cowbot)-',
+	'^BlogLines/',
+	'^blogmap',
+	'^FAST-WebCrawler/',
+	'^Hatena Antenna/',
+	'MI[CK]AN/',
+	'^msnbot/',
+	'^NG/',
+	'^Openbot/',
+	'^samidare',
+	'^TAMATEBAKO/',
+	'^TomSoftAntenna'
+]
 
 #-------
 # CGIで変更できる項目群。必要なら書き換えて使用してください。なお、一度
