@@ -23,6 +23,10 @@ You can change the look of the diary by CSS. In tDiary, this feature is called '
 === Plugin 
 By plugins, you can add new features to tDiary, and change the existing feature of tDiary.
 
+=== Selectable Style and IO
+You can choice a grammar of writing your diary by 'Style' feature. Some style files are in misc/style. And you can choice data saving format (IO) also. Seee HOWTO-make-io.rd for more information about Style or IO.
+
+
 === Written in Ruby
 Important :-). tDiary requires Ruby-1.6.3 or later.
 

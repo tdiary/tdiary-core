@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.2 $
+# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.3 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # You can distribute this under GPL.
@@ -189,7 +189,7 @@ class WikiParser
 				end
 			end
 		end
-		url( tail ) if tail and tail.size > 0
+		url( tail ) if tail
 	end
 
 	def url( l )
@@ -232,7 +232,7 @@ class WikiParser
 				end
 			end
 		end
-		wikiname( tail ) if tail and tail.size > 0
+		wikiname( tail ) if tail
 	end
 
 	def wikiname( l )
@@ -254,7 +254,7 @@ class WikiParser
 				@q << i
 			end
 		end
-		@q << tail if tail and tail.size > 0
+		@q << tail if tail
 	end
 end
 
@@ -264,4 +264,7 @@ if $0 == __FILE__
 end
 
 __END__
-{{tlink 'http://hoge.com/hoge.html#p01','¤Û¤²'}}
+""aaaa
+""bbbb
+""[[aaa]]
+""cccc
