@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.129 $
+tdiary.rb $Revision: 1.130 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030710'
+TDIARY_VERSION = '1.5.4.20030715'
 
 require 'cgi'
 require 'nkf'
@@ -220,7 +220,7 @@ module TDiary
 			newer_referer
 			@referers.values.sort.reverse.each_with_index do |ary,idx|
 				break if idx >= limit
-				yield ary
+				yield [ary[0], ary[1].to_euc]
 			end
 		end
 	
@@ -952,7 +952,7 @@ module TDiary
 	#  show edit diary form
 	#
 	class TDiaryEdit < TDiaryAdmin
-		def initialize( cgi, rhtm, confl )
+		def initialize( cgi, rhtm, conf )
 			super
 	
 			@io.transaction( @date ) do |diaries|
@@ -973,7 +973,7 @@ module TDiary
 	#  preview diary
 	#
 	class TDiaryPreview < TDiaryAdmin
-		def initialize( cgi, rhtm, confl )
+		def initialize( cgi, rhtm, conf )
 			super
 	
 			@title = @cgi.params['title'][0].to_euc
@@ -1049,7 +1049,7 @@ module TDiary
 	#  replace diary
 	#
 	class TDiaryReplace < TDiaryUpdate
-		def initialize( cgi, rhtm, confl )
+		def initialize( cgi, rhtm, conf )
 			super
 			old_date = @cgi.params['old'][0]
 	
@@ -1104,7 +1104,7 @@ module TDiary
 	#  show edit diary form after calling form plugin.
 	#
 	class TDiaryFormPlugin < TDiaryBase
-		def initialize( cgi, rhtm, confl )
+		def initialize( cgi, rhtm, conf )
 			super
 
 			if @cgi.valid?( 'date' ) then
@@ -1239,16 +1239,18 @@ module TDiary
 		end
 	
 		def referer?
-			valid = true
-			if @cgi.referer and %r|^https?://|i =~ @cgi.referer then
+			if /[\x00-\x20\x7f-\xff]/ =~ @cgi.referer then
+				$stderr.puts "reject referer: #{@cgi.referer}"
+				return false
+			elsif @cgi.referer and %r|^https?://|i =~ @cgi.referer
 				ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
 				@conf.no_referer.each do |noref|
-					valid = false if /#{noref}/i =~ ref
+					return false if /#{noref}/i =~ ref
 				end
 			else
-				valid = false
+				return false
 			end
-			valid
+			return true
 		end
 	
 		def cache_enable?( prefix )
@@ -1261,7 +1263,7 @@ module TDiary
 	#  show day mode view
 	#
 	class TDiaryDay < TDiaryView
-		def initialize( cgi, rhtm, confl )
+		def initialize( cgi, rhtm, conf )
 			super
 			begin
 				# time is noon for easy to calc leap second.

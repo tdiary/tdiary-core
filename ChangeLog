@@ -1,3 +1,6 @@
+2003.07.15 TADA Tadashi <sho@spc.gr.jp>
+	* save only valid referer, and referer URL to euc before display.
+
 2003.07.10 TADA Tadashi <sho@spc.gr.jp>
 	* fix bug when empty receivers in comment_mail plugins.
 
