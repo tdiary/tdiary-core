@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.2 2003-02-27 03:31:53 kitaj Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.3 2003-02-27 15:07:42 zunda Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -124,7 +124,7 @@ sections.
 		end
 	
 		def append( body, author = nil )
-			Emptdiary::EmptdiaryString.new(body.sub( "\r", '' )).split_unless_plugin( "\n\n+" ).each do |fragment|
+			Emptdiary::EmptdiaryString.new(body.gsub( "\r", '' )).split_unless_plugin( "\n\n+" ).each do |fragment|
 				section = EmptdiarySection::new( fragment, author )
 				@sections << section if section
 			end
