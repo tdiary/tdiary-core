@@ -1,5 +1,6 @@
 2004-01-17 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/{ja,en}/00default.rb: split @theme_location_comment.
+	* theme/base.css: modify style of calendar3 plugin.
 
 2004-01-17 TADA Tadashi <sho@spc.gr.jp>
 	* misc/posttdiary.rb: support ruby 1.8.1.

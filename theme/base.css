@@ -99,18 +99,22 @@ calendar3 plugin
 	text-align: left;
 	position: absolute;
 	padding: 0 1ex 0 1ex;
+	background-color: #fff;
+	color: #000;
+	border-style: solid;
+	border-width: 1px;
 }
 
-.calendar-day .calendar-sunday, .calendar-normal .calendar-sunday {
-	color: red;
+.calendar-sunday {
+	color: #f00;
 }
 
-.calendar-day .calendar-saturday, .calendar-normal .calendar-saturday {
-	color: blue;
+.calendar-saturday {
+	color: #00f;
 }
 
-.calendar-day .calendar-weekday, .calendar-normal .calendar-weekday {
-	color: black;
+.calendar-weekday {
+	color: #000;
 }
 
 .calendar-normal {
@@ -121,7 +125,7 @@ calendar3 plugin
 
 .calendar-todo {
 	border-style: solid;
-	border-color: red;
+	border-color: #f00;
 	border-width: 1px;
 }
 
