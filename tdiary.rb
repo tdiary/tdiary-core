@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.197 $
+tdiary.rb $Revision: 1.198 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1712,7 +1712,7 @@ RSSHEAD
 				rescue NameError, NoMethodError
 					next unless com.visible?
 				end
-				next unless /^(Track|Ping)Back$/ =~ com.name
+				next unless /^(TrackBack|Pingback)$/ =~ com.name
 				url, blog_name, title, excerpt = com.body.split(/\n/, 4)
 				r << <<RSSITEM
 <item>
