@@ -148,13 +148,14 @@ def theme_url; 'theme'; end
 	<li><code>body_enter_proc</code>: 日記本文開始の直前で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>body_leave_proc</code>: 日記本文終了の直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>footer_proc</code>: footer生成時に呼び出される</li>
+	<li><code>edit_proc</code>: 更新フォーム内で呼び出される</li>
 </ul>
 
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
 
 <pre>
 # 検索キーワードをheadに挿入する
@@ -163,11 +164,35 @@ add_header_proc do
 end
 </pre>
 
+<p>ただし、body_enter_procとbody_leave_proc、edit_procは、現在対象にしている日記の日付がブロックパラメタとして受け取れるようになっているので、以下のように指定する必要があります。</p>
+
+<pre>
+# 最終更新日を表示する
+add_body_enter_proc do |date|
+   diary = @diaries[date.strftime( '%Y%m%d' )]
+   '#{diary.last_modified( "%Y-%m%-d" )}'
+end
+</pre>
 
 <p>なお、コールバック系プラグインはそれぞれのブロックが返した文字列をすべて連結してHTMLに埋め込みますが、<code>update_proc</code>は何も埋め込みません(意味がないので)。このため、<code>update</code>用に追加するブロックは何も返す必要はありません。</p>
 
-
 <p>デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader_proc用ブロックが定義されています。</p>
+
+<p>また、単独では意味のないコールバック系プラグインがあります。edit_procです。edit_procは更新フォーム内に文字列を埋め込むためのプラグインですが、これによって更新フォームに任意のアイテムを追加できます。このアイテムに入力された値は、別途update_proc内で受けとる必要があるでしょう。</p>
+
+<pre>
+# name属性には「plugin_プラグイン名」を付けなければならない
+add_edit_proc do |date|
+   'Hoge: &lt;input name="plugin_hoge"&gt;'
+end
+
+# 更新時に値を受け取れる
+add_update_proc do
+   if /^(append|replace)$/ =~ @mode then
+      hoge = @cgi.params['plugin_hoge'][0]
+   end
+end
+</pre>
 
 <h2><a name="methods">プラグインが生成するHTML</a></h2>
 <p>プラグインは一般的に文字列を返すことでその文字列が日記に埋め込まれるわけですが、多くの場合その文字列はHTMLの断片になります。このHTML断片は以下のルールに従うようにしてください。

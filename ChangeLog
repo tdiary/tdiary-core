@@ -1,3 +1,6 @@
+2003.04.15 TADA Tadashi <sho@spc.gr.jp>
+	* support edit_proc plugin.
+
 2003.04.11 zunda <zunda@freeshell.org>
 	* skel/i.day.rhtml, skel/i.latest.rhtml, skel/i.month.rhtml: <input ... -> <INPUT ...
 
@@ -8,7 +11,7 @@
 	* preview: show safety page when plugin error.
 
 2003.04.05 TADA Tadashi <sho@spc.gr.jp>
-	* preview page.
+	* support preview page.
 
 2003.04.04 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: add content_script_type plugin.

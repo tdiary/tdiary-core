@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.103 $
+tdiary.rb $Revision: 1.104 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030407'
+TDIARY_VERSION = '1.5.3.20030415'
 
 require 'cgi'
 require 'nkf'
@@ -567,6 +567,7 @@ module TDiary
 			@update_procs = []
 			@body_enter_procs = []
 			@body_leave_procs = []
+			@edit_procs = []
 			@cookies = []
 
 			params.each_key do |key|
@@ -667,6 +668,18 @@ module TDiary
 		def body_leave_proc( date )
 			r = []
 			@body_leave_procs.each do |proc|
+				r << proc.call( date )
+			end
+			r.join
+		end
+
+		def add_edit_proc( block = proc )
+			@edit_procs << block
+		end
+
+		def edit_proc( date )
+			r = []
+			@edit_procs.each do |proc|
 				r << proc.call( date )
 			end
 			r.join

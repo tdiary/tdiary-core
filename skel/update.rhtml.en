@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.3 $ %>
+<%# update.rhtml $Revision: 1.4 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%= submit_label %%>]</h1>
@@ -28,6 +28,7 @@
 		<div class="textarea">
 			Article(<%= @conf.style %> style):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
 		</div>
+		<%%=edit_proc( @date )%%>
 		<span class="button append">
 			<input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
 		</span>
