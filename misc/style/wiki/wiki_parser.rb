@@ -1,4 +1,4 @@
-# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.6 $
+# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.7 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # You can distribute this under GPL.
@@ -99,7 +99,7 @@ class WikiParser
 				else
 					@q << :QS << :PS
 				end
-				inline( $1 )
+				inline( $1 + "\n" )
 				@q << :PE << :QE
 
 			when /^\s(.*)/ # formatted text
