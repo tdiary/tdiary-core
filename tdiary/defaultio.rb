@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.6 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.7 $
 #
 module DefaultIO
 	class IO
@@ -156,7 +156,7 @@ module DefaultIO
 					fhc.puts( "Last-Modified: #{com.date.to_i}" )
 					fhc.puts( "Visible: #{com.visible? ? 'true' : 'false'}" )
 					fhc.puts
-					fhc.puts( com.body.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
+					fhc.puts( com.body.gsub( /\r/, '' ).sub( /\n+\Z/, '' ).gsub( /\n\./, "\n.." ) )
 					fhc.puts( '.' )
 				end
 

@@ -1,3 +1,8 @@
+2002.06.24 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, tdiary.rb: redirect to day page after posting comment.
+	* diary.rhtml: separate CR/LF in comments by <br>: more try.
+	* defaultio.rb: cut surplus \n in tail of comments.
+
 2002.06.23 TADA Tadashi <sho@spc.gr.jp>
 	* diary.rhtml: separate CR/LF in comments by <br>.
 	* defauldio.rb: restore last modified into diaries.

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.3 $
+# index.rb $Revision: 1.4 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -34,32 +34,41 @@ begin
 	end
 	tdiary = TDiaryLatest::new( @cgi, "latest.rhtml" ) if not tdiary
 
-	head = body = ''
-	if @cgi.mobile_agent? then
-		body = tdiary.eval_rhtml( 'i.' ).to_sjis
-		head = @cgi.header(
-			'type' => 'text/html',
-			'charset' => 'Shift_JIS',
-			'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
-			'Content-Length' => body.size.to_s,
-			'Vary' => 'User-Agent'
-		)
-	else
-		body = tdiary.eval_rhtml
+	begin
+		head = body = ''
+		if @cgi.mobile_agent? then
+			body = tdiary.eval_rhtml( 'i.' ).to_sjis
+			head = @cgi.header(
+				'type' => 'text/html',
+				'charset' => 'Shift_JIS',
+				'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
+				'Content-Length' => body.size.to_s,
+				'Vary' => 'User-Agent'
+			)
+		else
+			body = tdiary.eval_rhtml
+			hash = {
+				'type' => 'text/html',
+				'charset' => 'EUC-JP',
+				'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
+				'Content-Length' => body.size.to_s,
+				'Pragma' => 'no-cache',
+				'Cache-Control' => 'no-cache',
+				'Vary' => 'User-Agent',
+			}
+			hash['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
+			head = @cgi.header( hash )
+		end
+		print head
+		print body if /HEAD/i !~ @cgi.request_method
+	rescue TDiary::ForceRedirect
 		hash = {
-			'type' => 'text/html',
-			'charset' => 'EUC-JP',
-			'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
-			'Content-Length' => body.size.to_s,
-			'Pragma' => 'no-cache',
-			'Cache-Control' => 'no-cache',
-			'Vary' => 'User-Agent',
+			'Location' => $!.path
 		}
 		hash['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		head = @cgi.header( hash )
+		print head
 	end
-	print head
-	print body if /HEAD/i !~ @cgi.request_method
 rescue Exception
 	print "Content-Type: text/plain\n\n"
 	puts "#$! (#{$!.type})"

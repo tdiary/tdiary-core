@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.42 $
+tdiary.rb $Revision: 1.43 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020601'
+TDIARY_VERSION = '1.5.0.20020724'
 
 require 'cgi'
 require 'nkf'
@@ -269,6 +269,14 @@ class TDiary
 	class TDiaryError < StandardError; end
 	class PermissionError < TDiaryError; end
 	class PluginError < TDiaryError; end
+
+	# force redirect to another page
+	class ForceRedirect < StandardError
+		attr_reader :path
+		def initialize( path )
+			@path = path
+		end
+	end
 
 	class Plugin
 		attr_reader :cookies
@@ -912,6 +920,10 @@ class TDiaryComment < TDiaryDay
 			text = ERbLight::new( File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }.untaint ).result( binding )
 			sendmail( text )
 		end
+	end
+
+	def eval_rhtml( prefix = '' )
+		raise ForceRedirect::new( @diary.date.strftime( "#{@index}?date=%Y%m%d#c#{@diary.count_comments( true )}" ) )
 	end
 
 protected
