@@ -1,5 +1,10 @@
+2005-04-06 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/defailtio.rb: support ruby 1.9 HEAD. thanks Mineo Aoki <aamine at loveruby.net>.
+	* tdiary/defailtio.rb: through NameError in restore.
+
 2005-03-09 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary.rb: add mobile user agents; 'Vodafone' and 'MOT-'. thanks Masaru Yokoi <masaru at masaru.org>
+	* tdiary.rb: add mobile user agents; 'Vodafone' and 'MOT-'.
+	  thanks Masaru Yokoi <masaru at masaru.org>
 	* skel/i.update.rhtml: fix HTML tag typo. thanks Masaru Yokoi <masaru at masaru.org>
 
 2005-01-27 zunda <zunda at freeshell.org>
@@ -20,7 +25,8 @@
 	* plugin/00default.rb, plugin/ja/00default.rb: added icon_tag and description_tag
 
 2004-11-29 zunda <zunda at freeshell.org>
-	* tdiary.rb, skel/tdiary.rconf, plugin/00default.rb, plugin/{ja,en,zh}/00default.rb: added @conf.icon and @conf.description
+	* tdiary.rb, skel/tdiary.rconf, plugin/00default.rb, plugin/{ja,en,zh}/00default.rb:
+	  added @conf.icon and @conf.description
 
 2004-11-05 MoonWolf <moonwolf@moonwolf.com>
 	* tdiary/tdiary_style.rb: XML-RPC API support
@@ -36,7 +42,8 @@
 	* rd_style.rb: fix tainted name space of RD Headline class. Thanks Shugo Maeda <maeda@shugo.net>. 
 
 2004-08-08 Junichiro Kita <kita@kitaj.no-ip.com>
-	* tdiary.rb: TDiaryCategoryView's @last_modified changed to Time.now from Time.at(0). Thanks MATSUOKA Kohei <kohei@machu.jp>.
+	* tdiary.rb: TDiaryCategoryView's @last_modified changed to Time.now from Time.at(0).
+	  Thanks MATSUOKA Kohei <kohei@machu.jp>.
 
 2004-07-18 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb, tdiary/defaultio.rb: delete dispensable data dir and cache.
