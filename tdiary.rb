@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.198 $
+tdiary.rb $Revision: 1.199 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -71,6 +71,16 @@ class CGI
 
 	def redirect_url
 		env_table['REDIRECT_URL']
+	end
+
+	if RUBY_VERSION >= '1.8.0' && RUBY_VERSION < '1.8.2'
+		module QueryExtension
+			%w[ CONTENT_LENGTH SERVER_PORT ].each do |env|
+				define_method(env.sub(/^HTTP_/n, '').downcase) do
+					(val = env_table[env]) && Integer(val)
+				end
+			end
+		end
 	end
 end
 
