@@ -6,9 +6,16 @@
 </head>
 <body>
 <h1>Plugin Error</h1>
+<%
+	if self.kind_of?( TDiary::TDiaryAdmin ) and @date then
+		update = %Q[<a href="#{@conf.update}?edit=true;#{@date.strftime( 'year=%Y;month=%m;day=%d' )}">Edit(#{@date.strftime( '%Y-%m-%d' )})</a>]
+	else
+		update = %Q[<a href="#{@conf.update}">Update</a>]
+	end
+%>
 <p style="font-size: large;"><strong>
 	Errors in plugins?
-	Retry to <a href="<%= @conf.update %>">Update</a> or <a href="<%= @conf.update %>?conf=OK">Configure</a>.
+	Retry to <%= update %> or <a href="<%= @conf.update %>?conf=OK">Configure</a>.
 </strong></p>
 <blockquote>
 	<strong><%= CGI::escapeHTML( $!.class.to_s ) %></strong><br>

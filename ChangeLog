@@ -1,3 +1,6 @@
+2003.04.07 TADA Tadashi <sho@spc.gr.jp>
+	* plugin_error.rhtml: 'Update' -> 'Edit' when error in updating.
+
 2003.04.06 TADA Tadashi <sho@spc.gr.jp>
 	* preview: show safety page when plugin error.
 
