@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.12 $
+# tDiary configuration file $Revision: 1.13 $
 #
 
 #-------
@@ -231,11 +231,13 @@ FOOTER
 #   で運用されている某作者の日記を日付指定、月指定、指定なしのそれぞれの
 #   場合について、別々の文字列に置換しています。
 @referer_table = [
-	['^http://www.spc.gr.jp/sho/diary/\?date=(\d{4})(\d\d)(\d\d).*', 'Mary日記(\1-\2-\3)'],
-	['^http://www.spc.gr.jp/sho/diary/\?date=(\d{4})(\d\d).*', 'Mary日記(\1-\2)'],
-	['^http://www.spc.gr.jp/sho/diary/.*', 'Mary日記'],
-	['^http://www.spc.gr.jp/tdiary/.*', 'tDiary Official Site'],
-	['^http://([^\.]*)\.tdiary.net/.*', 'tDiary.net(\1)'],
+	['^http://www\.tdiary\.net/.*', 'tDiary.Net'],
+	['^http://sho\.tdiary.net/(\d{4})(\d\d)(\d\d)\.html', 'Asumi日記(\1-\2-\3)'],
+	['^http://sho\.tdiary.net/(\d{4})(\d\d)\.html', 'Asumi日記(\1-\2)'],
+	['^http://sho\.tdiary.net/.*', 'Asumi日記'],
+	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.net[\1](\2-\3-\4)'],
+	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.net[\1](\2-\3)'],
+	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.net[\1]'],
 	['^http://www.google.(com|co\.jp)/search.*?q=([^&]*).*', 'google検索(\2)'],
 	['^http://google.yahoo.(com|co\.jp)/.*?p=([^&]*).*', 'Yahoo内google検索(\2)'],
 	['^http://www.infoseek.co.jp/.*?qt=([^&]*).*', 'Infoseek検索(\1)'],

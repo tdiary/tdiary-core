@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.48 $
+tdiary.rb $Revision: 1.49 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020816'
+TDIARY_VERSION = '1.5.0.20020826'
 
 require 'cgi'
 require 'nkf'
@@ -156,7 +156,15 @@ public
 		s = comments.size - limit
 		s = 0 if s < 0
 		for idx in s...comments.size
-			yield comments[idx]
+			yield comments[idx] # idx is start with 1.
+		end
+	end
+
+	def each_visible_comment( limit = 3 )
+		@comments.each_with_index do |com,idx|
+			break if idx >= limit
+			next unless com.visible?
+			yield com,idx+1 # idx is start with 1.
 		end
 	end
 end
@@ -375,7 +383,7 @@ class TDiary
 
 	PATH = File::dirname( __FILE__ )
 
-	DIRTY_NONE = false
+	DIRTY_NONE = 0
 	DIRTY_DIARY = 1
 	DIRTY_COMMENT = 2
 	DIRTY_REFERER = 4

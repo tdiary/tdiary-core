@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.12 $ %>
+<%# diary.rhtml $Revision: 1.13 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -11,11 +11,10 @@
 <div class="comment">
 <%
 if opt['show_comment'] and count_comments > 0 then
-	idx = 1
 	if opt['long_mode'] then %>
 		<div class="caption"><%%=comment_today%%><%%=comment_total( <%=count_comments%> )%%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %%>"><%%=comment_new%%></a>]</div>
 		<div class="commentbody"><%
-		each_comment( opt['comment_limit'] ) do |comment|
+		each_visible_comment( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>
 				<div class="commentator">
 					<a <% if opt['anchor'] then %>name="c<%= '%02d' % idx %>" <% end %>href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %%>"><%= opt['comment_anchor'] %></a>
@@ -24,7 +23,6 @@ if opt['show_comment'] and count_comments > 0 then
 				</div>
 				<p><%= comment.body.make_link.gsub( /\n/ , "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
 			end
-			idx += 1
 		end %>
 		</div><%
 	else %>
