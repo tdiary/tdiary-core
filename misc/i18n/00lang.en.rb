@@ -56,10 +56,12 @@ def referer_today; "Today's Link"; end
 
 def navi_index; 'Top'; end
 def navi_latest; 'Latest'; end
-def navi_prev_diary(date); "Prev(#{date.strftime(@date_format)})"; end
-def navi_next_diary(date); "Next(#{date.strftime(@date_format)})"; end
 def navi_update; "Update"; end
 def navi_preference; "Preference"; end
+def navi_prev_diary(date); "Prev(#{date.strftime(@date_format)})"; end
+def navi_next_diary(date); "Next(#{date.strftime(@date_format)})"; end
+def navi_prev_nyear(date); "Prev(#{date.strftime('%m-%d')})"; end
+def navi_next_nyear(date); "Next(#{date.strftime('%m-%d')})"; end
 
 def submit_label
 	if @mode == 'form' then
@@ -75,8 +77,9 @@ def label_hidden_diary; 'This day is HIDDEN now.'; end
 def label_no_referer; "Today's Link Excluding List"; end
 def label_referer_table; "Today's Link Conversion Rule"; end
 
-def nyear_diary_label(date, years); "same days in past"; end
+def nyear_diary_label(date, years); "my old days"; end
 def nyear_diary_title(date, years); "same days in past"; end
+
 
 #
 # labels (for mobile)

@@ -1,6 +1,6 @@
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.12 $
+Revision: $Revision: 1.13 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -190,6 +190,10 @@ div.day span.canchor {
 div.section p {
 	margin: 0.5em 1em 0.7em 3em;
 	line-height: 150%;
+}
+ul, ol {
+	margin-left: 0em;
+	padding-left: 0em;
 }
 
 /*

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.20 $
+# $Revision: 1.21 $
 #
 
 #
@@ -79,7 +79,7 @@ end
 
 def navi_admin
 	result = %Q[<span class="adminmenu"><a href="#{@update}">#{navi_update}</a></span>\n]
-	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf)$/ !~ @mode
+	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf|nyear)$/ !~ @mode
 	result
 end
 
@@ -301,6 +301,8 @@ def navi_update; "更新"; end
 def navi_preference; "設定"; end
 def navi_prev_diary(date); "前の日記(#{date.strftime(@date_format)})"; end
 def navi_next_diary(date); "次の日記(#{date.strftime(@date_format)})"; end
+def navi_prev_nyear(date); "前の日(#{date.strftime('%m-%d')})"; end
+def navi_next_nyear(date); "次の日(#{date.strftime('%m-%d')})"; end
 
 def submit_label
 	if @mode == 'form' then
