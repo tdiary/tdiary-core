@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.15 $
+# update.rb $Revision: 1.16 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -87,7 +87,11 @@ begin
 	end
 	
 rescue Exception
-	print "Content-Type: text/plain\n\n" unless /ruby/i =~ ENV['GATEWAY_INTERFACE']
+	if @cgi then
+		print @cgi.header( 'type' => 'text/plain' )
+	else
+		print "Content-Type: text/plain\n\n"
+	end
 	puts "#$! (#{$!.class})"
 	puts ""
 	puts $@.join( "\n" )

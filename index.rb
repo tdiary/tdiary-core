@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.23 $
+# index.rb $Revision: 1.24 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -108,7 +108,11 @@ begin
 			</html>]
 	end
 rescue Exception
-	print "Content-Type: text/plain\n\n" unless /ruby/i =~ ENV['GATEWAY_INTERFACE']
+	if @cgi then
+		print @cgi.header( 'type' => 'text/plain' )
+	else
+		print "Content-Type: text/plain\n\n"
+	end
 	puts "#$! (#{$!.class})"
 	puts ""
 	puts $@.join( "\n" )
