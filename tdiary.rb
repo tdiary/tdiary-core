@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.104 $
+tdiary.rb $Revision: 1.105 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030415'
+TDIARY_VERSION = '1.5.3.20030418'
 
 require 'cgi'
 require 'nkf'
@@ -817,7 +817,8 @@ module TDiary
 				'cgi' => @cgi,
 				'years' => @years,
 				'cache_path' => cache_path,
-				'date' => @date
+				'date' => @date,
+				'comment' => @comment
 			)
 		end
 	
@@ -1275,7 +1276,8 @@ module TDiary
 				@diaries = diaries
 				@diary = self[@date]
 				if @diary and not (@name.strip.empty? or @body.strip.empty?) then
-					if @diary.add_comment( Comment::new( @name, @mail, @body ) ) then
+					@comment = Comment::new( @name, @mail, @body )
+					if @diary.add_comment( @comment ) then
 						dirty = DIRTY_COMMENT
 						cookie_path = File::dirname( @cgi.script_name )
 						cookie_path += '/' if cookie_path !~ /\/$/
@@ -1289,67 +1291,12 @@ module TDiary
 				end
 				dirty
 			end
-	
-			# sending mail
-			if dirty & DIRTY_COMMENT != 0 and @conf.mail_on_comment then
-				require 'socket'
-	
-				name = to_mime( @name.to_jis )[0]
-				body = @body.to_jis
-				mail = @mail
-				mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
-				
-				now = Time::now
-				g = now.dup.gmtime
-				l = Time::local( g.year, g.month, g.day, g.hour, g.min, g.sec )
-				tz = (g.to_i - l.to_i) / 36
-				date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
-		
-				serial = @diary.count_comments( true )
-				message_id = %Q|<tdiary.#{[@conf.mail_header].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
-	
-				mail_header = @conf.mail_header.dup
-				mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
-				mail_header = @date.strftime( mail_header )
-				mail_header = to_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
-
-				rmail = ''
-				begin
-					if @conf.lang then
-						rmail = File::open( "#{PATH}/skel/mail.rtxt.#{@conf.lang}" ){|f| f.read }
-					else
-						rmail = File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }
-					end
-				rescue
-					rmail = File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }
-				end
-				text = ERbLight::new( rmail.untaint ).result( binding )
-				sendmail( text )
-			end
 		end
 	
 		def eval_rhtml( prefix = '' )
 			super
 			anchor = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
 			raise ForceRedirect::new( "#{@conf.index}#{anchor}#c#{'%02d' % @diary.count_comments( true )}" )
-		end
-	
-	protected
-		def sendmail( text )
-			return unless @conf.smtp_host
-			begin
-				require 'net/smtp'
-				Net::SMTP.start( @conf.smtp_host, @conf.smtp_port ) do |smtp|
-					smtp.ready( @conf.author_mail, @conf.mail_receivers ) do |adapter| adapter.write( text ) end
-				end
-			rescue
-			end
-		end
-	
-		def to_mime( str )
-			NKF::nkf( "-j -m0 -f50", str ).collect do |s|
-				%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( /\n/, '' )}?=|
-			end
 		end
 	end
 

@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.5 $
+# tDiary configuration file $Revision: 1.6 $
 #
 
 #-------
@@ -29,14 +29,6 @@
 #require 'tdiary/pstoreio'
 #@io_class = TDiary::PStoreIO
 
-# Basic mail configuration(optional)
-#   @smtp_host and @smtp_port are assigned to the SMTP server name and
-#   the port number. If you want tDiary to notify a new TSUKKOMI by mail, 
-#   you must configure these variables.
-#
-@smtp_host = 'smtp.example.net'
-@smtp_port = 25
-
 # Script names for reading or updating your diary(optional)
 #   You can set @index and @update to the script filenames for 
 #   reading or updating your diary. Normally, these variables have 
@@ -57,14 +49,6 @@
 #   The words, "user name", is the name which is used when you login with browser. 
 #   Don't forget to add necessary user names to "Require User" of .htaccess.
 @multi_user = false
-
-# The receivers to whom tDiary sends e-mail.(optional)
-#   You configure @mail_receivers if you use multi-user mode and 
-#   plural persons want to receive a TSUKKOMI mail.
-#   You don't have to set this item if you use tDiary by yourself.
-#   This item is also used if you want to receive a TSUKKOMI mail which
-#   is sent to the different address from @author_mail.
-@mail_receivers = []
 
 # path of plugins. (optional)
 #   In default, plugins are find from "plugin" directory under install
@@ -204,23 +188,6 @@ FOOTER
 #   If today's links are shown, you can specify how many links are
 #   shown at most in "Latest" page and "Daily" page.
 @referer_limit = 10
-
-# TSUKKOMI mail configuration
-#   If you want to know when your diary receives a new TSUKKOMI, 
-#   you configure these items. If you set @mail_on_comment to true, 
-#   tDiary send a TSUKKOMI mail to @author_mail according to the configuration.
-#
-#   If a TSUKKOMI dose not have E-mail address, @author_mail will
-#   be set in the mail.
-#
-#   @mail_header is inserted into the subject of the TUKKOMI mail. 
-#   You specify this variable so that you can easily arrange your TSUKKOMI mails. 
-#   The actual subject has the date and TSUKKOMI serial number. It is like this, 
-#   "@mail_header:@date_format-1". If @mail_header includes a word which begins
-#   with %, it means the date format. In this situation, the Subject is
-#   like "@mail_header-1".
-@mail_on_comment = false
-@mail_header = 'foobar'
 
 # Time difference adjustment 
 #   This item adjusts the date which is automatically inserted into 

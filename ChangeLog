@@ -1,3 +1,6 @@
+2003.04.18 TADA Tadashi <sho@spc.gr.jp>
+	* remove comment mail feature to plugin: comment_mail-{smtp,qmail,sendmail}.rb.
+
 2003.04.17 TADA Tadashi <sho@spc.gr.jp>
 	* default.css: add table settings.
 	* tdiary.conf.sample: updated.

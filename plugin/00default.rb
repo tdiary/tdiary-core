@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.32 $
+# $Revision: 1.33 $
 #
 
 #
@@ -324,6 +324,65 @@ def nyear(ymd)
 	else
 		""
 	end
+end
+
+#
+# service methods for comment_mail
+#
+def comment_mail_send
+	return unless @comment
+	return if @options['comment_mail.receivers'].empty?
+
+	require 'socket'
+
+	name = comment_mail_mime( @comment.name.to_jis )[0]
+	body = @comment.body.to_jis
+	mail = @comment.mail
+	mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
+	
+	now = Time::now
+	g = now.dup.gmtime
+	l = Time::local( g.year, g.month, g.day, g.hour, g.min, g.sec )
+	tz = (g.to_i - l.to_i) / 36
+	date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
+
+	serial = @diaries[@date.strftime( '%Y%m%d' )].count_comments( true )
+	message_id = %Q|<tdiary.#{[@options['comment_mail.header']].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
+
+	mail_header = @options['comment_mail.header'].dup
+	mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
+	mail_header = @date.strftime( mail_header )
+	mail_header = comment_mail_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
+
+	rmail = ''
+	begin
+		if @conf.lang then
+			rmail = File::open( "#{TDiary::PATH}/skel/mail.rtxt.#{@conf.lang}" ){|f| f.read }
+		else
+			rmail = File::open( "#{TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
+		end
+	rescue
+		rmail = File::open( "#{TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
+	end
+	text = ERbLight::new( rmail.untaint ).result( binding )
+	comment_mail( text )
+end
+
+def comment_mail_mime( str )
+	require 'nkf'
+	NKF::nkf( "-j -m0 -f50", str ).collect do |s|
+		%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( /\n/, '' )}?=|
+	end
+end
+
+def comment_mail( text )
+	# no action in default.
+end
+
+if @mode == 'comment' and @comment then
+	# setting conversion
+	@options['comment_mail.header'] = @conf.mail_header || ''
+	@options['comment_mail.receivers'] = @conf.mail_receivers || @conf.author_mail
 end
 
 #
