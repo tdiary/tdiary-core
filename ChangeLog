@@ -1,3 +1,6 @@
+2002.10.30 TADA Tadashi <sho@spc.gr.jp>
+	* misc/i18n/*: add English documents(draft), thanks Mizuho <gha@intrastore.cdc.com>.
+
 2002.10.29 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: rescue ArgumentError in parser_cache
 

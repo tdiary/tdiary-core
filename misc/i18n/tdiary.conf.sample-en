@@ -1,0 +1,311 @@
+#
+# tDiary configuration file $Revision: 1.1 $
+#
+
+#-------
+# The items which you can't configure with browser
+#-------
+
+# The directory where the diary's data are stored.(must)
+#   tDiary stores your diary's data in this directory. You usually 
+#   assign this item to the directory which can't be accessed through WWW. 
+#   This directory's permission is set so that WWW server can 
+#   write files in it.
+@data_path = '/home/foo/diary'
+
+# The format of the diary(optional)
+#   If you change the format of the diary from the default, 
+#   you must add some items to your configuration file.
+#   In default, tDiary uses the format of tDiary2.
+#   What you must configure depends on the format of diary.
+#   Please see the document of the program which enable tDiary to 
+#   use other format.
+#   If "#" of the below two lines are eliminated, tDiary uses the format of tDiary1.
+#require 'tdiary/pstoreio'
+#@io_class = TDiary::PStoreIO
+
+# Basic mail configuration(optional)
+#   @smtp_host and @smtp_port are assigned to the SMTP server name and
+#   the port number. If you want tDiary to notify a new comment by mail, 
+#   you must configure these variables.
+#
+#   この2行を訳すと、misc/mail-via-*.rbまで訳さないといけないんですが。 （みずほ）
+#   なお、メールの送信手段としては、SMTP以外にも差し替え可能になっていま
+#   す。misc/mail-via-*.rbファイルを参照してください。
+#
+@smtp_host = 'smtp.example.net'
+@smtp_port = 25
+
+# Script names for reading or updating your diary(optional)
+#   You can set @index and @update to the script filenames for 
+#   reading or updating your diary. Normally, these variables have 
+#   the default value("./" and "update.rb"). But, if you specify these 
+#   variables, you can use tDiary in case when you can't use "DirectoryIndex"
+#   or you want to use frame. 
+#@index = './'
+#@update = 'update.rb'
+
+# Multi-user mode(optional)
+#   You use @multi_user when your diary is written by plural persons. 
+#   If you set this variable to "true", the multi-user mode is enabled and
+#   tDiary change its behavior. In the beginning of the sub-title, writer's name
+#   is inserted. The style is like "[user name] sub-title".
+#   The editing in multi-uses mode is dangerous. If plural persons
+#   write diary at the same time, the diary which is saved precedently 
+#   is ignored. You must be careful when you use multi-user mode.
+#   The words, "user name", is the name which is used when you login with browser. 
+#   Don't forget to add necessary user names to "Require User" of .htaccess.
+@multi_user = false
+
+# The receivers to whom tDiary sends e-mail.(optional)
+#   You configure @mail_receivers if you use multi-user mode and 
+#   plural persons want to receive a comment mail.
+#   You don't have to set this item if you use tDiary on one's own.
+#   This item is also used if you want to receive a comment mail which
+#   is sent to the different address from @author_mail.
+@mail_receivers = []
+
+# プラグインの説明は書いていないので、無視します（みずほ）
+# プラグインに渡すオプション【オプション】
+#   プラグインによっては、tdiary.conf経由でオプションを渡すことで挙動を
+#   変更できるものがあります。@optionsはそのオプションを指定する時に使う
+#   変数です。指定方法は以下のとおりです。詳しくは各プラグインの説明を参
+#   照照して下さい。
+#     例: sampleプラグインのhogeオプションを設定
+#         @options[sample.hoge] = 'foobar'
+
+#-------
+# Items which you can configure with browser
+# 
+# If necessary, you change these items. 
+# Once you do setting with browser, 
+# these items' value are not reflected even if you edit "tdiary.conf".  
+#-------
+
+# your name and mail address
+#   you set @author_name to your name and @author_mail to your mail 
+#   address. These values is embeded in the HTML header of your diary.
+@author_name = 'Your name'
+@author_mail = 'foo@example.net'
+
+# your top page
+#   if your website has contents other than diary, you 
+#   set @index_page to URL of your website page, for example,
+#   the front page of your diary or the top page of your website.
+#   This is emebeded in the HTML header and the beginning of 
+#   your diary page.
+@index_page = 'http://www.example.net/~foo/'
+
+# The title 
+#   This is the title of your diary.
+#   This must not have the HTML tag.
+@html_title = 'hogehoge diary'
+
+# Diary header
+#   You sepecify setences which are embeded in the beginning 
+#   of your diary. Please change the sentences enclosed by the "HEADER".
+#   Because this value is embeded as it is, you can use HTML tag. You 
+#   can also use eRuby tag. You feel inconvenient if "%canlendar" and "%navi" 
+#   are not in the diary header.
+#   
+#   <%=calendar%>
+#       This is replaced with the calendar. This canlendar has the links to 
+#       other monthly page.
+#   <%=navi%>
+#       This is replaced with the menu through which you can update your diary,
+#       do setting and so on.
+#
+@header = <<HEADER
+<%= navi %>
+<h1>Foo's diary</h1>
+<%=calendar%>
+HEADER
+
+# Diary footer
+#   Like the diary header, you can set @footer to sentences which
+#   are inserted in the end of your diary page.
+#   Please change the sentences enclosed by "FOOTER".
+@footer = <<FOOTER
+<p>If you want to delete this message, you move to "preferences" page and 
+edit the footer.<p>
+
+<p style="font-size: x-large;">
+It is better to read 
+<a href="doc/README.html">README</a> 
+and 
+<a href="doc/HOWTO-write-tDiary.html">How to write diary</a>
+before you write diary. 
+</p>
+FOOTER
+
+# The format of date
+#   You can set @date_format to the format of date. The default value 
+#   is "YYYY-MM-DD". You can use all the parameters of Ruby's Time::strftime.
+#   The words which are often used are "%Y"(dominical year), "%m"(month),
+#   "%b"(abbreviated month name), "%B"(full month name), "%d"(day), 
+#   "%a"(abbreviated weekday name) and "%A"(full weekday name).
+@date_format = '%Y-%m-%d'
+
+# The anchor of the section and comment
+#   You specify words which are used as the section anchor(@section_anchor)
+#   and the comment anchor(@comment_anchor).
+#   These are enclosed by <a href="...">...</a> in your diary page.
+#   If you use span tag whose attribute is sanchor(section anchor) or canchor
+#   (comment anchor), the image is shown at the anchor in some themes. 
+@section_anchor = '<span class="sanchor">_</span>'
+@comment_anchor = '<span class="canchor">_</span>'
+
+# 誰か書き換えてください（みずほ）
+# How many daily diaries "Latest" page has.
+#   You decide how many daily diaries are shown in "Latest" page.
+#   If the number of the daily diaries doesn't attain the specified number, 
+#   diaries in the previous month are also shown.
+#
+# 最新表示時に最大何日分の日記を表示するかの指定
+#   最新日記を表示するページで、最大何日分の日記を出力するかを指定します。
+#   指定した日数に達しない場合は、その月のすべての日記を出力します。また、
+#   指定した日数に届かなかった場合には、前月以前まで遡ります。
+@latest_limit = 10
+
+# Theme(theme name or URL of the CSS) 
+#   You specify a theme or URL of the CSS. This determines
+#   the style of your diary. @theme is set to the default cascading 
+#   style sheet. You can change this value and the look of your diary.
+#   In the theme directory, there are some themes. If you are interested in  
+#   other themes, you try them by changing this value. 
+#
+#   Of course, you can write your own CSS file. In that case, 
+#   you set @theme to "" and @css to the URL of your CSS file.
+@theme = 'default'
+@css = ''
+
+# Show comments(true or false)
+#   You can decide whether today's comments are shown or not. 
+#   If you set @show_comment to false, you can hide the comments and
+#   readers of your diary can't read them. The diary author can 
+#   raed them in the "Update" page if you specify date.
+@show_comment = true
+
+# How many comments are shown in "Latest" page and "Daily" page.
+#   If today's comments are shown, you sepcify how many comments are
+#   shown at most in "Latest" page and "Daily" page.
+@comment_limit = 3
+
+# Show today's links(true or false)
+#   You can decide whether today's links are shown or not. The link
+#   is the URL from which your diary visitor jump to your diary.
+#   By this, you can find the page which has the link to your diary.
+#   This makes it easy for you to communicate with people through diary.
+#   In default, tDiary shows this information to diary readers. If you 
+#   don't want diary readers to know it, you set @show_referer to false.
+#   Even if this value is set to false, the author can know it in "Update" page 
+#   if you specify the date.
+@show_referer = true
+
+
+# How many links are shown in "Latest" page and "Daily" page.
+#   If today's links are shown, you sepcify how many links are
+#   shown at most in "Latest" page and "Daily" page.
+@referer_limit = 10
+
+# Comment mail configuration
+#   If you want to know when your diary has a new comment, 
+#   you configure these items. If you set @mail_on_commnet to true, 
+#   tDiary send a comment mail to @author_mail according to the below
+#   configuration.
+# 
+#   意味がわかりません。みずほ
+#   ツッコミのE-mailフィールドにアドレスが指定されていなかった場合に
+#   は、Fromヘッダにも@author_mailが指定されます。
+#
+#   @mail_header is inserted into the subject of the mail. 
+#   You specfiy this variable so that you can easily arrange your comment mail. 
+#   The actual subject has the date and comment number. It is like this, 
+#   "@mail_header:@date_format-1". If @mail_header includes a word which begins
+#   with %, it is regarded as the date format. In other words, ":@date_format" 
+#   is not added automatically(comment number is added).
+
+#   訳しましたが、意味がわかりません。(みずほ)
+#   ただし、@mail_header中に%に
+#   続く英字があった場合、それを日付フォーマット指定を見なします。つまり
+#   「:@date_format」の部分は自動的に付加されなくなります(コメント番号は
+#   付加されます)。
+
+@mail_on_comment = false
+@mail_header = 'hogehoge'
+
+
+# Time difference adjustment 
+#   This item adjusts the date which is automatically inserted into 
+#   the page of "update" form. The unit is hour, and you can 
+#   use demical number. 
+#
+#   (誰か書き換えてください) みずほ
+#   For example, if you want to handle the time until 2 a.m. as the previous day,
+#   you set this to -2. tDiary inserts the date which is older by 2 hours than the actual 
+#   time. 
+@hour_offset = 0
+
+#-----
+# The items to which you can add values with browser
+# 
+# Though you can set the standard values here, you can't do so
+# with browser.
+#-----
+
+# URLs which are excluded from today's link (Regular Expression)
+#   You set a list of URLs which are not recorded as today's link to @no_referer 
+#   If all the access are recorded, today's link has some noisy URLs. 
+#   Because the purpose of today's link is to find URL which is linked to 
+#   your diary, these accesses are annoying; a search engine's access, 
+#   an access from your website, and a website fetcher's accesss. 
+#   They are excluded if you set their URLs to @no_referer.
+#   It is better to add your diary's URL to @no_referer. 
+#   The value must be the Array of Ruby and Array's contents are String 
+#   of Ruby. Though these Strings are converted to Regular Expression
+#   of Ruby when compared, you can't use Regexp of Ruby.
+@no_referer = [
+	'^http://localhost[:/]',
+	'^http://192.168.',
+	'^http://172.1[6789]',
+	'^http://172.2[0-9]',
+	'^http://172.3[01]',
+	'^http://10.',
+        #It is better to add your diary's URL. 
+]
+
+# The rule which convert the specified URL to the word (Regular Expression)
+#   @referer_table is configured so that readable URLs are shown in  
+#   today's link when you read "daily" page. You add an array of 
+#   a URL which will be converted to Regexp and a word which tDiary 
+#   replaced the URL with to @referer_table. If a part of URL is 
+#   enclosed by parentheses, "\1", "\2", ... in the word are replaced with 
+#   the enclosed parts of URL. 
+#
+#   By the below rule, tDiary replaces URLs from google with "google...".
+
+
+#   日本語が読めないので、ここは変更します。(みずほ)
+#   上の例では、tDiary
+#   で運用されている某作者の日記を日付指定、月指定、指定なしのそれぞれの
+#   場合について、別々の文字列に置換しています。
+@referer_table = [
+	['^http://www.google.com/search.*?q=([^&]*).*', 'google(\1)'],
+
+        # 
+	# You must add a new rule above here. 
+	#  
+	# This rule abbreviates URLs which are not converted by the rules 
+	# above this and have more than 50 characters. 
+	#
+	['^(.{50}).*$', '\1...'],
+]
+
+#----
+# CGI configuration file(must)
+#   If you enforce security, you set @secure to true. This 
+#   restricts dangerous operation of variables and file loading.
+#----
+@secure = false
+load_cgi_conf
+
