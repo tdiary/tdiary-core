@@ -1,3 +1,6 @@
+2003.09.26 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/lang/en.rb: add comments.
+
 2003.09.25 TADA Tadashi <sho@spc.gr.jp>
 	* i18n framework.
 	* tdiary/lang: add ja.rb and en.rb.
