@@ -1,4 +1,4 @@
-<%# show.rhtml $Revision: 1.4 $ %>
+<%# show.rhtml $Revision: 1.5 $ %>
 <%%=navi%%><%%update_proc%%>
 
 <h1><%= @conf.html_title %> <%%=label_update_complete%%></h1>
@@ -17,6 +17,7 @@ param = {
 	'comment_limit' => 100,
 	'multi_user' => @conf.multi_user,
 	'hide_comment_form' => true,
+	'anchor' => true,
 } %>
 <%= @diary.eval_rhtml( param, PATH ) %>
 

@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.68 $
+tdiary.rb $Revision: 1.69 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.1'
+TDIARY_VERSION = '1.5.1.20021119'
 
 require 'cgi'
 require 'nkf'
@@ -461,7 +461,6 @@ module TDiary
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
-			$stderr.puts @comment_anchor
 		end
 
 		# loading tdiary.conf in @data_path.

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.19 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.20 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -222,7 +222,7 @@ module TDiary
 			if lines.size > 1 then
 				if /^<</ =~ lines[0]
 					@subtitle = lines.shift.chomp.sub( /^</, '' )
-				elsif /^[ 　<]/ !~ lines[0]
+				elsif /^[　 <]/e !~ lines[0]
 					@subtitle = lines.shift.chomp
 				end
 			end
@@ -315,13 +315,13 @@ module TDiary
 				if /^</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
-					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[ 　]/e, '')}.join( "</p>\n<p>" )}</p>]
+					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '')}.join( "</p>\n<p>" )}</p>]
 				else
 					r << %Q[<p><a ]
 					if opt['anchor'] then
 						r << %Q[name="p#{'%02d' % idx}" ]
 					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</p>\n<p>" )}</p>]
+					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[</div>]
 				idx += 1
@@ -340,13 +340,13 @@ module TDiary
 					idx += 1
 					r << section.body
 				elsif section.subtitle
-					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</P>\n<P>" )}</P>]
+					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				else
 					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
 					if opt['multi_user'] and section.author then
 						r << %Q|[#{section.author}]|
 					end
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</P>\n<P>" )}</P>]
+					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				end
 			end
 			r

@@ -1,3 +1,8 @@
+2002.11.19 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: remove a debugging message.
+	* defaultio.rb, pstoreio.rb: support Ruby 1.6.8 (ad hoc).
+	* show.rhtml: make anchor name of section.
+
 2002.11.18 TADA Tadashi <sho@spc.gr.jp>
 	* remove Japanese char in diary.rhtml and 00lang.en.rb.
 	* fix: setting default values in Config.

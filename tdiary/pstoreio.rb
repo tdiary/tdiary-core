@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.14 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.15 $
 #
 require 'pstore'
 
@@ -90,7 +90,7 @@ class Paragraph
 		if lines.size > 1 then
 			if /^<</ =~ lines[0]
 				@subtitle = lines.shift.chomp.sub( /^</, '' )
-			elsif /^[ 　<]/ !~ lines[0]
+			elsif /^[　 <]/e !~ lines[0]
 				@subtitle = lines.shift.chomp
 			end
 		end
@@ -191,13 +191,13 @@ class Diary
 			if /^</ =~ paragraph.body then
 				r << %Q[#{paragraph.body}]
 			elsif paragraph.subtitle
-				r << %Q[<p>#{paragraph.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</p>\n<p>" )}</p>]
+				r << %Q[<p>#{paragraph.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 			else
 				r << %Q[<p><a ]
 				if opt['anchor'] then
 					r << %Q[name="p#{'%02d' % idx}" ]
 				end
-				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{paragraph.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</p>\n<p>" )}</p>]
+				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{paragraph.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 			end
 			r << %Q[</div>]
 			idx += 1
@@ -216,13 +216,13 @@ class Diary
 				idx += 1
 				r << paragraph.body
 			elsif paragraph.subtitle
-				r << %Q[<P>#{paragraph.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</P>\n<P>" )}</P>]
+				r << %Q[<P>#{paragraph.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 			else
 				r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
 				if opt['multi_user'] and paragraph.author then
 					r << %Q|[#{paragraph.author}]|
 				end
-				r << %Q[#{paragraph.body.collect{|l|l.chomp.sub( /^[ 　]/e, '' )}.join( "</P>\n<P>" )}</P>]
+				r << %Q[#{paragraph.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 			end
 		end
 		r
