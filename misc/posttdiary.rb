@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.3 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.4 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 
 =begin ChangeLog
+2002-04-07 TADA Tadashi <sho@spc.gr.jp>
+	* fix mojibake: -mQ -> -m0.
+
 2002-04-05 TADA Tadashi <sho@spc.gr.jp>
 	* version 0.9.3
 	* set permission of image to readable everybody.
@@ -114,15 +117,15 @@ begin
 			raise "no --image-path and --image-url options"
 		end
 	
-		bound="--"+$1
+		bound = "--" + $1
 		body_sub = body.split( bound )
 		body_sub.each do |b|
 			sub_head, sub_body = b.split( "\n\n", 2 )
 
 			next unless sub_head =~ /Content-Type/
 
-			if sub_head =~ /^Content-Type:\s*text\/plain/i then
-				@body = sub_body
+			if sub_head =~ %r[^Content-Type:\s*text/plain]i then
+				@body = NKF::nkf( '-m0 -Xed', sub_body )
 			elsif sub_head =~ /^Content-Type:\s*image.*name=\".*(\..*?)\"/im
 				image_ext = $1
 				now = Time::now
@@ -137,7 +140,7 @@ begin
 			end
 		end
 	elsif head =~ /^Content-Type:\s*text\/plain/i 
-		@body = NKF::nkf( '-mQ -eXd', body )
+		@body = NKF::nkf( '-m0 -Xed', body )
 	else
 		raise "can not read this mail"
 	end
@@ -147,7 +150,7 @@ begin
 		@image_name.each do |i|
 			img_src << %Q[ <img class="photo" src="#{image_url+i}" alt="">]
 		end
-		@body = "#{NKF::nkf( '-mQ -eXd', @body ).sub( /\n+\z/, '' )}\n#{img_src}"
+		@body = "#{@body.sub( /\n+\z/, '' )}\n#{img_src}"
 	end
 
 	addr = nil
@@ -182,7 +185,7 @@ begin
 	data << "&month=#{now.month}"
 	data << "&day=#{now.day}"
 	data << "&title=#{CGI::escape NKF::nkf( '-eXd', title )}"
-	data << "&body=#{CGI::escape NKF::nkf( '-m0 -eXd', @body )}"
+	data << "&body=#{CGI::escape @body}"
 	data << "&append=true"
 
 	require 'net/http'
