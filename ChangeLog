@@ -1,3 +1,7 @@
+2002.12.16 TADA Tadashi <sho@spc.gr.jp>
+	* dot.htaccess: add some comments about ErrorDocument.
+	* 00default.rb: skip hidden diary in navi_user.
+
 2002.12.15 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb, 00lang.en.rb: fix wrong title tag when NYEAR mode.
 

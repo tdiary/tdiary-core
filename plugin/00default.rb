@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.22 $
+# $Revision: 1.23 $
 #
 
 #
@@ -36,7 +36,18 @@ def navi_user
 
 		days.sort!
 		days.unshift(nil).push(nil)
-		prev_day, dymmy, next_day = days[days.index(today) - 1, 3]
+		prev_day = next_day = nil
+		days.index( today ).times do |i|
+			prev_day = days[days.index( today ) - i - 1]
+			break unless prev_day
+			break if @diaries[prev_day].visible?
+		end
+		days.index( today ).times do |i|
+			next_day = days[days.index( today ) + i + 1]
+			break unless next_day
+			break if @diaries[next_day].visible?
+		end
+
 		if prev_day
 			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&laquo;#{navi_prev_diary Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n]
 		else
