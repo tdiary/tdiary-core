@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.7 $ %>
+<%# conf.rhtml $Revision: 1.8 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [設定]</h1>
@@ -131,7 +131,7 @@ end %>
 <h2><span class="title">メール通知</span></h2>
 <div class="body">
 <h3 class="subtitle">ツッコミをメールで通知</h3>
-<p>ツッコミがあった場合に、メールでその内容を通知するかどうかを指定します。あらかじめ<code>tdiary.conf</code>にSMTPサーバ等の設定をしておく必要があります。</p>
+<p>ツッコミがあった場合に、メールでその内容を通知するかどうかを指定します。メールは基本設定で指定したアドレスに送信されます。なお、日記管理者はあらかじめ<code>tdiary.conf</code>でSMTPサーバ等の設定をしておく必要があります。</p>
 <p><select name="mail_on_comment">
 	<option value="true"<% if @mail_on_comment then %> selected<% end %>>通知</option>
 	<option value="false"<% if not @mail_on_comment then %> selected<% end %>>非通知</option>
