@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.2 2002-05-16 04:16:25 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.3 2002-05-16 15:51:00 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -28,8 +28,10 @@
 ;; Put the following in your .emacs file:
 ;;
 ;;  (setq tdiary-diary-url "http://example.com/tdiary/")
+;;  (setq tdiary-text-directory (expand-file-name "~/path-to-saved-diary"))
 ;;  (autoload 'tdiary-mode "tdiary-mode" nil t)
 ;;  (autoload 'tdiary-new "tdiary-mode" nil t)
+;;  (autoload 'tdiary-new-diary "tdiary-mode" nil t)
 ;;  (autoload 'tdiary-replace "tdiary-mode" nil t)
 ;;  (add-to-list 'auto-mode-alist
 ;;              '("\\.td$" . tdiary-mode))
@@ -114,7 +116,20 @@ template.  See tempo.info for details.")
 (defvar tdiary-passwd-cache nil
   "Cache for username and password.")
 
-(defvar tdiary-hour-offset 0)
+(defvar tdiary-hour-offset 0
+  "Offset to current-time.
+`tdiary-today' returns (current-time + tdiary-hour-offset).")
+
+(defvar tdiary-text-suffix ".td")
+
+(defvar tdiary-text-directory nil
+  "Directory where diary is stored.")
+
+(defvar tdiary-text-save-p nil
+  "Flag for saving text.
+If non-nil, tdiary buffer is associated to a real file, 
+named `tdiary-date' + `tdiary-text-suffix'.")
+
 
 (defvar tdiary-mode-hook nil
   "Hook run when entering tDiary mode.")
@@ -205,11 +220,15 @@ If there are no completable text, call `tdiary-do-complete-plugin'."
 (defun tdiary-today ()
   (let* ((offset-second (* tdiary-hour-offset 60 60))
 	 (now (current-time))
-	 (now-second (+ (* (nth 0 now) 65536) (nth 1 now)))
-	 (pseudo-second (+ now-second offset-second))
-	 (high (/ pseudo-second 65536))
-	 (low (% pseudo-second 65536)))
-    (list high low (nth 2 now))))
+	 (high (nth 0 now))
+	 (low (+ (nth 1 now) offset-second))
+	 (micro (nth 2 now)))
+    (setq high (+ high (/ low 65536))
+	  low (% low 65536))
+    (when (< low 0)
+      (setq high (1- high)
+	    low (+ low 65536)))
+    (list high low micro)))
 
 (defun tdiary-read-username (url)
   (let ((username (tdiary-passwd-cache-read-username url)))
@@ -319,9 +338,19 @@ Dangerous!!!"
 (defun tdiary-update ()
   "Update diary."
   (interactive)
+  (when (and tdiary-text-directory buffer-file-name
+	     (buffer-modified-p)
+	     (y-or-n-p "Save before update?"))
+    (save-buffer))
   (tdiary-post tdiary-edit-mode tdiary-date
 	       (buffer-substring (point-min) (point-max)))
   (message "SUCCESS"))
+
+(defsubst tdiary-replace-entity-refs (from to)
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward from nil t)
+      (replace-match to nil nil))))
 
 (defun tdiary-new-or-replace (replacep)
   (let (date buf)
@@ -344,23 +373,31 @@ Dangerous!!!"
 		(setq start (match-end 0))
 		(re-search-forward "</textarea>" nil t nil)
 		(setq end (match-beginning 0))
-		(setq body (buffer-substring start end buf)))
+		(setq body (buffer-substring start end)))
 	      (insert body)))
 	  (setq tdiary-edit-mode "replace")
 	  (goto-char (point-min))
-	  (perform-replace "&amp;" "&" nil nil nil)
-	  (goto-char (point-min))
-	  (perform-replace "&quot;" "\"" nil nil nil)
-	  (goto-char (point-min))
-	  (perform-replace "&gt;" ">" nil nil nil)
-	  (goto-char (point-min))
-	  (perform-replace "&lt;" "<" nil nil nil)
+	  (tdiary-replace-entity-refs "&amp;" "&")
+	  (tdiary-replace-entity-refs "&quot;" "\"")
+	  (tdiary-replace-entity-refs "&gt;" ">")
+	  (tdiary-replace-entity-refs "&lt;" "<")
 	  (set-buffer-modified-p nil))
       (setq tdiary-edit-mode "append"))))
 
-(defun tdiary-new ()
+(defun tdiary-new (&optional savep)
   (interactive)
-  (tdiary-new-or-replace nil))
+  (tdiary-new-or-replace nil)
+  (when (and tdiary-text-directory
+	     (or savep
+		 tdiary-text-save-p))
+    (set-visited-file-name
+     (expand-file-name (concat tdiary-date tdiary-text-suffix)
+		       tdiary-text-directory))
+    (not-modified)))
+
+(defun tdiary-new-diary ()
+  (interactive)
+  (tdiary-new t))
 
 (defun tdiary-replace ()
   (interactive)
