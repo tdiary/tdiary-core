@@ -15,6 +15,7 @@
 2002-09-10 nt <nt@24i.net>
 	* version 1.1.1
 	* modify parse grammar.
+	* add GC.start in parse_css.
 
 2002-09-09 nt <nt@24i.net>
 	* version 1.1.0
@@ -340,6 +341,7 @@ def parse_css ( fname )
     orig_hash.each_key{|key|
       tmp = orig_hash.shift
       result[tmp[0].join(" ")] = tmp[1]
+      GC.start
     }
   end
 
