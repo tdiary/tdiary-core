@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.4 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.5 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -27,11 +27,6 @@ module RD
 			@td_opt = opt
 			@td_author = author
 			super()
-		end
-
-		def visit(tree)
-			install_ref_extension
-			super
 		end
 
 	  	def apply_to_DocumentElement(element, content)
@@ -79,75 +74,19 @@ module RD
 			%Q|<%=fn "#{content}"%>|
 		end
 
-		def install_ref_extension
-			extend RefExtension
-			@ref_extension = []
-			(methods + private_methods).sort.each do |m|
-				if /^ref_ext/ =~ m
-					@ref_extension.push(m.intern)
-				end
+		def apply_to_RefToElement(element, content)
+			label = element.to_label
+			case label
+			when /^(ruby-(?:talk|list|dev|math)):(.+)$/
+				ref_ext_RubyML(label, content.join, $1, $2)
+			when /^RAA:(.+)$/
+				ref_ext_RAA(label, content.join, $1)
+			when /^IMG:(.+)$/
+				ref_ext_IMG(label, content.join, $1)
+			else
+				super
 			end
-			@ref_extension.push(:default_ref_ext)
 		end
-
-		module RefExtension
-			def apply_to_RefToElement(element, content)
-				content = content.join("")
-				apply_ref_extension(element, element_label(element), content)
-			end
-			private
-
-			def apply_ref_extension(element, label, content)
-				@ref_extension.each do |entry|
-					result = __send__(entry, element, label, content)
-					return result if result
-				end
-			end
-
-			def element_label(element)
-				case element
-				when RDElement
-					element.to_label
-				else
-					element
-				end
-			end
-
-			def default_ref_ext(element, label, content)
-				if anchor = refer(element)
-					content = content.sub(/^function#/, "")
-					%Q[<a href="\##{anchor}">#{content}</a>]
-				else
-					# warning?
-					label = hyphen_escape(element.to_label)
-					%Q[<!-- Reference, RDLabel "#{label}" doesn't exist -->] +
-					%Q[<em class="label-not-found">#{content}</em><!-- Reference end -->]
-					#' 
-				end
-			end
-
-			def ref_ext_RubyML(element, label, content)
-				return nil unless /^(ruby-(?:talk|list|dev|math)):(.+)$/ =~ label
-				ml = $1
-				article = $2.sub(/^0+/, '')
-				content = "[#{label}]" if label == content
-
-				%Q[<a href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/#{ ml }/#{ article }">#{ content }</a>]
-			end
-
-			def ref_ext_RAA(element, label, content)
-				return nil unless /^RAA:(.+)$/ =~ label
-				name = CGI.escape($1)
-				content = "[#{label}]" if label == content
-				%Q[<a href="http://www.ruby-lang.org/en/raa-list.rhtml?name=#{ name }">#{ content }</a>]
-			end
-
-			def ref_ext_IMG(element, label, content)
-				return nil unless /^IMG:(.+)$/ =~ label
-				label.to_s == content.to_s and content = $1
-				%Q[<img src="#{$1}" alt="#{content}" />]
-			end
-		end # RefExtension
 
 		private
 		def categorized_subtitle( title )
@@ -165,6 +104,23 @@ module RD
 			r
 		end
 
+		def ref_ext_RubyML(label, content, ml, article)
+			article.sub!(/^0+/, '')
+			content = "[#{label}]" if label == content
+
+			%Q[<a href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/#{ ml }/#{ article }">#{ content }</a>]
+		end
+
+		def ref_ext_RAA(label, content, name)
+			name = CGI.escape(name)
+			content = "[#{label}]" if label == content
+			%Q[<a href="http://www.ruby-lang.org/en/raa-list.rhtml?name=#{ name }">#{ content }</a>]
+		end
+
+		def ref_ext_IMG(label, content, src)
+			label.to_s == content.to_s and content = src
+			%Q[<img src="#{src}" alt="#{content}" />]
+		end
 	end
 
 	class Headline
