@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.123 $
+tdiary.rb $Revision: 1.124 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030616'
+TDIARY_VERSION = '1.5.4.20030621'
 
 require 'cgi'
 require 'nkf'
@@ -476,6 +476,7 @@ module TDiary
 			else
 				@options2 = {}
 			end
+			@options.taint
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
@@ -582,6 +583,7 @@ module TDiary
 
 		def eval_src( src, secure )
 			self.taint
+			@conf.taint
 			@body_enter_procs.taint
 			@body_leave_procs.taint
 			return Safe::safe( secure ? 4 : 1 ) do

@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.5 $
+# tdiary configuration file via CGI $Revision: 1.6 $
 #
 
 #
@@ -53,7 +53,7 @@ referer_table2 = <%= @referer_table2.inspect %>
 #
 # options for plugins
 #
-@options2 = {<% @options2.keys.sort.each do |k|
+options2 = {<% @options2.keys.sort.each do |k|
 	if @options2[k].class == String
 		v = @options2[k].dump
 	elsif @options2[k].class.to_s =~ /^(Fixnum|FalseClass|TrueClass|NilClass)$/

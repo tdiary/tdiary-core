@@ -182,14 +182,7 @@ add_conf_proc( 'theme', 'Themes' ) do
 	<select name="theme">
 		<option value="">CSS Specify-&gt;</option>
 	HTML
-	themes = []
-	Dir::glob( "#{::TDiary::PATH}/theme/*" ).sort.each do |dir|
-		theme = dir.sub( %r[.*/theme/], '')
-		next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
-		name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
-		themes << [theme,name]
-	end
-	themes.each do |theme|
+	@conf_theme_list.each do |theme|
 		r << %Q|<option value="#{theme[0]}"#{if theme[0] == @conf.theme then " selected" end}>#{theme[1]}</option>|
 	end
 	r << <<-HTML
