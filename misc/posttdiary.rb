@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.5 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.6 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 
 =begin ChangeLog
+2002-09-29 TADA Tadashi <sho@spc.gr.jp>
+	* fix bug when boundary has special charactor of Regexp.
+
 2002-04-16 TADA Tadashi <sho@spc.gr.jp>
 	* bmp support for feelH". if found Ruby::Magick use it, else use convert.
 
@@ -33,7 +36,7 @@ $KCODE= 'e'
 
 def usage
 	text = <<-TEXT
-		#{File::basename __FILE__}: updte tDiary via e-mail.
+		#{File::basename __FILE__}: update tDiary via e-mail.
 		usage: ruby posttdiary.rb [options] <url> [user] [passwd]
 		arguments:
 		  url:    update.rb's URL of your diary.
@@ -139,7 +142,7 @@ begin
 		end
 	
 		bound = "--" + $1
-		body_sub = body.split( bound )
+		body_sub = body.split( Regexp.escape( bound ) )
 		body_sub.each do |b|
 			sub_head, sub_body = b.split( "\n\n", 2 )
 
@@ -221,7 +224,7 @@ begin
 
 rescue
 	$stderr.puts $!
-	File::delete( image_dir + image_name ) if FileTest::exist?( image_dir + image_name )
+	File::delete( image_dir + image_name ) if image_dir and image_name and FileTest::exist?( image_dir + image_name )
 	exit 1
 end
 
