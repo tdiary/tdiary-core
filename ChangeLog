@@ -1,3 +1,6 @@
+2002.03.18 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix comment mail subject was wrong.
+
 2002.03.17 TADA Tadashi <sho@spc.gr.jp>
 	* 1.4.0
 	* conf.rhtml, tdiary.conf.sample, default.css: image anchor in default.
