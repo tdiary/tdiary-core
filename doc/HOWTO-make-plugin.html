@@ -27,7 +27,7 @@
 
 <p>　2種類目のプラグインは、完全に<a href="#original">オリジナルのプラグイン</a>です。ヘッダやフッタ、日記本文に日記著者が意図的に記述することで呼び出されます。これらはデフォルトでは未定義で、既存のプラグインと名前がだぶらない限り好きな名称にできます。プラグイン集に収録されているプラグインは、たいていこれです。</p>
 
-<p>　3種類目のプラグインは<a href="#callback">コールバック系プラグイン</a>です。これは呼び出される場所が決まっている点でカスタマイズ系プラグインに似ていますが、メソッドにはなっておらず、Procインスタンスを追加していく形で定義します。更新時だけに呼び出されるプラグインや、日記本文の前後に呼び出されるプラグイン、HTMLヘッダを追加するプラグインが定義できます。</p>
+<p>　3種類目のプラグインは<a href="#callback">コールバック系プラグイン</a>です。これは呼び出される場所が決まっている点でカスタマイズ系プラグインに似ていますが、メソッドにはなっておらず、文字列を返すブロックを追加していく形で定義します。更新時だけに呼び出されるプラグインや、日記本文の前後に呼び出されるプラグイン、HTMLヘッダを追加するプラグインが定義できます。</p>
 
 <p>　以降で、これらそれぞれのプラグインの作り方について説明します。</p>
 
@@ -169,22 +169,22 @@ def theme_url; 'theme'; end
 </div>
 
 <div class="section">
-<p>　このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>が用意されています。これらはProcインスタンスを引数に持ちます。ここで登録されたProcが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
+<p>　このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
 </div>
 
 <div class="section"><pre>
 # 検索キーワードをheadに挿入する
-add_header_proc( Proc::new do
+add_header_proc do
    '&lt;meta name="keyword" content="Linux,Kondara"&gt;'
-end )
+end
 </pre></div>
 
 <div class="section">
-<p>　なお、コールバック系プラグインはそれぞれのProcインスタンスが返した文字列をすべて連結してHTMLに埋め込みますが、<code>update_proc</code>は何も埋め込みません(意味がないので)。このため、<code>update</code>用に追加するProcは何も返す必要はありません。</p>
+<p>　なお、コールバック系プラグインはそれぞれのブロックが返した文字列をすべて連結してHTMLに埋め込みますが、<code>update_proc</code>は何も埋め込みません(意味がないので)。このため、<code>update</code>用に追加するブロックは何も返す必要はありません。</p>
 </div>
 
 <div class="section">
-<p>　デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader_proc用Procが定義されています。</p>
+<p>　デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader_proc用ブロックが定義されています。</p>
 </div>
 
 </body>

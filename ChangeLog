@@ -1,6 +1,7 @@
 2002.03.22 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: Plugin#add_xxx_proc can receive a block.
-	* 00default.rb: follow new add_header_proc style.
+	* 00default.rb: follow new add_xxx_proc style.
+	* HOWTO-make-plugin.html: follow new add_xxx_proc style.
 
 2002.03.20 TADA Tadashi <sho@spc.gr.jp>
 	* doctype plugin.
