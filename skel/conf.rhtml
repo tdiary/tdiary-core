@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.4 $ %>
+<%# conf.rhtml $Revision: 1.5 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [設定]</h1>
@@ -10,10 +10,10 @@
 <div class="body">
 <h3 class="subtitle">著者名</h3>
 <p>あなたの名前を指定します。HTMLヘッダ中に展開されます。</p>
-<p><input name="author_name" value="<%= CGI::escapeHTML @author_name %>"></p>
+<p><input name="author_name" value="<%= CGI::escapeHTML @author_name %>" size="40"></p>
 <h3 class="subtitle">メールアドレス</h3>
 <p>あなたのメールアドレスを指定します。HTMLヘッダ中に展開されます。</p>
-<p><input name="author_mail" value="<%= @author_mail %>"></p>
+<p><input name="author_mail" value="<%= @author_mail %>" size="40"></p>
 <h3 class="subtitle">トップページURL</h3>
 <p>日記よりも上位のコンテンツがあれば指定します。存在しない場合は何も入力しなくてかまいません。</p>
 <p><input name="index_page" value="<%= @index_page %>" size="50"></p>
@@ -28,7 +28,7 @@
 <div class="body">
 <h3 class="subtitle">タイトル</h3>
 <p>HTMLの&lt;title&gt;タグ中および、モバイル端末からの参照時に使われるタイトルです。HTMLタグは使えません。</p>
-<p><input name="html_title" value="<%= CGI::escapeHTML @html_title %>"></p>
+<p><input name="html_title" value="<%= CGI::escapeHTML @html_title %>" size="50"></p>
 <h3 class="subtitle">ヘッダ</h3>
 <p>日記の先頭に挿入される文章を指定します。HTMLタグが使えます。「&lt;%=navi%&gt;」で、ナビゲーションボタンを挿入できます(これがないと更新ができなくなるので削除しないようにしてください)。また、「&lt;%=calendar%&gt;」でカレンダーを挿入できます。その他、各種プラグインを記述できます。</p>
 <p><textarea name="header" cols="70" rows="10"><%= CGI::escapeHTML @header %></textarea></p>
@@ -46,13 +46,13 @@
 <div class="body">
 <h3 class="subtitle">セクションアンカー</h3>
 <p>日記のセクションの先頭(サブタイトルの行頭)に挿入される、リンク用のアンカー文字列を指定します。</p>
-<p><input name="paragraph_anchor" value="<%= CGI::escapeHTML @paragraph_anchor %>" size="8"></p>
+<p><input name="paragraph_anchor" value="<%= CGI::escapeHTML @paragraph_anchor %>" size="40"></p>
 <h3 class="subtitle">ツッコミアンカー</h3>
 <p>読者からのツッコミの先頭に挿入される、リンク用のアンカー文字列を指定します。</p>
-<p><input name="comment_anchor" value="<%= CGI::escapeHTML @comment_anchor %>" size="8"></p>
+<p><input name="comment_anchor" value="<%= CGI::escapeHTML @comment_anchor %>" size="40"></p>
 <h3 class="subtitle">日付フォーマット</h3>
 <p>日付の表示部分に使われるフォーマットを指定します。任意の文字が使えますが、「%」で始まる英字には次のような特殊な意味があります。「%Y」(西暦年)、「%m」(月数値)、「%b」(短月名)、「%B」(長月名)、「%d」(日)、「%a」(短曜日名)、「%A」(長曜日名)。</p>
-<p><input name="date_format" value="<%= CGI::escapeHTML @date_format %>" size="20"></p>
+<p><input name="date_format" value="<%= CGI::escapeHTML @date_format %>" size="30"></p>
 <h3 class="subtitle">最新表示の最大日数</h3>
 <p>最新の日記を表示するときに、そのページ内に何日分の日記を表示するかを指定します。</p>
 <p>最大<input name="latest_limit" value="<%= @latest_limit %>" size="2">日分</p>
@@ -74,10 +74,10 @@
 	<option value="<%= theme[0] %>"<% if theme[0] == @theme then %> selected<% end %>><%= theme[1] %></option><%
 end %>
 </select>
-<input name="css" size="40" value="<%= @css %>">
+<input name="css" size="50" value="<%= @css %>">
 </p>
 <p><input type="submit" name="saveconf" value="OK"></p>
-<p>ここにないテーマは<a href="http://www.spc.gr.jp/cgi-bin/tdiarythemes.rb"><img src="<%%=theme_url%%>/tdiarythemes.png" width="88" height="31" alt="tDiary Themes" border="0" valign="bottom"></a>から入手できます。</p>
+<p>ここにないテーマは<a href="http://www.tdiary.net/">tDiary.Net</a>から入手できます。</p>
 </div>
 </div>
 

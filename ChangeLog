@@ -1,3 +1,7 @@
+2002.03.14 TADA Tadashi <sho@spc.gr.jp>
+	* update.rhtml: remove 'class="commenttitle"' from changing comment status button.
+	* default.css: add style for blockquote and some plugins.
+
 2002.03.12 TADA Tadashi <sho@spc.gr.jp>
 	* update erb to 1.4.0.
 	* taint @body_{enter,leave}_procs in Plugin class.

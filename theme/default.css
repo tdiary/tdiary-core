@@ -1,5 +1,5 @@
 /*
-	default.css: Default Style Sheet of tDiary $Revision: 1.1 $
+	default.css: Default Style Sheet of tDiary $Revision: 1.2 $
 		2002/02/22 Valid CSS
 	validated by W3C.
  */
@@ -270,6 +270,18 @@ pre {
 }
 
 /*
+引用(blockquoteタグ)の設定
+*/
+blockquote {
+	border-style: solid;
+	border-color: #ddd;
+	border-width: 2px;
+	margin-left: 3em;
+	margin-right: 3em;
+	padding: 4px 4px 4px 4px;
+}
+
+/*
 項目リストの設定
 */
 dl {
@@ -286,3 +298,52 @@ dd {
 	margin-bottom: 0.5em;
 }
 
+/*
+ いくつかのメジャーなプラグイン対応
+ */
+
+/* calendar2 */
+table.calendar {
+	font-size: x-small;
+	line-height: 100%;
+	border-width: 0px;
+}
+
+table.calendar td {
+	margin: 0px;
+	text-align: right;
+	padding: 0px;
+	margin: 0px;
+}
+
+table.calendar td.calendar-prev-month, table.calendar td.calendar-current-month, table.calendar td.calendar-next-month {
+	text-align: center;
+}
+
+/* recent_list */
+p.recentitem {
+	font-size: x-small;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+div.recentsubtitles {
+	font-size: x-small;
+	margin-top: 0px;
+	margin-bottom: 1em;
+	margin-left: 1em;
+}
+
+/* footnote */
+div.body span.footnote {
+	vertical-align: super;
+	font-size: xx-small;
+}
+
+div.footnote {
+	border-style: solid;
+	border-color: #ddd;
+	border-width: 1px 0px 0px 0px;
+	margin-left: 3em;
+	font-size: small;
+}
