@@ -1,12 +1,12 @@
 #
-# tdiary configuration file via CGI $Revision: 1.10 $
+# tdiary configuration file via CGI $Revision: 1.11 $
 #
 
 #
 # basic
 #
 author_name = <%= @author_name.dump %>
-author_mail = <%= @author_mail.dump %>
+author_mail = <%= (@author_mail || '').dump %>
 index_page = <%= @index_page.dump %>
 hour_offset = <%= @hour_offset %>
 

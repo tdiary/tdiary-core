@@ -1,3 +1,6 @@
+2003.10.22 TADA Tadashi <sho@spc.gr.jp>
+	* skel/tdiary.rconf: fix error when @author_mail was nil.
+
 2003.10.21 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary/lang/ja.rb: shorten('') returns '' instead of nil.
 
