@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.26 $ %>
+<%# update.rhtml $Revision: 1.27 $ %>
 <%%=navi%>
 
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
@@ -59,7 +59,7 @@
 				<span class="checkbox">
 					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
 				</span>
-				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
+				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %><%= CGI::escapeHTML( " <#{comment.mail}>" ) unless comment.mail.empty? %></span>
 				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
 			</div>
 			<p><%= comment.body.make_link.gsub( /\n/, "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
