@@ -1,3 +1,6 @@
+2002.11.25 TADA Tadashi <sho@spc.gr.jp>
+	* update documents. thanks Mizuho <gha@intrastore.cdc.com>.
+
 2002.11.20 TADA Tadashi <sho@spc.gr.jp>
 	* fix: bad last modified setting in CommentManager::add_comment.
 
