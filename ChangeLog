@@ -1,3 +1,6 @@
+2004-06-18 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb: deny robots when update modes.
+
 2004-06-16 TADA Tadashi <sho@spc.gr.jp>
 	* add zh (Traditional Chinese) language resources. thanks Hiroshi Yui <thinker60@mail2000.com.tw>.
 

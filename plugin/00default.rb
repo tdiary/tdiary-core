@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.70 $
+# $Revision: 1.71 $
 #
 
 #
@@ -115,6 +115,7 @@ add_header_proc do
 	#{index_page_tag}
 	#{css_tag.chomp}
 	#{title_tag.chomp}
+	#{robot_control.chomp}
 	HEADER
 end
 
@@ -251,6 +252,14 @@ def css_tag
 	<link rel="stylesheet" href="#{theme_url}/base.css" type="text/css" media="all">
 	<link rel="stylesheet" href="#{css}" title="#{title}" type="text/css" media="all">
 	CSS
+end
+
+def robot_control
+	if /^form|edit|preview|showcomment$/ =~ @mode then
+		'<meta name="robots" content="noindex,nofollow">'
+	else
+		''
+	end
 end
 
 #
