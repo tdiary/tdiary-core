@@ -1,3 +1,8 @@
+2002.04.17 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: change version.
+	* HOWTO-make-plugin.html: add about methods in Plugin.
+	* doc/*: some bugs fixed.
+
 2002.04.17 MUTOH Masao <mutoh@highway.ne.jp>
 	* index.rb, tdiary.rb: add Plugin#add_cookie.
 

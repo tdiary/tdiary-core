@@ -74,10 +74,13 @@ div.body {
 	margin-left: 1em;
 }
 
+div.section {
+	margin-left: 5em;
+}
+
 div.section p {
 	margin-top: 0px;
 	margin-bottom: 0.5em;
-	margin-left: 1em;
 }
 
 div.section pre {
@@ -280,7 +283,7 @@ table {
 }
 
 th {
-	background-color: #fb3;
+	background-color: #fc4;
 	color: black;
 	padding: 0.2em;
 	text-align: left;
