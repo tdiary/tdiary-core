@@ -1,14 +1,16 @@
-<%# conf.rhtml $Revision: 1.15 $ %>
+<%# conf.rhtml $Revision: 1.16 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%=navi_preference%%>]</h1>
 
+<div class="sidebar">
 <ul>
 <%% each_conf_key do |key|%%>
 	<li><a href="<%%=@conf.update%%>?conf=<%%=key%%>"><%%=conf_label( key )%%></a></li>
 <%% end %%>
 </ul>
-
+</div>
+<div class="main">
 <form method="post" action="<%= @conf.update %>">
 <input type="hidden" name="conf" value="<%=@key%>">
 <div class="conf day">
@@ -19,5 +21,5 @@
 	</div>
 </div>
 </form>
-
 <hr class="sep">
+</div>

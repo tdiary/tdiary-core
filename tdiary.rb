@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.119 $
+tdiary.rb $Revision: 1.120 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -459,7 +459,11 @@ module TDiary
 			@referer_table = @referer_table2 + @referer_table
 
 			@options = {} unless @options.class == Hash
-			@options.update( @options2 ) if @options2
+			if @options2 then
+				@options.update( @options2 )
+			else
+				@options2 = {}
+			end
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor

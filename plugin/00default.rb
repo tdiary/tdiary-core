@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.40 $
+# $Revision: 1.41 $
 #
 
 #
@@ -401,6 +401,7 @@ def comment_mail_basic_setting
 end
 
 def comment_mail_basic_html
+	@conf.options['comment_mail.header'] = '' unless @conf.options['comment_mail.header']
 	@conf.options['comment_mail.receivers'] = '' unless @conf.options['comment_mail.receivers']
 
 	<<-HTML
