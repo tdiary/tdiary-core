@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.3 $
+# $Revision: 1.4 $
 #
 
 #
@@ -65,7 +65,7 @@ end
 #
 # default HTML header
 #
-add_header_proc( Proc::new do
+add_header_proc do
 	<<-HEADER
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
 	<meta name="generator" content="tDiary #{TDIARY_VERSION}">
@@ -75,7 +75,7 @@ add_header_proc( Proc::new do
 	#{css_tag.chomp}
 	#{title_tag.chomp}
 	HEADER
-end )
+end
 
 def author_name_tag
 	if @author_name then

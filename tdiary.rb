@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.17 $
+tdiary.rb $Revision: 1.18 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.4.0.20020320'
+TDIARY_VERSION = '1.4.0.20020322'
 
 require 'cgi'
 require 'nkf'
@@ -326,8 +326,8 @@ class TDiary
 		end
 
 	private
-		def add_header_proc( proc )
-			@header_procs << proc
+		def add_header_proc( block = proc )
+			@header_procs << block
 		end
 
 		def header_proc
@@ -338,8 +338,8 @@ class TDiary
 			r.join.chomp
 		end
 
-		def add_update_proc( proc )
-			@update_procs << proc
+		def add_update_proc( block = proc )
+			@update_procs << block
 		end
 
 		def update_proc
@@ -348,8 +348,8 @@ class TDiary
 			end
 		end
 
-		def add_body_enter_proc( proc )
-			@body_enter_procs << proc
+		def add_body_enter_proc( block = proc )
+			@body_enter_procs << block
 		end
 
 		def body_enter_proc( date )
@@ -360,8 +360,8 @@ class TDiary
 			r.join
 		end
 
-		def add_body_leave_proc( proc )
-			@body_leave_procs << proc
+		def add_body_leave_proc( block = proc )
+			@body_leave_procs << block
 		end
 
 		def body_leave_proc( date )
