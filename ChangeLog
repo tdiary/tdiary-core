@@ -1,5 +1,5 @@
 2004-12-22 zunda <zunda at freeshell.org>
-	* misc/style/emptdiary/emptdiary_style.rb: body_to_html defined, thanks dai.
+	* misc/style/emptdiary/emptdiary_style.rb: body_to_html defined, thanks to dai <d+r at vdr.jp>.
 
 2004-12-01 zunda <zunda at freeshell.org>
 	* skel/tdiary.rconf: bug fix - could not saveconf unless icon and description are set
