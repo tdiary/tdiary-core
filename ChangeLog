@@ -1,3 +1,6 @@
+2003.12.16 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb: accept fuzzy anchor style.
+
 2003.12.11 TADA Tadashi <sho@spc.gr.jp>
 	* skel/day.rhtml, skel/diary.rhtml: do not make link URL when access from bot.
 
