@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.10 $
+tdiary.rb $Revision: 1.11 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.3.4'
+TDIARY_VERSION = '1.3.4.20020311'
 
 require 'cgi'
 require 'nkf'
@@ -950,7 +950,7 @@ class TDiaryComment < TDiaryDay
 		if dirty and @mail_on_comment then
 			require 'socket'
 
-			name = to_mime( @name ).join( "\n " )
+			name = to_mime( @name.to_jis ).join( "\n " )
 			body = @body.to_jis
 			mail = @mail.length == 0 ? @author_mail : @mail
 			
@@ -986,9 +986,9 @@ protected
 	end
 
 	def to_mime( str )
-		[str.to_jis].pack( 'm' ).collect {|s|
-			"=?ISO-2022-JP?B?#{s.chomp}?="
-		}
+		NKF::nkf( "-j -m0 -f50", str ).collect do |s|
+			%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( "\n", '' )}?=|
+		end
 	end
 end
 

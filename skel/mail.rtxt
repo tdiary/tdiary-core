@@ -3,7 +3,7 @@ To: <%= @author_mail %>
 Date: <%= date %>
 Message-Id: <%= message_id %>
 Subject: <%= mail_header %>-<%= serial %> 
- <%= to_mime( @name.to_jis ).join( "\n " ) %>
+ <%= name %>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: 7bit

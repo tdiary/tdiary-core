@@ -1,3 +1,6 @@
+2002.03.11 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, mail.rtxt: fix mime bug in From and Subject of comment mail.
+
 2002.03.09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sapmle: add notice about documentation in @footer.
 
