@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.7 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.8 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -29,12 +29,45 @@ module TDiary
 			@stripped_subtitle = strip_subtitle
 		end
 	
+		def subtitle=(subtitle)
+			cat_str = ""
+			@categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = subtitle ? (cat_str + subtitle) : nil
+			@stripped_subtitle = strip_subtitle
+		end
+	
+		def body=(str)
+			@body = str
+		end
+	
+		def categories=(categories)
+			@categories = categories
+			cat_str = ""
+			categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
+			@stripped_subtitle = strip_subtitle
+		end
+	
 		def to_src
 			s = ''
-			if @subtitle then
+			if @stripped_subtitle then
 				s += "[#{@author}]" if @author
-				s += '<' if /^</ =~ @subtitle
-				s += @subtitle + "\n"
+				cat_str = ""
+				@categories.each {|cat|
+				  cat_str << "[#{cat}]"
+				}
+				cat_str << " " unless cat_str.empty?
+				s += cat_str
+				s += '<' if /^</=~@subtitle
+				s += @stripped_subtitle + "\n"
+			else
+				s += ' ' unless @body=~/\A\s</
 			end
 			"#{s}#{@body}\n\n"
 		end
@@ -74,7 +107,7 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			r = @subtitle.sub(/^(\[(.*?)\])+/,'')
+			r = @subtitle.sub(/^(\[(.*?)\])+\s*/,'')
 			if r == ""
 				nil
 			else
@@ -117,6 +150,18 @@ module TDiary
 			@sections.each do |section|
 				yield section
 			end
+		end
+	
+		def add_section(subtitle, body)
+			sec = TdiarySection::new("\n\n ")
+			sec.subtitle = subtitle
+			sec.body     = body
+			@sections << sec
+			@sections.size
+		end
+	
+		def delete_section(index)
+			@sections.delete_at(index - 1)
 		end
 	
 		def to_src
