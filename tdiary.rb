@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.84 $
+tdiary.rb $Revision: 1.85 $
 
-Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
+Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.2.20030110'
+TDIARY_VERSION = '1.5.2.20030120'
 
 require 'cgi'
 require 'nkf'
@@ -324,7 +324,7 @@ module TDiary
 			raise StandardError, 'not implemented'
 		end
 
-		def diary_factory( date, title, body, format = nil )
+		def diary_factory( date, title, body, style = nil )
 			raise StandardError, 'not implemented'
 		end
 	end
@@ -434,6 +434,7 @@ module TDiary
 			eval( File::open( "tdiary.conf" ){|f| f.read }.untaint )
 	
 			@data_path += '/' if /\/$/ !~ @data_path
+			@style = 'tDiary' unless @style
 			@smtp_port = 25 unless @smtp_port
 			@author_name = '' unless @author_name
 			@index = './' unless @index
@@ -723,8 +724,8 @@ module TDiary
 				@plugin = load_plugins
 				r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
 				@cookies += @plugin.cookies
-			rescue PluginError
-				r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read } ).result( binding )
+			rescue PluginError, SyntaxError
+				r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
 			rescue Exception
 				raise
 			end
@@ -868,7 +869,7 @@ module TDiary
 			rescue TDiaryError
 			end
 			@date = Time::now + (@conf.hour_offset * 3600).to_i
-			@diary = @io.diary_factory( @date, '', '' )
+			@diary = @io.diary_factory( @date, '', '', @conf.style )
 		end
 	end
 
@@ -887,7 +888,7 @@ module TDiary
 	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
-				@diary = self[@date] || @io.diary_factory( @date, @title, '' )
+				@diary = self[@date] || @io.diary_factory( @date, @title, '', @conf.style )
 				self << @diary.append( @body, @author )
 				@diary.set_title( @title ) unless @title.empty?
 				@diary.show( ! @hide )
@@ -908,7 +909,12 @@ module TDiary
 	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
-				@diary = self[@date] || @io.diary_factory( @date, '', '' )
+				@diary = self[@date]
+				if @diary then
+					@conf.style = @diary.style
+				else
+					@diary =  @io.diary_factory( @date, '', '', @conf.style )
+				end
 				DIRTY_NONE
 			end
 		end
@@ -939,7 +945,7 @@ module TDiary
 						@diary.replace( @date, @title, @body )
 					end
 				else
-					@diary = @io.diary_factory( @date, @title, @body )
+					@diary = @io.diary_factory( @date, @title, @body, @conf.style )
 				end
 				@diary.show( ! @hide )
 				self << @diary

@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.19 $
+# tDiary configuration file $Revision: 1.20 $
 #
 
 #-------
@@ -20,6 +20,12 @@
 #   以下の2行のコメント(#)をはずすと、tDiary1形式(バイナリ)になります。
 #require 'tdiary/pstoreio'
 #@io_class = TDiary::PStoreIO
+
+# 日記記述形式の指定【オプション】
+#   日記の記述形式(書き方のフォーマット)を指定できます。現在は'tDiary'
+#   のみがサポートされていますが、記述形式用プログラムを追加すればそれを
+#   指定することも可能です。
+#@style = 'tDiary'
 
 # ツッコミメールの基本設定【オプション】
 #   @smtp_hostと@smtp_portは、メール発信に使うSMTPサーバ名とポート番号を

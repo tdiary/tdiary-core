@@ -82,31 +82,31 @@ transactionメソッドはdateで指定された月の日記データをファイル(または
     end
  end
 
-==== diary_factory( date, title, body, format = nil )
+==== diary_factory( date, title, body, style = nil )
 diary_factoryは、指定されたフォーマットの日記オブジェクトを生成して
 返します。
 
 引数dateは日付(Stringで8桁)を指定します。title、bodyはそれぞれ生成す
-る日記のタイトルと本文です(String)。formatは日記の記述形式を指定する
+る日記のタイトルと本文です(String)。styleは日記の記述形式を指定する
 文字列で、diary_factoryに依存します。
 
 返り値はDiaryBaseをincludeした継承したクラスのオブジェクトです。
 
 以下にdiary_factoryの例を示します。
 
- def diary_factory( date, title, body, format = nil )
-    case format
+ def diary_factory( date, title, body, style = nil )
+    case style
     when 'tDiary'
-       TDiaryDiary::new( date, title, body )
+       DefaultDiary::new( date, title, body )
     default
-       raise StandardError, 'bad format'
+       raise StandardError, 'bad style'
     end
  end
 
 == 日記データ
 続いて、IOクラスのtransactionメソッドの返り値に含まれる日記データが
 満たすべき条件について述べます。
-日記データの具体例としては tdiary/defaultio.rb で定義されている
+日記データの具体例としては tdiary/tdiary_style.rb で定義されている
 TDiary::DefaultDiary を参照してください。
 
 「日記データ」は以下の要素から構成されています。
@@ -156,7 +156,7 @@ DiaryBaseモジュールには日記データのクラスに必要な幾つかのメソッドが
 * each_section
 * to_html
 * to_src
-* format
+* style
 
 メソッドではありませんが、 インスタンス変数の @last_modified には気をつけましょう。
 日記データに変更があった場合に @last_modified に適切なTimeオブジェクトを設定しないと、
@@ -164,6 +164,15 @@ DiaryBaseモジュールには日記データのクラスに必要な幾つかのメソッドが
 
 * @last_modified
 
+もし保存形式をDefaultIOにする場合、この記述形式をDefaultIOに登録しておく必要が
+あります。このクラスの定義中に、以下のようにDefaultIOのクラスメソッドを呼び出す
+ようにして下さい。第一引数は記述形式名(文字列)、第二引数は日記データを表すクラス
+です。
+
+ class DefaultDiary
+    include DiaryBase
+    TDiary::DefaultIO::add_style( 'tDiary', self )
+    (以下略)
 
 ==== initialize
 日記データを初期化します。引数はIOクラスによって違うものになります。
@@ -238,8 +247,8 @@ optの内容によって、日記のリンク先を変更しなければならないので、注意
 ==== to_src
 日記の本文を返します。
 
-==== format
-日記データを記述するフォーマット名を返します。
+==== style
+日記データを記述するスタイル名を返します。
 tDiary標準の記述形式の場合は「tDiary」です。
 
 

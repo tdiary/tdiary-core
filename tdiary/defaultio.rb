@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.21 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.22 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -104,6 +104,16 @@ module TDiary
 		include CommentIO
 		include RefererIO
 
+		@@styles = {}
+
+		def DefaultIO::style( style )
+			@@styles[style]
+		end
+
+		def DefaultIO::add_style( style, style_class )
+			@@styles[style] = style_class
+		end
+
 		def initialize( tdiary )
 			@tdiary = tdiary
 			@data_path = @tdiary.conf.data_path
@@ -162,12 +172,14 @@ module TDiary
 			calendar
 		end
 
-		def diary_factory( date, title, body, format = 'tDiary' )
-			case format
-			when 'tDiary'
-				DefaultDiary::new( date, title, body )
-			else
-				raise StandardError, "bad format"
+		def diary_factory( date, title, body, style = 'tDiary' )
+			begin
+				unless DefaultIO::style( style ) then
+					require "tdiary/#{style.downcase}_style"
+				end
+				eval( "#{DefaultIO::style( style )}::new( date, title, body )" )
+			rescue
+				raise StandardError, "bad style"
 			end
 		end
 
@@ -176,7 +188,7 @@ module TDiary
 			fh.seek( 0 )
 			begin
 				major, minor = fh.gets.split( '.', 2 )
-				raise StandardError, 'bad format' unless TDiary::TDIARY_MAGIC_MAJOR == major
+				raise StandardError, 'bad style' unless TDiary::TDIARY_MAGIC_MAJOR == major
 			rescue NameError
 				# no magic number when it is new file.
 			end
@@ -185,13 +197,17 @@ module TDiary
 			while l = fh.gets( "\n.\n" )
 				begin
 					headers, body = TDiary::parse_tdiary( l )
-					case headers['Format']
-					when 'tDiary'
-						diary = DefaultDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
-						diary.show( headers['Visible'] == 'true' ? true : false )
-						diaries[headers['Date']] = diary
+					style = headers['Format'] || 'tDiary'
+					unless DefaultIO::style( style ) then
+						require "tdiary/#{style.downcase}_style"
 					end
+					diary = eval( "#{DefaultIO::style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
+					$stderr.puts diary.class
+					diary.show( headers['Visible'] == 'true' ? true : false )
+					diaries[headers['Date']] = diary
 				rescue NameError
+				rescue
+					raise
 				end
 			end
 		end
@@ -205,7 +221,7 @@ module TDiary
 				fh.puts( "Title: #{diary.title}" )
 				fh.puts( "Last-Modified: #{diary.last_modified.to_i}" )
 				fh.puts( "Visible: #{diary.visible? ? 'true' : 'false'}" )
-				fh.puts( "Format: #{diary.format}" )
+				fh.puts( "Format: #{diary.style}" )
 				fh.puts
 				fh.puts( diary.to_src.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
 				fh.puts( '.' )
@@ -213,149 +229,4 @@ module TDiary
 			fh.truncate( fh.tell )
 		end
 	end
-
-	class DefaultSection
-		attr_reader :subtitle, :body, :author
-	
-		def initialize( fragment, author = nil )
-			@author = author
-			lines = fragment.split( /\n+/ )
-			if lines.size > 1 then
-				if /^<</ =~ lines[0]
-					@subtitle = lines.shift.chomp.sub( /^</, '' )
-				elsif /^[　 <]/e !~ lines[0]
-					@subtitle = lines.shift.chomp
-				end
-			end
-			@body = lines.join( "\n" )
-		end
-	
-		def to_src
-			s = ''
-			if @subtitle then
-				s += "[#{@author}]" if @author
-				s += '<' if /^</ =~ @subtitle
-				s += @subtitle + "\n"
-			end
-			"#{s}#{@body}\n\n"
-		end
-	
-		def to_s
-			"subtitle=#{@subtitle}, body=#{@body}"
-		end
-	end
-
-	class DefaultDiary
-		include DiaryBase
-	
-		def initialize( date, title, body, modified = Time::now )
-			init_diary
-			replace( date, title, body )
-			@last_modified = modified
-		end
-	
-		def format
-			'tDiary'
-		end
-	
-		def replace( date, title, body )
-			set_date( date )
-			set_title( title )
-			@sections = []
-			append( body )
-		end
-	
-		def append( body, author = nil )
-			body.gsub( "\r", '' ).split( /\n\n+/ ).each do |fragment|
-				section = DefaultSection::new( fragment, author )
-				@sections << section if section
-			end
-			@last_modified = Time::now
-			self
-		end
-	
-		def each_section
-			@sections.each do |section|
-				yield section
-			end
-		end
-	
-		def to_src
-			src = ''
-			each_section do |section|
-				src << section.to_src
-			end
-			src
-		end
-	
-		def to_html( opt, mode = :HTML )
-			case mode
-			when :CHTML
-				to_chtml( opt )
-			else
-				to_html4( opt )
-			end
-		end
-	
-		def to_html4( opt )
-			idx = 1
-			r = ''
-			each_section do |section|
-				r << %Q[<div class="section">\n]
-				if section.subtitle then
-					r << %Q[<h3><a ]
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
-					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
-					if opt['multi_user'] and section.author then
-						r << %Q|[#{section.author}]|
-					end
-					r << %Q[#{section.subtitle}</h3>]
-				end
-				if /^</ =~ section.body then
-					r << %Q[#{section.body}]
-				elsif section.subtitle
-					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '')}.join( "</p>\n<p>" )}</p>]
-				else
-					r << %Q[<p><a ]
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
-					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
-				end
-				r << %Q[</div>]
-				idx += 1
-			end
-			r
-		end
-	
-		def to_chtml( opt )
-			idx = 0
-			r = ''
-			each_section do |section|
-				if section.subtitle then
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</P>]
-				end
-				if /^</ =~ section.body then
-					idx += 1
-					r << section.body
-				elsif section.subtitle
-					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
-				else
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
-					if opt['multi_user'] and section.author then
-						r << %Q|[#{section.author}]|
-					end
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
-				end
-			end
-			r
-		end
-	
-		def to_s
-			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
-		end
-	end
 end
-
