@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.14 $
+tdiary.rb $Revision: 1.15 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.3.4.20020317'
+TDIARY_VERSION = '1.4.0'
 
 require 'cgi'
 require 'nkf'
@@ -803,7 +803,11 @@ class TDiaryView < TDiary
 			@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 			transaction( @date, @diaries = {} ) do
 				dirty = false
-				@diary = @diaries[@diaries.keys.sort.reverse[0]]
+				@diaries.keys.sort.reverse_each do |key|
+					@diary = @diaries[key]
+					break if @diary.visible?
+				end
+				#@diary = @diaries[@diaries.keys.sort.reverse[0]]
 				if @diary then
 					@diary.add_referer( @cgi.referer )
 					dirty = true
