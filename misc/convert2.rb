@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.2 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.3 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -16,6 +16,9 @@ ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]
 =end
 
 =begin ChangeLog
+2002-07-23 TADA Tadashi <sho@spc.gr.jp>
+	* fix some bugs.
+
 2002-05-30 TADA Tadashi <sho@spc.gr.jp>
 	* created.
 =end
@@ -41,7 +44,7 @@ begin
 			tdiary_path = arg
 		when '--conf'
 			tdiary_conf = arg
-		elase
+		else
 			usage
 		end
 	end
@@ -54,6 +57,7 @@ Dir::chdir( tdiary_conf )
 
 begin
 	ARGV << '' # dummy argument against cgi.rb offline mode.
+	$:.unshift tdiary_path
 	require "#{tdiary_path}/tdiary"
 rescue LoadError
 	$stderr.puts 'convert.rb: cannot load tdiary.rb. try -p option.'

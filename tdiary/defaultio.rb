@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.4 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.5 $
 #
 module DefaultIO
 	class IO
@@ -75,7 +75,7 @@ module DefaultIO
 				while l = fh.gets( "\n.\n" )
 					headers, body = parse( l )
 					if headers['Format'] == 'tDiary' then
-						diary = TDiaryDiary::new( headers['Date'], headers['Title'], body )
+						diary = TDiaryDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
 						diaries[headers['Date']] = diary
 					end
 				end
@@ -215,9 +215,10 @@ module DefaultIO
 	
 		include DiaryBase
 	
-		def initialize( date, title, body )
+		def initialize( date, title, body, modified = Time::now )
 			init_diary
 			replace( date, title, body )
+			@last_modified = modified
 		end
 	
 		def format

@@ -1,3 +1,8 @@
+2002.06.23 TADA Tadashi <sho@spc.gr.jp>
+	* diary.rhtml: separate CR/LF in comments by <br>.
+	* defauldio.rb: restore last modified into diaries.
+	* convert2.rb: fix bugs.
+
 2002.06.01 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: fix IO#calendar.
 	* defaultio.rb: fix tDiary2 parser.
