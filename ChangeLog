@@ -1,3 +1,6 @@
+2003.09.02 Junichiro kita <kita@kitaj.no-ip.com>
+	* plugin/00default.rb: calc_links works correctly with mobile agent.
+
 2003.09.02 KAKUTANI Shintaro <shintaro@kakutani.com>
 	* skel/plugin_error.rhtml: follow conf proc.
 

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.54 $
+# $Revision: 1.55 $
 #
 
 #
@@ -47,7 +47,7 @@ def navi_admin
 end
 
 def mobile_navi
-	calc_links if /^(latest|month|day|nyear)$/ === @mode
+	calc_links
 	result = []
 	i = 1
 	if @prev_day
@@ -119,7 +119,7 @@ add_header_proc do
 end
 
 def calc_links
-	if @mode == 'day' or @conf.mobile_agent? then
+	if @mode == 'day' or (@conf.mobile_agent? and /(latest|month|nyear)/ === @mode) then
 		years = []
 		@years.each do |k, v|
 			v.each do |m|
@@ -133,7 +133,11 @@ def calc_links
 		prev_month, dummy, next_month = years[years.index(this_month) - 1, 3]
 
 		days = []
-		today = @date.strftime('%Y%m%d')
+		if /(latest|month|nyear)/ === @mode
+			today = @diaries.keys.sort[-1]
+		else
+			today = @date.strftime('%Y%m%d')
+		end
 		days += @diaries.keys
 		days |= [today]
 		days.sort!
