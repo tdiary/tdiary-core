@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.14 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.15 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -152,7 +152,7 @@ module RD
 		def ref_ext_RAA(label, content, name)
 			name = CGI.escape(name)
 			content = "[#{label}]" if label == content
-			%Q[<a href="http://www.ruby-lang.org/en/raa-list.rhtml?name=#{ name }">#{ content }</a>]
+			%Q[<a href="http://raa.ruby-lang.org/list.rhtml?name=#{ name }">#{ content }</a>]
 		end
 
 		def ref_ext_IMG(label, content, src)
