@@ -1,3 +1,6 @@
+2002.09.16 TADA Tadashi <sho@spc.gr.jp>
+	* update.rhtml: class="field" into all input field element.
+
 2002.09.15 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix bug in TDiaryAppend and TDiaryReplace: title= -> set_title.
 

@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.11 $ %>
+<%# update.rhtml $Revision: 1.12 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [<%%= submit_label %%>]</h1>
@@ -11,10 +11,10 @@
 	<form class="update" method="post" action="<%= @update %>"><div>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<span class="field year">
-			<input name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">年
+			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">年
 		</span>
 		<span class="field month">
-			<input name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">月
+			<input class="field" name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">月
 		</span>
 		<span class="field day">
 			<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">日
