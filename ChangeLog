@@ -1,3 +1,7 @@
+2003-12-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb(trackback_url): HTTP_HOST -> SERVER_NAME.
+	(base_url): return '' in non CGI case.
+
 2003.12.26 Junichiro Kita <kita@kitaj.no-ip.com>
 	* skel/mail.rtxt*: add comment's URL in the body.
 

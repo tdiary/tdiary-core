@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.168 $
+tdiary.rb $Revision: 1.169 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -433,6 +433,7 @@ module TDiary
 		end
 	
 		def base_url
+			return '' unless ENV['SCRIPT_NAME']
 			if ENV['HTTPS']
 				port = (ENV['SERVER_PORT'] == '443') ? '' : ':' + ENV['SERVER_PORT'].to_s
 				"https://#{ ENV['SERVER_NAME'] }#{ port }#{File::dirname(ENV['SCRIPT_NAME'])}/"
@@ -1705,7 +1706,7 @@ module TDiary
 		end
 
 		def trackback_url
-			'http://' + ENV['HTTP_HOST'] +
+			'http://' + ENV['SERVER_NAME'] +
 				(ENV['SERVER_PORT'] == '80' ? '' : ":#{ENV['SERVER_PORT']}") +
 				ENV['REQUEST_URI']
 		end
