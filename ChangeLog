@@ -1,3 +1,6 @@
+2002.08.07 TADA Tadashi <sho@spc.gr.jp>
+	* update.rhtml: replace Diary#each_paragraph to Diary#to_text.
+
 2002.08.06 TADA Tadashi <sho@spc.gr.jp>
 	* diary.rhtml: remove commenttitle class.
 	* tdiary.rb: call plugins after posting a comment.
