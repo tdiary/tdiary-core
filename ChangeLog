@@ -1,3 +1,6 @@
+2003.07.04 TADA Tadashi <sho@spc.gr.jp>
+	* fix some bugs in comment_mail plugins.
+
 2003.06.24 TADA Tadashi <sho@spc.gr.jp>
 	* wiki_style.rb: fix bug about only subtitle section.
 	* tdiary.rb, wiki_style.rb: support ruby 1.8.0 preview3.

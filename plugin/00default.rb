@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.46 $
+# $Revision: 1.47 $
 #
 
 #
@@ -344,10 +344,9 @@ def comment_mail_send
 		receivers = @conf['comment_mail.receivers']
 	when String
 		receivers = @conf['comment_mail.receivers'].split( /[, ]+/ )
-	else
-		receivers = [@conf.author_mail]
 	end
-	return if receivers.compact.empty?
+	receivers = [@conf.author_mail] if receivers.compact.empty?
+	return if receivers.empty?
 
 	require 'socket'
 
@@ -363,9 +362,9 @@ def comment_mail_send
 	date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 
 	serial = @diaries[@date.strftime( '%Y%m%d' )].count_comments( true )
-	message_id = %Q|<tdiary.#{[@conf['comment_mail.header']].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
+	message_id = %Q|<tdiary.#{[@conf['comment_mail.header'] || ''].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
 
-	mail_header = @conf['comment_mail.header'].dup
+	mail_header = (@conf['comment_mail.header'] || '').dup
 	mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
 	mail_header = @date.strftime( mail_header )
 	mail_header = comment_mail_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
