@@ -1,3 +1,6 @@
+2004-04-19 ZnZ <zn@mbf.nifty.com>
+	* tdiary.rb: add error information to eval.
+
 2004-04-19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: uncomment @options['apply_plugin'] and @options['bot'].
 	* tdiary.conf.sample: some robots add to @options['bot'].

@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.184 $
+tdiary.rb $Revision: 1.185 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040404'
+TDIARY_VERSION = '1.5.6.20040419'
 
 require 'cgi'
 begin
@@ -359,9 +359,9 @@ module TDiary
 		end
 
 		def styled_diary_factory( date, title, body, style = 'tDiary' )
-			begin
-				eval( "#{style( style.downcase )}::new( date, title, body )" )
-			rescue SyntaxError
+			if style_class = style( style.downcase )
+				return style_class::new( date, title, body )
+			else
 				raise BadStyleError, "bad style: #{style}"
 			end
 		end
@@ -371,7 +371,7 @@ module TDiary
 			Dir::glob( "#{TDiary::PATH}/tdiary/*_style.rb" ) do |style_file|
 				require style_file.untaint
 				style = File::basename( style_file ).sub( /_style\.rb$/, '' )
-				eval( "@styles[style] = TDiary::#{style.capitalize}Diary" )
+				@styles[style] = TDiary::const_get( "#{style.capitalize}Diary" )
 			end
 		end
 
@@ -421,7 +421,7 @@ module TDiary
 			result = ERbLight::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
 			result.untaint unless @secure
 			Safe::safe( @secure ? 4 : 1 ) do
-				eval( result )
+				eval( result, binding, "(TDiary::Config#save)", 1 )
 			end
 			File::open( "#{@data_path}tdiary.conf", 'w' ) do |o|
 				o.print result
@@ -468,12 +468,12 @@ module TDiary
 		def load
 			@secure = true unless @secure
 			@options = {}
-			eval( File::open( "tdiary.conf" ){|f| f.read }.untaint )
+			eval( File::open( "tdiary.conf" ){|f| f.read }.untaint, binding, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
 			begin
-				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f| f.read }.untaint )
+				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f| f.read }.untaint, "(tdiary/lang/#{@lang}.rb)", 1 )
 			rescue Errno::ENOENT
 				@lang = 'ja'
 				retry
@@ -550,7 +550,7 @@ module TDiary
 				variables.each do |var| def_vars << "#{var} = nil\n" end
 				eval( def_vars )
 				Safe::safe( @secure ? 4 : 1 ) do
-					eval( cgi_conf )
+					eval( cgi_conf, binding, "(TDiary::Config#cgi_conf)", 1 )
 				end
 				variables.each do |var| eval "@#{var} = #{var} if #{var} != nil" end
 			rescue IOError, Errno::ENOENT
@@ -627,7 +627,7 @@ module TDiary
 					@plugin_files << plugin_file
 				end
 			rescue Exception
-				raise PluginError::new( "Plugin error in '#{File::basename( plugin_file )}'.\n#{$!}" )
+				raise PluginError::new( "Plugin error in '#{File::basename( plugin_file )}'.\n#{$!}\n#{$!.backtrace[0]}" )
 			end
 		end
 
@@ -636,13 +636,13 @@ module TDiary
 			begin
 				res_file = File::dirname( file ) + "/#{@conf.lang}/" + File::basename( file )
 				open( res_file.untaint ) do |src|
-					instance_eval( src.read.untaint )
+					instance_eval( src.read.untaint, "(plugin/#{@conf.lang}/#{File::basename( res_file )})", 1 )
 				end
 				@resource_loaded = true
 			rescue IOError, Errno::ENOENT
 			end
-			open( file.untaint ) do |src|
-				instance_eval( src.read.untaint )
+			File::open( file.untaint ) do |src|
+				instance_eval( src.read.untaint, "(plugin/#{File::basename( file )})", 1 )
 			end
 		end
 
@@ -652,7 +652,7 @@ module TDiary
 			@body_enter_procs.taint
 			@body_leave_procs.taint
 			return Safe::safe( secure ? 4 : 1 ) do
-				eval( src )
+				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			end
 		end
 
@@ -1022,7 +1022,7 @@ module TDiary
 			filter_path = @conf.filter_path || "#{PATH}/tdiary/filter"
 			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
 				require file.untaint
-				eval( "@filters << TDiary::Filter::#{File::basename( file, '.rb' ).capitalize}Filter::new( @cgi, @conf )" )
+				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf )
 			end
 		end
 
