@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.12 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.13 $
 #
 module DefaultIO
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -47,7 +47,7 @@ module DefaultIO
 			fhc = File::open( file, 'w' )
 			fhc.puts( TDIARY_MAGIC )
 			diaries.each do |date,diary|
-				diary.each_comment( diary.count_comments ) do |com|
+				diary.each_comment( diary.count_comments( true ) ) do |com|
 					fhc.puts( "Date: #{date}" )
 					fhc.puts( "Name: #{com.name}" )
 					fhc.puts( "Mail: #{com.mail}" )
