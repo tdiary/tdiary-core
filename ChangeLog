@@ -1,3 +1,6 @@
+2004-05-14 TADA Tadashi <sho@spc.gr.jp>
+	* skel/mail.rtxt: support absolute path of @conf.index.
+
 2004-05-09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: support absolute path of @conf.index.
 	* skel/i.diary.rhtml: show TSUKKOMI body length 100 to 200 chars.
