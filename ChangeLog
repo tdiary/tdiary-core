@@ -1,3 +1,6 @@
+2004-05-20 TADA Tadashi <sho@spc.gr.jp>
+	* mail.rtxt.en: against empty @author_mail or @author_name.
+
 2004-05-19 ZnZ <zn@mbf.nifty.com>
 	* 00default.rb, mail.rtxt: against empty @author_mail or @author_name.
 
