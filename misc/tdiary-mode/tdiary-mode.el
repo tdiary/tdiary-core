@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.7 2002-05-22 01:03:08 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.8 2002-09-14 17:26:57 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -353,7 +353,7 @@ Dangerous!!!"
 (defun tdiary-update ()
   "Update diary."
   (interactive)
-  (when (and tdiary-text-directory buffer-file-name
+  (when (and buffer-file-name
 	     (buffer-modified-p)
 	     (y-or-n-p "Save before update?"))
     (save-buffer))
@@ -421,20 +421,9 @@ Otherwise replace all entity references within current buffer."
 	  (set-buffer-modified-p nil))
       (setq tdiary-edit-mode "append"))))
 
-(defun tdiary-new (&optional savep)
+(defun tdiary-new ()
   (interactive)
-  (tdiary-new-or-replace nil)
-  (when (and tdiary-text-directory
-	     (or savep
-		 tdiary-text-save-p))
-    (set-visited-file-name
-     (expand-file-name (concat tdiary-date tdiary-text-suffix)
-		       tdiary-text-directory))
-    (not-modified)))
-
-(defun tdiary-new-diary ()
-  (interactive)
-  (tdiary-new t))
+  (tdiary-new-or-replace nil))
 
 (defun tdiary-replace ()
   (interactive)
@@ -491,7 +480,13 @@ Load `tdiary-init-file' if modified."
   (font-lock-set-defaults)
 
   (run-hooks 'tdiary-mode-hook)
-)
+
+  (when tdiary-text-save-p
+    (set-visited-file-name
+     (expand-file-name (concat tdiary-date tdiary-text-suffix)
+		       (or tdiary-text-directory
+			   (expand-file-name "~/"))))
+    (not-modified)))
 
 (put 'tdiary-mode 'font-lock-defaults '(html-font-lock-keywords nil t))
 
