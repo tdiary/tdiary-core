@@ -11,5 +11,5 @@
 tDiary, The TSUKKOMI-able Weblog.
 
 How to use:
-  1. At last, see doc/README.en.html
+  1. At first, see doc/README.en.html
   2. Copy file misc/i18n/00lang.en.rb to plugin directory.

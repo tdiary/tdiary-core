@@ -1,3 +1,6 @@
+2002.11.18 TADA Tadashi <sho@spc.gr.jp>
+	* release 1.5.1.
+
 2002.11.17 TADA Tadashi <sho@spc.gr.jp>
 	* specify configuration value in deffault.
 	* navi_user plugin: send Time object to navi_{prev|next}_diary.
