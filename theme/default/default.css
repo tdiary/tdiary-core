@@ -1,6 +1,6 @@
 /*
 Title: tDiary2.0デフォルト
-Revision: $Revision: 1.8 $
+Revision: $Revision: 1.9 $
 Author: ただただし
 Access: sho@spc.gr.jp
 License: GPL
@@ -58,7 +58,7 @@ span.adminmenu {
 日記タイトルの設定
 */
 h1 {
-	text-align: center;
+	text-align: right;
 	background-color: #fff;
 	color: #88f;
 }
@@ -538,6 +538,25 @@ div.footnote {
 p.footnote {
 	margin: 0.5em;
 	padding: 0em;
+}
+
+/* amazon plugin */
+img.left {
+	border-width: 1px;
+	border-color: #008;
+	float: left;
+	margin: 0.5em;
+}
+
+img.right {
+	border-width: 1px;
+	border-color: #008;
+	float: right;
+	margin: 0.5em;
+}
+
+div.section, div.comment {
+	clear: both;
 }
 
 /*
