@@ -156,7 +156,7 @@ def theme_url; 'theme'; end
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</conf>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
 
 <p>これらのプラグインは、一般的に以下のように定義して使います。</p>
 
@@ -223,7 +223,7 @@ end
 <p>conf_procを使って設定を保存すると、その後はtdiary.confによる@optionsは効かなくなるので注意が必要です。また、@conf.secureに応じて設定できる項目が変化するようにしておけば、レンタルの場合に不必要な項目をユーザが変更できなくすることも可能です。</p>
 
 
-<h2><a name="methods">プラグインが生成するHTML</a></h2>
+<h2><a name="output">プラグインが生成するHTML</a></h2>
 <p>プラグインは一般的に文字列を返すことでその文字列が日記に埋め込まれるわけですが、多くの場合その文字列はHTMLの断片になります。このHTML断片は以下のルールに従うようにしてください。
 
 <ul>
