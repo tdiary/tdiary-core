@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.6 $ %>
+<%# diary.rhtml $Revision: 1.7 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %%>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span></h2>
 
@@ -73,9 +73,13 @@ end %>
 <%
 if opt['show_referer'] then
 	if opt['long_mode'] then %>
-		<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%%><%
+		<div class="refererlist">
+		<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%%>
+		</div><%
 	else %>
-		<%%=referer_of_today_short( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%%><%
+		<div class="referer">
+		<%%=referer_of_today_short( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], <%=opt['referer_limit']%> )%%>
+		</div><%
 	end
 end %>
 </div>

@@ -1,5 +1,6 @@
 2002.05.23 TADA Tadashi <sho@spc.gr.jp>
 	* follow i.diary.rhtml also.
+	* diary.rhtml: add <div ...> into referer list.
 
 2002.05.22 TADA Tadashi <sho@spc.gr.jp>
 	* split DiaryBase module from Diary class.

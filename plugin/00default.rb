@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.6 $
+# $Revision: 1.7 $
 #
 
 #
@@ -163,11 +163,11 @@ end
 #
 def referer_of_today_short( diary, limit )
 	return '' if not diary or diary.count_referers == 0
-	result = %Q[<div class="referer">#{referer_today} | ]
+	result = %Q[#{referer_today} | ]
 	diary.each_referer( limit ) do |count,ref|
 		result << %Q[<a href="#{CGI::escapeHTML( ref )}" title="#{CGI::escapeHTML( diary.disp_referer( @referer_table, ref ) )}">#{count}</a> | ]
 	end
-	result + '</div>'
+	result
 end
 
 def referer_of_today_long( diary, limit )
