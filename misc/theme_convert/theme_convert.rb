@@ -12,6 +12,9 @@
 #
 
 =begin ChangeLog
+2002-09-09 nt <nt@24i.net>
+	* version 1.1.0
+	* modify parse grammar.
 2002-09-04 nt <nt@24i.net>
 	* version 1.0.3
 	* fix bug.
@@ -37,7 +40,7 @@ require 'racc/parser'
 
 class CFParser < ::Racc::Parser
 
-module_eval <<'..end parse.y modeval..iddbaf372cc6', 'parse.y', 68
+module_eval <<'..end parse.y modeval..idb80a8a92a3', 'parse.y', 69
 
   def parse( f, fname )
     @fname = fname
@@ -77,7 +80,7 @@ module_eval <<'..end parse.y modeval..iddbaf372cc6', 'parse.y', 68
           "in #{@fname}:#{@lineno}: parse error on #{v.inspect}"
   end
 
-..end parse.y modeval..iddbaf372cc6
+..end parse.y modeval..idb80a8a92a3
 
 ##### racc 1.4.1 generates ###
 
@@ -89,58 +92,59 @@ racc_reduce_table = [
  5, 10, :_reduce_4,
  4, 10, :_reduce_5,
  4, 14, :_reduce_6,
+ 3, 14, :_reduce_none,
  1, 16, :_reduce_none,
  1, 16, :_reduce_none,
- 1, 15, :_reduce_9,
- 2, 15, :_reduce_10,
+ 1, 15, :_reduce_10,
+ 2, 15, :_reduce_11,
  0, 11, :_reduce_none,
  1, 11, :_reduce_none,
- 1, 13, :_reduce_13,
- 3, 13, :_reduce_14,
- 1, 12, :_reduce_15,
- 2, 12, :_reduce_16 ]
+ 1, 13, :_reduce_14,
+ 3, 13, :_reduce_15,
+ 1, 12, :_reduce_16,
+ 2, 12, :_reduce_17 ]
 
-racc_reduce_n = 17
+racc_reduce_n = 18
 
-racc_shift_n = 31
+racc_shift_n = 33
 
 racc_action_table = [
-    12,    19,    21,    21,    21,    10,    24,    24,    24,    21,
-    18,    16,    16,    24,     4,     4,    14,     4,    11,    25,
-     4,    10,     8,     4,     4,    30 ]
+    18,     3,    23,    23,    23,     8,    25,    25,    25,    23,
+    19,    14,    14,    25,     3,     3,    28,    16,     8,    15,
+     3,    27,     9,     3,     8,     7,    32,     3 ]
 
 racc_action_check = [
-     7,    12,    27,    22,    14,     7,    27,    22,    14,    19,
-    11,    13,     9,    19,    13,     9,     8,     0,     5,    15,
-    16,     3,     2,    26,     1,    29 ]
+    11,    14,    27,    22,    15,    11,    27,    22,    15,    31,
+    12,     6,    17,    31,     6,    17,    20,     9,    20,     7,
+     5,    18,     4,    21,     2,     1,    29,     0 ]
 
 racc_action_pointer = [
-    10,    17,    20,    14,   nil,    18,   nil,    -2,    13,     8,
-   nil,    10,    -2,     7,     2,    17,    13,   nil,   nil,     7,
-   nil,   nil,     1,   nil,   nil,   nil,    16,     0,   nil,    20,
-   nil ]
+    20,    23,    17,   nil,    22,    13,     7,    16,   nil,    17,
+   nil,    -2,     8,   nil,    -6,     2,   nil,     8,    18,   nil,
+    11,    16,     1,   nil,   nil,   nil,   nil,     0,   nil,    21,
+   nil,     7,   nil ]
 
 racc_action_default = [
-   -11,   -11,   -17,   -12,    -9,   -17,    -1,   -12,   -13,   -11,
-   -10,   -17,   -13,   -11,   -17,   -17,   -11,    -3,    31,   -17,
-    -5,    -7,    -2,   -15,    -8,   -14,   -11,    -4,   -16,   -17,
-    -6 ]
+   -12,   -18,   -13,   -10,   -18,   -12,   -12,   -14,   -11,   -18,
+    -1,   -13,   -18,    -3,   -12,   -18,    33,   -12,   -14,   -15,
+   -13,   -12,    -2,    -8,   -16,    -9,    -5,   -18,    -7,   -18,
+   -17,    -4,    -6 ]
 
 racc_goto_table = [
-     7,     6,     1,    22,     5,    28,     9,   nil,    27,    15,
-    28,    13,    17,    15,   nil,   nil,    20,   nil,    26,   nil,
-   nil,   nil,   nil,   nil,   nil,     7,    29 ]
+    11,    10,    12,    22,     5,    30,     4,   nil,    13,    20,
+     6,   nil,   nil,    12,    30,    31,    11,    29,    21,    26,
+    17 ]
 
 racc_goto_check = [
-     7,     3,     2,     4,     1,     8,     5,   nil,     4,     3,
-     8,     5,     6,     3,   nil,   nil,     6,   nil,     2,   nil,
-   nil,   nil,   nil,   nil,   nil,     7,     3 ]
+     7,     3,     3,     4,     2,     8,     1,   nil,     6,     7,
+     5,   nil,   nil,     3,     8,     4,     7,     3,     2,     6,
+     5 ]
 
 racc_goto_pointer = [
-   nil,     4,     2,     0,   -11,     4,     3,    -1,   -17 ]
+   nil,     6,     4,    -4,   -12,     9,     2,    -5,   -17 ]
 
 racc_goto_default = [
-   nil,   nil,   nil,     2,   nil,   nil,   nil,     3,    23 ]
+   nil,   nil,   nil,     1,   nil,   nil,   nil,     2,    24 ]
 
 racc_token_table = {
  false => 0,
@@ -238,47 +242,49 @@ module_eval <<'.,.,', 'parse.y', 28
 
  # reduce 8 omitted
 
-module_eval <<'.,.,', 'parse.y', 36
-  def _reduce_9( val, _values, result )
-                @lineno += 1
-   result
-  end
-.,.,
+ # reduce 9 omitted
 
-module_eval <<'.,.,', 'parse.y', 40
+module_eval <<'.,.,', 'parse.y', 37
   def _reduce_10( val, _values, result )
                 @lineno += 1
    result
   end
 .,.,
 
- # reduce 11 omitted
+module_eval <<'.,.,', 'parse.y', 41
+  def _reduce_11( val, _values, result )
+                @lineno += 1
+   result
+  end
+.,.,
 
  # reduce 12 omitted
 
-module_eval <<'.,.,', 'parse.y', 48
-  def _reduce_13( val, _values, result )
+ # reduce 13 omitted
+
+module_eval <<'.,.,', 'parse.y', 49
+  def _reduce_14( val, _values, result )
                 result = val
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'parse.y', 52
-  def _reduce_14( val, _values, result )
+module_eval <<'.,.,', 'parse.y', 53
+  def _reduce_15( val, _values, result )
                 result.push val[2]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'parse.y', 57
-  def _reduce_15( val, _values, result )
+module_eval <<'.,.,', 'parse.y', 58
+  def _reduce_16( val, _values, result )
                 result = val
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'parse.y', 61
-  def _reduce_16( val, _values, result )
+module_eval <<'.,.,', 'parse.y', 62
+  def _reduce_17( val, _values, result )
                 result.push val[1]
    result
   end
@@ -407,9 +413,6 @@ while cssname = ARGV.shift
     end
   rescue => parse_error
     puts "Error!: #{parse_error.message}"
-    if /\}/ =~ parse_error.message
-      puts "  Are there empty blocks in your css? Check your css file."
-    end
     next
   end
 
