@@ -1,3 +1,6 @@
+2002.11.11 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: TDiaryBase#mode method added.
+
 2002.11.08 Junichiro Kita <kita@kitaj.no-ip.com
 	* 00default.rb: use @years to make links to prev/next month in navi_user
 
