@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.74 $
+tdiary.rb $Revision: 1.75 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.1.20021216'
+TDIARY_VERSION = '1.5.1.20021218'
 
 require 'cgi'
 require 'nkf'
@@ -281,6 +281,10 @@ module TDiary
 	
 		def last_modified
 			@last_modified ? @last_modified : Time::at( 0 )
+		end
+	
+		def last_modified=( lm )
+			@last_modified  = lm
 		end
 	
 		def eval_rhtml( opt, path = '.' )
@@ -1020,12 +1024,12 @@ module TDiary
 		end
 	
 		def last_modified
-			return @last_modified if @last_modified
-			@last_modified = Time::at( 0 )
+			lm = Time::at( 0 )
 			@diaries.each_value do |diary|
-				@last_modified = diary.last_modified if @last_modified < diary.last_modified
+				lmd = diary.last_modified
+				lm = lmd if lm < lmd
 			end
-			@last_modified
+			lm
 		end
 	
 	protected

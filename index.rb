@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.12 $
+# index.rb $Revision: 1.13 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -45,7 +45,6 @@ begin
 	begin
 		head = {
 			'type' => 'text/html',
-			'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
 			'Vary' => 'User-Agent'
 		}
 		head['status'] = status if status
@@ -62,6 +61,7 @@ begin
 			head['Cache-Control'] = 'no-cache'
 		end
 		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
+		head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 		print @cgi.header( head )
 		print body if /HEAD/i !~ @cgi.request_method
 	rescue TDiary::ForceRedirect
