@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.1 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.2 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -208,7 +208,7 @@ module TDiary
 		end
 
 		def html4( date, idx, opt)
-			$Visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
+			visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
 			src = to_src.to_a
 			if src.find{|i| /\S/ === i } and !src.find{|i| /^=begin\b/ === i }
 				src.unshift("=begin\n").push("=end\n")
@@ -217,7 +217,7 @@ module TDiary
 			tree.parse
 
 			r = %Q[<div class="section">\n]
-			r << $Visitor.visit( tree )
+			r << visitor.visit( tree )
 			r << "</div>\n"
 		end
 		alias :chtml :html4
@@ -238,9 +238,9 @@ module TDiary
 			if r == ""
 				nil
 			else
-				$Visitor = RD2tDiaryVisitor.new
-				tree = RDTree.new( ["=begin\n", r, "=end\n"], nil, nil )
-				$Visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
+				visitor = RD2tDiaryVisitor.new
+				tree = RDTree.new( ["=begin\n", r.strip, "=end\n"], nil, nil )
+				visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
 			end
 		end
 	end
@@ -333,4 +333,5 @@ module TDiary
 		end
 	end
 end
+
 
