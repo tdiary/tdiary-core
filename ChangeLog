@@ -1,3 +1,6 @@
+2004.01.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: if trackback is longer than 255 byte, it will be shorten to 252 byte and '...' will be added.
+
 2004.01.09 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: meta link support HTML 4.01.
 

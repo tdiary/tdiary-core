@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.170 $
+tdiary.rb $Revision: 1.171 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1802,6 +1802,9 @@ RSSFOOT
 			blog_name = @conf.to_native( @cgi.params['blog_name'][0] || '' )
 			title = @conf.to_native( @cgi.params['title'][0] || '' )
 			excerpt = @conf.to_native( @cgi.params['excerpt'][0] || '' )
+			if excerpt.length > 255
+				excerpt = @conf.shorten( excerpt, 252 ) + '...'
+			end
 
 			body = [url, blog_name, title, excerpt].join("\n")
 			@cgi.params['name'] = ['TrackBack']
