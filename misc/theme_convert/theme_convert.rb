@@ -12,6 +12,9 @@
 #
 
 =begin ChangeLog
+2002-09-03 nt <nt@24i.net>
+	* version 1.0.2
+	* enable to convert two or more files at once.
 2002-09-01 nt <nt@24i.net>
 	* version 1.0.1
 	* modify simplify_css.
@@ -346,28 +349,30 @@ def theme_convert ( fname, hash )
   flag = false
 
   File.open ( fname.sub( /\.css/, "-2.css" ), "w" ) do |f|
-    while line = ARGF.gets
-      if /\{/ =~ line
-        table.each_with_index{|x, i|
-          if %r[^#{x[0]}] =~ line
-            f.puts x[1]
-            break
-          elsif %r[span\.commentator] =~ line #元々ある span.commentator を消す
-            flag = true
-          elsif i == table.size - 1 && %r[^#{x[0]}] !~ line
+    File.open( fname, "r" ) do |file|
+      file.each {|line|
+        if /\{/ =~ line
+          table.each_with_index{|x, i|
+            if %r[^#{x[0]}] =~ line
+              f.puts x[1]
+              break
+            elsif %r[span\.commentator] =~ line #元々ある span.commentator を消す
+              flag = true
+            elsif i == table.size - 1 && %r[^#{x[0]}] !~ line
+              f.puts line
+            end
+          }
+        else
+          if flag && /}/ =~ line #元々ある span.commentator を消す（続き）
+            flag = false
+          elsif flag
+          else
             f.puts line
           end
-        }
-      else
-        if flag && /}/ =~ line #元々ある span.commentator を消す（続き）
-          flag = false
-        elsif flag
-        else
-          f.puts line
         end
-      end
-    end
-  end 
+      }
+    end 
+  end
 
   rcss = File::readlines( "append.rcss" ).join
   File.open ( fname.sub( /\.css/, "-2.css" ), "a" ) do |f|
@@ -375,35 +380,37 @@ def theme_convert ( fname, hash )
   end
 end 
 
-cssname = ARGV[0]
-unless cssname
-  usage
-  exit
-end
-
-begin
-  simplify_css( cssname )
-rescue
-  File.delete( cssname.sub( /\.css/, "-simple.css" ) ) 
-  puts "Error!: #{$!}"
-  exit
-end
-
-begin
-  parse_result = parse_css( cssname.sub( /\.css/, "-simple.css" ) )
-  if $CHECK
-    parse_result.each{|key, val|
-      print "#{key} => "
-      p val
-    }
+while cssname = ARGV.shift
+  unless cssname
+    usage
+    exit
   end
-rescue => parse_error
-  puts "Error!: #{parse_error.message}"
-  if /\}/ =~ parse_error.message
-    puts "Are there empty blocks in your css? Check your css file."
-  end
-  exit
-end
 
-theme_convert( cssname, parse_result )
-puts %Q[Conversion completed: #{cssname.sub( /\.css/, "-2.css" )} was generated.]
+  begin
+    simplify_css( cssname )
+  rescue
+    File.delete( cssname.sub( /\.css/, "-simple.css" ) ) 
+    puts "Error!: #{$!}"
+    next
+  end
+
+  begin
+    parse_result = parse_css( cssname.sub( /\.css/, "-simple.css" ) )
+    if $CHECK
+      parse_result.each{|key, val|
+        print "#{key} => "
+        p val
+      }
+    end
+  rescue => parse_error
+    puts "Error!: #{parse_error.message}"
+    if /\}/ =~ parse_error.message
+      puts "  Are there empty blocks in your css? Check your css file."
+    end
+    next
+  end
+
+  theme_convert( cssname, parse_result )
+  puts %Q[Conversion completed: #{cssname.sub( /\.css/, "-2.css" )} was generated.]
+
+end
