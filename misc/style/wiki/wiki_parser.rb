@@ -1,4 +1,4 @@
-# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.7 $
+# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.8 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # You can distribute this under GPL.
@@ -141,7 +141,7 @@ class WikiParser
 	private
 	def inline( l )
 		if @opt[:plugin] then
-			r = /(.*?)(\[\[|\]\]|\{\{|\}\}|'''|''|==)/
+			r = /(.*?)(\[\[|\]\]|\{\{.*?\}\}|'''|''|==)/
 		else
 			r = /(.*?)(\[\[|\]\]|'''|''|==)/
 		end
@@ -155,19 +155,6 @@ class WikiParser
 				stat.push :KE
 			when ']]'
 				@q << stat.pop
-			when '{{'
-				if @opt[:plugin] then
-					@q << :GS
-					stat.push :GE
-				else
-					@q << i
-				end
-			when '}}'
-				if @opt[:plugin] then
-					@q << stat.pop
-				else
-					@q << i
-				end
 			when "'''"
 				if stat.last == :SE then
 					@q << stat.pop
@@ -190,7 +177,9 @@ class WikiParser
 					stat.push :ZE
 				end
 			else
-				if stat.last == :KE or stat.last == :GE then
+				if @opt[:plugin] and /^\{\{(.*)\}\}$/ =~ i then
+					@q << :GS << $1 << :GE
+				elsif stat.last == :KE
 					@q << i
 				else
 					url( i ) if i.size > 0

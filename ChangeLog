@@ -1,3 +1,6 @@
+2004-05-16 TADA Tadashi <sho@spc.gr.jp>
+	* misc/style/wiki/wiki_parser.rb: ignore any elements in plugin.
+
 2004-05-14 TADA Tadashi <sho@spc.gr.jp>
 	* skel/mail.rtxt: support absolute path of @conf.index.
 
