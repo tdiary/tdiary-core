@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.14 2002-11-01 15:28:11 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.15 2003-05-13 14:11:44 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -363,7 +363,7 @@ Dangerous!!!"
 	  (goto-char (point-min))
 	  buf)
       (tdiary-passwd-cache-clear url)
-      (error (concat "tDiary POST: " (car buf) " - " (cdr buf))))))
+      (error "tDiary POST: %s - %s" (car buf) (cdr buf)))))
 
 (defun tdiary-post-text ()
   (let* ((dirname (expand-file-name tdiary-diary-name
