@@ -1,5 +1,6 @@
 2002.03.12 TADA Tadashi <sho@spc.gr.jp>
 	* update erb to 1.4.0.
+	* taint @body_{enter,leave}_procs in Plugin class.
 
 2002.03.11 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, mail.rtxt: fix mime bug in From and Subject of comment mail.
