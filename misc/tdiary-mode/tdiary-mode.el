@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.9 2002-09-18 13:41:06 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.10 2002-09-21 15:17:32 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -317,7 +317,7 @@ Dangerous!!!"
     (when (not (equal mode "edit"))
       (setq mode (tdiary-read-mode mode))
       (setq date (tdiary-read-date date))
-      (setq title (tdiary-read-title date)))
+      (setq tdiary-title (setq title (tdiary-read-title date))))
     (setq user (tdiary-read-username url))
     (setq pass (tdiary-read-password url))
     (string-match "\\([0-9][0-9][0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
