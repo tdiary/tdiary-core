@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.12 2004-08-22 11:56:59 shirai-kaoru Exp $
+# $Id: etdiary_style.rb,v 1.13 2004-11-05 09:42:39 moon_wolf Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -35,6 +35,48 @@ module TDiary
 			end
 			@bodies = []
 			@categories = get_categories
+			@stripped_subtitle = strip_subtitle
+		end
+	
+		def subtitle=(subtitle)
+			cat_str = ""
+			@categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = subtitle
+			if @subtitle then
+				if "" == @subtitle then
+					@subtitle = nil
+					@anchor_type = :P
+				elsif "<>" == @subtitle then
+					@subtitle = nil
+					@anchor_type = :A
+				elsif /^<>/ =~ @subtitle then
+					@subtitle = @subtitle[2..-1]
+					@anchor_type = :H4
+				else
+					@subtitle = cat_str + subtitle
+					@anchor_type = :H3
+				end
+			else
+				@subtitle = nil
+				@anchor_type = nil
+			end
+			@stripped_subtitle = strip_subtitle
+		end
+	
+		def body=(str)
+			@bodies = str.split(/\n/)
+		end
+	
+		def categories=(categories)
+			@categories = categories
+			cat_str = ""
+			categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
 			@stripped_subtitle = strip_subtitle
 		end
 	
@@ -98,7 +140,7 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			@subtitle.sub(/^(\[(.*?)\])+/,'')
+			@subtitle.sub(/^(\[(.*?)\])+\s*/,'')
 		end
 	end
 
@@ -309,6 +351,18 @@ module TDiary
 				end
 			end
 			yield section if section
+		end
+	
+		def add_section(subtitle, body)
+			sec = EtdiarySection::new( '' )
+			sec.subtitle = subtitle
+			sec.body     = body
+			@sections << sec
+			@sections.size
+		end
+	
+		def delete_section(index)
+			@sections.delete_at(index - 1)
 		end
 	
 		def to_src

@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.23 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.24 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -225,9 +225,34 @@ module TDiary
 			@stripped_subtitle_to_html = manufacture(@stripped_subtitle, true)
 			@body_to_html = manufacture(@body, false)
 		end
-
+	
+		def subtitle=(subtitle)
+			cat_str = ""
+			@categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = subtitle ? (cat_str + subtitle) : nil
+			@stripped_subtitle = strip_subtitle
+		end
+	
+		def body=(str)
+			@body = str
+		end
+	
 		def body
 		  	@body.dup
+		end
+	
+		def categories=(categories)
+			@categories = categories
+			cat_str = ""
+			categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
+			@stripped_subtitle = strip_subtitle
 		end
 
 		def to_src
@@ -333,6 +358,18 @@ module TDiary
 			@sections.each do |section|
 				yield section
 			end
+		end
+	
+		def add_section(subtitle, body)
+			sec = RDSection::new("\n")
+			sec.subtitle = subtitle
+			sec.body     = body
+			@sections << sec
+			@sections.size
+		end
+	
+		def delete_section(index)
+			@sections.delete_at(index - 1)
 		end
 	
 		def to_src

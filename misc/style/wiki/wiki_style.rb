@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.20 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.21 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -37,9 +37,34 @@ module TDiary
 			@stripped_subtitle_to_html = @stripped_subtitle ? to_html("!#{@stripped_subtitle}") : nil
 			@body_to_html = to_html(@body)
 		end
+	
+		def subtitle=(subtitle)
+			cat_str = ""
+			@categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = subtitle ? (cat_str + subtitle) : nil
+			@stripped_subtitle = strip_subtitle
+		end
 
 		def body
 			@body.dup
+		end
+
+		def body=(str)
+			@body = str
+		end
+	
+		def categories=(categories)
+			@categories = categories
+			cat_str = ""
+			categories.each {|cat|
+				cat_str << "[#{cat}]"
+			}
+			cat_str << " " unless cat_str.empty?
+			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
+			@stripped_subtitle = strip_subtitle
 		end
 
 		def to_src
@@ -405,6 +430,18 @@ module TDiary
 			@sections.each do |section|
 				yield section
 			end
+		end
+	
+		def add_section(subtitle, body)
+			sec = WikiSection::new("\n")
+			sec.subtitle = subtitle
+			sec.body     = body
+			@sections << sec
+			@sections.size
+		end
+	
+		def delete_section(index)
+		  @sections.delete_at(index - 1)
 		end
 	
 		def to_src

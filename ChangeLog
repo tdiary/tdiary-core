@@ -1,5 +1,9 @@
 2004-11-05 MoonWolf <moonwolf@moonwolf.com>
 	* tdiary/tdiary_style.rb: XML-RPC API support
+	* misc/style/emptdiary: XML-RPC API support
+	* misc/style/etdiary: XML-RPC API support
+	* misc/style/rd: XML-RPC API support
+	* misc/style/wiki: XML-RPC API support
 
 2004-11-04 MoonWolf <moonwolf@moonwolf.com>
 	* tdiary.rb: method visibility change.
