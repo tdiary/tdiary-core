@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.158 $
+tdiary.rb $Revision: 1.159 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -62,10 +62,14 @@ require 'thread'
 module Safe
 	def safe( level = 4 )
 		result = nil
-		Thread.start {
-			$SAFE = level if $SAFE < level
+		if $SAFE < level then
+			Thread.start {
+				$SAFE = level
+				result = yield
+			}.join
+		else
 			result = yield
-		}.join
+		end
 		result
   end
   module_function :safe
@@ -740,7 +744,7 @@ module TDiary
 			r = str.dup
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
-				Safe::safe( (@conf.secure and $SAFE < 3) ? 4 : 1 ) do
+				Safe::safe( @conf.secure ? 4 : 1 ) do
 					r = ERbLight.new( r ).result( binding )
 				end
 			end
