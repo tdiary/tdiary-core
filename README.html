@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja-JP">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+	<meta name="Author" content="TADA Tadashi">
+	<link rev="MADE" href="mailto:sho@spc.gr.jp">
+	<link rel="INDEX" href="http://www.tdiary.net/">
+	<meta http-equiv="content-style-type" content="text/css" media="all">
+	<link rel="stylesheet" href="theme/will.css" type="text/css" media="all">
+	<title>tDiary README</title>
+</head>
+<body>
+<h1>tDiary<br><span style="font-size:medium">〜 ツッコミのできるWeb日記システム 〜</span></h1>
+
+<div class="body">
+<p>　tDiaryは、いわゆるWeb日記を支援するシステムです。tDiaryには以下の特徴があります。</p>
+
+<dl>
+<dt>更新や設定までCGIでできる</dt>
+	<dd>　日記の参照だけでなく、日記の更新、設定までもCGIでサポートします。さえあれば面倒なメンテナンスは不要。手軽に使えて、長く続けられます。</dd>
+
+<dt>「ツッコミ」が入れられる</dd>
+	<dd>　日記の読者が、日記に「ツッコミ」を入れられます。ようするに、日付ごとに掲示板がついています。これを通じて、読者とのコミュニケーションが生まれます。 ツッコミがあったことを著者にメールで知らせる機能もあります。</dd>
+
+<dt>「本日のリンク元」(Referer)機能</dt>
+	<dd>　他の日記等からリンクされると、Refererヘッダを見てそのURLを表示します。どこかで自分の日記が話題にされていることがすぐにわかるように、従来のWeb日記コミュニケーションで使われている手法をわかりやすくサポートしています。</dd>
+
+<dt>携帯端末対応</dt>
+	<dd>　iモードに限らず、ほとんどの携帯電話やPalm・ザウルスなどの携帯端末からも日記を参照できます。専用の特別なURLは必要なく、自動認識して最適なページを生成します。通信料金のシビアな端末向けには無駄を省いた小さなページを送るようになっています。</dd>
+
+<dt>CSSを使ったテーマ機能</dt>
+	<dd>スタイルシートを使って見た目をがらりを変えることができます。これは「テーマ」と呼ばれ、あらかじめいくつか添付されています。もちろん自分で作ることも可能です。テーマは設定画面で簡単に切り替えることができます。</dd>
+
+<dt>プラグインによる機能追加</dt>
+	<dd>プラグインというモジュールを追加することで、日記の機能を増やしたり変更したりすることが可能です。詳しくは<a href="misc/plugin/README.html">misc/plugin/README.html</a>を参照してください。</dd>
+
+<dt>Rubyで書かれている</dt>
+	<dd>　重要なポイントでしょう:-)&nbsp;実行にはRuby 1.6.3以上が必要です。</dd>
+</dl>
+
+<p>　セクション(段落)アンカーや過去の日記の参照など、一般的な日記システムの持つ機能は基本的にサポートしています。</p>
+</div>
+
+<h2><span class="title">tDiaryのインストールと設定</span></h2>
+<div class="body">
+<p>　一般的なCGIの実行を許可しているISPやレンタルサーバ上で利用する場合を想定し、以下のような環境を例に説明します。</p>
+
+<ul>
+	<li>WWWサーバ: Apache 1.3.x</li>
+	<li>ユーザ名: foo</li>
+	<li>日記のURL: http://www.hoge.example.org/~foo/diary/</li>
+	<li>上記URLのパス: /home/foo/public_html/diary</li>
+</ul>
+
+<h3 class="subtitle">CGIスクリプトの設定</h3>
+<div class="section">
+<p>　配布アーカイブを展開し、中身をすべて<code>/home/foo/public_html/diary</code>にコピーします。以下の2つのファイルがCGIスクリプト本体なので、WWWサーバの権限で実行可能なようにパーミッションを設定してください。</p>
+</div>
+
+<div class="section">
+<ul>
+	<li>index.rb</li>
+	<li>update.rb</li>
+</ul>
+</div>
+
+<div class="section">
+<p>　また、/usr/bin/envを使った起動ができない環境では、各ファイルの先頭を、rubyのパスに書き換える必要があるでしょう。ISPのホームディレクトリにこっそりRubyを入れたような場合を除き、通常はあまり気にしなくても良いはずです。</p>
+</div>
+
+<h3 class="subtitle">.htaccessの作成</h3>
+<div class="section">
+<p>　続いて、CGIの実行環境を整えます。<code>dot.htaccess</code>を<code>.htaccess</code>にリネームして、環境に合わせて書き換えます。添付のサンプルは以下のようになっています。</p>
+</div>
+
+<div class="section">
+<pre>
+Options ExecCGI
+AddHandler cgi-script .rb
+DirectoryIndex index.rb
+
+&lt;Files "*.rhtml"&gt;
+	deny from all
+&lt;/Files&gt;
+
+&lt;Files "tdiary.*"&gt;
+	deny from all
+&lt;/Files&gt;
+
+&lt;Files update.rb&gt;
+AuthName      tDiary
+AuthType      Basic
+AuthUserFile  /home/foo/.htpasswd
+Require user  foo
+&lt;/Files&gt;
+</pre>
+</div>
+
+<div class="section">
+<p>　ここでは、</p>
+</div>
+
+<div class="section">
+<ul>
+	<li>CGIの実行を可能にし、</li>
+	<li>サフィックス「.rb」のファイルをCGIと認識させ、</li>
+	<li>index.rbをデフォルトのファイルに設定し、</li>
+	<li>*.rhtmlとtdiary.*のファイルの参照を禁止して、</li>
+	<li>update.rbへのアクセスにはユーザ認証が必要</li>
+</ul>
+</div>
+
+<div class="section">
+<p>という設定になっています。とりあえず書き換えが必要なのは、<code>AuthUserFile</code>と<code>Require user</code>でしょう。意味はWebででも調べて下さい。<code>AuthUseFile</code>は、あらかじめ<code>htpasswd</code>コマンドで作成しておく必要があります(これもWebで調べればわかります)。</p>
+</div>
+
+<div class="section">
+<p>　また、利用するWWWサーバの設定が、CGIの実行ファイルのサフィックスを固定(例:.cgi)にしている場合があります。この場合、<code>AddHandler</code>や<code>DirectoryIndex</code>も変更する必要があるでしょう。これに応じて、<code>index.rb</code>や<code>update.rb</code>のファイル名も変更する必要があります。</p>
+</div>
+
+<h3 class="subtitle">tdiary.confの作成</h3>
+<div class="section">
+<p>　次に、<code>tdiary.conf.sample</code>を<code>tdiary.conf</code>にリネームして、内容を書き換えます。これはRubyスクリプトとして、CGIに直接読み込まれます。tDiaryの設定はほとんどCGI経由で行えるので、最低限書き換えるべきなのは最初に出てくる<code>@data_path</code>だけです。</p>
+</div>
+
+<div class="section">
+<pre>
+@data_path = '/home/foo/diary'
+</pre>
+</div>
+
+<div class="section">
+<p>　<code>@data_path</code>は、日記のデータを保存するディレクトリです。このディレクトリは通常、WWW経由でアクセスできない(<code>public_html</code>配下でない)ディレクトリを指定します。このディレクトリは、WWWサーバの権限で書き込めるパーミッションにしておく必要があります。<p>
+</div>
+
+<div class="section">
+<p>　<code>tdiary.conf</code>には、他にもいろいろな設定項目を記述できます。それらの項目には以下の3つの種類があります。</p>
+</div>
+
+<div class="section">
+<dl>
+<dt>CGIで設定できない項目</dt>
+	<dd><code>@data_path</code>のように、CGIでは設定できない項目です。これらの項目は、<code>tdiary.conf</code>ファイルを直接編集して変更しなければいけません。</dd>
+<dt>CGIで設定できる項目</dt>
+	<dd>変更画面のメニューにある「設定」を開くと、ブラウザからtDiaryの設定を変更できます。ほとんどの項目はここから設定できるので、わざわざ<code>tdiary.conf</code>を手で書き換える必要はありません。</dd>
+<dt>CGIで追加設定できるが、標準設定を記述できる項目</dt>
+	<dd><code>tdiary.conf</code>に記述しておくことで、CGIの設定画面からは編集できないが追加はできるといった設定をできる項目があります(リンク元記録除外や、リンク元変換表)。あらかじめ<code>tdiary.conf</code>に記述しておくことで、複数の人が同一サーバ上でtDiaryを使うような場合に手間を省くことができます。</dd>
+</dl>
+</div>
+
+<div class="section">
+<p>　各々の項目については、<code>tdiary.conf.sample</code>の説明を読んでください。一般的な使用では、<code>@data_path</code>だけを正しく設定すれば、あとはブラウザから変更が可能です。ただしツッコミをメールで受けとりたい場合には、これに加えて<code>@smtp_host</code>、<code>@smtp_port</code>も指定しておく必要があります。</p>
+</div>
+
+<div class="section">
+<p>　また、サフィックス.rbのファイルをCGIスクリプトとして指定できない環境では、<code>index.rb</code>や<code>update.rb</code>のファイル名を変更する必要がありますが、この変更をtDiaryに教えるために、<code>@index</code>や<code>@update</code>という変数が用意されています。環境によってはこれも指定する必要があるでしょう。</p>
+</div>
+
+<div class="section">
+<p>　<code>tdiary.conf</code>の設定が終わったら、<code>http://www.hoge.example.org/~foo/diary/</code>にアクセスしてみましょう。からっぽの日記ページが出れば設定は正しいです。不幸にして「Internal Server Error」が出てしまったら、Apacheのエラーログを参照して間違った設定を修正してください。</p>
+</div>
+
+<h3 class="subtitle">セキュリティ</h3>
+<div class="section">
+<p>　<code>tdiary.conf</code>には、tDiaryの設定をCGIから行う場合のセキュリティレベルを調整する変数があります。自分が管理するWebサーバで、自分だけが使う場合にはあまり気にしなくても良いですが、知人に貸したり、tDiaryを使った日記サービスを提供するような場合には、ユーザにできることを制限したい場合が少なくありません。</p>
+</div>
+
+<div class="section">
+<p>　そこで、<code>tdiary.conf</code>中でセキュリティの設定を行います。通常、<code>tdiary.conf</code>の末尾には以下の2行が書かれています。</p>
+</div>
+
+<div class="section">
+<pre>
+@secure = false
+load_cgi_conf
+</pre>
+</div>
+
+<div class="section">
+<p>　<code>@secure</code>は、セキュリティ設定を指定する変数です。この値が<code>false</code>の場合、セキュリティチェックはいっさいかかりません。ユーザはCGI設定で好き放題ができます。それでは危険という状況下でtDiaryを運営する場合には、<code>@secure</code>の値を<code>true</code>にします。そうすると、CGI設定中における危険な変数操作やファイル操作が禁止されます。</p>
+</div>
+
+<div class="section">
+<p>　また、<code>@secure</code>の値は、日記の表示時に後述するプラグインを実行する場合にも影響を及ぼします。これにより、<code>@secure</code>が<code>true</code>の場合には、いくつかのプラグインが利用できなくなります。</p>
+</div>
+
+<div class="section">
+<p>　<code>load_cgi_conf</code>はその位置でCGIによる設定を読み込む指令です。つまり、<code>@secure</code>でセキュリティレベルを設定したあとでファイルを読み込むようになっています。</p>
+</div>
+
+<div class="section">
+<p>　なお、両者の指定位置は独立しているので、両者の位置を組み合わせることで様々な設定を行うことが可能です。また、<code>@secure</code>を指定しない場合のデフォルト値は<code>true</code>です。</p>
+</div>
+</div>
+
+<h2><span class="title">tDiaryの実行</span></h2>
+<div class="body">
+<h3 class="subtitle"><a name="update">日記の更新</a></h3>
+<div class="section">
+<p>　ページの先頭には、「トップ」「更新」の2つのリンクがあります。「トップ」は@index_pageで指定した表紙へ、「更新」は日記を更新するフォームへ移動します。もし「更新」をクリックした時、認証ダイアログが出なかったら、<code>.htaccess</code>の記述が正しくない可能性があります。</p>
+</div>
+
+<div class="section">
+<p>　更新ページの先頭にもメニューがあります。一番右端に「設定」が増えているでしょう。ここをクリックすると、設定用のページが開きます。詳しくは<a href="#config">日記の設定</a>を参照してください。</p>
+</div>
+
+<div class="section">
+<p>　更新ページには、日記の日付とその日のタイトル、本文を入力するフォームがあります。日付、タイトル(指定しなくても良い)、本文を入力して「追加」ボタンを押すと、その日の日記に追加されます。追加なので、一日に何度も日記を書く場合に、わざわざ以前のデータを呼び出す必要はありません。また、すでにタイトルが指定されている場合、タイトルを入力しなければ以前指定したものが使われます。</p>
+</div>
+
+<div class="section">
+<p>　フォームで日付を入力して「この日付の日記を編集」ボタンを押すと、(その日の日記がすでに存在すれば)タイトルと本文に過去の日記のデータが読み込まれます。この時、フォームの最後のボタンは「登録」になります(つまり、追加ではありません)。</p>
+</div>
+
+<div class="section">
+<p>　日記本文には日記向けに少し特殊化したHTMLを使います。多少癖があって人によってはなかなか馴染めないことがあるようなので、<a href="HOWTO-write-tDiary.html">日記の書き方</a>には必ず目を通して下さい。</p>
+</div>
+
+
+<h3 class="subtitle"><a name="config">日記の設定</a></h3>
+<div class="section">
+<p>　更新画面で「設定」をクリックすると、設定画面になります。ここではtDiaryのさまざまな設定項目をブラウザから設定できます。各項目の説明は画面中に記述してありますから、それを参考にいろいろと設定を変えてみてください。また、ページ中には利用しやすくするために「OK」ボタンがたくさん置いてありますが、すべて同じものです。つまり、どの「OK」を押してもすべての項目が保存されます。</p>
+</div>
+
+<div class="section">
+<p>　なお、この設定画面で行った変更は、<code>@data_path</code>で指定したディレクトリに別の<code>tdiary.conf</code>として保存されます(初期設定時に手動で書き換えた<code>tdiary.conf</code>ではありません)。このファイルは、元の<code>tdiary.conf</code>のあとに読み込まれるので、設定の内容はブラウザから指定したものが優先されます(ただし、元の<code>tdiary.conf</code>中の設定を変えることで、読み込むタイミングは変更できます)。</p>
+</div>
+
+<h3 class="subtitle"><a name="view">日記の参照</a></h3>
+<div class="section">
+<p>　日記の参照には、最新、月別、日別の3種類のモードがあります。デフォルトページは最新です。月別は、ページの最初の方に出るカレンダーをクリックすると参照できます。また、日別は日付をクリックすると参照できます。</p>
+</div>
+
+<div class="section">
+<p>　最新・月別と日別には、表示される内容に違いがあります。最新・月別では「本日のツッコミ」「本日のリンク元」が省略されて表示されるのに対し、日別ではすべて表示されます。また、日別にはツッコミ用のフォームがあります。ツッコミをしてもらいたかったら、読者を日別ページに誘導するように、ヘッダ(@header)を工夫する必要があるかも知れません。</p>
+</div>
+
+<div class="section">
+<p>　月、日、セクション、ツッコミには、それぞれアンカーがあり、他の場所からリンクできるようになっています。それぞれのアンカーはリンクにもなっているので、そこにポインタを合わせることで、そのURLを知ることができます。</p>
+</div>
+
+<div class="section">
+<p>　携帯端末からの参照ではデータ量に制限があるため、上記の機能はほとんど使えません。最新は最新日付の日記だけが表示され、前日・翌日へ移動できるだけです。ただし、すべてのページにツッコミ用フォームが付いているので、ツッコミを入れることは可能です。</p>
+</div>
+
+<h3 class="subtitle">プラグインによるカスタマイズ</h3>
+<div class="section">
+<p>　tDiaryにはプラグインと呼ばれる機能があります。プラグインを追加することで、tDiaryの機能を増やしたり、変更したりすることが可能です。プラグインについての詳しい説明は、<a href="misc/plugin/README.html">misc/plugin/README.html</a>を参照してください。</p>
+</div>
+
+<h3 class="subtitle">あとは……</h3>
+<div class="section">
+</div>
+<p>　日記をつけ続けるだけです(これが一番難しい:-)。Have fun!!</p>
+</div>
+
+<h2><span class="title">著作権、サポートなど</span></h2>
+<div class="body">
+<p>　tDiaryは、作者であるただただし(sho@spc.gr.jp)が、GPLの元で配布、改変を許可するフリーソフトウェアです。ただし、配布ファイルのうち<code>erb/</code>ディレクトリ配下にあるファイルはすべて、咳さんによるERbというライブラリです。これらのファイルについては別途<a href="http://www2a.biglobe.ne.jp/~seki/ruby/">http://www2a.biglobe.ne.jp/~seki/ruby/</a>をごらん下さい。</p>
+
+<p>　tDiaryは<a href="http://www.tdiary.net/">http://www.tdiary.net/</a>でサポートを行っています。ご意見・ご要望はこちらへどうぞ。パッチ歓迎です。</p>
+</div>
+
+</body>
+</html>

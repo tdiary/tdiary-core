@@ -1,0 +1,23 @@
+Options +ExecCGI
+
+# if you run tDiary with symbolic link, use settings below.
+#Options FollowSymLinks
+
+AddHandler cgi-script .rb
+DirectoryIndex index.rb
+
+<Files "*.rhtml">
+	deny from all
+</Files>
+
+<Files "tdiary.*">
+	deny from all
+</Files>
+
+<Files update.rb>
+	AuthName      tDiary
+	AuthType      Basic
+	AuthUserFile  /home/foo/.htpasswd
+	Require user  foo
+</Files>
+
