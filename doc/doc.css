@@ -6,7 +6,7 @@ Copyright 2002 (C) by TADA Tadashi <sho@spc.gr.jp>
 */
 
 body {
-	line-height: 120%;
+	line-height: 1.2em;
 	background-color: white;
 	color: black;
 }
@@ -26,12 +26,7 @@ h1 {
 	color: white;
 	margin-bottom: 2px;
 	padding: 8px;
-	line-height: 100%;
-}
-
-h1 img {
-	vertical-align: middle;
-	border-width: 0px;
+	line-height: 1.2em;
 }
 
 p {
