@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.10 2002-09-21 15:17:32 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.11 2002-09-22 17:38:49 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -490,7 +490,8 @@ Load `tdiary-init-file' if modified."
   (or tdiary-passwd-cache
       (tdiary-passwd-file-load))
 
-  (font-lock-set-defaults)
+  (and (featurep 'font-lock)
+       (font-lock-set-defaults))
 
   (run-hooks 'tdiary-mode-hook))
 
