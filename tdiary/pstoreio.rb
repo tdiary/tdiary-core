@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.22 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.23 $
 #
 require 'pstore'
 
@@ -68,7 +68,9 @@ class Comment
 	end
 
 	def shorten( len = 120 )
-		@body.shorten( len )
+		lines = NKF::nkf( "-e -m0 -f#{len}", @body.gsub( /\n/, ' ' ) ).split( /\n/ )
+		lines[0].concat( '..' ) if lines[0] and lines[1]
+		lines[0] || ''
 	end
 
 	def visible?; @show; end

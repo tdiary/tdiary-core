@@ -1,4 +1,7 @@
-2003-12-26  Kazuhiko  <kazuhiko@fdiary.net>
+2003.12.26 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/pstoreio.rb: fix bug: enable running 1.5.6 or later.
+
+2003.12.26  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb(trackback_url): HTTP_HOST -> SERVER_NAME.
 	(base_url): return '' in non CGI case.
 
