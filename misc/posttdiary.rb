@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.2 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.3 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -145,9 +145,9 @@ begin
 	if @image_name then
 		img_src = ""
 		@image_name.each do |i|
-			img_src << %Q[<img class="photo" src="#{image_url+i}">]
+			img_src << %Q[ <img class="photo" src="#{image_url+i}" alt="">]
 		end
-		@body = NKF::nkf( '-mQ -eXd', @body ) + img_src
+		@body = "#{NKF::nkf( '-mQ -eXd', @body ).sub( /\n+\z/, '' )}\n#{img_src}"
 	end
 
 	addr = nil
