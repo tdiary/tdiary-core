@@ -1,3 +1,6 @@
+2003.10.25 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: auto invalidation of parser cache and ERb cache.
+
 2003-10-23  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/ja/00default.rb, plugin/ja/00default.rb,
 	skel/category.rhtml, skel/conf.rhtml, skel/i.conf.rhtml,

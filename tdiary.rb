@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.150 $
+tdiary.rb $Revision: 1.151 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20031010'
+TDIARY_VERSION = '1.5.5.20031025'
 
 require 'cgi'
 begin
@@ -840,8 +840,9 @@ module TDiary
 
 			# load and apply rhtmls
 			if cache_enable?( prefix ) then
-				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read }
-			else
+				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
+			end
+			if r.nil?
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
 				rhtml = files.collect {|file|
 					path = "#{PATH}/skel/#{prefix}#{file}"
@@ -907,10 +908,14 @@ module TDiary
 	
 		def store_cache( cache, prefix )
 			unless FileTest::directory?( cache_path ) then
-				Dir::mkdir( cache_path )
+				begin
+					Dir::mkdir( cache_path )
+				rescue Errno::EEXIST
+				end
 			end
 			if cache_file( prefix ) then
 				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
+					f.flock(File::LOCK_EX)
 					f.write( cache )
 				end
 			end
@@ -927,7 +932,10 @@ module TDiary
 	
 			require 'pstore'
 			unless FileTest::directory?( cache_path ) then
-				Dir::mkdir( cache_path )
+				begin
+					Dir::mkdir( cache_path )
+				rescue Errno::EEXIST
+				end
 			end
 			file = date.strftime( "#{cache_path}/%Y%m.parser" )
 	
@@ -941,10 +949,16 @@ module TDiary
 				PStore::new( file ).transaction do |cache|
 					begin
 						unless obj then # restore
-							obj = cache[key]
+							ver = cache.root?('version') ? cache['version'] : nil
+							if ver == TDIARY_VERSION and cache.root?(key)
+								obj = cache[key]
+							else
+								clear_cache
+							end
 							cache.abort
 						else # store
 							cache[key] = obj
+							cache['version'] = TDIARY_VERSION
 						end
 					rescue PStore::Error
 					end
