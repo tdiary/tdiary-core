@@ -92,6 +92,11 @@ def mobile_navi_next_diary; 'Next'; end
 def mobile_label_hidden_diary; 'This day is HIDDEN.'; end
 
 #
+# category
+#
+def category_anchor(c); "[#{c}]"; end
+
+#
 # preferences
 #
 

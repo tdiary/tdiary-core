@@ -129,6 +129,11 @@ def mobile_navi_next_diary; "次"; end
 def mobile_label_hidden_diary; 'この日は【非表示】です'; end
 
 #
+# category
+#
+def category_anchor(c); "[#{c}]"; end
+
+#
 # preferences (resources)
 #
 add_conf_proc( 'default', '基本' ) do
