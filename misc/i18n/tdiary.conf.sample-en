@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.11 $
+# tDiary configuration file $Revision: 1.12 $
 #
 
 #-------
@@ -8,8 +8,9 @@
 
 # Language setting
 #   If you use tDiary in English mode, you have to set @lang to 'en'.
-#   And copy 00lang.en.rb into plugin directory.
+#   Or 'zh' for Traditional-Chinese.
 @lang = 'en'
+# @lang = 'zh'
 
 # The directory where the diary's data are stored.(must)
 #   tDiary stores your diary's data in this directory. You usually 

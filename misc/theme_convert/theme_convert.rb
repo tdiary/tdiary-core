@@ -1,9 +1,9 @@
 #
-# theme_convert.rb: tDiary 1.4 系用テーマを 1.5 系用に*てきとー*に変換する
+# theme_convert.rb: tDiary 1.4 系用テーマを 2.0 系用に*てきとー*に変換する
 #
 # 使い方: $ ruby theme_convert.rb hoge.css
 #         と実行すると、hoge-2.css と hoge-simple.css が作成されます。
-#         hoge-2.css が 1.5 系用に変換された CSS ファイルです。
+#         hoge-2.css が 2.0 系用に変換された CSS ファイルです。
 #         細かい点はその CSS ファイルを手で修正してください。
 #         （hoge-simple.css は作業用の一時ファイル）
 #
@@ -43,7 +43,7 @@
 =end
 
 def usage
-  puts "theme_convert: convert theme css file for tDiary 1.4 series to 1.5 series."
+  puts "theme_convert: convert theme css file for tDiary 1.4 series to 2.0 series."
   puts "usage: ruby theme_convert.rb <css file path>"
   exit
 end

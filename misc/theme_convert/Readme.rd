@@ -3,14 +3,14 @@
 =theme_convert.rb
 ==含まれるファイル
 	* Readme.rd: このファイル
-	* append.rcss: 1.5 系用のツッコミ・更新フォーム部の CSS 断片
+	* append.rcss: 2.0 系用のツッコミ・更新フォーム部の CSS 断片
 	* theme_convert.rb: 本体スクリプト
 
 ==使い方
  $ ruby theme_convert.rb hoge.css
 
 と実行すると、hoge-2.css と hoge-simple.css が作成されます。
-hoge-2.css が 1.5 系用に変換された CSS ファイルです。
+hoge-2.css が 2.0 系用に変換された CSS ファイルです。
 細かい点はその CSS ファイルを手で修正してください。
 （hoge-simple.css は一時ファイルです）
 

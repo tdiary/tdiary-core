@@ -1,3 +1,6 @@
+2004-06-27 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.0.0.
+
 2004-06-18 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: deny robots when update modes.
 
