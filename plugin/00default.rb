@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.15 $
+# $Revision: 1.16 $
 #
 
 #
@@ -98,7 +98,7 @@ def insert( file )
 	begin
 		File::readlines( file ).join
 	rescue
-		%Q[<p class="message">#$! (#{$!.type})<br>cannot read #{file}.</p>]
+		%Q[<p class="message">#$! (#{$!.class})<br>cannot read #{file}.</p>]
 	end
 end
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# update.rb $Revision: 1.5 $
+# update.rb $Revision: 1.6 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -62,7 +62,7 @@ begin
 	print body if /HEAD/i !~ @cgi.request_method
 rescue Exception
 	puts "Content-Type: text/plain\n\n"
-	puts "#$! (#{$!.type})"
+	puts "#$! (#{$!.class})"
 	puts ""
 	puts $@.join( "\n" )
 end

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.64 $
+tdiary.rb $Revision: 1.65 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -32,15 +32,15 @@ class String
 	def make_link
 		r = %r<(((http[s]{0,1}|ftp)://[\(\)%#!/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+)|([0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$.&+-,'"*-]+\.[\(\)%!0-9a-zA-Z_$.&+-,'"*-]+))>
 		return self.
-			gsub( ' ', "\001" ).
-			gsub( '<', "\002" ).
-			gsub( '>', "\003" ).
-			gsub( '&', '&amp;' ).
+			gsub( / /, "\001" ).
+			gsub( /</, "\002" ).
+			gsub( />/, "\003" ).
+			gsub( /&/, '&amp;' ).
 			gsub( r ){ $1 == $2 ? "<a href=\"#$2\">#$2</a>" : "<a href=\"mailto:#$4\">#$4</a>" }.
-			gsub( "\003", '&gt;' ).
-			gsub( "\002", '&lt;' ).
-			gsub( "\001", '&nbsp;' ).
-			gsub( "\t", '&nbsp;' * 8 )
+			gsub( /\003/, '&gt;' ).
+			gsub( /\002/, '&lt;' ).
+			gsub( /\001/, '&nbsp;' ).
+			gsub( /\t/, '&nbsp;' * 8 )
 	end
 
 	def shorten( len = 120 )
@@ -198,7 +198,7 @@ module TDiary
 			end
 			uref = CGI::unescape( ref )
 			if pair = @referers[uref] then
-				pair = [pair, ref] if pair.type != Array # for compatibility
+				pair = [pair, ref] if pair.class != Array # for compatibility
 				@referers[uref] = [pair[0] + count, pair[1]]
 			else
 				@referers[uref] = [count, ref]
@@ -222,7 +222,7 @@ module TDiary
 			unless @new_referer then # for compatibility
 				@referers.keys.each do |ref|
 					count = @referers[ref]
-					if count.type != Array then
+					if count.class != Array then
 						@referers.delete( ref )
 						@referers[CGI::unescape( ref )] = [count, ref]
 					end
@@ -251,7 +251,7 @@ module TDiary
 		end
 	
 		def set_date( date )
-			if date.type == String then
+			if date.class == String then
 				y, m, d = date.scan( /^(\d{4})(\d\d)(\d\d)$/ )[0]
 				raise ArgumentError::new( 'date string needs YYYYMMDD format.' ) unless y
 				@date = Time::local( y, m, d )
@@ -429,7 +429,7 @@ module TDiary
 			@smtp_port = 25 unless @smtp_port
 			@index = './' unless @index
 			@update = 'update.rb' unless @update
-			@options = {} unless @options.type == Hash
+			@options = {} unless @options.class == Hash
 	
 			@index_page = '' unless @index_page
 			@date_format = '%Y-%m-%d' unless @date_format
@@ -697,7 +697,7 @@ module TDiary
 	
 	protected
 		def mode
-			self.type.to_s.sub( /^TDiary::TDiary/, '' ).downcase
+			self.class.to_s.sub( /^TDiary::TDiary/, '' ).downcase
 		end
 	
 		def load_plugins
