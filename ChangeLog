@@ -1,3 +1,6 @@
+2002.05.23 TADA Tadashi <sho@spc.gr.jp>
+	* follow i.diary.rhtml also.
+
 2002.05.22 TADA Tadashi <sho@spc.gr.jp>
 	* split DiaryBase module from Diary class.
 	* generate diary body in Diary class.

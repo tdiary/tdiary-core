@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.4 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.5 $
 #
 require 'pstore'
 
@@ -129,6 +129,15 @@ class Diary
 	end
 
 	def to_html( opt, mode = :HTML )
+		case mode
+		when :CHTML
+			to_chtml( opt )
+		else
+			to_html4( opt )
+		end
+	end
+
+	def to_html4( opt )
 		idx = 1
 		r = ''
 		each_paragraph do |paragraph|
@@ -157,6 +166,29 @@ class Diary
 			end
 			r << %Q[</div>]
 			idx += 1
+		end
+		r
+	end
+
+	def to_chtml( opt )
+		idx = 0
+		r = ''
+		each_paragraph do |paragraph|
+			if paragraph.subtitle then
+				r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{paragraph.subtitle}</P>]
+			end
+			if /^</ =~ paragraph.body then
+				idx += 1
+				r << paragraph.body
+			elsif paragraph.subtitle
+				r << %Q[<P>#{paragraph.body.collect{|l|l.chomp}.join( "</P>\n<P>" )}</P>]
+			else
+				r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
+				if opt['multi_user'] and paragraph.author then
+					r << %Q|[#{paragraph.author}]|
+				end
+				r << %Q[#{paragraph.body.collect{|l|l.chomp}.join( "</P>\n<P>" )}</P>]
+			end
 		end
 		r
 	end

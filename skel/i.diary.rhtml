@@ -1,21 +1,7 @@
-<%# i.diary.rhtml $Revision: 1.5 $ %>
+<%# i.diary.rhtml $Revision: 1.6 $ %>
 <H2><%= @date.strftime( opt['date_format'] ) %> <%= title %></H2>
 <%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %%>
-<%
-idx = 0
-each_paragraph do |paragraph|
-	if paragraph.subtitle then %>
-		<P><A NAME="p<%= '%02d' % idx += 1 %>">*</A> <%= paragraph.subtitle %></P><%
-	end
-	if /^</ =~ paragraph.body then
-		idx += 1 %>
-		<%= paragraph.body %><%
-	elsif paragraph.subtitle %>
-		<P><%= paragraph.body.collect{|l|l.chomp}.join( "</P>\n<P>" ) %></P><%
-	else %>
-		<P><A NAME="p<%= '%02d' % idx += 1 %>">*</A> <% if opt['multi_user'] and paragraph.author then %>[<%= paragraph.author %>]<% end %><%= paragraph.body.collect{|l|l.chomp}.join( "</P>\n<P>" ) %></P><%
-	end
-end %>
+<%= to_html( opt, :CHTML ) %>
 <%%= body_leave_proc( Time::at( <%=@date.to_i%> ) ) %%><%
 if opt['show_comment'] and count_comments > 0 then
 	idx = 0 %>
