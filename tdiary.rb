@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.34 $
+tdiary.rb $Revision: 1.35 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020514'
+TDIARY_VERSION = '1.5.0.20020515'
 
 require 'cgi'
 require 'nkf'
@@ -102,6 +102,115 @@ class Comment
 
 	def ==( c )
 		(@name == c.name) and (@mail == c.mail) and (@body == c.body)
+	end
+end
+
+=begin
+== CommentManager module
+Management comments in a day. Include in Diary class.
+=end
+module CommentManager
+	#
+	# call this method when initialize
+	#
+	def init_comments
+		@comments = []
+	end
+
+	def add_comment( com )
+		if @comments[-1] != com then
+			@comments << com
+			last_modified = Time::now
+			com
+		else
+			nil
+		end
+	end
+
+	def count_comments( all = false )
+		i = 0
+		@comments.each do |comment|
+			i += 1 if all or comment.visible?
+		end
+		i
+	end
+
+	def each_comment( limit = 3 )
+		@comments.each_with_index do |com,idx|
+			break if idx >= limit
+			yield com
+		end
+	end
+
+	def each_comment_tail( limit = 3 )
+		idx = 0
+		comments = @comments.collect {|c|
+			idx += 1
+			if c.visible? then
+				[c, idx]
+			else
+				nil
+			end
+		}.compact
+		s = comments.size - limit
+		s = 0 if s < 0
+		for idx in s...comments.size
+			yield comments[idx]
+		end
+	end
+end
+
+=begin
+== RefererManager module
+Management referers in a day. Include in Diary class.
+=end
+module RefererManager
+	#
+	# call this method when initialize
+	#
+	def init_referers
+		@referers = {}
+		@new_referer = true # for compatibility
+	end
+
+	def add_referer( ref )
+		newer_referer
+		ref = ref.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' )
+		if /^([^:]+:\/\/)([^\/]+)/ =~ ref
+			ref = $1 + $2.downcase + $'
+		end
+		uref = CGI::unescape( ref )
+		if pair = @referers[uref] then
+			pair = [pair, ref] if pair.type != Array # for compatibility
+			@referers[uref] = [pair[0]+1, pair[1]]
+		else
+			@referers[uref] = [1, ref]
+		end
+	end
+
+	def count_referers
+		@referers.size
+	end
+
+	def each_referer( limit = 10 )
+		newer_referer
+		@referers.values.sort.reverse.each_with_index do |ary,idx|
+			break if idx >= limit
+			yield ary
+		end
+	end
+
+	def newer_referer
+		unless @new_referer then # for compatibility
+			@referers.keys.each do |ref|
+				count = @referers[ref]
+				if count.type != Array then
+					@referers.delete( ref )
+					@referers[CGI::unescape( ref )] = [count, ref]
+				end
+			end
+			@new_referer = true
+		end
 	end
 end
 

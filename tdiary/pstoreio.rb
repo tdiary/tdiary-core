@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.1 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.2 $
 #
 require 'pstore'
 
@@ -95,10 +95,12 @@ Management a day of diary
 class Diary
 	attr_reader :date, :title
 
+	include CommentManager
+	include RefererManager
+
 	def initialize( date, title, body )
-		@referers = {}
-		@new_referer = true # for compatibility
-		@comments = []
+		init_comments
+		init_referers
 		@show = true
 		replace( date, title, body )
 	end
@@ -133,91 +135,9 @@ class Diary
 		@last_modified ? @last_modified : Time::at( 0 )
 	end
 
-	def add_referer( ref )
-		newer_referer
-		ref = ref.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' )
-		if /^([^:]+:\/\/)([^\/]+)/ =~ ref
-			ref = $1 + $2.downcase + $'
-		end
-		uref = CGI::unescape( ref )
-		if pair = @referers[uref] then
-			pair = [pair, ref] if pair.type != Array # for compatibility
-			@referers[uref] = [pair[0]+1, pair[1]]
-		else
-			@referers[uref] = [1, ref]
-		end
+	def last_modified=( time )
+		@last_modified = time
 	end
-
-	def count_referers
-		@referers.size
-	end
-
-	def each_referer( limit = 10 )
-		newer_referer
-		@referers.values.sort.reverse.each_with_index do |ary,idx|
-			break if idx >= limit
-			yield ary
-		end
-	end
-
-	def newer_referer
-		unless @new_referer then # for compatibility
-			@referers.keys.each do |ref|
-				count = @referers[ref]
-				if count.type != Array then
-					@referers.delete( ref )
-					@referers[CGI::unescape( ref )] = [count, ref]
-				end
-			end
-			@new_referer = true
-		end
-	end
-
-	def reset_referer; @referers = {}; end
-
-	def add_comment( com )
-		if @comments[-1] != com then
-			@comments << com
-			@last_modified = Time::now
-			com
-		else
-			nil
-		end
-	end
-
-	def count_comments( all = false )
-		i = 0
-		@comments.each do |comment|
-			i += 1 if all or comment.visible?
-		end
-		i
-	end
-
-	def each_comment( limit = 3 )
-		@comments.each_with_index do |com,idx|
-			break if idx >= limit
-			yield com
-		end
-	end
-
-	def each_comment_tail( limit = 3 )
-		idx = 0
-		comments = @comments.collect {|c|
-			idx += 1
-			if c.visible? then
-				[c, idx]
-			else
-				nil
-			end
-		}.compact
-		s = comments.size - limit
-		s = 0 if s < 0
-		for idx in s...comments.size
-			yield comments[idx]
-		end
-	end
-	
-	def reset_comment; @comments = []; end
 
 	def eval_rhtml( opt, path = '.' )
 		ERbLight::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
