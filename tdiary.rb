@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.79 $
+tdiary.rb $Revision: 1.80 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.2.20021225'
+TDIARY_VERSION = '1.5.2.20021230'
 
 require 'cgi'
 require 'nkf'
@@ -981,7 +981,7 @@ module TDiary
 			@themes = []
 			Dir::glob( "#{PATH}/theme/*" ).sort.each do |dir|
 				theme = dir.sub( %r[.*/theme/], '')
-				next unless FileTest::file?( "#{dir}/#{theme}.css" )
+				next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
 				name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
 				@themes << [theme,name]
 			end

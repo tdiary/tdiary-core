@@ -1,3 +1,6 @@
+2002.12.30 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix for mod_ruby. thanks rcn.
+
 2002.12.25 Junichiro Kita <kita@kitaj.no-ip.com>
 	* apply_plugin apply ERb when @options['apply_plugin'] == true
 
