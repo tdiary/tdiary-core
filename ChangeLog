@@ -1,4 +1,8 @@
 2004.01.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: remove TDiaryTrackBackBase#trackback_url.
+	* tdiary.rb: use @conf.base_url in TDiaryTrackBackBase#diary_url.
+
+2004.01.12 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: if trackback is longer than 255 byte, it will be shorten to 252 byte and '...' will be added.
 
 2004.01.09 TADA Tadashi <sho@spc.gr.jp>

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.171 $
+tdiary.rb $Revision: 1.172 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1698,23 +1698,19 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 			date = ENV['REQUEST_URI'].scan(%r!/(\d{4})(\d\d)(\d\d)!)[0]
-			@date = Time::local(*date)
+			if date
+				@date = Time::local(*date)
+			else
+				@date = Time::now
+			end
 		end
 
 		def referer?
 			nil
 		end
 
-		def trackback_url
-			'http://' + ENV['SERVER_NAME'] +
-				(ENV['SERVER_PORT'] == '80' ? '' : ":#{ENV['SERVER_PORT']}") +
-				ENV['REQUEST_URI']
-		end
-
 		def diary_url
-			trackback_url.sub(/#{File::basename(ENV['SCRIPT_NAME'])}.*$/, '') +
-				@conf.index.sub(%r|^\./|, '') +
-				@plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
+			@conf.base_url + @conf.index.sub(%r|^\./|, '') + @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
 		end
 
 		def self.success_response
