@@ -12,6 +12,10 @@
 #
 
 =begin ChangeLog
+2003-01-19 nt <nt@be.to>
+	* version 1.1.2
+	* modify theme_convert().
+
 2002-09-10 nt <nt@24i.net>
 	* version 1.1.1
 	* modify parse grammar.
@@ -351,22 +355,22 @@ end
 def theme_convert ( fname, hash )
 
   table = [
-	["p\.adminmenu ","div.adminmenu {"],
-	["p\.calendar ","div.calendar {"],
-	["span\.date ","h2 span.date {"],
-	["span\.title ","h2 span.title {"],
-	["h3\.subtitle ","h3 {"],
-	["p ","div.section p {"],
-	["p\.commenttitle ","div.comment div.caption {"],
-	["p\.referer ","div.referer {"],
-	["p\.referertitle ","div.refererlist div.caption {"],
-	["ul\.referer ","div.refererlist ul {"],
-	["p\.footer ","div.footer {"],
-	["blockquote ","div.body blockquote {"],
-	["dl ","div.body dl {"],
-	["dt ","div.body dt {"],
-	["dd ","div.body dd {"],
-	["div\.day span\.panchor ","div.day span.sanchor {"],
+	["p\.adminmenu ","div.adminmenu "],
+	["p\.calendar ","div.calendar "],
+	["span\.date ","h2 span.date "],
+	["span\.title ","h2 span.title "],
+	["h3\.subtitle ","h3 "],
+	["p ","div.section p "],
+	["p\.commenttitle ","div.comment div.caption "],
+	["p\.referer ","div.referer "],
+	["p\.referertitle ","div.refererlist div.caption "],
+	["ul\.referer ","div.refererlist ul "],
+	["p\.footer ","div.footer "],
+	["blockquote ","div.body blockquote "],
+	["dl ","div.body dl "],
+	["dt ","div.body dt "],
+	["dd ","div.body dd "],
+	["div\.day span\.panchor ","div.day span.sanchor "],
   ]
   flag = false
 
@@ -375,8 +379,11 @@ def theme_convert ( fname, hash )
       file.each {|line|
         if /\{/ =~ line
           table.each_with_index{|x, i|
-            if %r[^#{x[0]}] =~ line
-              f.puts x[1]
+            if %r[^#{x[0]}(.*?)#{x[0]}] =~ line
+              f.puts x[1] + $1 + x[1] + $'
+              break
+            elsif %r[^#{x[0]}] =~ line
+              f.puts x[1] + $'
               break
             elsif %r[span\.commentator] =~ line #元々ある span.commentator を消す
               flag = true
