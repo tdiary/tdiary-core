@@ -6,7 +6,7 @@ Options +ExecCGI
 # if make anchor style as 'YYYYMMDD.html', use settings below,
 # then change 'your_URL_of_index.rb' and use html_anchor.rb plugn.
 #
-#<Files ~ "([0-9]{6}|[0-9]{8}.html$">
+#<Files ~ "^([0-9]{4}|[0-9]{6}|[0-9]{8}).html$">
 #    ErrorDocument 404 your_URL_of_index.rb
 #</Files>
 
