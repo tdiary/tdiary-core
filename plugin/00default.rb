@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.45 $
+# $Revision: 1.46 $
 #
 
 #
@@ -215,6 +215,7 @@ def css_tag
 	title = CGI::escapeHTML( File::basename( css, '.css' ) )
 	<<-CSS
 <meta http-equiv="content-style-type" content="text/css">
+	<link rel="stylesheet" href="#{theme_url}/base.css" type="text/css" media="all">
 	<link rel="stylesheet" href="#{css}" title="#{title}" type="text/css" media="all">
 	CSS
 end

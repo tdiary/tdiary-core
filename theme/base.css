@@ -3,15 +3,6 @@ shared style sheet for tDiary.
 */
 
 /*
-for printer
-*/
-@media print {
-	div.adminmenu { display: none; }
-	div.footer { display: none; }
-	div.sidebar { display: none; }
-}
-
-/*
 nyear
 */
 h2 span.nyear {
@@ -107,8 +98,6 @@ calendar3 plugin
 	display: none;
 	text-align: left;
 	position: absolute;
-	border-style: solid;
-	border-width: 1px;
 	padding: 0 1ex 0 1ex;
 }
 
