@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.137 $
+tdiary.rb $Revision: 1.138 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030806'
+TDIARY_VERSION = '1.5.5.20030820'
 
 require 'cgi'
 require 'nkf'
@@ -422,7 +422,7 @@ module TDiary
 		end
 
 		#
-		# get/set plugin options
+		# get/set/delete plugin options
 		#
 		def []( key )
 			@options[key]
@@ -430,6 +430,11 @@ module TDiary
 
 		def []=( key, val )
 			@options2[key] = @options[key] = val
+		end
+
+		def delete( key )
+			@options.delete( key )
+			@options2.delete( key )
 		end
 	
 	private

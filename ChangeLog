@@ -1,3 +1,7 @@
+2003.08.20 TADA Tadashi <sho@spc.gr.jp>
+	* skel/tdiary.rconf: save Array and Hash value of @options2. thanks kazuhiko.
+	* tdiary.rb: Config#delete as delete a key of @options.
+
 2003.08.06 zunda <zunda at freeshell.org>
 	* tdiary.rb: taint @options2 when it is created for the first time
 
