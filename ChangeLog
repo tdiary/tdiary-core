@@ -4,6 +4,7 @@
 	* tdiary.rb: move DiaryBase#disp_referer method to Plugin class.
 	* tdiary.rb: remove Comment#shorten and Plugin#shorten.
 	* misc/i18n/00lang.en.rb: moved to plugin/en/00default.rb.
+	* add plugin/ja/00default.rb.
 
 2003.09.25 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb, skel/diary.rhtml, plugin/00default.rb: add <div class="trackbacks">. Thanks to mput.
