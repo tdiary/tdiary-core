@@ -1,6 +1,7 @@
 2002.12.19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: change URL of yahoo search.
 	* document update: theme gallery and theme bench to tDiary.org.
+	* 00default.rb: fix nyear title. thank uechi <uh@u.dhis.portside.net>.
 
 2002.12.18 TADA Tadashi <sho@spc.gr.jp>
 	* conf.rhtml*: change theme gallery URL.

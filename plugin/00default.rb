@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.23 $
+# $Revision: 1.24 $
 #
 
 #
@@ -204,7 +204,7 @@ def title_tag
 		r << '(ÀßÄê´°Î»)'
 	when 'nyear'
 		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
-		r << "(#{years[0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
+		r << "(#{@cgi['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
 	end
 	r << '</title>'
 end
