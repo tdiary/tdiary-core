@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.111 $
+tdiary.rb $Revision: 1.112 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030510'
+TDIARY_VERSION = '1.5.3.20030511'
 
 require 'cgi'
 require 'nkf'
@@ -1713,6 +1713,9 @@ RSSFOOT
 			excerpt = to_euc(@cgi.params['excerpt'][0] || '')
 
 			body = [url, blog_name, title, excerpt].join("\n")
+			@cgi.params['name'] = ['TrackBack']
+			@cgi.params['body'] = [body]
+
 			@comment = Comment::new('TrackBack', '', body)
 			begin
 				@io.transaction( @date ) do |diaries|
@@ -1731,7 +1734,7 @@ RSSFOOT
 
 		def eval_rhtml( prefix = '' )
 			raise TDiaryTrackBackError.new(@error) if @error
-			@plugin = load_plugins
+			super
 			TDiaryTrackBackBase::success_response
 		end
 	private
