@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.58 $
+tdiary.rb $Revision: 1.59 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -737,16 +737,22 @@ module TDiary
 				return nil
 			end
 	
-			PStore::new( file ).transaction do |cache|
-				begin
-					unless obj then # restore
-						obj = cache[key]
-						cache.abort
-					else # store
-						cache[key] = obj
+			begin
+				PStore::new( file ).transaction do |cache|
+					begin
+						unless obj then # restore
+							obj = cache[key]
+							cache.abort
+						else # store
+							cache[key] = obj
+						end
+					rescue PStore::Error
 					end
-				rescue PStore::Error
 				end
+			rescue ArgumentError
+				File::delete( file )
+				File::delete( file + '~' )
+				return nil
 			end
 			obj
 		end
