@@ -1,3 +1,6 @@
+2003.04.27 Junichiro Kita <kita@kitaj.no-ip.com>
+	* plugin/00default.rb: send comment_mail when receive TrackBack Ping.
+
 2003.04.22 TADA Tadashi <sho@spc.gr.jp>
 	* escape backslash in header and footer.
 
