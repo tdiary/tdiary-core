@@ -1,3 +1,6 @@
+2003-07-29  Kazuhiko  <kazuhiko@fdiary.net>
+	* index.rb: don't make 'body' in case of HEAD request.
+
 2003.07.22 TADA Tadashi <sho@spc.gr.jp>
 	* skel/conf.rhtml: to valid html.
 

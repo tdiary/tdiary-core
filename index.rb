@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.18 $
+# index.rb $Revision: 1.19 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -66,17 +66,6 @@ begin
 		}
 		head['status'] = status if status
 		body = ''
-		if @cgi.mobile_agent? then
-			body = tdiary.eval_rhtml( 'i.' ).to_sjis
-			head['charset'] = conf.charset( true )
-			head['Content-Length'] = body.size.to_s
-		else
-			body = tdiary.eval_rhtml
-			head['charset'] = conf.charset
-			head['Content-Length'] = body.size.to_s
-			head['Pragma'] = 'no-cache'
-			head['Cache-Control'] = 'no-cache'
-		end
 		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
@@ -84,8 +73,25 @@ begin
 		#require 'md5'
 		#head['ETag'] = MD5::md5( body )
 
-		print @cgi.header( head )
-		print body if /HEAD/i !~ @cgi.request_method
+		if /HEAD/i !~ @cgi.request_method then
+			if @cgi.mobile_agent? then
+				body = tdiary.eval_rhtml( 'i.' ).to_sjis
+				head['charset'] = conf.charset( true )
+				head['Content-Length'] = body.size.to_s
+			else
+				body = tdiary.eval_rhtml
+				head['charset'] = conf.charset
+				head['Content-Length'] = body.size.to_s
+				head['Pragma'] = 'no-cache'
+				head['Cache-Control'] = 'no-cache'
+			end
+			print @cgi.header( head )
+			print body
+		else
+			head['Pragma'] = 'no-cache'
+			head['Cache-Control'] = 'no-cache'
+			print @cgi.header( head )
+		end
 	rescue TDiary::ForceRedirect
 		head = {
 			#'Location' => $!.path
