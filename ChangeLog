@@ -1,3 +1,6 @@
+2003.07.31 Junichiro Kita <kita@kitaj.no-ip.com>
+	* index.rb: tdiary.cookies is set after tdiary.eval_rhtml, at least in case of whats_new plugin.
+
 2003.07.30 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: use ERB2 when running on ruby 1.8 or later (testing).
 	* wiki_style.rb: support TrackBack anchor.

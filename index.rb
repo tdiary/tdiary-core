@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.19 $
+# index.rb $Revision: 1.20 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -66,7 +66,6 @@ begin
 		}
 		head['status'] = status if status
 		body = ''
-		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
 		# ETag testing code
@@ -85,6 +84,7 @@ begin
 				head['Pragma'] = 'no-cache'
 				head['Cache-Control'] = 'no-cache'
 			end
+			head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 			print @cgi.header( head )
 			print body
 		else
