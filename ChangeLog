@@ -1,3 +1,6 @@
+2002.12.24 TADA Tadashi <sho@spc.gr.jp>
+	* skel/i.*.rhtml: support @hide_comment_form in tdiary.conf.
+
 2002.12.20 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, HOWTO-make-plugin.html: add Plugin#apply_plugin method.
 

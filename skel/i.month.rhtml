@@ -1,4 +1,4 @@
-<%# i.day.rhtml $Revision: 1.6 $ %>
+<%# i.day.rhtml $Revision: 1.7 $ %>
 <H1><%= @conf.html_title %></H1>
 <%
 diary = @diaries[@diaries.keys.sort[0]]
@@ -21,6 +21,7 @@ if diary then
 <A HREF="<%= @conf.index %><%%=anchor "<%= (diary.date-24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="1">[1]<%%=mobile_navi_prev_diary%%></A>|<A HREF="<%= @conf.index %>" ACCESSKEY="2">[2]<%%=mobile_navi_latest%%></A>|<A HREF="<%= @conf.index %><%%=anchor "<%= (diary.date+24*60*60).strftime( '%Y%m%d' ) %>" %%>" ACCESSKEY="3">[3]<%%=mobile_navi_next_diary%%></A>|<A HREF="<%= @conf.update %>" ACCESSKEY="0">[0]<%%=mobile_navi_update%%></A>
 </P>
 	<%= diary.eval_rhtml( param, PATH ) %>
+	<% unless @conf.hide_comment_form %>
 	<HR>
 	<FORM METHOD="POST" ACTION="<%= @conf.index %>">
 	<INPUT TYPE="HIDDEN" NAME="date" VALUE="<%= diary.date.strftime( '%Y%m%d' ) %>">
@@ -31,6 +32,7 @@ if diary then
 	<TEXTAREA NAME="body"></TEXTAREA><BR>
 	<INPUT TYPE="SUBMIT" NAME="comment" value="<%%=comment_submit_label_short%%>"></P>
 	</FORM><%
+	end
 else %>
 	<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]最新</A>
 	<p><%= @date.strftime( '%Y年%m月' ) %>の日記はありません。</P><%

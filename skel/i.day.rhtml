@@ -1,4 +1,4 @@
-<%# i.day.rhtml $Revision: 1.9 $ %>
+<%# i.day.rhtml $Revision: 1.10 $ %>
 <%%update_proc if @mode == 'comment'%%>
 <H1><%= @conf.html_title %></H1>
 <P>
@@ -19,9 +19,11 @@ if @diary then
 		'comment_limit' => 100,
 		'multi_user' => @conf.multi_user,
 		'anchor' => true,
+		'hide_comment_form' => @conf.hide_comment_form,
 		'show_nyear' => false,
 	} %>
 	<%= @diary.eval_rhtml( param, PATH ) %>
+	<% unless @conf.hide_comment_form %>
 	<HR>
 	<FORM METHOD="POST" ACTION="<%= @conf.index %>">
 	<INPUT TYPE="HIDDEN" NAME="date" VALUE="<%= @date.strftime( '%Y%m%d' ) %>">
@@ -32,6 +34,7 @@ if @diary then
 	<TEXTAREA NAME="body"></TEXTAREA><BR>
 	<INPUT TYPE="SUBMIT" NAME="comment" value="<%%=comment_submit_label_short%%>"></P>
 	</FORM><%
+	end
 else %>
 	<p><%%=no_diary%%></P><%
 end %>
