@@ -4,7 +4,7 @@ Options +ExecCGI
 #Options +FollowSymLinks
 
 # if making anchor style as 'YYYYMMDD.html', use settings below,
-# then change 'your_URL_of_index.rb' and use html_anchor.rb plugn.
+# then change 'your_URL_of_index.rb' and use html_anchor.rb plugin.
 # But this method makes error into error_log of apache. It is better
 # method to use mod_rewrite.
 #

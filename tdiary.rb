@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.91 $
+tdiary.rb $Revision: 1.92 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030226'
+TDIARY_VERSION = '1.5.3.20030303'
 
 require 'cgi'
 require 'nkf'
@@ -920,7 +920,8 @@ module TDiary
 			@title = @cgi['title'][0].to_euc
 			@body = @cgi['body'][0].to_euc
 			@author = @conf.multi_user ? @cgi.remote_user : nil
-			@hide = @cgi['hide'][0] ? true : false
+			hide, = @cgi['hide']
+			@hide = hide == 'true' ? true : false
 	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -968,7 +969,8 @@ module TDiary
 			@body = @cgi['body'][0].to_euc
 			old_date = Time::local( *@cgi['old'][0].scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
 			old_date, = @cgi['old']
-			@hide = @cgi['hide'][0] ? true : false
+			hide, = @cgi['hide']
+			@hide = hide == 'true' ? true : false
 	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries

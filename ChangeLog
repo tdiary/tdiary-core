@@ -1,5 +1,6 @@
 2003.03.03 TADA Tadashi <sho@spc.gr.jp>
 	* etDiary style: fix section starts with plugin. thanks simm.
+	* suport ruby 1.8.0 preview2.
 
 2003.03.01 TADA Tadashi <sho@spc.gr.jp>
 	* rd style: fix subtitle without category (again). thenks mput and uechi.
