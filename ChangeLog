@@ -1,3 +1,6 @@
+2004-02-09 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: fuzzy regexp in my plugin.
+
 2004-02-09 mput <mput@users.sf.net>
 	* tdiary.rb: fix Plugin#apply_plugin.
 
