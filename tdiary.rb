@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.136 $
+tdiary.rb $Revision: 1.137 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -479,7 +479,7 @@ module TDiary
 			if @options2 then
 				@options.update( @options2 )
 			else
-				@options2 = {}
+				@options2 = {}.taint
 			end
 			@options.taint
 
