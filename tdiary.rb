@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.93 $
+tdiary.rb $Revision: 1.94 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030304'
+TDIARY_VERSION = '1.5.3.20030310'
 
 require 'cgi'
 require 'nkf'
@@ -587,6 +587,7 @@ module TDiary
 			@options = @conf.options
 
 			# loading plugins
+			@plugin_files = []
 			plugin_path = @conf.plugin_path || "#{PATH}/plugin"
 			plugin_file = ''
 			begin
@@ -595,6 +596,7 @@ module TDiary
 					open( plugin_file.untaint ) do |src|
 						instance_eval( src.read.untaint )
 					end
+					@plugin_files << plugin_file
 				end
 			rescue Exception
 				raise PluginError::new( "Plugin error in '#{File::basename( plugin_file )}'.\n#{$!}" )

@@ -1,3 +1,6 @@
+2003.03.10 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: add @plugin_files into Plugin.
+
 2003.03.08 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd style: 'my' and 'a' plugins are used for reference.
 
