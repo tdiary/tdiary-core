@@ -1,3 +1,6 @@
+2003.09.16 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, tdiary.conf*: add @cache_path. Thanks MoonWolf <moonwolf@moonwolf.com>.
+
 2003.09.10 TADA Tadashi <sho@spc.gr.jp>
 	* skel/tdiary.rconf: fix typo.
 	* tdiary.rb: automatic generate date when Append.

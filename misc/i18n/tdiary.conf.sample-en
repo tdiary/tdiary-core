@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.6 $
+# tDiary configuration file $Revision: 1.7 $
 #
 
 #-------
@@ -55,6 +55,11 @@
 #   path. But, when @plugin_path is set, tDiary will load plugins
 #   from it.
 #@plugin_path = 'path of plugins'
+
+# path of cache files. (optional)
+#   tDiary makes some cache files under @data_path/cache. You may specify
+#   any directory for cache files by this variable.
+#@cache_path = 'path of cache files'
 
 # options for plugins. (optional)
 #   Some plugins can receive options from tdiary.conf.

@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.22 $
+# tDiary configuration file $Revision: 1.23 $
 #
 
 #-------
@@ -57,6 +57,12 @@
 #   す。なお、この指定がない場合には、インストール先のpluginディレクト
 #   リが使われます。
 #@plugin_path = 'path of plugins'
+
+# キャッシュファイルのパス【オプション】
+#   tDiaryは動作時にさまざまなキャッシュファイルを作成します。このディ
+#   レクトリは通常、@data_pathの下に作られますが、ここで別のディレクト
+#   リを指定することも可能です。
+#@cache_path = 'path of cache'
 
 # プラグインに渡すオプション【オプション】
 #   プラグインによっては、tdiary.conf経由でオプションを渡すことで挙動を

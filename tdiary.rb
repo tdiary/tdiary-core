@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.140 $
+tdiary.rb $Revision: 1.141 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030910'
+TDIARY_VERSION = '1.5.5.20030916'
 
 require 'cgi'
 require 'nkf'
@@ -871,7 +871,7 @@ module TDiary
 		end
 	
 		def cache_path
-			@cache_path || "#{@conf.data_path}cache"
+			@conf.cache_path || "#{@conf.data_path}cache"
 		end
 	
 		def cache_file( prefix )
