@@ -1,3 +1,6 @@
+2004-01-26 Mon UECHI Yasumasa <uh@u.dhis.portside.net>
+	* misc/style/rd/rd_style.rb: fix body_to_html
+
 2004.01.21 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: call update_proc in TDiaryTrackBackReceive#eval_rhtml for recent_trackback3.rb.
 

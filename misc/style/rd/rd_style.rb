@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.19 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.20 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -247,8 +247,9 @@ module TDiary
 		private
 		def manufacture(str)
 			return nil unless str
+			src = str.strip.to_a.unshift("=begin\n").push("=end\n")
 			visitor = RD2tDiaryVisitor.new
-			tree = RDTree.new(["=begin\n", str.strip, "=end\n"], nil, nil)
+			tree = RDTree.new(src, nil, nil)
 			visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
 		end
 
