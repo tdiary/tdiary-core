@@ -1,3 +1,7 @@
+2003.02.18 TADA Tadashi <sho@spc.gr.jp>
+	* add emptdiary_style.rb and some documents of styles.
+	* move misc/style/wiki/kw.rb to plugin.
+
 2003.02.17 TADA Tadashi <sho@spc.gr.jp>
 	* add rd_style.rb.
 

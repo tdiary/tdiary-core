@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.14 $
+# index.rb $Revision: 1.15 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -74,6 +74,11 @@ begin
 		end
 		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
+
+		# ETag testing code
+		#require 'md5'
+		#head['ETag'] = MD5::md5( body )
+
 		print @cgi.header( head )
 		print body if /HEAD/i !~ @cgi.request_method
 	rescue TDiary::ForceRedirect
@@ -94,7 +99,7 @@ begin
 	end
 rescue Exception
 	print "Content-Type: text/plain\n\n"
-	puts "#$! (#{$!.type})"
+	puts "#$! (#{$!.class})"
 	puts ""
 	puts $@.join( "\n" )
 end
