@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.24 $
+# tDiary configuration file $Revision: 1.25 $
 #
 
 #-------
@@ -71,6 +71,8 @@
 #   照照して下さい。
 #     例: sampleプラグインのhogeオプションを設定
 #         @options[sample.hoge] = 'foobar'
+#@options['apply_plugin'] = true
+#@options['bot'] = []
 
 #-------
 # CGIで変更できる項目群。必要なら書き換えて使用してください。なお、一度

@@ -1,9 +1,11 @@
-2003-10-08  Kazuhiko  <kazuhiko@fdiary.net>
+2003.10.09 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, 00default.rb: move Plugin#bot? to Config class, and make wrapper in Plugin.
+	* tdiary.rb: suppress saving referer from bot.
 
+2003-10-08 Kazuhiko <kazuhiko@fdiary.net>
 	* plugin/01sp.rb: untaint sp_option( 'selected' ) for mod_ruby.
 
-2003-10-07  Kazuhiko  <kazuhiko@fdiary.net>
-
+2003-10-07 Kazuhiko <kazuhiko@fdiary.net>
 	* tdiary.rb: untaint '#{@lang}.rb' for mod_ruby.
 
 2003.10.07 Yasuaki Gohko <gony@sm.rim.or.jp>
@@ -70,7 +72,7 @@
 2003.09.01 Junichiro kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb, skel/i.*.rhtml: create navigation link with mobile_navi.
 
-2003.08.28 Kazuhiko  <kazuhiko@fdiary.net>
+2003.08.28 Kazuhiko <kazuhiko@fdiary.net>
 	* rd_style.rb, wiki_style.rb insert "\n\n" at the end of @body.
 
 2003-08-28 Thu UECHI Yasumasa <uh@u.dhis.portside.net>

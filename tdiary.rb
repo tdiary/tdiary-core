@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.148 $
+tdiary.rb $Revision: 1.149 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20031006'
+TDIARY_VERSION = '1.5.5.20031009'
 
 require 'cgi'
 begin
@@ -384,6 +384,10 @@ module TDiary
 					SRC
 				)
 			end
+
+			bot = ["googlebot", "Hatena Antenna", "moget@goo.ne.jp"]
+			bot += @options['bot'] || []
+			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
 		end
 
 		# saving to tdiary.conf in @data_path
@@ -400,6 +404,10 @@ module TDiary
 
 		def mobile_agent?
 			%r[(DoCoMo|J-PHONE|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ ENV['HTTP_USER_AGENT']
+		end
+
+		def bot?
+			@bot =~ ENV['HTTP_USER_AGENT']
 		end
 
 		#
@@ -747,6 +755,10 @@ module TDiary
 				end
 			end
 			str ? str : ref
+		end
+
+		def bot?
+			@conf.bot?
 		end
 
 		def method_missing( *m )
@@ -1282,6 +1294,8 @@ module TDiary
 	
 		def referer?
 			if /[\x00-\x20\x7f-\xff]/ =~ @cgi.referer then
+				return false
+			elsif @conf.bot?
 				return false
 			elsif @cgi.referer and %r|^https?://|i =~ @cgi.referer
 				ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )

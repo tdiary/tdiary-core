@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.59 $
+# $Revision: 1.60 $
 #
 
 #
@@ -399,17 +399,6 @@ def comment_mail_basic_setting
 		@conf['comment_mail.receivers'] = @cgi.params['comment_mail.receivers'][0].strip.gsub( /[\n\r]+/, ',' )
 		@conf['comment_mail.header'] = @cgi.params['comment_mail.header'][0]
 	end
-end
-
-#
-# detect bot from User-Agent
-#
-bot = ["googlebot", "Hatena Antenna", "moget@goo.ne.jp"]
-bot += @conf['bot'] || []
-@bot = Regexp::new( "(#{bot.join( '|' )})" )
-
-def bot?
-	@bot =~ @cgi.user_agent
 end
 
 #
