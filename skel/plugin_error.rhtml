@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta name="generator" content="<%= TDIARY_VERSION %>">
+	<title>Plugin Error</title>
+</head>
+<body>
+<h1>Plugin Error</h1>
+<p style="font-size: large;"><strong>
+	Errors in plugins?
+	Retry to <a href="<%= @update %>">Update</a> or <a href="<%= @update %>?conf=OK">Configure</a>.
+</strong></p>
+<blockquote>
+	<strong><%= $!.type %></strong><br>
+	<code><%= $!.to_s.gsub( "\n", "<br>\n" ).gsub( ' ', '&nbsp;' ) %></code>
+</blockquote>
+</body>
+</html>
+

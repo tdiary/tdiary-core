@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.28 $
+tdiary.rb $Revision: 1.29 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.4.1.20020421'
+TDIARY_VERSION = '1.4.1.20020423'
 
 require 'cgi'
 require 'nkf'
@@ -274,7 +274,7 @@ class Diary
 	def reset_comment; @comments = []; end
 
 	def eval_rhtml( opt, path = '.' )
-		ERbLight::new( File::readlines( "#{path}/skel/#{opt['prefix']}diary.rhtml" ).join.untaint ).result( binding )
+		ERbLight::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
 	end
 
 	def disp_referer( table, ref )
@@ -317,6 +317,14 @@ class TDiary
 			@cookies = []
 			params.each_key do |key|
 				eval( "@#{key} = params['#{key}']" )
+			end
+		end
+
+		def eval_src( src, secure )
+			@body_enter_procs.taint
+			@body_leave_procs.taint
+			return Safe::safe( @secure ? 4 : 1 ) do
+				eval( src )
 			end
 		end
 
@@ -397,38 +405,26 @@ class TDiary
 
 	def eval_rhtml( prefix = '' )
 		if cache_enable?( prefix ) then
-			r = File::readlines( "#{cache_path}/#{cache_file( prefix )}" ).join
+			r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read }
 		else
 			files = ["header.rhtml", @rhtml, "footer.rhtml"]
 			rhtml = files.collect {|file|
-				txt = ''
-				open( "#{PATH}/skel/#{prefix}#{file}" ) do |f| txt = f.read end
-				txt
+				File::open( "#{PATH}/skel/#{prefix}#{file}" ) {|f| f.read }
 			}.join
 			r = ERbLight::new( rhtml.untaint ).result( binding )
+			r = ERbLight::new( r ).src
 			save_cache( r, prefix )
 		end
 
 		# apply plugins
 		begin
 			plugin = load_plugins
-			r = plugin.eval_rhtml( r.untaint, @secure ) if plugin
+			r = plugin.eval_src( r.untaint, @secure ) if plugin
 			@cookies += plugin.cookies
 		rescue PluginError
 			raise
 		rescue Exception
-			r = r.sub( /<body>/, <<-MSG )
-				<body>
-				<p style="font-size: large;"><strong>
-				Errors in plugins?
-				Retry to <a href="#{@update}">Update</a> or <a href="#{@update}?conf=OK">Configure</a>.
-				</strong></p>
-				<blockquote>
-				<strong>#{$!.type}</strong><br>
-				<code>#{$!.to_s.gsub( "\n", "<br>\n" ).gsub( ' ', '&nbsp;' )}</code>
-				</blockquote>
-				MSG
-			r = r.gsub( /<%/, '&lt;%' ).gsub( /%>/, '%&gt;' )
+			r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read } ).result( binding )
 		end
 		return r
 	end
@@ -437,7 +433,7 @@ protected
 	def load_conf
 		@secure = true unless @secure
 		@options = {}
-		eval( File::readlines( "tdiary.conf" ).join.untaint )
+		eval( File::open( "tdiary.conf" ){|f| f.read }.untaint )
 		@data_path += '/' if /\/$/ !~ @data_path
 		@smtp_port = 25 unless @smtp_port
 		@index = './' unless @index
@@ -492,7 +488,7 @@ protected
 			:hour_offset,
 		]
 		begin
-			cgi_conf = File::readlines( "#{@data_path}tdiary.conf" ).join
+			cgi_conf = File::open( "#{@data_path}tdiary.conf" ){|f| f.read }
 			cgi_conf.untaint unless @secure
 			def_vars = ""
 			variables.each do |var| def_vars << "#{var} = nil\n" end
@@ -614,7 +610,7 @@ protected
 	end
 
 	def clear_cache
-		Dir::glob( "#{cache_path}/*.rhtml" ).each do |c|
+		Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
 			File::delete( c.untaint )
 		end
 	end
@@ -787,7 +783,7 @@ class TDiarySaveConf < TDiaryConf
 		@hour_offset = @cgi['hour_offset'][0].to_f
 
 		begin
-			result = ERbLight::new( File::readlines( "#{PATH}/skel/tdiary.rconf" ).join.untaint ).result( binding )
+			result = ERbLight::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
 			result.untaint unless @secure
 			Safe::safe( @secure ? 4 : 1 ) do
 				eval( result )
@@ -987,7 +983,7 @@ class TDiaryComment < TDiaryDay
 			mail_header = @date.strftime( mail_header )
 			mail_header = to_mime( mail_header.to_jis ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
 
-			text = ERbLight::new( File::readlines( "#{PATH}/skel/mail.rtxt" ).join.untaint ).result( binding )
+			text = ERbLight::new( File::open( "#{PATH}/skel/mail.rtxt" ){|f| f.read }.untaint ).result( binding )
 			sendmail( text )
 		end
 	end
@@ -1038,7 +1034,7 @@ class TDiaryMonth < TDiaryView
 
 protected
 	def cache_file( prefix )
-		"#{prefix}#{@rhtml.sub( /month/, @date.strftime( '%Y%m' ) )}"
+		"#{prefix}#{@rhtml.sub( /month/, @date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
 	end
 end
 
@@ -1095,7 +1091,7 @@ protected
 	end
 
 	def cache_file( prefix )
-		"#{prefix}#{@rhtml}"
+		"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
 	end
 end
 

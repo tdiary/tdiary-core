@@ -1,3 +1,8 @@
+2002.04.23 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: cache file change .rhtml -> .rb. thanks sakai <s01397ms@sfc.keio.ac.jp>.
+	* add skel/plugin_error.rhtml and change message when errors in plugin.
+	* HOWTO-make-plugin.html: add about @debug.
+
 2002.04.23 MUTOH Masao <mutoh@highway.ne.jp>
 	* tdiary.rb: add @debug for Plugin#method_missing.
 
