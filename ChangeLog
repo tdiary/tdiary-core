@@ -1,3 +1,6 @@
+2004.01.09 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: meta link support HTML 4.01.
+
 2003.12.30 Junichiro Kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: my can handle 'yyyymmdd#txx'.
 	* wiki_style.rb: strip_subtitle returns nil if sibtitle == ''. thanks to YAA.

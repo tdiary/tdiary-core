@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.65 $
+# $Revision: 1.66 $
 #
 
 #
@@ -214,11 +214,7 @@ end
 def index_page_tag
 	result = ''
 	if @index_page and @index_page.size > 0 then
-		result << %Q[<link rel="start" title="#{navi_index}" href="#{@index_page}">\n\t]
-	end
-	oldest = @years.keys.sort[0]
-	if oldest then
-		result << %Q[<link rel="first" title="#{navi_oldest}" href="#{@index}#{anchor( oldest + @years[oldest][0])}">\n\t]
+		result << %Q[<link rel="index" title="#{navi_index}" href="#{@index_page}">\n\t]
 	end
 	if @prev_day then
 		case @mode
@@ -236,7 +232,7 @@ def index_page_tag
 			result << %Q[<link rel="next" title="#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @next_day[4,4]}">\n\t]
 		end
 	end
-	result << %Q[<link rel="last" title="#{navi_latest}" href="#{@index}">\n\t]
+	result << %Q[<link rel="start" title="#{navi_latest}" href="#{@index}">\n\t]
 	result.chop.chop
 end
 
