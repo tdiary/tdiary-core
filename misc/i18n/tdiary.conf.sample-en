@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.10 $
+# tDiary configuration file $Revision: 1.11 $
 #
 
 #-------
@@ -247,13 +247,13 @@ FOOTER
 #   of Ruby. Though these Strings are converted to Regular Expression
 #   of Ruby when compared, you can't use Regexp of Ruby.
 @no_referer = [
+	'^' + Regexp.quote( base_url ),  # Your diary
 	'^http://localhost[:/]',
 	'^http://192.168.',
 	'^http://172.1[6789]',
 	'^http://172.2[0-9]',
 	'^http://172.3[01]',
 	'^http://10.',
-   #It is better to add your diary's URL. 
 ]
 
 # The rules which convert the specified URL to the word (Regular Expression)

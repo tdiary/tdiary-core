@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.27 $
+# tDiary configuration file $Revision: 1.28 $
 #
 
 #-------
@@ -233,13 +233,13 @@ FOOTER
 #   中身は文字列です。比較時には正規表現として扱われますが、Regexpオブジ
 #   ェクトは指定しないでください。
 @no_referer = [
+	'^' + Regexp.quote( base_url ),  # 自分の日記
 	'^http://localhost[:/]',
 	'^http://192\.168\.',
 	'^http://172\.1[6789]',
 	'^http://172\.2[0-9]',
 	'^http://172\.3[01]',
 	'^http://10\.',
-	# 自分の日記のURLは追加しておくと良い
 ]
 
 # リンク元リストにURLでなく特定文字列を指定する場合の変換表(正規表現)
