@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.2 $
+tdiary.rb $Revision: 1.3 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.3.3.20020227'
+TDIARY_VERSION = '1.3.3.20020228'
 
 require 'cgi'
 require 'nkf'
@@ -253,10 +253,19 @@ class Diary
 	end
 
 	def each_comment_tail( limit = 3 )
-		s = @comments.size - limit
+		idx = 0
+		comments = @comments.collect {|c|
+			idx += 1
+			if c.visible? then
+				[c, idx]
+			else
+				nil
+			end
+		}.compact
+		s = comments.size - limit
 		s = 0 if s < 0
-		for idx in s...@comments.size
-			yield @comments[idx], idx+1
+		for idx in s...comments.size
+			yield comments[idx]
 		end
 	end
 	

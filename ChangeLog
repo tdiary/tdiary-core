@@ -1,5 +1,8 @@
+2002.02.28 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: adjust comment number when some comments hidden.
+
 2002.02.27 TADA Tadashi <sho@spc.gr.jp>
-	* i.diary.rb: paragraph/comment anchor fixed in mobile mode.
+	* i.diary.rhtml: paragraph/comment anchor fixed in mobile mode.
 	* squeeze.rb: add -c option and other changes.
 
 2002.02.26 TADA Tadashi <sho@spc.gr.jp>
