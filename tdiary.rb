@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.147 $
+tdiary.rb $Revision: 1.148 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -428,7 +428,7 @@ module TDiary
 			# language setup
 			@lang = 'ja' unless @lang
 			begin
-				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f|f.read} )
+				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f| f.read }.untaint )
 			rescue Errno::ENOENT
 				@lang = 'ja'
 				retry
