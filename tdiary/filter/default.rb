@@ -25,6 +25,7 @@ class TDiary::Filter::DefaultFilter < TDiary::Filter::Filter
 			@conf.no_referer.each do |noref|
 				return false if /#{noref}/i =~ ref
 			end
+			true
 		else
 			false
 		end

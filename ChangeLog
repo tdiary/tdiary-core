@@ -1,3 +1,6 @@
+2004-02-11 zunda <zunda at freeshell.org>
+	* tdiary.rb, tdiary/filter/default.rb: fix bugs.
+
 2004-02-10 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, tdiary/filter/default.rb: TSUKKOMI and referer filter feature.
 

@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.177 $
+tdiary.rb $Revision: 1.178 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040210'
+TDIARY_VERSION = '1.5.6.20040211'
 
 require 'cgi'
 begin
@@ -1020,7 +1020,7 @@ module TDiary
 			@filters = []
 			filter_path = @conf.filter_path || "#{PATH}/tdiary/filter"
 			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
-				require file
+				require file.untaint
 				eval( "@filters << TDiary::Filter::#{File::basename( file, '.rb' ).capitalize}Filter::new( @cgi, @conf )" )
 			end
 		end
