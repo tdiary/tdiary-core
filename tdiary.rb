@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.145 $
+tdiary.rb $Revision: 1.146 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030928'
+TDIARY_VERSION = '1.5.5.20031001'
 
 require 'cgi'
 begin
@@ -720,7 +720,11 @@ module TDiary
 		end
 
 		def add_cookie( cookie )
-			@cookies << cookie
+			begin
+				@cookies << cookie
+			rescue SecurityError
+				raise SecurityError, "can't use cookies in plugin when secure mode"
+			end
 		end
 
 		def apply_plugin( str, remove_tag = false )
