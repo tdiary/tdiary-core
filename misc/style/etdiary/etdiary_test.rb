@@ -94,12 +94,52 @@ Section without title.
 </div>
     EOF
     checkConversion(source, html)
+
+  end
+
+  def test_etdiary_unterminated_tag
+    # -------- etDiary source
+    source = <<-'EOF'
+<p>
+paragraph
+</q>
+    EOF
+
+    # -------- HTML
+    html = <<-'EOF'
+<div class="section">
+<p></p><p>
+paragraph
+</q>
+</p>(tDiary warning: tag &lt;p&gt; is not terminated.)
+</div>
+    EOF
+    checkConversion(source, html)
+  end
+
+  def test_etdiary_null
+    # -------- etDiary source
+    source = <<-'EOF'
+    EOF
+
+    # -------- HTML
+    html = <<-'EOF'
+<div class="section">
+<p>
+</p>
+</div>
+    EOF
+    checkConversion(source, html)
   end
 
   def checkConversion(source, htmlExpected)
     diary = TDiary::EtdiaryDiary.new(Time.local(2003, 1, 1), "TITLE", source)
     htmlResult = diary.to_html({'anchor' => true})
     # puts(htmlResult)
-    assert_equal(htmlExpected, htmlResult)
+    if htmlExpected == htmlResult
+      assert(true)
+    else
+      assert(false, "\n-- Expected\n#{htmlExpected}\n-- Result\n#{htmlResult}")
+    end
   end
 end #/EtdiaryTest

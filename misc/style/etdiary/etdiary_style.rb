@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.9 2004-05-18 03:58:32 shirai-kaoru Exp $
+# $Id: etdiary_style.rb,v 1.10 2004-05-27 06:51:26 shirai-kaoru Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -270,6 +270,9 @@ module TDiary
 					end
 				end
 			end
+      if buffer
+        section << buffer << "</#{tag_kind}>(tDiary warning: tag &lt;#{tag_kind}&gt; is not terminated.)"
+      end
 			@zerosection = @sections.shift
 			@sections << section
 			@last_modified = Time::now
