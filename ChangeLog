@@ -1,3 +1,6 @@
+2003.11.06 zunda <zunda at freeshell.org>
+	* misc/style/emptdiary/README.rd and README.rd.en: emptdiary -> emptDiary
+
 2003.11.06 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/{ja,en}/00default.rb: looks up style documents in docs.tdiary.org wiki.
 

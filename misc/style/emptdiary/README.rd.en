@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: README.rd.en,v 1.4 2003-02-27 03:31:53 kitaj Exp $-))
+= emptDiary style((-$Id: README.rd.en,v 1.5 2003-11-06 09:43:46 zunda Exp $-))
 
 == Summary
 ((:emptDiary style:))((-emptDiary is an abbreviation for 'empty line
@@ -25,7 +25,7 @@ If you want to use this style
 (1) copy the file emptdiary_style.rb into the tdiary/ directory under
     the top directory where tdiary.rb sits.
 (2) add the following line into tdiary.conf:
-      @style = 'emptdiary'
+      @style = 'emptDiary'
 
 You can write your diaries in almost the same manner as you have done
 with the tDiary style as described in the file HOWTO-write-tDiary.html.
