@@ -1,3 +1,6 @@
+2003.05.09 TADA Tadashi <sho@spc.gr.jp>
+	* preview.rhtml: show anchor.
+
 2003.05.09 Junichiro Kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: add bot?
 
