@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.20 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.21 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -210,6 +210,7 @@ module TDiary
 				fh.puts( diary.to_src.gsub( /\r/, '' ).gsub( /\n\./, "\n.." ) )
 				fh.puts( '.' )
 			end
+			fh.truncate( fh.tell )
 		end
 	end
 
