@@ -1,0 +1,288 @@
+/*
+	default.css: Default Style Sheet of tDiary $Revision: 1.1 $
+		2002/02/22 Valid CSS
+	validated by W3C.
+ */
+
+/*
+ページ全体の基本的な設定。背景色や文字色など
+*/
+body {
+	background-color: white;
+	color: black;
+}
+
+/*
+ページトップにある操作ボタンの並ぶ行の設定
+*/
+p.adminmenu {
+	text-align: right;
+	font-size: small;
+}
+
+/*
+ページトップにある操作ボタン自体の設定
+*/
+span.adminmenu {
+	background-color: #ddd;
+	color: #000000;
+	border-style: solid;
+	border-color: #eee #aaa #aaa #eee;
+	border-width: 1px;
+	padding: 3px;
+}
+
+/*
+日記タイトルの設定
+*/
+h1 {
+	text-align: center;
+}
+
+/*
+カレンダーの設定
+*/
+p.calendar {
+	background-color: #ddd;
+	color: #000000;
+	border-style: solid;
+	border-color: darkgray #eee #eee darkgray;
+	border-width: 1px;
+	padding: 2px;
+	margin-bottom: 0.5em;
+}
+
+/*
+1日の日記全体を囲む枠の設定
+*/
+div.day {
+	background-color: #ddd;
+	color: #000000;
+	border-style: solid;
+	border-color: darkgray #eee #eee darkgray;
+	border-width: 1px;
+	padding-bottom: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+/*
+タイトル行全体の設定
+*/
+h2 {
+	margin-top: 0.1em;
+	margin-bottom: 0.1em;
+}
+
+/*
+日付の設定
+*/
+span.date {
+	font-size: large;
+	margin-left: 0.5em;
+}
+
+/*
+タイトルの設定
+*/
+span.title {
+}
+
+/*
+タイトルを除いた1日の日記本文全体の設定
+*/
+div.body {
+	background-color: #eee;
+	color: #000000;
+	padding: 2px;
+	padding-bottom: 1px;
+	margin-left: 2em;
+	margin-right: 1em;
+}
+
+/*
+サブタイトルの設定
+*/
+h3.subtitle {
+	font-size: 1em;
+	margin: 0em;
+	font-weight: bold;
+}
+
+/*
+日記の本文(段落)の設定
+*/
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.7em;
+	line-height: 1.3;
+}
+
+/*
+ツッコミ欄全体の設定
+*/
+div.comment {
+	font-size: small;
+	background-color: #eee;
+	color: #000000;
+	padding: 2px;
+	padding-bottom: 1px;
+	margin-top: 0.5em;
+	margin-left: 2em;
+	margin-right: 1em;
+}
+
+/*
+ツッコミ欄タイトル行の設定
+*/
+p.commenttitle {
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 0px 0px 1px 0px;
+}
+
+/*
+ツッコミした人の名前の設定
+*/
+span.commentator {
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 0px 0px 1px 0px;
+	padding: 3px;
+}
+
+/*
+リンク元リスト(短い方)の設定
+*/
+p.referer {
+	text-align: right;
+	font-size: small;
+	background-color: #eee;
+	color: #000000;
+	padding: 2px;
+	padding-bottom: 1px;
+	margin-left: 2em;
+	margin-right: 1em;
+}
+
+/*
+リンク元リスト(全体一覧)の設定
+*/
+div.refererlist {
+	font-size: small;
+	background-color: #eee;
+	color: #000000;
+	padding: 2px;
+	padding-bottom: 1px;
+	margin-top: 0.5em;
+	margin-left: 2em;
+	margin-right: 1em;
+}
+
+/*
+リンク元リストタイトルの設定
+*/
+p.referertitle {
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 0px 0px 1px 0px;
+}
+
+/*
+リンク元リスト一覧の設定
+*/
+ul.referer {
+	margin-top: 0em;
+}
+
+/*
+罫線の設定
+*/
+hr {
+	border-style: solid;
+	border-width: 2px 0px 0px 0px;
+	border-color: #ddd;
+}
+
+/*
+日々の日記のセパレータに使われる罫線の設定
+*/
+hr.sep {
+	display: none;
+}
+
+/*
+フッタの設定
+*/
+p.footer {
+	font-size: small;
+	text-align: right;
+	margin-top: 0px;
+}
+
+/*
+フォーム全体を囲む枠の設定
+*/
+div.form {
+	background-color: #eee;
+	color: #000000;
+	padding: 0.5em 1em 0.5em 1em;
+	margin: 0.5em 1em 0.5em 2em;
+}
+
+/*
+入力フィールドの設定
+*/
+input.field {
+	background-color: white;
+	color: #000000;
+}
+
+/*
+複数行入力フィールドの設定
+*/
+textarea {
+	background-color: white;
+	color: #000000;
+	margin-left: 1em;
+	width: 30em;
+}
+
+/*
+エラーメッセージ表示の設定
+*/
+p.message {
+	text-align: center;
+	font-size: large;
+	background-color: red;
+	color: white;
+	padding: 8px;
+}
+
+/*
+整形済みテキスト(preタグ)の設定
+*/
+pre {
+	background-color: black;
+	color: #ff8000;
+	margin-left: 2em;
+	margin-right: 1em;
+	padding: 8px 8px 8px 8px;
+}
+
+/*
+項目リストの設定
+*/
+dl {
+	margin-left: 2em;
+}
+
+dt {
+	margin-bottom: 0.2em;
+	font-weight: bold;
+}
+
+dd {
+	margin-left: 1em;
+	margin-bottom: 0.5em;
+}
+
