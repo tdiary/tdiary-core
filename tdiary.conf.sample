@@ -1,5 +1,8 @@
 #
-# tDiary configuration file $Revision: 1.28 $
+# tDiary configuration file $Revision: 1.29 $
+#
+# For those who do not read Japanese: please read doc/README.en.html or
+# misc/i18n/README-en.rd and use misc/i18n/tdiary.conf.sample-en.
 #
 
 #-------
