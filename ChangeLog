@@ -1,4 +1,12 @@
 2002.05.14 TADA Tadashi <sho@spc.gr.jp>
+	* split IO class to tdiary/pstoreio.rb.
+	* tdiary.rb: move transaction to IO classes.
+	* tdiary.rb: rename make_years to calendar and move to IO class.
+	* tdiary.rb: move Diary and Paragraph class to pstoreio.rb.
+	* enable define @cache_path in tdiary.conf.
+	* add String#shorten.
+
+2002.05.14 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: ignore $KCODE in disp_referer.
 	* tdiary.conf.sample: shorten referer URL in @referer_table.
 
