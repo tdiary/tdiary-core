@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.100 $
+tdiary.rb $Revision: 1.101 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030404'
+TDIARY_VERSION = '1.5.3.20030405'
 
 require 'cgi'
 require 'nkf'
@@ -971,7 +971,6 @@ module TDiary
 	
 			@title = @cgi.params['title'][0].to_euc
 			@body = @cgi.params['body'][0].to_euc
-			old_date = Time::local( *@cgi.params['old'][0].scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
 			old_date = @cgi.params['old'][0]
 			@hide = @cgi.params['hide'][0] == 'true' ? true : false
 	
@@ -991,6 +990,38 @@ module TDiary
 				@diary.show( ! @hide )
 				self << @diary
 				DIRTY_DIARY
+			end
+		end
+	end
+
+	#
+	# class TDiaryPreview
+	#  preview diary
+	#
+	class TDiaryPreview < TDiaryAdmin
+		def initialize( cgi, rhtm, confl )
+			super
+	
+			@title = @cgi.params['title'][0].to_euc
+			@body = @cgi.params['body'][0].to_euc
+			@old_date = @cgi.params['old'][0]
+			@hide = @cgi.params['hide'][0] == 'true' ? true : false
+	
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				@diary = self[@date]
+				if @diary then
+					if @date.strftime( '%Y%m%d' ) != @old_date then
+						@diary.append( @body, @append )
+						@diary.set_title( @title ) if @title.length > 0
+					else
+						@diary.replace( @date, @title, @body )
+					end
+				else
+					@diary = @io.diary_factory( @date, @title, @body, @conf.style )
+				end
+				@diary.show( ! @hide )
+				DIRTY_NONE
 			end
 		end
 	end

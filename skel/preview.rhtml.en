@@ -1,0 +1,61 @@
+<%# show.rhtml $Revision: 1.1 $ %>
+<%%=navi%%>
+
+<h1><%= @conf.html_title %> [<%%=preview_label%%>]</h1>
+<%
+param = {
+	'date_format' => @conf.date_format,
+	'index' => @conf.index,
+	'section_anchor' => @conf.section_anchor,
+	'comment_anchor' => @conf.comment_anchor,
+	'long_mode' => false,
+	'show_referer' => false,
+	'referer_limit' => 100,
+	'referer_table' => @conf.referer_table,
+	'show_comment' => false,
+	'comment_limit' => 100,
+	'multi_user' => @conf.multi_user,
+	'hide_comment_form' => true,
+	'anchor' => false,
+	'show_nyear' => @conf.show_nyear,
+} %>
+<%= @diary.eval_rhtml( param, PATH ) %>
+
+<hr class="sep">
+
+<div class="update day">
+<div class="form">
+	<div class="caption">
+		Updating Form
+	</div>
+	<form class="update" method="post" action="<%= @conf.update %>"><div>
+		<input type="hidden" name="old" value="<%= @old_date %>">
+		<span class="field year">
+			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>-
+		</span>
+		<span class="field month">
+			<input type="hidden" name="month" value="<%= @date.mon %>"><%= @date.mon %>-
+		</span>
+		<span class="field day">
+			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>
+		</span>
+		<div class="field title">
+			Title: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
+		</div>
+		<div class="textarea">
+			Article(<%= @conf.style %> style):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+		</div>
+		<span class="button append">
+			<input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
+		</span>
+		<span class="button preview">
+			<input type="submit" tabindex="8" accesskey="P" name="<%%= preview_command %%>" value="<%%= preview_label %%>">
+		</span>
+		<span class="checkbox hidediary">
+			Hide this day<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="9" accesskey="H">
+		</span>
+	</div></form>
+</div>
+</div>
+
+<hr class="sep">

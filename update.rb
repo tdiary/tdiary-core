@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# update.rb $Revision: 1.6 $
+# update.rb $Revision: 1.7 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -23,6 +23,8 @@ begin
 			tdiary = TDiary::TDiaryEdit::new( @cgi, 'update.rhtml', conf )
 		elsif @cgi.valid?( 'replace' )
 			tdiary = TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+		elsif @cgi.valid?( 'appendpreview' ) or @cgi.valid?( 'replacepreview' ) 
+			tdiary = TDiary::TDiaryPreview::new( @cgi, 'preview.rhtml', conf )
 		elsif @cgi.valid?( 'comment' )
 			tdiary = TDiary::TDiaryShowComment::new( @cgi, 'update.rhtml', conf )
 		elsif @cgi.valid?( 'conf' )

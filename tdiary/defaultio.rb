@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.25 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.26 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -137,10 +137,10 @@ module TDiary
 					diaries.update( cache )
 				end
 				dirty = yield( diaries ) if iterator?
-				store( fh, diaries ) if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
-				store_comment( cfile, diaries ) if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
-				store_referer( rfile, diaries ) if dirty & TDiary::TDiaryBase::DIRTY_REFERER != 0
-				if dirty or not cache then
+				store( fh, diaries ) if dirty & TDiaryBase::DIRTY_DIARY != 0
+				store_comment( cfile, diaries ) if dirty & TDiaryBase::DIRTY_COMMENT != 0
+				store_referer( rfile, diaries ) if dirty & TDiaryBase::DIRTY_REFERER != 0
+				if dirty != TDiaryBase::DIRTY_NONE or not cache then
 					@tdiary.store_parser_cache( date, 'defaultio', diaries )
 				end
 
@@ -172,7 +172,7 @@ module TDiary
 			fh.seek( 0 )
 			begin
 				major, minor = fh.gets.split( /\./, 2 )
-				unless TDiary::TDIARY_MAGIC_MAJOR == major then
+				unless TDIARY_MAGIC_MAJOR == major then
 					raise StandardError, 'bad file format.'
 				end
 			rescue NameError
@@ -182,7 +182,7 @@ module TDiary
 			# read and parse diary
 			while l = fh.gets( "\n.\n" )
 				begin
-					headers, body = TDiary::parse_tdiary( l )
+					headers, body = parse_tdiary( l )
 					style = headers['Format'] || 'tDiary'
 					diary = eval( "#{style( style )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
 					diary.show( headers['Visible'] == 'true' ? true : false )
@@ -196,7 +196,7 @@ module TDiary
 
 		def store( fh, diaries )
 			fh.seek( 0 )
-			fh.puts( TDiary::TDIARY_MAGIC )
+			fh.puts( TDIARY_MAGIC )
 			diaries.each do |date,diary|
 				# save diaries
 				fh.puts( "Date: #{date}" )

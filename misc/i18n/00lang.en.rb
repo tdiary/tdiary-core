@@ -16,6 +16,8 @@ def title_tag
 		r << '(Update)'
 	when 'append', 'replace'
 		r << '(Update Completed)'
+	when 'preview'
+		r << '(Preview)'
 	when 'showcomment'
 		r << '(TSUKKOMI Status Change Completed)'
 	when 'conf'
@@ -69,12 +71,13 @@ def navi_prev_nyear(date); "Prev(#{date.strftime('%m-%d')})"; end
 def navi_next_nyear(date); "Next(#{date.strftime('%m-%d')})"; end
 
 def submit_label
-	if @mode == 'form' then
+	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
 		'Append'
 	else
 		'Replace'
 	end
 end
+def preview_label; 'Preview'; end
 def label_update_complete; '[Update Completed]'; end
 def label_reedit; 'Edit Again'; end
 def label_hidden_diary; 'This day is HIDDEN now.'; end

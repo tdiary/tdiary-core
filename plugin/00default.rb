@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.31 $
+# $Revision: 1.32 $
 #
 
 #
@@ -226,6 +226,8 @@ def title_tag
 		r << '(更新)'
 	when 'append', 'replace'
 		r << '(更新完了)'
+	when 'preview'
+		r << '(プレビュー)'
 	when 'showcomment'
 		r << '(変更完了)'
 	when 'conf'
@@ -295,10 +297,18 @@ def html_lang
 end
 
 def submit_command
-	if @mode == 'form' then
+	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
 		'append'
 	else
 		'replace'
+	end
+end
+
+def preview_command
+	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
+		'appendpreview'
+	else
+		'replacepreview'
 	end
 end
 
@@ -348,12 +358,13 @@ def navi_prev_nyear(date); "前の日(#{date.strftime('%m-%d')})"; end
 def navi_next_nyear(date); "次の日(#{date.strftime('%m-%d')})"; end
 
 def submit_label
-	if @mode == 'form' then
+	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
 		'追加'
 	else
 		'登録'
 	end
 end
+def preview_label; 'プレビュー'; end
 def label_update_complete; '[更新完了]'; end
 def label_reedit; ' 再編集 '; end
 def label_hidden_diary; 'この日の日記は現在【非表示】になっています。'; end
