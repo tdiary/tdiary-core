@@ -19,9 +19,9 @@ TDiaryComment#sendmailメソッドを再定義することで、メール送信メソッド
 module TDiary
 	class TDiaryComment
 		def sendmail( text )
-			return unless @sendmail
+			return unless @conf.sendmail
 			begin
-				open( "|#{@sendmail} #{@mail_receivers.join(' ')}", 'w' ) do |o|
+				open( "|#{@conf.sendmail} #{@conf.mail_receivers.join(' ')}", 'w' ) do |o|
 					o.write( text )
 				end
 			rescue

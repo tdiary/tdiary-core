@@ -20,9 +20,9 @@ TDiaryComment#sendmailメソッドを再定義することで、メール送信メソッド
 module TDiary
 	class TDiaryComment
 		def sendmail( text )
-			return unless @qmail_inject
+			return unless @conf.qmail_inject
 			begin
-				open( "|#{@qmail_inject} #{@mail_receivers.join(' ')}", 'w' ) do |o|
+				open( "|#{@conf.qmail_inject} #{@conf.mail_receivers.join(' ')}", 'w' ) do |o|
 					o.write( text )
 				end
 			rescue

@@ -20,11 +20,11 @@ TDiaryComment#sendmailメソッドを再定義することで、メール送信メソッド
 module TDiary
 	class TDiaryComment
 		def sendmail( text )
-			return unless @smtp_host
+			return unless @conf.smtp_host
 			begin
 				require 'net/smtp'
-				Net::SMTP.start( @smtp_host, @smtp_port ) do |smtp|
-					smtp.ready( @author_mail, @mail_receivers ) do |adapter| adapter.write( text ) end
+				Net::SMTP.start( @conf.smtp_host, @conf.smtp_port ) do |smtp|
+					smtp.ready( @conf.author_mail, @conf.mail_receivers ) do |adapter| adapter.write( text ) end
 				end
 			rescue
 			end
