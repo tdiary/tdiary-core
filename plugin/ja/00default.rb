@@ -200,6 +200,8 @@ add_conf_proc( 'display', '表示一般' ) do
 	HTML
 end
 
+@theme_location_comment = "<p>ここにないテーマは<a href=\"http://www.tdiary.org/20021001.html\">テーマ・ギャラリー</a>から入手できます。</p>"
+
 add_conf_proc( 'theme', 'テーマ' ) do
 	saveconf_theme
 
@@ -217,7 +219,7 @@ add_conf_proc( 'theme', 'テーマ' ) do
 	</select>
 	<input name="css" size="50" value="#{ @conf.css }">
 	</p>
-	#{"<p>ここにないテーマは<a href=\"http://www.tdiary.org/20021001.html\">テーマ・ギャラリー</a>から入手できます。</p>" unless @conf.mobile_agent?}
+	#{@theme_location_comment unless @conf.mobile_agent?}
 	HTML
 end
 

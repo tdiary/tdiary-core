@@ -167,6 +167,8 @@ add_conf_proc( 'display', 'Display' ) do
 end
 
 # themes
+@theme_location_comment = "<p>You can get many themes from <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(Japanese).</p>"
+
 add_conf_proc( 'theme', 'Themes' ) do
 	saveconf_theme
 
@@ -184,7 +186,7 @@ add_conf_proc( 'theme', 'Themes' ) do
 	</select>
 	<input name="css" size="50" value="#{ @conf.css }">
 	</p>
-	#{"<p>You can get many themes from <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(Japanese).</p>" unless @conf.mobile_agent?}
+	#{@theme_location_comment unless @conf.mobile_agent?}
 	HTML
 end
 
