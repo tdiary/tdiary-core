@@ -1,7 +1,7 @@
-# Japanese resources of 01sp.rb $Revision: 1.3 $
+# Japanese resources of 01sp.rb $Revision: 1.4 $
 
 =begin
-= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.3 2003-10-01 14:47:30 zunda Exp $-))
+= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.4 2003-10-09 15:26:44 zunda Exp $-))
 Please see below for an English description.
 
 == 概要
@@ -51,7 +51,7 @@ version 2 or later.
 
 @sp_label = 'プラグイン選択'
 @sp_label_description = '<p>どのプラグインを使うか選択します。</p>'
-@sp_label_please_select = '<p>有効にしたいプラグインにチェックしてください。</p>'
+@sp_label_please_select = '<p>有効にしたいプラグインにチェックしてください。プラグインのファイル名をクリックするとドキュメントが見られるかもしれません。ぜひ追加・編集してくださいね。</p>'
 @sp_label_new = '<h4>新入荷！お試しください</h4>'
 @sp_label_used = '<h4>使用中</h4>'
 @sp_label_notused = '<h4>休憩中</h4>'

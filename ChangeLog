@@ -1,3 +1,6 @@
+2003-10-09  zunda <zunda at freeshell.org>
+	* plugin/01sp.rb: links to plugin documents
+
 2003-10-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/00default.rb: untaint receivers for mod_ruby.
 

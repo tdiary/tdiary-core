@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.7 $
+# 01sp.rb - select-plugins plugin $Revision: 1.8 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -69,12 +69,17 @@ def sp_hash_from_paths( paths, dirs )
 	r
 end
 
+# url of the document
+def sp_doc_url( file )
+	"http://docs.tdiary.org/#{@conf.lang}/?#{CGI::escapeHTML( file )}"
+end
+
 # <li> list of plugins
 def sp_li_plugins( paths, is_checked )
 	r = ''
 	paths.collect { |path| File.basename( path ) }.sort.each do |file|
 		r += <<-_HTML
-			<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{is_checked ? ' checked' : ''}>#{CGI::escapeHTML( file )}
+			<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{is_checked ? ' checked' : ''}><a href="#{sp_doc_url( file )}">#{CGI::escapeHTML( file )}</a>
 		_HTML
 	end
 	r
