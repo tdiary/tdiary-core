@@ -1,3 +1,6 @@
+2002.03.08 TADA Tadashi <sho@spc.gr.jp>
+	* mail.rtxt: add white space after serial in subject.
+
 2002.03.07 TADA Tadashi <sho@spc.gr.jp>
 	* add doc/HOWTO-make-theme.html.
 	* tdiay.rb: join all lines in Comment#shorten.
