@@ -1,6 +1,10 @@
 2002.03.05 TADA Tadashi <sho@spc.gr.jp>
 	* documents moved to doc.
 	* HOWTO-use-plugin.html, HOWTO-make-plugin.html: add.
+	* remove sample plugins.
+	* tdiary.conf.sample, conf.rhtml: remove restriction of using Japanese in @mail_header.
+	* skel/mail.rtxt: (Subject) use @date_format instead of '%Y-%m-%d'.
+	* * tdiary.rb (TDiaryComment::load): specify a message_id by hour, minute and second to avoid possible message_id confliction. exclude @mail_header from a message_id so as to avoid non-ascii character.
 
 2002.03.04 TADA Tadashi <sho@spc.gr.jp>
 	* jtime.rb: add discription.

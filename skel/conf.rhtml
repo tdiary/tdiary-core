@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.1 $ %>
+<%# conf.rhtml $Revision: 1.2 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [設定]</h1>
@@ -138,7 +138,7 @@ end %>
 </select></p>
 <h3 class="subtitle">メールヘッダ</h3>
 <p>ツッコミメールの題名に挿入する文字列を指定します。</p>
-<p><input name="mail_header" value="<%= CGI::escapeHTML @mail_header %>" size="20">(英数字のみ)</p>
+<p><input name="mail_header" value="<%= CGI::escapeHTML @mail_header %>" size="20"></p>
 <p><input type="submit" name="saveconf" value="OK"></p>
 </div>
 </div>
