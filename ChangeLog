@@ -1,5 +1,6 @@
 2002.02.26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix when wrong file in @data_path.
+	* i.diary.rb: paragraph/comment anchor fixed in mobile mode.
 
 2002.02.23 TADA Tadashi <sho@spc.gr.jp>
 	* mail-via-{qmail,sendmail}.rb: fix typo.
