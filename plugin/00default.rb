@@ -1,16 +1,16 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.5 $
+# $Revision: 1.6 $
 #
 
 #
 # make navigation buttons
 #
 def navi
-	result = %Q[<p class="adminmenu">\n]
+	result = %Q[<div class="adminmenu">\n]
 	result << navi_user
 	result << navi_admin
-	result << %Q[</p>]
+	result << %Q[</div>]
 end
 
 def navi_user
@@ -32,16 +32,16 @@ end
 # make calendar
 #
 def calendar
-	result = %Q[<p class="calendar">\n]
+	result = %Q[<div class="calendar">\n]
 	@years.keys.sort.each do |year|
-		result << %Q[#{year}|]
+		result << %Q[<div class="year">#{year}|]
 		@years[year.to_s].sort.each do |month|
 			m = "#{year}#{month}"
 			result << %Q[<a href="#{@index}#{anchor m}">#{month}</a>|]
 		end
-		result << "<br>\n"
+		result << "</div>\n"
 	end
-	result << "</p>"
+	result << "</div>"
 end
 
 #
@@ -163,21 +163,21 @@ end
 #
 def referer_of_today_short( diary, limit )
 	return '' if not diary or diary.count_referers == 0
-	result = %Q[<p class="referer">#{referer_today} | ]
+	result = %Q[<div class="referer">#{referer_today} | ]
 	diary.each_referer( limit ) do |count,ref|
 		result << %Q[<a href="#{CGI::escapeHTML( ref )}" title="#{CGI::escapeHTML( diary.disp_referer( @referer_table, ref ) )}">#{count}</a> | ]
 	end
-	result + '</p>'
+	result + '</div>'
 end
 
 def referer_of_today_long( diary, limit )
 	return '' if not diary or diary.count_referers == 0
-	result = %Q[<div class="refererlist"><p class="referertitle">#{referer_today}</p>\n]
-	result << %Q[<ul class="referer">\n]
+	result = %Q[<div class="caption">#{referer_today}</div>\n]
+	result << %Q[<ul>\n]
 	diary.each_referer( limit ) do |count,ref|
 		result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( diary.disp_referer( @referer_table, ref ) )}</a></li>\n]
 	end
-	result + '</ul></div>'
+	result + '</ul>'
 end
 
 #
