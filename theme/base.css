@@ -129,3 +129,11 @@ calendar3 plugin
 	border-width: 1px;
 }
 
+/*
+highlight plugin
+*/
+.highlight {
+	color: #000;
+	background: #ffff66;
+}
+

@@ -1,3 +1,6 @@
+2004-04-05 TADA Tadashi <sho@spc.gr.jp>
+	* theme/base.css: add .highlight class. thanks ZnZ <zn@mbf.nifty.com> and Naoko <naoko@ns.undefine.to>.
+
 2004-04-04 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: apply comment_filter for TrackBack.
 	* tdiary/filter/default.rb: reject without GET method in comment_filter.
