@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.72 $
+tdiary.rb $Revision: 1.73 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.1.20021201'
+TDIARY_VERSION = '1.5.1.20021215'
 
 require 'cgi'
 require 'nkf'

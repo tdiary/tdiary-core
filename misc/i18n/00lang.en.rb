@@ -22,6 +22,9 @@ def title_tag
 		r << '(Preferences)'
 	when 'saveconf'
 		r << '(Preferences Changed)'
+	when 'nyear'
+		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
+		r << "(#{years[0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
 	end
 	r << '</title>'
 end

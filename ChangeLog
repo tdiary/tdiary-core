@@ -1,3 +1,6 @@
+2002.12.15 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb, 00lang.en.rb: fix wrong title tag when NYEAR mode.
+
 2002.12.13 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb, 00lang.en.rb: prev and next navi when NYEAR mode, more.
 	* default.css: a little change in list elements.
