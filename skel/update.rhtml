@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.1 $ %>
+<%# update.rhtml $Revision: 1.2 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [<%%= submit_label %%>]</h1>
@@ -22,7 +22,7 @@
 <input type="hidden" name="year" value="<%= @date.year %>">
 <input type="hidden" name="month" value="<%= @date.month %>">
 <input type="hidden" name="day" value="<%= @date.day %>">
-<p class="commenttitle"><%%=comment_today%%><% if @diary.count_comments > 0 then %><input type="submit" name="comment" value="ツッコミ表示状態変更"><% end %></p><%
+<p class="commenttitle"><%%=comment_today%%></p><%
 idx = 0
 @diary.each_comment( 100 ) do |comment| %>
 	<p><span class="commentator">
@@ -34,7 +34,7 @@ idx = 0
 		<%= comment.body.make_link.gsub( "\n", "<br>\n" ) %>
 	</p><%
 end %>
-</form></div>
+<p class="commenttitle"><% if idx > 0 then %><input type="submit" name="comment" value="ツッコミ表示状態変更"><% end %></p></form></div>
 
 	<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], 100 )%%>
 
