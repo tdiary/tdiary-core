@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: http.el,v 1.2 2002-05-19 14:11:00 kitaj Exp $
+;; $Id: http.el,v 1.3 2002-09-09 14:05:52 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -26,6 +26,9 @@
 ;;; Code:
 
 (require 'pces)
+
+(defvar http-proxy-server nil "Proxy server for HTTP.")
+(defvar http-proxy-port   nil "Proxy port for HTTP.")
 
 (defvar http-timeout 10
   "Timeout for HTTP.")
@@ -68,57 +71,57 @@ If error, return a cons cell (ERRCODE . DESCRIPTION)."
   (let (connection server port path buf str len)
     (string-match "^http://\\([^/:]+\\)\\(:\\([0-9]+\\)\\)?\\(/.*$\\)" url)
     (setq server (match-string 1 url)
-	  port (string-to-int (or (match-string 3 url) "80"))
-	  path (match-string 4 url))
+          port (string-to-int (or (match-string 3 url) "80"))
+          path (if http-proxy-server url (match-string 4 url)))
     (setq str (mapconcat
-	       '(lambda (x)
-		  (concat (car x) "=" (cdr x)))
-	       data "&"))
+               '(lambda (x)
+                  (concat (car x) "=" (cdr x)))
+               data "&"))
     (setq len (length str))
     (save-excursion
       (setq buf (get-buffer-create (concat "*result from " server "*")))
       (set-buffer buf)
       (erase-buffer)
       (setq connection
-	    (as-binary-process
-	     (open-network-stream (concat "*request to " server "*")
-				  buf
-				  server
-				  port)))
+            (as-binary-process
+             (open-network-stream (concat "*request to " server "*")
+                                  buf
+                                  (or http-proxy-server server)
+                                  (or http-proxy-port port))))
       (process-send-string
        connection
        (concat (if (eq method 'post)
-		   (concat "POST " path)
-		 (concat "GET " path (if (> len 0)
-					 (concat "?" str))))
-	       " HTTP/1.0\r\n"
-	       (concat "Host: " server "\r\n")
-	       "Connection: close\r\n"
-	       "Content-type: application/x-www-form-urlencoded\r\n"
-	       (if (and user pass)
-		   (concat "Authorization: Basic "
-			   (base64-encode-string
-			    (concat user ":" pass))
-			   "\r\n"))
-	       (if (eq method 'post)
-		   (concat "Content-length: " (int-to-string len) "\r\n"
-			   "\r\n"
-			   str))
-	       "\r\n"))
+                   (concat "POST " path)
+                 (concat "GET " path (if (> len 0)
+                                         (concat "?" str))))
+               " HTTP/1.0\r\n"
+               (concat "Host: " server "\r\n")
+               "Connection: close\r\n"
+               "Content-type: application/x-www-form-urlencoded\r\n"
+               (if (and user pass)
+                   (concat "Authorization: Basic "
+                           (base64-encode-string
+                            (concat user ":" pass))
+                           "\r\n"))
+               (if (eq method 'post)
+                   (concat "Content-length: " (int-to-string len) "\r\n"
+                           "\r\n"
+                           str))
+               "\r\n"))
       (goto-char (point-min))
       (while (not (search-forward "</body>" nil t))
-	(unless (accept-process-output connection http-timeout)
-	  (error "HTTP fetch: Connection timeout!"))
-	(goto-char (point-min)))
+        (unless (accept-process-output connection http-timeout)
+          (error "HTTP fetch: Connection timeout!"))
+        (goto-char (point-min)))
       (goto-char (point-min))
       (save-excursion
-	(if (re-search-forward "HTTP/1.1 \\([0-9][0-9][0-9]\\) \\(.*\\)" nil t)
-	    (let ((code (match-string 1))
-		  (desc (match-string 2)))
-	      (cond ((equal code "200")
-		     buf)
-		    (t
-		     (cons code desc)))))))))
+        (if (re-search-forward "HTTP/1.[01] \\([0-9][0-9][0-9]\\) \\(.*\\)" nil t)
+            (let ((code (match-string 1))
+                  (desc (match-string 2)))
+              (cond ((equal code "200")
+                     buf)
+                    (t
+                     (cons code desc)))))))))
 
 (provide 'http)
 ;;; http.el ends here
