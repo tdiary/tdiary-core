@@ -1,3 +1,6 @@
+2003.03.06 TADA Tadashi <sho@spc.gr.jp>
+	* tDiary/etDiary/emptDiary style: subtitle <P> to <H3> in mobile mode.
+
 2003.03.05 TADA Tadashi <sho@spc.gr.jp>
 	* Wiki style: fix bug of definition list.
 

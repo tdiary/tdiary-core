@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.3 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.4 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -158,7 +158,7 @@ module TDiary
 			r = ''
 			each_section do |section|
 				if section.subtitle then
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</P>]
+					r << %Q[<H3><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</H3>]
 				end
 				if /^</ =~ section.body then
 					idx += 1

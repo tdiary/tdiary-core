@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.3 2003-02-27 15:07:42 zunda Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.4 2003-03-05 23:42:18 tadatadashi Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -170,7 +170,7 @@ sections.
 			r = ''
 			each_section do |section|
 				if section.subtitle then
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</P>]
+					r << %Q[<H3><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</H3>]
 				end
 				if /\A</ =~ section.body then
 					idx += 1

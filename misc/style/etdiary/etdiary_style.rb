@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.3 2003-03-03 03:46:06 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.4 2003-03-05 23:42:19 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -177,7 +177,7 @@ module TDiary
 			when :H4
 				r + ": "
 			when :H3
-				"<P>" + r + "</P>\n"
+				"<H3>" + r + "</H3>\n"
 			end
 		end
 		def section_start
