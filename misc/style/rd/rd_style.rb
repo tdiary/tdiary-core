@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.5 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.6 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -19,8 +19,6 @@ require 'rd/rd2html-lib'
 
 module RD
 	class RD2tDiaryVisitor < RD2HTMLVisitor
-		METACHAR = { "<" => "&lt;", ">" => "&gt;", "&" => "&amp;" }
-
 		def initialize( date=nil, idx=nil, opt=nil, author=nil )
 		  	@td_date = date
 			@td_idx = idx
@@ -123,6 +121,23 @@ module RD
 		end
 	end
 
+	class RD2tDiaryCHTMLVistor < RD2tDiaryVisitor
+		def apply_to_Headline(element, title)
+			if element.level == 3
+				r = %Q[<H#{element.level}><A NAME="p#{'%02d' % @td_idx}">*</A> ]
+
+				if @td_opt['multi_user'] and @td_author then
+					r << %Q|[#{@td_author}]|
+				end
+				
+				r << %Q[#{categorized_subtitle(title)}</H#{element.level}>]
+			else
+				r = %Q[<H#{element.level}>#{title}</H#{element.level}>]
+			end
+			r
+		end
+	end
+
 	class Headline
 		MARK2LEVEL["="] = 3
 		MARK2LEVEL["=="] = 4
@@ -162,20 +177,24 @@ module TDiary
 			r << @body.dup
 		end
 
-		def html4( date, idx, opt)
-			visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
-			src = to_src.to_a
-			if src.find{|i| /\S/ === i } and !src.find{|i| /^=begin\b/ === i }
-				src.unshift("=begin\n").push("=end\n")
+		def html( date, idx, opt, mode = :HTML)
+			if mode == :CHTML
+				visitor = RD2tDiaryCHTMLVistor.new( date, idx, opt, @author)
+				section_open = ''
+				section_close = ''
+			else
+				visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
+				section_open = %Q[<div class="section">\n]
+				section_close = "</div>\n"
 			end
+
+			src = to_src.to_a
+			src.unshift("=begin\n").push("=end\n")
 			tree = RDTree.new( src, nil, nil)
 			tree.parse
 
-			r = %Q[<div class="section">\n]
-			r << visitor.visit( tree )
-			r << "</div>\n"
+			r = "#{section_open}#{visitor.visit( tree )}#{section_close}"
 		end
-		alias :chtml :html4
 
 		private
 		def manufacture(str)
@@ -265,32 +284,13 @@ module TDiary
 		end
 	
 		def to_html( opt, mode = :HTML )
-			case mode
-			when :CHTML
-				to_chtml( opt )
-			else
-				to_html4( opt )
-			end
-		end
-	
-		def to_html4( opt )
 			r = ''
 			idx = 1
 			each_section do |section|
-				r << section.html4( date, idx, opt )
+				r << section.html( date, idx, opt, mode )
 				idx += 1
 			end
-			r
-		end
-	
-		def to_chtml( opt )
-			r = ''
-			idx = 1
-			each_section do |section|
-				r << section.chtml( date, idx, opt )
-				idx += 1
-			end
-			r
+			return r
 		end
 	
 		def to_s
