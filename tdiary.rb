@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.29 $
+tdiary.rb $Revision: 1.30 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.4.1.20020423'
+TDIARY_VERSION = '1.4.1.20020424'
 
 require 'cgi'
 require 'nkf'
@@ -355,6 +355,7 @@ class TDiary
 			@update_procs.each do |proc|
 				proc.call
 			end
+			''
 		end
 
 		def add_body_enter_proc( block = proc )
