@@ -1,3 +1,6 @@
+2004-04-06 zunda <zunda at freeshell.org>
+	* plugin/01sp.rb: records only plug-in filenames. When more than one plug-ins in different directories have the same filename, first occurance in sp.path will be used, without raising an error.
+
 2004-04-05 TADA Tadashi <sho@spc.gr.jp>
 	* theme/base.css: add .highlight class. thanks ZnZ <zn@mbf.nifty.com> and Naoko <naoko@ns.undefine.to>.
 
@@ -285,17 +288,36 @@
 2003.09.01 Junichiro kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb, skel/i.*.rhtml: create navigation link with mobile_navi.
 
+2003-08-23 zunda <zunda at freeshell.org>
+	sp.rb: simpler configuration display
+
 2003.08.28 Kazuhiko <kazuhiko@fdiary.net>
 	* rd_style.rb, wiki_style.rb insert "\n\n" at the end of @body.
 
 2003-08-28 Thu UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: fix bug when last section dosen't terminate by CR.
 
+2003-08-26 zunda <zunda at freeshell.org>
+	sp.rb: English translation
+	sp.rb: option defaults are flipped
+	sp.rb: Typo for @options are fixed
+
+2003-08-22 zunda <zunda at freeshell.org>
+	sp.rb: following options are added: thanks to kaz
+	sp.rb: @options['select_plugins.hidesource']
+	sp.rb: @options['select_plugins.hidemandatory']
+	sp.rb: @options['select_plugins.newdefault']
+	sp.rb: new plugins are marked in the list until the user configures the selections
+	sp.rb: bug fix: check conf mode before updating the options
+
 2003.08.21 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: remove debug message.
 	* tdiary.rb, 00default.rb: add Plugin@last_modified and insert it into HTML header.
 	* 00default.rb, update.rhtml*, preview.rhtml*: add style_howto plugin.
 	* index.rb, update.rb: waiting 1 second after post.
+
+2003-08-20 zunda <zunda at freeshell.org>
+	sp.rb: first release
 
 2003.08.20 TADA Tadashi <sho@spc.gr.jp>
 	* skel/tdiary.rconf: cancel saving Array and Hash.

@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.10 $
+# 01sp.rb - select-plugins plugin $Revision: 1.11 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -52,21 +52,7 @@ def sp_hash_from_dirs( dirs )
 			filename = File.basename( path )
 			unless r[ filename ] then
 				r[ filename ] = path
-			else
-				raise PluginError::new( "Dupliacte plugin filename: #{filename}" )
 			end
-		end
-	end
-	r
-end
-
-# hash of paths from array of paths
-# dirs is an array of allowed directories
-def sp_hash_from_paths( paths, dirs )
-	r = Hash.new
-	paths.each do |path|
-		if dirs.include?( File.dirname( path ) ) and FileTest.readable?( path ) then
-			r[ File.basename( path ) ] = path
 		end
 	end
 	r
@@ -96,9 +82,10 @@ def sp_list_plugins( sp_opt )
 		used = Array.new
 		notused = Array.new
 		unknown = Array.new
-		selected_array = sp_option( 'selected' ) ? sp_option( 'selected').split( /\n/ ) : []
-		notselected_array = sp_option( 'notselected' ) ? sp_option( 'notselected').split( /\n/ ) : []
-		sp_opt.values.each do |path|
+		# File.basenmame needed to read option from 01sp.rb <= 1.10
+		selected_array = sp_option( 'selected' ) ? sp_option( 'selected').split( /\n/ ).collect{ |p| File.basename( p ) } : []
+		notselected_array = sp_option( 'notselected' ) ? sp_option( 'notselected').split( /\n/ ).collect{ |p| File.basename( p ) } : []
+		sp_opt.keys.each do |path|
 			if selected_array.include?( path ) then
 				used << path
 			elsif notselected_array.include?( path ) then
@@ -148,9 +135,9 @@ if SP_PREFIX == @cgi.params['conf'][0] then
 		@conf["#{SP_PREFIX}.notselected"] = ''
 		@sp_opt.each_key do |file|
 			if 't' == @cgi.params["#{SP_PREFIX}.#{file}"][0] then
-				@conf["#{SP_PREFIX}.selected"] << "#{@sp_opt[ file ]}\n"
+				@conf["#{SP_PREFIX}.selected"] << "#{file}\n"
 			else
-				@conf["#{SP_PREFIX}.notselected"] << "#{@sp_opt[ file ]}\n"
+				@conf["#{SP_PREFIX}.notselected"] << "#{file}\n"
 			end
 		end
 	end
@@ -164,14 +151,18 @@ end
 
 # Finally, we can eval the selected plugins as tdiary.rb does
 if sp_option( 'selected' ) then
-	used = sp_hash_from_paths( sp_option( 'selected' ).untaint.split( /\n/ ), @sp_path )
-	used.keys.sort.each do |filename|
-		path = used[ filename ]
-		begin
-			load_plugin( path )
-			@plugin_files << path
-		rescue Exception
-			raise PluginError::new( "Plugin error in '#{filename}'.\n#{$!}" )
+	sp_option( 'selected' ).untaint.split( /\n/ ).collect{ |p| File.basename( p ) }.sort.each do |filename|
+		@sp_path.each do |dir|
+			path = "#{dir}/#{filename}"
+			if File.readable?( path ) then
+				begin
+					load_plugin( path )
+					@plugin_files << path
+				rescue Exception
+					raise PluginError::new( "Plugin error in '#{path}'.\n#{$!}" )
+				end
+				break
+			end
 		end
 	end
 end
