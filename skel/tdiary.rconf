@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.3 $
+# tdiary configuration file via CGI $Revision: 1.4 $
 #
 
 #
@@ -14,10 +14,10 @@ index_page = <%= @index_page.dump %>
 #
 html_title = <%= @html_title.dump %>
 header = <<END_OF_HEADER
-<%= @header %>
+<%= @header.gsub( /\\/, '\\\\\\\\' ) %>
 END_OF_HEADER
 footer = <<END_OF_FOOTER
-<%= @footer %>
+<%= @footer.gsub( /\\/, '\\\\\\\\' ) %>
 END_OF_FOOTER
 
 #

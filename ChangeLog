@@ -1,3 +1,6 @@
+2003.04.22 TADA Tadashi <sho@spc.gr.jp>
+	* escape backslash in header and footer.
+
 2003.04.20 TADA Tadashi <sho@spc.gr.jp>
 	* support form_proc plugin.
 
@@ -28,7 +31,7 @@
 
 2003.04.03 TADA Tadashi <sho@spc.gr.jp>
 	* HOWTO-use-plugin.html: add about @options['apply_plugin'].
-	* mobile mode support AitH"Phone browser.
+	* mobile mode support AirH"PHONE browser.
 
 2003-04-02 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: fix nested <a> tag in DescList. thanx mput.
