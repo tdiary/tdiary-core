@@ -1,3 +1,6 @@
+2003.12.26 Junichiro Kita <kita@kitaj.no-ip.com>
+	* skel/mail.rtxt*: add comment's URL in the body.
+
 2003.12.25 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: TDiaryBase#clear_cache support parameter of file name pattern.
 

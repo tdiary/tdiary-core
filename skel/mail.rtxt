@@ -11,4 +11,6 @@ Errors-To: <%= @conf.author_mail %>
 X-Mailer: tDiary <%= TDIARY_VERSION %>
 X-URL: http://www.tdiary.org/
 
+<%= @conf.base_url %><%= @conf.index.sub(%r|^\./|, '') %><%= anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial)) %>
+
 <%= body %>
