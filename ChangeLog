@@ -1,3 +1,6 @@
+2002.09.24 TADA Tadashi <sho@spc.gr.jp>
+	* i.update.rhtml: fix typo.
+
 2002.09.16 TADA Tadashi <sho@spc.gr.jp>
 	* update.rhtml: class="field" into all input field element.
 
