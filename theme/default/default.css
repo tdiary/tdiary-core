@@ -1,10 +1,10 @@
 /*
-Title: デフォルト
-Revision: $Revision: 1.1 $
+Title: tDiary2.0デフォルト
+Revision: $Revision: 1.2 $
 Author: ただただし
 Access: sho@spc.gr.jp
 License: GPL
-Comment: tDiaryデフォルト
+Comment: tDiary2.0デフォルト
 
 validated by W3C.
  */
@@ -13,8 +13,8 @@ validated by W3C.
 ページ全体の基本的な設定。背景色や文字色など
 */
 body {
-	background-color: white;
-	color: black;
+	background-color: #fff;
+	color: #000;
 }
 
 /*
@@ -25,7 +25,13 @@ a:link {
 }
 
 a:visited {
+	background-color: transparent;
+	color: #00a;
 	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 /*
@@ -33,7 +39,7 @@ a:visited {
 */
 p.adminmenu {
 	text-align: right;
-	font-size: small;
+	font-size: 0.9em;
 }
 
 /*
@@ -41,11 +47,11 @@ p.adminmenu {
 */
 span.adminmenu {
 	background-color: #ddd;
-	color: #000000;
+	color: #000;
 	border-style: solid;
 	border-color: #eee #aaa #aaa #eee;
 	border-width: 1px;
-	padding: 3px;
+	padding: 2px;
 }
 
 /*
@@ -59,60 +65,72 @@ h1 {
 カレンダーの設定
 */
 p.calendar {
-	background-color: #ddd;
+	background-color: #fff;
 	color: #000000;
 	border-style: solid;
-	border-color: darkgray #eee #eee darkgray;
-	border-width: 1px;
+	border-color: #ddd;
+	border-width: 2px;
 	padding: 2px;
+	margin-top: 0.5em;
 	margin-bottom: 0.5em;
+	line-height: 1.1em;
 }
 
 /*
 1日の日記全体を囲む枠の設定
 */
 div.day {
-	background-color: #ddd;
-	color: #000000;
+	background-color: #eee;
+	color: #000;
 	border-style: solid;
-	border-color: darkgray #eee #eee darkgray;
-	border-width: 1px;
+	border-color: #aaa;
+	border-width: 2px;
 	padding-bottom: 0.5em;
-	margin-bottom: 0.5em;
+	margin-bottom: 1em;
 }
 
 /*
 タイトル行全体の設定
 */
 h2 {
-	margin-top: 0.1em;
-	margin-bottom: 0.1em;
+	margin: 0.1em 1em 0.1em 0.5em;
 }
 
 /*
 日付の設定
 */
-span.date {
-	font-size: large;
-	margin-left: 0.5em;
+h2 span.date {
+	font-size: medium;
+	margin-right: 0.5em;
 }
 
 /*
 タイトルの設定
 */
-span.title {
+h2 span.title {
+	font-size: large;
 }
 
 /*
 タイトルを除いた1日の日記本文全体の設定
 */
 div.body {
-	background-color: #eee;
-	color: #000000;
-	padding: 2px;
-	padding-bottom: 1px;
+	background-color: #fff;
+	color: #000;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 1px;
+	padding: 4px;
 	margin-left: 2em;
 	margin-right: 1em;
+}
+
+/*
+サブタイトルを含むセクションの設定
+*/
+div.section {
+	margin-top: 0.7em;
+	margin-bottom: 0.7em;
 }
 
 /*
@@ -153,30 +171,35 @@ div.day span.canchor {
 	background-color: transparent;
 	font-size: 1px;
 }
-
 */
 
 /*
 日記の本文(段落)の設定
 */
-p {
-	margin-top: 0.5em;
-	margin-bottom: 0.7em;
-	line-height: 1.3;
+div.section p {
+	margin: 0.5em 1em 0.7em 3em;
+	line-height: 1.5;
 }
 
 /*
 ツッコミ欄全体の設定
 */
 div.comment {
-	font-size: small;
-	background-color: #eee;
-	color: #000000;
+	background-color: #fff;
+	color: #000;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 1px;
 	padding: 2px;
 	padding-bottom: 1px;
 	margin-top: 0.5em;
 	margin-left: 2em;
 	margin-right: 1em;
+}
+div.comment p {
+	font-size: 0.9em;
+	margin: 0.5em;
+	line-height: 1.2em;
 }
 
 /*
@@ -195,7 +218,7 @@ span.commentator {
 	border-style: solid;
 	border-color: #aaa;
 	border-width: 0px 0px 1px 0px;
-	padding: 3px;
+	line-height: 1.5em;
 }
 
 /*
@@ -203,22 +226,23 @@ span.commentator {
 */
 p.referer {
 	text-align: right;
-	font-size: small;
+	font-size: 0.9em;
 	background-color: #eee;
 	color: #000000;
 	padding: 2px;
 	padding-bottom: 1px;
-	margin-left: 2em;
-	margin-right: 1em;
+	margin: 0.5em 1em 0em 2em;
 }
 
 /*
 リンク元リスト(全体一覧)の設定
 */
 div.refererlist {
-	font-size: small;
-	background-color: #eee;
-	color: #000000;
+	background-color: #fff;
+	color: #000;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 1px;
 	padding: 2px;
 	padding-bottom: 1px;
 	margin-top: 0.5em;
@@ -230,6 +254,9 @@ div.refererlist {
 リンク元リストタイトルの設定
 */
 p.referertitle {
+	font-size: 0.9em;
+	margin: 0.5em;
+	line-height: 1.2em;
 	border-style: solid;
 	border-color: #aaa;
 	border-width: 0px 0px 1px 0px;
@@ -239,7 +266,9 @@ p.referertitle {
 リンク元リスト一覧の設定
 */
 ul.referer {
-	margin-top: 0em;
+	font-size: 0.9em;
+	margin: 0.5em 1em 0.5em 3em;
+	line-height: 1.2em;
 }
 
 /*
@@ -262,7 +291,7 @@ hr.sep {
 フッタの設定
 */
 p.footer {
-	font-size: small;
+	font-size: 0.9em;
 	text-align: right;
 	margin-top: 0px;
 }
@@ -271,26 +300,40 @@ p.footer {
 フォーム全体を囲む枠の設定
 */
 div.form {
-	background-color: #eee;
-	color: #000000;
-	padding: 0.5em 1em 0.5em 1em;
+	background-color: #fff;
+	color: #000;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 1px;
+	padding: 0em 1em 0.5em 0.5em;
 	margin: 0.5em 1em 0.5em 2em;
+}
+
+/*
+フォームの設定
+*/
+div.form form {
+	font-size: 0.9em;
+	margin: 0em;
+}
+div.form form p {
+	margin: 0.5em 1em 0.5em 0em;
 }
 
 /*
 入力フィールドの設定
 */
 input.field {
-	background-color: white;
-	color: #000000;
+	background-color: #eee;
+	color: #000;
 }
 
 /*
 複数行入力フィールドの設定
 */
 textarea {
-	background-color: white;
-	color: #000000;
+	background-color: #eee;
+	color: #000;
 	margin-left: 1em;
 	width: 30em;
 }
@@ -301,8 +344,8 @@ textarea {
 p.message {
 	text-align: center;
 	font-size: large;
-	background-color: red;
-	color: white;
+	background-color: #d00;
+	color: #fff;
 	padding: 8px;
 }
 
@@ -310,9 +353,9 @@ p.message {
 整形済みテキスト(preタグ)の設定
 */
 pre {
-	background-color: black;
-	color: #ff8000;
-	margin-left: 2em;
+	background-color: #eee;
+	color: #000;
+	margin-left: 5em;
 	margin-right: 1em;
 	padding: 8px 8px 8px 8px;
 }
@@ -320,30 +363,40 @@ pre {
 /*
 引用(blockquoteタグ)の設定
 */
-blockquote {
+div.body blockquote {
 	border-style: solid;
 	border-color: #ddd;
-	border-width: 2px;
-	margin-left: 3em;
+	border-width: 2px 2px 2px 2px;
+	margin-left: 5em;
 	margin-right: 3em;
 	padding: 4px 4px 4px 4px;
+}
+div.body blockquote p {
+	margin: 0.5em 0em 0.5em 0em;
+}
+
+/*
+箇条書きの設定
+*/
+div.body ul, div.body ol {
+	margin-left: 6em;
+	margin-right: 3em;
 }
 
 /*
 項目リストの設定
 */
-dl {
-	margin-left: 2em;
+div.body dl {
+	margin-left: 5em;
 }
 
-dt {
+div.body dt {
 	margin-bottom: 0.2em;
 	font-weight: bold;
 }
 
-dd {
-	margin-left: 1em;
-	margin-bottom: 0.5em;
+div.body dd {
+	margin: 0em 3em 0.5em 1em;
 }
 
 /*
@@ -353,8 +406,10 @@ dd {
 /* calendar2 */
 table.calendar {
 	font-size: x-small;
-	line-height: 100%;
-	border-width: 0px;
+	line-height: 1.1em;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 1px;
 }
 
 table.calendar td {
@@ -370,13 +425,13 @@ table.calendar td.calendar-prev-month, table.calendar td.calendar-current-month,
 
 /* recent_list */
 p.recentitem {
-	font-size: x-small;
+	font-size: 0.9em;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
 
 div.recentsubtitles {
-	font-size: x-small;
+	font-size: 0.9em;
 	margin-top: 0px;
 	margin-bottom: 1em;
 	margin-left: 1em;
@@ -385,13 +440,49 @@ div.recentsubtitles {
 /* footnote */
 div.body span.footnote {
 	vertical-align: super;
-	font-size: xx-small;
+	font-size: 0.7em;
 }
 
 div.footnote {
+	font-size: 0.9em;
 	border-style: solid;
 	border-color: #ddd;
 	border-width: 1px 0px 0px 0px;
-	margin-left: 3em;
-	font-size: small;
+	padding: 0em;
+	margin-left: 6em;
+}
+
+p.footnote {
+	margin: 0.5em;
+	padding: 0em;
+}
+
+/*
+サイドバー関連
+*/
+div.main {
+	margin-left: 21%;
+}
+
+div.sidebar {
+	background-color: #eee;
+	color: #000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 20%;
+	padding: 2px 2px 100% 2px;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 0px 2px 2px 0px;
+	padding-top: 0.5em;
+}
+
+div.sidebar p {
+	line-height: 120%;
+	text-align: center;
+	border-style: solid;
+	border-color: #aaa;
+	border-width: 0px 0px 1px 0px;
+	margin: 2px 4px 2px 4px;
 }
