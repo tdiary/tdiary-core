@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.21 $ %>
+<%# update.rhtml $Revision: 1.22 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%= submit_label %%>]</h1>
@@ -30,13 +30,13 @@
 		</div>
 		<%%=edit_proc( @date )%%>
 		<span class="button preview">
-			<input type="submit" tabindex="8" accesskey="P" name="<%%= preview_command %%>" value="<%%= preview_label %%>">
+			<input type="submit" tabindex="998" accesskey="P" name="<%%= preview_command %%>" value="<%%= preview_label %%>">
 		</span>
 		<span class="button append">
-			<input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
+			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> ">
 		</span>
 		<span class="checkbox hidediary">
-			この日の日記を隠す<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="9" accesskey="H">
+			この日の日記を隠す<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">
 		</span>
 	</div></form>
 </div>
@@ -56,7 +56,7 @@
 		@diary.each_comment( 100 ) do |comment| %>
 			<div class="commentator">
 				<span class="checkbox">
-					<input class="checkbox" type="checkbox" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
+					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
 				</span>
 				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
 				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%></span>
@@ -65,7 +65,7 @@
 		end
 		if idx > 0 then %>
 			<div class="button">
-				<input type="submit" name="comment" value="ツッコミ表示状態変更">
+				<input type="submit" tabindex="<%=2000+idx%>" name="comment" value="ツッコミ表示状態変更">
 			</div><%
 		end %>
 		</div>

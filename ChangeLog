@@ -1,3 +1,6 @@
+2003.06.07 TADA Tadashi <sho@spc.gr.jp>
+	* update.rhtml, preview.rhtml: renumbering tabindex.
+
 2003.06.07 Junichiro Kita <kita@kitaj.no-ip.com>
 	* wiki_style.rb: remove categorizable?
 
