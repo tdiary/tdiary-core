@@ -1,4 +1,4 @@
-<%# i.update.rhtml $Revision: 1.16 $ %>
+<%# i.update.rhtml $Revision: 1.17 $ %>
 <H1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</H1>
 
 <P>
@@ -8,16 +8,16 @@
 <FORM METHOD="POST" ACTION="<%= @conf.update %>">
 <INPUT TYPE="HIDDEN" NAME="old" VALUE="<%= @date.strftime( '%Y%m%d' ) %>">
 <P>
-<INPUT NAME="year" TABINDEX="1" ACCESSKEY="Y" SIZE="4" VALUE="<%= @date.year %>">”N
-<INPUT NAME="month" TABINDEX="2" ACCESSKEY="M" SIZE="2" VALUE="<%= @date.mon %>">ŒŽ
-<INPUT NAME="day" TABINDEX="3" ACCESSKEY="D" SIZE="2" VALUE="<%= @date.day %>">“ú
-<INPUT TYPE="SUBMIT" TABINDEX="4" ACCESSKEY="e" NAME="edit" VALUE="‚±‚Ì“ú•t‚Ì“ú‹L‚ð•ÒW">
+<INPUT NAME="year" TABINDEX="1" ACCESSKEY="Y" SIZE="4" VALUE="<%= @date.year %>">Ç¯
+<INPUT NAME="month" TABINDEX="2" ACCESSKEY="M" SIZE="2" VALUE="<%= @date.mon %>">·î
+<INPUT NAME="day" TABINDEX="3" ACCESSKEY="D" SIZE="2" VALUE="<%= @date.day %>">Æü
+<INPUT TYPE="SUBMIT" TABINDEX="4" ACCESSKEY="e" NAME="edit" VALUE="¤³¤ÎÆüÉÕ¤ÎÆüµ­¤òÊÔ½¸">
 </P>
-<P>ƒ^ƒCƒgƒ‹: <INPUT NAME="title" TABINDEX="5" ACCESSKEY="T" SIZE="40" VALUE="<%= CGI::escapeHTML( @diary.title ) %>"></P>
-<P>–{•¶(<%= @conf.style %>ƒXƒ^ƒCƒ‹):<BR>
+<P>¥¿¥¤¥È¥ë: <INPUT NAME="title" TABINDEX="5" ACCESSKEY="T" SIZE="40" VALUE="<%= CGI::escapeHTML( @diary.title ) %>"></P>
+<P>ËÜÊ¸(<%= @conf.style %>¥¹¥¿¥¤¥ë):<BR>
 <TEXTAREA NAME="body" TABINDEX="6" ACCESSKEY="C"><%= CGI::escapeHTML( @diary.to_src ) %></TEXTAREA></P>
 <P><INPUT TYPE="SUBMIT" TABINDEX="7" ACCESSKEY="A" NAME="<%%= submit_command %>" VALUE=" <%%= submit_label %> "></P>
-<p><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">‰B‚·</a>
+<p><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">±£¤¹</a>
 </FORM>
 
 <FORM METHOD="POST" ACTION="<%= @conf.update %>">
@@ -34,6 +34,6 @@ idx = 0
 	</P>
 	<P><%= comment.shorten( 200 ).make_link %></P><%
 end %>
-<% if idx > 0 then %><P><INPUT TYPE="SUBMIT" NAME="comment" VALUE="ƒcƒbƒRƒ~•\Ž¦ó‘Ô•ÏX"></P><% end %>
+<% if idx > 0 then %><P><INPUT TYPE="SUBMIT" NAME="comment" VALUE="¥Ä¥Ã¥³¥ßÉ½¼¨¾õÂÖÊÑ¹¹"></P><% end %>
 </FORM>
 <HR>

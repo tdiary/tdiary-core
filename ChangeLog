@@ -1,3 +1,7 @@
+2005-01-27 zunda <zunda at freeshell.org>
+	* skel/i.update.rhtml: bug fix - Kanji code converted from shift-jis to euc
+	* skel/i.month.rhtml: use labels from plugin for i18n
+
 2005-01-12  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/defaultio.rb: separate each transaction and use exclusive
 	lock in writing transaction only.
