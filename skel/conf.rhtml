@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.17 $ %>
+<%# conf.rhtml $Revision: 1.18 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%=navi_preference%%>]</h1>
@@ -12,8 +12,8 @@
 </div>
 <div class="main">
 <form method="post" action="<%= @conf.update %>">
-<input type="hidden" name="conf" value="<%=@key%>">
 <div class="conf day">
+	<input type="hidden" name="conf" value="<%=@key%>">
 	<h2><span class="title"><%%=conf_label( '<%=@key%>' )%%></span></h2>
 	<div class="body">
 	<%%=conf_proc( "#{@cgi.params['conf'][0]}" )%%>
