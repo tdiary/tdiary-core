@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.44 $
+tdiary.rb $Revision: 1.45 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020725'
+TDIARY_VERSION = '1.5.0.20020805'
 
 require 'cgi'
 require 'nkf'
@@ -360,7 +360,13 @@ class TDiary
 
 	PATH = File::dirname( __FILE__ )
 
+	DIRTY_NONE = false
+	DIRTY_DIARY = 1
+	DIRTY_COMMENT = 2
+	DIRTY_REFERER = 4
+
 	attr_reader :cookies
+	attr_reader :data_path
 
 	def initialize( cgi, rhtml )
 		@cgi = cgi
@@ -375,7 +381,7 @@ class TDiary
 			require 'tdiary/pstoreio'
 			@io_class = TDiary::PStoreIO
 		end
-		@io = @io_class.new( @data_path )
+		@io = @io_class.new( self )
 	end
 
 	def eval_rhtml( prefix = '' )
@@ -388,7 +394,7 @@ class TDiary
 			}.join
 			r = ERbLight::new( rhtml.untaint ).result( binding )
 			r = ERbLight::new( r ).src
-			save_cache( r, prefix )
+			store_cache( r, prefix )
 		end
 
 		# apply plugins
@@ -402,6 +408,18 @@ class TDiary
 			r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read } ).result( binding )
 		end
 		return r
+	end
+
+	def restore_parser_cache( date, key )
+		parser_cache( date, key )
+	end
+
+	def store_parser_cache( date, key, obj )
+		parser_cache( date, key, obj )
+	end
+
+	def clear_parser_cache( date )
+		parser_cache( date )
 	end
 
 protected
@@ -538,7 +556,7 @@ protected
 		cache_file( prefix ) and FileTest::file?( "#{cache_path}/#{cache_file( prefix )}" )
 	end
 
-	def save_cache( cache, prefix )
+	def store_cache( cache, prefix )
 		unless FileTest::directory?( cache_path ) then
 			Dir::mkdir( cache_path )
 		end
@@ -553,6 +571,29 @@ protected
 		Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
 			File::delete( c.untaint )
 		end
+	end
+
+	def parser_cache( date, key = nil, obj = nil )
+		require 'pstore'
+		file = date.strftime( "#{cache_path}/%Y%m.parser" )
+
+		unless key then
+			File::remove( file )
+			return nil
+		end
+
+		PStore::new( file ).transaction do |cache|
+			begin
+				unless obj then # restore
+					obj = cache[key]
+					cache.abort
+				else # store
+					cache[key] = obj
+				end
+			rescue PStore::Error
+			end
+		end
+		obj
 	end
 
 	def calendar
@@ -585,7 +626,7 @@ class TDiaryAppend < TDiaryAdmin
 			self << @diary.append( @body, @author )
 			@diary.title = @title unless @title.empty?
 			@diary.show( ! @hide )
-			true
+			DIRTY_DIARY
 		end
 	end
 end
@@ -598,7 +639,7 @@ class TDiaryEdit < TDiaryAdmin
 
 		@io.transaction( @date, @diaries = {} ) do
 			@diary = self[@date] || @io.diary_factory( @date, '', '' )
-			false
+			DIRTY_NONE
 		end
 	end
 end
@@ -627,7 +668,7 @@ class TDiaryReplace < TDiaryAdmin
 			end
 			@diary.show( ! @hide )
 			self << @diary
-			true
+			DIRTY_DIARY
 		end
 	end
 end
@@ -648,7 +689,7 @@ class TDiaryShowComment < TDiaryAdmin
 		super
 
 		@io.transaction( @date, @diaries = {} ) do
-			dirty = false
+			dirty = DIRTY_NONE
 			@diary = self[@date]
 			if @diary then
 				idx = 0
@@ -657,7 +698,7 @@ class TDiaryShowComment < TDiaryAdmin
 				end
 				self << @diary
 				clear_cache
-				dirty = true
+				dirty = DIRTY_COMMENT
 			end
 			dirty
 		end
@@ -750,15 +791,14 @@ class TDiaryView < TDiary
 			ym = latest_month
 			@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 			@io.transaction( @date, @diaries = {} ) do
-				dirty = false
+				dirty = DIRTY_NONE
 				@diaries.keys.sort.reverse_each do |key|
 					@diary = @diaries[key]
 					break if @diary.visible?
 				end
-				#@diary = @diaries[@diaries.keys.sort.reverse[0]]
 				if @diary then
 					@diary.add_referer( @cgi.referer )
-					dirty = true
+					dirty = DIRTY_REFERER
 				end
 				dirty
 			end
@@ -843,11 +883,11 @@ class TDiaryDay < TDiaryView
 		if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
 			@date = date
 			@io.transaction( @date, @diaries = {} ) do
-				dirty = false
+				dirty = DIRTY_NONE
 				@diary = self[@date]
 				if @diary and referer? then
 					@diary.add_referer( @cgi.referer )
-					dirty = true
+					dirty = DIRTY_REFERER
 				end
 				dirty
 			end
@@ -881,12 +921,12 @@ class TDiaryComment < TDiaryDay
 		@name = @cgi['name'][0].to_euc
 		@mail, = @cgi['mail']
 		@body = @cgi['body'][0].to_euc
-		dirty = false
+		dirty = DIRTY_NONE
 		@io.transaction( @date, @diaries = {} ) do
 			@diary = self[@date]
 			if @diary and not (@name.strip.empty? or @body.strip.empty?) then
 				if @diary.add_comment( Comment::new( @name, @mail, @body ) ) then
-					dirty = true
+					dirty = DIRTY_COMMENT
 					cookie_path = File::dirname( @cgi.script_name )
 					cookie_path += '/' if cookie_path !~ /\/$/
 					@cookies << CGI::Cookie::new( {
@@ -962,11 +1002,11 @@ class TDiaryMonth < TDiaryView
 			if not @date or d1.year != d2.year or d1.month != d2.month then
 				@date = date
 				@io.transaction( @date, @diaries = {} ) do
-					diary = false
+					dirty = DIRTY_NONE
 					@diary = @diaries[@diaries.keys.sort.reverse[0]]
 					if referer? and @diary then
 						@diary.add_referer( @cgi.referer )
-						dirty = true
+						dirty = DIRTY_REFERER
 					end
 					dirty
 				end
@@ -990,7 +1030,7 @@ class TDiaryLatest < TDiaryView
 			@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 			@io.transaction( @date, @diaries = {} ) do
 				@diary = @diaries[@diaries.keys.sort.reverse[0]]
-				false
+				DIRTY_NONE
 			end
 		end
 
@@ -1009,7 +1049,7 @@ class TDiaryLatest < TDiaryView
 				@io.transaction( date ) do |diaries|
 					@diaries.update( diaries )
 					calc_diaries_size
-					false
+					DIRTY_NONE
 				end
 			end
 		end

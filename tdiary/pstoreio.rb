@@ -1,12 +1,12 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.7 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.8 $
 #
 require 'pstore'
 
 class TDiary
 	class PStoreIO
-		def initialize( data_path )
-			@data_path = data_path
+		def initialize( tdiary )
+			@data_path = tdiary.data_path
 		end
 	
 		#

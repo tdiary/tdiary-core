@@ -1,3 +1,8 @@
+2002.08.05 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, defaultio.rb: implement parser cache.
+	* defaultio.rb: split modules CommentIO and RefererIO.
+	* tdiary.rb, defaultio.rb: optimize dirty flags.
+
 2002.07.25 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix of bad fragment of redirection after posting comment. thanks NT.
 	* diary.rhtml: separate CR/LF in comments by <br>: try again.
