@@ -1,3 +1,6 @@
+2002.04.19 TADA Tadashi <sho@spc.gr.jp>
+	* i.diary.rhtml: fix bug of paragraph number.
+
 2002.04.18 TADA Tadashi <sho@spc.gr.jp>
 	* justify mail address auto-link in comment.
 
