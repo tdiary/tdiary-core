@@ -18,6 +18,7 @@ class ERbCompiler
       list = s.split(re)
     else
       list = []
+      has_cr = (s[-1] == ?\n)
       s.each do |line|
 	line = line.chomp.split(re)
 	line.shift if line[0]==''
@@ -28,6 +29,7 @@ class ERbCompiler
 	  list.push("\n") 
 	end
       end
+      list.pop unless has_cr
     end
     list
   end

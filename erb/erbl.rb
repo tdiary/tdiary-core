@@ -5,10 +5,10 @@
 require 'erb/compile'
 
 class ERbLight
-  Revision = '$Date: 2002/03/14 16:23:43 $'
+  Revision = '$Date: 2002/03/28 14:22:23 $'
 
   def self.version
-    "erbl.rb [1.4.1 #{ERbLight::Revision.split[1]}]"
+    "erbl.rb [1.4.3 #{ERbLight::Revision.split[1]}]"
   end
 
   def initialize(str, safe_level=nil, trim_mode=nil, eoutvar='_erbout')
@@ -24,16 +24,12 @@ class ERbLight
     compiler.put_cmd = "#{eoutvar}.concat"
 
     cmd = []
-    cmd.push 'begin'
-    cmd.push("$SAFE = #{@safe_level}") if @safe_level
     cmd.push "#{eoutvar} = ''"
     
     compiler.pre_cmd = cmd
 
     cmd = []
-    cmd.push('ensure')
     cmd.push(eoutvar)
-    cmd.push('end')
 
     compiler.post_cmd = cmd
   end
@@ -45,6 +41,7 @@ class ERbLight
   def result(b=TOPLEVEL_BINDING)
     if @safe_level
       th = Thread.start { 
+	$SAFE = @safe_level
 	eval(@src, b)
       }
       return th.value
