@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.5 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.6 $
 #
 module DefaultIO
 	class IO
@@ -179,7 +179,6 @@ module DefaultIO
 		def initialize( fragment, author = nil )
 			@author = author
 			lines = fragment.split( /\n+/ )
-			$stderr.puts lines.inspect
 			if lines.size > 1 then
 				if /^<</ =~ lines[0]
 					@subtitle = lines.shift.chomp.sub( /^</, '' )
