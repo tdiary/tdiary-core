@@ -1,3 +1,7 @@
+2002.10.12 TADA Tadashi <sho@spc.gr.jp>
+	* support 'YYYYMMDD.html' style using ErrorDocument.
+	* fix about reading hidden mode.
+
 2002.10.07 TADA Tadashi <sho@spc.gr.jp>
 	* fix @mode value in TDiary::TDiaryBase#load_plugins.
 

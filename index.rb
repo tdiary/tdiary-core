@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.6 $
+# index.rb $Revision: 1.7 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -15,6 +15,9 @@ begin
 	@cgi = CGI::new
 	conf = TDiary::Config::new
 	tdiary = nil
+	if ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
+		@cgi.params['date'] = [ENV['REDIRECT_URL'].sub( /.*\/(\d+)\.html$/, '\1' )]
+	end
 
 	begin
 		if @cgi.valid?( 'comment' ) then
@@ -40,6 +43,7 @@ begin
 		if @cgi.mobile_agent? then
 			body = tdiary.eval_rhtml( 'i.' ).to_sjis
 			head = @cgi.header(
+				'status' => '200 OK',
 				'type' => 'text/html',
 				'charset' => 'Shift_JIS',
 				'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),
@@ -49,6 +53,7 @@ begin
 		else
 			body = tdiary.eval_rhtml
 			hash = {
+				'status' => '200 OK',
 				'type' => 'text/html',
 				'charset' => 'EUC-JP',
 				'Last-Modified' => CGI::rfc1123_date( tdiary.last_modified ),

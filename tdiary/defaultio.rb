@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.17 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.18 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -188,6 +188,7 @@ module TDiary
 					case headers['Format']
 					when 'tDiary'
 						diary = DefaultDiary::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
+						diary.show( headers['Visible'] == 'true' ? true : false )
 						diaries[headers['Date']] = diary
 					end
 				rescue NameError

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# update.rb $Revision: 1.3 $
+# update.rb $Revision: 1.4 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -42,6 +42,7 @@ begin
 	if @cgi.mobile_agent? then
 		body = tdiary.eval_rhtml( 'i.' ).to_sjis
 		head = @cgi.header(
+			'status' => '200 OK',
 			'type' => 'text/html',
 			'charset' => 'Shift_JIS',
 			'Content-Length' => body.size.to_s,
@@ -50,6 +51,7 @@ begin
 	else
 		body = tdiary.eval_rhtml
 		head = @cgi.header(
+			'status' => '200 OK',
 			'type' => 'text/html',
 			'charset' => 'EUC-JP',
 			'Content-Length' => body.size.to_s,

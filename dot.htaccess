@@ -3,6 +3,10 @@ Options +ExecCGI
 # if you run tDiary with symbolic link, use settings below.
 #Options FollowSymLinks
 
+# if make anchor style as 'YYYYMMDD.html', use settings below,
+# then change 'your_URL_of_index.rb' and use yyymmdd.rb plugn.
+#ErrorDocument 404 your_URL_of_index.rb
+
 AddHandler cgi-script .rb
 DirectoryIndex index.rb
 
