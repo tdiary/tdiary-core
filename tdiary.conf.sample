@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.6 $
+# tDiary configuration file $Revision: 1.7 $
 #
 
 #-------
@@ -30,7 +30,6 @@
 #   頭の「#」を外してから値を書き換えて下さい。
 #@index = './'
 #@update = 'update.rb'
-
 
 # マルチユーザモード【オプション】
 #   @multi_userは、日記を複数ユーザで記述するときに利用する変数です。こ
@@ -64,6 +63,14 @@
 #   必要があります。
 @text_output = false
 @text_output_path = '/home/foo/diary_text'
+
+# プラグインに渡すオプション【オプション】
+#   プラグインによっては、tdiary.conf経由でオプションを渡すことで挙動を
+#   変更できるものがあります。@optionsはそのオプションを指定する時に使う
+#   変数です。指定方法は以下のとおりです。詳しくは各プラグインの説明を参
+#   照照して下さい。
+#     例: sampleプラグインのhogeオプションを設定
+#         @options[sample.hoge] = 'foobar'
 
 #-------
 # CGIで変更できる項目群。必要なら書き換えて使用してください。なお、一度

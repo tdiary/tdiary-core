@@ -1,3 +1,6 @@
+2002.03.26 TADA Tadashi <sho@spc.gr.jp>
+	* @options support in tdiary.conf and plugins.
+
 2002.03.22 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: Plugin#add_xxx_proc can receive a block.
 	* 00default.rb: follow new add_xxx_proc style.

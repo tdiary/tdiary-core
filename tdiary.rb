@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.19 $
+tdiary.rb $Revision: 1.20 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.4.0.20020322'
+TDIARY_VERSION = '1.4.0.20020326'
 
 require 'cgi'
 require 'nkf'
@@ -429,11 +429,13 @@ class TDiary
 protected
 	def load_conf
 		@secure = true unless @secure
+		@options = {}
 		eval( File::readlines( "tdiary.conf" ).join.untaint )
 		@data_path += '/' if /\/$/ !~ @data_path
-		@smtp_post = 25 unless @smtp_host
+		@smtp_port = 25 unless @smtp_port
 		@index = './' unless @index
 		@update = 'update.rb' unless @update
+		@options = {} unless @options.type == Hash
 
 		@author_name = @auther_name unless @author_name
 		@author_mail = @auther_mail unless @author_mail
@@ -516,6 +518,7 @@ protected
 			'date' => @date,
 			'date_format' => @date_format,
 			'referer_table' => @referer_table,
+			'options' => @options,
 		} )
 		plugin_file = ''
 		begin

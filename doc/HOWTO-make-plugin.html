@@ -187,5 +187,20 @@ end
 <p>　デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader_proc用ブロックが定義されています。</p>
 </div>
 
+<h3 class="subtitle"><a name="option">プラグインへのオプションの渡し方</a></h3>
+<div class="section">
+<p>　プラグインはRubyのメソッドですから、呼び出し時に引数を指定することで、利用者がプラグインの挙動を変更することが可能です。しかし、tdiary.conf等で日記管理者が強制的にオプションを指定したい場合があります。そのようなプラグインを作成する時には、tdiary.confで指定できる@options変数を使うことができます。</p>
+<p>　@option変数はHashとしてプラグインに見えますので、tdiary.confで任意の文字列をキーとして定義すれば、それをプラグイン内で利用することが可能です。@optionsのキーに指定する文字列はなんでもかまいませんが、名前の重複を避けるためにプラグイン名とオプション名を「.」で区切ったものを推奨します。</p>
+<pre>
+# sampleプラグインにhogeオプションを指定する(tdiary.conf内)
+@options['sample.hoge'] = 'foobar'
+</pre>
+
+<pre>
+#sampleプラグイン内でオプションを取得する(sample.rb内)
+hoge = @options['sample.hoge']
+</pre>
+</div>
+
 </body>
 </html>
