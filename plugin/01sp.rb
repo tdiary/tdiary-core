@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.6 $
+# 01sp.rb - select-plugins plugin $Revision: 1.7 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -156,7 +156,7 @@ end
 
 # Finally, we can eval the selected plugins as tdiary.rb does
 if sp_option( 'selected' ) then
-	used = sp_hash_from_paths( sp_option( 'selected' ).split( /\n/ ), @sp_path )
+	used = sp_hash_from_paths( sp_option( 'selected' ).untaint.split( /\n/ ), @sp_path )
 	used.keys.sort.each do |filename|
 		path = used[ filename ]
 		begin

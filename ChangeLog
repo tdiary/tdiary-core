@@ -1,3 +1,7 @@
+2003-10-08  Kazuhiko  <kazuhiko@fdiary.net>
+
+	* plugin/01sp.rb: untaint sp_option( 'selected' ) for mod_ruby.
+
 2003-10-07  Kazuhiko  <kazuhiko@fdiary.net>
 
 	* tdiary.rb: untaint '#{@lang}.rb' for mod_ruby.
