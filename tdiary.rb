@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.185 $
+tdiary.rb $Revision: 1.186 $
 
-Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
+Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040419'
+TDIARY_VERSION = '1.5.6.20040504'
 
 require 'cgi'
 begin
@@ -1724,7 +1724,7 @@ RSSFOOT
 			title = @conf.to_native( @cgi.params['title'][0] || '' )
 			excerpt = @conf.to_native( @cgi.params['excerpt'][0] || '' )
 			if excerpt.length > 255
-				excerpt = @conf.shorten( excerpt, 252 ) + '...'
+				excerpt = @conf.shorten( excerpt, 252 )
 			end
 
 			body = [url, blog_name, title, excerpt].join("\n")

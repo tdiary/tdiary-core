@@ -1,3 +1,6 @@
+2004-05-04 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: remove to add '...' after using Config#shorten.
+
 2004-04-19 ZnZ <zn@mbf.nifty.com>
 	* tdiary.rb: add error information to eval.
 
