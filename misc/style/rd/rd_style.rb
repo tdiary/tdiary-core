@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.9 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.10 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -103,7 +103,8 @@ module RD
 		end
 
 		def apply_to_Footnote(element, content)
-			%Q|<%=fn "#{content}"%>|
+			heredoc_id = "%0.32b" % rand( 0x100000000 )
+			%Q|<%=fn <<'#{heredoc_id}' \n #{content.join}\n#{heredoc_id}\n%>|
 		end
 
 		def apply_to_RefToElement(element, content)

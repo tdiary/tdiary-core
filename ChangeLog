@@ -1,3 +1,6 @@
+2003.05.15 UECHI Yasumasa <uh@u.dhis.portside.net>
+	* rd_style.rb: fix footnote element with mput's patch.
+
 2003.05.13 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: TDiary::TDiaryTrackBackReceive#to_euc don't look charset parameter.(automatic translation)
 
