@@ -1,3 +1,6 @@
+2003.02.29 TADA Tadashi <sho@spc.gr.jp>
+	* rd style: fix subtitle without category. thenks mput.
+
 2003.02.26 TADA Tadashi <sho@spc.gr.jp>
 	* wiki style: fix bug again when last section dosen't terminate by CR.
 	* add navi_edit plugin (label) into 00default.rb and 00lang.en.rb.

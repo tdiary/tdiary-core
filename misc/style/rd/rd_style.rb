@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.2 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.3 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -180,8 +180,7 @@ module TDiary
 	class RDSection
 		include RD
 
-		attr_reader :subtitle, :author
-		attr_reader :categories, :stripped_subtitle
+		attr_reader :author, :categories, :stripped_subtitle
 	
 		def initialize( fragment, author = nil )
 			@author = author
@@ -223,6 +222,13 @@ module TDiary
 		alias :chtml :html4
 
 		private
+		def manufacture(str)
+			return nil unless str
+			visitor = RD2tDiaryVisitor.new
+			tree = RDTree.new(["=begin\n", str.strip, "=end\n"], nil, nil)
+			visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
+		end
+
 		def get_categories
 			return [] unless @subtitle
 			cat = /^(\[(.*?)\])+/.match(@subtitle).to_a[0]
@@ -238,6 +244,13 @@ module TDiary
 			if r == ""
 				nil
 			else
+				manufacture(r)
+  			end
+		end
+
+		public
+		def subtitle
+			manufacture(@subtitle)
 				visitor = RD2tDiaryVisitor.new
 				tree = RDTree.new( ["=begin\n", r.strip, "=end\n"], nil, nil )
 				visitor.visit( tree.parse ).gsub(/<\/?p>/, '')
