@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.13 2002-10-15 01:41:54 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.14 2002-11-01 15:28:11 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -256,15 +256,15 @@ If there are no completable text, call `tdiary-do-complete-plugin'."
 	    low (+ low 65536)))
     (list high low micro)))
 
-(defun tdiary-read-username (url)
+(defun tdiary-read-username (url name)
   (let ((username (tdiary-passwd-cache-read-username url)))
     (or username
-	(read-string (concat "User Name for '" url "': ")))))
+	(read-string (concat "User Name for '" name "': ")))))
 
-(defun tdiary-read-password (url)
+(defun tdiary-read-password (url name)
   (let ((password (tdiary-passwd-cache-read-password url)))
     (or password
-	(read-passwd (concat "Password for '" url "': ")))))
+	(read-passwd (concat "Password for '" name "': ")))))
 
 (defun tdiary-read-date (date)
   (while (not (string-match
@@ -333,8 +333,8 @@ Dangerous!!!"
       (setq tdiary-edit-mode (setq mode (tdiary-read-mode mode)))
       (setq tdiary-date (setq date (tdiary-read-date date)))
       (setq tdiary-title (setq title (tdiary-read-title date))))
-    (setq user (tdiary-read-username url))
-    (setq pass (tdiary-read-password url))
+    (setq user (tdiary-read-username url tdiary-diary-name))
+    (setq pass (tdiary-read-password url tdiary-diary-name))
     (string-match "\\([0-9][0-9][0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
 		  date)
     (setq year (match-string 1 date)
