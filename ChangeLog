@@ -1,3 +1,6 @@
+2003.10.10 TADA Tadashi <sho@spc.gr.jp>
+	* misc/posttdiary.rb: --image-format.
+
 2003-10-10  zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: CGI::escape instead of CGI::escapeHTML to make a URL
 

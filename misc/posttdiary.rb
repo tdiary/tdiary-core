@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.8 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.9 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 
 =begin ChangeLog
+2003-10-10 TADA Tadashi <sho@spc.gr.jp>
+	* --image-formt option.
+
 2003-09-10 TADA Tadashi <sho@spc.gr.jp>
 	* unset date to request for tDiary.
 
@@ -48,9 +51,12 @@ def usage
 		          If To: field of the mail likes "user-passwd@example.com",
 		          you can omit user and passwd arguments.
 		options:
-		  --image-path, -i: directory of image saving into.
-		  --image-url,  -u: URL of image.
+		  --image-path,   -i: directory of image saving into.
+		  --image-url,    -u: URL of image.
 		          You have to specify both options when using images.
+		  --image-format, -f: format of image tag specified image serial
+		          number as '$0' and image url as '$1'.
+		          default format is ' <img class="photo" src="$1" alt="">'.
   TEXT
   text.gsub( /\t/, '' )
 end
@@ -92,9 +98,11 @@ begin
 	parser = GetoptLong::new
 	image_dir = nil
 	image_url = nil
+	image_format = ' <img class="photo" src="$1" alt="">'
 	parser.set_options(
 		['--image-path', '-i', GetoptLong::REQUIRED_ARGUMENT],
-		['--image-url', '-u', GetoptLong::REQUIRED_ARGUMENT]
+		['--image-url', '-u', GetoptLong::REQUIRED_ARGUMENT],
+		['--image-format', '-f', GetoptLong::REQUIRED_ARGUMENT]
 	)
 	begin
 		parser.each do |opt, arg|
@@ -103,6 +111,8 @@ begin
 				image_dir = arg
 			when '--image-url'
 				image_url = arg
+			when '--image-format'
+				image_format = arg
 			end
 		end
 	rescue
@@ -179,7 +189,8 @@ begin
 	if @image_name then
 		img_src = ""
 		@image_name.each do |i|
-			img_src << %Q[ <img class="photo" src="#{image_url+i}" alt="">]
+			serial = i.sub( /^\d+_(\d+)\..*$/, '\1' )
+			img_src = image_format.gsub( /\$0/, serial ).gsub( /\$1/, image_url + i )
 		end
 		@body = "#{@body.sub( /\n+\z/, '' )}\n#{img_src}"
 	end
