@@ -1,3 +1,6 @@
+2003.03.21 zunda <zunda@freeshell.org>
+	* skel/(i.)diary.rhtml, i.update.rhtml(.en): comment.body.shorten -> comment.shorten
+
 2003.03.19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: loading plugin files before eval rhtmls.
 
