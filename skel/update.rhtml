@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.19 $ %>
+<%# update.rhtml $Revision: 1.20 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [<%%= submit_label %%>]</h1>
@@ -40,6 +40,8 @@
 		</span>
 	</div></form>
 </div>
+
+<%%=form_proc( @date )%%>
 
 <hr class="sep">
 

@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.105 $
+tdiary.rb $Revision: 1.106 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.3.20030418'
+TDIARY_VERSION = '1.5.3.20030420'
 
 require 'cgi'
 require 'nkf'
@@ -56,7 +56,11 @@ enhanced CGI class
 =end
 class CGI
 	def valid?( param, idx = 0 )
-		self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
+		begin
+			self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
+		rescue NameError # for Tempfile class of ruby 1.6
+			self.params[param][idx].stat.size > 0
+		end
 	end
 
 	def mobile_agent?
@@ -568,6 +572,7 @@ module TDiary
 			@body_enter_procs = []
 			@body_leave_procs = []
 			@edit_procs = []
+			@form_procs = []
 			@cookies = []
 
 			params.each_key do |key|
@@ -680,6 +685,18 @@ module TDiary
 		def edit_proc( date )
 			r = []
 			@edit_procs.each do |proc|
+				r << proc.call( date )
+			end
+			r.join
+		end
+
+		def add_form_proc( block = proc )
+			@form_procs << block
+		end
+
+		def form_proc( date )
+			r = []
+			@form_procs.each do |proc|
 				r << proc.call( date )
 			end
 			r.join
@@ -965,8 +982,6 @@ module TDiary
 		def initialize( cgi, rhtm, confl )
 			super
 	
-			#raise TDiaryError, 'cannot edit in multi user mode' if @conf.multi_user
-	
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				@diary = self[@date]
@@ -1079,6 +1094,39 @@ module TDiary
 					dirty = DIRTY_COMMENT
 				end
 				dirty
+			end
+		end
+	end
+
+	#
+	# class TDiaryFormPlugin
+	#  show edit diary form after calling form plugin.
+	#
+	class TDiaryFormPlugin < TDiaryBase
+		def initialize( cgi, rhtm, confl )
+			super
+
+			if @cgi.valid?( 'date' ) then
+				if @cgi.params['date'][0].kind_of?( String ) then
+					date = @cgi.params['date'][0]
+				else
+					date = @cgi.params['date'][0].read
+				end
+				@date = Time::local( *date.scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
+			else
+				@date = Time::now + (@conf.hour_offset * 3600).to_i
+				@diary = @io.diary_factory( @date, '', '', @conf.style )
+			end
+	
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				@diary = self[@date]
+				if @diary then
+					@conf.style = @diary.style
+				else
+					@diary =  @io.diary_factory( @date, '', '', @conf.style )
+				end
+				DIRTY_NONE
 			end
 		end
 	end

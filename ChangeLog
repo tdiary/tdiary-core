@@ -1,3 +1,6 @@
+2003.04.20 TADA Tadashi <sho@spc.gr.jp>
+	* support form_proc plugin.
+
 2003.04.18 TADA Tadashi <sho@spc.gr.jp>
 	* remove comment mail feature to plugin: comment_mail-{smtp,qmail,sendmail}.rb.
 
