@@ -1,3 +1,6 @@
+2003.09.25 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb, skel/diary.rhtml, plugin/00default.rb: add <div class="trackbacks">.
+
 2003.09.17 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: change URL of RAA.
 

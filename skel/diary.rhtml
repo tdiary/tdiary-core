@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.18 $ %>
+<%# diary.rhtml $Revision: 1.19 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span><%
 if opt['show_nyear'] then
@@ -71,6 +71,13 @@ if not opt['hide_comment_form'] and opt['long_mode'] then %>
 	</div><%
 end %>
 
+<%% unless @plugin_files.grep(/tb-show.rb\z/).empty? then %><%
+	if opt['long_mode'] then %><%%=
+		trackbacks_of_today_long( @diaries["<%= @date.strftime( '%Y%m%d' ) %>"] )
+	 %><% else %><%%=
+		trackbacks_of_today_short( @diaries["<%= @date.strftime( '%Y%m%d' ) %>"] )
+	%><% end %><%%
+end %>
 
 <%
 if opt['show_referer'] then

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.141 $
+tdiary.rb $Revision: 1.142 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -183,6 +183,26 @@ module TDiary
 				break if idx >= limit
 				next unless com.visible?
 				yield com,idx+1 # idx is start with 1.
+			end
+		end
+	
+		def each_visible_trackback( limit = 3 )
+			i = 0
+			@comments.find_all {|com|
+				com.visible_true? and /^(Track|Ping)Back$/ =~ com.name
+			}[0,limit].each do |com|
+				i += 1 # i starts with 1.
+				yield com,i
+			end
+		end
+	
+		def each_visible_trackback_tail( limit = 3 )
+			i = 0
+			@comments.find_all {|com|
+				com.visible_true? and /^(Track|Ping)Back$/ =~ com.name
+			}.reverse[0,limit].reverse.each do |com|
+				i += 1 # i starts with 1.
+				yield com,i
 			end
 		end
 	end

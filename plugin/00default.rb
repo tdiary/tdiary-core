@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.55 $
+# $Revision: 1.56 $
 #
 
 #
@@ -505,6 +505,8 @@ def comment_submit_label; '投稿'; end
 def comment_submit_label_short; '投稿'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
 def referer_today; '本日のリンク元'; end
+def trackback_today; '本日のTrackBacks'; end
+def trackback_total( total ); "(全#{total}件)"; end
 
 def navi_index; 'トップ'; end
 def navi_latest; '最新'; end
