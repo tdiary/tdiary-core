@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.114 $
+tdiary.rb $Revision: 1.115 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4'
+TDIARY_VERSION = '1.5.4.20030517'
 
 require 'cgi'
 require 'nkf'
@@ -792,7 +792,7 @@ module TDiary
 	protected
 		def do_eval_rhtml( prefix )
 			# load plugin files
-			@plugin = load_plugins
+			load_plugins
 
 			# load and apply rhtmls
 			if cache_enable?( prefix ) then
@@ -828,7 +828,7 @@ module TDiary
 	
 		def load_plugins
 			calendar
-			Plugin::new(
+			@plugin = Plugin::new(
 				'conf' => @conf,
 				'mode' => mode,
 				'diaries' => @diaries,
@@ -1332,8 +1332,10 @@ module TDiary
 			end
 		end
 	
-		def eval_rhtml( prefix = '' )
-			super
+	protected
+		def do_eval_rhtml( prefix )
+			load_plugins
+			@plugin.instance_eval { update_proc }
 			anchor = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
 			raise ForceRedirect::new( "#{@conf.index}#{anchor}#c#{'%02d' % @diary.count_comments( true )}" )
 		end
@@ -1656,7 +1658,7 @@ HERE
 
 		def eval_rhtml( prefix = '' )
 			raise TDiaryTrackBackError.new("invalid date: #{@date.strftime('%Y%m%d')}") unless @diary
-			@plugin = load_plugins
+			load_plugins
 			r = <<RSSHEAD
 <?xml version="1.0" encoding="EUC-JP"?>
 <response>
@@ -1758,7 +1760,7 @@ RSSFOOT
 	#
 	class TDiaryTrackBackShow < TDiaryTrackBackBase
 		def eval_rhtml( prefix = '' )
-			@plugin = load_plugins
+			load_plugins
 			anchor = @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
 			raise ForceRedirect::new("../#{@conf.index}#{anchor}#t")
 		end

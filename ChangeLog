@@ -1,3 +1,6 @@
+2003.05.17 Kenta MURATA <muraken2@nifty.com>
+	* TDiaryComment#eval_rhtml ignores some exceptions
+
 2003.05.15 TADA Tadashi <sho@spc.gr.jp>
 	* wiki_parser.rb: remove #!... line.
 	* release 1.5.4.
