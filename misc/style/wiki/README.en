@@ -57,9 +57,16 @@ No WikiWord supported.
 
  [[keyword]]
 
+By separating keyword with ':', you can make a link equivalent of InterWikiName.
+This is a feature of kw plugin.
+
+ [[foo:keyword]]
+
 You can make alias name of link word by separate '|'.
 
  [[tDiary|http://www.tdiary.org/]]
+ [[this file|../files/foo.txt]]
+ [[bar|foo:キーワード]]
 
 In this case, if the URL part is like a tDiary's anchor
 (ex. 20030125#p03), it expand to my plugin but not kw plugin.

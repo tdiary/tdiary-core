@@ -73,6 +73,7 @@ wiki_parser.rbとwiki_style.rbを、インストールディレクトリにあるtdiary
 
  [[Asumi日記|http://sho.tdiary.net/]]
  [[このファイル|../files/hoge.txt]]
+ [[ほげ|hoge:キーワード]]
 
 なお、上記構文で、右側のURL部分がtDiaryのアンカー風(20030125#p03とか)
 の場合は、myプラグインに展開される。
