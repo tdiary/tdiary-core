@@ -1,3 +1,6 @@
+2002.11.08 Junichiro Kita <kita@kitaj.no-ip.com
+	* merge navi_user_light.rb into 00default.rb
+
 2002.11.08 TADA Tadashi <sho@spc.gr.jp>
 	* @lang in tdiary.conf and add English resources.
 

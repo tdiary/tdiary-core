@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.10 $
+# $Revision: 1.11 $
 #
 
 #
@@ -16,15 +16,35 @@ end
 def navi_user
 	result = ''
 	result << %Q[<span class="adminmenu"><a href="#{@index_page}">トップ</a></span>\n] unless @index_page.empty?
-	result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor( (@date-24*60*60).strftime( '%Y%m%d' ) )}">&lt;前日</a></span>\n] if /^(day|comment)$/ =~ @mode
-	result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor( (@date+24*60*60).strftime( '%Y%m%d' ) )}">翌日&gt;</a></span>\n] if /^(day|comment)$/ =~ @mode
-	result << %Q[<span class="adminmenu"><a href="#{@index}">最新</a></span>\n] unless @mode == 'latest'
-	result
-end
+	if /^(day|comment)$/ =~ @mode
+		days = []
+		today = @date.strftime('%Y%m%d')
+		days += @diaries.keys
+		days |= [today]
 
-def navi_admin
-	result = %Q[<span class="adminmenu"><a href="#{@update}">更新</a></span>\n]
-	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">設定</a></span>\n] if /^(latest|month|day|comment|conf)$/ !~ @mode
+		days.sort!
+		days.unshift(nil).push(nil)
+		prev_day, cur_day, next_day = days[days.index(today) - 1, 3]
+		if prev_day
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor prev_day}">&lt;#{navi_prev_day Time::local(*prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}</a></span>\n]
+		else
+			pday = Time.local(@date.year, @date.month, 1) - 24*60*60
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor pday.strftime('%Y%m%d')}">&lt;#{navi_prev_day2 pday.strftime(@date_format)}</a></span>\n]
+		end
+		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
+		if next_day
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor next_day}">#{navi_next_day Time::local(*next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]).strftime(@date_format)}&gt;</a></span>\n]
+		else
+			nday = if @date.month == 12
+				Time.local(@date.year + 1, 1, 1)
+			else
+				Time.local(@date.year, @date.month + 1, 1)
+			end
+			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor nday.strftime('%Y%m%d')}">#{navi_next_day2 nday.strftime(@date_format)}&gt;</a></span>\n]
+		end
+	else
+		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
+	end
 	result
 end
 
@@ -202,6 +222,12 @@ def comment_submit_label; '投稿'; end
 def comment_submit_label_short; '投稿'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
 def referer_today; '本日のリンク元'; end
+
+def navi_latest; '最新'; end
+def navi_prev_day(date); "前の日記(#{date})"; end
+def navi_next_day(date); "次の日記(#{date})"; end
+def navi_prev_day2(date); "先月末日(#{date})"; end
+def navi_next_day2(date); "翌月1日(#{date})"; end
 
 def submit_command
 	if @mode == 'form' then
