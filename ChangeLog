@@ -1,3 +1,6 @@
+2002.03.28 TADA Tadashi <sho@spc.gr.jp>
+	* default.css: no underline for links.
+
 2002.03.27 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: $:.unshift orig_path.
 	* tdiary.rb: fail safe check for @data_path.
