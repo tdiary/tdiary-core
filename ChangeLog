@@ -1,3 +1,6 @@
+2003.08.06 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, 00default.rb: taint all param values of @cgi in Plugin.
+
 2003.08.05 TADA Tadashi <sho@spc.gr.jp>
 	* doc/HOWTO-make-plugin.html: about conf_proc.
 	* 00default.rb: fix about comment_mail error in secure mode. thanks kazuhiko.

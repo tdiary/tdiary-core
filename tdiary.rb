@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.135 $
+tdiary.rb $Revision: 1.136 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5'
+TDIARY_VERSION = '1.5.5.20030806'
 
 require 'cgi'
 require 'nkf'
@@ -568,6 +568,13 @@ module TDiary
 			@date_format = @conf.date_format
 			@referer_table = @conf.referer_table
 			@options = @conf.options
+
+			# for ruby 1.6.x support
+			if @conf.secure then
+				@cgi.params.each_value do |p|
+					p.each {|v| v.taint}
+				end
+			end
 
 			# loading plugins
 			@plugin_files = []
