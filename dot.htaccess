@@ -1,7 +1,7 @@
 Options +ExecCGI
 
 # if you run tDiary with symbolic link, use settings below.
-#Options FollowSymLinks
+#Options +FollowSymLinks
 
 # if making anchor style as 'YYYYMMDD.html', use settings below,
 # then change 'your_URL_of_index.rb' and use html_anchor.rb plugn.
