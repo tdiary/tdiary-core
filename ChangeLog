@@ -1,3 +1,6 @@
+2003.11.03 Junichiro Kita <kita@kitaj.no-ip.com>
+	* ske/category.rhtml: stripped_subtitle -> stripped_subtitle_to_html.
+
 2003.10.29 zunda <zunda at freeshell.org>
 	* tdiary.rb: passes yield separate values instead of an Array to follow behavior of yield [ruby-dev:21276]
 
