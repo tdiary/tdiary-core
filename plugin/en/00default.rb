@@ -232,7 +232,7 @@ end
 
 # comment mail
 def comment_mail_mime( str )
-	str.dup
+	[str.dup]
 end
 
 def comment_mail_conf_label; 'TSUKKOMI Mail'; end
