@@ -1,3 +1,7 @@
+2002.03.20 TADA Tadashi <sho@spc.gr.jp>
+	* doctype plugin.
+	* add HTML 4.01 Tr DTD's URL into default DOCTYPE. [testing]
+
 2002.03.18 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix comment mail subject was wrong.
 

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.2 $
+# $Revision: 1.3 $
 #
 
 #
@@ -53,6 +53,13 @@ def insert( file )
 	rescue
 		%Q[<p class="message">#$! (#{$!.type})<br>cannot read #{file}.</p>]
 	end
+end
+
+#
+# define DOCTYPE
+#
+def doctype
+	%Q[<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">]
 end
 
 #
