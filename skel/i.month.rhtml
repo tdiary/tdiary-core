@@ -1,5 +1,5 @@
-<%# i.day.rhtml $Revision: 1.10 $ %>
-<H1><%= @conf.html_title %></H1>
+<%# i.day.rhtml $Revision: 1.11 $ %>
+<H1><%= CGI::escapeHTML( @conf.html_title ) %></H1>
 <%
 diary = @diaries[@diaries.keys.sort[0]]
 if diary then

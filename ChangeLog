@@ -1,3 +1,11 @@
+2003-10-23  Kazuhiko  <kazuhiko@fdiary.net>
+	* plugin/ja/00default.rb, plugin/ja/00default.rb,
+	skel/category.rhtml, skel/conf.rhtml, skel/i.conf.rhtml,
+	skel/i.day.rhtml, skel/i.latest.rhtml, skel/i.month.rhtml,
+	skel/i.show.rhtml, skel/i.update.rhtml, skel/i.update.rhtml.en,
+	skel/preview.rhtml, skel/preview.rhtml.en, skel/show.rhtml,
+	skel/update.rhtml, skel/update.rhtml.en: escape HTML @html_title.
+
 2003.10.22 TADA Tadashi <sho@spc.gr.jp>
 	* skel/tdiary.rconf: fix error when @author_mail was nil.
 

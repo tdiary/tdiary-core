@@ -1,5 +1,5 @@
-<%# i.update.rhtml $Revision: 1.8 $ %>
-<H1><%= @conf.html_title %> [<%%= submit_label %>]</H1>
+<%# i.update.rhtml $Revision: 1.9 $ %>
+<H1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</H1>
 
 <P>
 <%%= mobile_navi %>

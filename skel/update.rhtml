@@ -1,7 +1,7 @@
-<%# update.rhtml $Revision: 1.24 $ %>
+<%# update.rhtml $Revision: 1.25 $ %>
 <%%=navi%>
 
-<h1><%= @conf.html_title %> [<%%= submit_label %>]</h1>
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
 
 <div class="update day">
 <div class="form">

@@ -6,7 +6,7 @@
 # header
 #
 def title_tag
-	r = "<title>#{@html_title}"
+	r = "<title>#{CGI::escapeHTML( @html_title )}"
 	case @mode
 	when 'day', 'comment'
 		r << "(#{@date.strftime( '%Y-%m-%d' )})" if @date

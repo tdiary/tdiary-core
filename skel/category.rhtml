@@ -1,4 +1,4 @@
-<%# category.rhtml $Revision: 1.4 $ %>
+<%# category.rhtml $Revision: 1.5 $ %>
 <%%=navi %>
 <%
 case mode
@@ -18,7 +18,7 @@ when /latest/
 	param = []
 end
 %>
-<h1><%= @conf.html_title %> [<%%= category_title %>: <%%= <%= label %> %>]</h1>
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= category_title %>: <%%= <%= label %> %>]</h1>
 <hr class="sep">
 <%%= category_form %>
 <hr class="sep">

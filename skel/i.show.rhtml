@@ -1,6 +1,6 @@
-<%# i.show.rhtml $Revision: 1.8 $ %>
+<%# i.show.rhtml $Revision: 1.9 $ %>
 <%%update_proc%>
-<H1><%= @conf.html_title %> <%%=label_update_complete%></H1>
+<H1><%= CGI::escapeHTML( @conf.html_title ) %> <%%=label_update_complete%></H1>
 <P>
 <%%= mobile_navi %>
 </P>

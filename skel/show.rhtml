@@ -1,7 +1,7 @@
-<%# show.rhtml $Revision: 1.9 $ %>
+<%# show.rhtml $Revision: 1.10 $ %>
 <%%=navi%><%%update_proc%>
 
-<h1><%= @conf.html_title %> <%%=label_update_complete%></h1>
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> <%%=label_update_complete%></h1>
 <% unless @diary.visible? then %><p class="message"><%%=label_hidden_diary%></p><% end %>
 <%
 param = {
