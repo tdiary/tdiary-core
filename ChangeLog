@@ -1,3 +1,6 @@
+2003.08.05 TADA Tadashi <sho@spc.gr.jp>
+	* doc/HOWTO-make-plugin.html: about conf_proc.
+
 2003.08.04 TADA Tadashi <sho@spc.gr.jp>
 	* support ruby 1.8.0 preview7.
 	* wiki_parser.rb: add "\n" to end of blockquoted lines.

@@ -149,12 +149,15 @@ def theme_url; 'theme'; end
 	<li><code>footer_proc</code>: footer生成時に呼び出される</li>
 	<li><code>edit_proc</code>: 更新フォームの内部で呼び出される。更新フォーム内に新たなアイテムを追加する時に使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。追加したアイテムのname属性は、必ず「plugin_プラグイン名_アイテム名」になっていなくてはならない</li>
 	<li><code>form_proc</code>: 更新フォームの次に呼び出される。更新フォームとは別のフォームなどを追加するときに使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。フォームを追加した場合、submitボタンには必ず「plugin」というname属性を付ける必要がある</li>
+	<li><code>conf_proc</code>: 設定画面で呼び出される。プラグインのオプション設定をWebから行うためのプラグイン</li>
 </ul>
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</conf>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
+
+<p>これらのプラグインは、一般的に以下のように定義して使います。</p>
 
 <pre>
 # 検索キーワードをheadに挿入する
@@ -195,6 +198,30 @@ end
 
 <p>一方、同じフォーム追加を目的としたform_procではこのようにする必要はなく、同じform_proc内で入力を受けとることができます。</p>
 
+<p>他のコールバック系プラグインとは少しおもむきが異なるのが、<code>add_conf_proc</code>です。以下のように呼び出します。</p>
+
+<pre>
+add_conf_proc( 'hoge', 'hogeの設定' ) do
+   # 設定の保存
+   if @mode == 'saveconf' then
+      @conf['hoge.fuga'] = @cgi.params['hoge.fuga'][0]
+   end
+
+   # 設定画面の出力
+   &lt;&lt;-HTML
+   &lt;h3&gt;fugaの指定&lt;/h3&gt;
+   &lt;p&gt;&lt;input name="hoge.fuga"&gt;&lt;/p&gt;
+   HTML
+end
+</pre>
+
+<p>1つ目の引数は、複数の<code>conf_proc</code>の中からどれを表示するか選ぶために、全プラグイン内で一意になるようにつけるキーワードです。一般的にはプラグインの名称をつけます。2番目の引数は設定画面の一覧を表示するときに使うラベル文字列です。言語によって変更させます。</p>
+
+<p><code>@mode</code>が<code>'saveconf'</code>の時のみ、@cgi経由で渡された設定を保存します。保存先は@conf[]にオプション用のキーワードを指定して代入します。これは従来tdiary.confにて、@optionsとして指定したものと同じです。なお、conf_procで保存できるオプションは、文字列(String)、整数(Fixnum)、真偽値(TrueClass/FalseClass)、nil(NilClass)で表現されるオブジェクトだけです。</p>
+
+<p>conf_procを使って設定を保存すると、その後はtdiary.confによる@optionsは効かなくなるので注意が必要です。また、@conf.secureに応じて設定できる項目が変化するようにしておけば、レンタルの場合に不必要な項目をユーザが変更できなくすることも可能です。</p>
+
+
 <h2><a name="methods">プラグインが生成するHTML</a></h2>
 <p>プラグインは一般的に文字列を返すことでその文字列が日記に埋め込まれるわけですが、多くの場合その文字列はHTMLの断片になります。このHTML断片は以下のルールに従うようにしてください。
 
@@ -221,7 +248,8 @@ end
 <h2><a name="option">プラグインへのオプションの渡し方</a></h2>
 
 <p>プラグインはRubyのメソッドですから、呼び出し時に引数を指定することで、利用者がプラグインの挙動を変更することが可能です。しかし、tdiary.conf等で日記管理者が強制的にオプションを指定したい場合があります。そのようなプラグインを作成する時には、tdiary.confで指定できる@options変数を使うことができます。</p>
-<p>@option変数はHashとしてプラグインに見えますので、tdiary.confで任意の文字列をキーとして定義すれば、それをプラグイン内で利用することが可能です。@optionsのキーに指定する文字列はなんでもかまいませんが、名前の重複を避けるためにプラグイン名とオプション名を「.」で区切ったものを推奨します。</p>
+
+<p>@option変数は、プラグインから@conf[]を経由して見ることができるで、tdiary.confで任意の文字列をキーとして定義すれば、それをプラグイン内で利用することが可能です。@optionsのキーに指定する文字列はなんでもかまいませんが、名前の重複を避けるためにプラグイン名とオプション名を「.」で区切ったものを推奨します。</p>
 <pre>
 # sampleプラグインにhogeオプションを指定する(tdiary.conf内)
 @options['sample.hoge'] = 'foobar'
@@ -229,8 +257,10 @@ end
 
 <pre>
 # sampleプラグイン内でオプションを取得する(sample.rb内)
-hoge = @options['sample.hoge']
+hoge = @conf['sample.hoge']
 </pre>
+
+<p>またconf_procプラグインを使うことで、この変数の値をWeb上から対話的に設定できるようにもできます。詳しくはコールバック系プラグインの説明を参照してください。</p>
 
 <p>なお、この仕組みはプラグイン制作者側には便利ですが、ファイルを設置するだけで使えるようになるプラグインの簡便さを削いでしまう可能性もあります。できるだけ@optionsが設定されていなくても動作するように、適切なデフォルトを用意するようにして下さい。</p>
 
