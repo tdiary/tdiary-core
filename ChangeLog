@@ -1,5 +1,6 @@
 2003.04.03 TADA Tadashi <sho@spc.gr.jp>
 	* HOWTO-use-plugin.html: add about @options['apply_plugin'].
+	* mobile mode support AitH"Phone browser.
 
 2003-04-02 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: fix nested <a> tag in DescList. thanx mput.
