@@ -1,3 +1,6 @@
+2003-12-19 Fri UECHI Yasumasa <uh@u.dhis.portside.net>
+	* misc/style/rd/rd_style.rb: accept lower level headlines without upper level headlines.
+
 2003.12.18 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: save theme conf before call header_proc.
 
