@@ -1,3 +1,6 @@
+2002.03.02 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.conf.sample: fix comment of @latest_limit.
+
 2002.03.01 TADA Tadashi <sho@spc.gr.jp>
 	* i.update.rhtml: adjust comment number when some comments hidden.
 	* add 'anchor' plugin. for mod_rewrite.
