@@ -1,0 +1,13 @@
+/*
+shared style sheet for tDiary.
+
+usage:
+   @import url(../base.css);
+*/
+
+/*
+nyear
+*/
+h2 span.nyear {
+	font-size: small;
+}

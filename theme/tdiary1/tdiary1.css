@@ -1,6 +1,6 @@
 /*
 Title: tDiary1 Default
-Revision: $Revision: 1.3 $
+Revision: $Revision: 1.4 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -8,6 +8,11 @@ Comment: default theme for tDiart 1.x
 
 validated by W3C.
  */
+
+/*
+共通設定の読み込み
+*/
+@import url(../base.css);
 
 /*
 ページ全体の基本的な設定。背景色や文字色など
@@ -101,13 +106,6 @@ span.date {
 タイトルの設定
 */
 span.title {
-}
-
-/*
-長年日記
-*/
-span.nyear {
-	font-size: small;
 }
 
 /*

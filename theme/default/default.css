@@ -1,6 +1,6 @@
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.10 $
+Revision: $Revision: 1.11 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -8,6 +8,11 @@ Comment: default theme for tDiary 1.5 or later.
 
 validated by W3C.
 */
+
+/*
+共通設定の読み込み
+*/
+@import url(../base.css);
 
 /*
 ページ全体の基本的な設定。背景色や文字色など
@@ -100,13 +105,6 @@ div.day {
 */
 h2 {
 	margin: 0.1em 1em 0.1em 0.5em;
-}
-
-/*
-長年日記ラベルの設定
-*/
-h2 span.nyear {
-	font-size: small;
 }
 
 /*
