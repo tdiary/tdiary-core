@@ -1,6 +1,4 @@
-#!/usr/bin/env ruby
-#
-# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.5 $
+# wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.6 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # You can distribute this under GPL.

@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.17 $
+#
+# index.rb $Revision: 1.18 $
+#
+# Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
+# You can redistribute it and/or modify it under GPL2.
+#
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 

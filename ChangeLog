@@ -1,3 +1,6 @@
+2003.05.15 TADA Tadashi <sho@spc.gr.jp>
+	* wiki_parser.rb: remove #!... line.
+
 2003.05.15 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: fix footnote element with mput's patch.
 
