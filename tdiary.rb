@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.125 $
+tdiary.rb $Revision: 1.126 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030622'
+TDIARY_VERSION = '1.5.4.20030624'
 
 require 'cgi'
 require 'nkf'
@@ -592,7 +592,7 @@ module TDiary
 		end
 
 	private
-		def add_header_proc( block = proc )
+		def add_header_proc( block = Proc::new )
 			@header_procs << block
 		end
 
@@ -604,7 +604,7 @@ module TDiary
 			r.join.chomp
 		end
 
-		def add_footer_proc( block = proc )
+		def add_footer_proc( block = Proc::new )
 			@footer_procs << block
 		end
 
@@ -616,7 +616,7 @@ module TDiary
 			r.join.chomp
 		end
 
-		def add_update_proc( block = proc )
+		def add_update_proc( block = Proc::new )
 			@update_procs << block
 		end
 
@@ -627,7 +627,7 @@ module TDiary
 			''
 		end
 
-		def add_body_enter_proc( block = proc )
+		def add_body_enter_proc( block = Proc::new )
 			@body_enter_procs << block
 		end
 
@@ -639,7 +639,7 @@ module TDiary
 			r.join
 		end
 
-		def add_body_leave_proc( block = proc )
+		def add_body_leave_proc( block = Proc::new )
 			@body_leave_procs << block
 		end
 
@@ -651,7 +651,7 @@ module TDiary
 			r.join
 		end
 
-		def add_edit_proc( block = proc )
+		def add_edit_proc( block = Proc::new )
 			@edit_procs << block
 		end
 
@@ -663,7 +663,7 @@ module TDiary
 			r.join
 		end
 
-		def add_form_proc( block = proc )
+		def add_form_proc( block = Proc::new )
 			@form_procs << block
 		end
 
@@ -675,7 +675,7 @@ module TDiary
 			r.join
 		end
 
-		def add_conf_proc( key, label, block = proc )
+		def add_conf_proc( key, label, block = Proc::new )
 			return unless @mode =~ /^(conf|saveconf)$/
 			@conf_keys << key unless @conf_keys.index( key )
 			@conf_procs[key] = [label, block]

@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.13 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.14 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -319,7 +319,7 @@ module TDiary
 	private
 		def get_categories
 			return [] unless @subtitle
-			cat = /^(\[([^[]+?)\])+/.match(@subtitle).to_a[0]
+			cat = /^(\[([^\[]+?)\])+/.match(@subtitle).to_a[0]
 			return [] unless cat
 			cat.scan(/\[(.*?)\]/).collect do |c|
 				c[0].split(/,/)
@@ -328,7 +328,7 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			parser = WikiParser::new( :wikiname => false ).parse( @subtitle.sub(/^(\[[^[]+?\])+\s*/,'') )
+			parser = WikiParser::new( :wikiname => false ).parse( @subtitle.sub(/^(\[[^\[]+?\])+\s*/,'') )
 			parser.delete_at(0)   # remove :PS
 			parser.delete_at(-1)  # remove :PE
 			r = do_html4(parser, nil, nil, true)
