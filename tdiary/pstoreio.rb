@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.20 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.21 $
 #
 require 'pstore'
 
@@ -18,9 +18,8 @@ module TDiary
 			begin
 				PStore::new( filename ).transaction do |db|
 					dirty = false
-					begin
+					if db.root?( 'diary' ) then
 						diaries.update( db['diary'] )
-					rescue PStore::Error
 					end
 					dirty = yield( diaries ) if iterator?
 					if dirty != TDiary::TDiaryBase::DIRTY_NONE then

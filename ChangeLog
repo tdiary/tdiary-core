@@ -1,3 +1,6 @@
+2003.10.07 Yasuaki Gohko <gony@sm.rim.or.jp>
+	* pstoreio.rb: support ruby 1.8.
+
 2003.10.06 zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: allows multiple directories for plugins
 
