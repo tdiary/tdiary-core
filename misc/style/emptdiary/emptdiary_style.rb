@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.6 2003-07-18 15:35:28 zunda Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.7 2004-12-22 19:52:48 zunda Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -38,6 +38,8 @@ of GPL version 2 or later.
 - TDiary::Emptdiary::String class to handle strings better
 	(Thanks to Mitsuru Shimamura <mitsuru at diana.dti.ne.jp> for the
 	error report)
+* Wed Dec 22, 2004 zunda <zunda at freeshell.org>
+- override body_to_html
 =end
  
 require 'tdiary/tdiary_style'
@@ -107,6 +109,18 @@ of split. initialize method is overrideen.
 			@body = Emptdiary::EmptdiaryString.new( lines.join( "\n" ) )
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
+		end
+
+		def body_to_html
+			html = ""
+			@body.split_unless_plugin( "\n" ).each do |p|
+				if /\A</ =~ p then
+					html << p
+				else
+					html << "<p>#{p}</p>"
+				end
+			end
+			html
 		end
 	end
 
