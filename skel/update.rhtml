@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.10 $ %>
+<%# update.rhtml $Revision: 1.11 $ %>
 <%%=navi%%>
 
 <h1><%= @html_title %> [<%%= submit_label %%>]</h1>
@@ -52,12 +52,10 @@
 				<span class="checkbox">
 					<input class="checkbox" type="checkbox" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
 				</span>
-				<%= CGI::escapeHTML( comment.name ) %>
-				<%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%>
+				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
+				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%></span>
 			</div>
-			<p>
-				<%= comment.body.make_link.gsub( "\n", "</p>\n<p>" ) %>
-			</p><%
+			<p><%= comment.body.make_link.gsub( /\n/, "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
 		end
 		if idx > 0 then %>
 			<div class="button">

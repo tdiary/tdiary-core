@@ -1,5 +1,6 @@
 2002.08.25 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: fix about lost hidden comments at saving. thanks Mizuho <gha@intrastore.cdc.com>.
+	* update.rhtml: change format of comments.
 
 2002.08.22 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: untaint directory name in calendar method. thanks Mizuho <gha@intrastore.cdc.com>.
