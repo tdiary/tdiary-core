@@ -1,3 +1,6 @@
+2003.07.18 UECHI Yasumasa <uh@u.dhis.portside.net>
+	* rd_style: fix ref_ext_IMG is not for HTML4
+
 2003.07.15 TADA Tadashi <sho@spc.gr.jp>
 	* save only valid referer, and referer URL to euc before display.
 

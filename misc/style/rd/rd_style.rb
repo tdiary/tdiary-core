@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.10 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.11 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -157,7 +157,7 @@ module RD
 
 		def ref_ext_IMG(label, content, src)
 			label.to_s == content.to_s and content = src
-			%Q[<img src="#{src}" alt="#{content}" />]
+			%Q[<img src="#{src}" alt="#{content}">]
 		end
 	end
 
