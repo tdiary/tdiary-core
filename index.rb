@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.25 $
+# index.rb $Revision: 1.26 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -39,17 +39,7 @@ begin
 				tdiary = TDiary::TDiaryNYear::new( @cgi, "month.rhtml", conf )
 			end
 		elsif @cgi.valid?( 'category' )
-			if @cgi.valid?( 'month' )
-				if @cgi.params['month'][0] == 'ALL'
-					tdiary = TDiary::TDiaryCategoryYear::new( @cgi, "category.rhtml", conf )
-				else
-					tdiary = TDiary::TDiaryCategoryMonth::new( @cgi, "category.rhtml", conf )
-				end
-			elsif @cgi.valid?( 'year' )
-				tdiary = TDiary::TDiaryCategoryYear::new( @cgi, "category.rhtml", conf )
-			else
-				tdiary = TDiary::TDiaryCategoryLatest::new( @cgi, "category.rhtml", conf )
-			end
+			tdiary = TDiary::TDiaryCategoryView::new( @cgi, "category.rhtml", conf )
 		else
 			tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
 		end

@@ -92,15 +92,6 @@ def mobile_navi_next_diary; 'Next'; end
 def mobile_label_hidden_diary; 'This day is HIDDEN.'; end
 
 #
-# category
-#
-def category_title; "Categorized"; end
-def category_title_year(year); "#{year}"; end
-def category_title_month(year, month); "#{year}-#{month}"; end
-def category_title_quarter(year, q); "#{year}-#{q}Q"; end
-def category_title_latest; "Currnet Month"; end
-
-#
 # preferences
 #
 

@@ -1,42 +1,10 @@
-<%# category.rhtml $Revision: 1.6 $ %>
-<%%=navi %>
-<%
-case mode
-when /month/
-	if @quarter
-		label = %Q|category_title_quarter(#{@year}, #{@quarter})|
-		param = ["year=#{@year};month=#{@quarter}Q"]
-	else
-		label = %Q|category_title_month(#{@year}, #{@months[0]})|
-		param = ["year=#{@year};month=#{'%02d' % @months[0]}"]
-	end
-when /year/
-	label = %Q|category_title_year(#{@year})|
-	param = ["year=#{@year}"]
-when /latest/
-	label = %Q|category_title_latest|
-	param = []
-end
-%>
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= category_title %>: <%%= <%= label %> %>]</h1>
+<%# category.rhtml $Revision: 1.7 $ %>
+<%%= navi %>
+<%= @conf['category.header1'] %>
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> <%%= category_title %></h1>
+<%= @conf['category.header2'] %>
 <hr class="sep">
-<%%= category_form %>
-<hr class="sep">
-<%
-@categorized.keys.sort.each do |c|
-	cgi_param = (param + ["category=#{CGI::escape(c)}"]).join(";")
-%><div class="conf day">
-	<h2><span class="title"><a href="<%=@conf.index %>?<%= cgi_param %>"><%= c %></a></span></h2>
-	<div class="body">
-		<p><%
-		@categorized[c].sort.each do |date, idx, s|%>
-			<a href="<%= @conf.index %><%%= anchor "<%= date.strftime('%Y%m%d') %>#p<%= '%02d' % idx %>" %>"><%= date.strftime(@conf.date_format) %>#p<%= '%02d' % idx %></a> <%= s.stripped_subtitle_to_html %><br><%
-		end %>
-		</p>
-	</div>
-</div>
-
-<% end %>
+<%%= category_list_sections %>
 <hr class="sep">
 <%%= category_form %>
 <hr class="sep">
