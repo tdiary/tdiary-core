@@ -1,3 +1,6 @@
+2003.11.18 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: run Plugin#apply_plugin under $SAFE = 4 when secure mode.
+
 2003.11.17 TADA Tadashi <sho@spc.gr.jp>
 	* dot.htaccess: move comment about YYYYMMDD.html access to html_anchor.rb plugin.
 	* tdiary/lang/ja.rb: remove decoding of charref.
