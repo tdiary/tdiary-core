@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.35 $
+# $Revision: 1.36 $
 #
 
 #
@@ -245,7 +245,7 @@ end
 # make anchor string
 #
 def anchor( s )
-	if /^(\d+)#?([pc]\d*)?$/ =~ s then
+	if /^(\d+)#?([pct]\d*)?$/ =~ s then
 		if $2 then
 			"?date=#$1##$2"
 		else
