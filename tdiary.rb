@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.116 $
+tdiary.rb $Revision: 1.117 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.4.20030530'
+TDIARY_VERSION = '1.5.4.20030602'
 
 require 'cgi'
 require 'nkf'
@@ -1044,7 +1044,8 @@ module TDiary
 
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
-				@conf.style = @diaries[@date.strftime( '%Y%m%d' )].style
+				diary = @diaries[@date.strftime( '%Y%m%d' )]
+				@conf.style = diary.style if diary
 				@diary = @io.diary_factory( @date, @title, @body, @conf.style )
 				@diary.show( ! @hide )
 				DIRTY_NONE
