@@ -1,3 +1,6 @@
+2003.11.19 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tdiary.rb: import base_url method from RWiki.
+
 2003.11.18 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: run Plugin#apply_plugin under $SAFE = 4 when secure mode.
 
