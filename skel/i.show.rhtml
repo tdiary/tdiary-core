@@ -1,0 +1,29 @@
+<%# i.show.rhtml $Revision: 1.1 $ %>
+<H1><%= @html_title %> [更新完了]</H1>
+<P>
+<A HREF="<%= @index %>" ACCESSKEY="1">[1]最新</A>|<A HREF="<%= @update %>?conf=OK" ACCESSKEY="9">[9]設定</A>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</A>
+</P>
+<% unless @diary.visible? then %><P>この日は【非表示】です</P><% end %>
+<%
+param = {
+	'prefix' => 'i.',
+	'index' => @index,
+	'date_format' => @date_format,
+	'paragraph_anchor' => @paragraph_anchor,
+	'comment_anchor' => @comment_anchor,
+	'long_mode' => false,
+	'show_referer' => false,
+	'referer_limit' => 0,
+	'show_comment' => @show_comment,
+	'comment_limit' => 100,
+	'multi_user' => @multi_user
+} %>
+<%= @diary.eval_rhtml( param, PATH ) %>
+
+<FORM METHOD="POST" ACTION="<%= @update %>">
+<INPUT TYPE="HIDDEN" NAME="year" VALUE="<%= @date.year %>">
+<INPUT TYPE="HIDDEN" NAME="month" VALUE="<%= @date.mon %>">
+<INPUT TYPE="HIDDEN" NAME="day" VALUE="<%= @date.mday %>">
+<P><INPUT TYPE="SUBMIT" TABINDEX="1" ACCESSKEY="E" NAME="edit" VALUE=" 再編集 "></P>
+</FORM>
+<HR>

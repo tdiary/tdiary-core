@@ -1,0 +1,99 @@
+<%# i.conf.rhtml $Revision: 1.1 $ %>
+<h1><%= @html_title %> [設定]</h1>
+<P>
+<A HREF="<%= @index %>" ACCESSKEY="1">[1]最新</a>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</a>
+</P>
+
+<FORM METHOD="POST" ACTION="<%= @update %>">
+
+<H2>基本設定</H2>
+<P>
+著者名: <INPUT NAME="author_name" VALUE="<%= CGI::escapeHTML @author_name %>"><BR>
+メール: <INPUT NAME="author_mail" VALUE="<%= @author_mail %>"><BR>
+トップ: <INPUT NAME="index_page" VALUE="<%= @index_page %>"><BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK">
+</P>
+
+<HR>
+
+<H2>ヘッダ・フッタ</H2>
+<P>
+タイトル: <INPUT NAME="html_title" VALUE="<%= CGI::escapeHTML @html_title %>"><BR>
+ヘッダ: <TEXTAREA NAME="header"><%= CGI::escapeHTML @header %></TEXTAREA><BR>
+フッタ: <TEXTAREA NAME="footer"><%= CGI::escapeHTML @footer %></TEXTAREA><BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK"></P>
+
+<HR>
+
+<H2>表示設定(1) - 基本</H2>
+<P>
+セクションアンカー: <INPUT NAME="paragraph_anchor" VALUE="<%= CGI::escapeHTML @paragraph_anchor %>"><BR>
+ツッコミアンカー: <INPUT NAME="comment_anchor" VALUE="<%= CGI::escapeHTML @comment_anchor %>"><BR>
+日付フォーマット: <INPUT NAME="date_format" VALUE="<%= CGI::escapeHTML @date_format %>"><BR>
+最新表示の最大日数: 最大<INPUT NAME="latest_limit" VALUE="<%= @latest_limit %>">日分<BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK"></P>
+
+<HR>
+
+<H2>表示設定(2) - テーマ</H2>
+<P>
+テーマの指定: <SELECT NAME="theme">
+	<OPTION VALUE="">CSS指定</OPTION><%
+@themes.each do |theme| %>
+	<OPTION VALUE="<%= theme[0] %>"<% if theme[0] == @theme then %> SELECTed<% end %>><%= theme[1] %></OPTION><%
+end %>
+</SELECT><BR>
+CSS指定: <INPUT NAME="css" VALUE="<%= @css %>">
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK">
+</P>
+
+<HR>
+
+
+<H2>表示設定(3) - ツッコミ</H2>
+<P>
+ツッコミの表示: <SELECT NAME="show_comment">
+	<OPTION VALUE="true"<% if @show_comment then %> SELECTed<% end %>>表示</OPTION>
+	<OPTION VALUE="false"<% if not @show_comment then %> SELECTed<% end %>>非表示</OPTION>
+</SELECT><BR>
+ツッコミリスト表示数: 最大<INPUT NAME="comment_limit" VALUE="<%= @comment_limit %>">件<BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK">
+</P>
+
+<HR>
+
+<H2>表示設定(4) - リンク元</H2>
+<P>
+リンク元の表示: <SELECT NAME="show_referer">
+	<OPTION VALUE="true"<% if @show_referer then %> SELECTed<% end %>>表示</OPTION>
+	<OPTION VALUE="false"<% if not @show_referer then %> SELECTed<% end %>>非表示</OPTION>
+</SELECT><BR>
+リンク元表示数: 最大<INPUT NAME="referer_limit" VALUE="<%= @referer_limit %>">サイト<BR>
+リンク元記録除外: <TEXTAREA NAME="no_referer"><%= @no_referer2.join( "\n" ) %></TEXTAREA><BR>
+リンク元置換: <TEXTAREA NAME="referer_table"><%= @referer_table2.collect{|a|a.join( " " )}.join( "\n" ) %></TEXTAREA><BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK">
+</P>
+
+<HR>
+
+<H2>メール通知</H2>
+<P>
+ツッコミをメールで通知: <SELECT NAME="mail_on_comment">
+	<OPTION VALUE="true"<% if @mail_on_comment then %> SELECTed<% end %>>通知</OPTION>
+	<OPTION VALUE="false"<% if not @mail_on_comment then %> SELECTed<% end %>>非通知</OPTION>
+</SELECT><BR>
+メールヘッダ: <INPUT NAME="mail_header" VALUE="<%= CGI::escapeHTML @mail_header %>"><BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK">
+</P>
+
+<HR>
+
+<H2>更新設定</H2>
+<P>
+時差調整: <INPUT NAME="hour_offset" VALUE="<%= @hour_offset %>" size="5"><BR>
+<INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK"></p>
+</P>
+
+</FORM>
+
+<HR>

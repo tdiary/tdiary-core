@@ -1,0 +1,38 @@
+<%# i.update.rhtml $Revision: 1.1 $ %>
+<H1><%= @html_title %> [<%%= submit_label %%>]</H1>
+
+<P>
+<A HREF="<%= @index %>" ACCESSKEY="1">[1]最新</A>|<A HREF="<%= @update %>?conf=OK" ACCESSKEY="9">[9]設定</A>
+</P>
+
+<FORM METHOD="POST" ACTION="<%= @update %>">
+<INPUT TYPE="HIDDEN" NAME="old" VALUE="<%= @date.strftime( '%Y%m%d' ) %>">
+<P>
+<INPUT NAME="year" TABINDEX="1" ACCESSKEY="Y" SIZE="4" VALUE="<%= @date.year %>">年
+<INPUT NAME="month" TABINDEX="2" ACCESSKEY="M" SIZE="2" VALUE="<%= @date.mon %>">月
+<INPUT NAME="day" TABINDEX="3" ACCESSKEY="D" SIZE="2" VALUE="<%= @date.day %>">日
+<INPUT TYPE="SUBMIT" TABINDEX="4" ACCESSKEY="e" NAME="edit" VALUE="この日付の日記を編集">
+</P>
+<P>タイトル: <INPUT NAME="title" TABINDEX="5" ACCESSKEY="T" SIZE="40" VALUE="<%= CGI::escapeHTML( @diary.title ) %>"></P>
+<P>本文:<BR>
+<TEXTAREA NAME="body" TABINDEX="6" ACCESSKEY="C"><% @diary.each_paragraph do |paragraph, idx| %><%= CGI::escapeHTML( paragraph.text ) %><% end %></TEXTAREA></P>
+<P><INPUT TYPE="SUBMIT" TABINDEX="7" ACCESSKEY="A" NAME="<%%= submit_command %%>" VALUE=" <%%= submit_label %%> "></P>
+<p><INPUT TYPE="CHECKBOX" NAME="hide" VALUE="true" <% unless @diary.visible? then %>checked <% end %>TABINDEX="8" ACCESSKEY="H">隠す</a>
+</FORM>
+
+<FORM METHOD="POST" ACTION="<%= @update %>">
+<INPUT TYPE="HIDDEN" NAME="year" VALUE="<%= @date.year %>">
+<INPUT TYPE="HIDDEN" NAME="month" VALUE="<%= @date.month %>">
+<INPUT TYPE="HIDDEN" NAME="day" VALUE="<%= @date.day %>">
+<P><%%=comment_today%%><INPUT TYPE="SUBMIT" NAME="comment" VALUE="ツッコミ表示状態変更"></P><%
+idx = 0
+@diary.each_comment( 100 ) do |comment| %>
+	<P>
+		<INPUT TYPE="CHECKBOX" NAME="<%= idx += 1 %>" VALUE="true"<% if comment.visible? then %> checked<% end %>>
+		<%= CGI::escapeHTML( comment.name ) %>
+		(<%= comment.date.strftime( '%m-%d %H:%M' ) %>)
+	</P>
+	<P><%= comment.shorten( 400 ).make_link %></P><%
+end %>
+</FORM>
+<HR>

@@ -1,0 +1,161 @@
+<%# conf.rhtml $Revision: 1.1 $ %>
+<%%=navi%%>
+
+<h1><%= @html_title %> [設定]</h1>
+
+<form method="post" action="<%= @update %>">
+
+<div class="day">
+<h2><span class="title">基本設定</span></h2>
+<div class="body">
+<h3 class="subtitle">著者名</h3>
+<p>あなたの名前を指定します。HTMLヘッダ中に展開されます。</p>
+<p><input name="author_name" value="<%= CGI::escapeHTML @author_name %>"></p>
+<h3 class="subtitle">メールアドレス</h3>
+<p>あなたのメールアドレスを指定します。HTMLヘッダ中に展開されます。</p>
+<p><input name="author_mail" value="<%= @author_mail %>"></p>
+<h3 class="subtitle">トップページURL</h3>
+<p>日記よりも上位のコンテンツがあれば指定します。存在しない場合は何も入力しなくてかまいません。</p>
+<p><input name="index_page" value="<%= @index_page %>" size="50"></p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">ヘッダ・フッタ</span></h2>
+<div class="body">
+<h3 class="subtitle">タイトル</h3>
+<p>HTMLの&lt;title&gt;タグ中および、モバイル端末からの参照時に使われるタイトルです。HTMLタグは使えません。</p>
+<p><input name="html_title" value="<%= CGI::escapeHTML @html_title %>"></p>
+<h3 class="subtitle">ヘッダ</h3>
+<p>日記の先頭に挿入される文章を指定します。HTMLタグが使えます。「&lt;%=navi%&gt;」で、ナビゲーションボタンを挿入できます(これがないと更新ができなくなるので削除しないようにしてください)。また、「&lt;%=calendar%&gt;」でカレンダーを挿入できます。その他、各種プラグインを記述できます。</p>
+<p><textarea name="header" cols="70" rows="10"><%= CGI::escapeHTML @header %></textarea></p>
+<h3 class="subtitle">フッタ</h3>
+<p>日記の最後に挿入される文章を指定します。ヘッダと同様に指定できます。</p>
+<p><textarea name="footer" cols="70" rows="10"><%= CGI::escapeHTML @footer %></textarea></p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">表示設定(1) - 基本</span></h2>
+<div class="body">
+<h3 class="subtitle">セクションアンカー</h3>
+<p>日記のセクションの先頭(サブタイトルの行頭)に挿入される、リンク用のアンカー文字列を指定します。</p>
+<p><input name="paragraph_anchor" value="<%= CGI::escapeHTML @paragraph_anchor %>" size="8"></p>
+<h3 class="subtitle">ツッコミアンカー</h3>
+<p>読者からのツッコミの先頭に挿入される、リンク用のアンカー文字列を指定します。</p>
+<p><input name="comment_anchor" value="<%= CGI::escapeHTML @comment_anchor %>" size="8"></p>
+<h3 class="subtitle">日付フォーマット</h3>
+<p>日付の表示部分に使われるフォーマットを指定します。任意の文字が使えますが、「%」で始まる英字には次のような特殊な意味があります。「%Y」(西暦年)、「%m」(月数値)、「%b」(短月名)、「%B」(長月名)、「%d」(日)、「%a」(短曜日名)、「%A」(長曜日名)。</p>
+<p><input name="date_format" value="<%= CGI::escapeHTML @date_format %>" size="20"></p>
+<h3 class="subtitle">最新表示の最大日数</h3>
+<p>最新の日記を表示するときに、そのページ内に何日分の日記を表示するかを指定します。</p>
+<p>最大<input name="latest_limit" value="<%= @latest_limit %>" size="2">日分</p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">表示設定(2) - テーマ</span></h2>
+<div class="body">
+<h3 class="subtitle">テーマの指定</h3>
+<p>日記のデザインをテーマ、もしくはCSSの直接入力で指定します。ドロップダウンメニューから「CSS指定→」を選択した場合には、右の欄にCSSのURLを入力してください。</p>
+<p>
+<select name="theme">
+	<option value="">CSS指定→</option><%
+@themes.each do |theme| %>
+	<option value="<%= theme[0] %>"<% if theme[0] == @theme then %> selected<% end %>><%= theme[1] %></option><%
+end %>
+</select>
+<input name="css" size="40" value="<%= @css %>">
+</p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+<p>ここにないテーマは<a href="http://www.spc.gr.jp/cgi-bin/tdiarythemes.rb"><img src="<%%=theme_url%%>/tdiarythemes.png" width="88" height="31" alt="tDiary Themes" border="0" valign="bottom"></a>から入手できます。</p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">表示設定(3) - ツッコミ</span></h2>
+<div class="body">
+<h3 class="subtitle">ツッコミの表示</h3>
+<p>読者からのツッコミを表示するかどうかを指定します。</p>
+<p><select name="show_comment">
+	<option value="true"<% if @show_comment then %> selected<% end %>>表示</option>
+	<option value="false"<% if not @show_comment then %> selected<% end %>>非表示</option>
+</select></p>
+<h3 class="subtitle">ツッコミリスト表示数</h3>
+<p>最新もしくは月別表示時に表示する、ツッコミの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのツッコミが表示されます。</p>
+<p>最大<input name="comment_limit" value="<%= @comment_limit %>" size="3">件</p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">表示設定(4) - リンク元</span></h2>
+<div class="body">
+<h3 class="subtitle">リンク元の表示</h3>
+<p>リンク元リストを表示するかどうかを指定します。</p>
+<p><select name="show_referer">
+	<option value="true"<% if @show_referer then %> selected<% end %>>表示</option>
+	<option value="false"<% if not @show_referer then %> selected<% end %>>非表示</option>
+</select></p>
+<h3 class="subtitle">リンク元リスト表示数</h3>
+<p>最新もしくは月別表示時に表示する、リンク元リストの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのリンク元が表示されます。</p>
+<p>最大<input name="referer_limit" value="<%= @referer_limit %>" size="3">サイト</p>
+<h3 class="subtitle">リンク元記録除外リスト</h3>
+<p>リンク元リストに追加しないURLを指定します。正規表現で指定できます。1件1行で入力してください。</p>
+<p>→<a href="<%= @update %>?referer=no" target="referer">既存設定はこちら</a></p>
+<p><textarea name="no_referer" cols="70" rows="20"><%= @no_referer2.join( "\n" ) %></textarea></p>
+<h3 class="subtitle">リンク元置換リスト</h3>
+<p>リンク元リストのURLを、特定の文字列に変換する対応表を指定できます。1件につき、URLと表示文字列を空白で区切って指定します。正規表現が使えるので、URL中に現れた「(〜)」は、置換文字列中で「\1」のような「\数字」で利用できます。</p>
+<p>→<a href="<%= @update %>?referer=table" target="referer">既存設定はこちら</a></p>
+<p><textarea name="referer_table" cols="70" rows="20"><%= @referer_table2.collect{|a|a.join( " " )}.join( "\n" ) %></textarea></p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">メール通知</span></h2>
+<div class="body">
+<h3 class="subtitle">ツッコミをメールで通知</h3>
+<p>ツッコミがあった場合に、メールでその内容を通知するかどうかを指定します。あらかじめ<code>tdiary.conf</code>にSMTPサーバ等の設定をしておく必要があります。</p>
+<p><select name="mail_on_comment">
+	<option value="true"<% if @mail_on_comment then %> selected<% end %>>通知</option>
+	<option value="false"<% if not @mail_on_comment then %> selected<% end %>>非通知</option>
+</select></p>
+<h3 class="subtitle">メールヘッダ</h3>
+<p>ツッコミメールの題名に挿入する文字列を指定します。</p>
+<p><input name="mail_header" value="<%= CGI::escapeHTML @mail_header %>" size="20">(英数字のみ)</p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+<hr class="sep">
+
+<div class="day">
+<h2><span class="title">更新設定</span></h2>
+<div class="body">
+<h3 class="subtitle">時差調整</h3>
+<p>更新時、フォームに挿入される日付を時間単位で調整できます。例えば午前2時までは前日として扱いたい場合には「-2」のように指定することで、2時間分引かれた日付が挿入されるようになります。また、この日付はWebサーバ上の時刻になっているので、海外のサーバで運営している場合の時差調整にも利用できます。</p>
+<p><input name="hour_offset" value="<%= @hour_offset %>" size="5"></p>
+<p><input type="submit" name="saveconf" value="OK"></p>
+</div>
+</div>
+
+
+</form>
+
+<hr class="sep">

@@ -1,0 +1,43 @@
+<%# update.rhtml $Revision: 1.1 $ %>
+<%%=navi%%>
+
+<h1><%= @html_title %> [<%%= submit_label %%>]</h1>
+
+<div class="form"><form method="post" action="<%= @update %>">
+<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
+<p>
+<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">年
+<input class="field" name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">月
+<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">日
+<input type="submit" tabindex="4" accesskey="E" name="edit" value="この日付の日記を編集">
+</p>
+<p>タイトル: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>"></p>
+<p>本文:<br>
+<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><% @diary.each_paragraph do |paragraph, idx| %><%= CGI::escapeHTML( paragraph.text ) %><% end %></textarea></p>
+<p><input type="submit" tabindex="7" accesskey="A" name="<%%= submit_command %%>" value=" <%%= submit_label %%> "></p>
+<p><input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="8" accesskey="H"> この日の日記を隠す</a>
+</form>
+
+<div class="comment"><form method="post" action="<%= @update %>">
+<input type="hidden" name="year" value="<%= @date.year %>">
+<input type="hidden" name="month" value="<%= @date.month %>">
+<input type="hidden" name="day" value="<%= @date.day %>">
+<p class="commenttitle"><%%=comment_today%%><% if @diary.count_comments > 0 then %><input type="submit" name="comment" value="ツッコミ表示状態変更"><% end %></p><%
+idx = 0
+@diary.each_comment( 100 ) do |comment| %>
+	<p><span class="commentator">
+		<input type="checkbox" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
+		<%= CGI::escapeHTML( comment.name ) %>
+		<%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%%>
+	</span></p>
+	<p>
+		<%= comment.body.make_link.gsub( "\n", "<br>\n" ) %>
+	</p><%
+end %>
+</form></div>
+
+	<%%= referer_of_today_long( @diaries['<%=@date.strftime( '%Y%m%d' )%>'], 100 )%%>
+
+</div>
+
+<hr class="sep">

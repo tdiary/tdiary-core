@@ -1,0 +1,25 @@
+<%# month.rhtml $Revision: 1.1 $ %>
+<%= @header %>
+<hr class="sep">
+
+<%
+param = {
+	'date_format' => @date_format,
+	'index' => @index,
+	'paragraph_anchor' => @paragraph_anchor,
+	'comment_anchor' => @comment_anchor,
+	'long_mode' => false,
+	'show_referer' => @show_referer,
+	'referer_limit' => @referer_limit,
+	'referer_table' => @referer_table,
+	'show_comment' => @show_comment,
+	'comment_limit' => @comment_limit,
+	'multi_user' => @multi_user
+}
+each_day do |diary| %>
+	<%= diary.eval_rhtml( param, PATH ) %>
+	<hr class="sep"><%
+end %>
+
+<%= @footer %>
+

@@ -1,0 +1,32 @@
+<%# i.latest.rhtml $Revision: 1.1 $ %>
+<H1><%= @html_title %></H1>
+<%
+param = {
+	'prefix' => 'i.',
+	'index' => @index,
+	'date_format' => @date_format,
+	'paragraph_anchor' => @paragraph_anchor,
+	'comment_anchor' => @comment_anchor,
+	'long_mode' => false,
+	'show_referer' => false,
+	'referer_limit' => 0,
+	'show_comment' => @show_comment,
+	'comment_limit' => 100,
+	'multi_user' => @multi_user
+}
+latest( 1 ) do |diary| %>
+	<P>
+	<A HREF="<%= @index %>?date=<%= (diary.date-24*60*60).strftime( '%Y%m%d' ) %>" ACCESSKEY="1">[1]前日</A>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</A>
+	</P>
+	<%= diary.eval_rhtml( param, PATH ) %>
+<HR>
+<FORM METHOD="POST" ACTION="<%= @index %>">
+<INPUT TYPE="HIDDEN" NAME="date" VALUE="<%= diary.date.strftime( '%Y%m%d' ) %>">
+<P><%%=comment_description_short%%><BR>
+<%%=comment_name_label_short%%>: <input NAME="name"><BR>
+<%%=comment_mail_label_short%%>: <INPUT NAME="mail"><BR>
+<%%=comment_body_label_short%%>:<BR>
+<TEXTAREA NAME="body"></TEXTAREA><BR>
+<INPUT TYPE="SUBMIT" NAME="comment" value="<%%=comment_submit_label_short%%>"></P>
+</FORM><%
+end %>

@@ -1,0 +1,31 @@
+<%# day.rhtml $Revision: 1.1 $ %>
+<%= @header %><%%update_proc if @mode == 'comment'%%>
+<hr class="sep">
+
+<%
+if @diary then
+	param = {
+		'date_format' => @date_format,
+		'index' => @index,
+		'paragraph_anchor' => @paragraph_anchor,
+		'comment_anchor' => @comment_anchor,
+		'long_mode' => true,
+		'show_referer' => @show_referer,
+		'referer_limit' => 100,
+		'referer_table' => @referer_table,
+		'show_comment' => @show_comment,
+		'comment_limit' => 100,
+		'multi_user' => @multi_user,
+		'cookie_name' => cookie_name,
+		'cookie_mail' => cookie_mail,
+		'anchor' => true,
+	} %>
+	<%= @diary.eval_rhtml( param, PATH ) %><%
+else %>
+	<p class="message">
+	<%= @date.strftime( @date_format ) %>の日記はありません。
+	</p><%
+end %>
+<hr class="sep">
+
+<%= @footer %>
