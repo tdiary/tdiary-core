@@ -1,3 +1,6 @@
+2002.04.26 TADA Tadashi <sho@spc.gr.jp>
+	* remove Plugin#eval_rhtml.
+
 2002.04.24 TADA Tadashi <sho@spc.gr.jp>
 	* i.day.rhtml, i.show.rhtml: call update_proc when comment added.
 	* tdiary.rb: suppress result string in Plugin#update_proc.
