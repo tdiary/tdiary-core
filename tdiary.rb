@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.6 $
+tdiary.rb $Revision: 1.7 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -961,7 +961,7 @@ class TDiaryComment < TDiaryDay
 			date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 	
 			serial = @diary.count_comments( true )
-			message_id = "<tdiary.#{[@mail_header].pack('m').gsub("\n",'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>"
+			message_id = %Q|<tdiary.#{[@mail_header].pack('m').gsub("\n",'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname.sub(/^.+?\./,'')}>|
 
 			text = ERbLight::new( File::readlines( "#{PATH}/skel/mail.rtxt" ).join.untaint ).result( binding )
 			sendmail( text )
