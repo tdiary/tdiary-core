@@ -1,7 +1,10 @@
-2004-02-04 Wed UECHI Yasumasa <uh@u.dhis.portside.net>
+2004-02-09 mput <mput@users.sf.net>
+	* tdiary.rb: fix Plugin#apply_plugin.
+
+2004-02-04 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* misc/style/rd/rd_style.rb: rescue ParseError
 
-2004-01-26 Mon UECHI Yasumasa <uh@u.dhis.portside.net>
+2004-01-26 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* misc/style/rd/rd_style.rb: fix body_to_html
 
 2004.01.21 Junichiro Kita <kita@kitaj.no-ip.com>

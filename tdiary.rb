@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.175 $
+tdiary.rb $Revision: 1.176 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.6.20040120'
+TDIARY_VERSION = '1.5.6.20040209'
 
 require 'cgi'
 begin
@@ -765,7 +765,7 @@ module TDiary
 					r = ERbLight.new( r ).result( binding )
 				end
 			end
-			r.gsub!( /<.*?>/, '' ) if remove_tag
+			r.gsub!( /<[^"'<>]*(?:"[^"]*"[^"'<>]*|'[^']*'[^"'<>]*)*(?:>|(?=<)|$)/, '' ) if remove_tag
 			r
 		end
 
