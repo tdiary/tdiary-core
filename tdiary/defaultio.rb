@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.3 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.4 $
 #
 module DefaultIO
 	class IO
@@ -48,7 +48,6 @@ module DefaultIO
 					calendar[year] << month
 				end
 			end
-			$stderr.puts calendar.inspect
 			calendar
 		end
 
@@ -86,6 +85,7 @@ module DefaultIO
 					File::open( @cfile, 'r' ) do |fh|
 						while l = fh.gets( "\n.\n" )
 							headers, body = parse( l )
+							next unless body
 							comment = Comment::new(
 									headers['Name'],
 									headers['Mail'],
@@ -102,6 +102,7 @@ module DefaultIO
 					File::open( @rfile, 'r' ) do |fh|
 						while l = fh.gets( "\n.\n" )
 							headers, body = parse( l )
+							next unless body
 							body.each do |r|
 								count, ref = r.chomp.split( ' ', 2 )
 								next unless ref
@@ -116,12 +117,14 @@ module DefaultIO
 
 		def parse( data )
 			header, body = data.split( "\n\n", 2 )
-			body.gsub!( /^\./, '' )
-			headers = {}
-			header.each do |l|
-				l.chomp!
-				key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
-				headers[key] = val ? val.chomp : nil
+			if header and body
+				body.gsub!( /^\./, '' )
+				headers = {}
+				header.each do |l|
+					l.chomp!
+					key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
+					headers[key] = val ? val.chomp : nil
+				end
 			end
 			[headers, body]
 		end
@@ -176,6 +179,7 @@ module DefaultIO
 		def initialize( fragment, author = nil )
 			@author = author
 			lines = fragment.split( /\n+/ )
+			$stderr.puts lines.inspect
 			if lines.size > 1 then
 				if /^<</ =~ lines[0]
 					@subtitle = lines.shift.chomp.sub( /^</, '' )

@@ -1,5 +1,6 @@
 2002.06.01 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: fix IO#calendar.
+	* defaultio.rb: fix tDiary2 parser.
 
 2002.05.31 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: remove media="all" from meta element in HTML header.
