@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.17 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.18 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -196,7 +196,7 @@ module TDiary
 	
 		def initialize( fragment, author = nil )
 			@author = author
-			if /\A=(?!=)/ =~ fragment[0] then
+			if /\A=(?!=)/ =~ fragment then
 				@subtitle, @body = fragment.split( /\n/, 2 )
 				@subtitle.sub!( /^\=\s*/, '' )
 			else

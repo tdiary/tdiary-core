@@ -1,3 +1,6 @@
+2003-12-20  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/style/rd/rd_style.rb: bug fix. 
+
 2003.12.19 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: set $KCODE to 'n'.
 
