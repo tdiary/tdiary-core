@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.58 $
+# $Revision: 1.59 $
 #
 
 #
@@ -480,6 +480,7 @@ def saveconf_referer
 		@conf.show_referer = @cgi.params['show_referer'][0] == 'true' ? true : false
 		@conf.referer_limit = @cgi.params['referer_limit'][0].to_i
 		@conf.referer_limit = 10 if @conf.referer_limit < 1
+		@conf.referer_day_only = @cgi.params['referer_day_only'][0] == 'true' ? true : false
 		no_referer2 = []
 		@conf.to_native( @cgi.params['no_referer'][0] ).each do |ref|
 			ref.strip!

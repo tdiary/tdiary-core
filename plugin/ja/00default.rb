@@ -258,6 +258,12 @@ add_conf_proc( 'referer', 'リンク元' ) do
 	<h3 class="subtitle">リンク元リスト表示数</h3>
 	#{"<p>最新もしくは月別表示時に表示する、リンク元リストの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのリンク元が表示されます。</p>" unless @conf.mobile_agent?}
 	<p>最大<input name="referer_limit" value="#{@conf.referer_limit}" size="3">サイト</p>
+	<h3 class="subtitle">リンク元の記録制御</h3>
+	#{"<p>日付指定のアクセス時のリンク元だけを記録するかどうかを指定します。この指定をするとアンテナやリンク集からの情報が記録されなくなるので、リンク元のノイズが減少します。</p>" unless @conf.mobile_agent?}
+	<p><select name="referer_day_only">
+		<option value="true"#{if @conf.referer_day_only then " selected" end}>日付指定時のアクセスのみ記録する</option>
+		<option value="false"#{if not @conf.referer_day_only then " selected" end}>すべてのアクセスで記録する</option>
+	</select></p>
 	<h3 class="subtitle">リンク元記録除外リスト</h3>
 	#{"<p>リンク元リストに追加しないURLを指定します。正規表現で指定できます。1件1行で入力してください。</p>" unless @conf.mobile_agent?}
 	<p>→<a href="#{@conf.update}?referer=no" target="referer">既存設定はこちら</a></p>

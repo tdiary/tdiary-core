@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.7 $
+# tDiary configuration file $Revision: 1.8 $
 #
 
 #-------
@@ -188,11 +188,15 @@ FOOTER
 #   if you specify the date.
 @show_referer = true
 
-
 # How many links are shown in "Latest" page and "Daily" page?
 #   If today's links are shown, you can specify how many links are
 #   shown at most in "Latest" page and "Daily" page.
 @referer_limit = 10
+
+# Control Links saving
+#   Specify which saving only day mode. It means reducing 'referer
+#   noise' by access from 'Link page'.
+@referer_day_only = false
 
 # Time difference adjustment 
 #   This item adjusts the date which is automatically inserted into 

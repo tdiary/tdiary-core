@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.144 $
+tdiary.rb $Revision: 1.145 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030927'
+TDIARY_VERSION = '1.5.5.20030928'
 
 require 'cgi'
 begin
@@ -462,6 +462,7 @@ module TDiary
 
 			@show_referer = true unless defined?( @show_referer )
 			@referer_limit = 10 unless @referer_limit
+			@referer_day_only = false unless defined?( @referer_day_only )
 			@no_referer = [] unless @no_referer
 			@no_referer2 = [] unless @no_referer2
 			@no_referer = @no_referer2 + @no_referer
@@ -494,7 +495,7 @@ module TDiary
 				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
 				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
-				:show_referer, :referer_limit, :no_referer2, :referer_table2,
+				:show_referer, :referer_limit, :referer_day_only, :no_referer2, :referer_table2,
 				:options2,
 			]
 			begin
@@ -1212,7 +1213,7 @@ module TDiary
 			super
 	
 			# save referer to latest
-			if referer?
+			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and referer?
 				ym = latest_month
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
@@ -1309,7 +1310,12 @@ module TDiary
 			end
 			@diary = nil if @diary and not @diary.visible?
 		end
-	
+
+		def last_modified
+			@diary ? @diary.last_modified : Time::at( 0 )
+		end
+
+	protected
 		def load( date )
 			if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
 				@date = date
@@ -1328,16 +1334,11 @@ module TDiary
 				@diary = self[@date]
 			end
 		end
-	
-		def last_modified
-			@diary ? @diary.last_modified : Time::at( 0 )
-		end
-	
-	protected
+
 		def cookie_name
 			@cgi.cookies['tdiary'][0] or ''
 		end
-	
+
 		def cookie_mail
 			@cgi.cookies['tdiary'][1] or ''
 		end
@@ -1351,7 +1352,8 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 		end
-	
+
+	protected
 		def load( date )
 			@date = date
 			@name = @conf.to_native( @cgi.params['name'][0] )
@@ -1378,8 +1380,7 @@ module TDiary
 				dirty
 			end
 		end
-	
-	protected
+
 		def do_eval_rhtml( prefix )
 			load_plugins
 			@plugin.instance_eval { update_proc }
@@ -1395,7 +1396,7 @@ module TDiary
 	class TDiaryMonth < TDiaryView
 		def initialize( cgi, rhtml, conf )
 			super
-	
+
 			begin
 				date = Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)$/ )[0] )
 				d1 = @date.dup.gmtime if @date
@@ -1404,13 +1405,8 @@ module TDiary
 					@date = date
 					@io.transaction( @date ) do |diaries|
 						@diaries = diaries
-						dirty = DIRTY_NONE
 						@diary = @diaries[@diaries.keys.sort.reverse[0]]
-						if referer? and @diary then
-							@diary.add_referer( @cgi.referer )
-							dirty = DIRTY_REFERER
-						end
-						dirty
+						DIRTY_NONE
 					end
 				end
 			rescue ArgumentError, NameError

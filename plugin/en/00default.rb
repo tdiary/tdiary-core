@@ -219,6 +219,12 @@ add_conf_proc( 'referer', "Today's Link" ) do
 	<h3 class="subtitle">Number of Links</h3>
 	#{"<p>In Latest or Month mode, you can specify number of visible Link list. So in Dayly mode, all of Link are shown.</p>" unless @conf.mobile_agent?}
 	<p><input name="referer_limit" value="#{@conf.referer_limit}" size="3"> sites</p>
+	<h3 class="subtitle">Control Links saving</h3>
+	#{"<p>Specify which saving only day mode. It means reducing 'referer noise' by access from 'Link page'.</p>" unless @conf.mobile_agent?}
+	<p><select name="referer_day_only">
+		<option value="true"#{if @conf.referer_day_only then " selected" end}>Save links only in day mode</option>
+		<option value="false"#{if not @conf.referer_day_only then " selected" end}>Save links in all access</option>
+	</select></p>
 	<h3 class="subtitle">Excluding list</h3>
 	#{"<p>List of excluding URL that is not recorded to Today's Link. Specify it in regular expression, and a URL into a line.</p>" unless @conf.mobile_agent?}
 	<p>See <a href="#{@conf.update}?referer=no" target="referer">Default configuration is here</a>.</p>
