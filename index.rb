@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.24 $
+# index.rb $Revision: 1.25 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $defout.binmode }
+$KCODE = 'n'
 
 begin
 	if FileTest::symlink?( __FILE__ ) then
