@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: http.el,v 1.1 2002-05-14 12:57:53 kitaj Exp $
+;; $Id: http.el,v 1.2 2002-05-19 14:11:00 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -92,6 +92,7 @@ If error, return a cons cell (ERRCODE . DESCRIPTION)."
 		 (concat "GET " path (if (> len 0)
 					 (concat "?" str))))
 	       " HTTP/1.0\r\n"
+	       (concat "Host: " server "\r\n")
 	       "Connection: close\r\n"
 	       "Content-type: application/x-www-form-urlencoded\r\n"
 	       (if (and user pass)
