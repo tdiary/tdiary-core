@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.6 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.7 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -74,15 +74,20 @@ module RD
 
 		def apply_to_RefToElement(element, content)
 			label = element.to_label
-			case label
-			when /^(ruby-(?:talk|list|dev|math)):(.+)$/
-				ref_ext_RubyML(label, content.join, $1, $2)
-			when /^RAA:(.+)$/
-				ref_ext_RAA(label, content.join, $1)
-			when /^IMG:(.+)$/
-				ref_ext_IMG(label, content.join, $1)
+			key, opt = label.split(":", 2)
+
+			case key
+			when "IMG"
+				ref_ext_IMG(label, content.join, opt)
+			when "RAA"
+				ref_ext_RAA(label, content.join, opt)
+			when /^ruby-(talk|list|dev|math|ext|core)$/
+				ref_ext_RubyML(label, content.join, key, opt)
+			when /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pc]\d\d)?$/
+				%Q[<%=my "#{key}","#{content.join}"%>]
 			else
-				super
+				opt = "" unless opt # case of no ":"
+				%Q[<%=a "#{key}","#{opt}","#{content.join}"%>]
 			end
 		end
 

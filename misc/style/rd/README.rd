@@ -12,8 +12,7 @@ RDスタイルを使うには RDtool がインストールされている必要があります。 RDtool
 
 ((<RDtool|URL:http://raa.ruby-lang.org/list.rhtml?name=rdtool>))
 
-rd_style.rbはtDiaryインストールディレクトリにあるtdiary/ディレクトリにコピーします。
-そして、tdiary.confに以下の1行を追加します。
+rd_style.rb をインストールディレクトリにあるtdiary ディレクトリ (tdiary_style.rbのあるディレクトリ) にコピーし、tdiary.confに以下の設定をする。
 
  @style = 'RD'
 
@@ -38,9 +37,16 @@ URL 以外に画像、RAA、Ruby関連のメーリングリストへのリンクが RWiki
 ((-書式にRDを使用するWikiクローン-)) 同様、簡単に記述できるようになっていま
 す。
 
- ((<テスト画像|"IMG:test.jpg">))
+ ((<テスト画像|IMG:test.jpg>))
  ((<RAA:tdiary>))
  ((<ruby-list:0001>))
+
+上記以外の形式は myプラグイン((-tDiary 標準なので何もせずに使えます-))と aプラグイン((-インストールしなくてもRDスタイルは使えますが、便利ですのでインストールすることをお勧めします-))へ展開されます。それにより自分の日記へのリンクや aプラグインの辞書へ登録されている URL へのリンクが RD の reference風に記述できます。
+
+ ((<そのツッコミ|20030308#c01>))
+ ((<key>))
+ ((<key:20020329.html>))
+ ((<こちら|key:20020329.html>))
 
 === その他
 '=begin', '=end' は必要ありません。
