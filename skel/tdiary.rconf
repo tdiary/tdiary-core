@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.8 $
+# tdiary configuration file via CGI $Revision: 1.9 $
 #
 
 #
@@ -22,7 +22,7 @@ footer = <<END_OF_FOOTER
 END_OF_FOOTER
 
 #
-# diaplay(1) - basic
+# display(1) - basic
 #
 section_anchor = <%= @section_anchor.dump %>
 comment_anchor = <%= @comment_anchor.dump %>
@@ -31,7 +31,7 @@ latest_limit = <%= @latest_limit %>
 show_nyear = <%= @show_nyear %>
 
 #
-# diaplay(2) - theme
+# display(2) - theme
 #
 theme = <%= @theme.dump %>
 css = <%= @css.dump %>
@@ -43,7 +43,7 @@ show_comment = <%= @show_comment %>
 comment_limit = <%= @comment_limit %>
 
 #
-# diaplay(4) - referer
+# display(4) - referer
 #
 show_referer = <%= @show_referer %>
 referer_limit = <%= @referer_limit %>

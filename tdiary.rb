@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.139 $
+tdiary.rb $Revision: 1.140 $
 
 Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.5.20030821'
+TDIARY_VERSION = '1.5.5.20030910'
 
 require 'cgi'
 require 'nkf'
@@ -1032,10 +1032,10 @@ module TDiary
 	#
 	class TDiaryUpdate < TDiaryAdmin
 		def initialize( cgi, rhtml, conf )
+			@title = cgi.params['title'][0].to_euc
+			@body = cgi.params['body'][0].to_euc
+			@hide = cgi.params['hide'][0] == 'true' ? true : false
 			super
-			@title = @cgi.params['title'][0].to_euc
-			@body = @cgi.params['body'][0].to_euc
-			@hide = @cgi.params['hide'][0] == 'true' ? true : false
 		end
 	
 	protected
@@ -1052,9 +1052,13 @@ module TDiary
 	#
 	class TDiaryAppend < TDiaryUpdate
 		def initialize( cgi, rhtml, conf )
-			super
+			begin
+				super
+			rescue TDiaryError
+				@date = newdate
+			end
 			@author = @conf.multi_user ? @cgi.remote_user : nil
-	
+
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				@diary = self[@date] || @io.diary_factory( @date, @title, '', @conf.style )
@@ -1063,6 +1067,11 @@ module TDiary
 				@diary.show( ! @hide )
 				DIRTY_DIARY
 			end
+		end
+
+	protected
+		def newdate
+			Time::now + (@conf.hour_offset * 3600).to_i
 		end
 	end
 

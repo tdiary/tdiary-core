@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# posttdiary: update tDiary via e-mail. $Revision: 1.7 $
+# posttdiary: update tDiary via e-mail. $Revision: 1.8 $
 #
 # Copyright (C) 2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 
 =begin ChangeLog
+2003-09-10 TADA Tadashi <sho@spc.gr.jp>
+	* unset date to request for tDiary.
+
 2002-09-29 TADA Tadashi <sho@spc.gr.jp>
 	* fix bug when boundary has special charactor of Regexp.
 
@@ -208,13 +211,13 @@ begin
 
 	require 'cgi'
 	require 'nkf'
-	now = Time::now
-	data = "year=#{now.year}"
-	data << "&month=#{now.month}"
-	data << "&day=#{now.day}"
-	data << "&title=#{CGI::escape NKF::nkf( '-eXd', title )}"
+	data = "title=#{CGI::escape NKF::nkf( '-eXd', title )}"
 	data << "&body=#{CGI::escape @body}"
 	data << "&append=true"
+#	now = Time::now
+#	data << "&year=#{now.year}"
+#	data << "&month=#{now.month}"
+#	data << "&day=#{now.day}"
 
 	require 'net/http'
 	Net::HTTP.start( host, port ) do |http|

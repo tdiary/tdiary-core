@@ -1,3 +1,8 @@
+2003.09.10 TADA Tadashi <sho@spc.gr.jp>
+	* skel/tdiary.rconf: fix typo.
+	* tdiary.rb: automatic generate date when Append.
+	* misc/posttdiary.rb: not send date to update CGI.
+
 2003.09.02 Junichiro kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: calc_links works correctly with mobile agent.
 
