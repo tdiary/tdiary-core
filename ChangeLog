@@ -1,3 +1,6 @@
+2003.08.28 Kazuhiko  <kazuhiko@fdiary.net>
+	* rd_style.rb, wiki_style.rb insert "\n\n" at the end of @body.
+
 2003-08-28 Thu UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style.rb: fix bug when last section dosen't terminate by CR.
 
@@ -39,7 +42,7 @@
 2003.07.29 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style: fix Refference element to recognize trackbacks
 
-2003.07.29  Kazuhiko  <kazuhiko@fdiary.net>
+2003.07.29 Kazuhiko <kazuhiko@fdiary.net>
 	* index.rb: don't make 'body' in case of HEAD request.
 
 2003.07.22 TADA Tadashi <sho@spc.gr.jp>
@@ -782,7 +785,7 @@
 	* recent_comment.rb: update by kitaj <kita@kitaj.no-ip.com>.
 
 2002.02.21 TADA Tadashi <sho@spc.gr.jp>
-   * recent_comment.rb: fix by zoe.
+	* recent_comment.rb: fix by zoe.
 
 2002.02.20 TADA Tadashi <sho@spc.gr.jp>
 	* update.rhtml, i.update.rhtml: move hide box below submit button.
