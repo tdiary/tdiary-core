@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.187 $
+tdiary.rb $Revision: 1.188 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '1.5.7'
+TDIARY_VERSION = '1.5.7.20040509'
 
 require 'cgi'
 begin
@@ -1765,7 +1765,9 @@ RSSFOOT
 		def eval_rhtml( prefix = '' )
 			load_plugins
 			anchor = @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
-			raise ForceRedirect::new("../#{@conf.index}#{anchor}#t")
+			url = "#{@conf.index}#{anchor}#t"
+			url[0, 0] = '../' if %r|^https?://|i !~ @conf.index
+			raise ForceRedirect::new( url )
 		end
 	end
 end
