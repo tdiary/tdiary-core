@@ -1,3 +1,6 @@
+2003.05.02 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, updatre.rb: untaint org_path. thanks mput.
+
 2003.04.28 TADA Tadashi <sho@spc.gr.jp>
 	* HOWTO-make-plugin.html: add about form_proc.
 

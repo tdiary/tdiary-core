@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# update.rb $Revision: 1.8 $
+# update.rb $Revision: 1.9 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -9,7 +9,7 @@ begin
 	else
 		org_path = File::dirname( __FILE__ )
 	end
-	$:.unshift org_path
+	$:.unshift( org_path.untaint )
 	require 'tdiary'
 
 	@cgi = CGI::new
