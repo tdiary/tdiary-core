@@ -116,7 +116,7 @@ Require user  foo
 <h4>CGIで追加設定できるが、標準設定を記述できる項目</h4>
 	<p><code>tdiary.conf</code>に記述しておくことで、CGIの設定画面からは編集できないが追加はできるといった設定をできる項目があります(リンク元記録除外や、リンク元変換表)。あらかじめ<code>tdiary.conf</code>に記述しておくことで、複数の人が同一サーバ上でtDiaryを使うような場合に手間を省くことができます。</p>
 
-<p>各々の項目については、<code>tdiary.conf.sample</code>の説明を読んでください。一般的な使用では、<code>@data_path</code>だけを正しく設定すれば、あとはブラウザから変更が可能です。ただしツッコミをメールで受けとりたい場合には、これに加えて<code>@smtp_host</code>、<code>@smtp_port</code>も指定しておく必要があります。</p>
+<p>各々の項目については、<code>tdiary.conf.sample</code>の説明を読んでください。一般的な使用では、<code>@data_path</code>だけを正しく設定すれば、あとはブラウザから変更が可能です。</p>
 
 <p>また、サフィックス.rbのファイルをCGIスクリプトとして指定できない環境では、<code>index.rb</code>や<code>update.rb</code>のファイル名を変更する必要がありますが、この変更をtDiaryに教えるために、<code>@index</code>や<code>@update</code>という変数が用意されています。環境によってはこれも指定する必要があるでしょう。</p>
 
