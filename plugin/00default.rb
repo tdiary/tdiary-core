@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.49 $
+# $Revision: 1.50 $
 #
 
 #
@@ -402,7 +402,11 @@ def comment_mail_conf_label; 'ツッコミメール'; end
 def comment_mail_basic_setting
 	if @mode == 'saveconf' then
 		@conf['comment_mail.enable'] = @cgi.params['comment_mail.enable'][0] == 'true' ? true : false
-		@conf['comment_mail.receivers'] = @cgi.params['comment_mail.receivers'][0].strip.gsub( /[\n\r]+/, ',' )
+		if @cgi.params['comment_mail.receivers'][0].size > 0 then
+			@conf['comment_mail.receivers'] = @cgi.params['comment_mail.receivers'][0].dup.strip.gsub( /[\n\r]+/, ',' )
+		else
+			@conf['comment_mail.receivers'] = ''
+		end
 		@conf['comment_mail.header'] = @cgi.params['comment_mail.header'][0]
 	end
 end

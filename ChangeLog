@@ -1,5 +1,6 @@
 2003.08.05 TADA Tadashi <sho@spc.gr.jp>
 	* doc/HOWTO-make-plugin.html: about conf_proc.
+	* 00default.rb: fix about comment_mail error in secure mode. thanks kazuhiko.
 	* release 1.5.5.
 
 2003.08.04 TADA Tadashi <sho@spc.gr.jp>
