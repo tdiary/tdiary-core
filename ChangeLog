@@ -1,3 +1,6 @@
+2003.02.13 TADA Tadashi <sho@spc.gr.jp>
+	* 00deffault.rb: hide preferences in navi_admin when categorized view.
+
 2003.02.13 Junichiro Kita <kita@kitaj.no-ip.com>
 	* add misc/style/etdiary/etdiary_style.rb
 

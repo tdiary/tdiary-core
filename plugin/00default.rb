@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.27 $
+# $Revision: 1.28 $
 #
 
 #
@@ -38,7 +38,7 @@ end
 
 def navi_admin
 	result = %Q[<span class="adminmenu"><a href="#{@update}">#{navi_update}</a></span>\n]
-	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf|nyear)$/ !~ @mode
+	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=OK">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
 end
 
