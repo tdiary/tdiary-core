@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.10 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.11 $
 #
 require 'pstore'
 
@@ -23,7 +23,7 @@ class TDiary
 					rescue PStore::Error
 					end
 					dirty = yield( diaries ) if iterator?
-					if dirty then
+					if dirty != TDiary::DIRTY_NONE then
 						db['diary'] = diaries
 					else
 						db.abort

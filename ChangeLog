@@ -1,7 +1,9 @@
 2002.08.26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: change TDiary::DIRTY_NONE false to zero.
-	* tdiary.rb: add CommentManager#each_visible_comment.
+	* tdiary.rb, diary.rhtml: add CommentManager#each_visible_comment.
 	* tdiary.conf.sample: referer_table update.
+	* pstoreio.rb: fix determination of dirty flag.
+	* defaultio.rb: enable hidden comment flag.
 
 2002.08.25 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: fix about lost hidden comments at saving. thanks Mizuho <gha@intrastore.cdc.com>.

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.14 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.15 $
 #
 module DefaultIO
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -36,6 +36,7 @@ module DefaultIO
 								headers['Mail'],
 								body,
 								Time::at( headers['Last-Modified'].to_i ) )
+						comment.show = false if headers['Visible'] == 'false'
 						diaries[headers['Date']].add_comment( comment )
 					end
 				end
@@ -134,7 +135,6 @@ module DefaultIO
 					diaries.update( cache )
 				end
 				dirty = yield( diaries ) if iterator?
-				$stderr.puts "dirty: #{dirty}"
 				store( fh, diaries ) if dirty & TDiary::DIRTY_DIARY != 0
 				store_comment( cfile, diaries ) if dirty & TDiary::DIRTY_COMMENT != 0
 				store_referer( rfile, diaries ) if dirty & TDiary::DIRTY_REFERER != 0
