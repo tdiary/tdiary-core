@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.12 $ %>
+<%# conf.rhtml $Revision: 1.13 $ %>
 <%%=navi%%>
 
 <h1><%= @conf.html_title %> [設定]</h1>
@@ -128,10 +128,10 @@ end %>
 <hr class="sep">
 
 <div class="conf day">
-<h2><span class="title">表示設定(5) - n年日記</span></h2>
+<h2><span class="title">表示設定(5) - 長年日記</span></h2>
 <div class="body">
-<h3 class="subtitle">n年日記の表示</h4>
-<p>n年日記を表示するためのリンクを表示するかどうかを指定します。</p>
+<h3 class="subtitle">長年日記の表示</h4>
+<p>長年日記を表示するためのリンクを表示するかどうかを指定します。</p>
 <p><select name="show_nyear">
         <option value="true"<% if @conf.show_nyear then %> selected<% end %>>表示</option>
         <option value="false"<% if not @conf.show_nyear then %> selected<% end %>>非表示</option>
