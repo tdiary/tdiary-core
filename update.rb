@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.14 $
+# update.rb $Revision: 1.15 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -87,7 +87,7 @@ begin
 	end
 	
 rescue Exception
-	puts "Content-Type: text/plain\n\n"
+	print "Content-Type: text/plain\n\n" unless /ruby/i =~ ENV['GATEWAY_INTERFACE']
 	puts "#$! (#{$!.class})"
 	puts ""
 	puts $@.join( "\n" )

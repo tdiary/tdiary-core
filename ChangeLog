@@ -1,3 +1,6 @@
+2003.11.27 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, update.rb: no 'Content-Type' in error message running on mod_ruby.
+
 2003.11.21 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: Url returned by base_url ends with '/'.
 
