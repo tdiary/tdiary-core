@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.10 2004-05-27 06:51:26 shirai-kaoru Exp $
+# $Id: etdiary_style.rb,v 1.11 2004-08-13 07:06:48 shirai-kaoru Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -55,15 +55,15 @@ module TDiary
 			s = ''
 			case @anchor_type
 			when :A
-				s << "<<<>>>"
+				s << "<<<>>>\n"
 			when :P
-				s << "<<>>"
+				s << "<<>>\n"
 			when :H4
 				s << "[#{@author}]" if @author
-				s << "<<<>" + @subtitle + ">>"
+				s << "<<<>" + @subtitle + ">>\n"
 			when :H3
 				s << "[#{@author}]" if @author
-				s << "<<" + @subtitle + ">>"
+				s << "<<" + @subtitle + ">>\n"
 			end
 			s + ( if "" != body then body else "\n" end )
 		end
@@ -226,7 +226,12 @@ module TDiary
 	
 		def initialize( date, title, body, modified = Time::now )
 			init_diary
-			replace( date, title, body )
+			set_date( date )
+			set_title( title )
+			@sections = []
+			if body != '' then
+				append( body )
+			end
 			@last_modified = modified
 		end
 	
@@ -242,10 +247,10 @@ module TDiary
 		end
 
 		def append( body, author = nil )
-			section = EtdiarySection::new( nil, author )
+			section = nil
 			buffer = nil
 			tag_kind = nil
-			( body.gsub(/\r/,'').sub(/\A\n*/,'') + "\n" ).each("") do |fragment|
+			body.gsub(/\r/,'').sub(/\A\n*/,'').sub(/\n*\z/,"\n\n").each("") do |fragment|
 				if buffer and TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then
 					section << buffer + fragment.sub(/\n*\z/,"\n\n")
 					tag_kind = nil
@@ -253,10 +258,12 @@ module TDiary
 				elsif buffer then
 					buffer << fragment
 				else
+					if section
+						@sections << section
+					end
 					title = TITLE_REGEXP.match(fragment+"\n").to_a[1]
-					@sections << section
 					section = EtdiarySection::new( title, author )
-					fragment = fragment[ title.length + 4 .. -1 ] if title
+					fragment = fragment[ title.length + 4 .. -1 ].sub(/\A\n/,'') if title
 					if TAG_BEG_REGEXP =~ fragment then
 						tag_kind = $1.downcase
 						if TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then
@@ -273,8 +280,9 @@ module TDiary
       if buffer
         section << buffer << "</#{tag_kind}>(tDiary warning: tag &lt;#{tag_kind}&gt; is not terminated.)"
       end
-			@zerosection = @sections.shift
-			@sections << section
+			if section
+				@sections << section
+			end
 			@last_modified = Time::now
 			self
 		end
@@ -286,28 +294,34 @@ module TDiary
 		end
 	
 		def to_src
-			src = if @zerosection then @zerosection.to_src else '' end
+			src = ''
 			each_section do |section|
 				src << section.to_src
 			end
 			src.sub(/\n*\z/,"\n")
 		end
 	
-		def to_html_section(section, factory, title = nil)
-			return '' unless section.bodies
+		def to_html_section(section, factory)
 			r = ''
-			section.bodies.each do |fragment|
-				if PRE_REGEXP =~ fragment then
-					r << factory.pre_start
-					r << $1.gsub(/&/,"&amp;").gsub(/</,"&lt;").gsub(/>/,"&gt;")
-					r << factory.pre_end << "\n"
-				elsif /\A</ =~ fragment then
-					r << fragment.sub( /\n*\z/, "\n" )
-				else
-					r << factory.p_start
-					r << title if title
-					r << fragment.sub(/\A\n*/,"\n").sub( /\n*\z/, "\n" + factory.p_end + "\n" )
-				end
+			s = if section.bodies then section.body else nil end
+			t = factory.title( date, section )
+			if factory.block_title?(section) then
+				r << t if t
+				t = nil
+			end
+			if s && PRE_REGEXP =~ s then
+				r << factory.p_start << t << factory.p_end << "\n" if t
+				r << factory.pre_start
+				r << $1.gsub(/&/,"&amp;").gsub(/</,"&lt;").gsub(/>/,"&gt;")
+				r << factory.pre_end << "\n"
+			elsif s && /\A</ =~ s then
+				r << factory.p_start << t << factory.p_end << "\n" if t
+				r << s.sub( /\n*\z/, "\n" )
+			else
+				r << factory.p_start if t || s
+				r << t if t
+				r << s.sub(/\A\n*/,"\n").sub(/\n*\z/, "\n") if s
+				r << factory.p_end << "\n" if t || s
 			end
 			r
 		end
@@ -320,22 +334,11 @@ module TDiary
 				f = EtHtml4Factory::new(opt)
 			end
 			r = f.section_start
-			if @zerosection then
-				r << to_html_section(@zerosection,f)
-			end
 			each_section do |section|
 				if :H3 == section.anchor_type and r != f.section_start then
 					r << f.section_end << "\n" << f.section_start
 				end
-				s = to_html_section(section,f)
-				title = f.title( date, section ) || ''
-				if f.block_title?(section) then
-					r << title << s
-				elsif /\A</ =~ section.body then
-					r << f.p_start << title << f.p_end << s
-				elsif s then
-					r << to_html_section( section, f, title )
-				end
+				r << to_html_section(section,f)
 			end
 			r + f.section_end
 		end

@@ -71,8 +71,8 @@ honbun
 <p>
 honbun
 </p>
-<p></p><h4>notParagraph</h4>
-<p></p><div>
+<h4>notParagraph</h4>
+<div>
 Content of block element with blank line.
 
 <blockquote>
@@ -82,7 +82,7 @@ hogehoge
 <p>
  <b>Paragraph</b> begin with tag.
 </p>
-<p></p><pre>
+<pre>
 In &lt;pre&gt;, &lt; and &gt; are automatically escaped.
 </pre>
 <p>
@@ -108,9 +108,10 @@ paragraph
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
-<p></p><p>
+<p>
 paragraph
 </q>
+
 </p>(tDiary warning: tag &lt;p&gt; is not terminated.)
 </div>
     EOF
@@ -132,14 +133,98 @@ paragraph
     checkConversion(source, html)
   end
 
-  def checkConversion(source, htmlExpected)
-    diary = TDiary::EtdiaryDiary.new(Time.local(2003, 1, 1), "TITLE", source)
+  def test_etdiary_sectionAtBeginning
+    # -------- etDiary source
+    source = <<-'EOF'
+<<hoge>>
+fuga
+    EOF
+
+    # -------- HTML
+    html = <<-'EOF'
+<div class="section">
+<h3>hoge</h3>
+<p>
+fuga
+</p>
+</div>
+    EOF
+
+    checkConversion(source, html)
+  end
+
+  def test_etdiary_appending
+    # -------- etDiary source
+    source = <<-'EOF'
+<p>para1</p>
+    EOF
+
+    # -------- etDiary source (appended)
+    sourceAppended = <<-'EOF'
+<p>para2</p>
+    EOF
+
+    # -------- HTML
+    html = <<-'EOF'
+<div class="section">
+<p>para1</p>
+<p>para2</p>
+</div>
+    EOF
+    preConvertHtml = proc { |diary|
+      diary.append(sourceAppended)
+    }
+    checkConversion(source, html, :preConvertHtml => preConvertHtml)
+  end
+
+  # 2004.08.12 Reported by Shun-ichi TAHARA, thanks!
+  def test_etdiary_subsequentPREtoSectionTitle
+    # -------- etDiary source
+    source = <<-'EOF'
+<<hoge>>
+<pre>
+hoge
+
+fuga
+</pre>
+    EOF
+
+    # -------- HTML
+    html = <<-'EOF'
+<div class="section">
+<h3>hoge</h3>
+<pre>
+hoge
+
+fuga
+</pre>
+</div>
+    EOF
+
+    checkConversion(source, html)
+  end
+
+  def checkConversion(source, htmlExpected, opt = nil)
+    opt ||= {}
+    diary = TDiary::EtdiaryDiary.new(Time.local(2003, 1, 1), "TITLE", "")
+    diary.append(source)
+    if opt[:preConvertHtml]
+      opt[:preConvertHtml].call(diary)
+    end
     htmlResult = diary.to_html({'anchor' => true})
-    # puts(htmlResult)
     if htmlExpected == htmlResult
       assert(true)
     else
-      assert(false, "\n-- Expected\n#{htmlExpected}\n-- Result\n#{htmlResult}")
+      $diffOutput ||= File.open("etdiary_test.diff", "w")
+      require "tempfile"
+      files = [htmlExpected, htmlResult].collect { |content|
+        tmpfile = Tempfile.new("etdiary")
+        tmpfile.write(content)
+        tmpfile.flush
+        tmpfile.path
+      }
+      $diffOutput.print(`diff -u #{files[0]} #{files[1]}`)
+      assert(false, "(See etdiary_test.diff)\n-- Expected\n#{htmlExpected}\n-- Result\n#{htmlResult}")
     end
   end
 end #/EtdiaryTest
