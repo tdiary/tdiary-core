@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.63 $
+# $Revision: 1.64 $
 #
 
 #
@@ -243,8 +243,8 @@ end
 def theme_url; 'theme'; end
 
 def css_tag
-	if @theme and @theme.length > 0 then
-		css = "#{theme_url}/#{@theme}/#{@theme}.css"
+	if @conf.theme and @conf.theme.length > 0 then
+		css = "#{theme_url}/#{@conf.theme}/#{@conf.theme}.css"
 		title = css
 	else
 		css = @css
@@ -441,13 +441,16 @@ end
 
 # themes
 def saveconf_theme
+	# dummy
+end
+
+if @mode =~ /^(conf|saveconf)$/ and @cgi.params['conf'][0] == 'theme' then
 	if @mode == 'saveconf' then
 		@conf.theme = @cgi.params['theme'][0]
 		@conf.css = @cgi.params['css'][0]
+		$stderr.puts "saveconf: #{@conf.theme}"
 	end
-end
 
-if @mode =~ /^(conf|saveconf)$/ then
 	@conf_theme_list = []
 	Dir::glob( "#{::TDiary::PATH}/theme/*" ).sort.each do |dir|
 		theme = dir.sub( %r[.*/theme/], '')

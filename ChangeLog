@@ -1,3 +1,6 @@
+2003.12.18 TADA Tadashi <sho@spc.gr.jp>
+	* 00default.rb: save theme conf before call header_proc.
+
 2003.12.16 Takeru KOMORIYA <komoriya@paken.org>
 	* tdiary.rb: do not count up last-modified when the diary disabled.
 
