@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.4 2002-05-16 16:07:04 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.5 2002-05-17 13:13:04 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -79,6 +79,9 @@
   "Name of the 'update.rb'.")
 
 (defvar tdiary-coding-system 'euc-japan-dos)
+
+(defvar tdiary-title nil
+  "Title of diary")
 
 (defvar tdiary-date nil
   "Date to be updated.")
@@ -256,7 +259,7 @@ If there are no completable text, call `tdiary-do-complete-plugin'."
 		   (format-time-string "%Y%m%d" (tdiary-today)))))
 
 (defun tdiary-read-title (date)
-  (read-string (concat "Title for " date ": ")))
+  (read-string (concat "Title for " date ": ") tdiary-title))
 
 (defun tdiary-read-mode (mode)
   (let ((default (caar tdiary-edit-mode-list)))
@@ -360,14 +363,32 @@ Dangerous!!!"
 		(concat tdiary-diary-url tdiary-index-rb
 			"?date=" tdiary-date))))
 
-(defsubst tdiary-replace-entity-refs (from to)
+(defun tdiary-do-replace-entity-ref (from to &optional str)
   (save-excursion
     (goto-char (point-min))
-    (while (search-forward from nil t)
-      (replace-match to nil nil))))
+    (if (stringp str)
+	(progn
+	  (while (string-match from str)
+	    (setq str (replace-match to nil nil str)))
+	  str)
+      (while (search-forward from nil t)
+	(replace-match to nil nil)))))
+
+(defun tdiary-replace-entity-refs (&optional str)
+  "Replace entity references.
+
+If STR is a string, replace entity references within the string.
+Otherwise replace all entity references within current buffer."
+  (tdiary-do-replace-entity-ref
+   "&amp;" "&"   
+   (tdiary-do-replace-entity-ref
+    "&lt;" "<"
+    (tdiary-do-replace-entity-ref
+     "&gt;" ">"
+     (tdiary-do-replace-entity-ref "&quot;" "\"" str)))))
 
 (defun tdiary-new-or-replace (replacep)
-  (let (date buf)
+  (let (date buf title)
     (while (not (string-match
 		 "\\([0-9][0-9][0-9][0-9]\\)\\([0-9][0-9]\\)\\([0-9][0-9]\\)"
 		 (setq date (tdiary-read-date date))))
@@ -383,6 +404,8 @@ Dangerous!!!"
 	    (let (start end body)
 	      (save-excursion
 		(set-buffer buf)
+		(re-search-forward "<input [^>]+name=\"title\" [^>]+value=\"\\([^>\"]*\\)\">" nil t nil)
+		(setq title (match-string 1))
 		(re-search-forward "<textarea [^>]+>" nil t nil)
 		(setq start (match-end 0))
 		(re-search-forward "</textarea>" nil t nil)
@@ -390,11 +413,9 @@ Dangerous!!!"
 		(setq body (buffer-substring start end)))
 	      (insert body)))
 	  (setq tdiary-edit-mode "replace")
+	  (setq tdiary-title (tdiary-replace-entity-refs title))
 	  (goto-char (point-min))
-	  (tdiary-replace-entity-refs "&amp;" "&")
-	  (tdiary-replace-entity-refs "&quot;" "\"")
-	  (tdiary-replace-entity-refs "&gt;" ">")
-	  (tdiary-replace-entity-refs "&lt;" "<")
+	  (tdiary-replace-entity-refs)
 	  (set-buffer-modified-p nil))
       (setq tdiary-edit-mode "append"))))
 
@@ -430,6 +451,7 @@ Dangerous!!!"
 \\{tdiary-mode-map}"
   (make-local-variable 'require-final-newline)  
   (make-local-variable 'tdiary-date)
+  (make-local-variable 'tdiary-title)
   (make-local-variable 'tdiary-edit-mode)
   (setq require-final-newline t
 	indent-tabs-mode nil)
