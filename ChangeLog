@@ -1,3 +1,7 @@
+2003.07.18 zunda <zunda at freeshell.org>
+	* misc/style/emptdiary/emptydiary.rb: support ruby 1.8.0 (2003-07-18):
+	  Array.join() no longer returns EmptdiaryString but returns String.
+
 2003.07.18 UECHI Yasumasa <uh@u.dhis.portside.net>
 	* rd_style: fix ref_ext_IMG is not for HTML4
 

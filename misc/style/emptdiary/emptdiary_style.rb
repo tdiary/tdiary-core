@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.5 2003-03-21 16:37:45 tadatadashi Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.6 2003-07-18 15:35:28 zunda Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -104,7 +104,7 @@ of split. initialize method is overrideen.
 					@subtitle = lines.shift.chomp
 				end
 			end
-			@body = lines.join( "\n" )
+			@body = Emptdiary::EmptdiaryString.new( lines.join( "\n" ) )
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
 		end
