@@ -1,5 +1,6 @@
 2004-05-09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: support absolute path of @conf.index.
+	* skel/i.diary.rhtml: show TSUKKOMI body length 100 to 200 chars.
 
 2004-05-05 TADA Tadashi <sho@spc.gr.jp>
 	* misc: move posttdiary.rb and tdiary-mode to contrib package.
