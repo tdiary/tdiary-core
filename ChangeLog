@@ -1,3 +1,6 @@
+2002.09.12 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb: redirect using by meta element after comment posting.
+
 2002.09.11 TADA Tadashi <sho@spc.gr.jp>
 	* update documents for 1.5 features.
 	* 00default.rb, doc/*.html: HTML 4.01 Strict DOCTYPE.

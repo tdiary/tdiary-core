@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.4 $
+# index.rb $Revision: 1.5 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -63,11 +63,20 @@ begin
 		print body if /HEAD/i !~ @cgi.request_method
 	rescue TDiary::ForceRedirect
 		hash = {
-			'Location' => $!.path
+			#'Location' => $!.path
+			'type' => 'text/html',
 		}
 		hash['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		head = @cgi.header( hash )
 		print head
+		print %Q[
+			<html>
+			<head>
+			<meta http-equiv="refresh" content="0;url=#{$!.path}">
+			<title>moving...</title>
+			</head>
+			<body><a href="#{$!.path}">Click here!</a></body>
+			</html>]
 	end
 rescue Exception
 	print "Content-Type: text/plain\n\n"
