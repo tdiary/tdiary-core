@@ -1,3 +1,6 @@
+2003.04.28 TADA Tadashi <sho@spc.gr.jp>
+	* HOWTO-make-plugin.html: add about form_proc.
+
 2003.04.27 Junichiro Kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: send comment_mail when receive TrackBack Ping.
 

@@ -141,21 +141,20 @@ def theme_url; 'theme'; end
 
 <p>コールバック系のプラグインは現在、以下の4種類定義されています。</p>
 
-
 <ul>
 	<li><code>update_proc</code>: 日記更新時およびツッコミ追加時に呼び出される</li>
 	<li><code>header_proc</code>: HTMLヘッダ情報の生成時に呼び出される</li>
 	<li><code>body_enter_proc</code>: 日記本文開始の直前で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>body_leave_proc</code>: 日記本文終了の直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>footer_proc</code>: footer生成時に呼び出される</li>
-	<li><code>edit_proc</code>: 更新フォーム内で呼び出される</li>
+	<li><code>edit_proc</code>: 更新フォームの内部で呼び出される。更新フォーム内に新たなアイテムを追加する時に使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。追加したアイテムのname属性は、必ず「plugin_プラグイン名_アイテム名」になっていなくてはならない</li>
+	<li><code>form_proc</code>: 更新フォームの次に呼び出される。更新フォームとは別のフォームなどを追加するときに使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。フォームを追加した場合、submitボタンには必ず「plugin」というname属性を付ける必要がある</li>
 </ul>
-
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。これらのプラグインは以下のように定義して使います。</p>
 
 <pre>
 # 検索キーワードをheadに挿入する
@@ -164,7 +163,7 @@ add_header_proc do
 end
 </pre>
 
-<p>ただし、body_enter_procとbody_leave_proc、edit_procは、現在対象にしている日記の日付がブロックパラメタとして受け取れるようになっているので、以下のように指定する必要があります。</p>
+<p>ただし、body_enter_procとbody_leave_proc、edit_proc、form_procは、現在対象にしている日記の日付がブロックパラメタとして受け取れるようになっているので、以下のように指定する必要があります。</p>
 
 <pre>
 # 最終更新日を表示する
@@ -181,18 +180,20 @@ end
 <p>また、単独では意味のないコールバック系プラグインがあります。edit_procです。edit_procは更新フォーム内に文字列を埋め込むためのプラグインですが、これによって更新フォームに任意のアイテムを追加できます。このアイテムに入力された値は、別途update_proc内で受けとる必要があるでしょう。</p>
 
 <pre>
-# name属性には「plugin_プラグイン名」を付けなければならない
+# name属性には「plugin_プラグイン名_アイテム名」を付けなければならない
 add_edit_proc do |date|
-   'Hoge: &lt;input name="plugin_hoge"&gt;'
+   'Hoge: &lt;input name="plugin_hoge_item1"&gt;'
 end
 
 # 更新時に値を受け取れる
 add_update_proc do
    if /^(append|replace)$/ =~ @mode then
-      hoge = @cgi.params['plugin_hoge'][0]
+      hoge = @cgi.params['plugin_hoge_item1'][0]
    end
 end
 </pre>
+
+<p>一方、同じフォーム追加を目的としたform_procではこのようにする必要はなく、同じform_proc内で入力を受けとることができます。</p>
 
 <h2><a name="methods">プラグインが生成するHTML</a></h2>
 <p>プラグインは一般的に文字列を返すことでその文字列が日記に埋め込まれるわけですが、多くの場合その文字列はHTMLの断片になります。このHTML断片は以下のルールに従うようにしてください。
