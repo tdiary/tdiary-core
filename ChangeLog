@@ -1,3 +1,7 @@
+2002.09.10 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: argument check in DiaryBase#set_date.
+	* HOWTO-make-io.html -> HOWTO-make-io.rd.
+
 2002.09.09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: implement DiaryBase#title, DiaryBase#set_title.
 	* defaultio.rb, pstoreio.rb: remove title, title=, date method.

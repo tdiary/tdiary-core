@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.50 $
+tdiary.rb $Revision: 1.51 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020826'
+TDIARY_VERSION = '1.5.0.20020910'
 
 require 'cgi'
 require 'nkf'
@@ -246,7 +246,8 @@ module DiaryBase
 
 	def set_date( date )
 		if date.type == String then
-			y, m, d = date.scan( /(\d{4})(\d\d)(\d\d)/ )[0]
+			y, m, d = date.scan( /^(\d{4})(\d\d)(\d\d)$/ )[0]
+			raise ArgumentError::new( 'date string needs YYYYMMDD format.' ) unless y
 			@date = Time::local( y, m, d )
 		else
 			@date = date
