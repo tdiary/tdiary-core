@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.33 $
+# $Revision: 1.34 $
 #
 
 #
@@ -381,8 +381,8 @@ end
 
 if @mode == 'comment' and @comment then
 	# setting conversion
-	@options['comment_mail.header'] = @conf.mail_header || ''
-	@options['comment_mail.receivers'] = @conf.mail_receivers || @conf.author_mail
+	@options['comment_mail.header'] ||= @conf.mail_header || ''
+	@options['comment_mail.receivers'] ||= @conf.mail_receivers
 end
 
 #
