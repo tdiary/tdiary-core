@@ -4,10 +4,10 @@
 <h2><a href="./?date=20010803">2001-08-03</a> <span class="title">title</span></h2>
 <div class="body">
 <h3 class="subtitle"><a name="p01" href="./?date=20010803#p01">_</a>sub-title(1)</h3>
-<p> Like the above, a line of the beginning becomes a sub-title. This line is displayed as bold characters with the tDiary's standard style sheet. Lines from the sub-title to the next space line are called section, and a section anchor is added in front of the sub-title. </p>
-<p>Lines after the sub-title like this line and the line just above are recognized as normal lines. If the paragraph begins with a sub-title, the section anchor is not attached in front of the normal lines.</p>
-<p><a name="p02" href="./?date=20010803#p02">_</a>    If space line exists, the line means the separation of the sections. If space exists in front of the line like this line, the section doesn't have a sub-title. Only the first paragraph has a section anchor. In this case, the line is not shown as bold characters.</p>
-<p> If the section doesn't begin with a sub-title, the second or later paragraph doesn't have an anchor.</p>
+<p> Like the above, the first line becomes a sub-title. With the tDiary's standard style sheet, the sub-title is displayed in bold face. Lines from the sub-title to the next space line are called section, and a section anchor is added in front of the sub-title. </p>
+<p> Lines after the sub-title, like this line and the line just above, are recognized as normal lines. If a paragraph begins with a sub-title, a section anchor is not attached in front of normal lines.</p>
+<p><a name="p02" href="./?date=20010803#p02">_</a> If a space line exists, the line means the separation of the sections. If space exists in front of the line like this line, the section doesn't have a sub-title. In addition, only the first paragraph has a section anchor. In this case, the line is not shown in bold face.</p>
+<p> If a section doesn't begin with a sub-title, the second or later paragraphs don't have an anchor.</p>
 <pre>
 If the paragraph begins with a line whose first character is "&lt;", $
 the whole section is not formatted. $
@@ -18,7 +18,7 @@ HTML tags, for example, list or table. $
 This section doesn't have a section anchor. $
 </pre>
 <h3 class="subtitle"><a name="p01" href="./?date=20010803#p04">_</a><a href="foobar">sub-title(2)</a></h3>
-<p>Inevitably, you can't add a sub-title which begins with a HTML tag to a section. But if a line begins with "&lt;&lt;" like the above line, the line is also recognized as a sub-title.
+<p>As the result of it, you can't add a sub-title which begins with a HTML tag to a section. But if a line begins with "&lt;&lt;" like the line above, the line is also recognized as a sub-title.
 </div>
 </div>
 

@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.4 $
+# tDiary configuration file $Revision: 1.5 $
 #
 
 #-------
@@ -7,7 +7,7 @@
 #-------
 
 # Language setting
-#   If you use tDiary in English mode, @lang have to set 'en'.
+#   If you use tDiary in English mode, you have to set @lang to 'en'.
 #   And copy 00lang.en.rb into plugin directory.
 @lang = 'en'
 
@@ -21,11 +21,11 @@
 # The format of the diary(optional)
 #   If you change the format of the diary from the default, 
 #   you must add some items to your configuration file.
-#   In default, tDiary uses the format of tDiary2.
+#   In default, tDiary uses tDiary2 format.
 #   What you must configure depends on the format of diary.
 #   Please see the document of the program which enable tDiary to 
 #   use other format.
-#   If "#" of the below two lines are eliminated, tDiary uses the format of tDiary1.
+#   If "#" of the two lines below are removed, tDiary uses tDiary1 format.
 #require 'tdiary/pstoreio'
 #@io_class = TDiary::PStoreIO
 
@@ -41,7 +41,7 @@
 #   You can set @index and @update to the script filenames for 
 #   reading or updating your diary. Normally, these variables have 
 #   the default value("./" and "update.rb"). But, if you specify these 
-#   variables, you can use tDiary in case when you can't use "DirectoryIndex"
+#   variables, you can use tDiary in case that you can't use "DirectoryIndex"
 #   or you want to use frame. 
 #@index = './'
 #@update = 'update.rb'
@@ -52,7 +52,7 @@
 #   tDiary change its behavior. In the beginning of the sub-title, writer's name
 #   is inserted. The style is like "[user name] sub-title".
 #   The editing in multi-uses mode is dangerous. If plural persons
-#   write diary at the same time, the diary which is saved precedently 
+#   write diary at the same time, the change which is saved precedently 
 #   is ignored. You must be careful when you use multi-user mode.
 #   The words, "user name", is the name which is used when you login with browser. 
 #   Don't forget to add necessary user names to "Require User" of .htaccess.
@@ -61,21 +61,20 @@
 # The receivers to whom tDiary sends e-mail.(optional)
 #   You configure @mail_receivers if you use multi-user mode and 
 #   plural persons want to receive a TSUKKOMI mail.
-#   You don't have to set this item if you use tDiary on one's own.
+#   You don't have to set this item if you use tDiary by yourself.
 #   This item is also used if you want to receive a TSUKKOMI mail which
 #   is sent to the different address from @author_mail.
 @mail_receivers = []
 
 # path of plugins. (optional)
-#   In default, plugins are find from 'plugin' directory under install
-#   path. Although, when @plugin_path is set, tDiary will load plugins
+#   In default, plugins are find from "plugin" directory under install
+#   path. But, when @plugin_path is set, tDiary will load plugins
 #   from it.
 #@plugin_path = 'path of plugins'
 
 # options for plugins. (optional)
 #   Some plugins can receive options from tdiary.conf.
-#   See below.
-#     ex: a option 'foo' of plugin 'sample'.
+#     ex: a option "foo" of plugin "sample".
 #         @options[sample.foo] = 'foobar'
 
 #-------
@@ -83,20 +82,20 @@
 # 
 # If necessary, you change these items. 
 # Once you do setting with browser, 
-# these items' value are not reflected even if you edit "tdiary.conf".  
+# these items' value is not reflected even if you edit "tdiary.conf" directly.  
 #-------
 
 # your name and mail address
 #   you set @author_name to your name and @author_mail to your mail 
-#   address. These values is embedded in the HTML header of your diary.
+#   address. These values are embedded in the HTML header of your diary.
 @author_name = 'Your name'
 @author_mail = 'foo@example.net'
 
-# your top page
+# your top-page
 #   if your website has contents other than diary, you 
-#   set @index_page to URL of your website page, for example,
-#   the front page of your diary or the top page of your website.
-#   This is embedded in the HTML header and the beginning of 
+#   set @index_page to URL of your other website page, for example,
+#   the front page of your diary or the top-page of your website.
+#   This is embedded in the HTML header and at the beginning of 
 #   your diary page.
 @index_page = 'http://www.example.net/~foo/'
 
@@ -106,17 +105,17 @@
 @html_title = 'foobar diary'
 
 # Diary header
-#   You specify sentences which are embedded in the beginning 
-#   of your diary. Please change the sentences enclosed by the "HEADER".
+#   You specify sentences which are embedded at the beginning 
+#   of your diary. Please change sentences enclosed by "HEADER".
 #   Because this value is embedded as it is, you can use HTML tag. You 
 #   can also use eRuby tag. You feel inconvenient if "%calendar" and "%navi" 
 #   are not in the diary header.
 #   
 #   <%=calendar%>
-#       This is replaced with the calendar. This calendar has the links to 
+#       This is replaced with a calendar. This calendar has the links to 
 #       other monthly page.
 #   <%=navi%>
-#       This is replaced with the menu through which you can update your diary,
+#       This is replaced with menus through which you can update your diary,
 #       do setting and so on.
 #
 @header = <<HEADER
@@ -127,17 +126,17 @@ HEADER
 
 # Diary footer
 #   Like the diary header, you can set @footer to sentences which
-#   are inserted in the end of your diary page.
-#   Please change the sentences enclosed by "FOOTER".
+#   are inserted into the end of your diary page.
+#   Please change sentences enclosed by "FOOTER".
 @footer = <<FOOTER
 <p>If you want to delete this message, you move to "preferences" page and 
 edit the footer.<p>
 
 <p style="font-size: x-large;">
 It is better to read 
-<a href="doc/README.html">README</a> 
+<a href="doc/README.en.html">README</a> 
 and 
-<a href="doc/HOWTO-write-tDiary.html">How to write diary</a>
+<a href="doc/HOWTO-write-tDiary.en.html">How to write diary</a>
 before you write diary. 
 </p>
 FOOTER
@@ -159,15 +158,15 @@ FOOTER
 @section_anchor = '<span class="sanchor">_</span>'
 @comment_anchor = '<span class="canchor">_</span>'
 
-# How many daily diaries "Latest" page has.
-#   You decide how many days are shown in "Latest" page.
-#   If the number of the days doesn't attain the specified number, 
+# How many daily diaries do "Latest" page have?
+#   You decide how many daily diaries are shown in "Latest" page.
+#   If the number of the diaries doesn't attain the specified number, 
 #   diaries in the previous month are also shown.
 @latest_limit = 10
 
 # Theme(theme name or URL of the CSS) 
 #   You specify a theme or URL of the CSS. This determines
-#   the style of your diary. @theme is set to the default cascading 
+#   the style of your diary. @theme has the default cascading 
 #   style sheet. You can change this value and the look of your diary.
 #   In the theme directory, there are some themes. If you are interested in  
 #   other themes, you try them by changing this value. 
@@ -177,15 +176,15 @@ FOOTER
 @theme = 'default'
 @css = ''
 
-# Show TSUKKOMIs(true or false)
-#   You can decide whether today's TSUKKOMIs are shown or not. 
+# Show TSUKKOMI(true or false)
+#   You can decide whether today's TSUKKOMI is shown or not. 
 #   If you set @show_comment to false, you can hide the TSUKKOMIs and
 #   readers of your diary can't read them. The diary author can 
 #   read them in the "Update" page if you specify date.
 @show_comment = true
 
-# How many TSUKKOMIs are shown in "Latest" page and "Daily" page.
-#   If today's TSUKKOMIs are shown, you specify how many TSUKKOMIs are
+# How many TSUKKOMIs are shown in "Latest" page and "Daily" page?
+#   If today's TSUKKOMI is shown, you specify how many TSUKKOMIs are
 #   shown at most in "Latest" page and "Daily" page.
 @comment_limit = 3
 
@@ -201,29 +200,27 @@ FOOTER
 @show_referer = true
 
 
-# How many links are shown in "Latest" page and "Daily" page.
-#   If today's links are shown, you specify how many links are
+# How many links are shown in "Latest" page and "Daily" page?
+#   If today's links are shown, you can specify how many links are
 #   shown at most in "Latest" page and "Daily" page.
 @referer_limit = 10
 
 # TSUKKOMI mail configuration
-#   If you want to know when your diary gets a new TSUKKOMI, 
+#   If you want to know when your diary receives a new TSUKKOMI, 
 #   you configure these items. If you set @mail_on_comment to true, 
-#   tDiary send a TSUKKOMI mail to @author_mail according to the below
-#   configuration.
+#   tDiary send a TSUKKOMI mail to @author_mail according to the configuration.
 #
-#   If the TSUKKOMI dose not have E-mail address, @author_mail will
+#   If a TSUKKOMI dose not have E-mail address, @author_mail will
 #   be set in the mail.
 #
-#   @mail_header is inserted into the subject of the mail. 
-#   You specify this variable so that you can easily arrange your TSUKKOMI mail. 
+#   @mail_header is inserted into the subject of the TUKKOMI mail. 
+#   You specify this variable so that you can easily arrange your TSUKKOMI mails. 
 #   The actual subject has the date and TSUKKOMI serial number. It is like this, 
 #   "@mail_header:@date_format-1". If @mail_header includes a word which begins
-#   with %, it means as the date format. Then in this situation, the Subject is
+#   with %, it means the date format. In this situation, the Subject is
 #   like "@mail_header-1".
 @mail_on_comment = false
 @mail_header = 'foobar'
-
 
 # Time difference adjustment 
 #   This item adjusts the date which is automatically inserted into 
@@ -243,11 +240,11 @@ FOOTER
 #-----
 
 # URLs which are excluded from today's link (Regular Expression)
-#   You set a list of URLs which are not recorded as today's link to @no_referer 
-#   If all the access are recorded, today's link has some noisy URLs. 
-#   Because the purpose of today's link is to find URL which is linked to 
-#   your diary, these accesses are annoying; a search engine's access, 
-#   an access from your website, and a website fetcher's access. 
+#   You set a list of URLs which are not recorded as today's links to @no_referer 
+#   If all the access are recorded, today's links have some noisy URLs. 
+#   Because the purpose of today's links is to find URL which is linked to 
+#   your diary, these noisy accesses are annoying; a search engine's access, 
+#   an access from your website and a website fetcher's access. 
 #   They are excluded if you set their URLs to @no_referer.
 #   It is better to add your diary's URL to @no_referer. 
 #   The value must be the Array of Ruby and Array's contents are String 
@@ -263,15 +260,15 @@ FOOTER
    #It is better to add your diary's URL. 
 ]
 
-# The rule which convert the specified URL to the word (Regular Expression)
+# The rules which convert the specified URL to the word (Regular Expression)
 #   @referer_table is configured so that readable URLs are shown in  
-#   today's link when you read "daily" page. You add an array of 
+#   today's links when you read "daily" page. You add an array of 
 #   a URL which will be converted to Regexp and a word which tDiary 
 #   replaced the URL with to @referer_table. If a part of URL is 
 #   enclosed by parentheses, "\1", "\2", ... in the word are replaced with 
 #   the enclosed parts of URL. 
 #
-#   By the below rule, tDiary replaces URLs from google with "google...".
+#   By the rules below, tDiary replaces URLs from google with "google...".
 @referer_table = [
 	['^http://www.google.com/search.*?q=([^&]*).*', 'google(\1)'],
 
@@ -279,7 +276,7 @@ FOOTER
 	# You must add a new rule above here. 
 	#  
 	# This rule abbreviates URLs which are not converted by the rules 
-	# above this and have more than 50 characters. 
+	# above and have more than 50 characters. 
 	#
 	['^(.{50}).*$', '\1...'],
 ]
@@ -287,7 +284,7 @@ FOOTER
 #----
 # CGI configuration file(must)
 #   If you enforce security, you set @secure to true. This 
-#   restricts dangerous operation of variables and file loading.
+#   restricts dangerous operation, for example, variables and file loading.
 #----
 @secure = false
 load_cgi_conf

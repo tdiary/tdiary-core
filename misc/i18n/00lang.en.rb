@@ -13,11 +13,11 @@ def title_tag
 	when 'month'
 		r << "(#{@date.strftime( '%Y-%m' )})" if @date
 	when 'form'
-		r << '(Updating)'
+		r << '(Update)'
 	when 'append', 'replace'
-		r << '(Updating Completed)'
+		r << '(Update Completed)'
 	when 'showcomment'
-		r << '(Changing Completed)'
+		r << '(TSUKKOMI Status Change Completed)'
 	when 'conf'
 		r << '(Preferences)'
 	when 'saveconf'
@@ -40,8 +40,8 @@ end
 def no_diary; "No diary on #{@date.strftime( @conf.date_format )}"; end
 def comment_today; "Today's TSUKKOMI"; end
 def comment_total( total ); "(Total: #{total})"; end
-def comment_new; 'Make a TSUKKOMI'; end
-def comment_description; 'Make a TSUKKOMI or Comment please. E-mail address will be shown to only me.'; end
+def comment_new; 'Add a TSUKKOMI'; end
+def comment_description; 'Add a TSUKKOMI or Comment please. E-mail address will be shown to only me.'; end
 def comment_description_short; 'TSUKKOMI!!'; end
 def comment_name_label; 'Name'; end
 def comment_name_label_short; 'Name'; end
@@ -68,7 +68,7 @@ def submit_label
 		'Replace'
 	end
 end
-def label_update_complete; '[Updating Completed]'; end
+def label_update_complete; '[Update Completed]'; end
 def label_reedit; 'Edit Again'; end
 def label_hidden_diary; 'This day is HIDDEN now.'; end
 
