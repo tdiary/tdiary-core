@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.26 $
+# index.rb $Revision: 1.27 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -18,11 +18,11 @@ begin
 	require 'tdiary'
 
 	@cgi = CGI::new
-	conf = TDiary::Config::new
+	conf = TDiary::Config::new(@cgi)
 	tdiary = nil
 	status = nil
-	if %r[/\d{4,8}\.html?$] =~ ENV['REDIRECT_URL'] and not @cgi.valid?( 'date' ) then
-		@cgi.params['date'] = [ENV['REDIRECT_URL'].sub( /.*\/(\d+)\.html$/, '\1' )]
+	if %r[/\d{4,8}\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' ) then
+		@cgi.params['date'] = [@cgi.redirectl_url.sub( /.*\/(\d+)\.html$/, '\1' )]
 		status = '200 OK'
 	end
 

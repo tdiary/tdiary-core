@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.17 $
+# update.rb $Revision: 1.18 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -18,7 +18,7 @@ begin
 	require 'tdiary'
 
 	@cgi = CGI::new
-	conf = TDiary::Config::new
+	conf = TDiary::Config::new(@cgi)
 	tdiary = nil
 
 	begin

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.195 $
+tdiary.rb $Revision: 1.196 $
 
 Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -58,6 +58,19 @@ class CGI
 
 	def mobile_agent?
 		self.user_agent =~ %r[(DoCoMo|J-PHONE|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i
+	end
+
+	def https?
+		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS']
+		true
+	end
+
+	def request_uri
+		env_table['REQUEST_URI']
+	end
+
+	def redirect_url
+		env_table['REDIRECT_URL']
 	end
 end
 
@@ -181,7 +194,7 @@ module TDiary
 		def each_visible_trackback( limit = 3 )
 			i = 0
 			@comments.find_all {|com|
-				com.visible_true? and /^(Track|Ping)Back$/ =~ com.name
+				com.visible_true? and /^TrackBack$/ =~ com.name
 			}[0,limit].each do |com|
 				i += 1 # i starts with 1.
 				yield com,i
@@ -191,7 +204,7 @@ module TDiary
 		def each_visible_trackback_tail( limit = 3 )
 			i = 0
 			@comments.find_all {|com|
-				com.visible_true? and /^(Track|Ping)Back$/ =~ com.name
+				com.visible_true? and /^TrackBack$/ =~ com.name
 			}.reverse[0,limit].reverse.each do |com|
 				i += 1 # i starts with 1.
 				yield com,i
@@ -395,7 +408,8 @@ module TDiary
 	#  configuration class
 	#
 	class Config
-		def initialize
+		def initialize(cgi)
+			@cgi = cgi
 			load
 
 			instance_variables.each do |v|
@@ -429,11 +443,11 @@ module TDiary
 		end
 
 		def mobile_agent?
-			%r[(DoCoMo|J-PHONE|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ ENV['HTTP_USER_AGENT']
+			%r[(DoCoMo|J-PHONE|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ @cgi.user_agent
 		end
 
 		def bot?
-			@bot =~ ENV['HTTP_USER_AGENT']
+			@bot =~ @cgi.user_agent
 		end
 
 		#
@@ -453,13 +467,13 @@ module TDiary
 		end
 	
 		def base_url
-			return '' unless ENV['SCRIPT_NAME']
-			if ENV['HTTPS']
-				port = (ENV['SERVER_PORT'] == '443') ? '' : ':' + ENV['SERVER_PORT'].to_s
-				"https://#{ ENV['SERVER_NAME'] }#{ port }#{File::dirname(ENV['SCRIPT_NAME'])}/"
+			return '' unless @cgi.script_name
+                        if @cgi.https?
+				port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
+				"https://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
 			else
-				port = (ENV['SERVER_PORT'] == '80') ? '' : ':' + ENV['SERVER_PORT'].to_s
-				"http://#{ ENV['SERVER_NAME'] }#{ port }#{File::dirname(ENV['SCRIPT_NAME'])}/"
+				port = (@cgi.server_port == 80) ? '' : ':' + @cgi.server_port.to_s
+				"http://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
 			end.sub(%r|/+$|, '/')
 		end
 
@@ -1632,7 +1646,7 @@ module TDiary
 		public :mode
 		def initialize( cgi, rhtml, conf )
 			super
-			date = ENV['REQUEST_URI'].scan(%r!/(\d{4})(\d\d)(\d\d)!)[0]
+			date = @cgi.request_uri.scan(%r!/(\d{4})(\d\d)(\d\d)!)[0]
 			if date
 				@date = Time::local(*date)
 			else
