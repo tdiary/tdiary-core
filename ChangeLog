@@ -1,3 +1,6 @@
+2003-10-10  zunda <zunda at freeshell.org>
+	* plugin/01sp.rb: CGI::escape instead of CGI::escapeHTML to make a URL
+
 2003-10-09  zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: links to plugin documents
 

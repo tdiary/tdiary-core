@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.8 $
+# 01sp.rb - select-plugins plugin $Revision: 1.9 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -71,7 +71,7 @@ end
 
 # url of the document
 def sp_doc_url( file )
-	"http://docs.tdiary.org/#{@conf.lang}/?#{CGI::escapeHTML( file )}"
+	"http://docs.tdiary.org/#{@conf.lang}/?#{CGI::escape( file )}"
 end
 
 # <li> list of plugins
