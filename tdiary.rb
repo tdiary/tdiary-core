@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.22 $
+tdiary.rb $Revision: 1.23 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
@@ -307,13 +307,14 @@ class TDiary
 	class PluginError < TDiaryError; end
 
 	class Plugin
-		attr_reader :cookie
+		attr_reader :cookies
 
 		def initialize( params )
 			@header_procs = []
 			@update_procs = []
 			@body_enter_procs = []
 			@body_leave_procs = []
+			@cookies = []
 			params.each_key do |key|
 				eval( "@#{key} = params['#{key}']" )
 			end
@@ -372,6 +373,10 @@ class TDiary
 			r.join
 		end
 
+		def add_cookie( cookie )
+			@cookies << cookie
+		end
+
 		def method_missing( *m )
 			# ignore when no plugin
 		end
@@ -379,11 +384,12 @@ class TDiary
 
 	PATH = File::dirname( __FILE__ )
 
-	attr_reader :cookie
+	attr_reader :cookies
 
 	def initialize( cgi, rhtml )
 		@cgi = cgi
 		@diaries = {}
+		@cookies = []
 		@rhtml = rhtml
 		load_conf
 	end
@@ -406,7 +412,7 @@ class TDiary
 		begin
 			plugin = load_plugins
 			r = plugin.eval_rhtml( r.untaint, @secure ) if plugin
-			@cookie = plugin.cookie if plugin.cookie
+			@cookies += plugin.cookies
 		rescue PluginError
 			raise
 		rescue Exception
@@ -946,7 +952,7 @@ class TDiaryComment < TDiaryDay
 					dirty = true
 					cookie_path = File::dirname( @cgi.script_name )
 					cookie_path += '/' if cookie_path !~ /\/$/
-					@cookie = CGI::Cookie::new( {
+					@cookies << CGI::Cookie::new( {
 						'name' => 'tdiary',
 						'value' => [@name,@mail],
 						'path' => cookie_path,

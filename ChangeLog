@@ -1,3 +1,6 @@
+2002.04.17 MUTOH Masao <mutoh@highway.ne.jp>
+	* index.rb, tdiary.rb: add Plugin#add_cookie.
+
 2002.04.05 TADA Tadashi <sho@spc.gr.jp>
 	* 1.4.1
 

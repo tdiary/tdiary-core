@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# index.rb $Revision: 1.2 $
+# index.rb $Revision: 1.3 $
 $KCODE= 'e'
 BEGIN { $defout.binmode }
 
@@ -55,7 +55,7 @@ begin
 			'Cache-Control' => 'no-cache',
 			'Vary' => 'User-Agent',
 		}
-		hash['cookie'] = tdiary.cookie if tdiary.cookie
+		hash['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 		head = @cgi.header( hash )
 	end
 	print head
