@@ -1,6 +1,6 @@
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.11 $
+Revision: $Revision: 1.12 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -44,7 +44,7 @@ a:hover {
 */
 div.adminmenu {
 	text-align: right;
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 /*
@@ -80,8 +80,8 @@ div.calendar {
 	padding: 2px;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
-	line-height: 1.1em;
-	font-size: 0.9em;
+	line-height: 110%;
+	font-size: 90%;
 }
 
 div.calendar div.year {
@@ -148,7 +148,7 @@ div.section {
 サブタイトルの設定
 */
 h3 {
-	font-size: 1em;
+	font-size: medium;
 	margin: 0em;
 	font-weight: bold;
 }
@@ -189,14 +189,14 @@ div.day span.canchor {
 */
 div.section p {
 	margin: 0.5em 1em 0.7em 3em;
-	line-height: 1.5;
+	line-height: 150%;
 }
 
 /*
 ツッコミ/フォーム/リンク元のキャプション設定
 */
 div.caption {
-	font-size: 0.9em;
+	font-size: 90%;
 	border-style: solid;
 	border-color: #aaf;
 	border-width: 0px 0px 1px 0px;
@@ -223,7 +223,7 @@ div.comment {
 ツッコミ省略版本文
 */
 div.commentshort {
-	font-size: 0.9em;
+	font-size: 90%;
 	margin-left: 0.5em;
 }
 span.commentator {
@@ -232,16 +232,16 @@ span.commentator {
 div.commentshort p {
 	margin-top: 0.2em;
 	margin-bottom: 0.2em;
-	line-height: 1.2em;
+	line-height: 120%;
 }
 
 /*
 ツッコミ本体
 */
 div.commentbody {
-	font-size: 0.9em;
+	font-size: 90%;
 	margin: 0.5em;
-	line-height: 1.2em;
+	line-height: 120%;
 }
 
 /*
@@ -251,7 +251,7 @@ div.commentator {
 	border-style: solid;
 	border-color: #aaf;
 	border-width: 0px 0px 1px 0px;
-	line-height: 1.5em;
+	line-height: 150%;
 }
 
 /*
@@ -283,7 +283,7 @@ div.form form {
 }
 
 div.form form.comment {
-	font-size: 0.9em;
+	font-size: 90%;
 }
 
 div.field {
@@ -319,7 +319,7 @@ div.button {
 */
 div.referer {
 	text-align: right;
-	font-size: 0.9em;
+	font-size: 90%;
 	background-color: #eef;
 	color: #000000;
 	padding: 2px;
@@ -347,9 +347,9 @@ div.refererlist {
 リンク元リスト一覧の設定
 */
 div.refererlist ul {
-	font-size: 0.9em;
+	font-size: 90%;
 	margin: 0.5em 1em 0.5em 3em;
-	line-height: 1.2em;
+	line-height: 120%;
 }
 
 /*
@@ -372,7 +372,7 @@ hr.sep {
 フッタの設定
 */
 div.footer {
-	font-size: 0.9em;
+	font-size: 90%;
 	text-align: right;
 	margin-top: 0px;
 }
@@ -494,7 +494,7 @@ div.body dd {
 /* calendar2 */
 table.calendar {
 	font-size: x-small;
-	line-height: 1.1em;
+	line-height: 110%;
 	border-style: solid;
 	border-color: #aaf;
 	border-width: 1px;
@@ -513,13 +513,13 @@ table.calendar td.calendar-prev-month, table.calendar td.calendar-current-month,
 
 /* recent_list */
 p.recentitem {
-	font-size: 0.9em;
+	font-size: 90%;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
 
 div.recentsubtitles {
-	font-size: 0.9em;
+	font-size: 90%;
 	margin-top: 0px;
 	margin-bottom: 1em;
 	margin-left: 1em;
@@ -532,7 +532,7 @@ div.body span.footnote {
 }
 
 div.footnote {
-	font-size: 0.9em;
+	font-size: 90%;
 	border-style: solid;
 	border-color: #ddf;
 	border-width: 1px 0px 0px 0px;
