@@ -1,3 +1,6 @@
+2002.03.12 TADA Tadashi <sho@spc.gr.jp>
+	* update erb to 1.4.0.
+
 2002.03.11 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, mail.rtxt: fix mime bug in From and Subject of comment mail.
 
@@ -21,10 +24,12 @@
 	* documents moved to doc.
 	* HOWTO-use-plugin.html, HOWTO-make-plugin.html: add.
 	* remove sample plugins.
+	* tdiary.rb: change to_mime to return array.
+
+2002.03.05 Kazuhiko <kazuhiko@fdiary.net>
 	* tdiary.conf.sample, conf.rhtml: remove restriction of using Japanese in @mail_header.
 	* skel/mail.rtxt: (Subject) use @date_format instead of '%Y-%m-%d'.
 	* tdiary.rb (TDiaryComment::load): specify a message_id by hour, minute and second to avoid possible message_id confliction. exclude @mail_header from a message_id so as to avoid non-ascii character.
-	* tdiary.rb: change to_mime to return array.
 
 2002.03.04 TADA Tadashi <sho@spc.gr.jp>
 	* jtime.rb: add discription.

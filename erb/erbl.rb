@@ -1,16 +1,14 @@
 # Tiny Tiny eRuby --- ERbLight
-# 	Copyright (c) 1999-2000 Masatoshi SEKI 
+# 	Copyright (c) 1999-2000,2002 Masatoshi SEKI 
 #       You can redistribute it and/or modify it under the same term as Ruby.
-# 	$Id: erbl.rb,v 1.1.1.1 2001/06/08 06:09:39 spc Exp $
-# 	$Author: spc $
 
 require 'erb/compile'
 
 class ERbLight
-  Revision = '$Date: 2001/06/08 06:09:39 $'
+  Revision = '$Date: 2002/03/11 16:42:29 $'
 
   def self.version
-    "erbl.rb [1.3.3 #{ERbLight::Revision.split[1]}]"
+    "erbl.rb [1.4.0 #{ERbLight::Revision.split[1]}]"
   end
 
   def initialize(str, safe_level=nil, trim_mode=nil, eoutvar='_erbout')

@@ -1,8 +1,6 @@
 # Tiny Tiny eRuby --- compiler
-# 	Copyright (c) 1999-2000 Masatoshi SEKI 
+# 	Copyright (c) 1999-2000,2002 Masatoshi SEKI 
 #       You can redistribute it and/or modify it under the same term as Ruby.
-#	$Id: compile.rb,v 1.1.1.1 2001/06/08 06:09:39 spc Exp $
-# 	$Author: spc $
 
 class ERbCompiler
   ERbTag = "<%% %%> <%= <%# <% %>".split
@@ -52,26 +50,35 @@ class ERbCompiler
       if stag.nil?
 	if ['<%', '<%=', '<%#'].include?(token)
 	  stag = token
-	  content.join.each do |line|
-	    cmd.push("#{@put_cmd} #{line.dump}")
+	  str = content.join
+	  if str.size > 0
+	    cmd.push("#{@put_cmd} #{str.dump}")
 	  end
+	  content = []
+	elsif token == "\n"
+	  content.push("\n")
+	  cmd.push("#{@put_cmd} #{content.join.dump}")
+	  cmd.push(:cr)
 	  content = []
 	else
 	  content.push(token)
 	end
       else
 	if token == '%>'
-	  content = content.join
 	  case stag
 	  when '<%'
-	    cmd.push(content)
+	    str = content.join
+	    if str[-1] == ?\n
+	      str.chop!
+	      cmd.push(str)
+	      cmd.push(:cr)
+	    else
+	      cmd.push(str)
+	    end
 	  when '<%='
-	    cmd.push("#{@put_cmd}((#{content}).to_s)")
+	    cmd.push("#{@put_cmd}((#{content.join}).to_s)")
 	  when '<%#'
-	    #	  cmd.push('=begin')
-	    #	  cmd.push(content)
-	    #	  cmd.push('=end')
-	    cmd.push("# #{content.dump}")
+	    # cmd.push("# #{content.dump}")
 	  end
 	  stag = nil
 	  content = []
@@ -80,11 +87,23 @@ class ERbCompiler
 	end
       end
     end
-    content.join.each do |line|
-      cmd.push("#{@put_cmd} #{line.dump}")
+    if content.size > 0
+      cmd.push("#{@put_cmd} #{content.join.dump}")
     end
+    cmd.push(:cr)
     cmd.concat(@post_cmd)
-    cmd.join("\n")
+
+    ary = []
+    cmd.each do |x|
+      if x == :cr
+	ary.pop
+	ary.push("\n")
+      else
+	ary.push(x)
+	ary.push('; ')
+      end
+    end
+    ary.join
   end
 
   def initialize
