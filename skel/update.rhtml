@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.25 $ %>
+<%# update.rhtml $Revision: 1.26 $ %>
 <%%=navi%>
 
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
@@ -6,9 +6,10 @@
 <div class="update day">
 <div class="form">
 	<div class="caption">
-		更新フォーム
+		日記の更新
 	</div>
 	<form class="update" method="post" action="<%= @conf.update %>"><div>
+		<h3 class="subtitle">日記本文</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<span class="field year">
 			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">年

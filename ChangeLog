@@ -1,3 +1,6 @@
+2003.11.10 TADA Tadashi <sho@spc.gr.jp>
+	* skel/update.rhtml*: add subtitle in update form.
+
 2003.11.06 zunda <zunda at freeshell.org>
 	* misc/style/emptdiary/README.rd and README.rd.en: emptdiary -> emptDiary
 
