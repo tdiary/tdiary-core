@@ -4,7 +4,7 @@
 
 ;; Author: Junichiro Kita <kita@kitaj.no-ip.com>
 
-;; $Id: tdiary-mode.el,v 1.8 2002-09-14 17:26:57 kitaj Exp $
+;; $Id: tdiary-mode.el,v 1.9 2002-09-18 13:41:06 kitaj Exp $
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -13,7 +13,7 @@
 
 ;; This program is distributed in the hope that it will be useful, but
 ;; WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the GNU
 ;; General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
@@ -35,26 +35,26 @@
 ;;  (autoload 'tdiary-new-diary "tdiary-mode" nil t)
 ;;  (autoload 'tdiary-replace "tdiary-mode" nil t)
 ;;  (add-to-list 'auto-mode-alist
-;;              '("\\.td$" . tdiary-mode))
+;;		'("\\.td$" . tdiary-mode))
 ;;
 ;; You can use your own plugin completion, keybindings:
 ;;
 ;;  (setq tdiary-plugin-definition
-;;        '(
-;;          ("STRONG" ("<%=STRONG \"" (p "str: ") "\" %>"))
-;;          ("PRE" ("<%=PRE \"" (p "str: ") "\" %>"))
-;;          ("CITE" ("<%=CITE \"" (p "str: ") "\" %>"))
-;;          ))
+;;	  '(
+;;	    ("STRONG" ("<%=STRONG \"" (p "str: ") "\" %>"))
+;;	    ("PRE" ("<%=PRE \"" (p "str: ") "\" %>"))
+;;	    ("CITE" ("<%=CITE \"" (p "str: ") "\" %>"))
+;;	    ))
 ;;
 ;;  (add-hook 'tdiary-mode-hook
-;;            '(lambda ()
-;;               (local-set-key "\C-i" 'tdiary-complete-plugin)))
+;;	      '(lambda ()
+;;		 (local-set-key "\C-i" 'tdiary-complete-plugin)))
 ;;
 ;; If you want to save username and password cache to file:
 ;;
 ;;  (setq tdiary-passwd-file (expand-file-name "~/.tdiary-pass"))
 ;;
-;; then, M-x tdiary-passwd-cache-save.  !!DANGEROUS!!
+;; then, M-x tdiary-passwd-cache-save.	!!DANGEROUS!!
 ;;
 
 ;; ToDo:
@@ -350,13 +350,26 @@ Dangerous!!!"
       (tdiary-passwd-cache-clear url)
       (error (concat "tDiary POST: " (car buf) " - " (cdr buf))))))
 
+(defun tdiary-post-text (mode date data)
+  (let* ((filename (expand-file-name 
+		    (concat date tdiary-text-suffix)
+		    (or tdiary-text-directory
+			(expand-file-name "~/")))))
+    (save-excursion
+      (set-buffer (find-file-noselect filename))
+      (when (equal mode "replace")
+	(erase-buffer))
+      (goto-char (point-max))
+      (insert-string data)
+      (save-buffer)
+      (kill-buffer (current-buffer)))))
+
 (defun tdiary-update ()
   "Update diary."
   (interactive)
-  (when (and buffer-file-name
-	     (buffer-modified-p)
-	     (y-or-n-p "Save before update?"))
-    (save-buffer))
+  (if tdiary-text-save-p
+      (tdiary-post-text tdiary-edit-mode tdiary-date
+			(buffer-substring (point-min) (point-max))))
   (tdiary-post tdiary-edit-mode tdiary-date
 	       (buffer-substring (point-min) (point-max)))
   (message "SUCCESS")
@@ -382,7 +395,7 @@ Dangerous!!!"
 If STR is a string, replace entity references within the string.
 Otherwise replace all entity references within current buffer."
   (tdiary-do-replace-entity-ref
-   "&amp;" "&"   
+   "&amp;" "&"	 
    (tdiary-do-replace-entity-ref
     "&lt;" "<"
     (tdiary-do-replace-entity-ref
@@ -456,7 +469,7 @@ Load `tdiary-init-file' if modified."
 (define-derived-mode tdiary-mode html-mode "tDiary"
   "Major mode for tDiary editing.
 \\{tdiary-mode-map}"
-  (make-local-variable 'require-final-newline)  
+  (make-local-variable 'require-final-newline)	
   (make-local-variable 'tdiary-date)
   (make-local-variable 'tdiary-title)
   (make-local-variable 'tdiary-edit-mode)
@@ -479,14 +492,7 @@ Load `tdiary-init-file' if modified."
 
   (font-lock-set-defaults)
 
-  (run-hooks 'tdiary-mode-hook)
-
-  (when tdiary-text-save-p
-    (set-visited-file-name
-     (expand-file-name (concat tdiary-date tdiary-text-suffix)
-		       (or tdiary-text-directory
-			   (expand-file-name "~/"))))
-    (not-modified)))
+  (run-hooks 'tdiary-mode-hook))
 
 (put 'tdiary-mode 'font-lock-defaults '(html-font-lock-keywords nil t))
 
