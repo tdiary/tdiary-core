@@ -4,7 +4,7 @@ Options +ExecCGI
 #Options FollowSymLinks
 
 # if make anchor style as 'YYYYMMDD.html', use settings below,
-# then change 'your_URL_of_index.rb' and use yyymmdd.rb plugn.
+# then change 'your_URL_of_index.rb' and use html_anchor.rb plugn.
 #ErrorDocument 404 your_URL_of_index.rb
 
 AddHandler cgi-script .rb

@@ -1,3 +1,6 @@
+2002.10.22 TADA Tadashi <sho@spc.gr.jp>
+	* remove misc/squeeze.rb. use squeeze.rb in the plugin collection.
+
 2002.10.17 TADA Tadashi <sho@spc.gr.jp>
 	* fix(?) bug(?) of 'YYYYMMDD.html' style.
 
