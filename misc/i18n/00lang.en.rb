@@ -28,8 +28,16 @@ end
 
 
 #
+# other resources
+#
+def html_lang
+	"en"
+end
+
+#
 # labels
 #
+def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end
 def comment_today; "Today's TSUKKOMI"; end
 def comment_total( total ); "(Total: #{total})"; end
 def comment_new; 'Make a TSUKKOMI'; end
@@ -48,10 +56,8 @@ def referer_today; "Today's Link"; end
 
 def navi_index; 'Top'; end
 def navi_latest; 'Latest'; end
-def navi_prev_day(date); "Prev(#{date})"; end
-def navi_next_day(date); "Next(#{date})"; end
-def navi_prev_day2(date); "Prev Month(#{date})"; end
-def navi_next_day2(date); "Next Month(#{date})"; end
+def navi_prev_diary(date); "Prev(#{date})"; end
+def navi_next_diary(date); "Next(#{date})"; end
 def navi_update; "Update"; end
 def navi_preference; "Preference"; end
 
@@ -62,3 +68,19 @@ def submit_label
 		'Replace'
 	end
 end
+def label_update_complete; '[Updating Completed]'; end
+def label_reedit; 'Edit Again'; end
+def label_hidden_diary; 'This day is HIDDEN now.'; end
+
+def label_no_referer; "Today's Link Excluding List"; end
+def label_referer_table; "Today's Link Conversion Rule"; end
+
+#
+# labels (for mobile)
+#
+def mobile_navi_latest; 'Latest'; end
+def mobile_navi_update; 'Update'; end
+def mobile_navi_preference; 'Prefs'; end
+def mobile_navi_prev_diary; 'Prev'; end
+def mobile_navi_next_diary; 'Next'; end
+def mobile_label_hidden_diary; 'This day is HIDDEN.'; end

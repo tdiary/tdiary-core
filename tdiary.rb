@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.63 $
+tdiary.rb $Revision: 1.64 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20021111'
+TDIARY_VERSION = '1.5.0.20021112'
 
 require 'cgi'
 require 'nkf'
@@ -676,9 +676,9 @@ module TDiary
 				r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
 				@cookies += @plugin.cookies
 			rescue PluginError
-				raise
-			rescue Exception
 				r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read } ).result( binding )
+			rescue Exception
+				raise
 			end
 			return r
 		end

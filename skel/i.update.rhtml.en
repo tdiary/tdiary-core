@@ -1,8 +1,8 @@
-<%# i.update.rhtml $Revision: 1.1 $ %>
+<%# i.update.rhtml $Revision: 1.2 $ %>
 <H1><%= @conf.html_title %> [<%%= submit_label %%>]</H1>
 
 <P>
-<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]Latest</A>|<A HREF="<%= @conf.update %>?conf=OK" ACCESSKEY="9">[9]Preferences</A>
+<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]<%%=mobile_navi_latest%%></A>|<A HREF="<%= @conf.update %>?conf=OK" ACCESSKEY="9">[9]<%%=mobile_navi_preference%%></A>
 </P>
 
 <FORM METHOD="POST" ACTION="<%= @conf.update %>">

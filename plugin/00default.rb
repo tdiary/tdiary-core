@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.14 $
+# $Revision: 1.15 $
 #
 
 #
@@ -205,8 +205,12 @@ end
 #
 # make anchor tag in my diary
 #
-def my( a, str )
-	%Q[<a href="#{@index}#{anchor a}">#{str}</a>]
+def my( a, str, title = nil )
+	if title then
+		%Q[<a href="#{@index}#{anchor a}" title="#{title}">#{str}</a>]
+	else
+		%Q[<a href="#{@index}#{anchor a}">#{str}</a>]
+	end
 end
 
 #
@@ -232,8 +236,24 @@ def referer_of_today_long( diary, limit )
 end
 
 #
-# labels
+# other resources
 #
+def html_lang
+	"ja-JP"
+end
+
+def submit_command
+	if @mode == 'form' then
+		'append'
+	else
+		'replace'
+	end
+end
+
+#
+# labels (normal)
+#
+def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end
 def comment_today; '本日のツッコミ'; end
 def comment_total( total ); "(全#{total}件)"; end
 def comment_new; 'ツッコミを入れる'; end
@@ -257,13 +277,6 @@ def navi_preference; "設定"; end
 def navi_prev_diary(date); "前の日記(#{date})"; end
 def navi_next_diary(date); "次の日記(#{date})"; end
 
-def submit_command
-	if @mode == 'form' then
-		'append'
-	else
-		'replace'
-	end
-end
 def submit_label
 	if @mode == 'form' then
 		'追加'
@@ -271,4 +284,19 @@ def submit_label
 		'登録'
 	end
 end
+def label_update_complete; '[更新完了]'; end
+def label_reedit; ' 再編集 '; end
+def label_hidden_diary; 'この日の日記は現在【非表示】になっています。'; end
 
+def label_no_referer; 'リンク元記録除外リスト'; end
+def label_referer_table; 'リンク置換リスト'; end
+
+#
+# labels (for mobile)
+#
+def mobile_navi_latest; '最新'; end
+def mobile_navi_update; "更新"; end
+def mobile_navi_preference; "設定"; end
+def mobile_navi_prev_diary; "前日"; end
+def mobile_navi_next_diary; "翌日"; end
+def mobile_label_hidden_diary; 'この日は【非表示】です'; end

@@ -1,14 +1,14 @@
-<%# referer.rhtml $Revision: 1.2 $ %>
+<%# referer.rhtml $Revision: 1.3 $ %>
 <div class="day">
 <% if @cgi['referer'][0] == 'no' %>
-<h2><span class="title">リンク元記録除外リスト</span></h2>
+<h2><span class="title"><%%=label_no_referer%%></span></h2>
 <div class="body">
 <ul>
 <%= (@conf.no_referer - @conf.no_referer2).collect{|r| "<li>#{r}</li>\n" }.join %>
 </ul>
 </div>
 <% else %>
-<h2><span class="title">リンク元置換リスト</span></h2>
+<h2><span class="title"><%%=label_referer_table%%></span></h2>
 <div class="body">
 <ul>
 <%= (@conf.referer_table - @conf.referer_table2).collect{|r,n| "<li>#{r} <b>#{n}</b></li>\n" }.join %>

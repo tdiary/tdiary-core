@@ -1,3 +1,8 @@
+2002.11.12 TADA Tadashi <sho@spc.gr.jp>
+	* skel/*.en: marge some files to language independent revision.
+	* tdiary.rb: fix: rescue plugin error.
+	* defaultio.rb, pstoreio.rb: remove white space in the top of paragrapth..
+
 2002.11.11 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: TDiaryBase#mode method added.
 
