@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.4 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.5 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -16,6 +16,9 @@ ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]
 =end
 
 =begin ChangeLog
+2002-08-16 TADA Tadashi <sho@spc.gr.jp>
+	* follow new IO classes specification.
+
 2002-07-25 TADA Tadashi <sho@spc.gr.jp>
 	* display progress.
 
@@ -72,7 +75,7 @@ class TDiaryConvert2 < TDiary
 	def initialize
 		super( nil, 'day.rhtml' )
 		require "#{PATH}/tdiary/pstoreio"
-		@io_old = TDiary::PStoreIO::new( @data_path )
+		@io_old = TDiary::PStoreIO::new( self )
 		@years = @io_old.calendar
 		@years.keys.sort.each do |year|
 			@years[year.to_s].sort.each do |month|
@@ -84,9 +87,11 @@ class TDiaryConvert2 < TDiary
 				end
 
 				require 'tdiary/defaultio'
-				DefaultIO::IO::new( @data_path ).transaction( date, @diaries ) do |diaries|
-					true
+				DefaultIO::IO::new( self ).transaction( date ) do |diaries|
+					diaries.update( @diaries )
+					TDiary::DIRTY_DIARY | TDiary::DIRTY_COMMENT | TDiary::DIRTY_REFERER
 				end
+				clear_parser_cache( date )
 			end
 		end
 	end

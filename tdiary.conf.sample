@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.11 $
+# tDiary configuration file $Revision: 1.12 $
 #
 
 #-------
@@ -59,18 +59,6 @@
 #   設定する必要はありません。また、@auther_mailとは違ったアドレスでツッ
 #   コミメールを受けとりたいときにも使えます。配列なので書式に注意。
 @mail_receivers = []
-
-# 日記をテキストとしても保存する場合は以下を設定【オプション】
-#   tDiaryの日記データはバイナリのデータベースファイルに保存されているの
-#   で、全文検索エンジン等に与えてインデックスを作成することができません。
-#   これをなんとかするために、更新のタイミングでテキストファイルを出力さ
-#   せる設定がこの変数です。他にも、バックアップ用途に使えるかも知れませ
-#   ん。@text_outputをtrueにすると、@text_output_pathに1日1ファイル、
-#   「YYYYMMDD」形式のファイル名で保存されます。このディレクトリも
-#   @data_path同様、WWWサーバの権限で書き込めるパーミッションにしておく
-#   必要があります。
-@text_output = false
-@text_output_path = '/home/foo/diary_text'
 
 # プラグインに渡すオプション【オプション】
 #   プラグインによっては、tdiary.conf経由でオプションを渡すことで挙動を
@@ -137,13 +125,13 @@ FOOTER
 @date_format = '%Y-%m-%d'
 
 # セクションアンカーとツッコミアンカーの指定
-#   日記のセクションアンカー(@paragraph_anchor)および「ツッコミ」アンカー
+#   日記のセクションアンカー(@section_anchor)および「ツッコミ」アンカー
 #   (@comment_anchor))に使う文字を指定します。
 #   それぞれの文字列が<a href="...">〜</a>に挟まれてHTMLに展開されます。
-#   なお、classがpanchor(セクションアンカーの場合)やcanchor(ツッコミアン
+#   なお、classがsanchor(セクションアンカーの場合)やcanchor(ツッコミアン
 #   カーの場合)のspanタグを使うと、テーマによっては自動的に画像によるア
 #   ンカーが付くようになります。
-@paragraph_anchor = '<span class="panchor">_</span>'
+@section_anchor = '<span class="sanchor">_</span>'
 @comment_anchor = '<span class="canchor">_</span>'
 
 # 最新表示時に最大何日分の日記を表示するかの指定

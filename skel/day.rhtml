@@ -1,4 +1,4 @@
-<%# day.rhtml $Revision: 1.1 $ %>
+<%# day.rhtml $Revision: 1.2 $ %>
 <%= @header %><%%update_proc if @mode == 'comment'%%>
 <hr class="sep">
 
@@ -7,7 +7,7 @@ if @diary then
 	param = {
 		'date_format' => @date_format,
 		'index' => @index,
-		'paragraph_anchor' => @paragraph_anchor,
+		'section_anchor' => @section_anchor,
 		'comment_anchor' => @comment_anchor,
 		'long_mode' => true,
 		'show_referer' => @show_referer,

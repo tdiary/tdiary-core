@@ -1,6 +1,6 @@
 /*
 Title: デフォルト
-Revision: $Revision: 1.1 $
+Revision: $Revision: 1.2 $
 Author: ただただし
 Access: sho@spc.gr.jp
 License: GPL
@@ -128,14 +128,14 @@ h3.subtitle {
 イメージアンカーの設定
 ただしDefaultテーマではイメージアンカーは使っていないのでコメントにしてある
 指定のコツは以下の通り
-  - span.panchorはセクションアンカー、span.canchorはツッコミアンカー
+  - span.sanchorはセクションアンカー、span.canchorはツッコミアンカー
   - background-imageにアンカー画像を指定
   - paddingのtop(最初)とright(2番目)に画像の縦横サイズを指定
   - colorに背景色と同じ色を指定(文字を見えなくするため)
 */
 /*
-div.day span.panchor {
-	background-image: url(default_panchor.png);
+div.day span.sanchor {
+	background-image: url(default_sanchor.png);
 	background-position: bottom right;
 	background-repeat: no-repeat;
 	padding: 16px 16px 0px 0px;

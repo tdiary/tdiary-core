@@ -1,12 +1,12 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.47 $
+tdiary.rb $Revision: 1.48 $
 
 Copyright (C) 2001-2002, TADA Tadashi <sho@spc.gr.jp>
 =end
 
-TDIARY_VERSION = '1.5.0.20020813'
+TDIARY_VERSION = '1.5.0.20020816'
 
 require 'cgi'
 require 'nkf'
@@ -442,14 +442,13 @@ protected
 		@secure = true unless @secure
 		@options = {}
 		eval( File::open( "tdiary.conf" ){|f| f.read }.untaint )
+
 		@data_path += '/' if /\/$/ !~ @data_path
 		@smtp_port = 25 unless @smtp_port
 		@index = './' unless @index
 		@update = 'update.rb' unless @update
 		@options = {} unless @options.type == Hash
 
-		@author_name = @auther_name unless @author_name
-		@author_mail = @auther_mail unless @author_mail
 		@index_page = '' unless @index_page
 		@date_format = '%Y-%m-%d' unless @date_format
 		@theme = 'default' if not @theme and not @css
@@ -463,7 +462,9 @@ protected
 		@mail_receivers = [@author_mail] if not @mail_receivers or @mail_receivers.size == 0
 		@mail_header = '' unless @mail_header
 		@hour_offset = 0 unless @hour_offset
-		@text_output_path << '/' if @text_output_path and /\/$/ !~ @text_output_path
+
+		# for 1.4 compatibility
+		@section_anchor = @paragraph_anchor unless @section_anchor
 	end
 
 	def load_cgi_conf
@@ -479,7 +480,7 @@ protected
 			:html_title,
 			:header,
 			:footer,
-			:paragraph_anchor,
+			:section_anchor,
 			:comment_anchor,
 			:date_format,
 			:latest_limit,
@@ -589,11 +590,17 @@ protected
 	end
 
 	def parser_cache( date, key = nil, obj = nil )
+		return nil if @ignore_parser_cache
+
 		require 'pstore'
+		unless FileTest::directory?( cache_path ) then
+			Dir::mkdir( cache_path )
+		end
 		file = date.strftime( "#{cache_path}/%Y%m.parser" )
 
 		unless key then
-			File::remove( file )
+			File::delete( file )
+			File::delete( file + '~' )
 			return nil
 		end
 
@@ -750,7 +757,7 @@ class TDiarySaveConf < TDiaryConf
 		@header = @cgi['header'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
 		@footer = @cgi['footer'][0].to_euc.gsub( "\r\n", "\n" ).gsub( "\r", '' ).sub( /\n+\z/, '' )
 
-		@paragraph_anchor = @cgi['paragraph_anchor'][0].to_euc
+		@section_anchor = @cgi['section_anchor'][0].to_euc
 		@comment_anchor = @cgi['comment_anchor'][0].to_euc
 		@date_format = @cgi['date_format'][0].to_euc
 		@latest_limit = @cgi['latest_limit'][0].to_i

@@ -1,5 +1,5 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.9 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.10 $
 #
 require 'pstore'
 
@@ -164,7 +164,7 @@ class Diary
 				if opt['anchor'] then
 					r << %Q[name="p#{'%02d' % idx}" ]
 				end
-				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['paragraph_anchor']}</a> ]
+				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
 				if opt['multi_user'] and paragraph.author then
 					r << %Q|[#{paragraph.author}]|
 				end
@@ -179,7 +179,7 @@ class Diary
 				if opt['anchor'] then
 					r << %Q[name="p#{'%02d' % idx}" ]
 				end
-				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['paragraph_anchor']}</a> #{paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
+				r << %Q[href="#{opt['index']}<%=anchor "#{@date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{paragraph.body.collect{|l|l.chomp}.join( "</p>\n<p>" )}</p>]
 			end
 			r << %Q[</div>]
 			idx += 1

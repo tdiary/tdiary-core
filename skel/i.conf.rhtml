@@ -1,4 +1,4 @@
-<%# i.conf.rhtml $Revision: 1.1 $ %>
+<%# i.conf.rhtml $Revision: 1.2 $ %>
 <h1><%= @html_title %> [設定]</h1>
 <P>
 <A HREF="<%= @index %>" ACCESSKEY="1">[1]最新</a>|<A HREF="<%= @update %>" ACCESSKEY="0">[0]更新</a>
@@ -27,7 +27,7 @@
 
 <H2>表示設定(1) - 基本</H2>
 <P>
-セクションアンカー: <INPUT NAME="paragraph_anchor" VALUE="<%= CGI::escapeHTML @paragraph_anchor %>"><BR>
+セクションアンカー: <INPUT NAME="section_anchor" VALUE="<%= CGI::escapeHTML @section_anchor %>"><BR>
 ツッコミアンカー: <INPUT NAME="comment_anchor" VALUE="<%= CGI::escapeHTML @comment_anchor %>"><BR>
 日付フォーマット: <INPUT NAME="date_format" VALUE="<%= CGI::escapeHTML @date_format %>"><BR>
 最新表示の最大日数: 最大<INPUT NAME="latest_limit" VALUE="<%= @latest_limit %>">日分<BR>

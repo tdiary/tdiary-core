@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.1 $
+# tdiary configuration file via CGI $Revision: 1.2 $
 #
 
 #
@@ -23,7 +23,7 @@ END_OF_FOOTER
 #
 # diaplay(1) - basic
 #
-paragraph_anchor = <%= @paragraph_anchor.dump %>
+section_anchor = <%= @section_anchor.dump %>
 comment_anchor = <%= @comment_anchor.dump %>
 date_format = <%= @date_format.dump %>
 latest_limit = <%= @latest_limit %>

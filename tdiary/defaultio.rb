@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.10 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.11 $
 #
 module DefaultIO
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -134,9 +134,9 @@ module DefaultIO
 					diaries.update( cache )
 				end
 				dirty = yield( diaries ) if iterator?
-				store( fh, diaries ) if dirty == TDiary::DIRTY_DIARY
-				store_comment( cfile, diaries ) if dirty == TDiary::DIRTY_COMMENT
-				store_referer( rfile, diaries ) if dirty == TDiary::DIRTY_REFERER
+				store( fh, diaries ) if dirty & TDiary::DIRTY_DIARY != 0
+				store_comment( cfile, diaries ) if dirty & TDiary::DIRTY_COMMENT != 0
+				store_referer( rfile, diaries ) if dirty & TDiary::DIRTY_REFERER != 0
 				if dirty or not cache then
 					@tdiary.store_parser_cache( date, 'defaultio', diaries )
 				end
