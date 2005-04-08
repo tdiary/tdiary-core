@@ -51,7 +51,7 @@ def usage
   exit
 end
 
-require 'erb/erbl'
+require 'erb'
 require 'racc/parser'
 
 class CFParser < ::Racc::Parser
@@ -408,7 +408,7 @@ def theme_convert ( fname, hash )
 
   rcss = File::readlines( "append.rcss" ).join
   File.open( fname.sub( /\.css/i, "-2.css" ), "a" ) do |f|
-    f.write( ERbLight::new( rcss ).result( binding ) )
+    f.write( ERB::new( rcss ).result( binding ) )
   end
 end 
 

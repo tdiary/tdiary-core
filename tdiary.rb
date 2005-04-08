@@ -1,25 +1,19 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.208 $
+tdiary.rb $Revision: 1.209 $
 
-Copyright (C) 2001-2004, TADA Tadashi <sho@spc.gr.jp>
+Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.0.20050406'
+TDIARY_VERSION = '2.1.0.20050408'
 
 require 'cgi'
 begin
 	require 'erb_fast'
-	ERbLight = ERB
 rescue LoadError
-	begin
-		require 'erb'
-		ERbLight = ERB
-	rescue LoadError
-		require 'erb/erbl'
-	end
+	require 'erb'
 end
 
 =begin
@@ -352,7 +346,7 @@ module TDiary
 		end
 	
 		def eval_rhtml( opt, path = '.' )
-			ERbLight::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
+			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
 		end
 	end
 
@@ -442,7 +436,7 @@ module TDiary
 
 		# saving to tdiary.conf in @data_path
 		def save
-			result = ERbLight::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
+			result = ERB::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
 			result.untaint unless @secure
 			Safe::safe( @secure ? 4 : 1 ) do
 				eval( result, binding, "(TDiary::Config#save)", 1 )
@@ -803,7 +797,7 @@ module TDiary
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
 				Safe::safe( @conf.secure ? 4 : 1 ) do
-					r = ERbLight.new( r ).result( binding )
+					r = ERB::new( r ).result( binding )
 				end
 			end
 			r.gsub!( /<[^"'<>]*(?:"[^"]*"[^"'<>]*|'[^']*'[^"'<>]*)*(?:>|(?=<)|$)/, '' ) if remove_tag
@@ -877,7 +871,7 @@ module TDiary
 			begin
 				r = do_eval_rhtml( prefix )
 			rescue PluginError, SyntaxError, ArgumentError
-				r = ERbLight::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
+				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
 			rescue Exception
 				raise
 			end
@@ -927,8 +921,8 @@ module TDiary
 						File::open( path ) {|f| f.read }
 					end
 				}.join
-				r = ERbLight::new( rhtml.untaint ).result( binding )
-				r = ERbLight::new( r ).src
+				r = ERB::new( rhtml.untaint ).result( binding )
+				r = ERB::new( r ).src
 				store_cache( r, prefix ) unless @diaries.empty?
 			end
 

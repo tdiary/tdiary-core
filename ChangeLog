@@ -1,3 +1,9 @@
+2005-04-08 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, plugin/00default.rb, misc/theme_convert/theme_convert.rb:
+	  remove using ERbLight. (only support ruby 1.8 or later.)
+	* erb/*: delete.
+	* skel/conf.rhtml, plugin/00default.rb: fix theme to 'default' in configuration mode.
+
 2005-04-06 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/defailtio.rb: support ruby 1.9 HEAD. thanks Mineo Aoki <aamine at loveruby.net>.
 	* tdiary/defailtio.rb: through NameError in restore.

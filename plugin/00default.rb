@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.73 $
+# $Revision: 1.74 $
 #
 
 #
@@ -258,9 +258,10 @@ end
 def theme_url; 'theme'; end
 
 def css_tag
-	if @conf.theme and @conf.theme.length > 0 then
+	if @mode =~ /conf$/ then
+		css = "#{theme_url}/default/default.css"
+	elsif @conf.theme and @conf.theme.length > 0
 		css = "#{theme_url}/#{@conf.theme}/#{@conf.theme}.css"
-		title = css
 	else
 		css = @css
 	end
@@ -410,7 +411,7 @@ def comment_mail_send
 	rescue
 		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
 	end
-	text = ERbLight::new( rmail.untaint ).result( binding )
+	text = ERB::new( rmail.untaint ).result( binding )
 	receivers.each { |i| i.untaint }
 	comment_mail( text, receivers )
 end
@@ -467,10 +468,6 @@ end
 
 # themes
 def saveconf_theme
-	# dummy
-end
-
-if @mode =~ /^(conf|saveconf)$/ and @cgi.params['conf'][0] == 'theme' then
 	if @mode == 'saveconf' then
 		@conf.theme = @cgi.params['theme'][0]
 		@conf.css = @cgi.params['css'][0]

@@ -1,16 +1,16 @@
-<%# conf.rhtml $Revision: 1.20 $ %>
-<%%=navi%>
-
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=navi_preference%>]</h1>
-
+<%# conf.rhtml $Revision: 1.21 $ %>
 <div class="sidebar">
-<ul style="margin-top: 5em;">
+<ul>
 <%% each_conf_key do |key|%>
 	<li><a href="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></a></li>
 <%% end %>
 </ul>
 </div>
 <div class="main">
+<%%=navi%>
+
+<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=navi_preference%>]</h1>
+
 <form method="post" action="<%= @conf.update %>">
 <div class="conf day">
 	<input type="hidden" name="conf" value="<%=@key%>">
