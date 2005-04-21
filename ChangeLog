@@ -1,3 +1,6 @@
+2005-04-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb: invoke update_proc in showcomment mode.
+
 2005-04-08 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, plugin/00default.rb, misc/theme_convert/theme_convert.rb:
 	  remove using ERbLight. (only support ruby 1.8 or later.)
