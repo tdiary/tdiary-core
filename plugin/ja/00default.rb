@@ -194,7 +194,7 @@ add_conf_proc( 'display', '表示一般' ) do
 	<h3 class="subtitle">最新表示の最大日数</h3>
 	#{"<p>最新の日記を表示するときに、そのページ内に何日分の日記を表示するかを指定します。</p>" unless @conf.mobile_agent?}
 	<p>最大<input name="latest_limit" value="#{ @conf.latest_limit }" size="2">日分</p>
-	<h3 class="subtitle">長年日記の表示</h4>
+	<h3 class="subtitle">長年日記の表示</h3>
 	#{"<p>長年日記を表示するためのリンクを表示するかどうかを指定します。</p>" unless @conf.mobile_agent?}
 	<p><select name="show_nyear">
 		<option value="true"#{if @conf.show_nyear then " selected" end}>表示</option>

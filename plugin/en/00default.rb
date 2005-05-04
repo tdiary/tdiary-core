@@ -161,7 +161,7 @@ add_conf_proc( 'display', 'Display' ) do
 	<h3 class="subtitle">Max dates of Latest diaplay</h3>
 	#{"<p>In the Latest mode, you can specify the number of days in the page.</p>" unless @conf.mobile_agent?}
 	<p><input name="latest_limit" value="#{@conf.latest_limit}" size="2"> days in a page.</p>
-	<h3 class="subtitle">My old days</h4>
+	<h3 class="subtitle">My old days</h3>
 	#{"<p>Show the link of \"My old days\"</p>" unless @conf.mobile_agent?}
 	<p><select name="show_nyear">
 		<option value="true"#{if @conf.show_nyear then " selected" end}>Show</option>

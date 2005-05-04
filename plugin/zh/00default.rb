@@ -161,7 +161,7 @@ add_conf_proc( 'display', '顯示' ) do
 	<h3 class="subtitle">「最新日誌」最多要秀出幾天份？</h3>
 	#{"<p>在「最新日誌」當中，您要顯示多少天份的日誌？ </p>" unless @conf.mobile_agent?}
 	<p><input name="latest_limit" value="#{@conf.latest_limit}" size="2"> 天份</p>
-	<h3 class="subtitle">往日情懷</h4>
+	<h3 class="subtitle">往日情懷</h3>
 	#{"<p>是否要秀出 \"往日情懷\" (同月同日的過去日誌)？</p>" unless @conf.mobile_agent?}
 	<p><select name="show_nyear">
 		<option value="true"#{if @conf.show_nyear then " selected" end}>秀！</option>

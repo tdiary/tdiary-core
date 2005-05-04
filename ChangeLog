@@ -1,3 +1,6 @@
+2005-05-05 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/{ja,en.zh}/00default.rb: fix wrong </h4> to </h3>.
+
 2005-04-21  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb: invoke update_proc in showcomment mode.
 
