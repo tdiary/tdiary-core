@@ -1,3 +1,7 @@
+2005-05-15  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb: support ruby 1.9 HEAD.
+	* tdiary/defaultio.rb: close open file only in 'ensure'.
+
 2005-05-05 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/{ja,en.zh}/00default.rb: fix wrong </h4> to </h3>.
 

@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.30 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.31 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -155,7 +155,7 @@ module TDiary
 				# delete dispensable data directory
 				Dir.delete( dir ) if Dir.new( dir ).entries.reject {|f| "." == f or ".." == f}.empty?
 			ensure
-				fh.close
+				fh.close if fh
 			end
 		end
 	
