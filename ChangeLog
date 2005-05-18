@@ -1,5 +1,6 @@
-2005-05-17 TADA Tadashi <sho@spc.gr.jp>
+2005-05-18 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix typo by supporting ruby 1.9 HEAD.
+	* doc/HOWTO-make-io.rd: fix about IO#transaction block parameter.
 
 2005-05-16  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb: support ruby 1.9 HEAD.
