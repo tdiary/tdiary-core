@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.31 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.32 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -7,7 +7,7 @@ module TDiary
 	TDIARY_MAGIC = "#{TDIARY_MAGIC_MAJOR}.#{TDIARY_MAGIC_MINOR}"
 
 	def TDiary::parse_tdiary( data )
-		header, body = data.split( /\n\n/, 2 )
+		header, body = data.split( /\r?\n\r?\n/, 2 )
 		if header and body
 			body.gsub!( /^\./, '' )
 			headers = {}
@@ -29,7 +29,7 @@ module TDiary
 			begin
 				File::open( file, 'r' ) do |fh|
 					fh.flock( File::LOCK_SH )
-					while l = fh.gets( "\n.\n" )
+					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 						headers, body = TDiary::parse_tdiary( l )
 						next unless body
 						comment = Comment::new(
@@ -74,7 +74,7 @@ module TDiary
 			begin
 				File::open( file, 'r' ) do |fh|
 					fh.flock( File::LOCK_SH )
-					while l = fh.gets( "\n.\n" )
+					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 						headers, body = TDiary::parse_tdiary( l )
 						next unless body
 						body.each do |r|
@@ -192,7 +192,7 @@ module TDiary
 				end
 
 				# read and parse diary
-				while l = fh.gets( "\n.\n" )
+				fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 					headers, body = TDiary::parse_tdiary( l )
 					style_name = headers['Format'] || 'tDiary'
 					diary = eval( "#{style( style_name )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )

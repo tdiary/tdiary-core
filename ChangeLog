@@ -1,3 +1,6 @@
+2005-05-18  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/defaultio.rb: support CRLF.
+
 2005-05-18 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix typo by supporting ruby 1.9 HEAD.
 	* doc/HOWTO-make-io.rd: fix about IO#transaction block parameter.
