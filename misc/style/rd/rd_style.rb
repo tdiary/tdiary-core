@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.24 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.25 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -12,6 +12,7 @@
 # ref_extension codes come from rd2html-ext
 #   http://raa.ruby-lang.org/list.rhtml?name=rd2html-ext
 #
+# Copyright (C) 2003, UECHI Yasumasa <uechi@potaway.net>
 # You can distribute this under GPL.
 #
 require 'rd/rdfmt'
