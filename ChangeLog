@@ -1,3 +1,6 @@
+2005-05-29 KURODA Hiraku <hiraku at hinet.mydns.jp>
+	* escape quote in TSUKKOMI.
+
 2005-05-18  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/defaultio.rb: support CRLF.
 
