@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.215 $
+tdiary.rb $Revision: 1.216 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.0.20050529'
+TDIARY_VERSION = '2.1.0.20050601'
 
 require 'cgi'
 begin
@@ -1581,12 +1581,24 @@ module TDiary
 	class TDiaryLatest < TDiaryView
 		def initialize( cgi, rhtml, conf )
 			super
-			ym = latest_month
+			if @cgi.params['date'][0] then
+				ym = [@cgi.params['date'][0][0,4].to_i, @cgi.params['date'][0][4,2].to_i]
+				@date = nil
+			else
+				ym = latest_month
+			end
 			unless @date then
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
 					@diaries = diaries
-					@diary = @diaries[@diaries.keys.sort.reverse[0]]
+					if @cgi.params['date'][0] then
+						@diary = @diaries[@cgi.params['date'][0][0,8]]
+						@date = @diary.date if @diary
+					end
+					unless @diary then
+						@diary = @diaries[@diaries.keys.sort.reverse[0]]
+						@date = @diary.date if @diary
+					end
 					DIRTY_NONE
 				end
 			end
@@ -1596,7 +1608,8 @@ module TDiary
 				m = ym[1].to_i
 				oldest = oldest_month
 				calc_diaries_size
-				while ( oldest and @diaries_size < @conf.latest_limit )
+				limit = limit_size( @conf.latest_limit )
+				while ( oldest and @diaries_size < limit )
 					date = if m == 1 then
 						Time::local( y -= 1, m = 12 )
 					else
@@ -1613,8 +1626,11 @@ module TDiary
 		end
 	
 		def latest( limit = 5 )
+			start = start_date
+			limit = limit_size( limit )
 			idx = 0
 			@diaries.keys.sort.reverse_each do |date|
+				next if date > start
 				break if idx >= limit
 				diary = @diaries[date]
 				next unless diary.visible?
@@ -1625,14 +1641,38 @@ module TDiary
 	
 	protected
 		def calc_diaries_size
+			start = start_date
 			@diaries_size = 0
-			@diaries.each_value do |diary|
-				@diaries_size += 1 if diary.visible?
+			@diaries.each do |date, diary|
+				if diary.visible? and date <= start then
+					@diaries_size += 1
+				end
 			end
 		end
 	
 		def cache_file( prefix )
-			"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
+			if @cgi.params['date'][0] then
+				nil
+			else
+				"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
+			end
+		end
+
+		def start_date
+			if @cgi.params['date'][0] then
+				@cgi.params['date'][0][0,8]
+			else
+				'99999999' # max of date string
+			end
+		end
+
+		def limit_size( default_limit )
+			if @cgi.params['date'][0] then
+				date = @cgi.params['date'][0]
+				date[9,date.length-9].to_i
+			else
+				default_limit
+			end
 		end
 	end
 

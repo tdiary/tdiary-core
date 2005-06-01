@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.28 $
+# index.rb $Revision: 1.29 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -31,7 +31,9 @@ begin
 			tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
 		elsif @cgi.valid?( 'date' )
 			date = @cgi.params['date'][0]
-			if /^\d{8}$/ =~ date then
+			if /^\d{8}-\d+$/ =~ date then
+				tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
+			elsif /^\d{8}$/ =~ date
 				tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
 			elsif /^\d{6}$/ =~ date then
 				tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )

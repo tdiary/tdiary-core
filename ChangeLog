@@ -1,3 +1,6 @@
+2005-06-01 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, index.rb: last N days mode [EXPERIMENTAL]
+
 2005-05-29 KURODA Hiraku <hiraku at hinet.mydns.jp>
 	* escape quote in TSUKKOMI.
 
