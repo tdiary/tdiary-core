@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.74 $
+# $Revision: 1.75 $
 #
 
 #
@@ -13,36 +13,40 @@ def navi
 	result << %Q[</div>]
 end
 
+def navi_item( link, label )
+	%Q[<span class="adminmenu"><a href="#{link}">#{label}</a></span>\n]
+end
+
 def navi_user
 	result = ''
-	result << %Q[<span class="adminmenu"><a href="#{@index_page}">#{navi_index}</a></span>\n] unless @index_page.empty?
-	if @mode == 'day' then
-		if @prev_day then
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @prev_day}">&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n]
-		end
+	result << navi_item( @index_page, navi_index ) unless @index_page.empty?
 
-		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
-
-		if @next_day
-			result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @next_day}">#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;</a></span>\n]
-		end
-	elsif @mode == 'nyear'
-		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @prev_day[4,4]}">&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}</a></span>\n] if @prev_day
-		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
-		result << %Q[<span class="adminmenu"><a href="#{@index}#{anchor @next_day[4,4]}">#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;</a></span>\n] if @next_day
+	case @mode
+	when 'latest'
+		result << navi_item( "#{@index}#{anchor @conf['ndays.prev']}-#{@conf.latest_limit}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev']
+		result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
+		result << navi_item( "#{@index}#{anchor @conf['ndays.next']}-#{@conf.latest_limit}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next']
+	when 'day'
+		result << navi_item( "#{@index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+		result << navi_item( @index, navi_latest )
+		result << navi_item( "#{@index}#{anchor @next_day}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	when 'nyear'
+		result << navi_item( "#{@index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+		result << navi_item( @index, navi_latest ) unless @mode == 'latest'
+		result << navi_item( "#{@index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
 	else
-		result << %Q[<span class="adminmenu"><a href="#{@index}">#{navi_latest}</a></span>\n] unless @mode == 'latest'
+		result << navi_item( @index, navi_latest )
 	end
 	result
 end
 
 def navi_admin
 	if @mode == 'day' then
-		result = %Q[<span class="adminmenu"><a href="#{@update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}">#{navi_edit}</a></span>\n]
+		result = navi_item( "#{@update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", navi_edit )
 	else
-		result = %Q[<span class="adminmenu"><a href="#{@update}">#{navi_update}</a></span>\n]
+		result = navi_item( @update, navi_update )
 	end
-	result << %Q[<span class="adminmenu"><a href="#{@update}?conf=default">#{navi_preference}</a></span>\n] if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
+	result << navi_item( "#{@update}?conf=default", navi_preference ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
 end
 

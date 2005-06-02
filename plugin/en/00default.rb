@@ -64,6 +64,8 @@ def navi_prev_diary(date); "Prev(#{date.strftime(@date_format)})"; end
 def navi_next_diary(date); "Next(#{date.strftime(@date_format)})"; end
 def navi_prev_nyear(date); "Prev(#{date.strftime('%m-%d')})"; end
 def navi_next_nyear(date); "Next(#{date.strftime('%m-%d')})"; end
+def navi_prev_ndays; "#{@conf.latest_limit} days before"; end
+def navi_next_ndays; "#{@conf.latest_limit} days after"; end
 
 def submit_label
 	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then

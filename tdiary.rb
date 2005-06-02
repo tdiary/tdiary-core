@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.216 $
+tdiary.rb $Revision: 1.217 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.0.20050601'
+TDIARY_VERSION = '2.1.0.20050602'
 
 require 'cgi'
 begin
@@ -1604,12 +1604,35 @@ module TDiary
 			end
 	
 			if ym then
+				# read +2 days for calc ndays.prev in count_diaries method
+				limit = limit_size( @conf.latest_limit ) + 2
+
+				# read next month data until limit
+				y = ym[0].to_i
+				m = ym[1].to_i
+				latest = latest_month
+				diaries_tmp = {}.update( @diaries )
+				diaries_size = count_diaries_after( diaries_tmp )
+				while ( latest and diaries_size < limit )
+					date = if m == 12 then
+						Time::local( y += 1, m = 1 )
+					else
+						Time::local( y, m += 1 )
+					end
+					break if date > Time::local( *latest )
+					@io.transaction( date ) do |diaries|
+						diaries_tmp.update( diaries )
+						diaries_size = count_diaries_after( diaries_tmp )
+						DIRTY_NONE
+					end
+				end
+
+				# read prev month data until limit
 				y = ym[0].to_i
 				m = ym[1].to_i
 				oldest = oldest_month
-				calc_diaries_size
-				limit = limit_size( @conf.latest_limit )
-				while ( oldest and @diaries_size < limit )
+				diaries_size = count_diaries_before( @diaries )
+				while ( oldest and diaries_size < limit )
 					date = if m == 1 then
 						Time::local( y -= 1, m = 12 )
 					else
@@ -1618,7 +1641,7 @@ module TDiary
 					break if date < Time::local( *oldest )
 					@io.transaction( date ) do |diaries|
 						@diaries.update( diaries )
-						calc_diaries_size
+						diaries_size = count_diaries_before( @diaries )
 						DIRTY_NONE
 					end
 				end
@@ -1631,25 +1654,47 @@ module TDiary
 			idx = 0
 			@diaries.keys.sort.reverse_each do |date|
 				next if date > start
-				break if idx >= limit
 				diary = @diaries[date]
 				next unless diary.visible?
 				yield diary
 				idx += 1
+				break if idx >= limit
 			end
 		end
 	
 	protected
-		def calc_diaries_size
+		def count_diaries_after( diaries )
 			start = start_date
-			@diaries_size = 0
-			@diaries.each do |date, diary|
-				if diary.visible? and date <= start then
-					@diaries_size += 1
+			limit = limit_size( @conf.latest_limit )
+			diaries_size = 0
+			continue_exist = true
+			diaries.keys.sort.each do |date|
+				if diaries[date].visible? and date > start then
+					continue_exist = true if diaries_size < limit
+					@conf['ndays.next'] = date if diaries_size < limit
+					diaries_size += 1
 				end
 			end
+			@conf['ndays.next'] = nil unless continue_exist
+			diaries_size
 		end
-	
+
+		def count_diaries_before( diaries )
+			start = start_date
+			limit = limit_size( @conf.latest_limit )
+			diaries_size = 0
+			continue_exist = false
+			diaries.keys.sort.reverse_each do |date|
+				if diaries[date].visible? and date <= start then
+					continue_exist = true if diaries_size >= limit
+					@conf['ndays.prev'] = date if diaries_size <= limit
+					diaries_size += 1
+				end
+			end
+			@conf['ndays.prev'] = nil unless continue_exist
+			diaries_size
+		end
+
 		def cache_file( prefix )
 			if @cgi.params['date'][0] then
 				nil

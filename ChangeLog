@@ -1,5 +1,9 @@
+2005-06-02 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, plugin/00default.rb: "N days before/after" navigation
+	  button [EXPERIMENTAL]
+
 2005-06-01 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary.rb, index.rb: last N days mode [EXPERIMENTAL]
+	* tdiary.rb, index.rb: N days mode [EXPERIMENTAL]
 
 2005-05-29 KURODA Hiraku <hiraku at hinet.mydns.jp>
 	* escape quote in TSUKKOMI.
