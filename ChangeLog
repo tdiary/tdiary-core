@@ -1,3 +1,7 @@
+2005-06-03 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb, misc/style/wiki/wiki_style.rb: my plugin support
+	  'n days before/after' mode.
+
 2005-06-02 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, plugin/00default.rb: "N days before/after" navigation
 	  button [EXPERIMENTAL]

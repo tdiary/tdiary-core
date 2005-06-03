@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.75 $
+# $Revision: 1.76 $
 #
 
 #
@@ -23,9 +23,9 @@ def navi_user
 
 	case @mode
 	when 'latest'
-		result << navi_item( "#{@index}#{anchor @conf['ndays.prev']}-#{@conf.latest_limit}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev']
+		result << navi_item( "#{@index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev']
 		result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
-		result << navi_item( "#{@index}#{anchor @conf['ndays.next']}-#{@conf.latest_limit}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next']
+		result << navi_item( "#{@index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next']
 	when 'day'
 		result << navi_item( "#{@index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
 		result << navi_item( @index, navi_latest )
@@ -304,7 +304,7 @@ end
 # make anchor tag in my diary
 #
 def my( a, str, title = nil )
-	date, noise, frag = a.scan( /^(\d{4}|\d{6}|\d{8})([^\d]*)?#?([pct]\d\d)?$/ )[0]
+	date, noise, frag = a.scan( /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)([^\d]*)?#?([pct]\d+)?$/ )[0]
 	anc = frag ? "#{date}#{frag}" : date
 	if title then
 		%Q[<a href="#{@index}#{anchor anc}" title="#{title}">#{str}</a>]
