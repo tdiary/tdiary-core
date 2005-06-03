@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.25 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.26 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -122,7 +122,7 @@ module RD
 				ref_ext_RAA(label, content.join, opt)
 			when /^ruby-(talk|list|dev|math|ext|core)$/
 				ref_ext_RubyML(label, content.join, key, opt)
-			when /^(\d{4}|\d{6}|\d{8})[^\d]*?#?([pct]\d\d)?$/
+			when /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/
 				%Q[<%=my "#{key}","#{content.join}"%>]
 			else
 				opt = "" unless opt # case of no ":"

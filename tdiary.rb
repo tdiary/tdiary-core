@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.218 $
+tdiary.rb $Revision: 1.219 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1714,7 +1714,9 @@ module TDiary
 		def limit_size( default_limit )
 			if @cgi.params['date'][0] then
 				date = @cgi.params['date'][0]
-				date[9,date.length-9].to_i
+				limit = date[9,date.length-9].to_i
+				limit = 30 if limit > 30
+				limit
 			else
 				default_limit
 			end
