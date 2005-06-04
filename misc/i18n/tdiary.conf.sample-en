@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.13 $
+# tDiary configuration file $Revision: 1.14 $
 #
 
 #-------
@@ -139,6 +139,7 @@ HEADER
 #   are inserted into the end of your diary page.
 #   Please change sentences enclosed by "FOOTER".
 @footer = <<FOOTER
+<%= navi %>
 <p>If you want to delete this message, you move to "preferences" page and 
 edit the footer.</p>
 

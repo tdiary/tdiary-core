@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.77 $
+# $Revision: 1.78 $
 #
 
 #
@@ -18,26 +18,75 @@ def navi_item( link, label )
 end
 
 def navi_user
-	result = ''
-	result << navi_item( @index_page, navi_index ) unless @index_page.empty?
+	result = navi_user_default
 
 	case @mode
 	when 'latest'
-		result << navi_item( "#{@index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev']
-		result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
-		result << navi_item( "#{@index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next']
+		result << navi_user_latest
 	when 'day'
-		result << navi_item( "#{@index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
-		result << navi_item( @index, navi_latest )
-		result << navi_item( "#{@index}#{anchor @next_day}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+		result << navi_user_day
+	when 'month'
+		result << navi_user_month
 	when 'nyear'
-		result << navi_item( "#{@index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
-		result << navi_item( @index, navi_latest ) unless @mode == 'latest'
-		result << navi_item( "#{@index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+		result << navi_user_nyear
 	else
-		result << navi_item( @index, navi_latest )
+		result << navi_user_else
 	end
 	result
+end
+
+def navi_user_default
+	result = ''
+	result << navi_item( @index_page, navi_index ) unless @index_page.empty?
+	result
+end
+
+def navi_user_latest
+	result = ''
+	result << navi_item( "#{@index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev']
+	result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
+	result << navi_item( "#{@index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next']
+	result
+end
+
+def navi_user_day
+	result = ''
+	result << navi_item( "#{@index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+	result << navi_item( @index, navi_latest )
+	result << navi_item( "#{@index}#{anchor @next_day}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result
+end
+
+def navi_user_month
+	ym = []
+	@years.keys.each do |y|
+		ym += @years[y].collect {|m| y + m}
+	end
+	ym.sort!
+
+	result = ''
+	prev_month = (@date - 24*60*60).strftime( '%Y%m' )
+	if prev_month >= ym[0] then
+		result << navi_item( "#{@index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" )
+	end
+	result << navi_item( @index, navi_latest )
+	next_month = (@date + 31*24*60*60).strftime( '%Y%m' )
+	if next_month <= ym[-1] then
+		result << navi_item( "#{@index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" )
+	end
+	result
+end
+
+def navi_user_nyear
+	result = ''
+	result << navi_item( "#{@index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+	result << navi_item( @index, navi_latest ) unless @mode == 'latest'
+	result << navi_item( "#{@index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result
+end
+
+def navi_user_else
+	navi_item( @index, navi_latest )
 end
 
 def navi_admin

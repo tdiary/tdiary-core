@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.29 $
+# tDiary configuration file $Revision: 1.30 $
 #
 # For those who do not read Japanese: please read doc/README.en.html or
 # misc/i18n/README-en.rd and use misc/i18n/tdiary.conf.sample-en.
@@ -138,6 +138,7 @@ HEADER
 #   ヘッダ同様、日記ページの末尾に挿入される文字列を指定できます。
 #   「FOOTER」で挟まれた部分を書き換えてください。
 @footer = <<FOOTER
+<%= navi %>
 <p>以下のメッセージを削除するには、「設定」画面から「フッタ」を編集してください。</p>
 <p style="font-size: x-large;">あらかじめ<a href="doc/README.html">README</a>と<a href="doc/HOWTO-write-tDiary.html">日記の書き方</a>には目を通すようにしてください。</p>
 FOOTER

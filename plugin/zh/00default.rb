@@ -62,6 +62,8 @@ def navi_edit; "編輯"; end
 def navi_preference; "選項設定"; end
 def navi_prev_diary(date); "前一則日誌 (#{date.strftime(@date_format)})"; end
 def navi_next_diary(date); "下一則日誌 (#{date.strftime(@date_format)})"; end
+def navi_prev_month; "Prev month"; end
+def navi_next_month; "Next month"; end
 def navi_prev_nyear(date); "去年日誌 (#{date.strftime('%m-%d')})"; end
 def navi_next_nyear(date); "次年日誌 (#{date.strftime('%m-%d')})"; end
 def navi_prev_ndays; "#{@conf.latest_limit} days before"; end
