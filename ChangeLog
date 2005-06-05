@@ -1,3 +1,6 @@
+2005-06-05 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: hide 'n days' navigation and referer accessed by bots.
+
 2005-06-04 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.sample: add <%=navi%> in footer.
 	* plugin/00default.rb: separate navi_user_* methods from navi_user method.

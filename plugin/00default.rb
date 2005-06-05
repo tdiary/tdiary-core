@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.78 $
+# $Revision: 1.79 $
 #
 
 #
@@ -43,9 +43,9 @@ end
 
 def navi_user_latest
 	result = ''
-	result << navi_item( "#{@index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev']
+	result << navi_item( "#{@index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev'] and not bot?
 	result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
-	result << navi_item( "#{@index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next']
+	result << navi_item( "#{@index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next'] and not bot?
 	result
 end
 
@@ -66,12 +66,12 @@ def navi_user_month
 
 	result = ''
 	prev_month = (@date - 24*60*60).strftime( '%Y%m' )
-	if prev_month >= ym[0] then
+	if prev_month >= ym[0] and not bot? then
 		result << navi_item( "#{@index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" )
 	end
 	result << navi_item( @index, navi_latest )
 	next_month = (@date + 31*24*60*60).strftime( '%Y%m' )
-	if next_month <= ym[-1] then
+	if next_month <= ym[-1] and not bot? then
 		result << navi_item( "#{@index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" )
 	end
 	result
@@ -366,7 +366,7 @@ end
 # referer of today
 #
 def referer_of_today_short( diary, limit )
-	return '' if not diary or diary.count_referers == 0
+	return '' if not diary or diary.count_referers == 0 or bot?
 	result = %Q[#{referer_today} | ]
 	diary.each_referer( limit ) do |count,ref|
 		result << %Q[<a href="#{CGI::escapeHTML( ref )}" title="#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}">#{count}</a> | ]
@@ -375,7 +375,7 @@ def referer_of_today_short( diary, limit )
 end
 
 def referer_of_today_long( diary, limit )
-	return '' if not diary or diary.count_referers == 0
+	return '' if not diary or diary.count_referers == 0 or bot?
 	result = %Q[<div class="caption">#{referer_today}</div>\n]
 	result << %Q[<ul>\n]
 	diary.each_referer( limit ) do |count,ref|
