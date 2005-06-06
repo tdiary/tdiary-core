@@ -104,8 +104,8 @@ def navi_prev_month; "前月"; end
 def navi_next_month; "翌月"; end
 def navi_prev_nyear(date); "前の日(#{date.strftime('%m-%d')})"; end
 def navi_next_nyear(date); "次の日(#{date.strftime('%m-%d')})"; end
-def navi_prev_ndays; "#{@conf.latest_limit}日前"; end
-def navi_next_ndays; "#{@conf.latest_limit}日後"; end
+def navi_prev_ndays; "前#{@conf.latest_limit}日分"; end
+def navi_next_ndays; "次#{@conf.latest_limit}日分"; end
 
 def submit_label
 	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
