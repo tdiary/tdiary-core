@@ -1,3 +1,6 @@
+2005-06-07 TADA Tadashi <sho@spc.gr.jp>
+	* doc/README.html, doc/INSTALL.html: separate INSTALL from README.
+
 2005-06-06 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/ja/00default.rb: change words in navi_next/prev_ndays.
 
