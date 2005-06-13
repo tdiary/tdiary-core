@@ -26,22 +26,6 @@ table.calendar td.calendar-prev-month, table.calendar td.calendar-current-month,
 }
 
 /*
-recent_list plugin
-*/
-p.recentitem {
-	font-size: 90%;
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-div.recentsubtitles {
-	font-size: 90%;
-	margin-top: 0px;
-	margin-bottom: 1em;
-	margin-left: 1em;
-}
-
-/*
 footnote plugin
 */
 div.body span.footnote {
@@ -135,5 +119,50 @@ highlight plugin
 .highlight {
 	color: #000;
 	background: #ffff66;
+}
+
+/*
+sidebar lists
+*/
+div.sidebar h3 {
+	font-size: medium;
+	margin-top: 0.5em;
+	margin-bottom: 0.1em;
+}
+
+div.sidebar ul {
+	margin-top: 0.1em;
+	margin-bottom: 0.5em;
+	margin-left: 1.5em;
+	padding-left: 0em;
+}
+div.sidebar ol {
+	margin-top: 0.1em;
+	margin-bottom: 0.5em;
+	margin-left: 2em;
+	padding-left: 0em;
+}
+div.sidebar ul ul, div.sidebar ol ul {
+	margin-left: 1em;
+}
+
+ul.recent-list-item {
+	list-style-type: none;
+}
+
+/*
+recent_list plugin (obsolute)
+*/
+p.recentitem {
+	font-size: 90%;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+div.recentsubtitles {
+	font-size: 90%;
+	margin-top: 0px;
+	margin-bottom: 1em;
+	margin-left: 1em;
 }
 

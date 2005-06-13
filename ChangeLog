@@ -2,6 +2,7 @@
 	* skel/diary.rhtml: TSUKKOMI 'Before...' links to '#c00'. thanks Kazuhiro
 	  NISHIYAMA <zn at mbf.nifty.com>
 	* README.html: s/GPL/GPL2/g
+	* theme/base.css: add some sidebar items.
 
 2005-06-13 hahahaha <rin_ne at big.or.jp>
 	* index.rb: support 'n days before/after' mode when using
