@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.22 $ %>
+<%# diary.rhtml $Revision: 1.23 $ %>
 <div class="day">
 <h2><span class="date"><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>" %>"><%= @date.strftime( opt['date_format'] ) %></a></span> <span class="title"><%= title %></span><%
 if opt['show_nyear'] then
@@ -16,7 +16,7 @@ end
 <%
 if opt['show_comment'] and count_comments > 0 then
 	if opt['long_mode'] then %>
-		<div class="caption"><%%=comment_today%><%%=comment_total( <%=count_comments%> )%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div>
+		<div class="caption"><%%=comment_today%><%%=comment_total( <%=count_comments%> )%> [<a name="c00" href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div>
 		<div class="commentbody"><%
 		each_visible_comment( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>
@@ -37,7 +37,7 @@ if opt['show_comment'] and count_comments > 0 then
 		<div class="caption"><%%=comment_today%><%%=comment_total( <%=count_comments%> )%> [<a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div>
 		<div class="commentshort"><%
 		if count_comments > opt['comment_limit'] then %>
-			<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c01" %>">Before...</a></p><%
+			<p><a href="<%= opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c00" %>">Before...</a></p><%
 		end
 		each_comment_tail( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>

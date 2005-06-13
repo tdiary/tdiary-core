@@ -1,3 +1,8 @@
+2005-06-13 TADA Tadashi <sho@spc.gr.jp>
+	* skel/diary.rhtml: TSUKKOMI 'Before...' links to '#c00'. thanks Kazuhiro
+	  NISHIYAMA <zn at mbf.nifty.com>
+	* README.html: s/GPL/GPL2/g
+
 2005-06-13 hahahaha <rin_ne at big.or.jp>
 	* index.rb: support 'n days before/after' mode when using
 	  ErrorDocument/Action.
