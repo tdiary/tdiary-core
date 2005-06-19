@@ -1,3 +1,6 @@
+2005-06-19 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix wrong version number.
+
 2005-06-13 TADA Tadashi <sho@spc.gr.jp>
 	* skel/diary.rhtml: TSUKKOMI 'Before...' links to '#c00'. thanks Kazuhiro
 	  NISHIYAMA <zn at mbf.nifty.com>
