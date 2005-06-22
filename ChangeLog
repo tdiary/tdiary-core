@@ -1,3 +1,6 @@
+2005-06-22  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb (apply_plugin): ignore exceptions.
+
 2005-06-19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix wrong version number.
 

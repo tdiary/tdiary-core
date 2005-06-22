@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.225 $
+tdiary.rb $Revision: 1.226 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -799,7 +799,10 @@ module TDiary
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
 				Safe::safe( @conf.secure ? 4 : 1 ) do
-					r = ERB::new( r ).result( binding )
+					begin		      
+						r = ERB::new( r ).result( binding )
+					rescue Exception
+					end
 				end
 			end
 			r.gsub!( /<[^"'<>]*(?:"[^"]*"[^"'<>]*|'[^']*'[^"'<>]*)*(?:>|(?=<)|$)/, '' ) if remove_tag
