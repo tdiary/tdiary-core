@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.227 $
+tdiary.rb $Revision: 1.228 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -1165,7 +1165,7 @@ EOS
 
 		def load_plugins
 			super
-			@plugin.instance_eval("def csrf_protection\n#{(@csrf_protection || '').dump}\nend;")
+			@plugin.instance_eval("def csrf_protection\n#{(@csrf_protection.untaint || '').dump}\nend;")
 		end
 	end
 
