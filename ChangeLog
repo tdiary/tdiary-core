@@ -1,3 +1,13 @@
+2005-07-20 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.1.2.
+
+2005-07-19 Yutaka OIWA <y.oiwa at aist.go.jp>
+	* doc/HOWTO-make-plugin.html: add about against CSRF attack.
+
+2005-07-07 Yutaka OIWA <y.oiwa at aist.go.jp>
+	* tdiary.rb, 00default.rb, skel/*.rhtml, tdiary.conf.sample: against
+	CSRF attack.
+
 2005-06-22  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb (apply_plugin): ignore exceptions.
 
@@ -15,7 +25,7 @@
 	  ErrorDocument/Action.
 
 2005-06-09 TADA Tadashi <sho@spc.gr.jp>
-	* release 2.1.1
+	* release 2.1.1.
 
 2005-06-07 TADA Tadashi <sho@spc.gr.jp>
 	* doc/README.html, doc/INSTALL.html: separate INSTALL from README.

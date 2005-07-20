@@ -1,15 +1,16 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.226 $
+tdiary.rb $Revision: 1.227 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.1.20050613'
+TDIARY_VERSION = '2.1.2'
 
 require 'cgi'
+require 'uri'
 begin
 	require 'erb_fast'
 rescue LoadError
@@ -474,7 +475,7 @@ module TDiary
 	
 		def base_url
 			return '' unless @cgi.script_name
-                        if @cgi.https?
+			if @cgi.https?
 				port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
 				"https://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
 			else
@@ -799,9 +800,10 @@ module TDiary
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
 				Safe::safe( @conf.secure ? 4 : 1 ) do
-					begin		      
+					begin
 						r = ERB::new( r ).result( binding )
 					rescue Exception
+						r = %Q|<p class="message">Invalid Text</p>#{r}|
 					end
 				end
 			end
@@ -1076,10 +1078,102 @@ module TDiary
 	end
 
 	#
+	# class TDiaryAuthorOnlyBase
+	#  base class for author-only access pages
+	#
+	class TDiaryAuthorOnlyBase < TDiaryBase
+		def csrf_protection_get_is_okay
+			false
+		end
+
+		def initialize( cgi, rhtml, conf )
+			super
+			csrf_check( cgi, conf )
+		end
+		private
+
+		def csrf_check( cgi, conf )
+			# CSRF condition check
+			protection_method = conf.options['csrf_protection_method']
+			masterkey = conf.options['csrf_protection_key']
+			updaterb_regexp = conf.options['csrf_protection_allowed_referer_regexp_for_update']
+
+			protection_method = 1 unless protection_method
+
+			return if protection_method == -1 # don't use this setting!
+
+			check_key = (protection_method & 2 != 0)
+			check_referer = (protection_method & 1 != 0)
+
+			masterkey = '' unless masterkey
+
+			updaterb_regexp = '' unless updaterb_regexp
+
+			if (masterkey != '' && check_key)
+				@csrf_protection="<input type=\"hidden\" name=\"csrf_protection_key\" value=\"#{CGI::escapeHTML(masterkey)}\">"
+			else
+				@csrf_protection="<!-- no CSRF protection key used -->"
+			end
+
+			referer = cgi.referer || ''
+			referer = referer.sub(/\?.*$/, '')
+			base_uri = URI.parse(conf.base_url)
+			config_uri = URI.parse(conf.base_url) + conf.update
+
+			referer_is_empty = referer == ''
+			referer_uri = URI.parse(referer) if !referer_is_empty
+			referer_is_config = !referer_is_empty && config_uri == referer_uri
+			referer_is_config ||= Regexp.new(updaterb_regexp) =~ referer if !referer_is_empty && updaterb_regexp != ''
+			is_post = cgi.request_method == 'POST'
+
+			given_key = nil
+			if cgi.valid?('csrf_protection_key')
+				given_key = cgi.params['csrf_protection_key'][0]
+				case given_key
+				when String
+				else
+					given_key = given_key.read
+				end
+			end
+				
+			is_key_ok = masterkey != '' && given_key == masterkey
+
+			keycheck_ok = !check_key || is_key_ok
+			referercheck_ok = referer_is_config || (!check_referer && referer_is_empty)
+
+			if csrf_protection_get_is_okay then
+				return if is_post || given_key == nil
+			else
+				return if keycheck_ok && referercheck_ok
+			end
+
+			raise Exception.new(<<"EOS")
+Security Error: Possible Cross-site Request Forgery (CSRF)
+
+        Diagnostics:
+                - Protection Method is #{ protection_method }
+                - Mode is #{ self.mode || 'unknown' }
+                    - GET is #{ csrf_protection_get_is_okay ? '' : 'not '}allowed
+                - Request Method is #{ is_post ? 'POST' : 'not POST' }
+                - Referer is #{ referer_is_empty ? 'empty' : referer_is_config ? 'config' : 'another page' }
+                    - Given referer:       #{ CGI::escapeHTML( referer_uri.to_s )}
+                    - Expected base URI:   #{ CGI::escapeHTML( base_uri.to_s )}
+                    - Expected update URI: #{ CGI::escapeHTML( config_uri.to_s )}
+                - CSRF key is #{ is_key_ok ? 'OK' : given_key ? 'NG (' + (given_key || '') + ')' : 'nothing' }
+EOS
+		end
+
+		def load_plugins
+			super
+			@plugin.instance_eval("def csrf_protection\n#{(@csrf_protection || '').dump}\nend;")
+		end
+	end
+
+	#
 	# class TDiaryAdmin
 	#  base class of administration
 	#
-	class TDiaryAdmin < TDiaryBase
+	class TDiaryAdmin < TDiaryAuthorOnlyBase
 		def initialize( cgi, rhtml, conf )
 			super
 			begin
@@ -1095,6 +1189,8 @@ module TDiary
 	#  show diary append form
 	#
 	class TDiaryForm < TDiaryAdmin
+		def csrf_protection_get_is_okay; true; end
+
 		def initialize( cgi, rhtml, conf )
 			begin
 				super
@@ -1110,6 +1206,8 @@ module TDiary
 	#  show edit diary form
 	#
 	class TDiaryEdit < TDiaryAdmin
+		def csrf_protection_get_is_okay; true; end
+
 		def initialize( cgi, rhtm, conf )
 			super
 	
@@ -1278,7 +1376,7 @@ module TDiary
 	# class TDiaryFormPlugin
 	#  show edit diary form after calling form plugin.
 	#
-	class TDiaryFormPlugin < TDiaryBase
+	class TDiaryFormPlugin < TDiaryAuthorOnlyBase
 		def initialize( cgi, rhtm, conf )
 			super
 
@@ -1311,7 +1409,9 @@ module TDiary
 	# class TDiaryConf
 	#  show configuration form
 	#
-	class TDiaryConf < TDiaryBase
+	class TDiaryConf < TDiaryAuthorOnlyBase
+		def csrf_protection_get_is_okay; true; end
+
 		def initialize( cgi, rhtml, conf )
 			super
 			@key = @cgi.params['conf'][0]
@@ -1323,6 +1423,8 @@ module TDiary
 	#  save configuration
 	#
 	class TDiarySaveConf < TDiaryConf
+		def csrf_protection_get_is_okay; false; end
+
 		def initialize( cgi, rhtml, conf )
 			super
 		end

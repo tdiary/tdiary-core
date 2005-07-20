@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.14 $
+# tDiary configuration file $Revision: 1.15 $
 #
 
 #-------
@@ -278,6 +278,40 @@ FOOTER
 	#
 	['^(.{50}).*$', '\1...'],
 ]
+
+# Cross-Site Request Forgery (CSRF) protection settings
+#
+# CSRF protection always checks request method and
+# right referer value.
+# Additional, you can specify protection method below:
+#   1: Checking existens right referer value (no using protection key)
+#   2: Checking protection key (allow null referer)
+#   3: Checking both 1. and 2.
+#
+# If you use browsers don't send referer, set protection key
+# and set this value to 2. When browsers don't send referer and set this
+# value 1 or 3, you cannot update diary or change setting of tDiary.
+#
+# If you use normal browsers (these will send referer), set this value
+# to 1 or 3. When you set to 3, you must set protection key.
+#
+# And if you set 2 or 3, a few plugins will not work good.
+#
+@options['csrf_protection_method'] = 1
+
+# CSRF protection key
+# You can set any string. If this key will be stolen, your diary will be
+# attacked by CSRF.
+# When csrf_protection_method is 1, this key is not used.
+# When csrf_protection_method is 2 or 3 and key is null, you cannot change
+# setting of tDiary.
+@options['csrf_protection_key'] = ''
+
+# Regexp of right referer checking
+# tDiary add a URL of @update automatically. But if you want to use
+# other URL (ex. your own portal site), specify this value.
+# When this value has nil or null string, it has no match.
+@options['csrf_protection_allowed_referer_regexp_for_update'] = ''
 
 #----
 # CGI configuration file(must)

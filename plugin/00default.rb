@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.79 $
+# $Revision: 1.80 $
 #
 
 #
@@ -566,3 +566,51 @@ def saveconf_referer
 	end
 end
 
+def saveconf_csrf_protection
+	if @mode == 'saveconf' then
+		err = nil
+		check_method = 0
+		case @cgi.params['check_enabled']
+		when ['true']
+		else
+			err = :param
+		end
+		case @cgi.params['check_referer']
+		when ['true']
+			check_method |= 1
+		when ['false']
+			check_method |= 0
+		else
+			err = :param
+		end
+		case @cgi.params['check_key']
+		when ['true']
+			check_method |= 2
+		when ['false']
+			check_method |= 0
+		else
+			err = :param
+		end
+		err = :param if check_method == 0
+		check_key = @cgi.params['key'][0]
+
+		if check_method & 2 != 0 && (!check_key || check_key == '') then
+			err ||= :key
+		end
+
+		unless err
+			old_key = @conf['csrf_protection_key']
+			old_method = @conf['csrf_protection_method']
+			@conf['csrf_protection_method'] = check_method
+			@conf['csrf_protection_key'] = check_key
+			if (check_method & 2 == 2 &&
+			    (old_method & 2 == 0 || old_key != check_key))
+				@conf.save
+				raise ForceRedirect, "#{@conf.update}?conf=csrf_protection#{@cgi.referer ? '&amp;referer_exists=true' : ''}"
+			end
+		end
+		err
+	else
+		nil
+	end
+end

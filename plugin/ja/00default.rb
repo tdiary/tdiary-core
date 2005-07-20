@@ -275,3 +275,86 @@ add_conf_proc( 'referer', 'リンク元' ) do
 	<p><textarea name="referer_table" cols="70" rows="10">#{@conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end
+
+add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策' ) do
+	err = saveconf_csrf_protection
+	errstr = ''
+	case err
+	when :param
+		errstr = '<p class="message">不正な組み合わせです。変更されませんでした。</p>'
+	when :key
+		errstr = '<p class="message">鍵が空です。変更されませんでした。</p>'
+	end
+	csrf_protection_method = @conf.options['csrf_protection_method'] || 1
+	csrf_protection_key = @conf.options['csrf_protection_key'] || ''
+	<<-HTML
+	#{errstr}
+	<p>クロスサイト・リクエストフォージェリ(CSRF)の対策手法を設定します。</p>
+	<p>CSRF攻撃は、悪意のある人間がWebページに罠を仕掛けます。
+	その罠を仕掛けたページをあなたが閲覧すると、あなたのブラウザは
+	tDiaryに偽の書き込み要求を送出してしまいます。あなたのブラウザが
+	偽要求を送出してしまうため、暗号化・パスワード保護だけでは対策になりません。
+	tDiaryでは、この種の攻撃に対して、「Refererチェック」と「CSRFキー」という
+	2種類の防衛手段を用意しています。</p>
+	<div class="section">
+	<h3 class="subtitle">Refererチェックによる防衛</h3>
+	<h4>Refererの正当性の検査</h4>
+	<p>#{if [0,1,2,3].include?(csrf_protection_method) then
+            '<input type="checkbox" name="check_enabled2" value="true" checked disabled>
+            <input type="hidden" name="check_enabled" value="true">'
+          else
+            '<input type="checkbox" name="check_enabled" value="true">'
+        end}する(標準)</input>
+	</p>
+	#{"<p>あなたのブラウザが送出するReferer(リンク元情報)を検査します。
+	書き込み要求が正しいページから送出されたことを確認することで、
+	偽ページからの要求を防ぎます。不正なページからの要求を検出した場合、
+	更新リクエストを拒否します。
+	この設定画面では、無効にすることは出来ません。</p>
+	" unless @conf.mobile_agent?}
+	<h4>Refererを送出しないブラウザを拒否</h4>
+	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>する(標準)</input>
+	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>しない</input>
+	</p>
+	#{"<p>ブラウザからRefererが送られてこなかった場合の動作を指定します。</p>
+	<p>標準では、Refererが送出されない場合、不正なリクエストを
+	判別できないため、書き込み・設定変更を拒否します。
+	あなたのブラウザがRefererを送出しない設定の場合、
+	この設定が「する」になっていると、正規の書き込み要求も拒否してしまいます。
+	ブラウザを設定を変更しRefererを送出するようにしてください。
+	どうしてもRefererを送出する設定に出来ない場合、「しない」にしてください。
+	この場合、Refererが全く送出されなかった場合にも、
+	書き込み・設定変更を許すようになりますが、
+	CSRFによる攻撃と区別できなくなりますので、必ず次の「CSRF防止キー」の
+	設定と併用して下さい。</p>
+	</div>
+	" unless @conf.mobile_agent?}
+	<div class="section">
+	<h3 class="subtitle">CSRF防止キーによる防衛</h3>
+	<h4>CSRF防止キーの検査</h4>
+	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>する</input>
+	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>しない(標準)</input>
+	</p>
+	#{"<p>書き込みフォームに偽装書き込み防止のためのキーを設定し、CSRFを防ぎます。
+	偽ページが秘密のキーを知らない限り、
+	偽の書き込み要求を生成することができなくなります。
+	この検査を「する」に設定する場合、次の鍵も設定して下さい。
+	上の設定と両方「しない」にすることはできません。</p>
+	<p>この設定を「する」にした場合、この機構に対応していない一部の
+	プラグインが動作しなくなることがあります。</p>
+	" unless @conf.mobile_agent?}
+	<h4>CSRF 防止キー</h4>
+	<p><input type="text" name="key" value="#{CGI::escapeHTML csrf_protection_key}" size="30"></p>
+	#{"<p>偽装防止キーを設定します。推測しにくい適当な文字列を指定して下さい。
+	この鍵が外部に洩れると、CSRF攻撃を受ける可能性があります。
+	他のパスワードと共用はしてはいけません。なお、設定した文字列をあなたが覚えておく必要はありません。</p>" unless @conf.mobile_agent?}
+	#{"<p class=\"message\">注意: 
+	あなたのブラウザは現在Refererを送出していないようです。
+	<a href=\"#{@conf.update}?conf=csrf_protection\">このリンクからもう一回
+	このページを開いてみて下さい</a>。
+	それでもこのメッセージが出る状況では、この設定を変える場合、
+	一時的にRefererを送出する設定にするか、
+	直接tdiary.confを編集して下さい。</p>
+	</div>" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
+	HTML
+end

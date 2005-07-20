@@ -1,4 +1,4 @@
-<%# preview.rhtml $Revision: 1.10 $ %>
+<%# preview.rhtml $Revision: 1.11 $ %>
 <%%=navi%>
 
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=preview_label%>]</h1>
@@ -40,6 +40,7 @@ param = {
 <div class="form">
 	<form class="update" method="post" action="<%= @conf.update %>"><div>
 		<input type="hidden" name="old" value="<%= @old_date %>">
+		<%=@csrf_protection%>
 		<span class="field year">
 			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>ǯ
 		</span>

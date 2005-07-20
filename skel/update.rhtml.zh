@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.1 $ %>
+<%# update.rhtml $Revision: 1.2 $ %>
 <%%=navi%>
 
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
@@ -11,6 +11,7 @@
 	<form class="update" method="post" action="<%= @conf.update %>"><div>
 		<h3 class="subtitle">§Èªx•D≈È</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
+		<%=@csrf_protection%>
 		<span class="field year">
 			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">-
 		</span>
@@ -52,6 +53,7 @@
 		<input type="hidden" name="year" value="<%= @date.year %>">
 		<input type="hidden" name="month" value="<%= @date.month %>">
 		<input type="hidden" name="day" value="<%= @date.day %>">
+		<%=@csrf_protection%>
 		<div class="commentbody"><%
 		idx = 0
 		@diary.each_comment( 100 ) do |comment| %>

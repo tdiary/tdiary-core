@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.30 $
+# tDiary configuration file $Revision: 1.31 $
 #
 # For those who do not read Japanese: please read doc/README.en.html or
 # misc/i18n/README-en.rd and use misc/i18n/tdiary.conf.sample-en.
@@ -284,6 +284,43 @@ FOOTER
 	#
 	['^(.{50}).*$', '\1...'],
 ]
+
+# Cross-Site Request Forgery (CSRF)に対する防御の方法の指定。
+#
+# CSRF検査では、常にリクエスト方法と
+# 不正なRefererが送信されていないことの検査は行なわれます。
+# それに加えて、
+#   1: 正しいRefererが存在することを検査する(キーは使わない)
+#   2: 乗っ取り防止キーを検査する(Refererが空であることを許す)
+#   3: 正しいRefererと乗っ取り防止キーの双方を検査する
+# のいずれかの設定が可能です。
+#
+# 日記著者がRefererを送信しないブラウザを使用している場合、乗っ取り防止キーを
+# 設定の上、2にしてください。Refererを送信しないブラウザを利用している
+# 場合、1, 3にすると書き込み・設定変更ができなくなります。
+#
+# 通常のRefererを送信するブラウザを利用している場合は、
+# 1か3にしてください。3にする場合、乗っ取り防止キーの設定も必要です。
+#
+# なお、2, 3にした場合、この機構に対応しない一部のプラグインが
+# 動作しなくなることがあります。
+#
+@options['csrf_protection_method'] = 1
+
+# 乗っ取り防止キーの指定。
+# 任意の文字列を指定します。この鍵が盗まれると、CSRFにより大きな被害を
+# 受ける可能性がありますので、気をつけて管理して下さい。
+# csrf_protection_method が1の場合、鍵は使われません。
+# csrf_protection_method が2または3の場合、鍵が空だと設定変更ができなくなります。
+@options['csrf_protection_key'] = ''
+
+# Refererの検査において、正しい参照元と見なすURLにマッチする正規表現。
+# @updateに相当するページは自動的に追加されますが、
+# 何らかの理由でこれらが適切でない場合、または特定のページ(例えば、
+# 自分専用ポータルページ)を追加で指定したい場合に指定して下さい。
+# nil、空文字列の場合は何もマッチしないものと扱われます。
+# 信頼できないサイトにマッチしないよう十分留意して下さい。
+@options['csrf_protection_allowed_referer_regexp_for_update'] = ''
 
 #----
 # CGIによる設定ファイルを読む指定【必須】

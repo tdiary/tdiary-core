@@ -279,3 +279,69 @@ end
 def style_howto
 	%Q|/<a href="http://docs.tdiary.org/en/?#{@conf.style}Style">¼¶¼g«ü¤Þ</a>|
 end
+
+add_conf_proc( 'csrf_protection', 'CSRF Protection' ) do
+	err = saveconf_csrf_protection
+	errstr = ''
+	case err
+	when :param
+		errstr = '<p class="message">Invalid options specified. Configuration not saved.</p>'
+	when :key
+		errstr = '<p class="message">No key specified. Configuration not saved.</p>'
+	end
+	csrf_protection_method = @conf.options['csrf_protection_method'] || 1
+	csrf_protection_key = @conf.options['csrf_protection_key'] || ''
+	<<-HTML
+	#{errstr}
+	<p>This page configures a protection scheme to prevent "cross-site request forgery" (CSRF) attacks.</p>
+	<p>To make CSRF attack, a malicious person prepares a trap link in some web page and lets you visit that page.
+	When the trap link is invoked (either by Javascript or your mouse click), <i>your</i> web browser sends a forged request to tDiary.
+	Thus, neither encryption nor usual password protection can serve as a protection mechanism.
+	TDiary provies two methods -- "checking referer" and "checking CSRF key" -- to prevent such attacks.</p>
+	<div class="section">
+	<h3 class="subtitle">Checking Referer</h3>
+	<h4 class="subtitle">Checks for Referer values</h4>
+	<p>#{if [0,1,2,3].include?(csrf_protection_method) then
+            '<input type="checkbox" name="check_enabled2" value="true" checked disabled>
+            <input type="hidden" name="check_enabled" value="true">'
+          else
+            '<input type="checkbox" name="check_enabled" value="true">'
+        end}Enabled (default)</input>
+	</p>
+	#{"<p>Configures Referer-based CSRF protection.
+	TDiary checks the Referer value sent from your web browser. If the post request comes from some outer page,
+	the request will be rejected. This setting can't be disabled through web-based configuration, for safety reasons.</p>
+	" unless @conf.mobile_agent?}
+	<h3 class="subtitle">Handling of Referer-disabled browsers</h3>
+	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>Reject (default)</input>
+	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>Accept</input>
+	</p>
+	#{"<p>Configures handling for requests without any Referer: value.
+	By default tDiary rejects such request for safety reasons.
+	If your browser is configured not to send Referer values, alter that setting to allow sending Referer, at least for
+	originating sites. If it is impossible, configure the key-based CSRF protection below, and 
+	change this setting to \"Accept\".</p>
+	" unless @conf.mobile_agent?}
+	</div>
+	<div class="section">
+	<h3 class="subtitle">Checking CSRF key</h3>
+	<h4>Checks for CSRF protection key</h4>
+	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>Enabled</input>
+	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>Disabled (default)</input>
+	</p>
+	#{"<p>TDiary can add a secret key for every post form to prevent CSRF. As long as attackers do not know the secret key,
+	forged requests will not be granted. To enable this feature, you must specify the secret key below.
+	To allow Referer-disabled browsers, you must enable this setting.</p>" unless @conf.mobile_agent?}
+	<h4>CSRF protection key</h4>
+	<p><input type="text" name="key" value="#{CGI::escapeHTML csrf_protection_key}" size="20"></p>
+	#{"<p>A secret key used for key-based CSRF protection. Specify a secret string which is not easy to guess.
+	If this key is leaked, CSRF attacks can be exploited.
+	Do not use any passwords used in other places. You need not to remember this phrase to type in.</p>" unless @conf.mobile_agent?}
+	#{"<p class=\"message\">Caution: 
+	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
+	<a href=\"#{@conf.update}?conf=csrf_protection\">Please open this page again via this link</a>.
+	If you see this message again, you must either change your browser setting (temporarily to change these settings, at least),
+	or edit \"tdiary.conf\" directly.</p>" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
+	</div>
+	HTML
+end
