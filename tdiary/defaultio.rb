@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.32 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.33 $
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
@@ -187,18 +187,20 @@ module TDiary
 					unless TDIARY_MAGIC_MAJOR == major then
 						raise StandardError, 'bad file format.'
 					end
+
+					# read and parse diary
+					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
+						headers, body = TDiary::parse_tdiary( l )
+						style_name = headers['Format'] || 'tDiary'
+						diary = eval( "#{style( style_name )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
+						diary.show( headers['Visible'] == 'true' ? true : false )
+						diaries[headers['Date']] = diary
+					end
+
 				rescue NameError
 					# no magic number when it is new file.
 				end
 
-				# read and parse diary
-				fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
-					headers, body = TDiary::parse_tdiary( l )
-					style_name = headers['Format'] || 'tDiary'
-					diary = eval( "#{style( style_name )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
-					diary.show( headers['Visible'] == 'true' ? true : false )
-					diaries[headers['Date']] = diary
-				end
 			ensure
 				fh.flock( File::LOCK_UN )
 			end
