@@ -1,4 +1,4 @@
-# English resources of 01sp.rb $Revision: 1.4 $
+# English resources of 01sp.rb $Revision: 1.1 $
 
 =begin
 = Select-plugin plugin

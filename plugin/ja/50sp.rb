@@ -1,7 +1,7 @@
-# Japanese resources of 01sp.rb $Revision: 1.4 $
+# Japanese resources of 01sp.rb $Revision: 1.1 $
 
 =begin
-= プラグイン選択プラグイン((-$Id: 01sp.rb,v 1.4 2003-10-09 15:26:44 zunda Exp $-))
+= プラグイン選択プラグイン((-$Id: 50sp.rb,v 1.1 2005-07-27 08:49:07 tadatadashi Exp $-))
 Please see below for an English description.
 
 == 概要

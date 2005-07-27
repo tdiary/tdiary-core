@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.11 $
+# 01sp.rb - select-plugins plugin $Revision: 1.1 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.

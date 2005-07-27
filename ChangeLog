@@ -2,6 +2,7 @@
 	* plugin/00default.rb, tdiary/defaultio.rb, tdiary/pstoreio.rb,
 	tdiary/tdiary_style.rb, tdiary/filter/default.rb, tdiary/lang/en.rb,
 	tdiary/lang/ja.rb, tdiary/lang/zh.rb, theme/base.css: add license.
+	* add plugin/10spamfilter.rb and rename 01sp.rb to 50sp.rb.
 
 2005-07-21 zunda <zunda at freeshell.org>
 	* tdiary/defaultio.rb DefaultIO#restore(): move rescue clause later:
