@@ -1,5 +1,8 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.33 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.34 $
+#
+# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# You can redistribute it and/or modify it under GPL2.
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'

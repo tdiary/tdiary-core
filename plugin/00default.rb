@@ -1,6 +1,9 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.80 $
+# $Revision: 1.81 $
+#
+# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# You can redistribute it and/or modify it under GPL2.
 #
 
 #

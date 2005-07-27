@@ -1,9 +1,12 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.8 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.9 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
 #    @style = 'tDiary'
+#
+# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# You can redistribute it and/or modify it under GPL2.
 #
 module TDiary
 	class TdiarySection

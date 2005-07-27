@@ -1,5 +1,8 @@
 #
-# tDiary language setup: English(en) $Revision: 1.1 $
+# tDiary language setup: (zh) $Revision: 1.2 $
+#
+# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# You can redistribute it and/or modify it under GPL2.
 #
 
 #

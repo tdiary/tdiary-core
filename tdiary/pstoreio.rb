@@ -1,5 +1,8 @@
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.23 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.24 $
+#
+# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# You can redistribute it and/or modify it under GPL2.
 #
 require 'pstore'
 
