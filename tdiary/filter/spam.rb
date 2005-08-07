@@ -7,6 +7,8 @@ require 'resolv'
 module TDiary
 	module Filter
 		class SpamFilter < Filter
+			TLD = %w(com net org edu gov mil int info biz name pro museum aero coop [a-z]{2})
+
 			def initialize( *args )
 				super( *args )
 				@debug_mode = false
@@ -86,6 +88,8 @@ module TDiary
 							%r!^[a-z]*://[^/]*(?:#{tmp.join('|')})\b!i,
 							%r!^[a-z]*://.*\b(?:#{tmp.join('|')})\b!i,
 							%r!^[a-z]*://[^/]*?[^./]{20,}[^/]*/?$!i,
+							%r!^[a-z]*://[^/.]+(?:/|$)!i,
+							%r<^[a-z]*://[^/]+\.(?!#{TLD.join('|')}\b)[^.]+(?:/|$)>i,
 						]
 						if @bad_uri_patts_for_mails
 							@bad_mails_ext = [
@@ -258,7 +262,7 @@ module TDiary
 
 				uris = URI.extract(comment_body)
 				unless uris.empty?
-					if @max_uris && @max_uris > 0 && uris.size > @max_uris
+					if @max_uris && @max_uris >= 0 && uris.size > @max_uris
 						# コメント中のURIが多すぎる
 						debug( "too many URIs" )
 						comment.show = false
