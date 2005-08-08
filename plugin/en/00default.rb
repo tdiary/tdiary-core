@@ -259,6 +259,7 @@ def comment_mail_conf_label; 'TSUKKOMI Mail'; end
 def comment_mail_basic_html
 	@conf['comment_mail.header'] = '' unless @conf['comment_mail.header']
 	@conf['comment_mail.receivers'] = '' unless @conf['comment_mail.receivers']
+	@conf['comment_mail.sendhidden'] = false unless @conf['comment_mail.sendhidden']
 
 	<<-HTML
 	<h3 class="subtitle">Notify TSUKKOMI by E-mail</h3>
@@ -273,6 +274,9 @@ def comment_mail_basic_html
 	<h3 class="subtitle">Mail header</h3>
 	#{"<p>Specify a string insert to beginning of mail subject. The subject have a style of \"your_specified_string:DATE-SERIAL NAME\". \"date\" is formatted as same as diary's date you specified. But when you specify another date style in this string, subject style is changed to \"your_specified_string-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf['comment_mail.header'])}"></p>
+	<h3 class="subtitle">About hidden TSUKKOMI</h3>
+	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @conf.mobile_agent?}
+	<p><input type="checkbox" name="comment_mail.sendhidden" value="#{@conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</p>
 	HTML
 end
 

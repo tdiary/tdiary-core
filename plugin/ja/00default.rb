@@ -49,6 +49,7 @@ def comment_mail_conf_label; 'ツッコミメール'; end
 def comment_mail_basic_html
 	@conf['comment_mail.header'] = '' unless @conf['comment_mail.header']
 	@conf['comment_mail.receivers'] = '' unless @conf['comment_mail.receivers']
+	@conf['comment_mail.sendhidden'] = false unless @conf['comment_mail.sendhidden']
 
 	<<-HTML
 	<h3 class="subtitle">ツッコミメールを送る</h3>
@@ -63,6 +64,9 @@ def comment_mail_basic_html
 	<h3 class="subtitle">メールヘッダ</h3>
 	#{"<p>メールのSubjectにつけるヘッダ文字列を指定します。振り分け等に便利なように指定します。実際のSubjectには「指定文字列:日付-1」のように、日付とコメント番号が付きます。ただし指定文字列中に、%に続く英字があった場合、それを日付フォーマット指定を見なします。つまり「日付」の部分は自動的に付加されなくなります(コメント番号は付加されます)。</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf['comment_mail.header'])}"></p>
+	<h3 class="subtitle">非表示ツッコミの扱い</h3>
+	#{"<p>フィルタの結果、最初から非表示にされたツッコミが記録されることがあります。この非表示のツッコミが来たときにもメールを発信するかどうかを選択します。</p>" unless @conf.mobile_agent?}
+	<p><input type="checkbox" name="comment_mail.sendhidden" value="true"#{@conf['comment_mail.sendhidden'] ? ' checked': ''}>非表示のツッコミでもメールを送る</p>
 	HTML
 end
 

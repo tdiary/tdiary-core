@@ -259,6 +259,7 @@ def comment_mail_conf_label; '以信件通知您有迴響'; end
 def comment_mail_basic_html
 	@conf['comment_mail.header'] = '' unless @conf['comment_mail.header']
 	@conf['comment_mail.receivers'] = '' unless @conf['comment_mail.receivers']
+	@conf['comment_mail.sendhidden'] = false unless @conf['comment_mail.sendhidden']
 
 	<<-HTML
 	<h3 class="subtitle">是否利用信件通知有迴響？</h3>
@@ -273,6 +274,9 @@ def comment_mail_basic_html
 	<h3 class="subtitle">信件標題</h3>
 	#{"<p>指定一個會擺在通知信的「信件標題」開頭處的字串。信件標題會是 \"您指定的字串:DATE-SERIAL NAME\" 的樣式。 \"date\" 是您日誌發表的日期，但是如果您另行指定了日期的樣式，標題則會變為 \"您指定的字串-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf['comment_mail.header'])}"></p>
+	<h3 class="subtitle">About hidden TSUKKOMI</h3>
+	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @conf.mobile_agent?}
+	<p><input type="checkbox" name="comment_mail.sendhidden" value="#{@conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</p>
 	HTML
 end
 
