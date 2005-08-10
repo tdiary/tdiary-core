@@ -1,3 +1,6 @@
+2005-08-10  Kazuhiko  <kazuhiko@fdiary.net>
+	* plugin/00default.rb (my): use absolute URLs.
+
 2005-08-10 zunda <zunda at freeshell.org>
 	* tdiary/lang/ja.rb: use NKF to convert to charset when NKF::UTF8 defined.
 
