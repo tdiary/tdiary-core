@@ -21,6 +21,7 @@ end
 
 require 'nkf'
 begin
+	raise LoadError if defined?( NKF::UTF8 )
 	require 'uconv'
 	eval( <<-TOPLEVEL_CLASS, TOPLEVEL_BINDING )
 		def Uconv.unknown_unicode_handler( unicode )

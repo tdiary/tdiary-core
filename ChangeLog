@@ -1,3 +1,6 @@
+2005-08-10 zunda <zunda at freeshell.org>
+	* tdiary/lang/ja.rb: use NKF to convert to charset when NKF::UTF8 defined.
+
 2005-08-08 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: TSUKKOMI mail plugin: add new option send mail when filter hide TSUKKOMI.
 
