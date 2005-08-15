@@ -67,6 +67,22 @@ add_conf_proc('spamfilter', @spamfilter_label_conf) do
 			@conf['spamfilter.resolv_check'] = false
 		end
 
+		if @cgi.params['spamfilter.resolv_check_mode'] &&
+				@cgi.params['spamfilter.resolv_check_mode'][0] &&
+				@cgi.params['spamfilter.resolv_check_mode'][0] == "false"
+		  @conf['spamfilter.resolv_check_mode'] = false
+		else
+		  @conf['spamfilter.resolv_check_mode'] = true
+		end
+
+		if @cgi.params['spamfilter.filter_mode'] &&
+				@cgi.params['spamfilter.filter_mode'][0] &&
+				@cgi.params['spamfilter.filter_mode'][0] == "false"
+		  @conf['spamfilter.filter_mode'] = false
+		else
+		  @conf['spamfilter.filter_mode'] = true
+		end
+			
 		unless @conf.secure then
 			if @cgi.params['spamfilter.debug_mode'] &&
 					@cgi.params['spamfilter.debug_mode'][0] &&
@@ -83,6 +99,26 @@ add_conf_proc('spamfilter', @spamfilter_label_conf) do
 			else
 				@conf['spamfilter.debug_file'] = nil
 			end
+	
+			if @cgi.params['spamfilter.date_limit'] &&
+					@cgi.params['spamfilter.date_limit'][0] &&
+					/\A\d+\z/ =~ @cgi.params['spamfilter.date_limit'][0]
+				@conf['spamfilter.date_limit'] = @cgi.params['spamfilter.date_limit'][0]
+			else
+				@conf['my_spamfilter.date_limit'] = nil
+			end
+		end
+	
+		if @conf['spamfilter.filter_mode'].nil? || @conf['spamfilter.filter_mode']
+			filter_mode = true
+		else
+			filter_mode = false
+		end
+	
+		if @conf['spamfilter.resolv_check_mode'].nil? || @conf['spamfilter.resolv_check_mode']
+			resolv_check_mode = true
+		else
+			resolv_check_mode = false
 		end
 	end
 

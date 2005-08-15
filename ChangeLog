@@ -1,3 +1,7 @@
+2005-08-15 akira yamada <akira at arika.org>
+	* filter/spam.rb, plugin/10spamfilter.rb: add dispose mode, more check mail
+	address and date limitation.
+
 2005-08-10  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/00default.rb (my): use absolute URLs.
 

@@ -11,11 +11,13 @@ module TDiary
 
 			def initialize( *args )
 				super( *args )
+				@filter_mode = true
 				@debug_mode = false
 				@debug_file = nil
 				@max_uris = nil
 				@max_rate = nil
 				@resolv_check = true
+				@resolv_check_mode = true
 				@bad_uri_patts_for_mails = false
 
 				@bad_uri_patts = nil
@@ -28,9 +30,21 @@ module TDiary
 				@bad_mails = []
 				@bad_comments = []
 				@bad_ips = []
+
+				@date_limit = nil
 			end
 
 			def update_config
+				if @conf.options.include?('spamfilter.filter_mode')
+					if @conf.options['spamfilter.filter_mode']
+						@filter_mode = true # invisible
+					else
+						@filter_mode = false # drop
+					end
+				else
+					@filter_mode = true # invisible
+				end
+
 				if @conf.options.include?('spamfilter.debug_mode')
 					@debug_mode = @conf.options['spamfilter.debug_mode']
 				else
@@ -61,6 +75,16 @@ module TDiary
 					@resolv_check = true
 				end
 
+				if @conf.options.include?('spamfilter.resolv_check_mode')
+					if @conf.options['spamfilter.resolv_check_mode']
+						@resolv_check_mode = true # invisible
+					else
+						@resolv_check_mode = false # drop
+					end
+				else
+					@resolv_check_mode = true # invisible
+				end
+			
 				if @conf.options.include?('spamfilter.bad_uri_patts_for_mails')
 					@bad_uri_patts_for_mails = 
 							@conf.options['spamfilter.bad_uri_patts_for_mails']
@@ -107,7 +131,7 @@ module TDiary
 					@bad_mail_patts = @conf.options['spamfilter.bad_mail_patts']
 					tmp = @bad_mail_patts.split(/[\r\n]+/)
 					tmp.delete_if {|t| t.empty?}
-					@bad_mails = tmp.collect {|t| %r!#{t}! }
+					@bad_mails = tmp.collect {|t| %r!#{t}!i }
 				end
 
 				unless @conf.options.include?('spamfilter.bad_comment_patts')
@@ -117,7 +141,7 @@ module TDiary
 					@bad_comment_patts = @conf.options['spamfilter.bad_comment_patts']
 					tmp = @bad_comment_patts.split(/[\r\n]+/)
 					tmp.delete_if {|t| t.empty?}
-					@bad_comments = tmp.collect {|t| %r!#{t}! }
+					@bad_comments = tmp.collect {|t| %r!#{t}!i }
 				end
 
 				unless @conf.options.include?('spamfilter.bad_ip_addrs')
@@ -129,13 +153,21 @@ module TDiary
 					tmp.delete_if {|t| t.empty?}
 					@bad_ips = tmp.collect do |t|
 						if /\.$/ =~ t
-							%r!#{Regexp.quote(t[0..-2]) + '.*'}!
+							%r!#{Regexp.quote(t[0..-2]) + '.*'}!i
 						else
-							%r!#{Regexp.quote(t)}!
+							%r!#{Regexp.quote(t)}!i
 						end
 					end
 				end
 
+				if @conf.options.include?('spamfilter.date_limit') &&
+						@conf.options['spamfilter.date_limit'] &&
+						/\A\d+\z/ =~ @conf.options['spamfilter.date_limit'].to_s
+					@date_limit = @conf.options['spamfilter.date_limit'].to_s.to_i
+				else
+					@date_limit = nil
+				end
+			
 				nil
 			end
 
@@ -152,66 +184,76 @@ module TDiary
 				update_config
 				#debug( "comment_filter start" )
 
+				if @date_limit
+					now = Time.now
+					today = Time.local(now.year, now.month, now.day)
+					limit = today - 24*60*60*@date_limit
+					if diary.date < limit
+						debug( "too old: #{diary.date} (limit >= #{limit})" )
+						comment.show = false
+						return @filter_mode
+					end
+				end
+			
 				if %r{/\.\/} =~ ENV['REQUEST_URI']
 					debug( "REQUEST_URI contains %r{/\./}: #{ENV['REQUEST_URI']}" )
 					comment.show = false
-					return true
+					return @filter_mode
 				end
 
 				if /^[\x20-\x7f]*$/io !~ comment.mail
-					# メールアドレスにASCII文字以外が含まれていた
+					# mail address include not ASCII charactor
 					debug( "invalid mail address: #{comment.mail.dump}" )
 					comment.show = false
-					return true
+					return @filter_mode
+				end
+				
+				if !comment.mail.empty? &&
+						%r<@[^@]+\.(?:#{TLD.join("|")})$>i !~ comment.mail
+					debug( "invalid domain name of mail address: #{comment.mail.dump}" )
+					comment.show = false
+					return @filter_mode
 				end
 
 				p = nil
 				if @bad_mails.detect {|p| p =~ comment.mail} ||
 						@bad_mails_ext.detect {|p| p =~ comment.mail}
-					# ブラックリストされたメールアドレス
 					debug( "mail address blacklisted: /#{p}/ =~ #{comment.mail.dump}" )
 					comment.show = false
-					return true
+					return @filter_mode
 				end
 
 				if @bad_comments.detect {|p| p =~ comment.body}
-					# NGワードを含んだコメント
 					debug( "comment contains bad words: /#{p}/" )
 					comment.show = false
-					return true
+					return @filter_mode
 				end
 				
 				if @bad_ips.detect {|p| p =~ @cgi.remote_addr}
-					# ブラックリストされたIPアドレス
 					debug( "ip address blacklisted: /#{p}/ =~ #{@cgi.remote_addr}" )
 					comment.show = false
-					return true
+					return @filter_mode
 				end
 
 				if comment.name == 'TrackBack'
-					# トラックバックについてのチェック
-
 					uri = comment.body.split(/[\r\n]/).first
 					if %r!\A[^:]+://[^/]+/?\z! =~ uri
-						# トップページからのTrackBackはなさそう
 						debug( "trackback from top page: #{uri}" )
 						comment.show = false
-						return true
+						return @filter_mode
 					end
 
 					begin
 						uri = URI.parse(uri)
 						unless /\A(?:https?)\z/i =~ uri.scheme
-							# HTTP(S)以外のURIだった
 							debug( "not http/https: #{uri}" )
 							comment.show = false
-							return true
+							return @filter_mode
 						end
 					rescue URI::Error
-						# URIとして解釈できなかった
 						debug( "invalid URI: #{uri.dump} (#{$!.message})" )
 						comment.show = false
-						return true
+						return @filter_mode
 					end
 
 					if @resolv_check
@@ -224,31 +266,28 @@ module TDiary
 								chance -= 1
 								retry
 							end
-							# 名前解決上のエラー
 							debug( "resolv error: #{uri.host.dump} (#{$!.message})" )
 							comment.show = false
-							return true
+							return @resolv_check_mode
 						rescue Exception
-							# その他のエラー
 							debug( "unknown resolv error: #{uri.host.dump} (#{$!.message})" )
 							comment.show = false
-							return true
+							return @resolv_check_mode
 						end
 
 						if addrs.empty?
 							# IPアドレスを得られなかった
 							debug( "couldn't get addresses: #{uri.host}" )
 							comment.show = false
-							return true
+							return @resolv_check_mode
 						end
 
 						unless addrs.include?(@cgi.remote_addr)
 							unless /\A(.*[:.])/ =~ @cgi.remote_addr &&
 									addrs.detect {|a| a.index($1) == 0}
-									# webサイトのIPアドレスとTrackBack元のIPアドレスがマッチしない
 								debug( "addresses don't match URI: #{uri.host}: #{addrs.join(', ')}" )
 								comment.show = false
-								return true
+								return @resolv_check_mode
 							end
 						end
 					end
@@ -263,28 +302,25 @@ module TDiary
 				uris = URI.extract(comment_body)
 				unless uris.empty?
 					if @max_uris && @max_uris >= 0 && uris.size > @max_uris
-						# コメント中のURIが多すぎる
 						debug( "too many URIs" )
 						comment.show = false
-						return true
+						return @filter_mode
 					end
 
 					if @max_rate && @max_rate > 0 &&
 							uris.join('').size.to_f/comment_body.gsub(/\s+/, '').size.to_f > @max_rate
-						# コメントがURIでいっぱい
 						debug( "too many URI-chars" )
 						comment.show = false
-						return true
+						return @filter_mode
 					end
 
 					uris.each do |uri|
 						uri = uri.sub(/^ur[il]:/io, '')
 						@bad_uris.each do |bad_uri|
 							if bad_uri =~ uri
-								# NGワードを含むURIが見付かった
 								debug( "comment contains bad words: #{uri}: #{bad_uri}" )
 								comment.show = false
-								return true
+								return @filter_mode
 							end
 						end
 					end
@@ -300,14 +336,12 @@ module TDiary
 				#debug( "referer_filter start" )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
-					# パス部がまったくない
 					debug( "referer has no path: #{uri}: #{bad_uri}" )
 					return false
 				end
 
 				@bad_uris.each do |bad_uri|
 					if bad_uri =~ referer
-						# NGワードを含むURIが見付かった
 						debug( "referer contains bad words: #{uri}: #{bad_uri}" )
 						return false
 					end
