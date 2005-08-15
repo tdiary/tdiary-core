@@ -125,6 +125,15 @@ highlight plugin
 }
 
 /*
+calendar2 plugin
+*/
+td.calendar-day img {
+	width: 25px;
+	height: 25px;
+	border: 0;
+}
+
+/*
 sidebar lists
 */
 div.sidebar h3 {
@@ -168,4 +177,3 @@ div.recentsubtitles {
 	margin-bottom: 1em;
 	margin-left: 1em;
 }
-
