@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.2 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.3 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -10,7 +10,7 @@ def spamfilter_conf_html
 	<p>spamと判定されたコメントの処理方法。<br>
 		<select name="spamfilter.filter_mode">
 			<option value="true"#{" selected" if filter_mode}>非表示にする</option>
-			<option value="false"#{" selected" unless filter_mode}>捨てる</option>i
+			<option value="false"#{" selected" unless filter_mode}>捨てる</option>
 	</select></p>
 	<p>ツッコミ中に以下の値より多くのURIが含まれるものはspamとみなす。<br>
 		<input type="text" name="spamfilter.max_uris" value="#{CGI.escapeHTML(@conf['spamfilter.max_uris'].to_s)}" size="5"></p>
