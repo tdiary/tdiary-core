@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.235 $
+tdiary.rb $Revision: 1.236 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.2.20050824'
+TDIARY_VERSION = '2.1.2.20050825'
 
 require 'cgi'
 require 'uri'
@@ -612,6 +612,7 @@ module TDiary
 			@form_procs = []
 			@conf_keys = []
 			@conf_procs = {}
+			@conf_genre_label = {}
 			@cookies = []
 
 			params.each_key do |key|
@@ -762,14 +763,9 @@ module TDiary
 			r.join
 		end
 
-		def add_conf_proc( genre_and_key, label, block = Proc::new )
+		def add_conf_proc( key, label, genre = 'etc', block = Proc::new )
 			return unless @mode =~ /^(conf|saveconf)$/
-			genre, key = genre_and_key.split( /:/, 2 )
-			if key == nil then
-				key = genre_and_key.dup
-				genre = 'etc'
-				genre_and_key = "#{genre}:#{key}"
-			end
+			genre_and_key = "#{genre}:#{key}"
 			@conf_keys << genre_and_key unless @conf_keys.index( genre_and_key )
 			@conf_procs[key] = [label, block]
 		end
@@ -801,8 +797,13 @@ module TDiary
 			r
 		end
 
+		def conf_genre_label( genre )
+			label = @conf_genre_label[genre]
+			label ? label : genre
+		end
+
 		def conf_label( key )
-			label, block = @conf_procs[key]
+			label, = @conf_procs[key]
 			label
 		end
 

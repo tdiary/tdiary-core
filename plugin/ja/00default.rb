@@ -147,7 +147,17 @@ def category_anchor(c); "[#{c}]"; end
 #
 # preferences (resources)
 #
-add_conf_proc( 'basic:default', '基本' ) do
+
+# genre labels
+@conf_genre_label['basic'] = '基本'
+@conf_genre_label['theme'] = 'テーマ'
+@conf_genre_label['tsukkomi'] = 'ツッコミ'
+@conf_genre_label['referer'] = 'リンク元'
+@conf_genre_label['security'] = 'セキュリティ'
+@conf_genre_label['etc'] = 'その他'
+
+
+add_conf_proc( 'default', '基本', 'basic' ) do
 	saveconf_default
 	@conf.icon ||= ''
 	@conf.description ||= ''
@@ -173,7 +183,7 @@ add_conf_proc( 'basic:default', '基本' ) do
 	HTML
 end
 
-add_conf_proc( 'basic:header', 'ヘッダ・フッタ' ) do
+add_conf_proc( 'header', 'ヘッダ・フッタ', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
@@ -189,7 +199,7 @@ add_conf_proc( 'basic:header', 'ヘッダ・フッタ' ) do
 	HTML
 end
 
-add_conf_proc( 'basic:display', '表示一般' ) do
+add_conf_proc( 'display', '表示一般', 'basic' ) do
 	saveconf_display
 
 	<<-HTML
@@ -216,7 +226,7 @@ end
 
 @theme_location_comment = "<p>ここにないテーマは<a href=\"http://www.tdiary.org/20021001.html\">テーマ・ギャラリー</a>から入手できます。</p>"
 
-add_conf_proc( 'theme:theme', 'テーマ選択' ) do
+add_conf_proc( 'theme', 'テーマ選択', 'theme' ) do
 	saveconf_theme
 
 	 r = <<-HTML
@@ -237,7 +247,7 @@ add_conf_proc( 'theme:theme', 'テーマ選択' ) do
 	HTML
 end
 
-add_conf_proc( 'tsukomi:comment', 'ツッコミ' ) do
+add_conf_proc( 'comment', 'ツッコミ', 'tsukkomi' ) do
 	saveconf_comment
 
 	<<-HTML
@@ -253,7 +263,7 @@ add_conf_proc( 'tsukomi:comment', 'ツッコミ' ) do
 	HTML
 end
 
-add_conf_proc( 'referer:referer', 'リンク元' ) do
+add_conf_proc( 'referer', 'リンク元', 'referer' ) do
 	saveconf_referer
 
 	<<-HTML
@@ -283,7 +293,7 @@ add_conf_proc( 'referer:referer', 'リンク元' ) do
 	HTML
 end
 
-add_conf_proc( 'security:csrf_protection', 'CSRF(乗っ取り)対策' ) do
+add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	err = saveconf_csrf_protection
 	errstr = ''
 	case err

@@ -202,7 +202,7 @@ end
 <p>他のコールバック系プラグインとは少しおもむきが異なるのが、<code>add_conf_proc</code>です。以下のように呼び出します。</p>
 
 <pre>
-add_conf_proc( 'hoge', 'hogeの設定' ) do
+add_conf_proc( 'hoge', 'hogeの設定', 'etc' ) do
    # 設定の保存
    if @mode == 'saveconf' then
       @conf['hoge.fuga'] = @cgi.params['hoge.fuga'][0]
@@ -216,7 +216,16 @@ add_conf_proc( 'hoge', 'hogeの設定' ) do
 end
 </pre>
 
-<p>1つ目の引数は、複数の<code>conf_proc</code>の中からどれを表示するか選ぶために、全プラグイン内で一意になるようにつけるキーワードです。一般的にはプラグインの名称をつけます。2番目の引数は設定画面の一覧を表示するときに使うラベル文字列です。言語によって変更させます。</p>
+<p>1つ目の引数は、複数の<code>conf_proc</code>の中からどれを表示するか選ぶために、全プラグイン内で一意になるようにつけるキーワードです。一般的にはプラグインの名称をつけます。2番目の引数は設定画面の一覧を表示するときに使うラベル文字列です。言語によって変更させます。3番目の引数は、プラグインのジャンルで、無指定の場合は'etc'になります。ジャンルには現在、以下が定義されています。</p>
+
+<ul>
+	<li>basic: 基本的な設定項目</li>
+	<li>theme: テーマ関連</li>
+	<li>tsukkomi: ツッコミ関連</li>
+	<li>referer: リンク元関連</li>
+	<li>security: セキュリティ関連</li>
+	<li>etc: その他</li>
+</ul>
 
 <p><code>@mode</code>が<code>'saveconf'</code>の時のみ、@cgi経由で渡された設定を保存します。保存先は@conf[]にオプション用のキーワードを指定して代入します。これは従来tdiary.confにて、@optionsとして指定したものと同じです。なお、conf_procで保存できるオプションは、文字列(String)、整数(Fixnum)、真偽値(TrueClass/FalseClass)、nil(NilClass)で表現されるオブジェクトだけです。</p>
 

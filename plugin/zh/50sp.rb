@@ -1,4 +1,4 @@
-# Traditional-Chinese resources of 01sp.rb $Revision: 1.1 $
+# Traditional-Chinese resources of 01sp.rb $Revision: 1.2 $
 
 =begin
 = Select-plugin plugin
@@ -42,7 +42,7 @@ version 2 or later.
 @sp_label = '選用 Plugin'
 @sp_label_description = '<p>請選擇您想使用的 plugins。</p>'
 @sp_label_please_select = '<p>選擇您想使用的 plugins，每個 plugin 的鍊結都會連到它的說明文件，請幫忙新增或改進說明文件的內容。</p>'
-@sp_label_new = '<h4>新鮮貨！試一試啊！</h4>'
-@sp_label_used = '<h4>已選用的</h4>'
-@sp_label_notused = '<h4>不選用的</h4>'
+@sp_label_new = '<h3>新鮮貨！試一試啊！</h3>'
+@sp_label_used = '<h3>已選用的</h3>'
+@sp_label_notused = '<h3>不選用的</h3>'
 @sp_label_noplugin = '<p>沒有 plugin 可選用。</p>'

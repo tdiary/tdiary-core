@@ -107,8 +107,16 @@ def category_anchor(c); "[#{c}]"; end
 # preferences
 #
 
+# genre labels
+@conf_genre_label['basic'] = 'Basic'
+@conf_genre_label['theme'] = 'Themes'
+@conf_genre_label['tsukkomi'] = 'TSUKKOMI'
+@conf_genre_label['referer'] = 'Referrer'
+@conf_genre_label['security'] = 'Security'
+@conf_genre_label['etc'] = 'etc'
+
 # basic (default)
-add_conf_proc( 'basic:default', 'Basic' ) do
+add_conf_proc( 'default', 'Basic', 'basic' ) do
 	saveconf_default
 	@conf.icon ||= ''
 	@conf.description ||= ''
@@ -135,7 +143,7 @@ add_conf_proc( 'basic:default', 'Basic' ) do
 end
 
 # header/footer (header)
-add_conf_proc( 'basic:header', 'Header/Footer' ) do
+add_conf_proc( 'header', 'Header/Footer', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
@@ -152,7 +160,7 @@ add_conf_proc( 'basic:header', 'Header/Footer' ) do
 end
 
 # diaplay
-add_conf_proc( 'basic:display', 'Display' ) do
+add_conf_proc( 'display', 'Display', 'basic' ) do
 	saveconf_display
 
 	<<-HTML
@@ -180,7 +188,7 @@ end
 # themes
 @theme_location_comment = "<p>You can get many themes from <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(Japanese).</p>"
 
-add_conf_proc( 'theme:theme', 'Themes' ) do
+add_conf_proc( 'theme', 'Themes', 'theme' ) do
 	saveconf_theme
 
 	 r = <<-HTML
@@ -202,7 +210,7 @@ add_conf_proc( 'theme:theme', 'Themes' ) do
 end
 
 # comments
-add_conf_proc( 'tsukkomi:comment', 'TSUKKOMI' ) do
+add_conf_proc( 'comment', 'TSUKKOMI', 'tsukkomi' ) do
 	saveconf_comment
 
 	<<-HTML
@@ -219,7 +227,7 @@ add_conf_proc( 'tsukkomi:comment', 'TSUKKOMI' ) do
 end
 
 # referer
-add_conf_proc( 'referer:referer', "Today's Link" ) do
+add_conf_proc( 'referer', "Today's Link", 'referer' ) do
 	saveconf_referer
 
 	<<-HTML
@@ -287,7 +295,7 @@ def style_howto
 	%Q|/<a href="http://docs.tdiary.org/en/?#{@conf.style}Style">How to write</a>|
 end
 
-add_conf_proc( 'security:csrf_protection', 'CSRF Protection' ) do
+add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	err = saveconf_csrf_protection
 	errstr = ''
 	case err

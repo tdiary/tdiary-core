@@ -1,7 +1,7 @@
 # Copyright (C) 2005  akira yamada
 # You can redistribute it and/or modify it under GPL2.
 
-add_conf_proc('security:spamfilter', @spamfilter_label_conf) do
+add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 	if @mode == 'saveconf'
 		if @cgi.params['spamfilter.max_uris'] &&
 				@cgi.params['spamfilter.max_uris'][0] &&

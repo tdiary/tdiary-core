@@ -1,3 +1,6 @@
+2005-08-25 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb and etc: add genre parameter to Plugin#add_conf_proc.
+
 2005-08-24 TADA Tadashi <sho@spc.gr.jp>
 	* (testing) change preferences page design.
 
