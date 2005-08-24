@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.234 $
+tdiary.rb $Revision: 1.235 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.2.20050815'
+TDIARY_VERSION = '2.1.2.20050824'
 
 require 'cgi'
 require 'uri'
@@ -762,15 +762,35 @@ module TDiary
 			r.join
 		end
 
-		def add_conf_proc( key, label, block = Proc::new )
+		def add_conf_proc( genre_and_key, label, block = Proc::new )
 			return unless @mode =~ /^(conf|saveconf)$/
-			@conf_keys << key unless @conf_keys.index( key )
+			genre, key = genre_and_key.split( /:/, 2 )
+			if key == nil then
+				key = genre_and_key.dup
+				genre = 'etc'
+				genre_and_key = "#{genre}:#{key}"
+			end
+			@conf_keys << genre_and_key unless @conf_keys.index( genre_and_key )
 			@conf_procs[key] = [label, block]
 		end
 
-		def each_conf_key
-			@conf_keys.each do |key|
-				yield key
+		def each_conf_genre
+			genres = {}
+			@conf_keys.each do |genre_and_key|
+				genre, key = genre_and_key.split( /:/, 2 )
+				next if genres[genre]
+				yield genre
+				genres[genre] = key
+			end
+		end
+
+		def each_conf_key( genre )
+			re = /^#{genre}:/
+			@conf_keys.each do |genre_and_key|
+				if re =~ genre_and_key then
+					genre, key = genre_and_key.split( /:/, 2 )
+					yield key
+				end
 			end
 		end
 

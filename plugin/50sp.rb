@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.1 $
+# 01sp.rb - select-plugins plugin $Revision: 1.2 $
 
 =begin ChangeLog
 See ../ChangeLog for changes after this.
@@ -145,7 +145,7 @@ end
 
 # configuration menu
 # options are updated when we are eval'ed
-add_conf_proc( SP_PREFIX, @sp_label ) do
+add_conf_proc( "basic:#{SP_PREFIX}", @sp_label ) do
 	r = @sp_label_description + sp_list_plugins( @sp_opt )
 end
 

@@ -1,0 +1,169 @@
+@charset "euc-jp";
+/*
+conf.css: style sheet of tDiary preferences page. $Revision: 1.1 $
+Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
+You can redistribute it and/or modify it under GPL2.
+*/
+
+body {
+	background-color: #fff;
+	color: #000;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1 {
+	background-color: #fff;
+	color: #000;
+	margin: 2px 0px 2px 0px;
+	padding: 1em;
+}
+
+a:link {
+	background-color: transparent;
+	color: #92B392;
+}
+
+a:visited {
+	background-color: transparent;
+	color: #A8B392;
+}
+
+div.adminmenu {
+	font-size: 80%;
+	margin: 3px 0px 3px 0px;
+	text-align: right;
+	font-weight: bold;
+}
+
+div.adminmenu a {
+	text-decoration: none;
+}
+
+span.adminmenu {
+	background-color: #fff;
+	color: #000;
+	padding: 2px;
+}
+
+div.body {
+	margin: 0px;
+}
+
+form.conf {
+	background-color: transparent;
+	color: #000;
+	margin: 0em 2em 2em 250px;
+	height: 100em;
+}
+
+h2 {
+	margin-top: 0.1em;
+	margin-bottom: 0.1em;
+}
+
+h3 {
+	margin: 0em;
+	font-size: medium;
+	font-weight: bold;
+}
+
+h4 {
+	margin: 1em;
+	font-size: medium;
+	font-weight: bold;
+	margin-bottom: 0em;
+}
+
+h5 {
+	margin: 2em;
+	font-size: medium;
+	font-weight: bold;
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
+
+div.day span.sanchor {
+	font-size: 70%;
+	margin-right: 0.5em;
+	text-decoration: none;
+}
+
+form.conf p {
+	line-height: 150%;
+	margin: 0px 1em 0.7em 1em;
+}
+
+form.conf ul {
+}
+
+form.conf li {
+	margin-left: 2em;
+}
+
+p.message {
+	text-align: center;
+	font-size: large;
+	background-color: #d00;
+	color: #fff;
+	padding: 8px;
+}
+
+div.section {
+	clear: none;
+}
+
+div.footer {
+	text-align: right;
+	margin-right: 2em;
+}
+
+div.sidebar {
+	font-size: 90%;
+	background-color: transparent;
+	color: #000;
+	float: left;
+	width: 250px;
+	padding: 0px;
+}
+
+div.sidebar div.block {
+	background-color: #d0ffd0;
+	background-image: url(conf.block.png);
+	background-position: left top;
+	background-repeat: no-repeat;
+	margin: 0px 1em 1em 1em;
+	padding: 1em;
+}
+
+div.sidebar h3 {
+	background-color: transparent;
+	color: #32c832;
+	margin-top: 0px;
+	margin-bottom: 0.5em;
+}
+
+div.sidebar a:link,
+div.sidebar a:visited,
+div.sidebar a:hover,
+div.footer a:link,
+div.footer a:visited,
+div.footer a:hover 
+{
+	background-color: transparent;
+	color: #000;
+	text-decoration: none;
+}
+
+div.sidebar ul {
+	background-color: #d0ffd0;
+	color: #000;
+	list-style-type: none;
+}
+
+div.sidebar li {
+}
+
+div.sidebar li {
+	margin-bottom: 0.2em;
+}

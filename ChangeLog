@@ -1,3 +1,6 @@
+2005-08-24 TADA Tadashi <sho@spc.gr.jp>
+	* (testing) change preferences page design.
+
 2005-08-15 TADA Tadashi <sho@spc.gr.jp>
 	* theme/base.css: add calendar2.rb plugin's default image settings.
 

@@ -1,9 +1,9 @@
-<%# i.conf.rhtml $Revision: 1.8 $ %>
+<%# i.conf.rhtml $Revision: 1.9 $ %>
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=navi_preference%>]</h1>
 <P>
 <%%= mobile_navi %>
 </P>
-<P>|<%% each_conf_key do |key|%><A HREF="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></A>|<%% end %></P>
+<P>|<%% each_conf_genre do |genre|%><%% each_conf_key( genre ) do |key|%><A HREF="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></A>|<%% end %>|<%% end %></P>
 
 <FORM METHOD="POST" ACTION="<%= @conf.update %>">
 <INPUT TYPE="HIDDEN" NAME="conf" VALUE="<%=@key%>">

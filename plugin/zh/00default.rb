@@ -108,7 +108,7 @@ def category_anchor(c); "[#{c}]"; end
 #
 
 # basic (default)
-add_conf_proc( 'default', '基本設定' ) do
+add_conf_proc( 'basic:default', '基本設定' ) do
 	saveconf_default
 	@conf.icon ||= ''
 	@conf.description ||= ''
@@ -135,7 +135,7 @@ add_conf_proc( 'default', '基本設定' ) do
 end
 
 # header/footer (header)
-add_conf_proc( 'header', '頁眉與頁腳' ) do
+add_conf_proc( 'basic:header', '頁眉與頁腳' ) do
 	saveconf_header
 
 	<<-HTML
@@ -152,7 +152,7 @@ add_conf_proc( 'header', '頁眉與頁腳' ) do
 end
 
 # diaplay
-add_conf_proc( 'display', '顯示' ) do
+add_conf_proc( 'basic:display', '顯示' ) do
 	saveconf_display
 
 	<<-HTML
@@ -180,7 +180,7 @@ end
 # themes
 @theme_location_comment = "<p>您可以在 <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(日本語) 取得更多的佈景主題！</p>"
 
-add_conf_proc( 'theme', '佈景主題' ) do
+add_conf_proc( 'theme:theme', '佈景主題' ) do
 	saveconf_theme
 
 	 r = <<-HTML
@@ -202,7 +202,7 @@ add_conf_proc( 'theme', '佈景主題' ) do
 end
 
 # comments
-add_conf_proc( 'comment', '迴響' ) do
+add_conf_proc( 'tsukkomi:comment', '迴響' ) do
 	saveconf_comment
 
 	<<-HTML
@@ -219,7 +219,7 @@ add_conf_proc( 'comment', '迴響' ) do
 end
 
 # referer
-add_conf_proc( 'referer', "今日鍊結" ) do
+add_conf_proc( 'referer:referer', "今日鍊結" ) do
 	saveconf_referer
 
 	<<-HTML
@@ -287,7 +287,7 @@ def style_howto
 	%Q|/<a href="http://docs.tdiary.org/en/?#{@conf.style}Style">撰寫指引</a>|
 end
 
-add_conf_proc( 'csrf_protection', 'CSRF Protection' ) do
+add_conf_proc( 'security:csrf_protection', 'CSRF Protection' ) do
 	err = saveconf_csrf_protection
 	errstr = ''
 	case err

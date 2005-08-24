@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.83 $
+# $Revision: 1.84 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -315,7 +315,7 @@ def theme_url; 'theme'; end
 
 def css_tag
 	if @mode =~ /conf$/ then
-		css = "#{theme_url}/default/default.css"
+		css = "#{theme_url}/conf.css"
 	elsif @conf.theme and @conf.theme.length > 0
 		css = "#{theme_url}/#{@conf.theme}/#{@conf.theme}.css"
 	else

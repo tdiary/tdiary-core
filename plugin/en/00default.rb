@@ -108,7 +108,7 @@ def category_anchor(c); "[#{c}]"; end
 #
 
 # basic (default)
-add_conf_proc( 'default', 'Basic' ) do
+add_conf_proc( 'basic:default', 'Basic' ) do
 	saveconf_default
 	@conf.icon ||= ''
 	@conf.description ||= ''
@@ -135,7 +135,7 @@ add_conf_proc( 'default', 'Basic' ) do
 end
 
 # header/footer (header)
-add_conf_proc( 'header', 'Header/Footer' ) do
+add_conf_proc( 'basic:header', 'Header/Footer' ) do
 	saveconf_header
 
 	<<-HTML
@@ -152,7 +152,7 @@ add_conf_proc( 'header', 'Header/Footer' ) do
 end
 
 # diaplay
-add_conf_proc( 'display', 'Display' ) do
+add_conf_proc( 'basic:display', 'Display' ) do
 	saveconf_display
 
 	<<-HTML
@@ -180,7 +180,7 @@ end
 # themes
 @theme_location_comment = "<p>You can get many themes from <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(Japanese).</p>"
 
-add_conf_proc( 'theme', 'Themes' ) do
+add_conf_proc( 'theme:theme', 'Themes' ) do
 	saveconf_theme
 
 	 r = <<-HTML
@@ -202,7 +202,7 @@ add_conf_proc( 'theme', 'Themes' ) do
 end
 
 # comments
-add_conf_proc( 'comment', 'TSUKKOMI' ) do
+add_conf_proc( 'tsukkomi:comment', 'TSUKKOMI' ) do
 	saveconf_comment
 
 	<<-HTML
@@ -219,7 +219,7 @@ add_conf_proc( 'comment', 'TSUKKOMI' ) do
 end
 
 # referer
-add_conf_proc( 'referer', "Today's Link" ) do
+add_conf_proc( 'referer:referer', "Today's Link" ) do
 	saveconf_referer
 
 	<<-HTML
@@ -287,7 +287,7 @@ def style_howto
 	%Q|/<a href="http://docs.tdiary.org/en/?#{@conf.style}Style">How to write</a>|
 end
 
-add_conf_proc( 'csrf_protection', 'CSRF Protection' ) do
+add_conf_proc( 'security:csrf_protection', 'CSRF Protection' ) do
 	err = saveconf_csrf_protection
 	errstr = ''
 	case err
