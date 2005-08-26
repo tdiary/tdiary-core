@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.85 $
+# $Revision: 1.86 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -341,7 +341,6 @@ end
 # title of day
 #
 add_title_proc do |date, title|
-	$stderr.puts "#{date}/#{title}"
 	title_of_day( date, title )
 end
 
@@ -429,7 +428,7 @@ def subtitle_link( date, index, subtitle )
 			end
 		end
 	end
-	apply_plugin( r )
+	r
 end
 
 #

@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.237 $
+tdiary.rb $Revision: 1.238 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -727,7 +727,7 @@ module TDiary
 			@title_procs.each do |proc|
 				title = proc.call( date, title )
 			end
-			title
+			apply_plugin( title )
 		end
 
 		def add_subtitle_proc( block = Proc::new )
@@ -738,7 +738,7 @@ module TDiary
 			@subtitle_procs.each do |proc|
 				subtitle = proc.call( date, serial, subtitle )
 			end
-			subtitle
+			apply_plugin( subtitle )
 		end
 
 		def add_body_enter_proc( block = Proc::new )

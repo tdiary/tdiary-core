@@ -1,6 +1,6 @@
-<%# diary.rhtml $Revision: 1.24 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
+<%# diary.rhtml $Revision: 1.25 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
 <div class="day">
-<h2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump %> ) %></h2>
+<h2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump.gsub( /%/, '\\\\045' ) %> ) %></h2>
 
 <div class="body">
 <%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %>
