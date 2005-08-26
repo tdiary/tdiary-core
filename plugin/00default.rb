@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.84 $
+# $Revision: 1.85 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -338,6 +338,46 @@ def robot_control
 end
 
 #
+# title of day
+#
+add_title_proc do |date, title|
+	$stderr.puts "#{date}/#{title}"
+	title_of_day( date, title )
+end
+
+def title_of_day( date, title )
+	r = <<-HTML
+	<span class="date">
+	<a href="#{@index}#{anchor( date.strftime( '%Y%m%d' ) )}">
+		#{date.strftime @date_format}
+	</a>
+	</span> 
+	<span class="title">#{title}</span>
+	HTML
+	return r.gsub( /^\t+/, '' ).chomp
+end
+
+add_title_proc do |date, title|
+	nyear_link( date, title )
+end
+
+def nyear_link( date, title )
+	if @conf.show_nyear and @mode != 'nyear' then
+		y = date.strftime( '%Y' )
+		m = date.strftime( '%m' )
+		d = date.strftime( '%d' )
+		years = @years.find_all {|year, months| months.include? m}
+		if years.length >= 2 then
+			%Q|#{title} <span class="nyear">[<a href="#{@index}#{anchor m + d}" title="#{nyear_diary_title date, years}">#{nyear_diary_label date, years}</a>]</span>|
+		else
+			title
+		end
+	else
+		title
+	end
+end
+
+#
 # make anchor string
 #
 def anchor( s )
@@ -350,6 +390,46 @@ def anchor( s )
 	else
 		""
 	end
+end
+
+#
+# subtitle
+#
+add_subtitle_proc do |date, index, subtitle|
+	subtitle_link( date, index, subtitle )
+end
+
+def subtitle_link( date, index, subtitle )
+	r = ''
+
+	if @conf.mobile_agent? then
+		r << %Q[<A NAME="p#{'%02d' % index}">*</A> ]
+		r << %Q|(#{@author})| if @multi_user and @author and subtitle
+		r << subtitle if subtitle
+	else
+		if date then
+			r << "<a "
+			r << %Q[name="p#{'%02d' % index}" ] if @anchor_name
+			param = "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % index}"
+			r << %Q[href="#{@index}#{anchor param}">#{@conf.section_anchor}</a> ]
+		end
+	
+		r << %Q[(#{@author}) ] if @multi_user and @author and subtitle
+		if subtitle
+			if respond_to?( :category_anchor ) then
+				r << subtitle.sub( /^(\[([^\[]+?)\])+/ ) do
+					$&.gsub( /\[(.*?)\]/ ) do
+						$1.split( /,/ ).collect do |c|
+							category_anchor( "#{c}" )
+						end.join
+					end
+				end
+			else
+				r << subtitle
+			end
+		end
+	end
+	apply_plugin( r )
 end
 
 #
@@ -403,20 +483,6 @@ def preview_command
 		'appendpreview'
 	else
 		'replacepreview'
-	end
-end
-
-#
-# nyear
-#
-def nyear(ymd)
-	y, m, d = ymd.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]
-	date = Time.local(y, m, d)
-	years = @years.find_all {|year, months| months.include? m}
-	if @mode != 'nyear' and years.length >= 2
-		%Q|[<a href="#{@index}#{anchor m + d}" title="#{nyear_diary_title date, years}">#{nyear_diary_label date, years}</a>]|
-	else
-		""
 	end
 end
 

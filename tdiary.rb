@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.236 $
+tdiary.rb $Revision: 1.237 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.2.20050825'
+TDIARY_VERSION = '2.1.2.20050826'
 
 require 'cgi'
 require 'uri'
@@ -606,6 +606,8 @@ module TDiary
 			@header_procs = []
 			@footer_procs = []
 			@update_procs = []
+			@title_procs = []
+			@subtitle_procs = []
 			@body_enter_procs = []
 			@body_leave_procs = []
 			@edit_procs = []
@@ -672,6 +674,8 @@ module TDiary
 		def eval_src( src, secure )
 			self.taint
 			@conf.taint
+			@title_procs.taint
+			@subtitle_procs.taint
 			@body_enter_procs.taint
 			@body_leave_procs.taint
 			return Safe::safe( secure ? 4 : 1 ) do
@@ -713,6 +717,28 @@ module TDiary
 				proc.call
 			end
 			''
+		end
+
+		def add_title_proc( block = Proc::new )
+			@title_procs << block
+		end
+
+		def title_proc( date, title )
+			@title_procs.each do |proc|
+				title = proc.call( date, title )
+			end
+			title
+		end
+
+		def add_subtitle_proc( block = Proc::new )
+			@subtitle_procs << block
+		end
+
+		def subtitle_proc( date, serial, subtitle )
+			@subtitle_procs.each do |proc|
+				subtitle = proc.call( date, serial, subtitle )
+			end
+			subtitle
 		end
 
 		def add_body_enter_proc( block = Proc::new )

@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.9 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.10 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -70,7 +70,7 @@ module TDiary
 				s += '<' if /^</=~@subtitle
 				s += @stripped_subtitle + "\n"
 			else
-				s += ' ' unless @body=~/\A\s</
+				#s += ' ' unless @body =~ /\A\s</
 			end
 			"#{s}#{@body}\n\n"
 		end
@@ -190,26 +190,15 @@ module TDiary
 			each_section do |section|
 				r << %Q[<div class="section">\n]
 				if section.subtitle then
-					r << %Q[<h3><a ]
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
-					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
-					if opt['multi_user'] and section.author then
-						r << %Q|[#{section.author}]|
-					end
-					r << %Q[#{section.categorized_subtitle}</h3>]
+					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump} ) %></h3>\n]
 				end
 				if /^</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
-					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '')}.join( "</p>\n<p>" )}</p>]
+					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '')}.join( "</p>\n<p>" )}</p>\n]
 				else
-					r << %Q[<p><a ]
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
-					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
+					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>]
+					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[</div>]
 				idx += 1
@@ -218,24 +207,22 @@ module TDiary
 		end
 	
 		def to_chtml( opt )
-			idx = 0
+			idx = 1
 			r = ''
 			each_section do |section|
 				if section.subtitle then
-					r << %Q[<H3><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</H3>]
+					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump} ) %></H3>\n]
 				end
 				if /^</ =~ section.body then
 					idx += 1
 					r << section.body
 				elsif section.subtitle
-					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
+					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>\n]
 				else
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
-					if opt['multi_user'] and section.author then
-						r << %Q|[#{section.author}]|
-					end
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
+					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>]
+					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>\n]
 				end
+				idx += 1
 			end
 			r
 		end

@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.22 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.23 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -88,18 +88,8 @@ module TDiary
 				case s
 
 				# subtitle heading
-				when :HS1
+				when :HS1;
 					r << "<h3>"
-					if date
-						r << "<a "
-						if opt['anchor'] then
-							r << %Q[name="p#{'%02d' % idx}" ]
-						end
-						r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
-					end
-					if opt['multi_user'] and @author then
-						r << %Q|[#{@author}]|
-					end
 					subtitle = true
 				when :HE1; r << "</h3>\n"
 
@@ -110,13 +100,7 @@ module TDiary
 				# pargraph
 				when :PS
 					r << '<p>'
-					if (!subtitle and date) then
-						r << '<a '
-						if opt['anchor'] then
-							r << %Q[name="p#{'%02d' % idx}" ]
-						end
-						r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a>]
-					end
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>" if ( !subtitle and date )
 				when :PE; r << "</p>\n"
 
 				# horizontal line
@@ -198,13 +182,7 @@ module TDiary
 							r << %Q[<a href="#{s}">#{s}</a>]
 						end
 					when :HS1
-						r << s.sub(/^(\[([^\[]+?)\])+/) do
-							$&.gsub(/\[(.*?)\]/) do
-								$1.split(/,/).collect do |c|
-									%Q|<%= category_anchor("#{c}") %>|
-								end.join
-							end
-						end
+						r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{s.dump} ) %>"
 					else
 						r << s if s.class == String
 					end
@@ -223,10 +201,7 @@ module TDiary
 
 				# subtitle heading
 				when :HS1
-					r << %Q[<H3><A NAME="p#{'%02d' % idx}">*</A> ]
-					if opt['multi_user'] and @author then
-						r << %Q|[#{@author}]|
-					end
+					r << "<H3>"
 					subtitle = true
 				when :HE1; r << "</H3>\n"
 
@@ -236,14 +211,8 @@ module TDiary
 
 				# paragraph
 				when :PS
-					r << '<P>'
-					unless subtitle then
-						r << '<A '
-						if opt['anchor'] then
-							r << %Q[NAME="p#{'%02d' % idx}"]
-						end
-						r << %Q[>*</A>]
-					end
+					r << "<P>"
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>" if ( !subtitle and date )
 				when :PE; r << "</P>\n"
 
 				# horizontal line
@@ -317,6 +286,8 @@ module TDiary
 						r << keyword(s, true)
 					when :XS
 						r << s << '">' << s.sub( /^mailto:/, '' )
+					when :HS1
+						r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{s.dump} ) %>"
 					else
 						r << s if s.class == String
 					end
