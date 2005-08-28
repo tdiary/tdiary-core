@@ -1,3 +1,6 @@
+2005-08-28 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/tdiary_style.rb: fix bug: erro when specify plugin in subtitle.
+
 2005-08-26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: add title_proc and subtitle_proc to Plugin.
 	* plugin/00default.rb: add title_of_today and nyear_link.

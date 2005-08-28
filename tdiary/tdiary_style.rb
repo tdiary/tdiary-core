@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.10 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.11 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -190,7 +190,7 @@ module TDiary
 			each_section do |section|
 				r << %Q[<div class="section">\n]
 				if section.subtitle then
-					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump} ) %></h3>\n]
+					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></h3>\n]
 				end
 				if /^</ =~ section.body then
 					r << %Q[#{section.body}]
@@ -211,7 +211,7 @@ module TDiary
 			r = ''
 			each_section do |section|
 				if section.subtitle then
-					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump} ) %></H3>\n]
+					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
 				end
 				if /^</ =~ section.body then
 					idx += 1
