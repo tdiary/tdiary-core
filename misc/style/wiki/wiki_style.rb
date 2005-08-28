@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.23 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.24 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -80,7 +80,9 @@ module TDiary
 		end
 
 		def do_html4( parser, date, idx, opt )
-			r = ""
+			main_buff = ''
+			subtitle_buff = ''
+			r = main_buff
 			stat = nil
 			subtitle = false
 			parser.each do |s|
@@ -88,10 +90,14 @@ module TDiary
 				case s
 
 				# subtitle heading
-				when :HS1;
+				when :HS1
 					r << "<h3>"
 					subtitle = true
-				when :HE1; r << "</h3>\n"
+					r = subtitle_buff = ''
+				when :HE1
+					r = main_buff
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{subtitle_buff.dump.gsub( /%/, '\\\\045' )} ) %>"
+					r << "</h3>\n"
 
 				# other headings
 				when :HS2, :HS3, :HS4, :HS5; r << "<h#{s.to_s[2,1].to_i + 2}>"
@@ -181,8 +187,6 @@ module TDiary
 						else
 							r << %Q[<a href="#{s}">#{s}</a>]
 						end
-					when :HS1
-						r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{s.dump} ) %>"
 					else
 						r << s if s.class == String
 					end
@@ -192,7 +196,9 @@ module TDiary
 		end
 	
 		def chtml( date, idx, opt )
-			r = ''
+			main_buff = ''
+			subtitle_buff = ''
+			r = main_buff
 			stat = nil
 			subtitle = false
 			@parser.each do |s|
@@ -203,7 +209,11 @@ module TDiary
 				when :HS1
 					r << "<H3>"
 					subtitle = true
-				when :HE1; r << "</H3>\n"
+					r = subtitle_buff = ''
+				when :HE1
+					r = main_buff
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{subtitle_buff.dump.gsub( /%/, '\\\\045' )} ) %>"
+					r << "</H3>\n"
 
 				# other headings
 				when :HS2, :HS3, :HS4, :HS5; r << "<H#{s.to_s[2,1].to_i + 2}>"

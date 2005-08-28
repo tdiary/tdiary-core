@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.86 $
+# $Revision: 1.87 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -361,7 +361,7 @@ add_title_proc do |date, title|
 end
 
 def nyear_link( date, title )
-	if @conf.show_nyear and @mode != 'nyear' then
+	if @conf.show_nyear and @mode != 'nyear' and !@conf.mobile_agent? then
 		y = date.strftime( '%Y' )
 		m = date.strftime( '%m' )
 		d = date.strftime( '%d' )
