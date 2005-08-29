@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.13 2004-11-05 09:42:39 moon_wolf Exp $
+# $Id: etdiary_style.rb,v 1.14 2005-08-29 08:56:50 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -163,14 +163,13 @@ module TDiary
 
 			r = ''
 			if @opt['index']
-				r << "<a"
-				r << " name=\"#{name}\"" if @opt['anchor']
-				r << " href=\"" + @opt['index']
-				r << "<%=anchor \"" + date.strftime('%Y%m%d') + "#" + name + "\" %>\">"
-				r << @opt['section_anchor'] + "</a>"
+				$stderr.puts name
+				if fragment.subtitle
+					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx-1}, #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
+				else
+					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx-1}, nil ) %>]
+				end
 			end
-			r << "[" + fragment.author + "]" if fragment.author
-			r << fragment.categorized_subtitle if fragment.subtitle
 
 			case fragment.anchor_type
 			when :P
@@ -217,13 +216,14 @@ module TDiary
 		def title( date, fragment )
 			return nil if nil == fragment.anchor_type
 			name = 'p%02d' % @idx
+			return "<A NAME=\"#{name}\"></A>" if :A == fragment.anchor_type
+			r = ""
+			if fragment.subtitle
+				r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx}, #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
+			else
+				r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx}, nil ) %>]
+			end
 			@idx += 1
-			r = "<A NAME=\"#{name}\">"
-			return r + "</A>" if :A == fragment.anchor_type
-			r << "*" if :A != fragment.anchor_type
-			r << "</A> "
-			r << "[" + fragment.author + "]" if fragment.author
-			r << fragment.subtitle if fragment.subtitle
 			case fragment.anchor_type
 			when :P
 				r

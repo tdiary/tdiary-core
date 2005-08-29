@@ -1,3 +1,6 @@
+2005-08-29 TADA Tadashi <sho@spc.gr.jp>
+	* rd_style.rb, etdiary_style_rb, emptdiary_style.rb: support subtitle_proc.
+
 2005-08-28 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/tdiary_style.rb: fix bug: erro when specify plugin in subtitle.
 	* wiki_style.rb: fix bug: subtitle_proc failed when some inline elements in

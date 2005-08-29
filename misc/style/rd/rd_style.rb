@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.26 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.27 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -44,17 +44,7 @@ module RD
 		def apply_to_Headline(element, title)
 			level = element.level + TDIARY_BASE_LEVEL
 			if level == 3
-				r = %Q[<h#{level}><a ]
-
-				if @td_opt['anchor'] then
-					r << %Q[name="p#{'%02d' % @td_idx}"]
-				end
-				r << %Q[href="#{@td_opt['index']}<%=anchor "#{@td_date.strftime( '%Y%m%d' )}#p#{'%02d' % @td_idx}" %>">#{@td_opt['section_anchor']}</a> ]
-				if @td_opt['multi_user'] and @td_author then
-					r << %Q|[#{@td_author}]|
-				end
-
-				r << %Q[#{categorized_subtitle(title)}</h#{level}>]
+				r = %Q[<h#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{@td_idx}, #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></h#{level}>]
 			else
 				r = %Q[<h#{level}>#{title}</h#{level}>]
 			end
@@ -169,13 +159,7 @@ module RD
 		def apply_to_Headline(element, title)
 			level = element.level + TDIARY_BASE_LEVEL
 			if level == 3
-				r = %Q[<H#{level}><A NAME="p#{'%02d' % @td_idx}">*</A> ]
-
-				if @td_opt['multi_user'] and @td_author then
-					r << %Q|[#{@td_author}]|
-				end
-				
-				r << %Q[#{categorized_subtitle(title)}</H#{level}>]
+				r = %Q[<H#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{@td_idx}, #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></H#{level}>]
 			else
 				r = %Q[<H#{level}>#{title}</H#{level}>]
 			end

@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.7 2004-12-22 19:52:48 zunda Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.8 2005-08-29 08:56:50 tadatadashi Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -152,26 +152,15 @@ sections.
 			each_section do |section|
 				r << %Q[<div class="section">\n]
 				if section.subtitle then
-					r << %Q[<h3><a ]
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
-					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> ]
-					if opt['multi_user'] and section.author then
-						r << %Q|[#{section.author}]|
-					end
-					r << %Q[#{section.categorized_subtitle}</h3>]
+					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></h3>\n]
 				end
 				if /\A</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
 					r << %Q[<p>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '')}.join( "</p>\n<p>" )}</p>]
 				else
-					r << %Q[<p><a ]
-					if opt['anchor'] then
-						r << %Q[name="p#{'%02d' % idx}" ]
-					end
-					r << %Q[href="#{opt['index']}<%=anchor "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % idx}" %>">#{opt['section_anchor']}</a> #{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
+					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>]
+					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[</div>]
 				idx += 1
@@ -184,7 +173,7 @@ sections.
 			r = ''
 			each_section do |section|
 				if section.subtitle then
-					r << %Q[<H3><A NAME="p#{'%02d' % idx += 1}">*</A> #{section.subtitle}</H3>]
+					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx += 1}, #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
 				end
 				if /\A</ =~ section.body then
 					idx += 1
@@ -192,10 +181,7 @@ sections.
 				elsif section.subtitle
 					r << %Q[<P>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				else
-					r << %Q[<P><A NAME="p#{'%02d' % idx += 1}">*</A> ]
-					if opt['multi_user'] and section.author then
-						r << %Q|[#{section.author}]|
-					end
+					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx += 1}, nil ) %>]
 					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				end
 			end
