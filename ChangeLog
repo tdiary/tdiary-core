@@ -1,3 +1,6 @@
+2005-08-30 TADA Tadashi <sho@spc.gr.jp>
+	* wiki_style.rb: fix: duplicated anchor in mobile mode.
+
 2005-08-29 TADA Tadashi <sho@spc.gr.jp>
 	* rd_style.rb, etdiary_style_rb, emptdiary_style.rb: support subtitle_proc.
 

@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.24 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.25 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -296,8 +296,6 @@ module TDiary
 						r << keyword(s, true)
 					when :XS
 						r << s << '">' << s.sub( /^mailto:/, '' )
-					when :HS1
-						r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{s.dump} ) %>"
 					else
 						r << s if s.class == String
 					end
