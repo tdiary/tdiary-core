@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.2 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.3 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -119,9 +119,13 @@ module TDiary
 	private
 		def to_html( string )
 			html = HikiDoc::new( string, :level => 3, :empty_element_suffix => '>'  ).to_html.strip
-			html.gsub( %r!<span class="plugin">\{\{(.+?)\}\}</span>! ) do
+			html.gsub!( %r!<span class="plugin">\{\{(.+?)\}\}</span>! ) do
 				"<%=#{CGI.unescapeHTML($1)}%>"
 			end
+			html.gsub!( %r!<div class="plugin">\{\{(.+?)\}\}</div>! ) do
+				"<p><%=#{CGI.unescapeHTML($1)}%></p>"
+			end
+			html
 		end
 
 		def strip_headings( string )

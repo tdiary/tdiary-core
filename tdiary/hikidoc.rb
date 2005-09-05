@@ -38,6 +38,7 @@ class HikiDoc < String
 
   def to_html
     @stack = []
+    @plugin_stack = []
     text = self.gsub( /\r\n?/, "\n" )
     text.sub!( /\n*\z/, "\n\n" )
     # escape '&', '<' and '>'
@@ -50,6 +51,7 @@ class HikiDoc < String
     text.gsub!( /\n{2,}/, "\n" )
     # restore some html parts
     text = restore_block( text )
+    text = restore_plugin_block( text )
     # unescape some symbols
     text = unescape_meta_char( text )
     # terminate with a single new line
@@ -84,8 +86,6 @@ class HikiDoc < String
   PLUGIN_OPEN = '{{'
   PLUGIN_CLOSE = '}}'
   PLUGIN_RE = /#{Regexp.quote(PLUGIN_OPEN)}.*?#{Regexp.quote(PLUGIN_CLOSE)}/m
-  PLUGIN_OUT_OPEN = '<span class="plugin">'
-  PLUGIN_OUT_CLOSE = '</span>'
 
   def parse_plugin( text )
     # escape quotes
@@ -93,7 +93,7 @@ class HikiDoc < String
     ret.split( /(#{PLUGIN_RE})/ ).collect { |str|
       case str
       when PLUGIN_RE
-        store_block( "#{PLUGIN_OUT_OPEN}#{restore_block( str )}#{PLUGIN_OUT_CLOSE}" )
+        store_plugin_block( restore_block( str ) )
       else
         restore_block( str )
       end
@@ -122,8 +122,7 @@ class HikiDoc < String
 
   def restore_pre( text )
     ret = unescape_meta_char( text, true )
-    ret = restore_block( ret )
-    ret.gsub( %r|#{PLUGIN_OUT_OPEN}(.+?)#{PLUGIN_OUT_CLOSE}|m, '\1' )
+    ret = restore_plugin_block( ret, true )
   end
 
   ######################################################################
@@ -272,7 +271,7 @@ class HikiDoc < String
       str.strip!
       if str.empty?
         ''
-      elsif /^</ =~ str
+      elsif /^<[^!]/ =~ str
         str
       else
         "<p>%s</p>" % inline_parser( str )
@@ -392,6 +391,36 @@ class HikiDoc < String
     end
   end
 
+  def store_plugin_block( text )
+    key = "<!#{@plugin_stack.size}>"
+    @plugin_stack << text
+    key
+  end
+
+  PLUGIN_INLINE_OPEN = '<span class="plugin">'
+  PLUGIN_INLINE_CLOSE = '</span>'
+  PLUGIN_BLOCK_OPEN = '<div class="plugin">'
+  PLUGIN_BLOCK_CLOSE = '</div>'
+
+  def restore_plugin_block( text, original = false )
+    return text if @plugin_stack.empty?
+    if original
+      text.gsub!( /<!(\d+)>/ ) do |str|
+        @plugin_stack[$1.to_i]
+      end
+    else
+      # block plugin
+      text.gsub!( %r|<p><!(\d+)></p>| ) do |str|
+        "#{PLUGIN_BLOCK_OPEN}#{@plugin_stack[$1.to_i]}#{PLUGIN_BLOCK_CLOSE}"
+      end
+      text.gsub!( /<!(\d+)>/ ) do |str|
+        "#{PLUGIN_INLINE_OPEN}#{@plugin_stack[$1.to_i]}#{PLUGIN_INLINE_CLOSE}"
+      end
+    end
+    text
+  end
+
+
   META_CHARS_RE = /\\\{|\\\}|\\:|\\'|\\"|\\\|/
 
   def escape_meta_char( text )
@@ -400,9 +429,9 @@ class HikiDoc < String
     end
   end
 
-  def unescape_meta_char( text, escape = false )
+  def unescape_meta_char( text, original = false )
     text.gsub( /(?:&\#x([0-9a-f]{2});)/i ) do
-      if escape
+      if original
         '\\' + [$1].pack( 'H2' )
       else
         [$1].pack( 'H2' )
