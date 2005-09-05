@@ -1,0 +1,92 @@
+! Wiki Style
+
+!! about Wiki Style
+
+Like original style of WikiWikiWeb.
+
+!! How to use
+
+Copy wiki_parser.rb and wiki_style.rb into tdiary directory in you
+tdiary installed. And specify into tdiary.conf below:
+
+ @style = 'Wiki'
+
+If you want to use link feature, find kw.rb from tDiary plugins and
+copy it into plugin directory of tDiary.
+
+!! How to write Wiki Style
+
+!!! Paragraph
+
+Starting words from top of the line.
+If you want to change paragraph, insert a null line.
+When a day starts with a paragraph, the paragraph become to
+a section.
+
+!!! Heading
+
+You can start headings with '!'. In tDiary, one '!' become to '<h3>'
+and it starts a section. Then '!!' is '<h4>', '!!!' is '<h5>' ...
+
+!!! Formatted text
+
+Formatted text you know '<pre>' is start with space or TAB.
+All other markups are ignore.
+
+!!! Lists
+
+Starts with '*' means lists. And starts with '#' is numbered lists.
+You can increase nests by '**', '***' and '****'.
+
+!!! Blockquote
+
+Two double quote means blockquote.
+
+!!!Definition Lists
+
+You can describe '<dl>' by ":keywors:description".
+
+!!!Table
+
+Table starts with '||', and separate cells with '||'
+
+!!! Links
+
+Double '[' and ']' makes a link. It expand kw plugin.
+No WikiWord supported.
+
+ [[keyword]]
+
+By separating keyword with ':', you can make a link equivalent of InterWikiName.
+This is a feature of kw plugin.
+
+ [[foo:keyword]]
+
+You can make alias name of link word by separate '|'.
+
+ [[tDiary|http://www.tdiary.org/]]
+ [[this file|../files/foo.txt]]
+ [[bar|foo:KeyWord]]
+
+In this case, if the URL part is like a tDiary's anchor
+(ex. 20030125#p03), it expand to my plugin but not kw plugin.
+
+And alone URL will become to a link.
+
+!!! Emphasis
+
+Two or three single-quote makes Emphasis.
+
+ Two single-quote makes ''EMPHASUS'', it means <em>.
+ Three single-quote makes '''STRONG''', it means <strong>.
+
+!!! Deleted line
+
+Two equal sign ('=') means <del>. It is tDiary original.
+
+!!! Plugin
+
+Two '{' and '}' expand to plugin.
+
+ {{amazon '4906470068'}}
+
