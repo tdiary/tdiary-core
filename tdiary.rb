@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.240 $
+tdiary.rb $Revision: 1.241 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.2.20050830'
+TDIARY_VERSION = '2.1.2.20050905'
 
 require 'cgi'
 require 'uri'
@@ -113,12 +113,12 @@ module TDiary
 	#
 	class Comment
 		attr_reader :name, :mail, :body, :date
-	
+
 		def initialize( name, mail, body, date = Time::now )
 			@name, @mail, @body, @date = name, mail, body, date
 			@show = true
 		end
-	
+
 		def shorten( length = 120 )
 			matched = body.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/ )[0]
 			unless $'.empty? then
@@ -130,7 +130,7 @@ module TDiary
 
 		def visible?; @show; end
 		def show=( s ); @show = s; end
-	
+
 		def ==( c )
 			(@name == c.name) and (@mail == c.mail) and (@body == c.body)
 		end
@@ -148,7 +148,7 @@ module TDiary
 		def init_comments
 			@comments = []
 		end
-	
+
 	public
 		def add_comment( com )
 			@comments << com
@@ -157,7 +157,7 @@ module TDiary
 			end
 			com
 		end
-	
+
 		def count_comments( all = false )
 			i = 0
 			@comments.each do |comment|
@@ -165,14 +165,14 @@ module TDiary
 			end
 			i
 		end
-	
+
 		def each_comment( limit = 3 )
 			@comments.each_with_index do |com,idx|
 				break if idx >= limit
 				yield com
 			end
 		end
-	
+
 		def each_comment_tail( limit = 3 )
 			idx = 0
 			comments = @comments.collect {|c|
@@ -189,7 +189,7 @@ module TDiary
 				yield comments[idx][0], comments[idx][1] # idx is start with 1.
 			end
 		end
-	
+
 		def each_visible_comment( limit = 3 )
 			@comments.each_with_index do |com,idx|
 				break if idx >= limit
@@ -197,7 +197,7 @@ module TDiary
 				yield com,idx+1 # idx is start with 1.
 			end
 		end
-	
+
 		def each_visible_trackback( limit = 3 )
 			i = 0
 			@comments.find_all {|com|
@@ -207,7 +207,7 @@ module TDiary
 				yield com,i
 			end
 		end
-	
+
 		def each_visible_trackback_tail( limit = 3 )
 			i = 0
 			@comments.find_all {|com|
@@ -232,7 +232,7 @@ module TDiary
 			@referers = {}
 			@new_referer = true # for compatibility
 		end
-	
+
 	public
 		def add_referer( ref, count = 1 )
 			newer_referer
@@ -248,11 +248,11 @@ module TDiary
 				@referers[uref] = [count, ref]
 			end
 		end
-	
+
 		def count_referers
 			@referers.size
 		end
-	
+
 		def each_referer( limit = 10 )
 			newer_referer
 			@referers.values.sort.reverse.each_with_index do |ary,idx|
@@ -260,7 +260,7 @@ module TDiary
 				yield ary[0], ary[1]
 			end
 		end
-	
+
 	private
 		def newer_referer
 			unless @new_referer then # for compatibility
@@ -294,7 +294,7 @@ module TDiary
 			end
 		end
 	end
-	
+
 	#
 	# module DiaryBase
 	#  Base module of Diary.
@@ -302,17 +302,17 @@ module TDiary
 	module DiaryBase
 		include CommentManager
 		include RefererManager
-	
+
 		def init_diary
 			init_comments
 			init_referers
 			@show = true
 		end
-	
+
 		def date
 			@date
 		end
-	
+
 		def set_date( date )
 			if date.class == String then
 				y, m, d = date.scan( /^(\d{4})(\d\d)(\d\d)$/ )[0]
@@ -322,32 +322,32 @@ module TDiary
 				@date = date
 			end
 		end
-	
+
 		def title
 			@title || ''
 		end
-	
+
 		def set_title( title )
 			@title = title
 			@last_modified = Time::now
 		end
-	
+
 		def show( s )
 			@show = s
 		end
-	
+
 		def visible?
 			@show != false;
 		end
-	
+
 		def last_modified
 			@last_modified ? @last_modified : Time::at( 0 )
 		end
-	
+
 		def last_modified=( lm )
 			@last_modified  = lm
 		end
-	
+
 		def eval_rhtml( opt, path = '.' )
 			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
 		end
@@ -369,7 +369,7 @@ module TDiary
 		def calendar
 			raise StandardError, 'not implemented'
 		end
-		
+
 		def transaction( date )
 			raise StandardError, 'not implemented'
 		end
@@ -472,7 +472,7 @@ module TDiary
 			@options.delete( key )
 			@options2.delete( key )
 		end
-	
+
 		def base_url
 			return '' unless @cgi.script_name
 			if @cgi.https?
@@ -499,7 +499,7 @@ module TDiary
 				@lang = 'ja'
 				retry
 			end
-	
+
 			@data_path += '/' if /\/$/ !~ @data_path
 			@style = 'tDiary' unless @style
 			@index = './' unless @index
@@ -513,7 +513,7 @@ module TDiary
 			@html_title = '' unless @html_title
 			@header = '' unless @header
 			@footer = '' unless @footer
-	
+
 			@section_anchor = '<span class="sanchor">_</span>' unless @section_anchor
 			@comment_anchor = '<span class="canchor">_</span>' unless @comment_anchor
 			@date_format = '%Y-%m-%d' unless @date_format
@@ -551,10 +551,10 @@ module TDiary
 		# loading tdiary.conf in @data_path.
 		def load_cgi_conf
 			raise TDiaryError, 'No @data_path variable.' unless @data_path
-	
+
 			@data_path += '/' if /\/$/ !~ @data_path
 			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{PATH}/"
-	
+
 			variables = [
 				:author_name, :author_mail, :index_page, :hour_offset,
 				:html_title, :header, :footer,
@@ -903,24 +903,24 @@ module TDiary
 		DIRTY_DIARY = 1
 		DIRTY_COMMENT = 2
 		DIRTY_REFERER = 4
-	
+
 		attr_reader :cookies
 		attr_reader :conf
 		attr_reader :date
 		attr_reader :diaries
-	
+
 		def initialize( cgi, rhtml, conf )
 			@cgi, @rhtml, @conf = cgi, rhtml, conf
 			@diaries = {}
 			@cookies = []
-	
+
 			unless @conf.io_class then
 				require 'tdiary/defaultio'
 				@conf.io_class = DefaultIO
 			end
 			@io = @conf.io_class.new( self )
 		end
-	
+
 		def eval_rhtml( prefix = '' )
 			begin
 				r = do_eval_rhtml( prefix )
@@ -931,15 +931,15 @@ module TDiary
 			end
 			return r
 		end
-	
+
 		def restore_parser_cache( date, key )
 			parser_cache( date, key )
 		end
-	
+
 		def store_parser_cache( date, key, obj )
 			parser_cache( date, key, obj )
 		end
-	
+
 		def clear_parser_cache( date )
 			parser_cache( date )
 		end
@@ -947,15 +947,15 @@ module TDiary
 		def last_modified
 			nil
 		end
-	
+
 		def []( date )
 			@diaries[date.strftime( '%Y%m%d' )]
 		end
-	
+
 		def calendar
 			@years = @io.calendar unless @years
 		end
-	
+
 	protected
 		def do_eval_rhtml( prefix )
 			# load plugin files
@@ -989,7 +989,7 @@ module TDiary
 		def mode
 			self.class.to_s.sub( /^TDiary::TDiary/, '' ).downcase
 		end
-	
+
 		def load_plugins
 			calendar
 			@plugin = Plugin::new(
@@ -1004,27 +1004,27 @@ module TDiary
 				'last_modified' => last_modified
 			)
 		end
-	
+
 		def <<( diary )
 			@diaries[diary.date.strftime( '%Y%m%d' )] = diary
 		end
-	
+
 		def delete( date )
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
 		end
-	
+
 		def cache_path
 			@conf.cache_path || "#{@conf.data_path}cache"
 		end
-	
+
 		def cache_file( prefix )
 			nil
 		end
-	
+
 		def cache_enable?( prefix )
 			cache_file( prefix ) and FileTest::file?( "#{cache_path}/#{cache_file( prefix )}" )
 		end
-	
+
 		def store_cache( cache, prefix )
 			unless FileTest::directory?( cache_path ) then
 				begin
@@ -1039,16 +1039,16 @@ module TDiary
 				end
 			end
 		end
-	
+
 		def clear_cache( target = /.*/ )
 			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
 				File::delete( c.untaint ) if target =~ c
 			end
 		end
-	
+
 		def parser_cache( date, key = nil, obj = nil )
 			return nil if @ignore_parser_cache
-	
+
 			require 'pstore'
 			unless FileTest::directory?( cache_path ) then
 				begin
@@ -1057,7 +1057,7 @@ module TDiary
 				end
 			end
 			file = date.strftime( "#{cache_path}/%Y%m.parser" )
-	
+
 			unless key then
 				begin
 					File::delete( file )
@@ -1066,7 +1066,7 @@ module TDiary
 				end
 				return nil
 			end
-	
+
 			begin
 				PStore::new( file ).transaction do |cache|
 					begin
@@ -1182,7 +1182,7 @@ module TDiary
 					given_key = given_key.read
 				end
 			end
-				
+
 			is_key_ok = masterkey != '' && given_key == masterkey
 
 			keycheck_ok = !check_key || is_key_ok
@@ -1257,7 +1257,7 @@ EOS
 
 		def initialize( cgi, rhtm, conf )
 			super
-	
+
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				@diary = self[@date]
@@ -1278,7 +1278,7 @@ EOS
 	class TDiaryPreview < TDiaryAdmin
 		def initialize( cgi, rhtm, conf )
 			super
-	
+
 			@title = @conf.to_native( @cgi.params['title'][0] )
 			@body = @conf.to_native( @cgi.params['body'][0] )
 			@old_date = @cgi.params['old'][0]
@@ -1318,7 +1318,7 @@ EOS
 			@hide = cgi.params['hide'][0] == 'true' ? true : false
 			super
 		end
-	
+
 	protected
 		def do_eval_rhtml( prefix )
 			super
@@ -1366,7 +1366,7 @@ EOS
 		def initialize( cgi, rhtm, conf )
 			super
 			old_date = @cgi.params['old'][0]
-	
+
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				@diary = self[@date]
@@ -1394,7 +1394,7 @@ EOS
 	class TDiaryShowComment < TDiaryAdmin
 		def initialize( cgi, rhtml, conf )
 			super
-	
+
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				dirty = DIRTY_NONE
@@ -1438,7 +1438,7 @@ EOS
 				@date = Time::now + (@conf.hour_offset * 3600).to_i
 				@diary = @io.diary_factory( @date, '', '', @conf.style )
 			end
-	
+
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				@diary = self[@date]
@@ -1478,7 +1478,7 @@ EOS
 
 		def eval_rhtml( prefix = '' )
 			r = super
-	
+
 			begin
 				@conf.save
 				clear_cache
@@ -1497,7 +1497,7 @@ EOS
 	class TDiaryView < TDiaryBase
 		def initialize( cgi, rhtml, conf )
 			super
-	
+
 			# save referer to latest
 			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and referer_filter( @cgi.referer ) then
 				ym = latest_month
@@ -1517,7 +1517,7 @@ EOS
 				end
 			end
 		end
-	
+
 		def last_modified
 			lm = Time::at( 0 )
 			@diaries.each_value do |diary|
@@ -1526,7 +1526,7 @@ EOS
 			end
 			lm
 		end
-	
+
 	protected
 		def each_day
 			@diaries.keys.sort.each do |date|
@@ -1535,7 +1535,7 @@ EOS
 				yield diary
 			end
 		end
-	
+
 		def latest_month
 			result = nil
 			calendar
@@ -1548,7 +1548,7 @@ EOS
 			end
 			result
 		end
-	
+
 		def oldest_month
 			result = nil
 			calendar
@@ -1561,7 +1561,7 @@ EOS
 			end
 			result
 		end
-	
+
 		def cache_enable?( prefix )
 			super and (File::mtime( "#{cache_path}/#{cache_file( prefix )}" ) > last_modified )
 		end
@@ -1687,7 +1687,7 @@ EOS
 				raise TDiaryError, 'bad date'
 			end
 		end
-	
+
 	protected
 		def cache_file( prefix )
 			"#{prefix}#{@rhtml.sub( /month/, @date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
@@ -1724,7 +1724,7 @@ EOS
 			r
 		end
 	end
-			
+
 
 	#
 	# class TDiaryLatest
@@ -1754,7 +1754,7 @@ EOS
 					DIRTY_NONE
 				end
 			end
-	
+
 			if ym then
 				# read +2 days for calc ndays.prev in count_diaries method
 				limit = limit_size( @conf.latest_limit ) + 2
@@ -1799,7 +1799,7 @@ EOS
 				end
 			end
 		end
-	
+
 		def latest( limit = 5 )
 			start = start_date
 			limit = limit_size( limit )
@@ -1813,7 +1813,7 @@ EOS
 				break if idx >= limit
 			end
 		end
-	
+
 	protected
 		def count_diaries_after( diaries )
 			start = start_date

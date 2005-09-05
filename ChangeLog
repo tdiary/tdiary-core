@@ -1,3 +1,8 @@
+2005-09-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/wiki_style.rb: add a new wiki style using HikiDoc.
+	* misc/style/wiki/wiki_parser.rb: remove.
+	* misc/style/wiki/wiki_style.rb: remove.
+
 2005-08-30 TADA Tadashi <sho@spc.gr.jp>
 	* wiki_style.rb: fix: duplicated anchor in mobile mode.
 
