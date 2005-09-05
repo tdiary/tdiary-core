@@ -109,13 +109,13 @@ class HikiDoc < String
 
   def parse_pre( text )
     ret = text
+    ret.gsub!( /^#{MULTI_PRE_OPEN_RE}$(.*)^#{MULTI_PRE_CLOSE_RE}$/m ) do |str|
+      "\n" + store_block( "<pre>%s</pre>" % restore_pre( $1 ) ) + "\n\n"
+    end
     ret.gsub!( /(?:^#{PRE_RE}.*\n?)+/ ) do |str|
       str.chomp!
       str.gsub!( /^#{PRE_RE}/, '' )
       "\n" + store_block( "<pre>\n%s\n</pre>" % restore_pre( str ) ) + "\n\n"
-    end
-    ret.gsub!( /^#{MULTI_PRE_OPEN_RE}$(.*)^#{MULTI_PRE_CLOSE_RE}$/m ) do |str|
-      "\n" + store_block( "<pre>%s</pre>" % restore_pre( $1 ) ) + "\n\n"
     end
     ret
   end
