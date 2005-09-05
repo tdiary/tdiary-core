@@ -122,7 +122,7 @@ class HikiDoc < String
 
   def restore_pre( text )
     ret = unescape_meta_char( text, true )
-    ret = restore_block( text )
+    ret = restore_block( ret )
     ret.gsub( %r|#{PLUGIN_OUT_OPEN}(.+?)#{PLUGIN_OUT_CLOSE}|m, '\1' )
   end
 
