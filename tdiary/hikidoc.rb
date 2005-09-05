@@ -304,11 +304,7 @@ class HikiDoc < String
         uri = title = link
       end
       if /\A#{URI.regexp( %w( http https ftp mailto ) )}\z/ =~ uri
-        if IMAGE_RE =~ uri
-          store_block( %Q|<img src="#{uri}" alt="#{File.basename( title )}"#{@empty_element_suffix}| )
-        else
-          store_block( %Q|<a href="#{uri}">#{title}</a>| )
-        end
+        store_block( %Q|<a href="#{uri}">#{title}</a>| )
       else
         uri = escape_uri( uri )
         store_block( %Q|<a href="#{uri}">#{title}</a>| )
