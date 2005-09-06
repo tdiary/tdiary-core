@@ -200,7 +200,7 @@ class HikiDoc < String
   def parse_definition( text )
     text.gsub( /(^#{DEFINITION_RE}.*#{DEFINITION_RE}.+\n?)+/ ) do |str|
       ret = "\n<dl>\n"
-      str.strip!
+      str.chomp!
       str.scan( /^#{DEFINITION_RE}(.*?)#{DEFINITION_RE}(.+)\n?/ ) do |t, d|
         if t.empty?
           ret << "<dd>%s</dd>\n" % inline_parser( d )
@@ -220,9 +220,9 @@ class HikiDoc < String
 
   def parse_blockquote( text )
     text.gsub( /(^#{BLOCKQUOTE_RE} ?.*\n?)+/ ) do |str|
-      str.strip!
+      str.chomp!
       str.gsub!( /^#{BLOCKQUOTE_RE} ?/, '' )
-      "\n<blockquote>\n%s\n</blockquote>\n\n" % block_parser(str).rstrip
+      "\n<blockquote>\n%s\n</blockquote>\n\n" % block_parser(str)
     end
   end
 
@@ -236,7 +236,7 @@ class HikiDoc < String
       ret = %Q|\n<table border="1">\n|
       str.each do |line|
         ret << "<tr>"
-        line.strip.split( TABLE_RE )[1..-1].each do |i|
+        line.chomp.split( TABLE_RE )[1..-1].each do |i|
           tag = i.sub!( /^!/, '' ) ? 'th' : 'td'
           attr = ''
           if i.sub!( /^((?:\^|&gt;)+)/, '' )
@@ -268,7 +268,7 @@ class HikiDoc < String
 
   def parse_paragraph( text )
     text.split( /\n{2,}/ ).collect { |str|
-      str.strip!
+      str.chomp!
       if str.empty?
         ''
       elsif /^<[^!]/ =~ str
