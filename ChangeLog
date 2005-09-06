@@ -1,3 +1,6 @@
+2005-09-06 YAMAGUCHI Seiji <valda at suicidalmachineers.com>
+	* tdiary/default.rb: safety lock for storing comments and referers.
+
 2005-09-05  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/wiki_style.rb: add a new wiki style using HikiDoc.
 	* misc/style/wiki/wiki_parser.rb: remove.

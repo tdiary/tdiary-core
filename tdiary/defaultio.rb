@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.34 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.35 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -49,8 +49,10 @@ module TDiary
 		end
 
 		def store_comment( file, diaries )
-			File::open( file, 'w' ) do |fhc|
+			File::open( file, File::WRONLY | File::CREAT ) do |fhc|
 				fhc.flock( File::LOCK_EX )
+				fhc.rewind
+				fhc.truncate( 0 )
 				fhc.puts( TDIARY_MAGIC )
 				diaries.each do |date,diary|
 					diary.each_comment( diary.count_comments( true ) ) do |com|
@@ -92,8 +94,10 @@ module TDiary
 		end
 
 		def store_referer( file, diaries )
-			File::open( file, 'w' ) do |fhr|
+			File::open( file, File::WRONLY | File::CREAT ) do |fhr|
 				fhr.flock( File::LOCK_EX )
+				fhr.rewind
+				fhr.truncate( 0 )
 				fhr.puts( TDiary::TDIARY_MAGIC )
 				diaries.each do |date,diary|
 					fhr.puts( "Date: #{date}" )
