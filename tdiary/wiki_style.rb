@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.3 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.4 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -100,7 +100,6 @@ module TDiary
 					%Q[<a href="#{u}">#{k}</a>]
 				end
 			end
-			r.gsub!( %r!^<%=.+%>$!, '<p>\&</p>' )
 			r.sub!( %r!<(h3|p)>(.+?)</\1>! ) do
 				tag = $1
 				"<#{tag}><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{$2.dump.gsub( /%/, '\\\\045' )} ) %></#{tag}>"
