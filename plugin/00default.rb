@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.87 $
+# $Revision: 1.88 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -66,17 +66,15 @@ def navi_user_month
 		ym += @years[y].collect {|m| y + m}
 	end
 	ym.sort!
+	now = @date.strftime( '%Y%m' )
+	return '' unless ym.index( now )
+	prev_month = ym[ym.index( now )-1]
+	next_month = ym[ym.index( now )+1]
 
 	result = ''
-	prev_month = (@date - 24*60*60).strftime( '%Y%m' )
-	if prev_month >= ym[0] and not bot? then
-		result << navi_item( "#{@index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" )
-	end
+	result << navi_item( "#{@index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" ) if prev_month >= ym[0] and not bot?
 	result << navi_item( @index, navi_latest )
-	next_month = (@date + 31*24*60*60).strftime( '%Y%m' )
-	if next_month <= ym[-1] and not bot? then
-		result << navi_item( "#{@index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" )
-	end
+	result << navi_item( "#{@index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" ) if next_month <= ym[-1] and not bot?
 	result
 end
 
