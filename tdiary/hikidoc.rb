@@ -306,8 +306,7 @@ class HikiDoc < String
       if /\A#{URI.regexp( %w( http https ftp mailto ) )}\z/ =~ uri
         store_block( %Q|<a href="#{uri}">#{title}</a>| )
       else
-        uri = escape_uri( uri )
-        store_block( %Q|<a href="#{uri}">#{title}</a>| )
+        store_block( %Q|<a href="#{escape_quote_uri( uri )}">#{title}</a>| )
       end
     end
     ret.gsub!( URI.regexp( %w( http https ftp mailto ) ) ) do |uri|
@@ -361,18 +360,21 @@ class HikiDoc < String
       gsub( /&amp;/, '&' )
   end
 
-  def escape_uri( text )
-    text.gsub( /([^ a-zA-Z0-9_.-]+)/n ) do
-      '%' + $1.unpack( 'H2' * $1.size ).join('%').upcase
-    end.tr( ' ', '+' )
+  def escape_html( text )
+    text.gsub( /&/, '&amp;' ).
+      gsub( /</, '&lt;' ).
+      gsub( />/, '&gt;' )
   end
 
-  def unescape_uri( text )
-    text.tr( '+', ' ' ).gsub( /((?:%[0-9a-fA-F]{2})+)/n ) do
-      [$1.delete( '%' )].pack( 'H*' )
-    end
+  def unescape_html( text )
+    text.gsub( /&gt;/, '>' ).
+      gsub( /&lt;/, '<' ).
+      gsub( /&amp;/, '&' )
   end
 
+  def escape_quote_uri( text )
+    text.gsub( /"/, '%22' )
+  end
 
   def store_block( text )
     key = "<#{@stack.size}>"
