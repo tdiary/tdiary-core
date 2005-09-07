@@ -1,3 +1,6 @@
+2005-09-07 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/*.rb: a little adjustment design in English.
+
 2005-09-06 YAMAGUCHI Seiji <valda at suicidalmachineers.com>
 	* tdiary/default.rb: safety lock for storing comments and referers.
 

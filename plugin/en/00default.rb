@@ -152,10 +152,10 @@ add_conf_proc( 'header', 'Header/Footer', 'basic' ) do
 	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
 	<h3 class="subtitle">Header</h3>
 	#{"<p>This text is inserted into top of each pages. You can use HTML tags. Do not remove \"&lt;%=navi%&gt;\", because it mean Navigation bar inclued \"Update\" button. And \"&lt;%=calendar%&gt;\" mean calendar. So you can specify other plugins also.</p>" unless @conf.mobile_agent?}
-	<p><textarea name="header" cols="70" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
+	<p><textarea name="header" cols="60" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
 	<h3 class="subtitle">Footer</h3>
 	#{"<p>This text is inserted into bottom of each pages. You can specify as same as Header.</p>" unless @conf.mobile_agent?}
-	<p><textarea name="footer" cols="70" rows="10">#{ CGI::escapeHTML @conf.footer }</textarea></p>
+	<p><textarea name="footer" cols="60" rows="10">#{ CGI::escapeHTML @conf.footer }</textarea></p>
 	HTML
 end
 
@@ -249,11 +249,11 @@ add_conf_proc( 'referer', "Today's Link", 'referer' ) do
 	<h3 class="subtitle">Excluding list</h3>
 	#{"<p>List of excluding URL that is not recorded to Today's Link. Specify it in regular expression, and a URL into a line.</p>" unless @conf.mobile_agent?}
 	<p>See <a href="#{@conf.update}?referer=no" target="referer">Default configuration is here</a>.</p>
-	<p><textarea name="no_referer" cols="70" rows="10">#{@conf.no_referer2.join( "\n" )}</textarea></p>
+	<p><textarea name="no_referer" cols="60" rows="10">#{@conf.no_referer2.join( "\n" )}</textarea></p>
 	<h3 class="subtitle">Rule of conversion URL to words.</h3>
 	#{"<p>A table to convert URL to words in Today's Link. Specify it in regular expression, and a URL into a line.<p>" unless @conf.mobile_agent?}
 	<p>See <a href="#{@conf.update}?referer=table" target="referer">Default configurations</a>.</p>
-	<p><textarea name="referer_table" cols="70" rows="10">#{@conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
+	<p><textarea name="referer_table" cols="60" rows="10">#{@conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end
 

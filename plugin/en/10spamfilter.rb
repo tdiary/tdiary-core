@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.2 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.3 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -18,11 +18,11 @@ def spamfilter_conf_html
 	<p>It is spam when percentage of URI charctors in TSUKKOMI body is over this value.<br>
 		<input type="text" name="spamfilter.max_rate" value="#{CGI.escapeHTML(@conf['spamfilter.max_rate'].to_s)}" size="5"></p>
 	<p>It is spam when TSUKKOMI body has URIs match with these patterns.<br>
-		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_uri_patts" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
 	<p>It is spam when TSUKKOMI body matches with these patterns.<br>
-		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_comment_patts" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
 	<p>It is spam when mail address matches with these patterns.<br>
-		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_mail_patts" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
 	<p>Use patterns of URI for checking mail address.<br>
 		<select name="spamfilter.bad_uri_patts_for_mails">
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>ON</option>
@@ -36,7 +36,7 @@ def spamfilter_conf_html
 
 	<h3>IP address filters</h3>
 	<p>It is spam when sender IP address matches these patterns. You have to specify complete IP address or part of IP address ends by '.'.<br>
-		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_ip_addrs'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_ip_addrs" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_ip_addrs'] || '')}</textarea></p>
 	</p>
 	<p>It is spam when IP address of TrackBack sender dose not match with IP address of the site.<br>
 		<select name="spamfilter.resolv_check">
