@@ -116,29 +116,39 @@ def category_anchor(c); "[#{c}]"; end
 @conf_genre_label['etc'] = 'etc'
 
 # basic (default)
-add_conf_proc( 'default', 'Basic', 'basic' ) do
+add_conf_proc( 'default', 'Site information', 'basic' ) do
 	saveconf_default
-	@conf.icon ||= ''
 	@conf.description ||= ''
+	@conf.icon ||= ''
+	@conf.banner ||= ''
 	<<-HTML
+	<h3 class="subtitle">Title</h3>
+	#{"<p>The title of your diary. This value is used in HTML &lt;title&gt; element and in mobile mode. Do not use HTML tags.</p>" unless @conf.mobile_agent?}
+	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
+
 	<h3 class="subtitle">Author</h3>
 	#{"<p>Specify your name. This value is into HTML header.</p>" unless @conf.mobile_agent?}
 	<p><input name="author_name" value="#{CGI::escapeHTML @conf.author_name}" size="40"></p>
+
 	<h3 class="subtitle">E-mail address</h3>
 	#{"<p>Specify your E-mail address. This value is into HTML header.</p>" unless @conf.mobile_agent?}
 	<p><input name="author_mail" value="#{@conf.author_mail}" size="40"></p>
+
 	<h3 class="subtitle">URL of index page</h3>
 	#{"<p>The URL of index of your website if you have.</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
-	<h3 class="subtitle">Site icon</h3>
-	#{"<p>URL for the icon of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="50"></p>
+
 	<h3 class="subtitle">Description</h3>
 	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="50"></p>
-	<h3 class="subtitle">Time difference adjustment</h3>
-	#{"<p>When updating diary, you can adjust date which is automatically inserted into the form. The unit is hour. For example, if you want to handle the time until 2 a.m. as the previous day, you set this to -2. tDiary inserts the date which is older by 2 hours than the actual time. </p>" unless @conf.mobile_agent?}
-	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
+	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="60"></p>
+
+	<h3 class="subtitle">Site icon (favicon)</h3>
+	#{"<p>URL for the small icon (aka 'favicon') of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="60"></p>
+
+	<h3 class="subtitle">Site banner</h3>
+	#{"<p>URL for the banner image of your site. makerss plugin will use this value to make RSS. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="banner" value="#{CGI::escapeHTML @conf.banner}" size="60"></p>
 	HTML
 end
 
@@ -147,9 +157,6 @@ add_conf_proc( 'header', 'Header/Footer', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
-	<h3 class="subtitle">Title</h3>
-	#{"<p>The title of your diary. This value is used in HTML &lt;title&gt; element and in mobile mode. Do not use HTML tags.</p>" unless @conf.mobile_agent?}
-	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
 	<h3 class="subtitle">Header</h3>
 	#{"<p>This text is inserted into top of each pages. You can use HTML tags. Do not remove \"&lt;%=navi%&gt;\", because it mean Navigation bar inclued \"Update\" button. And \"&lt;%=calendar%&gt;\" mean calendar. So you can specify other plugins also.</p>" unless @conf.mobile_agent?}
 	<p><textarea name="header" cols="60" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
@@ -182,6 +189,16 @@ add_conf_proc( 'display', 'Display', 'basic' ) do
 		<option value="true"#{if @conf.show_nyear then " selected" end}>Show</option>
         <option value="false"#{if not @conf.show_nyear then " selected" end}>Hide</option>
 	</select></p>
+	HTML
+end
+
+# timezone
+add_conf_proc( 'timezone', 'Time difference adjustment', 'update' ) do
+	saveconf_timezone
+	<<-HTML
+	<h3 class="subtitle">Time difference adjustment</h3>
+	#{"<p>When updating diary, you can adjust date which is automatically inserted into the form. The unit is hour. For example, if you want to handle the time until 2 a.m. as the previous day, you set this to -2. tDiary inserts the date which is older by 2 hours than the actual time. </p>" unless @conf.mobile_agent?}
+	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
 	HTML
 end
 

@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.13 $
+# tdiary configuration file via CGI $Revision: 1.14 $
 #
 
 #
@@ -9,8 +9,9 @@ author_name = <%= @author_name.dump %>
 author_mail = <%= (@author_mail || '').dump %>
 index_page = <%= @index_page.dump %>
 hour_offset = <%= @hour_offset %>
-icon = <%= (@icon || '').dump %>
 description = <%= (@description || '' ).dump %>
+icon = <%= (@icon || '').dump %>
+banner = <%= (@banner || '').dump %>
 
 #
 # header / footer

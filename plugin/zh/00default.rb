@@ -108,7 +108,7 @@ def category_anchor(c); "[#{c}]"; end
 #
 
 # genre labels
-@conf_genre_label['basic'] = 'Basic'
+@conf_genre_label['basic'] = '基本'
 @conf_genre_label['theme'] = 'Themes'
 @conf_genre_label['tsukkomi'] = 'TSUKKOMI'
 @conf_genre_label['referer'] = 'Referrer'
@@ -118,27 +118,37 @@ def category_anchor(c); "[#{c}]"; end
 # basic (default)
 add_conf_proc( 'default', '基本設定', 'basic' ) do
 	saveconf_default
-	@conf.icon ||= ''
 	@conf.description ||= ''
+	@conf.icon ||= ''
+	@conf.banner ||= ''
 	<<-HTML
+	<h3 class="subtitle">大標題</h3>
+	#{"<p>這是您日誌的大標題，您填入的值會用在 HTML 的 &lt;title&gt; 項目當中。特別注意，本欄位請勿使用 HTML 標籤(tags)。 </p>" unless @conf.mobile_agent?}
+	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
+
 	<h3 class="subtitle">作者</h3>
 	#{"<p>填上您的大名吧！此欄位的值將會用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
 	<p><input name="author_name" value="#{CGI::escapeHTML @conf.author_name}" size="40"></p>
+
 	<h3 class="subtitle">電子郵件</h3>
 	#{"<p>填入您的電子郵件位址，此欄位的值將用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
 	<p><input name="author_mail" value="#{@conf.author_mail}" size="40"></p>
+
 	<h3 class="subtitle">您索引網頁(首頁)的 URL</h3>
 	#{"<p>若您有自己的網站位址，可以填註在下面。</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
-	<h3 class="subtitle">Site icon</h3>
-	#{"<p>URL for the icon of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="50"></p>
+
 	<h3 class="subtitle">Description</h3>
 	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="50"></p>
-	<h3 class="subtitle">時間差的調整</h3>
-	#{"<p>若是您更新了日誌，您可以透過此欄位(單位為小時)來做自動調整時間差。例如說，您若想要指定在清晨兩點所發表的日誌被當成是昨天的日誌，您就可以在這裡填入 -2。tDiary 會參考此數值來判定這篇日誌的發表日期。 </p>" unless @conf.mobile_agent?}
-	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
+	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="70"></p>
+
+	<h3 class="subtitle">Site icon (favicon)</h3>
+	#{"<p>URL for the small icon (aka 'favicon') of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="70"></p>
+
+	<h3 class="subtitle">Site banner</h3>
+	#{"<p>URL for the banner image of your site. makerss plugin will use this value to make RSS. Can be left blank.</p>" unless @conf.mobile_agent?}
+	<p><input name="banner" value="#{CGI::escapeHTML @conf.banner}" size="70"></p>
 	HTML
 end
 
@@ -147,9 +157,6 @@ add_conf_proc( 'header', '頁眉與頁腳', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
-	<h3 class="subtitle">大標題</h3>
-	#{"<p>這是您日誌的大標題，您填入的值會用在 HTML 的 &lt;title&gt; 項目當中。特別注意，本欄位請勿使用 HTML 標籤(tags)。 </p>" unless @conf.mobile_agent?}
-	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
 	<h3 class="subtitle">頁眉</h3>
 	#{"<p>這段文字將會擺置在每個頁面的頂端，您可以使用 HTML 語法。但是請勿移除 \"&lt;%=navi%&gt;\"標籤，因為它代表包含\"更新\"(Update)功\能鈕在內的「導覽列」，而 \"&lt;%=calendar%&gt;\" 標籤代表日曆。此處您也可以自由搭配其它的 plugin。 </p>" unless @conf.mobile_agent?}
 	<p><textarea name="header" cols="70" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
@@ -182,6 +189,16 @@ add_conf_proc( 'display', '顯示', 'basic' ) do
 		<option value="true"#{if @conf.show_nyear then " selected" end}>秀！</option>
         <option value="false"#{if not @conf.show_nyear then " selected" end}>隱藏</option>
 	</select></p>
+	HTML
+end
+
+# timezone
+add_conf_proc( 'timezone', '時間差的調整', 'update' ) do
+	saveconf_timezone
+	<<-HTML
+	<h3 class="subtitle">時間差的調整</h3>
+	#{"<p>若是您更新了日誌，您可以透過此欄位(單位為小時)來做自動調整時間差。例如說，您若想要指定在清晨兩點所發表的日誌被當成是昨天的日誌，您就可以在這裡填入 -2。tDiary 會參考此數值來判定這篇日誌的發表日期。 </p>" unless @conf.mobile_agent?}
+	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
 	HTML
 end
 

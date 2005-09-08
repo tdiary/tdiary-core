@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.89 $
+# $Revision: 1.90 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -295,7 +295,11 @@ end
 
 def icon_tag
 	if @conf.icon and not(@conf.icon.empty?) then
-		%Q[<link rel="icon" href="#{CGI::escapeHTML @conf.icon}">]
+		if /\.ico$/ =~ @conf.icon then
+			%Q[<link rel="shortcut icon" href="#{CGI::escapeHTML @conf.icon}">]
+		else
+			%Q[<link rel="icon" href="#{CGI::escapeHTML @conf.icon}">]
+		end
 	else
 		''
 	end
@@ -557,19 +561,19 @@ end
 # basic (default)
 def saveconf_default
 	if @mode == 'saveconf' then
+		@conf.html_title = @conf.to_native( @cgi.params['html_title'][0] )
 		@conf.author_name = @conf.to_native( @cgi.params['author_name'][0] )
 		@conf.author_mail = @cgi.params['author_mail'][0]
 		@conf.index_page = @cgi.params['index_page'][0]
-		@conf.icon = @cgi.params['icon'][0]
 		@conf.description = @conf.to_native( @cgi.params['description'][0] )
-		@conf.hour_offset = @cgi.params['hour_offset'][0].to_f
+		@conf.icon = @cgi.params['icon'][0]
+		@conf.banner = @cgi.params['banner'][0]
 	end
 end
 
 # header/footer (header)
 def saveconf_header
 	if @mode == 'saveconf' then
-		@conf.html_title = @conf.to_native( @cgi.params['html_title'][0] )
 		@conf.header = @conf.to_native( @cgi.params['header'][0] ).gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
 		@conf.footer = @conf.to_native( @cgi.params['footer'][0] ).gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
 	end
@@ -584,6 +588,13 @@ def saveconf_display
 		@conf.latest_limit = @cgi.params['latest_limit'][0].to_i
 		@conf.latest_limit = 10 if @conf.latest_limit < 1
 		@conf.show_nyear = @cgi.params['show_nyear'][0] == 'true' ? true : false
+	end
+end
+
+# timezone
+def saveconf_timezone
+	if @mode == 'saveconf' then
+		@conf.hour_offset = @cgi.params['hour_offset'][0].to_f
 	end
 end
 

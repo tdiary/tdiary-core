@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.243 $
+tdiary.rb $Revision: 1.244 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.2.20050907'
+TDIARY_VERSION = '2.1.2.20050908'
 
 require 'cgi'
 require 'uri'
@@ -556,14 +556,14 @@ module TDiary
 			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{PATH}/"
 
 			variables = [
-				:author_name, :author_mail, :index_page, :hour_offset,
-				:html_title, :header, :footer,
+				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
+				:description, :icon, :banner,
+				:header, :footer,
 				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
 				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
 				:show_referer, :referer_limit, :referer_day_only, :no_referer2, :referer_table2,
 				:options2,
-				:icon, :description,
 			]
 			begin
 				cgi_conf = File::open( "#{@data_path}tdiary.conf" ){|f| f.read }

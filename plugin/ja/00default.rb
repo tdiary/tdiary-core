@@ -150,6 +150,7 @@ def category_anchor(c); "[#{c}]"; end
 
 # genre labels
 @conf_genre_label['basic'] = '基本'
+@conf_genre_label['update'] = '更新'
 @conf_genre_label['theme'] = 'テーマ'
 @conf_genre_label['tsukkomi'] = 'ツッコミ'
 @conf_genre_label['referer'] = 'リンク元'
@@ -157,29 +158,39 @@ def category_anchor(c); "[#{c}]"; end
 @conf_genre_label['etc'] = 'その他'
 
 
-add_conf_proc( 'default', '基本', 'basic' ) do
+add_conf_proc( 'default', 'サイトの情報', 'basic' ) do
 	saveconf_default
-	@conf.icon ||= ''
 	@conf.description ||= ''
+	@conf.icon ||= ''
+	@conf.banner ||= ''
 	<<-HTML
+	<h3 class="subtitle">タイトル</h3>
+	#{"<p>HTMLの&lt;title&gt;タグ中および、モバイル端末からの参照時に使われるタイトルです。HTMLタグは使えません。</p>" unless @conf.mobile_agent?}
+	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
+
 	<h3 class="subtitle">著者名</h3>
 	#{"<p>あなたの名前を指定します。HTMLヘッダ中に展開されます。</p>" unless @conf.mobile_agent?}
 	<p><input name="author_name" value="#{CGI::escapeHTML @conf.author_name}" size="40"></p>
+
 	<h3 class="subtitle">メールアドレス</h3>
 	#{"<p>あなたのメールアドレスを指定します。HTMLヘッダ中に展開されます。</p>" unless @conf.mobile_agent?}
 	<p><input name="author_mail" value="#{@conf.author_mail}" size="40"></p>
+
 	<h3 class="subtitle">トップページURL</h3>
 	#{"<p>日記よりも上位のコンテンツがあれば指定します。存在しない場合は何も入力しなくてかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
-	<h3 class="subtitle">サイトアイコン</h3>
-	#{"<p>この日記のアイコン画像があればそのURLを指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="50"></p>
+	<p><input name="index_page" value="#{@conf.index_page}" size="70"></p>
+
 	<h3 class="subtitle">日記の説明</h3>
 	#{"<p>この日記の簡単な説明を指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="50"></p>
-	<h3 class="subtitle">時差調整</h3>
-	#{"<p>更新時、フォームに挿入される日付を時間単位で調整できます。例えば午前2時までは前日として扱いたい場合には「-2」のように指定することで、2時間分引かれた日付が挿入されるようになります。また、この日付はWebサーバ上の時刻になっているので、海外のサーバで運営している場合の時差調整にも利用できます。</p>" unless @conf.mobile_agent?}
-	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
+	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="70"></p>
+
+	<h3 class="subtitle">サイトアイコン(favicon)</h3>
+	#{"<p>この日記を表す小さなアイコン画像(favicon)があればそのURLを指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
+	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="70"></p>
+
+	<h3 class="subtitle">バナー画像</h3>
+	#{"<p>この日記を表す画像(バナー)があればそのURLを指定します。makerssプラグインなどでRSSを出力する場合などに使われます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
+	<p><input name="banner" value="#{CGI::escapeHTML @conf.banner}" size="70"></p>
 	HTML
 end
 
@@ -187,9 +198,6 @@ add_conf_proc( 'header', 'ヘッダ・フッタ', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
-	<h3 class="subtitle">タイトル</h3>
-	#{"<p>HTMLの&lt;title&gt;タグ中および、モバイル端末からの参照時に使われるタイトルです。HTMLタグは使えません。</p>" unless @conf.mobile_agent?}
-	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
 	<h3 class="subtitle">ヘッダ</h3>
 	#{"<p>日記の先頭に挿入される文章を指定します。HTMLタグが使えます。「&lt;%=navi%&gt;」で、ナビゲーションボタンを挿入できます(これがないと更新ができなくなるので削除しないようにしてください)。また、「&lt;%=calendar%&gt;」でカレンダーを挿入できます。その他、各種プラグインを記述できます。</p>" unless @conf.mobile_agent?}
 	<p><textarea name="header" cols="70" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
@@ -221,6 +229,16 @@ add_conf_proc( 'display', '表示一般', 'basic' ) do
 		<option value="true"#{if @conf.show_nyear then " selected" end}>表示</option>
         <option value="false"#{if not @conf.show_nyear then " selected" end}>非表示</option>
 	</select></p>
+	HTML
+end
+
+add_conf_proc( 'timezone', '時差調整', 'update' ) do
+	saveconf_timezone
+
+	<<-HTML
+	<h3 class="subtitle">時差調整</h3>
+	#{"<p>更新時、フォームに挿入される日付を時間単位で調整できます。例えば午前2時までは前日として扱いたい場合には「-2」のように指定することで、2時間分引かれた日付が挿入されるようになります。また、この日付はWebサーバ上の時刻になっているので、海外のサーバで運営している場合の時差調整にも利用できます。</p>" unless @conf.mobile_agent?}
+	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
 	HTML
 end
 
