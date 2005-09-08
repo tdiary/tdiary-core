@@ -1,3 +1,6 @@
+2005-09-08 TADA Tadashi <sho@spc.gr.jp>
+	* theme/conf.css: a little change about design of list.
+
 2005-09-07 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/*.rb: a little adjustment design in English.
 	* plugin/00default.rb: not generate link for absent month.

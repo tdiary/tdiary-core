@@ -1,6 +1,6 @@
 @charset "euc-jp";
 /*
-conf.css: style sheet of tDiary preferences page. $Revision: 1.2 $
+conf.css: style sheet of tDiary preferences page. $Revision: 1.3 $
 Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 */
@@ -104,6 +104,7 @@ form.conf ul {
 
 form.conf li {
 	margin-left: 2em;
+	margin-bottom: 0.5em;
 }
 
 form.conf dl {
