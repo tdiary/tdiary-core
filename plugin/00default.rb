@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.90 $
+# $Revision: 1.91 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -599,6 +599,37 @@ def saveconf_timezone
 end
 
 # themes
+def conf_theme_list
+	r = ''
+	t = 0
+	@conf_theme_list.each_with_index do |theme, index|
+		if theme[0] == @conf.theme then
+			select = " selected"
+			t = index
+		end
+		r << %Q|<option value="#{theme[0]}"#{select}>#{theme[1]}</option>|
+	end
+	img = t == 0 ? 'nowprinting' : @conf.theme
+	r << <<-HTML
+	</select>
+	<input name="css" size="50" value="#{ @conf.css }">
+	</p>
+	<p><img id="theme_thumbnail" src="http://www.tdiary.org/theme.image/#{img}.jpg" alt="#{@theme_thumbnail_label}"></p>
+	<script language="JavaScript"><!--
+		function changeTheme( image, list ) {
+			var theme = '';
+			if ( list.selectedIndex == 0 ) {
+				theme = 'nowprinting';
+			} else {
+				theme = list.options[list.selectedIndex].value;
+			}
+			image.src = 'http://www.tdiary.org/theme.image/' + theme + '.jpg'
+		}
+	--></script>
+	#{@theme_location_comment unless @conf.mobile_agent?}
+	HTML
+end
+
 def saveconf_theme
 	if @mode == 'saveconf' then
 		@conf.theme = @cgi.params['theme'][0]

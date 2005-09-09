@@ -204,26 +204,19 @@ end
 
 # themes
 @theme_location_comment = "<p>You can get many themes from <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(Japanese).</p>"
+@theme_thumbnail_label = "Thumbnail"
 
 add_conf_proc( 'theme', 'Themes', 'theme' ) do
 	saveconf_theme
 
-	 r = <<-HTML
+	r = <<-HTML
 	<h3 class="subtitle">Theme</h3>
 	#{"<p>Specify the design of your diary using Theme or CSS. When you select \"CSS specify\", input URL of CSS into the field right side.</p>" unless @conf.mobile_agent?}
 	<p>
-	<select name="theme">
+	<select name="theme" onChange="changeTheme( theme_thumbnail, this )">
 		<option value="">CSS Specify-&gt;</option>
 	HTML
-	@conf_theme_list.each do |theme|
-		r << %Q|<option value="#{theme[0]}"#{if theme[0] == @conf.theme then " selected" end}>#{theme[1]}</option>|
-	end
-	r << <<-HTML
-	</select>
-	<input name="css" size="50" value="#{ @conf.css }">
-	</p>
-	#{@theme_location_comment unless @conf.mobile_agent?}
-	HTML
+	r << conf_theme_list
 end
 
 # comments

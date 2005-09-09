@@ -1,3 +1,6 @@
+2005-09-09 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: insert thumbnail of selected theme.
+
 2005-09-08 TADA Tadashi <sho@spc.gr.jp>
 	* theme/conf.css: a little change about design of list.
 	* tdiary.conf, plugin/00default.rb, skel/tdiary.rconf: add @conf.banner

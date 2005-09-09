@@ -243,26 +243,19 @@ add_conf_proc( 'timezone', '時差調整', 'update' ) do
 end
 
 @theme_location_comment = "<p>ここにないテーマは<a href=\"http://www.tdiary.org/20021001.html\">テーマ・ギャラリー</a>から入手できます。</p>"
+@theme_thumbnail_label = "サムネイル"
 
 add_conf_proc( 'theme', 'テーマ選択', 'theme' ) do
 	saveconf_theme
 
-	 r = <<-HTML
+	r = <<-HTML
 	<h3 class="subtitle">テーマの指定</h3>
 	#{"<p>日記のデザインをテーマ、もしくはCSSの直接入力で指定します。ドロップダウンメニューから「CSS指定→」を選択した場合には、右の欄にCSSのURLを入力してください。</p>" unless @conf.mobile_agent?}
 	<p>
-	<select name="theme">
+	<select name="theme" onChange="changeTheme( theme_thumbnail, this )">
 		<option value="">CSS指定→</option>
 	HTML
-	@conf_theme_list.each do |theme|
-		r << %Q|<option value="#{theme[0]}"#{if theme[0] == @conf.theme then " selected" end}>#{theme[1]}</option>|
-	end
-	r << <<-HTML
-	</select>
-	<input name="css" size="50" value="#{ @conf.css }">
-	</p>
-	#{@theme_location_comment unless @conf.mobile_agent?}
-	HTML
+	r << conf_theme_list
 end
 
 add_conf_proc( 'comment', 'ツッコミ', 'tsukkomi' ) do

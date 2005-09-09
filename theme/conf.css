@@ -1,6 +1,6 @@
 @charset "euc-jp";
 /*
-conf.css: style sheet of tDiary preferences page. $Revision: 1.3 $
+conf.css: style sheet of tDiary preferences page. $Revision: 1.4 $
 Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 */
@@ -180,4 +180,10 @@ div.sidebar li {
 
 div.sidebar li {
 	margin-bottom: 0.2em;
+}
+
+img#theme_thumbnail {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000;
 }
