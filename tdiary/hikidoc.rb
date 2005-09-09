@@ -141,10 +141,10 @@ class HikiDoc < String
   ######################################################################
   # hrules
 
-  HRULES_RE = /----/
+  HRULES_RE = /^----$/
 
   def parse_hrules( text )
-    text.gsub( /^#{HRULES_RE}$/ ) do |str|
+    text.gsub( HRULES_RE ) do |str|
       "\n<hr#{@empty_element_suffix}\n"
     end
   end
@@ -154,15 +154,17 @@ class HikiDoc < String
 
   LIST_UL = '*'
   LIST_OL = '#'
-  LIST_RE = Regexp.union( LIST_UL, LIST_OL )
+  LIST_MARK_RE = Regexp.union( LIST_UL, LIST_OL )
+  LIST_RE = /^((#{LIST_MARK_RE})\2*)\s*(.*)\n?/
+  LISTS_RE = /(?:#{LIST_RE})+/
 
   def parse_list( text )
-    text.gsub( /(?:^(#{LIST_RE})\1*\s*.*\n?)+/ ) do |str|
+    text.gsub( LISTS_RE ) do |str|
       cur_str = "\n"
       list_type_array = []
       level = 0
       str.each do |line|
-        if /^((#{LIST_RE})\2*)\s*(.*)/ =~ line
+        if LIST_RE =~ line
           list_type = ( $2 == LIST_UL ? 'ul' : 'ol' )
           new_level, item = $1.size, $3
           if new_level > level
@@ -195,13 +197,33 @@ class HikiDoc < String
   ######################################################################
   # definition
 
-  DEFINITION_RE = /:/
+  DEFINITION_RE = /^:(.*)?:(.+)\n?/
+  DEFINITIONS_RE = /(#{DEFINITION_RE})+/
 
   def parse_definition( text )
-    text.gsub( /(^#{DEFINITION_RE}.*#{DEFINITION_RE}.+\n?)+/ ) do |str|
+    parsed_text = text.gsub( DEFINITION_RE ) do |str|
+      inline_parser( str )
+    end
+    parsed_text.gsub( DEFINITIONS_RE ) do |str|
       ret = "\n<dl>\n"
       str.chomp!
-      str.scan( /^#{DEFINITION_RE}(.*?)#{DEFINITION_RE}(.+)\n?/ ) do |t, d|
+      str.scan( DEFINITION_RE ) do |t, d|
+        if t.empty?
+          ret << "<dd>%s</dd>\n" % d
+        else
+          ret << "<dt>%s</dt><dd>%s</dd>\n" % [ t, d ]
+        end
+      end
+      ret << "</dl>\n\n"
+      ret
+    end
+  end
+
+  def parse_definition_( text )
+    text.gsub( DEFINITIONS_RE ) do |str|
+      ret = "\n<dl>\n"
+      str.chomp!
+      str.scan( DEFINITION_RE ) do |t, d|
         if t.empty?
           ret << "<dd>%s</dd>\n" % inline_parser( d )
         else
@@ -216,12 +238,13 @@ class HikiDoc < String
   ######################################################################
   # blockquote
 
-  BLOCKQUOTE_RE = /""/
+  BLOCKQUOTE_RE = /^"" ?/
+  BLOCKQUOTES_RE = /(#{BLOCKQUOTE_RE}.*\n?)+/
 
   def parse_blockquote( text )
-    text.gsub( /(^#{BLOCKQUOTE_RE} ?.*\n?)+/ ) do |str|
+    text.gsub( BLOCKQUOTES_RE ) do |str|
       str.chomp!
-      str.gsub!( /^#{BLOCKQUOTE_RE} ?/, '' )
+      str.gsub!( BLOCKQUOTE_RE, '' )
       "\n<blockquote>\n%s\n</blockquote>\n\n" % block_parser(str)
     end
   end
@@ -230,9 +253,10 @@ class HikiDoc < String
   # table
 
   TABLE_RE = /\|\|/
+  TABLES_RE = /(^#{TABLE_RE}.+\n?)+/
 
   def parse_table( text )
-    text.gsub( /(^#{TABLE_RE}.+\n?)+/ ) do |str|
+    text.gsub( TABLES_RE ) do |str|
       ret = %Q|\n<table border="1">\n|
       str.each do |line|
         ret << "<tr>"
@@ -257,21 +281,24 @@ class HikiDoc < String
   ######################################################################
   # comment
 
-  COMMENT_RE = %r|//|
+  COMMENT_RE = %r|^//.*\n?|
 
   def parse_comment( text )
-    text.gsub( /^#{COMMENT_RE}.*\n?/, '' )
+    text.gsub( COMMENT_RE, '' )
   end
 
   ######################################################################
   # paragraph
 
+  PARAGRAPH_BOUNDARY_RE = /\n{2,}/
+  NON_PARAGRAPH_RE = /^<[^!]/
+
   def parse_paragraph( text )
-    text.split( /\n{2,}/ ).collect { |str|
+    text.split( PARAGRAPH_BOUNDARY_RE ).collect { |str|
       str.chomp!
       if str.empty?
         ''
-      elsif /^<[^!]/ =~ str
+      elsif NON_PARAGRAPH_RE =~ str
         str
       else
         "<p>%s</p>" % inline_parser( str )
@@ -292,24 +319,28 @@ class HikiDoc < String
   # link and image
 
   IMAGE_RE = /\.(jpg|jpeg|gif|png)\z/i
+  BRACKET_LINK_RE = /\[\[(.+?)\]\]/
+  NAMED_LINK_RE = /(.+?)\|(.+)/
+  URI_RE = URI.regexp( %w( http https ftp mailto ) )
+  URI_ONLY_RE = %r!\A#{URI_RE}\z!
 
   def parse_link( text )
     ret = text
-    ret.gsub!( /\[\[(.+?)\]\]/ ) do |str|
+    ret.gsub!( BRACKET_LINK_RE ) do |str|
       link = $1
-      if /(.+?)\|(.+)/ =~ link
+      if NAMED_LINK_RE =~ link
         uri, title = $2, $1
         title = parse_modifier( title )
       else
         uri = title = link
       end
-      if /\A#{URI.regexp( %w( http https ftp mailto ) )}\z/ =~ uri
+      if URI_ONLY_RE =~ uri
         store_block( %Q|<a href="#{uri}">#{title}</a>| )
       else
         store_block( %Q|<a href="#{escape_quote_uri( uri )}">#{title}</a>| )
       end
     end
-    ret.gsub!( URI.regexp( %w( http https ftp mailto ) ) ) do |uri|
+    ret.gsub!( URI_RE ) do |uri|
       if IMAGE_RE =~ uri
         store_block( %Q|<img src="#{uri}" alt="#{File.basename( uri )}"#{@empty_element_suffix}| )
       else
@@ -328,9 +359,10 @@ class HikiDoc < String
   STRONG_RE = /#{STRONG}(.+)#{STRONG}/
   EM_RE = /#{EM}(.+)#{EM}/
   DEL_RE = /#{DEL}(.+)#{DEL}/
+  MODIFIER_RE = /(#{STRONG_RE}|#{EM_RE}|#{DEL_RE})/   
 
   def parse_modifier( text )
-    text.gsub( /(#{STRONG_RE}|#{EM_RE}|#{DEL_RE})/ ) do |str|
+    text.gsub( MODIFIER_RE ) do |str|
       case str
       when STRONG_RE
         "<strong>#{$1}</strong>"
@@ -360,18 +392,6 @@ class HikiDoc < String
       gsub( /&amp;/, '&' )
   end
 
-  def escape_html( text )
-    text.gsub( /&/, '&amp;' ).
-      gsub( /</, '&lt;' ).
-      gsub( />/, '&gt;' )
-  end
-
-  def unescape_html( text )
-    text.gsub( /&gt;/, '>' ).
-      gsub( /&lt;/, '<' ).
-      gsub( /&amp;/, '&' )
-  end
-
   def escape_quote_uri( text )
     text.gsub( /"/, '%22' )
   end
@@ -382,9 +402,11 @@ class HikiDoc < String
     key
   end
 
+  BLOCK_RE = /<(\d+)>/
+
   def restore_block( text )
     return text if @stack.empty?
-    text.gsub( /<(\d+)>/ ) do |str|
+    text.gsub( BLOCK_RE ) do |str|
       ( @stack[$1.to_i] || '' ).rstrip
     end
   end
@@ -395,40 +417,43 @@ class HikiDoc < String
     key
   end
 
-  PLUGIN_INLINE_OPEN = '<span class="plugin">'
-  PLUGIN_INLINE_CLOSE = '</span>'
-  PLUGIN_BLOCK_OPEN = '<div class="plugin">'
-  PLUGIN_BLOCK_CLOSE = '</div>'
+  PLUGIN_BLOCK_RE = /<!(\d+)>/
+  INLINE_PLUGIN_RE = %r|<p><!(\d+)></p>|
+  INLINE_PLUGIN_OPEN = '<span class="plugin">'
+  INLINE_PLUGIN_CLOSE = '</span>'
+  BLOCK_PLUGIN_OPEN = '<div class="plugin">'
+  BLOCK_PLUGIN_CLOSE = '</div>'
 
   def restore_plugin_block( text, original = false )
     return text if @plugin_stack.empty?
     if original
-      text.gsub!( /<!(\d+)>/ ) do |str|
+      text.gsub!( PLUGIN_BLOCK_RE ) do |str|
         @plugin_stack[$1.to_i]
       end
     else
       # block plugin
-      text.gsub!( %r|<p><!(\d+)></p>| ) do |str|
-        "#{PLUGIN_BLOCK_OPEN}#{@plugin_stack[$1.to_i]}#{PLUGIN_BLOCK_CLOSE}"
+      text.gsub!( INLINE_PLUGIN_RE ) do |str|
+        "#{BLOCK_PLUGIN_OPEN}#{@plugin_stack[$1.to_i]}#{BLOCK_PLUGIN_CLOSE}"
       end
-      text.gsub!( /<!(\d+)>/ ) do |str|
-        "#{PLUGIN_INLINE_OPEN}#{@plugin_stack[$1.to_i]}#{PLUGIN_INLINE_CLOSE}"
+      text.gsub!( PLUGIN_BLOCK_RE ) do |str|
+        "#{INLINE_PLUGIN_OPEN}#{@plugin_stack[$1.to_i]}#{INLINE_PLUGIN_CLOSE}"
       end
     end
     text
   end
 
-
-  META_CHARS_RE = /\\\{|\\\}|\\:|\\'|\\"|\\\|/
+  META_CHAR_RE = /\\\{|\\\}|\\:|\\'|\\"|\\\|/
 
   def escape_meta_char( text )
-    text.gsub( META_CHARS_RE ) do |s|
+    text.gsub( META_CHAR_RE ) do |s|
       '&#x%x;' % s[1]
     end
   end
 
+  ESCAPED_META_CHAR_RE = /(?:&\#x([0-9a-f]{2});)/i
+
   def unescape_meta_char( text, original = false )
-    text.gsub( /(?:&\#x([0-9a-f]{2});)/i ) do
+    text.gsub( ESCAPED_META_CHAR_RE ) do
       if original
         '\\' + [$1].pack( 'H2' )
       else
