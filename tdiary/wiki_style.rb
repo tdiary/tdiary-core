@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.5 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.6 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -85,17 +85,18 @@ module TDiary
 			r = @html.dup
 			r.gsub!( %r!<a href="(.+?)">(.+?)</a>! ) do
 				k, u = $2, $1
+				u_orig = CGI.escapeHTML( CGI.unescape( u ) )
 				if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ u then
 					%Q[<%=my '#{$1}#{$2}', '#{k}' %>]
-				elsif /:/ =~ u
-					scheme, path = u.split( /:/, 2 )
+				elsif /:/ =~ u_orig
+					scheme, path = u_orig.split( /:/, 2 )
 					if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
 						%Q[<a href="#{u}">#{k}</a>]
 					else
-						%Q[<%=kw '#{u}', '#{k}'%>]
+						%Q[<%=kw '#{u_orig}', '#{k}'%>]
 					end
-				elsif k == u
-					%Q[<%=kw '#{u}', '#{k}'%>]
+				elsif k == u_orig
+					%Q[<%=kw '#{u_orig}', '#{k}'%>]
 				else
 					%Q[<a href="#{u}">#{k}</a>]
 				end
