@@ -252,15 +252,19 @@ class HikiDoc < String
   ######################################################################
   # table
 
-  TABLE_RE = /\|\|/
-  TABLES_RE = /(^#{TABLE_RE}.+\n?)+/
+  TABLE_SPLIT_RE = /\|\|/
+  TABLE_RE = /^#{TABLE_SPLIT_RE}.+\n?/
+  TABLES_RE = /(#{TABLE_RE})+/
 
   def parse_table( text )
-    text.gsub( TABLES_RE ) do |str|
+    parsed_text = text.gsub( TABLE_RE ) do |str|
+      inline_parser( str )
+    end
+    parsed_text.gsub( TABLES_RE ) do |str|
       ret = %Q|\n<table border="1">\n|
       str.each do |line|
         ret << "<tr>"
-        line.chomp.split( TABLE_RE )[1..-1].each do |i|
+        line.chomp.split( TABLE_SPLIT_RE )[1..-1].each do |i|
           tag = i.sub!( /^!/, '' ) ? 'th' : 'td'
           attr = ''
           if i.sub!( /^((?:\^|&gt;)+)/, '' )
@@ -337,7 +341,7 @@ class HikiDoc < String
       if URI_ONLY_RE =~ uri
         store_block( %Q|<a href="#{uri}">#{title}</a>| )
       else
-        store_block( %Q|<a href="#{escape_quote_uri( uri )}">#{title}</a>| )
+        store_block( %Q|<a href="#{escape_uri( unescape_html( uri ) )}">#{title}</a>| )
       end
     end
     ret.gsub!( URI_RE ) do |uri|
@@ -365,11 +369,11 @@ class HikiDoc < String
     text.gsub( MODIFIER_RE ) do |str|
       case str
       when STRONG_RE
-        "<strong>#{$1}</strong>"
+        store_block( "<strong>#{$1}</strong>" )
       when EM_RE
-        "<em>#{$1}</em>"
+        store_block( "<em>#{$1}</em>" )
       when DEL_RE
-        "<del>#{$1}</del>"
+        store_block( "<del>#{$1}</del>" )
       else
         str
       end
@@ -392,8 +396,11 @@ class HikiDoc < String
       gsub( /&amp;/, '&' )
   end
 
-  def escape_quote_uri( text )
-    text.gsub( /"/, '%22' )
+  def escape_uri( text )
+    return text unless /[^ a-zA-Z0-9_.%-]/ =~ text
+    text.gsub( /([^ a-zA-Z0-9_.-]+)/n ) do
+      '%' + $1.unpack( 'H2' * $1.size ).join( '%' ).upcase
+    end.tr(' ', '+')
   end
 
   def store_block( text )
@@ -406,9 +413,12 @@ class HikiDoc < String
 
   def restore_block( text )
     return text if @stack.empty?
-    text.gsub( BLOCK_RE ) do |str|
+    ret = text.dup
+    while ret.gsub!( BLOCK_RE ) { |str|
       ( @stack[$1.to_i] || '' ).rstrip
+      }
     end
+    ret
   end
 
   def store_plugin_block( text )
