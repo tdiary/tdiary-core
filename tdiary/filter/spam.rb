@@ -336,13 +336,13 @@ module TDiary
 				#debug( "referer_filter start" )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
-					debug( "referer has no path: #{uri}: #{bad_uri}" )
+					debug( "referer has no path: #{referer}" )
 					return false
 				end
 
 				@bad_uris.each do |bad_uri|
 					if bad_uri =~ referer
-						debug( "referer contains bad words: #{uri}: #{bad_uri}" )
+						debug( "referer contains bad words: #{referer}: #{bad_uri}" )
 						return false
 					end
 				end

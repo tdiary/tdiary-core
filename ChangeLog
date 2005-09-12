@@ -1,3 +1,6 @@
+2005-09-12 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/filter/spam.rb: fix debug message in referer_filter.
+
 2005-09-09 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: insert thumbnail of selected theme.
 
