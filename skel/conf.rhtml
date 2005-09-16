@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.24 $ %>
+<%# conf.rhtml $Revision: 1.25 $ %>
 <%%=navi%>
 <h1><%= CGI::escapeHTML( @conf.html_title ) %>(<%%=navi_preference%>) - <%%=conf_label( '<%=@key%>' )%></h1>
 <div class="sidebar">
@@ -6,7 +6,7 @@
 	<div class="block">
 	<h3><%%=conf_genre_label( genre )%></h3>
 	<ul><%% each_conf_key( genre ) do |key|%>
-		<li><a href="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></a></li>
+		<li<%%=conf_current_style( key )%>><a href="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></a></li>
 	<%% end %></ul>
 	</div>
 	<%% end %>

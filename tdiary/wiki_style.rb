@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.6 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.7 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -86,7 +86,7 @@ module TDiary
 			r.gsub!( %r!<a href="(.+?)">(.+?)</a>! ) do
 				k, u = $2, $1
 				u_orig = CGI.escapeHTML( CGI.unescape( u ) )
-				if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ u then
+				if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ CGI::unescape( u ) then
 					%Q[<%=my '#{$1}#{$2}', '#{k}' %>]
 				elsif /:/ =~ u_orig
 					scheme, path = u_orig.split( /:/, 2 )

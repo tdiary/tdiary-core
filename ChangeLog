@@ -1,3 +1,9 @@
+2005-09-16 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: prev/next navigation on edit mode.
+	* tdiary/wiki_style.rb: unescape target URI to own diary.
+	* tdiary.rb, skel/conf.rhtml, theme/conf.css: set invertion color to
+	current preference item in sidebar.
+
 2005-09-12 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/filter/spam.rb: fix debug message in referer_filter.
 

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.91 $
+# $Revision: 1.92 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -32,6 +32,8 @@ def navi_user
 		result << navi_user_month
 	when 'nyear'
 		result << navi_user_nyear
+	when 'edit'
+		result << navi_user_edit
 	else
 		result << navi_user_else
 	end
@@ -83,6 +85,20 @@ def navi_user_nyear
 	result << navi_item( "#{@index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
 	result << navi_item( @index, navi_latest ) unless @mode == 'latest'
 	result << navi_item( "#{@index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result
+end
+
+def navi_user_edit
+	result = ''
+	if @prev_day then
+		a = @prev_day.scan( /^(\d{4})(\d\d)(\d\d)$/ ).flatten
+		result << navi_item( "#{@update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" )
+	end
+	result << navi_item( @index, navi_latest )
+	if @next_day then
+		a = @next_day.scan( /^(\d{4})(\d\d)(\d\d)$/ ).flatten
+		result << navi_item( "#{@update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" )
+	end
 	result
 end
 
@@ -176,7 +192,7 @@ add_header_proc do
 end
 
 def calc_links
-	if @mode == 'day' or (@conf.mobile_agent? and /(latest|month|nyear)/ === @mode) then
+	if /day|edit/ =~ @mode or (@conf.mobile_agent? and /latest|month|nyear/ =~ @mode) then
 		years = []
 		@years.each do |k, v|
 			v.each do |m|
@@ -203,7 +219,7 @@ def calc_links
 		days.index( today ).times do |i|
 			@prev_day = days[days.index( today ) - i - 1]
 			break unless @prev_day
-			break if @diaries[@prev_day].visible?
+			break if (@mode == 'edit') or @diaries[@prev_day].visible?
 		end
 		if not @prev_day and prev_month then
 			y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
@@ -218,7 +234,7 @@ def calc_links
 		days.index( today ).times do |i|
 			@next_day = days[days.index( today ) + i + 1]
 			break unless @next_day
-			break if @diaries[@next_day].visible?
+			break if (@mode == 'edit') or @diaries[@next_day].visible?
 		end
 		if not @next_day and next_month then
 			y, m = next_month.scan(/(\d{4})(\d\d)/)[0]
