@@ -1,3 +1,9 @@
+2005-09-17  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/hikidoc.rb: sync with hikidoc rev.25.
+	  minimum match in parse_modifier.
+	  revise parse_list.
+	  move parse_comment next to parse_pre.
+
 2005-09-17 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/wiki_style.rb: unescape target URI in link format.
 

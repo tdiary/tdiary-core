@@ -69,13 +69,13 @@ class HikiDoc < String
     ret = text
     ret = parse_plugin( ret )
     ret = parse_pre( ret )
+    ret = parse_comment( ret )
     ret = parse_header( ret )
     ret = parse_hrules( ret )
     ret = parse_list( ret )
     ret = parse_definition( ret )
     ret = parse_blockquote( ret )
     ret = parse_table( ret )
-    ret = parse_comment( ret )
     ret = parse_paragraph( ret )
     ret.lstrip
   end
@@ -168,14 +168,16 @@ class HikiDoc < String
           list_type = ( $2 == LIST_UL ? 'ul' : 'ol' )
           new_level, item = $1.size, $3
           if new_level > level
-            new_level = level + 1
-            list_type_array << list_type
-            cur_str << "<#{list_type}>\n<li>%s" % inline_parser( item )
+            (new_level - level).times do
+              list_type_array << list_type
+              cur_str << "<#{list_type}>\n<li>"
+            end
+            cur_str << "%s" % inline_parser( item )
           elsif new_level < level
             (level - new_level).times do
-              cur_str << "</li>\n</#{list_type_array.pop}>\n</li>\n"
+              cur_str << "</li>\n</#{list_type_array.pop}>"
             end
-            cur_str << "<li>%s" % inline_parser( item )
+            cur_str << "</li>\n<li>%s" % inline_parser( item )
           elsif list_type == list_type_array.last
             cur_str << "</li>\n<li>%s" % inline_parser( item )
           else
@@ -188,8 +190,9 @@ class HikiDoc < String
         end
       end
       level.times do
-        cur_str << "</li>\n</#{list_type_array.pop}>\n\n"
+        cur_str << "</li>\n</#{list_type_array.pop}>"
       end
+      cur_str << "\n\n"
       cur_str
     end
   end
@@ -212,22 +215,6 @@ class HikiDoc < String
           ret << "<dd>%s</dd>\n" % d
         else
           ret << "<dt>%s</dt><dd>%s</dd>\n" % [ t, d ]
-        end
-      end
-      ret << "</dl>\n\n"
-      ret
-    end
-  end
-
-  def parse_definition_( text )
-    text.gsub( DEFINITIONS_RE ) do |str|
-      ret = "\n<dl>\n"
-      str.chomp!
-      str.scan( DEFINITION_RE ) do |t, d|
-        if t.empty?
-          ret << "<dd>%s</dd>\n" % inline_parser( d )
-        else
-          ret << "<dt>%s</dt><dd>%s</dd>\n" % [ inline_parser( t ), inline_parser( d ) ]
         end
       end
       ret << "</dl>\n\n"
@@ -360,9 +347,9 @@ class HikiDoc < String
   STRONG = "'''"
   EM = "''"
   DEL = '=='
-  STRONG_RE = /#{STRONG}(.+)#{STRONG}/
-  EM_RE = /#{EM}(.+)#{EM}/
-  DEL_RE = /#{DEL}(.+)#{DEL}/
+  STRONG_RE = /#{STRONG}(.+?)#{STRONG}/
+  EM_RE = /#{EM}(.+?)#{EM}/
+  DEL_RE = /#{DEL}(.+?)#{DEL}/
   MODIFIER_RE = /(#{STRONG_RE}|#{EM_RE}|#{DEL_RE})/   
 
   def parse_modifier( text )
