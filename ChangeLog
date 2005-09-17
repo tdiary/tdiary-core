@@ -1,3 +1,6 @@
+2005-09-17 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/wiki_style.rb: unescape target URI in link format.
+
 2005-09-16 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: prev/next navigation on edit mode.
 	* tdiary/wiki_style.rb: unescape target URI to own diary.

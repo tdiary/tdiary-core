@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.7 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.8 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -98,7 +98,7 @@ module TDiary
 				elsif k == u_orig
 					%Q[<%=kw '#{u_orig}', '#{k}'%>]
 				else
-					%Q[<a href="#{u}">#{k}</a>]
+					%Q[<a href="#{u_orig}">#{k}</a>]
 				end
 			end
 			r.sub!( %r!<(h3|p)>(.+?)</\1>! ) do
