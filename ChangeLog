@@ -1,3 +1,6 @@
+2005-09-18 zunda <zunda at freeshell.org>
+	* plugin/*/10spamfilter.rb: fixed the form always showing comments will be discarded
+
 2005-09-17  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/hikidoc.rb: sync with hikidoc rev.25.
 	  minimum match in parse_modifier.

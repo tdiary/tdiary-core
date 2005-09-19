@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.2 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.3 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -9,8 +9,8 @@ def spamfilter_conf_html
 	<h3>Basic filters</h3>
 	<p>Which dou you want to do spam TSUKKOMI finally?<br>
 			<select name="spamfilter.filter_mode">
-			<option value="true"#{" selected" if filter_mode}>hide</option>
-			<option value="false"#{" selected" unless filter_mode}>dispose</option>
+			<option value="true"#{" selected" if @conf['spamfilter.filter_mode']}>hide</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.filter_mode']}>dispose</option>
 		</select>
 	</p>
 	<p>It is spam when TSUKKOMI body has URIs over this value.<br>
