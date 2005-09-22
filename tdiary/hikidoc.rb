@@ -30,6 +30,8 @@
 require 'uri'
 
 class HikiDoc < String
+  Revision = %q$Rev: 26 $
+
   def initialize( content = '', options = {} )
     @level = options[:level] || 1
     @empty_element_suffix = options[:empty_element_suffix] || ' />'

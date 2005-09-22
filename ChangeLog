@@ -1,3 +1,7 @@
+2005-09-22  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/wiki_style.rb (do_html4): support diaries without
+	subtitles.
+
 2005-09-18 zunda <zunda at freeshell.org>
 	* plugin/*/10spamfilter.rb: fixed the form always showing comments will be discarded
 

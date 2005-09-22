@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.8 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.9 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -82,11 +82,12 @@ module TDiary
 		end
 
 		def do_html4( date, idx, opt )
+			subtitle = false
 			r = @html.dup
 			r.gsub!( %r!<a href="(.+?)">(.+?)</a>! ) do
 				k, u = $2, $1
 				u_orig = CGI.escapeHTML( CGI.unescape( u ) )
-				if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ CGI::unescape( u ) then
+				if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ u_orig then
 					%Q[<%=my '#{$1}#{$2}', '#{k}' %>]
 				elsif /:/ =~ u_orig
 					scheme, path = u_orig.split( /:/, 2 )
@@ -101,10 +102,13 @@ module TDiary
 					%Q[<a href="#{u_orig}">#{k}</a>]
 				end
 			end
-			r.sub!( %r!<(h3|p)>(.+?)</\1>! ) do
-				tag = $1
-				"<#{tag}><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{$2.dump.gsub( /%/, '\\\\045' )} ) %></#{tag}>"
+			r.sub!( %r!<h3>(.+?)</h3>! ) do
+				subtitle = true
+				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
 			end
+			r.gsub!( %r!<p>(.+?)</p>!m ) do
+				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
+			end unless subtitle
 			r
 		end
 	
