@@ -1,3 +1,6 @@
+2005-09-25 ds14050 at vvvvvv.sakura.ne.jp
+	* tdiary/wiki_style.rb: enable @options['kw.show_inter'].
+
 2005-09-22  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/wiki_style.rb (do_html4): support diaries without
 	subtitles.
