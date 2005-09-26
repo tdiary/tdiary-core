@@ -30,7 +30,7 @@
 require 'uri'
 
 class HikiDoc < String
-  Revision = %q$Rev: 27 $
+  Revision = %q$Rev: 28 $
 
   def initialize( content = '', options = {} )
     @level = options[:level] || 1
@@ -333,7 +333,7 @@ class HikiDoc < String
   IMAGE_RE = /\.(jpg|jpeg|gif|png)\z/i
   BRACKET_LINK_RE = /\[\[(.+?)\]\]/
   NAMED_LINK_RE = /(.+?)\|(.+)/
-  URI_RE = URI.regexp( %w( http https ftp mailto ) )
+  URI_RE = /(?:(?:https?|ftp|file):\/\/|mailto:)[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
   URI_ONLY_RE = %r!\A#{URI_RE}\z!
 
   def parse_link( text )
