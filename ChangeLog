@@ -1,3 +1,7 @@
+2005-09-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/hikidoc.rb: sync with hikidoc rev.27.
+	  revise parse_plugin.
+
 2005-09-25 ds14050 at vvvvvv.sakura.ne.jp
 	* tdiary/wiki_style.rb: enable @options['kw.show_inter'].
 

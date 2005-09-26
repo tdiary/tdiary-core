@@ -30,7 +30,7 @@
 require 'uri'
 
 class HikiDoc < String
-  Revision = %q$Rev: 26 $
+  Revision = %q$Rev: 27 $
 
   def initialize( content = '', options = {} )
     @level = options[:level] || 1
@@ -87,19 +87,38 @@ class HikiDoc < String
 
   PLUGIN_OPEN = '{{'
   PLUGIN_CLOSE = '}}'
-  PLUGIN_RE = /#{Regexp.quote(PLUGIN_OPEN)}.*?#{Regexp.quote(PLUGIN_CLOSE)}/m
+  PLUGIN_SPLIT_RE = /(#{Regexp.quote(PLUGIN_OPEN)}|#{Regexp.quote(PLUGIN_CLOSE)})/
 
   def parse_plugin( text )
-    # escape quotes
-    ret = text.gsub( /(['"]).*?\1/ ) { |str| store_block( str ) }
-    ret.split( /(#{PLUGIN_RE})/ ).collect { |str|
+    ret = ''
+    plugin = false
+    plugin_str = ''
+    text.split( PLUGIN_SPLIT_RE ).each do |str|
       case str
-      when PLUGIN_RE
-        store_plugin_block( restore_block( str ) )
+      when PLUGIN_OPEN
+        plugin = true
+        plugin_str += str
+      when PLUGIN_CLOSE
+        if plugin
+          plugin_str += str
+          unless /['"]/ =~ plugin_str.gsub( /(['"]).*?\1/, '' )
+            plugin = false
+            ret << store_plugin_block( unescape_meta_char( plugin_str, true ) )
+            plugin_str = ''
+          end
+        else
+          ret << str
+        end
       else
-        restore_block( str )
+        if plugin
+          plugin_str << str
+        else
+          ret << str
+        end
       end
-    }.join
+    end
+    ret << plugin_str if plugin
+    ret
   end
 
   ######################################################################
