@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.14 2005-08-29 08:56:50 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.15 2005-09-26 08:39:14 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -165,9 +165,9 @@ module TDiary
 			if @opt['index']
 				$stderr.puts name
 				if fragment.subtitle
-					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx-1}, #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
+					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
 				else
-					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx-1}, nil ) %>]
+					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 				end
 			end
 
@@ -219,9 +219,9 @@ module TDiary
 			return "<A NAME=\"#{name}\"></A>" if :A == fragment.anchor_type
 			r = ""
 			if fragment.subtitle
-				r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx}, #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
+				r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
 			else
-				r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{@idx}, nil ) %>]
+				r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 			end
 			@idx += 1
 			case fragment.anchor_type

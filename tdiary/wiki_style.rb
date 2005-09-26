@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.10 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.11 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -106,10 +106,10 @@ module TDiary
 			end
 			r.sub!( %r!<h3>(.+?)</h3>! ) do
 				subtitle = true
-				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
+				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
 			end
 			r.gsub!( %r!<p>(.+?)</p>!m ) do
-				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
+				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
 			end unless subtitle
 			r
 		end

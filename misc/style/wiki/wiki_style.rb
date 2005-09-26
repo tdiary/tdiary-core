@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.27 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.28 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -96,7 +96,7 @@ module TDiary
 					r = subtitle_buff = ''
 				when :HE1
 					r = main_buff
-					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{subtitle_buff.dump.gsub( /%/, '\\\\045' )} ) %>"
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{subtitle_buff.dump.gsub( /%/, '\\\\045' )} ) %>"
 					r << "</h3>\n"
 
 				# other headings
@@ -106,7 +106,7 @@ module TDiary
 				# pargraph
 				when :PS
 					r << '<p>'
-					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>" if ( !subtitle and date )
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>" if ( !subtitle and date )
 				when :PE; r << "</p>\n"
 
 				# horizontal line
@@ -212,7 +212,7 @@ module TDiary
 					r = subtitle_buff = ''
 				when :HE1
 					r = main_buff
-					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{subtitle_buff.dump.gsub( /%/, '\\\\045' )} ) %>"
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{subtitle_buff.dump.gsub( /%/, '\\\\045' )} ) %>"
 					r << "</H3>\n"
 
 				# other headings
@@ -222,7 +222,7 @@ module TDiary
 				# paragraph
 				when :PS
 					r << "<P>"
-					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>" if ( !subtitle and date )
+					r << "<%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>" if ( !subtitle and date )
 				when :PE; r << "</P>\n"
 
 				# horizontal line

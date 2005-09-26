@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.27 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.28 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -44,7 +44,7 @@ module RD
 		def apply_to_Headline(element, title)
 			level = element.level + TDIARY_BASE_LEVEL
 			if level == 3
-				r = %Q[<h#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{@td_idx}, #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></h#{level}>]
+				r = %Q[<h#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></h#{level}>]
 			else
 				r = %Q[<h#{level}>#{title}</h#{level}>]
 			end
@@ -159,7 +159,7 @@ module RD
 		def apply_to_Headline(element, title)
 			level = element.level + TDIARY_BASE_LEVEL
 			if level == 3
-				r = %Q[<H#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{@td_idx}, #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></H#{level}>]
+				r = %Q[<H#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></H#{level}>]
 			else
 				r = %Q[<H#{level}>#{title}</H#{level}>]
 			end

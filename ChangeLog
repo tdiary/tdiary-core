@@ -1,3 +1,7 @@
+2005-09-26 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: remove index parameter from Plugin#subtitle_proc.
+	* style/*_style.rb: revise subtitle_proc.
+
 2005-09-26  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/hikidoc.rb: sync with hikidoc rev.27.
 	  revise parse_plugin.

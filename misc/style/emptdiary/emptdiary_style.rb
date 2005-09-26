@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.8 2005-08-29 08:56:50 tadatadashi Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.9 2005-09-26 08:39:13 tadatadashi Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -147,41 +147,37 @@ sections.
 		end
 
 		def to_html4( opt )
-			idx = 1
 			r = ''
 			each_section do |section|
 				r << %Q[<div class="section">\n]
 				if section.subtitle then
-					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></h3>\n]
+					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></h3>\n]
 				end
 				if /\A</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
 					r << %Q[<p>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '')}.join( "</p>\n<p>" )}</p>]
 				else
-					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx}, nil ) %>]
+					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[</div>]
-				idx += 1
 			end
 			r
 		end
 
 		def to_chtml( opt )
-			idx = 0
 			r = ''
 			each_section do |section|
 				if section.subtitle then
-					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx += 1}, #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
+					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
 				end
 				if /\A</ =~ section.body then
-					idx += 1
 					r << section.body
 				elsif section.subtitle
 					r << %Q[<P>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				else
-					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), #{idx += 1}, nil ) %>]
+					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[　 ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				end
 			end

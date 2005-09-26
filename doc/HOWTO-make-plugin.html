@@ -151,23 +151,29 @@ def theme_url; 'theme'; end
 	<li><code>edit_proc</code>: 更新フォームの内部で呼び出される。更新フォーム内に新たなアイテムを追加する時に使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。追加したアイテムのname属性は、必ず「plugin_プラグイン名_アイテム名」になっていなくてはならない</li>
 	<li><code>form_proc</code>: 更新フォームの次に呼び出される。更新フォームとは別のフォームなどを追加するときに使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。フォームを追加した場合、submitボタンには必ず「plugin」というname属性を付ける必要がある</li>
 	<li><code>conf_proc</code>: 設定画面で呼び出される。プラグインのオプション設定をWebから行うためのプラグイン</li>
+	<li><code>title_proc</code>: 日ごとのタイトルを表示する局面で呼び出される。日付をリンクにするなど、タイトルを装飾するためのプラグイン</li>
+	<li><code>subtitle_proc</code>: セクションのサブタイトルを表示する局面で呼び出される。セクションアンカーを付与するなど、サブタイトルを装飾するためのプラグイン</li>
 </ul>
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>、<code>add_title_proc</code>および<code>add_subtitle_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
 
-<p>これらのプラグインは、一般的に以下のように定義して使います。</p>
+<p>これらのプラグインは、一般的に以下のように定義して使います。ブロックの返り値が、プラグインの値になります。</p>
 
 <pre>
 # 検索キーワードをheadに挿入する
 add_header_proc do
-   '&lt;meta name="keyword" content="Linux,Kondara"&gt;'
+   '&lt;meta name="keyword" content="foo,bar,baz"&gt;'
 end
 </pre>
 
-<p>ただし、body_enter_procとbody_leave_proc、edit_proc、form_procは、現在対象にしている日記の日付がブロックパラメタとして受け取れるようになっているので、以下のように指定する必要があります。</p>
+<p>デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader_proc用ブロックが定義されています。</p>
+
+<p>なお、コールバック系プラグインはそれぞれのブロックが返した文字列をすべて連結してHTMLに埋め込みますが(ただし後述するtitle_procとsubtitle_procは連結しません)、<code>update_proc</code>は何も埋め込みません(意味がないので)。このため、<code>update</code>用に追加するブロックは何も返す必要はありません。</p>
+
+<p>body_enter_procとbody_leave_proc、edit_proc、form_procは、現在対象にしている日記の日付がブロックパラメタとして受け取れるようになっているので、以下のように指定する必要があります。</p>
 
 <pre>
 # 最終更新日を表示する
@@ -177,9 +183,21 @@ add_body_enter_proc do |date|
 end
 </pre>
 
-<p>なお、コールバック系プラグインはそれぞれのブロックが返した文字列をすべて連結してHTMLに埋め込みますが、<code>update_proc</code>は何も埋め込みません(意味がないので)。このため、<code>update</code>用に追加するブロックは何も返す必要はありません。</p>
+<p>また、title_procとsubtitle_procはそれぞれ、日付・タイトル、日付・インデックス・サブタイトルがブロックパラメタとして渡されます。また、渡されたタイトルやサブタイトル文字列は、直前に登録されていた同じプラグインによってすでに装飾されているため、それに情報を付加して返さなくてはなりません。</p>
 
-<p>デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader_proc用ブロックが定義されています。</p>
+<pre>
+# タイトルの末尾にリンクを付加する
+add_title_proc do |date, title|
+   return title + '&lt;a href="hoge"&gt;link&lt;/a&gt;'
+end
+
+# サブタイトルの末尾にリンクを付加する
+add_subtitle_proc do |date, index, subtitle|
+   return subtitle + '&lt;a href="hoge"&gt;link&lt;/a&gt;'
+end
+</pre>
+
+<p>title_procやsubtitle_procも、00default.rb内にいくつかの標準的なプラグインが定義されています。メソッドとして独立しているので、メソッドを丸ごと上書きすることで、標準の挙動を変更することも可能です。</p>
 
 <p>また、単独では意味のないコールバック系プラグインがあります。edit_procです。edit_procは更新フォーム内に文字列を埋め込むためのプラグインですが、これによって更新フォームに任意のアイテムを追加できます。このアイテムに入力された値は、別途update_proc内で受けとる必要があるでしょう。</p>
 
