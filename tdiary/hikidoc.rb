@@ -30,7 +30,7 @@
 require 'uri'
 
 class HikiDoc < String
-  Revision = %q$Rev: 28 $
+  Revision = %q$Rev: 29 $
 
   def initialize( content = '', options = {} )
     @level = options[:level] || 1
@@ -101,7 +101,7 @@ class HikiDoc < String
       when PLUGIN_CLOSE
         if plugin
           plugin_str += str
-          unless /['"]/ =~ plugin_str.gsub( /(['"]).*?\1/, '' )
+          unless /['"]/ =~ plugin_str.gsub( /(['"]).*?\1/m, '' )
             plugin = false
             ret << store_plugin_block( unescape_meta_char( plugin_str, true ) )
             plugin_str = ''
