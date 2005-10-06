@@ -335,7 +335,7 @@ class HikiDoc < String
   IMAGE_RE = /\.(jpg|jpeg|gif|png)\z/i
   BRACKET_LINK_RE = /\[\[(.+?)\]\]/
   NAMED_LINK_RE = /(.+?)\|(.+)/
-  URI_RE = /(?:(?:https?|ftp|file):\/\/|mailto:)[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
+  URI_RE = /(?:(?:https?|ftp|file):|mailto:)[A-Za-z0-9;\/?:@&=+$,\-_.!~*\'()#%]+/
 
   def parse_link( text )
     ret = text
@@ -351,6 +351,7 @@ class HikiDoc < String
     end
     ret.gsub!( URI_RE ) do |uri|
       if IMAGE_RE =~ uri
+      	uri.sub!( /^\w+:/, '' ) if %r|://| !~ uri and /^mailto:/ !~ uri
         store_block( %Q|<img src="#{uri}" alt="#{File.basename( uri )}"#{@empty_element_suffix}| )
       else
         store_block( %Q|<a href="#{uri}">#{uri}</a>| )

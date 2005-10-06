@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.12 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.13 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -118,6 +118,7 @@ module TDiary
 				elsif /:/ =~ u
 					scheme, path = u.split( /:/, 2 )
 					if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
+      				u.sub!( /^\w+:/, '' ) if %r|://| !~ u and /^mailto:/ !~ u
 						%Q[<a href="#{u}">#{k}</a>]
 					elsif ( k == u )
 						%Q[<%=kw '#{u}'%>]
