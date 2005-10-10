@@ -1,3 +1,6 @@
+2005-10-10 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: my plugin: fix bug when @index was full path.
+
 2005-10-06 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/hikidoc.rb, tdiary/wiki_style.rb: support relative inline URL.
 	  This is a temporally fix.

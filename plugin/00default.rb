@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.92 $
+# $Revision: 1.93 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -455,10 +455,12 @@ end
 def my( a, str, title = nil )
 	date, noise, frag = a.scan( /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)([^\d]*)?#?([pct]\d+)?$/ )[0]
 	anc = frag ? "#{date}#{frag}" : date
+	index = /^https?:/ =~ @index ? '' : @conf.base_url
+	index += @index.sub(%r|^\./|, '')
 	if title then
-		%Q[<a href="#{@conf.base_url + @index.sub(%r|^\./|, '')}#{anchor anc}" title="#{title}">#{str}</a>]
+		%Q[<a href="#{index}#{anchor anc}" title="#{title}">#{str}</a>]
 	else
-		%Q[<a href="#{@conf.base_url + @index.sub(%r|^\./|, '')}#{anchor anc}">#{str}</a>]
+		%Q[<a href="#{index}#{anchor anc}">#{str}</a>]
 	end
 end
 
