@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.15 2005-09-26 08:39:14 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.16 2005-10-12 06:20:33 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -180,11 +180,11 @@ module TDiary
 				"<h3>" + r + "</h3>\n"
 			end
 		end
-		def section_start
-			"<div class=\"section\">\n"
+		def section_start( date )
+			%Q[<div class="section">\n<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
 		end
-		def section_end
-			"</div>\n"
+		def section_end( date )
+			"<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n</div>\n"
 		end
 		def block_title?( fragment )
 			case fragment.anchor_type
@@ -233,11 +233,11 @@ module TDiary
 				"<H3>" + r + "</H3>\n"
 			end
 		end
-		def section_start
-			""
+		def section_start( date )
+			"<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n"
 		end
 		def section_end
-			""
+			"<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n"
 		end
 		def block_title?( fragment )
 			case fragment.anchor_type
@@ -405,14 +405,14 @@ module TDiary
 			else
 				f = EtHtml4Factory::new(opt)
 			end
-			r = f.section_start
+			r = f.section_start( date )
 			each_paragraph do |fragment|
-				if :H3 == fragment.anchor_type and r != f.section_start then
-					r << f.section_end << "\n" << f.section_start
+				if :H3 == fragment.anchor_type and r != f.section_start( date ) then
+					r << f.section_end( date ) << "\n" << f.section_start( date )
 				end
 				r << to_html_section(fragment,f)
 			end
-			r + f.section_end
+			r + f.section_end( date )
 		end
 
 		def to_s

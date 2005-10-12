@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.12 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.13 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -189,6 +189,7 @@ module TDiary
 			r = ''
 			each_section do |section|
 				r << %Q[<div class="section">\n]
+				r << %Q[<%= section_enter_proc( Time::at( #{date.to_i} ) ) %>\n]
 				if section.subtitle then
 					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></h3>\n]
 				end
@@ -200,6 +201,7 @@ module TDiary
 					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[¡¡ ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 				end
+				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 				r << %Q[</div>]
 				idx += 1
 			end
@@ -210,6 +212,7 @@ module TDiary
 			idx = 1
 			r = ''
 			each_section do |section|
+				r << %Q[<%= section_enter_proc( Time::at( #{date.to_i} ) ) %>\n]
 				if section.subtitle then
 					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
 				end
@@ -222,6 +225,7 @@ module TDiary
 					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[¡¡ ]/e, '' )}.join( "</P>\n<P>" )}</P>\n]
 				end
+				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 				idx += 1
 			end
 			r

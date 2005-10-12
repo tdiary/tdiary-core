@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.9 2005-09-26 08:39:13 tadatadashi Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.10 2005-10-12 06:20:33 tadatadashi Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -150,6 +150,7 @@ sections.
 			r = ''
 			each_section do |section|
 				r << %Q[<div class="section">\n]
+				r << %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
 				if section.subtitle then
 					r << %Q[<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></h3>\n]
 				end
@@ -161,6 +162,7 @@ sections.
 					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[¡¡ ]/e, '' )}.join( "</p>\n<p>" )}</p>]
 				end
+				r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
 				r << %Q[</div>]
 			end
 			r
@@ -169,6 +171,7 @@ sections.
 		def to_chtml( opt )
 			r = ''
 			each_section do |section|
+				r << %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
 				if section.subtitle then
 					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
 				end
@@ -180,9 +183,9 @@ sections.
 					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
 					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[¡¡ ]/e, '' )}.join( "</P>\n<P>" )}</P>]
 				end
+				r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
 			end
 			r
 		end
-
 	end
 end

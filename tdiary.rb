@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.253 $
+tdiary.rb $Revision: 1.254 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.3.20051006'
+TDIARY_VERSION = '2.1.3.20051012'
 
 require 'cgi'
 require 'uri'
@@ -607,10 +607,12 @@ module TDiary
 			@footer_procs = []
 			@update_procs = []
 			@title_procs = []
-			@subtitle_procs = []
-			@subtitle_index = {}
 			@body_enter_procs = []
 			@body_leave_procs = []
+			@section_index = {}
+			@section_enter_procs = []
+			@subtitle_procs = []
+			@section_leave_procs = []
 			@edit_procs = []
 			@form_procs = []
 			@conf_keys = []
@@ -676,10 +678,12 @@ module TDiary
 			self.taint
 			@conf.taint
 			@title_procs.taint
-			@subtitle_procs.taint
-			@subtitle_index.taint
 			@body_enter_procs.taint
 			@body_leave_procs.taint
+			@section_index.taint
+			@section_enter_procs.taint
+			@subtitle_procs.taint
+			@section_leave_procs.taint
 			return Safe::safe( secure ? 4 : 1 ) do
 				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			end
@@ -732,18 +736,6 @@ module TDiary
 			apply_plugin( title )
 		end
 
-		def add_subtitle_proc( block = Proc::new )
-			@subtitle_procs << block
-		end
-
-		def subtitle_proc( date, subtitle )
-			@subtitle_index[date] = (@subtitle_index[date] || 0) + 1
-			@subtitle_procs.each do |proc|
-				subtitle = proc.call( date, @subtitle_index[date], subtitle )
-			end
-			apply_plugin( subtitle )
-		end
-
 		def add_body_enter_proc( block = Proc::new )
 			@body_enter_procs << block
 		end
@@ -764,6 +756,42 @@ module TDiary
 			r = []
 			@body_leave_procs.each do |proc|
 				r << proc.call( date )
+			end
+			r.join
+		end
+
+		def add_section_enter_proc( block = Proc::new )
+			@section_enter_procs << block
+		end
+
+		def section_enter_proc( date )
+			@section_index[date] = (@section_index[date] || 0) + 1
+			r = []
+			@section_enter_procs.each do |proc|
+				r << proc.call( date, @section_index[date] )
+			end
+			r.join
+		end
+
+		def add_subtitle_proc( block = Proc::new )
+			@subtitle_procs << block
+		end
+
+		def subtitle_proc( date, subtitle )
+			@subtitle_procs.each do |proc|
+				subtitle = proc.call( date, @section_index[date], subtitle )
+			end
+			apply_plugin( subtitle )
+		end
+
+		def add_section_leave_proc( block = Proc::new )
+			@section_leave_procs << block
+		end
+
+		def section_leave_proc( date )
+			r = []
+			@section_leave_procs.each do |proc|
+				r << proc.call( date, @section_index[date] )
 			end
 			r.join
 		end

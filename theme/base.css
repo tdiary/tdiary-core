@@ -163,6 +163,14 @@ ul.recent-list-item {
 }
 
 /*
+category_to_tag plugin
+*/
+div.day div.tags {
+	font-size: 80%;
+	text-align: right;
+}
+
+/*
 recent_list plugin (obsolute)
 */
 p.recentitem {
@@ -177,3 +185,4 @@ div.recentsubtitles {
 	margin-bottom: 1em;
 	margin-left: 1em;
 }
+
