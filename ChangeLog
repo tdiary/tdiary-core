@@ -1,3 +1,6 @@
+2005-10-15  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/wiki_style.rb (to_html): support multi-line plugins.
+
 2005-10-12 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, *_style.rb, theme/base.css: add section_enter/leave_proc.
 
