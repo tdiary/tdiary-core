@@ -1,3 +1,6 @@
+2005-10-16 TADA Tadashi <sho@spc.gr.jp>
+	* doc/HOWTO-make-plugin.html: add about section_enter/leave_proc.
+
 2005-10-15  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/wiki_style.rb (to_html): support multi-line plugins.
 

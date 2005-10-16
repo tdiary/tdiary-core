@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.15 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.16 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -34,9 +34,9 @@ module TDiary
 
 			@subtitle_to_html = @subtitle ? to_html( "!#{@subtitle}" ) : ''
 			@body_to_html = to_html( @body )
-                        @html = @subtitle_to_html + "\n" +  @body_to_html + "\n"
-                        @subtitle_to_html = strip_headings( @subtitle_to_html )
-                        @body_to_html = strip_headings( @body_to_html )
+			@html = @subtitle_to_html + "\n" +  @body_to_html + "\n"
+			@subtitle_to_html = strip_headings( @subtitle_to_html )
+			@body_to_html = strip_headings( @body_to_html )
 			@stripped_subtitle_to_html = @stripped_subtitle ? strip_headings( to_html( "!#{@stripped_subtitle}" ) ) : nil
 		end
 	

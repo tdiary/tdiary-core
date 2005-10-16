@@ -153,12 +153,14 @@ def theme_url; 'theme'; end
 	<li><code>conf_proc</code>: 設定画面で呼び出される。プラグインのオプション設定をWebから行うためのプラグイン</li>
 	<li><code>title_proc</code>: 日ごとのタイトルを表示する局面で呼び出される。日付をリンクにするなど、タイトルを装飾するためのプラグイン</li>
 	<li><code>subtitle_proc</code>: セクションのサブタイトルを表示する局面で呼び出される。セクションアンカーを付与するなど、サブタイトルを装飾するためのプラグイン</li>
+	<li><code>section_enter_proc</code>: セクションの開始(サブタイトルの直前)で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)とセクションの番号(1〜)が与えられる</li>
+	<li><code>section_leave_proc</code>: セクションの終了直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)とセクションの番号(1〜)が与えられる</li>
 </ul>
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>、<code>add_title_proc</code>および<code>add_subtitle_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>、<code>add_title_proc</code>、<code>add_subtitle_proc</code>、<code>section_enter_proc</code>および<code>section_leave_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
 
 <p>これらのプラグインは、一般的に以下のように定義して使います。ブロックの返り値が、プラグインの値になります。</p>
 
@@ -179,7 +181,16 @@ end
 # 最終更新日を表示する
 add_body_enter_proc do |date|
    diary = @diaries[date.strftime( '%Y%m%d' )]
-   '#{diary.last_modified( "%Y-%m%-d" )}'
+   "#{diary.last_modified( "%Y-%m%-d" )}"
+end
+</pre>
+
+<p><code>section_enter_proc<\code>と<code>section_leave_proc</code>は<code>body_enter_proc</code>によく似ていますが、ブロックパラメタにセクションの通し番号(1〜)が加わっています。</p>
+
+<pre>
+# Permalinkを表示する
+add_section_enter_proc do |date, index|
+   "#{@index}#{anchor( date.strftime( '%Y%m%d' ) + '#p' + sprintf( '%02d', index )}"
 end
 </pre>
 
