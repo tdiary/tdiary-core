@@ -1,3 +1,6 @@
+2005-10-20 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/wiki_style.rb: enable specify "{{'</p>'}}" into text.
+
 2005-10-16 TADA Tadashi <sho@spc.gr.jp>
 	* doc/HOWTO-make-plugin.html: add about section_enter/leave_proc.
 
