@@ -1,3 +1,7 @@
+2005-10-21 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* tdiary/filter/spam.rb, plugin/10spamfilter.rb, plugin/*/10spamfilter.rb:
+	  remove IP Blacklist filter. add two services to Domain Blacklist initialization.
+
 2005-10-20 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary/filter/spam.rb, plugin/10spamfilter.rb, plugin/*/10spamfilter.rb: add DNSBL filter.
 

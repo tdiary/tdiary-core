@@ -120,21 +120,18 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 		else
 			resolv_check_mode = false
 		end
-	end
 
+      if @cgi.params['spamlookup.domain.list'] && @cgi.params['spamlookup.domain.list'][0]
+         @conf['spamlookup.domain.list'] = @cgi.params['spamlookup.domain.list'][0]
+      else
+         @conf['spamlookup.domain.list'] = nil
+      end
+	end
+   
+   # initialize DNSBL list
+   @conf['spamlookup.domain.list'] = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp" unless @conf['spamlookup.domain.list']
+   
 	spamfilter_conf_html
-end
-
-add_conf_proc( 'spamlookup', 'spamlookup', 'security' ) do
-	if @mode == 'saveconf' then
-		@conf['spamlookup.ip.list'] = @cgi.params['spamlookup.ip.list'][0]
-		@conf['spamlookup.domain.list'] = @cgi.params['spamlookup.domain.list'][0]
-	end
-
-   @conf['spamlookup.ip.list'] = "niku.2ch.net\nlist.dsbl.org" unless @conf['spamlookup.ip.list']
-   @conf['spamlookup.domain.list'] = "rbl.bulkfeeds.jp\n" unless @conf['spamlookup.domain.list']
-
-   spamlookup_conf_html
 end
 
 # vim: ts=3

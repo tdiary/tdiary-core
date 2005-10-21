@@ -1,5 +1,5 @@
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.4 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.5 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -49,7 +49,10 @@ def spamfilter_conf_html
 			<option value="false"#{" selected" unless resolv_check_mode}>dispose</option>
 		</select>
 	</p>
-	HTML
+   <h3>Domain Blacklist Services</h3>
+   <p>List of Domain Blacklist Services</p>
+   <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   HTML
 
 	unless @conf.secure then
 	r << <<-HTML
@@ -65,15 +68,4 @@ def spamfilter_conf_html
 	end
 
 	r
-end
-
-def spamlookup_conf_html
-	result = <<-HTML
-		<h3>IP Blacklist Services</h3>
-		<p>List of IP Blacklist Services</p>
-		<p><textarea name="spamlookup.ip.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.ip.list'] )}</textarea></p>
-		<h3>Domain Blacklist Services</h3>
-		<p>List of Domain Blacklist Services</p>
-		<p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
-	HTML
 end

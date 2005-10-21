@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.5 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.6 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -48,8 +48,11 @@ def spamfilter_conf_html
 			<option value="false"#{" selected" unless resolv_check_mode}>捨てる</option>
 		</select>
 	</p>
-	HTML
-
+   <h3>Domain Blacklist Services</h3>
+   <p>Domain Blacklist に利用するサーバーを指定します。複数のサーバーを指定する場合は改行で区切る必要があります。</p>
+   <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   HTML
+   
 	unless @conf.secure then
 	r << <<-HTML
 	<h3>デバッグ</h3>
@@ -64,15 +67,4 @@ def spamfilter_conf_html
 	end
 
 	r
-end
-
-def spamlookup_conf_html
-	result = <<-HTML
-		<h3>IP Blacklist Services</h3>
-		<p>IP Blacklist に利用するサーバーを指定します。複数のサーバーを指定する場合は改行で区切る必要があります。</p>
-		<p><textarea name="spamlookup.ip.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.ip.list'] )}</textarea></p>
-		<h3>Domain Blacklist Services</h3>
-		<p>Domain Blacklist に利用するサーバーを指定します。複数のサーバーを指定する場合は改行で区切る必要があります。</p>
-		<p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
-	HTML
 end

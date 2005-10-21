@@ -75,16 +75,10 @@ module TDiary
 					@resolv_check = true
             end
 
-            if @conf.options.include?('spamlookup.ip.list')
-               @spamlookup_ip_list = @conf.options['spamlookup.ip.list']
-            else
-               @spamlookup_ip_list = "niku.2ch.net\nlist.dsbl.org"
-            end
-
             if @conf.options.include?('spamlookup.domain.list')
                @spamlookup_domain_list = @conf.options['spamlookup.domain.list']
             else
-               @spamlookup_domain_list = "rbl.bulkfeeds.jp\n"
+               @spamlookup_domain_list = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
             end
 
 				if @conf.options.include?('spamfilter.resolv_check_mode')
@@ -192,18 +186,6 @@ module TDiary
 				end
 			end
 
-         def black_ip?( address )
-            ip = address.gsub(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/, '\4.\3.\2.\1')
-            @spamlookup_ip_list.split(/\n/).each do |dnsbl|
-               begin
-                  state = Resolv.getaddress( "#{ip}.#{dnsbl}" )
-                  return true
-               rescue
-               end
-            end
-            return false
-         end
-
          def black_domain?( domain )
             @spamlookup_domain_list.split(/\n/).each do |dnsbl|
                begin
@@ -226,7 +208,6 @@ module TDiary
 				update_config
 				#debug( "comment_filter start" )
 
-            return false if black_ip?( @cgi.remote_addr )
             return false if black_url?( comment.body )
 
 				if @date_limit
@@ -380,7 +361,6 @@ module TDiary
 				update_config
 				#debug( "referer_filter start" )
 
-            return false if black_ip?( @cgi.remote_addr )
             return false if black_url?( referer )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
