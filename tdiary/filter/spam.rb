@@ -187,11 +187,22 @@ module TDiary
 			end
 
          def black_domain?( domain )
+            chance = 2
             @spamlookup_domain_list.split(/\n/).each do |dnsbl|
                begin
-                  Resolv.getaddress( "#{domain}.#{dnsbl}" )
+                  address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
+                  debug("lookup:#{domain}.#{dnsbl} address:#{address}")
                   return true
-               rescue
+						rescue Resolv::ResolvTimeout
+							if chance > 0
+								chance -= 1
+								retry
+							end
+                     debug("resolv timeout.")
+                  rescue Resolv::ResolvError
+                     debug("resolv error.")
+                  rescue Exception
+                     debug("unknown resolv error.")
                end
             end
             return false
