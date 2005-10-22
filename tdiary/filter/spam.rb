@@ -209,7 +209,7 @@ module TDiary
          end
          
          def black_url?( body )
-            body.scan( %r|http://([^/]+)/| ) do |s|
+            body.scan( %r|http://([^/\s]+)(/[^\s]+)?| ) do |s|
                return true if black_domain?( s[0] )
             end
             return false

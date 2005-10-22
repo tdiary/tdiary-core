@@ -1,4 +1,7 @@
 2005-10-22 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* tdiary/filter/spam.rb: change uri regexp pattern in DNSBL filter.
+
+2005-10-22 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary/filter/spam.rb: add debug messege and retry process in DNSBL filter.
 
 2005-10-21 TADA Tadashi <sho@spc.gr.jp>
