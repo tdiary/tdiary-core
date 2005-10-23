@@ -81,6 +81,12 @@ module TDiary
                @spamlookup_domain_list = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
             end
 
+            if @conf.options.include?('spamlookup.safe_domain.list')
+               @spamlookup_safe_domain_list = @conf.options['spamlookup.safe_domain.list']
+            else
+               @spamlookup_safe_domain_list = "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
+            end
+
 				if @conf.options.include?('spamfilter.resolv_check_mode')
 					if @conf.options['spamfilter.resolv_check_mode']
 						@resolv_check_mode = true # invisible
@@ -209,7 +215,7 @@ module TDiary
          end
          
          def black_url?( body )
-            body.scan( %r|http://([^/:\s]+)| ) do |s|
+            body.scan( %r|https?://([^/:\s]+)| ) do |s|
                return true if black_domain?( s[0] )
             end
             return false
@@ -372,7 +378,12 @@ module TDiary
 				update_config
 				#debug( "referer_filter start" )
 
-            return false if black_url?( referer )
+            referer.scan( %r|https?://([^/:\s]+)| ) do |s|
+               debug( "referer host:#{s[0]}" )
+               unless @spamlookup_safe_domain_list.include?( s[0] )
+                  return false if black_url?( referer )
+               end
+            end
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
 					debug( "referer has no path: #{referer}" )

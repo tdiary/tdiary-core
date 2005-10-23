@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.6 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.7 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -51,6 +51,8 @@ def spamfilter_conf_html
    <h3>Domain Blacklist Services</h3>
    <p>Domain Blacklist に利用するサーバーを指定します。複数のサーバーを指定する場合は改行で区切る必要があります。</p>
    <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   <p>DNSBLに問い合わせを行わないホストを指定します。検索エンジン等を指定してください。</p>
+   <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.safe_domain.list'] )}</textarea></p>
    HTML
    
 	unless @conf.secure then

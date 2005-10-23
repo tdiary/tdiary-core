@@ -126,10 +126,20 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
       else
          @conf['spamlookup.domain.list'] = nil
       end
+
+      if @cgi.params['spamlookup.safe_domain.list'] && @cgi.params['spamlookup.safe_domain.list'][0]
+         @conf['spamlookup.safe_domain.list'] = @cgi.params['spamlookup.safe_domain.list'][0]
+      else
+         @conf['spamlookup.safe_domain.list'] = nil
+      end
+      
 	end
    
    # initialize DNSBL list
    @conf['spamlookup.domain.list'] = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp" unless @conf['spamlookup.domain.list']
+   
+   # initialize safe domain list.
+   @conf['spamlookup.safe_domain.list'] = "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp" unless @conf['spamlookup.safe_domain.list']
    
 	spamfilter_conf_html
 end

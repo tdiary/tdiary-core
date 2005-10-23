@@ -1,3 +1,7 @@
+2005-10-23 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* tdiary/filter/spam.rb, plugin/10spamfilter.rb, plugin/*/10spamfilter.rb:
+	  add safe domain list at referer check.
+
 2005-10-22 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary/filter/spam.rb: change uri regexp pattern in DNSBL filter.
 

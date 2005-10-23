@@ -1,5 +1,5 @@
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.5 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.6 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -52,6 +52,8 @@ def spamfilter_conf_html
    <h3>Domain Blacklist Services</h3>
    <p>List of Domain Blacklist Services</p>
    <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   <p>List of Safe Domain. Example for search engine.</p>
+   <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.safe_domain.list'] )}</textarea></p>
    HTML
 
 	unless @conf.secure then
