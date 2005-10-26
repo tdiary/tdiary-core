@@ -216,6 +216,10 @@ module TDiary
          
          def black_url?( body )
             body.scan( %r|https?://([^/:\s]+)| ) do |s|
+               if @spamlookup_safe_domain_list.include?( s[0] )
+                  debug("#{s[0]} is safe host.")
+                  next
+               end
                return true if black_domain?( s[0] )
             end
             return false
@@ -377,13 +381,8 @@ module TDiary
 
 				update_config
 				#debug( "referer_filter start" )
-
-            referer.scan( %r|https?://([^/:\s]+)| ) do |s|
-               debug( "referer host:#{s[0]}" )
-               unless @spamlookup_safe_domain_list.include?( s[0] )
-                  return false if black_url?( referer )
-               end
-            end
+            
+            return false if black_url?( referer )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
 					debug( "referer has no path: #{referer}" )
