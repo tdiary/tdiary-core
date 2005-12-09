@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.7 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.8 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -77,7 +77,8 @@ end
 module TDiary
 	class TDiaryConvert2 < TDiaryBase
 		def initialize
-			super( nil, 'day.rhtml', Config::new(@cgi) )
+			cgi = CGI.new
+			super( cgi, 'day.rhtml', Config::new(cgi) )
 			require "#{PATH}/tdiary/pstoreio"
 			@io_old = PStoreIO::new( self )
 			@years = @io_old.calendar
