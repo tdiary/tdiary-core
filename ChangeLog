@@ -1,3 +1,6 @@
+2006-01-02 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/defaultio.rb: ignore Errno::NOENT when delete empty file.
+
 2005-12-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/convert2.rb: revise for current tdiary.rb.
 

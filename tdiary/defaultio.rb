@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.35 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.36 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -155,12 +155,20 @@ module TDiary
 				end
 
 				if diaries.empty?
-					File::delete( @dfile )
-					# also delete parser cache
-					@tdiary.store_parser_cache( date, nil, nil)
+					begin
+						File::delete( @dfile )
+					rescue Errno::ENOENT
+					end
+					begin
+						@tdiary.store_parser_cache( date, nil, nil)
+					rescue Errno::ENOENT
+					end
 				end
 				# delete dispensable data directory
-				Dir.delete( dir ) if Dir.new( dir ).entries.reject {|f| "." == f or ".." == f}.empty?
+				begin
+					Dir.delete( dir ) if Dir.new( dir ).entries.reject {|f| "." == f or ".." == f}.empty?
+				rescue Errno::ENOENT
+				end
 			ensure
 				fh.close if fh
 			end
