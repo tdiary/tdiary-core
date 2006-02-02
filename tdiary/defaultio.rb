@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.37 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.38 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -45,7 +45,7 @@ module TDiary
 								body,
 								Time::at( headers['Last-Modified'].to_i ) )
 						comment.show = false if headers['Visible'] == 'false'
-						diaries[headers['Date']].add_comment( comment )
+						diaries[headers['Date']].add_comment( comment ) if headers['Date']
 					end
 				end
 			rescue Errno::ENOENT

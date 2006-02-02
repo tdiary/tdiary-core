@@ -1,5 +1,6 @@
 2006-02-03 TADA Tadashi <sho@spc.gr.jp>
 	* large change about referer: daily management, volatile link, etc.
+	* default_io.rb: ignore error when *.tdc was empty.
 
 2006-01-02 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/defaultio.rb: ignore Errno::NOENT when delete empty file.
