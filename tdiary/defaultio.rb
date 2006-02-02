@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.36 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.37 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -11,14 +11,18 @@ module TDiary
 
 	def TDiary::parse_tdiary( data )
 		header, body = data.split( /\r?\n\r?\n/, 2 )
-		if header and body
-			body.gsub!( /^\./, '' )
-			headers = {}
+		headers = {}
+		if header then
 			header.each do |l|
 				l.chomp!
 				key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
 				headers[key] = val ? val.chomp : nil
 			end
+		end
+		if body then
+			body.gsub!( /^\./, '' )
+		else
+			body = ''
 		end
 		[headers, body]
 	end
@@ -88,26 +92,32 @@ module TDiary
 							diaries[headers['Date']].add_referer( ref.chomp, count.to_i )
 						end
 					end
+
+					# convert to referer plugin format
+					File::rename( file, file.sub( /\.tdr$/, '.tdr~' ) )
+					diaries.each do |date,diary|
+						fname = file.sub( /\.tdr$/, "#{date[6,2]}.tdr" )
+						File::open( fname, File::WRONLY | File::CREAT ) do |fhr|
+							fhr.flock( File::LOCK_EX )
+							fhr.rewind
+							fhr.truncate( 0 )
+							fhr.puts( TDiary::TDIARY_MAGIC )
+							fhr.puts( "Date: #{date}" )
+							fhr.puts 
+							diary.each_referer( diary.count_referers ) do |count,ref|
+								fhr.puts( "#{count} #{ref}" )
+							end
+							fhr.puts( '.' )
+							diary.clear_referers
+						end
+					end
 				end
 			rescue Errno::ENOENT
 			end
 		end
 
 		def store_referer( file, diaries )
-			File::open( file, File::WRONLY | File::CREAT ) do |fhr|
-				fhr.flock( File::LOCK_EX )
-				fhr.rewind
-				fhr.truncate( 0 )
-				fhr.puts( TDiary::TDIARY_MAGIC )
-				diaries.each do |date,diary|
-					fhr.puts( "Date: #{date}" )
-					fhr.puts 
-					diary.each_referer( diary.count_referers ) do |count,ref|
-						fhr.puts( "#{count} #{ref}" )
-					end
-					fhr.puts( '.' )
-				end
-			end
+			return
 		end
 	end
 

@@ -53,7 +53,6 @@ def comment_body_label_short; 'Comment'; end
 def comment_submit_label; 'Submit'; end
 def comment_submit_label_short; 'Submit'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
-def referer_today; "Today's Link"; end
 def trackback_today; "Today's TrackBacks"; end
 def trackback_total( total ); "(Total: #{total})"; end
 
@@ -80,9 +79,6 @@ def submit_label
 	end
 end
 def preview_label; 'Preview'; end
-
-def label_no_referer; "Today's Link Excluding List"; end
-def label_referer_table; "Today's Link Conversion Rule"; end
 
 def nyear_diary_label(date, years); "my old days"; end
 def nyear_diary_title(date, years); "same days in past"; end
@@ -233,37 +229,6 @@ add_conf_proc( 'comment', 'TSUKKOMI', 'tsukkomi' ) do
 	<h3 class="subtitle">Number of TSUKKOMI</h3>
 	#{"<p>In Latest or Month mode, you can specify number of visible TSUKKOMIs. So in Dayly mode, all of TSUKKOMIs are shown.</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_limit" value="#{ @conf.comment_limit }" size="3"> TSUKKOMIs</p>
-	HTML
-end
-
-# referer
-add_conf_proc( 'referer', "Today's Link", 'referer' ) do
-	saveconf_referer
-
-	<<-HTML
-	<h3 class="subtitle">Show links</h3>
-	#{"<p>Select show or hide about Today's Link</p>" unless @conf.mobile_agent?}
-	<p><select name="show_referer">
-		<option value="true"#{if @conf.show_referer then " selected" end}>Show</option>
-		<option value="false"#{if not @conf.show_referer then " selected" end}>Hide</option>
-	</select></p>
-	<h3 class="subtitle">Number of Links</h3>
-	#{"<p>In Latest or Month mode, you can specify number of visible Link list. So in Dayly mode, all of Link are shown.</p>" unless @conf.mobile_agent?}
-	<p><input name="referer_limit" value="#{@conf.referer_limit}" size="3"> sites</p>
-	<h3 class="subtitle">Control Links saving</h3>
-	#{"<p>Specify which saving only day mode. It means reducing 'referer noise' by access from 'Link page'.</p>" unless @conf.mobile_agent?}
-	<p><select name="referer_day_only">
-		<option value="true"#{if @conf.referer_day_only then " selected" end}>Save links only in day mode</option>
-		<option value="false"#{if not @conf.referer_day_only then " selected" end}>Save links in all access</option>
-	</select></p>
-	<h3 class="subtitle">Excluding list</h3>
-	#{"<p>List of excluding URL that is not recorded to Today's Link. Specify it in regular expression, and a URL into a line.</p>" unless @conf.mobile_agent?}
-	<p>See <a href="#{@conf.update}?referer=no" target="referer">Default configuration is here</a>.</p>
-	<p><textarea name="no_referer" cols="60" rows="10">#{@conf.no_referer2.join( "\n" )}</textarea></p>
-	<h3 class="subtitle">Rule of conversion URL to words.</h3>
-	#{"<p>A table to convert URL to words in Today's Link. Specify it in regular expression, and a URL into a line.<p>" unless @conf.mobile_agent?}
-	<p>See <a href="#{@conf.update}?referer=table" target="referer">Default configurations</a>.</p>
-	<p><textarea name="referer_table" cols="60" rows="10">#{@conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end
 

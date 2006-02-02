@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.93 $
+# $Revision: 1.94 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -465,28 +465,6 @@ def my( a, str, title = nil )
 end
 
 #
-# referer of today
-#
-def referer_of_today_short( diary, limit )
-	return '' if not diary or diary.count_referers == 0 or bot?
-	result = %Q[#{referer_today} | ]
-	diary.each_referer( limit ) do |count,ref|
-		result << %Q[<a href="#{CGI::escapeHTML( ref )}" title="#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}">#{count}</a> | ]
-	end
-	result
-end
-
-def referer_of_today_long( diary, limit )
-	return '' if not diary or diary.count_referers == 0 or bot?
-	result = %Q[<div class="caption">#{referer_today}</div>\n]
-	result << %Q[<ul>\n]
-	diary.each_referer( limit ) do |count,ref|
-		result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
-	end
-	result + '</ul>'
-end
-
-#
 # other resources
 #
 def submit_command
@@ -669,28 +647,6 @@ def saveconf_comment
 		@conf.show_comment = @cgi.params['show_comment'][0] == 'true' ? true : false
 		@conf.comment_limit = @cgi.params['comment_limit'][0].to_i
 		@conf.comment_limit = 3 if @conf.comment_limit < 1
-	end
-end
-
-# referer
-def saveconf_referer
-	if @mode == 'saveconf' then
-		@conf.show_referer = @cgi.params['show_referer'][0] == 'true' ? true : false
-		@conf.referer_limit = @cgi.params['referer_limit'][0].to_i
-		@conf.referer_limit = 10 if @conf.referer_limit < 1
-		@conf.referer_day_only = @cgi.params['referer_day_only'][0] == 'true' ? true : false
-		no_referer2 = []
-		@conf.to_native( @cgi.params['no_referer'][0] ).each do |ref|
-			ref.strip!
-			no_referer2 << ref if ref.length > 0
-		end
-		@conf.no_referer2 = no_referer2
-		referer_table2 = []
-		@conf.to_native( @cgi.params['referer_table'][0] ).each do |pair|
-			u, n = pair.sub( /[\r\n]+/, '' ).split( /[ \t]+/, 2 )
-			referer_table2 << [u,n] if u and n
-		end
-		@conf.referer_table2 = referer_table2
 	end
 end
 

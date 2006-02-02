@@ -95,7 +95,6 @@ def comment_body_label_short; '本文'; end
 def comment_submit_label; '投稿'; end
 def comment_submit_label_short; '投稿'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
-def referer_today; '本日のリンク元'; end
 def trackback_today; '本日のTrackBacks'; end
 def trackback_total( total ); "(全#{total}件)"; end
 
@@ -122,9 +121,6 @@ def submit_label
 	end
 end
 def preview_label; 'プレビュー'; end
-
-def label_no_referer; 'リンク元記録除外リスト'; end
-def label_referer_table; 'リンク置換リスト'; end
 
 def nyear_diary_label(date, years); "長年日記"; end
 def nyear_diary_title(date, years); "長年日記"; end
@@ -271,36 +267,6 @@ add_conf_proc( 'comment', 'ツッコミ', 'tsukkomi' ) do
 	<h3 class="subtitle">ツッコミリスト表示数</h3>
 	#{"<p>最新もしくは月別表示時に表示する、ツッコミの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのツッコミが表示されます。</p>" unless @conf.mobile_agent?}
 	<p>最大<input name="comment_limit" value="#{ @conf.comment_limit }" size="3">件</p>
-	HTML
-end
-
-add_conf_proc( 'referer', 'リンク元', 'referer' ) do
-	saveconf_referer
-
-	<<-HTML
-	<h3 class="subtitle">リンク元の表示</h3>
-	#{"<p>リンク元リストを表示するかどうかを指定します。</p>" unless @conf.mobile_agent?}
-	<p><select name="show_referer">
-		<option value="true"#{if @conf.show_referer then " selected" end}>表示</option>
-		<option value="false"#{if not @conf.show_referer then " selected" end}>非表示</option>
-	</select></p>
-	<h3 class="subtitle">リンク元リスト表示数</h3>
-	#{"<p>最新もしくは月別表示時に表示する、リンク元リストの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのリンク元が表示されます。</p>" unless @conf.mobile_agent?}
-	<p>最大<input name="referer_limit" value="#{@conf.referer_limit}" size="3">サイト</p>
-	<h3 class="subtitle">リンク元の記録制御</h3>
-	#{"<p>日付指定のアクセス時のリンク元だけを記録するかどうかを指定します。この指定をするとアンテナやリンク集からの情報が記録されなくなるので、リンク元のノイズが減少します。</p>" unless @conf.mobile_agent?}
-	<p><select name="referer_day_only">
-		<option value="true"#{if @conf.referer_day_only then " selected" end}>日付指定時のアクセスのみ記録する</option>
-		<option value="false"#{if not @conf.referer_day_only then " selected" end}>すべてのアクセスで記録する</option>
-	</select></p>
-	<h3 class="subtitle">リンク元記録除外リスト</h3>
-	#{"<p>リンク元リストに追加しないURLを指定します。正規表現で指定できます。1件1行で入力してください。</p>" unless @conf.mobile_agent?}
-	<p>→<a href="#{@conf.update}?referer=no" target="referer">既存設定はこちら</a></p>
-	<p><textarea name="no_referer" cols="70" rows="10">#{@conf.no_referer2.join( "\n" )}</textarea></p>
-	<h3 class="subtitle">リンク元置換リスト</h3>
-	#{"<p>リンク元リストのURLを、特定の文字列に変換する対応表を指定できます。1件につき、URLと表示文字列を空白で区切って指定します。正規表現が使えるので、URL中に現れた「(〜)」は、置換文字列中で「\\1」のような「\数字」で利用できます。</p>" unless @conf.mobile_agent?}
-	<p>→<a href="#{@conf.update}?referer=table" target="referer">既存設定はこちら</a></p>
-	<p><textarea name="referer_table" cols="70" rows="10">#{@conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end
 

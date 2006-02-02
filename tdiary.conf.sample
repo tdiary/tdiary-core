@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.31 $
+# tDiary configuration file $Revision: 1.32 $
 #
 # For those who do not read Japanese: please read doc/README.en.html or
 # misc/i18n/README-en.rd and use misc/i18n/tdiary.conf.sample-en.
@@ -246,6 +246,16 @@ FOOTER
 	'^http://10\.',
 ]
 
+# 「本日のリンク元」にのみ記録するリンク元のURL(正規表現)
+#   @only_volatileは、「本日のリンク元」にのみ記録するリンク元URLの配列を
+#   記述します。ここに含まれるURLは、たとえ過去の日記に対するアクセスであっ
+#   てもその日のリンク元には記録されず、一時的に記録されるだけになります。
+#   この記録は、新しい日記を記述すると消去されます。検索サイト経由でのア
+#   クセスなどはここに入れておくのが良いかもしれません。指定書式は@no_referer
+#   と同じです。
+@only_volatile = [
+]
+
 # リンク元リストにURLでなく特定文字列を指定する場合の変換表(正規表現)
 #   @referer_tableは、「本日のリンク元」の一覧(一日単位で表示される方)に
 #   味気ないURLが並ぶのを回避するための設定です。対象となるリンク元のURL
@@ -258,7 +268,6 @@ FOOTER
 	['^http://www\.tdiary\.net/.*', 'tDiary.Net'],
 	['^http://sho\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'ただのにっき(\1-\2-\3)'],
 	['^http://sho\.tdiary\.net/(\d{4})(\d\d)\.html', 'ただのにっき(\1-\2)'],
-	['^http://sho\.tdiary\.net/antenna/', 'ただのあんてな'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.Net[\1](\2-\3-\4)'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.Net[\1](\2-\3)'],
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],

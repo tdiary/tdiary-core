@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.15 $
+# tDiary configuration file $Revision: 1.16 $
 #
 
 #-------
@@ -256,6 +256,14 @@ FOOTER
 	'^http://172.2[0-9]',
 	'^http://172.3[01]',
 	'^http://10.',
+]
+
+# URLs which are only recorded into Today's Link (Regular Expression)
+#   @only_volatile is an array of URLs to record into only Today's Link.
+#   When a referer match to this list, it will be recoreded to volatile
+#   list. This list will be cleared when you make new text in new day.
+#   Specify @only_volatile same style of @no_referer.
+@only_volatile = [
 ]
 
 # The rules which convert the specified URL to the word (Regular Expression)

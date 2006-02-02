@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.258 $
+tdiary.rb $Revision: 1.259 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.3.20060102'
+TDIARY_VERSION = '2.1.3.20060203'
 
 require 'cgi'
 require 'uri'
@@ -247,6 +247,10 @@ module TDiary
 			else
 				@referers[uref] = [count, ref]
 			end
+		end
+
+		def clear_referers
+			@referers = {}
 		end
 
 		def count_referers
@@ -532,6 +536,9 @@ module TDiary
 			@no_referer = [] unless @no_referer
 			@no_referer2 = [] unless @no_referer2
 			@no_referer = @no_referer2 + @no_referer
+			@only_volatile = [] unless @only_volatile
+			@only_volatile2 = [] unless @only_volatile2
+			@only_volatile = @only_volatile2 + @only_volatile
 			@referer_table = [] unless @referer_table
 			@referer_table2 = [] unless @referer_table2
 			@referer_table = @referer_table2 + @referer_table
@@ -562,7 +569,7 @@ module TDiary
 				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
 				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
-				:show_referer, :referer_limit, :referer_day_only, :no_referer2, :referer_table2,
+				:show_referer, :referer_limit, :referer_day_only, :no_referer2, :only_volatile2, :referer_table2,
 				:options2,
 			]
 			begin
@@ -1536,9 +1543,12 @@ EOS
 	class TDiaryView < TDiaryBase
 		def initialize( cgi, rhtml, conf )
 			super
+			unless referer_filter( @cgi.referer )
+				def @cgi.referer; nil; end
+			end
 
 			# save referer to latest
-			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and referer_filter( @cgi.referer ) then
+			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and @cgi.referer then
 				ym = latest_month
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
@@ -1634,7 +1644,7 @@ EOS
 					@diaries = diaries
 					dirty = DIRTY_NONE
 					@diary = self[@date]
-					if @diary and referer_filter( @cgi.referer ) then
+					if @diary and @cgi.referer then
 						@diary.add_referer( @cgi.referer )
 						dirty = DIRTY_REFERER
 					end
