@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -15,7 +15,7 @@ add_header_proc do
 end
 
 def referer_save_trigger
-	return if @conf.io_class != TDiary::DefaultIO
+	return if @conf.io_class != ::TDiary::DefaultIO
 	return if @mode !~ /^day|form|edit|append|replace$/
 
 	if @date then
@@ -25,7 +25,7 @@ def referer_save_trigger
 end
 
 class RefererDiary
-	include TDiary::RefererManager
+	include ::TDiary::RefererManager
 	def initialize
 		init_referers
 	end
@@ -40,11 +40,13 @@ end
 def referer_save( diary )
 	# save to volatile only?
 	save = false
-	ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
-	@conf.only_volatile.each do |volatile|
-		if /#{volatile}/i =~ ref then
-			save = true
-			break
+	if @cgi.referer then
+		ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
+		@conf.only_volatile.each do |volatile|
+			if /#{volatile}/i =~ ref then
+				save = true
+				break
+			end
 		end
 	end
 
@@ -81,7 +83,7 @@ def referer_transaction( diary = nil, save = false )
 			fh.flock( File::LOCK_SH )
 			fh.gets # read magic
 			fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
-				headers, body = TDiary::parse_tdiary( l )
+				headers, body = ::TDiary::parse_tdiary( l )
 				ymd = headers['Date']
 				next unless body
 				body.each do |r|
@@ -110,7 +112,7 @@ def referer_transaction( diary = nil, save = false )
 			fh.flock( File::LOCK_EX )
 			fh.rewind
 			fh.truncate( 0 )
-			fh.puts( TDiary::TDIARY_MAGIC )
+			fh.puts( ::TDiary::TDIARY_MAGIC )
 			fh.puts( "Date: #{ymd}" )
 			fh.puts 
 			diary.each_referer( diary.count_referers ) do |count,ref|
