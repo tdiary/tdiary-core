@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.2 $
+# $Revision: 1.3 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -20,7 +20,10 @@ def referer_save_trigger
 
 	if @date then
 		diary = @diaries[@date.strftime( '%Y%m%d' )]
-		referer_save( diary ) if diary
+		if diary then
+			diary.clear_referers
+			referer_save( diary )
+		end
 	end
 end
 
@@ -32,41 +35,50 @@ class RefererDiary
 end
 
 def latest_day?( diary )
+	return false unless diary
 	y = @years.keys.sort[-1]
 	m = @years[y].sort[-1]
 	diary.date.year == y.to_i and diary.date.month == m.to_i and diary.date.day == @diaries.keys.sort[-1][6,2].to_i
 end
 
 def referer_save( diary )
-	# save to volatile only?
-	save = false
+	# checking saving conditions
+	only_volatile = false
 	if @cgi.referer then
 		ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
 		@conf.only_volatile.each do |volatile|
 			if /#{volatile}/i =~ ref then
-				save = true
+				only_volatile = true
 				break
 			end
 		end
 	end
 
-	# load and save volatile
-	@referer_volatile = RefererDiary::new
-	if !save and @cgi.referer and !latest_day?( diary ) then
-		save = true
-	end
-	@referer_volatile.add_referer( @cgi.referer ) if save
-	referer_transaction( @referer_volatile, save ) do |ref, count|
-		@referer_volatile.add_referer( ref, count )
+	save_current = save_volatile = false
+	if @cgi.referer and @mode == 'day' then
+		if latest_day?( diary ) then
+			if only_volatile then
+				save_volatile = true
+			else
+				save_current = true
+			end
+		else
+			save_volatile = true
+			save_current = true unless only_volatile
+		end
 	end
 
 	# load and save referers of current day
-	if !save and @cgi.referer and @mode == 'day' then
-		diary.add_referer( @cgi.referer )
-		save = true
-	end
-	referer_transaction( diary, save ) do |ref, count|
+	diary.add_referer( @cgi.referer ) if save_current
+	referer_transaction( diary, save_current ) do |ref, count|
 		diary.add_referer( ref, count )
+	end
+
+	# load and save volatile
+	@referer_volatile = RefererDiary::new
+	@referer_volatile.add_referer( @cgi.referer ) if save_volatile
+	referer_transaction( @referer_volatile, save_volatile ) do |ref, count|
+		@referer_volatile.add_referer( ref, count )
 	end
 end
 
@@ -137,22 +149,27 @@ def referer_of_today_short( diary, limit )
 end
 
 def referer_of_today_long( diary, limit )
-	return '' if not diary or diary.count_referers == 0 or bot?
-	result = %Q[<div class="caption">#{referer_today}</div>\n]
-	result << %Q[<ul>\n]
-	diary.each_referer( limit ) do |count,ref|
-		result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
-	end
-	result << '</ul>'
+	return '' if bot?
+	result = ''
 
-	return result unless latest_day?( diary ) and @referer_volatile.count_referers != 0
-
-	result << %Q[<div class="caption">#{volatile_referer}</div>\n]
-	result << %Q[<ul>\n]
-	@referer_volatile.each_referer( limit ) do |count,ref|
-		result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
+	if latest_day?( diary ) and @referer_volatile.count_referers != 0 then
+		result << %Q[<div class="caption">#{volatile_referer}</div>\n]
+		result << %Q[<ul>\n]
+		@referer_volatile.each_referer( limit ) do |count,ref|
+			result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
+		end
+		result << '</ul>'
 	end
-	result << '</ul>'
+
+	if diary and diary.count_referers != 0 then
+		result << %Q[<div class="caption">#{referer_today}</div>\n]
+		result << %Q[<ul>\n]
+		diary.each_referer( limit ) do |count,ref|
+			result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
+		end
+		result << '</ul>'
+	end
+	result
 end
 
 #
