@@ -6,6 +6,17 @@ You can redistribute it and/or modify it under GPL2.
 */
 
 /*
+for error / warning messages
+*/
+p.message {
+	text-align: center;
+	font-size: large;
+	background-color: #d00;
+	color: #fff;
+	padding: 8px;
+}
+
+/*
 nyear
 */
 h2 span.nyear {

@@ -1,3 +1,9 @@
+2006-02-04 TADA Tadashi <sho@spc.gr.jp>
+	* 01referer.rb: check existence of @referer_volatile in
+	referer_of_today_long.
+	* 01referer.rb: delete implement of referer_of_today_short.
+	* theme/base.css: add p.message.
+
 2006-02-03 TADA Tadashi <sho@spc.gr.jp>
 	* large change about referer: daily management, volatile link, etc.
 	* default_io.rb: ignore error when *.tdc was empty.
