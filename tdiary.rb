@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.261 $
+tdiary.rb $Revision: 1.262 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.3.20060204'
+TDIARY_VERSION = '2.1.3.20060206'
 
 require 'cgi'
 require 'uri'
@@ -532,7 +532,7 @@ module TDiary
 
 			@show_referer = true unless defined?( @show_referer )
 			@referer_limit = 10 unless @referer_limit
-			@referer_day_only = false unless defined?( @referer_day_only )
+			@referer_day_only = true unless defined?( @referer_day_only )
 			@no_referer = [] unless @no_referer
 			@no_referer2 = [] unless @no_referer2
 			@no_referer = @no_referer2 + @no_referer
@@ -569,7 +569,7 @@ module TDiary
 				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
 				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
-				:show_referer, :referer_limit, :referer_day_only, :no_referer2, :only_volatile2, :referer_table2,
+				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
 				:options2,
 			]
 			begin

@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.4 $
+# $Revision: 1.5 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -16,7 +16,8 @@ end
 
 def referer_save_trigger
 	return if @conf.io_class != ::TDiary::DefaultIO
-	return if @mode !~ /^day|form|edit|append|replace$/
+	return if @conf.referer_day_only and @mode == 'latest'
+	return if @mode !~ /^latest|day|form|edit|append|replace$/
 
 	if @date then
 		diary = @diaries[@date.strftime( '%Y%m%d' )]
@@ -55,16 +56,20 @@ def referer_save( diary )
 	end
 
 	save_current = save_volatile = false
-	if @cgi.referer and @mode == 'day' then
-		if latest_day?( diary ) then
-			if only_volatile then
-				save_volatile = true
+	if @cgi.referer then
+		if @mode == 'day' then
+			if latest_day?( diary ) then
+				if only_volatile then
+					save_volatile = true
+				else
+					save_current = true
+				end
 			else
-				save_current = true
+				save_volatile = true
+				save_current = true unless only_volatile
 			end
-		else
+		elsif @mode == 'latest'
 			save_volatile = true
-			save_current = true unless only_volatile
 		end
 	end
 

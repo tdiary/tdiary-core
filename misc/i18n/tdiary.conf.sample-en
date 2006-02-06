@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.16 $
+# tDiary configuration file $Revision: 1.17 $
 #
 
 #-------
@@ -85,6 +85,12 @@
 	'^TAMATEBAKO/',
 	'^TomSoftAntenna'
 ]
+
+# Control Links saving [true or false] (optional)
+#   Specify which saving only day mode (default). It means reducing 'referer
+#   noise' by access from 'Link page'. If this value to false, Today's Link
+#   begin to save links to top page of your diary.
+@referer_day_only = true
 
 
 #-------
@@ -209,16 +215,6 @@ FOOTER
 #   Even if this value is set to false, the author can know it in "Update" page 
 #   if you specify the date.
 @show_referer = true
-
-# How many links are shown in "Latest" page and "Daily" page?
-#   If today's links are shown, you can specify how many links are
-#   shown at most in "Latest" page and "Daily" page.
-@referer_limit = 10
-
-# Control Links saving
-#   Specify which saving only day mode. It means reducing 'referer
-#   noise' by access from 'Link page'.
-@referer_day_only = false
 
 # Time difference adjustment 
 #   This item adjusts the date which is automatically inserted into 

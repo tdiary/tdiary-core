@@ -1,3 +1,6 @@
+2006-02-06 TADA Tadashi <sho@spc.gr.jp>
+	* revive @referer_day_only option but reverse default value.
+
 2006-02-04 TADA Tadashi <sho@spc.gr.jp>
 	* 01referer.rb: check existence of @referer_volatile in
 	referer_of_today_long.

@@ -1,5 +1,5 @@
 #
-# tdiary configuration file via CGI $Revision: 1.15 $
+# tdiary configuration file via CGI $Revision: 1.16 $
 #
 
 #
@@ -49,8 +49,6 @@ comment_limit = <%= @comment_limit %>
 # display(4) - referer
 #
 show_referer = <%= @show_referer %>
-referer_limit = <%= @referer_limit %>
-referer_day_only = <%= @referer_day_only %>
 no_referer2 = <%= @no_referer2.inspect %>
 only_volatile2 = <%= @only_volatile2.inspect %>
 referer_table2 = <%= @referer_table2.inspect %>
