@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.5 $
+# $Revision: 1.6 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -151,19 +151,19 @@ def referer_of_today_long( diary, limit )
 	return '' if bot?
 	result = ''
 
-	if @referer_volatile and latest_day?( diary ) and @referer_volatile.count_referers != 0 then
-		result << %Q[<div class="caption">#{volatile_referer}</div>\n]
+	if diary and diary.count_referers != 0 then
+		result << %Q[<div class="caption">#{referer_today}</div>\n]
 		result << %Q[<ul>\n]
-		@referer_volatile.each_referer( limit ) do |count,ref|
+		diary.each_referer( limit ) do |count,ref|
 			result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
 		end
 		result << '</ul>'
 	end
 
-	if diary and diary.count_referers != 0 then
-		result << %Q[<div class="caption">#{referer_today}</div>\n]
+	if @referer_volatile and latest_day?( diary ) and @referer_volatile.count_referers != 0 then
+		result << %Q[<div class="caption">#{volatile_referer}</div>\n]
 		result << %Q[<ul>\n]
-		diary.each_referer( limit ) do |count,ref|
+		@referer_volatile.each_referer( limit ) do |count,ref|
 			result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
 		end
 		result << '</ul>'

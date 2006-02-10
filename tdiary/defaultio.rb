@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.39 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.40 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -146,6 +146,7 @@ module TDiary
 				rescue
 					fh = File::open( @dfile, 'w+' )
 				end
+				fh.flock( File::LOCK_EX )
 
 				cache = @tdiary.restore_parser_cache( date, 'defaultio' )
 				unless cache then
@@ -203,7 +204,6 @@ module TDiary
 
 	private
 		def restore( fh, diaries )
-			fh.flock( File::LOCK_SH )
 			begin
 				fh.seek( 0 )
 				begin
@@ -224,14 +224,10 @@ module TDiary
 				rescue NameError
 					# no magic number when it is new file.
 				end
-
-			ensure
-				fh.flock( File::LOCK_UN )
 			end
 		end
 
 		def store( fh, diaries )
-			fh.flock( File::LOCK_EX )
 			begin
 				fh.seek( 0 )
 				fh.puts( TDIARY_MAGIC )
@@ -247,8 +243,6 @@ module TDiary
 					fh.puts( '.' )
 				end
 				fh.truncate( fh.tell )
-			ensure
-				fh.flock( File::LOCK_UN )
 			end
 		end
 	end
