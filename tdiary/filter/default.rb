@@ -15,8 +15,11 @@ module TDiary
 				if comment.name.strip.empty? or comment.body.strip.empty? then
 					return false
 				end
-				diary.each_comment( 100 ) do |com|
+				idx = 1
+				diary.each_comment( -1 ) do |com|
+					return false if idx >= @conf.comment_limit_per_day
 					return false if comment == com
+					idx += 1
 				end
 				true
 			end

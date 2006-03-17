@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.94 $
+# $Revision: 1.95 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -484,6 +484,64 @@ def preview_command
 end
 
 #
+# make comment form
+#
+def comment_form
+	return '' unless @mode == 'day'
+
+	r = ''
+	unless @conf.hide_comment_form then
+		r = <<-FORM
+			<div class="form">
+		FORM
+		if @diaries[@date.strftime('%Y%m%d')].count_comments( true ) >= @conf.comment_limit_per_day then
+			r << <<-FORM
+				<div class="caption"><a name="c">#{comment_limit_label}</a></div>
+			FORM
+		else
+			r << <<-FORM
+					<div class="caption"><a name="c">#{comment_description}</a></div>
+					<form class="comment" method="post" action="#{@conf.index}"><div>
+					<input type="hidden" name="date" value="#{ @date.strftime( '%Y%m%d' )}">
+					<div class="field name">
+						#{comment_name_label}:<input class="field" name="name" value="#{CGI::escapeHTML( @cgi.cookies['tdiary'][0] || '' )}">
+					</div>
+					<div class="field mail">
+						#{comment_mail_label}:<input class="field" name="mail" value="#{CGI::escapeHTML( @cgi.cookies['tdiary'][1] || '' )}">
+					</div>
+					<div class="textarea">
+						#{comment_body_label}:<textarea name="body" cols="60" rows="5"></textarea>
+					</div>
+					<div class="button">
+						<input type="submit" name="comment" value="#{comment_submit_label}">
+					</div>
+					</div></form>
+			FORM
+		end
+		r << <<-FORM
+			</div>
+		FORM
+	end
+	r
+end
+
+def comment_form_mobile
+	return '' if @conf.hide_comment_form
+	return <<-FORM
+		<HR>
+		<FORM METHOD="POST" ACTION="#{@conf.index}">
+			<INPUT TYPE="HIDDEN" NAME="date" VALUE="#{@date.strftime( '%Y%m%d' )}">
+			<P>#{comment_description_short}<BR>
+			#{comment_name_label_short}: <INPUT NAME="name"><BR>
+			#{comment_mail_label_short}: <INPUT NAME="mail"><BR>
+			#{comment_body_label_short}:<BR>
+			<TEXTAREA NAME="body"></TEXTAREA><BR>
+			<INPUT TYPE="SUBMIT" NAME="comment" value="#{comment_submit_label_short}"></P>
+		</FORM>
+	FORM
+end
+
+#
 # service methods for comment_mail
 #
 def comment_mail_send
@@ -647,6 +705,9 @@ def saveconf_comment
 		@conf.show_comment = @cgi.params['show_comment'][0] == 'true' ? true : false
 		@conf.comment_limit = @cgi.params['comment_limit'][0].to_i
 		@conf.comment_limit = 3 if @conf.comment_limit < 1
+
+		@conf.comment_limit_per_day = @cgi.params['comment_limit_per_day'][0].to_i
+		@conf.comment_limit_per_day = 0 if @conf.comment_limit_per_day < 0
 	end
 end
 

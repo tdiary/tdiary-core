@@ -1,3 +1,7 @@
+2006-03-17 TADA Tadashi <sho@spc.gr.jp>
+	* remove a limit of TSUKKOMI max.
+	* move TSUKKOMI form from skel to plugin.
+
 2006-02-10 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/default_io.rb: revive safety global lock.
 	+ plugin/05referer.rb: change labels.

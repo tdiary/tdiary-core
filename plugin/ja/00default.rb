@@ -85,6 +85,7 @@ def comment_today; '本日のツッコミ'; end
 def comment_total( total ); "(全#{total}件)"; end
 def comment_new; 'ツッコミを入れる'; end
 def comment_description; 'ツッコミ・コメントがあればどうぞ! E-mailアドレスは公開されません。'; end
+def comment_limit_label; '本日の日記はツッコミ数の制限を越えています。'; end
 def comment_description_short; 'ツッコミ!!'; end
 def comment_name_label; 'お名前'; end
 def comment_name_label_short; '名前'; end
@@ -267,6 +268,9 @@ add_conf_proc( 'comment', 'ツッコミ', 'tsukkomi' ) do
 	<h3 class="subtitle">ツッコミリスト表示数</h3>
 	#{"<p>最新もしくは月別表示時に表示する、ツッコミの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのツッコミが表示されます。</p>" unless @conf.mobile_agent?}
 	<p>最大<input name="comment_limit" value="#{ @conf.comment_limit }" size="3">件</p>
+	<h3 class="subtitle">1日あたりのツッコミ最大数</h3>
+	#{"<p>1日に書き込めるツッコミの最大数を指定します。この数を超えると、ツッコミ用のフォームが非表示になります。なお、TrackBackプラグインを入れている場合には、ツッコミとTrackBackの合計がこの制限を受けます。</p>" unless @conf.mobile_agent?}
+	<p>最大<input name="comment_limit_per_day" value="#{ @conf.comment_limit_per_day }" size="3">件</p>
 	HTML
 end
 

@@ -1,4 +1,4 @@
-<%# day.rhtml $Revision: 1.9 $ %>
+<%# day.rhtml $Revision: 1.10 $ %>
 <%= @conf.header %>
 <hr class="sep">
 
@@ -14,7 +14,7 @@ if @diary then
 		'referer_limit' => 100,
 		'referer_table' => @conf.referer_table,
 		'show_comment' => @conf.show_comment,
-		'comment_limit' => 100,
+		'comment_limit' => -1,
 		'multi_user' => @conf.multi_user,
 		'cookie_name' => cookie_name,
 		'cookie_mail' => cookie_mail,

@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.17 $
+# tDiary configuration file $Revision: 1.18 $
 #
 
 #-------
@@ -204,6 +204,12 @@ FOOTER
 #   If today's TSUKKOMI is shown, you specify how many TSUKKOMIs are
 #   shown at most in "Latest" page and "Daily" page.
 @comment_limit = 3
+
+# TSUKKOMI limit per a day
+#   When numbers of TSUKKOMI over this value in a day, nobody can
+#   make new TSUKKOMI. If you use TrackBack plugin, this value means
+#   sum of TSUKKOMIs and TrackBacks.
+@comment_limit_per_day = 100
 
 # Show today's links(true or false)
 #   You can decide whether today's links are shown or not. The link

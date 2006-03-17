@@ -43,6 +43,7 @@ def comment_today; "Today's TSUKKOMI"; end
 def comment_total( total ); "(Total: #{total})"; end
 def comment_new; 'Add a TSUKKOMI'; end
 def comment_description; 'Add a TSUKKOMI or Comment please. E-mail address will be shown to only me.'; end
+def comment_limit_label; 'You cannot make more TSUKKOMI because it has over limit.'; end
 def comment_description_short; 'TSUKKOMI!!'; end
 def comment_name_label; 'Name'; end
 def comment_name_label_short; 'Name'; end
@@ -229,6 +230,9 @@ add_conf_proc( 'comment', 'TSUKKOMI', 'tsukkomi' ) do
 	<h3 class="subtitle">Number of TSUKKOMI</h3>
 	#{"<p>In Latest or Month mode, you can specify number of visible TSUKKOMIs. So in Dayly mode, all of TSUKKOMIs are shown.</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_limit" value="#{ @conf.comment_limit }" size="3"> TSUKKOMIs</p>
+	<h3 class="subtitle">Limit of TSUKKOMI per a day</h3>
+	#{"<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>" unless @conf.mobile_agent?}
+	<p><input name="comment_limit_per_day" value="#{ @conf.comment_limit_per_day }" size="3"> TSUKKOMIs</p>
 	HTML
 end
 

@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.25 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
+<%# diary.rhtml $Revision: 1.26 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
 <div class="day">
 <h2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump.gsub( /%/, '\\\\045' ) %> ) %></h2>
 
@@ -48,28 +48,7 @@ elsif opt['show_comment'] %>
 end %>
 </div>
 
-
-<%
-if not opt['hide_comment_form'] and opt['long_mode'] then %>
-	<div class="form">
-		<div class="caption"><a name="c"><%%=comment_description%></a></div>
-		<form class="comment" method="post" action="<%= opt['index'] %>"><div>
-		<input type="hidden" name="date" value="<%= @date.strftime( '%Y%m%d' ) %>">
-		<div class="field name">
-			<%%=comment_name_label%>:<input class="field" name="name" value="<%= CGI::escapeHTML( opt['cookie_name'] ) %>">
-		</div>
-		<div class="field mail">
-			<%%=comment_mail_label%>:<input class="field" name="mail" value="<%= CGI::escapeHTML( opt['cookie_mail'] ) %>">
-		</div>
-		<div class="textarea">
-			<%%=comment_body_label%>:<textarea name="body" cols="60" rows="5"></textarea>
-		</div>
-		<div class="button">
-			<input type="submit" name="comment" value="<%%=comment_submit_label%>">
-		</div>
-		</div></form>
-	</div><%
-end %>
+<%%=comment_form%>
 
 <%% unless @plugin_files.grep(/tb-show.rb\z/).empty? then %><%
 	if opt['long_mode'] then %><%%=

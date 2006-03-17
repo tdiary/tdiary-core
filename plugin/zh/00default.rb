@@ -43,6 +43,7 @@ def comment_today; "今日迴響"; end
 def comment_total( total ); "(總共有: #{total} 則)"; end
 def comment_new; '發表迴響'; end
 def comment_description; '歡迎發表您對本文的迴響，您填寫的 email 位址只有日誌主人可以看見。'; end
+def comment_limit_label; 'You cannot make more TSUKKOMI because it has over limit.'; end
 def comment_description_short; '發表迴響!!'; end
 def comment_name_label; '姓名'; end
 def comment_name_label_short; '姓名'; end
@@ -229,6 +230,9 @@ add_conf_proc( 'comment', '迴響', 'tsukkomi' ) do
 	<h3 class="subtitle">要秀出幾篇迴響？</h3>
 	#{"<p>在「最新日誌」或「某月日誌」模示下，您想要秀出多少篇可見的迴響？ 相對來說，在「單篇」模示下，所有的迴響都會秀出來。 </p>" unless @conf.mobile_agent?}
 	<p>秀出 <input name="comment_limit" value="#{ @conf.comment_limit }" size="3"> 篇迴響</p>
+	<h3 class="subtitle">Limit of TSUKKOMI per a day</h3>
+	#{"<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>" unless @conf.mobile_agent?}
+	<p><input name="comment_limit_per_day" value="#{ @conf.comment_limit_per_day }" size="3"> TSUKKOMIs</p>
 	HTML
 end
 

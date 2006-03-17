@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.263 $
+tdiary.rb $Revision: 1.264 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.3.20060210'
+TDIARY_VERSION = '2.1.3.20060317'
 
 require 'cgi'
 require 'uri'
@@ -168,7 +168,7 @@ module TDiary
 
 		def each_comment( limit = 3 )
 			@comments.each_with_index do |com,idx|
-				break if idx >= limit
+				break if idx >= limit and limit >= 0
 				yield com
 			end
 		end
@@ -192,7 +192,7 @@ module TDiary
 
 		def each_visible_comment( limit = 3 )
 			@comments.each_with_index do |com,idx|
-				break if idx >= limit
+				break if idx >= limit and limit >= 0
 				next unless com.visible?
 				yield com,idx+1 # idx is start with 1.
 			end
@@ -529,6 +529,7 @@ module TDiary
 
 			@show_comment = true unless defined?( @show_comment )
 			@comment_limit = 3 unless @comment_limit
+			@comment_limit_per_day = 100 unless @comment_limit_per_day
 
 			@show_referer = true unless defined?( @show_referer )
 			@referer_limit = 10 unless @referer_limit
@@ -568,7 +569,8 @@ module TDiary
 				:header, :footer,
 				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
-				:show_comment, :comment_limit, :mail_on_comment, :mail_header,
+				:show_comment, :comment_limit, :comment_limit_per_day,
+				:mail_on_comment, :mail_header,
 				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
 				:options2,
 			]
