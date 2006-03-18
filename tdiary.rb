@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.266 $
+tdiary.rb $Revision: 1.267 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -204,7 +204,7 @@ module TDiary
 				break if i >= limit and limit >= 0
 				next unless /^TrackBack$/ =~ com.name
 				i += 1
-				next unless com.visible?
+				next unless com.visible_true?
 				yield com, i
 			end
 		end
