@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.95 $
+# $Revision: 1.96 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -183,6 +183,7 @@ add_header_proc do
 	#{author_name_tag}
 	#{author_mail_tag}
 	#{index_page_tag}
+	#{mobile_link_discovery}
 	#{icon_tag}
 	#{description_tag}
 	#{css_tag.chomp}
@@ -307,6 +308,17 @@ def index_page_tag
 	end
 	result << %Q[<link rel="start" title="#{navi_latest}" href="#{@index}">\n\t]
 	result.chop.chop
+end
+
+def mobile_link_discovery
+	return '' unless /^(latest|day)$/ =~ @mode
+	uri = @conf.index.dup
+	uri[0, 0] = @conf.base_url if %r|^https?://|i !~ @conf.index
+	uri.gsub!( %r|/\./|, '/' )
+	if @mode == 'day' then
+		uri += anchor( @date.strftime( '%Y%m%d' ) )
+	end
+	%Q[<link rel="alternate" media="handheld" type="text/html" href="#{uri}">]
 end
 
 def icon_tag
