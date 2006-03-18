@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.265 $
+tdiary.rb $Revision: 1.266 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -200,7 +200,7 @@ module TDiary
 
 		def each_visible_trackback( limit = -1 )
 			i = 0
-			@comments.ceach do |com|
+			@comments.each do |com|
 				break if i >= limit and limit >= 0
 				next unless /^TrackBack$/ =~ com.name
 				i += 1
