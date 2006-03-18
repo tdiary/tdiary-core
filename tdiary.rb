@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.264 $
+tdiary.rb $Revision: 1.265 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.3.20060317'
+TDIARY_VERSION = '2.1.3.20060318'
 
 require 'cgi'
 require 'uri'
@@ -166,7 +166,7 @@ module TDiary
 			i
 		end
 
-		def each_comment( limit = 3 )
+		def each_comment( limit = -1 )
 			@comments.each_with_index do |com,idx|
 				break if idx >= limit and limit >= 0
 				yield com
@@ -190,7 +190,7 @@ module TDiary
 			end
 		end
 
-		def each_visible_comment( limit = 3 )
+		def each_visible_comment( limit = -1 )
 			@comments.each_with_index do |com,idx|
 				break if idx >= limit and limit >= 0
 				next unless com.visible?
@@ -198,13 +198,14 @@ module TDiary
 			end
 		end
 
-		def each_visible_trackback( limit = 3 )
+		def each_visible_trackback( limit = -1 )
 			i = 0
-			@comments.find_all {|com|
-				com.visible_true? and /^TrackBack$/ =~ com.name
-			}[0,limit].each do |com|
-				i += 1 # i starts with 1.
-				yield com,i
+			@comments.ceach do |com|
+				break if i >= limit and limit >= 0
+				next unless /^TrackBack$/ =~ com.name
+				i += 1
+				next unless com.visible?
+				yield com, i
 			end
 		end
 
@@ -1449,7 +1450,7 @@ EOS
 				@diary = self[@date]
 				if @diary then
 					idx = 0
-					@diary.each_comment( 100 ) do |com|
+					@diary.each_comment do |com|
 						com.show = @cgi.params[(idx += 1).to_s][0] == 'true' ? true : false;
 					end
 					self << @diary
@@ -2011,7 +2012,7 @@ HERE
 <description></description>
 <language>#{@conf.html_lang}</language>
 RSSHEAD
-			@diary.each_comment(100) do |com, idx|
+			@diary.each_comment do |com, idx|
 				begin
 					next unless com.visible_true?
 				rescue NameError, NoMethodError

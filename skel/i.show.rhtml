@@ -1,4 +1,4 @@
-<%# i.show.rhtml $Revision: 1.10 $ %>
+<%# i.show.rhtml $Revision: 1.11 $ %>
 <H1><%= CGI::escapeHTML( @conf.html_title ) %> <%%=label_update_complete%></H1>
 <P>
 <%%= mobile_navi %>
@@ -15,7 +15,7 @@ param = {
 	'show_referer' => false,
 	'referer_limit' => 0,
 	'show_comment' => @conf.show_comment,
-	'comment_limit' => 100,
+	'comment_limit' => -1,
 	'multi_user' => @conf.multi_user,
 	'show_nyear' => false,
 } %>

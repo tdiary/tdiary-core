@@ -1,4 +1,4 @@
-<%# i.day.rhtml $Revision: 1.12 $ %>
+<%# i.day.rhtml $Revision: 1.13 $ %>
 <H1><%= CGI::escapeHTML( @conf.html_title ) %></H1>
 <%
 diary = @diaries[@diaries.keys.sort[0]]
@@ -13,7 +13,7 @@ if diary then
 		'show_referer' => false,
 		'referer_limit' => 0,
 		'show_comment' => @conf.show_comment,
-		'comment_limit' => 100,
+		'comment_limit' => -1,
 		'multi_user' => @conf.multi_user,
 		'show_nyear' => false,
 	}

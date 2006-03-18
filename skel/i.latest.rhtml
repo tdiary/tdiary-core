@@ -1,4 +1,4 @@
-<%# i.latest.rhtml $Revision: 1.12 $ %>
+<%# i.latest.rhtml $Revision: 1.13 $ %>
 <H1><%= CGI::escapeHTML( @conf.html_title ) %></H1>
 <%
 param = {
@@ -11,7 +11,7 @@ param = {
 	'show_referer' => false,
 	'referer_limit' => 0,
 	'show_comment' => @conf.show_comment,
-	'comment_limit' => 100,
+	'comment_limit' => -1,
 	'multi_user' => @conf.multi_user,
 	'show_nyear' => false,
 }

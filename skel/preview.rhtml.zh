@@ -1,4 +1,4 @@
-<%# preview.rhtml.en $Revision: 1.2 $ %>
+<%# preview.rhtml.en $Revision: 1.3 $ %>
 <%%=navi%>
 
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=preview_label%>]</h1>
@@ -13,7 +13,7 @@ param = {
 	'referer_limit' => 100,
 	'referer_table' => @conf.referer_table,
 	'show_comment' => false,
-	'comment_limit' => 100,
+	'comment_limit' => -1,
 	'multi_user' => @conf.multi_user,
 	'hide_comment_form' => true,
 	'anchor' => false,

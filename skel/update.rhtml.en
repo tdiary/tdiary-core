@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.12 $ %>
+<%# update.rhtml $Revision: 1.13 $ %>
 <%%=navi%>
 
 <h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
@@ -56,7 +56,7 @@
 		<input type="hidden" name="day" value="<%= @date.day %>">
 		<div class="commentbody"><%
 		idx = 0
-		@diary.each_comment( 100 ) do |comment| %>
+		@diary.each_comment do |comment| %>
 			<div class="commentator">
 				<span class="checkbox">
 					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
