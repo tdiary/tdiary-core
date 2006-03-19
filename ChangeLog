@@ -1,3 +1,7 @@
+2006-03-19 TADA Tadashi <sho@spc.gr.jp>
+	* skel/show.rhtml, skel/i.show.rhtml: delete contents because these are
+	dummy. thenks ZnZ.
+
 2006-03-18 TADA Tadashi <sho@spc.gr.jp>
 	* remove a limit of TSUKKOMI max (more).
 	* plugin/00default.rb: add Mobile Link Discovery to HTML header.
