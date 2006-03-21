@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.268 $
+tdiary.rb $Revision: 1.269 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.3.20060319'
+TDIARY_VERSION = '2.1.3.20060321'
 
 require 'cgi'
 require 'uri'
@@ -54,7 +54,7 @@ class CGI
 	end
 
 	def mobile_agent?
-		self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i
+		self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM)]i
 	end
 
 	def https?
@@ -455,7 +455,7 @@ module TDiary
 		end
 
 		def mobile_agent?
-			%r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode)]i =~ @cgi.user_agent
+			@cgi.mobile_agent?
 		end
 
 		def bot?

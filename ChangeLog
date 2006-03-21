@@ -1,3 +1,6 @@
+2006-03-21 FUDAN <joker at comel.or.jp>
+	* tdiary.conf: add "WILLCOM" to mobile agent.
+
 2006-03-19 TADA Tadashi <sho@spc.gr.jp>
 	* skel/show.rhtml, skel/i.show.rhtml: delete contents because these are
 	dummy. thenks ZnZ.
