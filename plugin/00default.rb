@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.96 $
+# $Revision: 1.97 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -377,9 +377,7 @@ end
 def title_of_day( date, title )
 	r = <<-HTML
 	<span class="date">
-	<a href="#{@index}#{anchor( date.strftime( '%Y%m%d' ) )}">
-		#{date.strftime @date_format}
-	</a>
+	<a href="#{@index}#{anchor( date.strftime( '%Y%m%d' ) )}">#{date.strftime @date_format}</a>
 	</span> 
 	<span class="title">#{title}</span>
 	HTML
