@@ -1,3 +1,6 @@
+2006-04-15 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.1.4 at dotBAR.
+
 2006-03-23 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: delete white spaces in anchor of date.
 	thanks cherry.usacho.jp.
