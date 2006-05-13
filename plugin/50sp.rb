@@ -1,40 +1,7 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.3 $
-
-=begin ChangeLog
-See ../ChangeLog for changes after this.
-
-* Thu Aug 28, 2003 zunda <zunda at freeshell.org>
-- 1.3
-- simpler configuration display
-
-* Tue Aug 26, 2003 zunda <zunda at freeshell.org>
-- 1.2
-- option defaults are flipped
-- Typo for @options are fixed
-
-* Tue Aug 26, 2003 zunda <zunda at freeshell.org>
-- 1.1
-- English translation
-
-* Fri Aug 22, 2003 zunda <zunda at freeshell.org>
-- 1.1.2.6
-- bug fix: check conf mode before updating the options
-
-* Fri Aug 22, 2003 zunda <zunda at freeshell.org>
-- 1.1.2.5
-- following options are added: thanks to kaz
-- @options['select_plugins.hidesource']
-- @options['select_plugins.hidemandatory']
-- @options['select_plugins.newdefault']
-- new plugins are marked in the list until the user configures the selections
-
-* Wed Aug 20, 2003 zunda <zunda at freeshell.org>
-- 1.1.2.1
-- first release
-=end ChangeLog
+# 01sp.rb - select-plugins plugin $Revision: 1.4 $
 
 SP_PREFIX = 'sp'
-@sp_path = ( @conf["#{SP_PREFIX}.path"] || 'misc/plugin' ).to_a
+@sp_path = ( @conf["#{SP_PREFIX}.path"] || "#{TDiary::PATH}/misc/plugin" ).to_a
 @sp_path = @sp_path.collect do |path|
 	/\/$/ =~ path ? path.chop : path
 end
