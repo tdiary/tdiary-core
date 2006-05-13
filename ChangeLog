@@ -1,6 +1,7 @@
 2006-05-13 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/50sp.rb: add tDiary path before 'misc/plugin' in sp.path. thenks
 	KURODA Hiraku.
+	* tdiary.rb: fix bug about counting TrackBack. thanks Masahiro YOSHIZAWA.
 
 2006-04-15 TADA Tadashi <sho@spc.gr.jp>
 	* release 2.1.4 at dotBAR.
