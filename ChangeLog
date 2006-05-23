@@ -1,3 +1,6 @@
+2006-05-24  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/style/etdiary/etdiary_style.rb: remove debug code.
+
 2006-05-13 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/50sp.rb: add tDiary path before 'misc/plugin' in sp.path. thenks
 	KURODA Hiraku.

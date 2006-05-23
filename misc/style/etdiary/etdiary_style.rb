@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.16 2005-10-12 06:20:33 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.17 2006-05-23 16:00:03 kazuhiko Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -163,7 +163,6 @@ module TDiary
 
 			r = ''
 			if @opt['index']
-				$stderr.puts name
 				if fragment.subtitle
 					r << %Q[<%= subtitle_proc( Time::at( #{date.to_i} ), #{fragment.subtitle.dump.gsub( /%/, '\\\\045' )} ) %>]
 				else
