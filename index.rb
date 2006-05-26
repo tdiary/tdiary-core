@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.30 $
+# index.rb $Revision: 1.31 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -102,12 +102,20 @@ begin
 	end
 rescue Exception
 	if @cgi then
-		print @cgi.header( 'type' => 'text/plain' )
+		if /MSIE/ =~ @cgi.user_agent then
+			print @cgi.header( 'type' => 'text/html' )
+		else
+			print @cgi.header( 'status' => '500 Internal Server Error', 'type' => 'text/html' )
+		end
 	else
-		print "Content-Type: text/plain\n\n"
+		print "Status: 500 Internal Server Error\n"
+		print "Content-Type: text/html\n\n"
 	end
+	puts "<h1>500 Internal Server Error</h1>"
+	puts "<pre>"
 	puts "#$! (#{$!.class})"
 	puts ""
 	puts $@.join( "\n" )
+	puts "</pre>"
 end
 

@@ -1,3 +1,6 @@
+2006-05-26 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, update.rb: return status 500 on error. thanks Masahiro Sakai.
+
 2006-05-24  Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/style/etdiary/etdiary_style.rb: remove debug code.
 
