@@ -1,3 +1,6 @@
+2006-05-28 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, update.rb: return status 500 on error when "MSIE" also.
+
 2006-05-26 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: return status 500 on error. thanks Masahiro Sakai.
 
