@@ -21,7 +21,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 
 		if @cgi.params['spamfilter.bad_uri_patts'] &&
 				@cgi.params['spamfilter.bad_uri_patts'][0]
-			@conf['spamfilter.bad_uri_patts'] = 
+			@conf['spamfilter.bad_uri_patts'] =
 					@cgi.params['spamfilter.bad_uri_patts'][0]
 		else
 			@conf['spamfilter.bad_uri_patts'] = ''
@@ -29,7 +29,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 
 		if @cgi.params['spamfilter.bad_mail_patts'] &&
 				@cgi.params['spamfilter.bad_mail_patts'][0]
-			@conf['spamfilter.bad_mail_patts'] = 
+			@conf['spamfilter.bad_mail_patts'] =
 					@cgi.params['spamfilter.bad_mail_patts'][0]
 		else
 			@conf['spamfilter.bad_mail_patts'] = ''
@@ -37,7 +37,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 
 		if @cgi.params['spamfilter.bad_comment_patts'] &&
 				@cgi.params['spamfilter.bad_comment_patts'][0]
-			@conf['spamfilter.bad_comment_patts'] = 
+			@conf['spamfilter.bad_comment_patts'] =
 					@cgi.params['spamfilter.bad_comment_patts'][0]
 		else
 			@conf['spamfilter.bad_comment_patts'] = ''
@@ -45,7 +45,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 
 		if @cgi.params['spamfilter.bad_ip_addrs'] &&
 				@cgi.params['spamfilter.bad_ip_addrs'][0]
-			@conf['spamfilter.bad_ip_addrs'] = 
+			@conf['spamfilter.bad_ip_addrs'] =
 					@cgi.params['spamfilter.bad_ip_addrs'][0]
 		else
 			@conf['spamfilter.bad_ip_addrs'] = ''
@@ -82,7 +82,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 		else
 		  @conf['spamfilter.filter_mode'] = true
 		end
-			
+
 		unless @conf.secure then
 			if @cgi.params['spamfilter.debug_mode'] &&
 					@cgi.params['spamfilter.debug_mode'][0] &&
@@ -91,56 +91,56 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			else
 				@conf['spamfilter.debug_mode'] = false
 			end
-	
-			if @cgi.params['spamfilter.debug_file'] && 
+
+			if @cgi.params['spamfilter.debug_file'] &&
 					@cgi.params['spamfilter.debug_file'][0]
-				@conf['spamfilter.debug_file'] = 
+				@conf['spamfilter.debug_file'] =
 						@cgi.params['spamfilter.debug_file'][0]
 			else
 				@conf['spamfilter.debug_file'] = nil
 			end
-	
+
 			if @cgi.params['spamfilter.date_limit'] &&
 					@cgi.params['spamfilter.date_limit'][0] &&
 					/\A\d+\z/ =~ @cgi.params['spamfilter.date_limit'][0]
 				@conf['spamfilter.date_limit'] = @cgi.params['spamfilter.date_limit'][0]
 			else
-				@conf['my_spamfilter.date_limit'] = nil
+				@conf['spamfilter.date_limit'] = nil
 			end
 		end
-	
+
 		if @conf['spamfilter.filter_mode'].nil? || @conf['spamfilter.filter_mode']
 			filter_mode = true
 		else
 			filter_mode = false
 		end
-	
+
 		if @conf['spamfilter.resolv_check_mode'].nil? || @conf['spamfilter.resolv_check_mode']
 			resolv_check_mode = true
 		else
 			resolv_check_mode = false
 		end
 
-      if @cgi.params['spamlookup.domain.list'] && @cgi.params['spamlookup.domain.list'][0]
-         @conf['spamlookup.domain.list'] = @cgi.params['spamlookup.domain.list'][0]
-      else
-         @conf['spamlookup.domain.list'] = nil
-      end
+		if @cgi.params['spamlookup.domain.list'] && @cgi.params['spamlookup.domain.list'][0]
+			@conf['spamlookup.domain.list'] = @cgi.params['spamlookup.domain.list'][0]
+		else
+			@conf['spamlookup.domain.list'] = nil
+		end
 
-      if @cgi.params['spamlookup.safe_domain.list'] && @cgi.params['spamlookup.safe_domain.list'][0]
-         @conf['spamlookup.safe_domain.list'] = @cgi.params['spamlookup.safe_domain.list'][0]
-      else
-         @conf['spamlookup.safe_domain.list'] = nil
-      end
-      
+		if @cgi.params['spamlookup.safe_domain.list'] && @cgi.params['spamlookup.safe_domain.list'][0]
+			@conf['spamlookup.safe_domain.list'] = @cgi.params['spamlookup.safe_domain.list'][0]
+		else
+			@conf['spamlookup.safe_domain.list'] = nil
+		end
+
 	end
-   
-   # initialize DNSBL list
-   @conf['spamlookup.domain.list'] = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp" unless @conf['spamlookup.domain.list']
-   
-   # initialize safe domain list.
-   @conf['spamlookup.safe_domain.list'] = "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp" unless @conf['spamlookup.safe_domain.list']
-   
+
+	# initialize DNSBL list
+	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
+
+	# initialize safe domain list.
+	@conf['spamlookup.safe_domain.list'] ||= "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
+
 	spamfilter_conf_html
 end
 

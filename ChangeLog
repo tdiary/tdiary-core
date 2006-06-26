@@ -1,3 +1,6 @@
+2006-06-26 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* plugin/10spamfilter.rb: fix bug about spamfilter.date_limit. thanks OGAWA KenIchi.
+
 2006-05-28 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: return status 500 on error when "MSIE" also.
 
@@ -348,7 +351,7 @@
 	* tdiary.rb: method visibility change.
 
 2004-09-24 Fri UECHI Yasumasa <uechi@potaway.net>
-	* rd_style.rb: fix tainted name space of RD Headline class. Thanks Shugo Maeda <maeda@shugo.net>. 
+	* rd_style.rb: fix tainted name space of RD Headline class. Thanks Shugo Maeda <maeda@shugo.net>.
 
 2004-08-08 Junichiro Kita <kita@kitaj.no-ip.com>
 	* tdiary.rb: TDiaryCategoryView's @last_modified changed to Time.now from Time.at(0).
@@ -454,7 +457,7 @@
 
 2004-03-04 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: do not call update_proc when TSUKKOMI was filtered.
-	* plugin/00default.rb: fix bug in comment_mail_send. 
+	* plugin/00default.rb: fix bug in comment_mail_send.
 
 2004-02-27 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, skel/*: call update_proc after all plugins loaded.
@@ -531,7 +534,7 @@
 	* tdiary.rb: catch StandardError when broken cache.
 
 2003.12.20 Kazuhiko  <kazuhiko@fdiary.net>
-	* misc/style/rd/rd_style.rb: bug fix. 
+	* misc/style/rd/rd_style.rb: bug fix.
 
 2003.12.19 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, update.rb: set $KCODE to 'n'.
@@ -1562,7 +1565,7 @@
 2002.02.12 TADA Tadashi <sho@spc.gr.jp>
 	* mail.rhtml: URL change.
 	* 00default.rb: escape HTML tags in referer table. thanks KT <pakira@bd6.so-net.ne.jp>.
-	
+
 2002.02.07 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, 00default.rb: leap second again.
 	* dot.htaccess: ExecCGI -> +ExecCGI.
@@ -1570,7 +1573,7 @@
 	* tdiary.rb: sort themes in TDiaryConf.
 	* skel/footer.rhtml: www.spc.gr.jp -> www.tdiary.net.
 	* tdiary.rb: correct message_id. thanks woods <sodium@da2.so-net.ne.jp>
-	
+
 2002.01.31 TADA Tadashi <sho@spc.gr.jp>
 	* misc/plugin/README.html: fix bug: description of insert plugin.
 	* 00default.rb: support leap second in navi_user.
