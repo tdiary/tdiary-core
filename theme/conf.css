@@ -1,6 +1,6 @@
 @charset "euc-jp";
 /*
-conf.css: style sheet of tDiary preferences page. $Revision: 1.5 $
+conf.css: style sheet of tDiary preferences page. $Revision: 1.6 $
 Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 */
@@ -187,4 +187,12 @@ img#theme_thumbnail {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #000;
+}
+
+div.help-icon {
+	text-align: right;
+}
+
+div.help-icon img {
+	border-width: 0px;
 }

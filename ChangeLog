@@ -1,3 +1,7 @@
+2006-06-26 TADA Tadashi <sho@spc.gr.jp>
+	* add help button to each preferefences.
+	* plugin/ja/10spamfilter.rb: change some words.
+
 2006-06-26 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* plugin/10spamfilter.rb: fix bug about spamfilter.date_limit. thanks OGAWA KenIchi.
 

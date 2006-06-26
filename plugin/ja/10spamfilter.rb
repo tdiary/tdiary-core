@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.7 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.8 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -7,7 +7,7 @@
 def spamfilter_conf_html
 	r = <<-HTML
 	<h3>基本</h3>
-	<p>spamと判定されたコメントの処理方法。<br>
+	<p>spamと判定されたツッコミの処理方法。<br>
 		<select name="spamfilter.filter_mode">
 			<option value="true"#{" selected" if @conf['spamfilter.filter_mode']}>非表示にする</option>
 			<option value="false"#{" selected" unless @conf['spamfilter.filter_mode']}>捨てる</option>
@@ -29,7 +29,7 @@ def spamfilter_conf_html
 		</select></p>
 
 	<h3>日付け</h3>
-	<p>以下の日付けへのコメントはspamとみなす。<br>
+	<p>以下の日付けへのツッコミはspamとみなす。<br>
 		<input type="text" name="spamfilter.date_limit" value="#{CGI.escapeHTML(@conf['spamfilter.date_limit'].to_s)}" size="5">日前(空欄は制限なし、0は当日のみ)</p>
 
 	<h3>IPアドレス</h3>
