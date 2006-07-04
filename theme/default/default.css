@@ -1,7 +1,7 @@
 @charset "euc-jp";
 /*
 Title: tDiary2 default
-Revision: $Revision: 1.18 $
+Revision: $Revision: 1.19 $
 Author: TADA Tadashi
 Access: sho@spc.gr.jp
 License: GPL
@@ -16,6 +16,7 @@ validated by W3C.
 body {
 	background-color: #fff;
 	color: #000;
+	margin-top: 0.5em;
 }
 
 /*
@@ -59,9 +60,10 @@ span.adminmenu {
 日記タイトルの設定
 */
 h1 {
-	text-align: right;
 	background-color: #fff;
 	color: #88f;
+	margin-top: 2em;
+	margin-bottom: 2em;
 }
 
 /*
@@ -70,9 +72,6 @@ h1 {
 div.calendar {
 	background-color: #fff;
 	color: #000;
-	border-style: solid;
-	border-color: #ddf;
-	border-width: 2px;
 	padding: 2px;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
@@ -381,6 +380,7 @@ div.footer {
 	font-size: 90%;
 	text-align: right;
 	margin-top: 0px;
+	clear: both;
 }
 
 /*
@@ -522,7 +522,7 @@ div.section th, div.section td {
 
 /* calendar2 */
 table.calendar {
-	font-size: x-small;
+	font-size: 90%;
 	line-height: 110%;
 	border-style: solid;
 	border-color: #aaf;
@@ -597,21 +597,17 @@ div.section, div.comment {
 サイドバー関連
 */
 div.main {
-	margin-left: 21%;
+	width: 70%;
+	float: left;
 }
 
 div.sidebar {
-	background-color: #eef;
+	background-color: #fff;
 	color: #000;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 20%;
-	padding: 2px 2px 100% 2px;
-	border-style: solid;
-	border-color: #aaf;
-	border-width: 0px 2px 2px 0px;
-	padding-top: 0.5em;
+	float: left;
+	width: 29%;
+	padding: 2px 0px 2px 8px;
+	font-size: 90%;
 }
 
 div.sidebar p {
@@ -621,4 +617,8 @@ div.sidebar p {
 	border-color: #aaf;
 	border-width: 0px 0px 1px 0px;
 	margin: 2px 4px 2px 4px;
+}
+
+div.sidebar li {
+	margin-left: 0.7em;
 }

@@ -1,3 +1,7 @@
+2006-07-04 TADA Tadashi <sho@spc.gr.jp>
+	* add 'tdiary.conf.beginner' for configration file for beginner.
+	* theme/default: move sidebar to rightside, and support beginner conf.
+
 2006-06-26 TADA Tadashi <sho@spc.gr.jp>
 	* add help button to each preferefences.
 	* plugin/ja/10spamfilter.rb: change some words.
