@@ -1,3 +1,6 @@
+2006-07-05 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/defaultio.rb: close file before delete empty diary file.
+
 2006-07-04 TADA Tadashi <sho@spc.gr.jp>
 	* add 'tdiary.conf.beginner' for configration file for beginner.
 	* theme/default: move sidebar to rightside, and support beginner conf.

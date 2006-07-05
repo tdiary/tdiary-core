@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.40 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.41 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -166,6 +166,10 @@ module TDiary
 
 				if diaries.empty?
 					begin
+						if fh then
+							fh.close
+							fh = nil
+						end
 						File::delete( @dfile )
 					rescue Errno::ENOENT
 					end
