@@ -3,6 +3,7 @@
 	thanks Norihiro Hattori <norihiro.hattori at gmail.com>.
 	* tdiary/defaultio.rb: fix Errno::EACCES error when convert referer to new
 	formats on Windows.
+	* tdiary/filter/default.rb: check POST method correctly.
 
 2006-07-05 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/defaultio.rb: close file before delete empty diary file.
