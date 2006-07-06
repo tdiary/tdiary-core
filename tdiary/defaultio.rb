@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.41 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.42 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -94,7 +94,6 @@ module TDiary
 					end
 
 					# convert to referer plugin format
-					File::rename( file, file.sub( /\.tdr$/, '.tdr~' ) )
 					diaries.each do |date,diary|
 						fname = file.sub( /\.tdr$/, "#{date[6,2]}.tdr" )
 						File::open( fname, File::WRONLY | File::CREAT ) do |fhr|
@@ -111,6 +110,7 @@ module TDiary
 						end
 					end
 				end
+				File::rename( file, file.sub( /\.tdr$/, '.tdr~' ) )
 			rescue Errno::ENOENT
 			end
 		end

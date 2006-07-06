@@ -1,6 +1,8 @@
 2006-07-05 TADA Tadashi <sho@spc.gr.jp>
 	* misc/style/wiki: fix bug and add notice about obsolute to README.
 	thanks Norihiro Hattori <norihiro.hattori at gmail.com>.
+	* tdiary/defaultio.rb: fix Errno::EACCES error when convert referer to new
+	formats on Windows.
 
 2006-07-05 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/defaultio.rb: close file before delete empty diary file.
