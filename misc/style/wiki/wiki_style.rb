@@ -1,5 +1,5 @@
 #
-# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.28 $
+# wiki_style.rb: WikiWiki style for tDiary 2.x format. $Revision: 1.29 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -75,7 +75,9 @@ module TDiary
 
 		def html4( date, idx, opt )
 			r = %Q[<div class="section">\n]
+			r << %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
 			r << do_html4( @parser, date, idx, opt )
+         r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
 			r << "</div>\n"
 		end
 
