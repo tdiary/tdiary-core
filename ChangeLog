@@ -1,5 +1,5 @@
 2006-07-05 TADA Tadashi <sho@spc.gr.jp>
-	* misc/style/wiki: fix bug and add notice about obsolute to README.
+	* misc/style/wiki: fix bug and add notice about obsolete to README.
 	thanks Norihiro Hattori <norihiro.hattori at gmail.com>.
 	* tdiary/defaultio.rb: fix Errno::EACCES error when convert referer to new
 	formats on Windows.
@@ -9,11 +9,11 @@
 	* tdiary/defaultio.rb: close file before delete empty diary file.
 
 2006-07-04 TADA Tadashi <sho@spc.gr.jp>
-	* add 'tdiary.conf.beginner' for configration file for beginner.
+	* add 'tdiary.conf.beginner' for configuration file for beginner.
 	* theme/default: move sidebar to rightside, and support beginner conf.
 
 2006-06-26 TADA Tadashi <sho@spc.gr.jp>
-	* add help button to each preferefences.
+	* add help button to each preferences.
 	* plugin/ja/10spamfilter.rb: change some words.
 
 2006-06-26 SHIBATA Hiroshi <h-sbt@nifty.com>
@@ -29,7 +29,7 @@
 	* misc/style/etdiary/etdiary_style.rb: remove debug code.
 
 2006-05-13 TADA Tadashi <sho@spc.gr.jp>
-	* plugin/50sp.rb: add tDiary path before 'misc/plugin' in sp.path. thenks
+	* plugin/50sp.rb: add tDiary path before 'misc/plugin' in sp.path. thanks
 	KURODA Hiraku.
 	* tdiary.rb: fix bug about counting TrackBack. thanks Masahiro YOSHIZAWA.
 
@@ -45,7 +45,7 @@
 
 2006-03-19 TADA Tadashi <sho@spc.gr.jp>
 	* skel/show.rhtml, skel/i.show.rhtml: delete contents because these are
-	dummy. thenks ZnZ.
+	dummy. thanks ZnZ.
 
 2006-03-18 TADA Tadashi <sho@spc.gr.jp>
 	* remove a limit of TSUKKOMI max (more).
@@ -86,10 +86,10 @@
 	* tdiary/filter/spam.rb: change uri regexp pattern in DNSBL filter.
 
 2005-10-22 SHIBATA Hiroshi <h-sbt@nifty.com>
-	* tdiary/filter/spam.rb: add debug messege and retry process in DNSBL filter.
+	* tdiary/filter/spam.rb: add debug message and retry process in DNSBL filter.
 
 2005-10-21 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary/wiki_style.rb: fix enbuged on 2.1.3.20051020.
+	* tdiary/wiki_style.rb: fix enbugged on 2.1.3.20051020.
 
 2005-10-21 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary/filter/spam.rb, plugin/10spamfilter.rb, plugin/*/10spamfilter.rb:
@@ -119,7 +119,7 @@
 
 2005-10-02  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/hikidoc.rb: sync with hikidoc rev.33.
-	  revise esacpes in parse_link
+	  revise escapes in parse_link
 	  allow empty descriptions in definition lists
 	* tdiary/wiki_style.rb (to_html): replace links to my/kw plugins.
 
@@ -161,7 +161,7 @@
 2005-09-16 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: prev/next navigation on edit mode.
 	* tdiary/wiki_style.rb: unescape target URI to own diary.
-	* tdiary.rb, skel/conf.rhtml, theme/conf.css: set invertion color to
+	* tdiary.rb, skel/conf.rhtml, theme/conf.css: set inversion color to
 	current preference item in sidebar.
 
 2005-09-12 TADA Tadashi <sho@spc.gr.jp>
@@ -194,7 +194,7 @@
 	* rd_style.rb, etdiary_style_rb, emptdiary_style.rb: support subtitle_proc.
 
 2005-08-28 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary/tdiary_style.rb: fix bug: erro when specify plugin in subtitle.
+	* tdiary/tdiary_style.rb: fix bug: error when specify plugin in subtitle.
 	* wiki_style.rb: fix bug: subtitle_proc failed when some inline elements in
 	subtitle.
 	* plugin/00default.rb: disable nyear link when mobile mode.
@@ -450,7 +450,7 @@
 	* tdiary.conf.sample: some robots add to @options['bot']. thanks MUSHA <knu@ruby-lang.org>.
 
 2004-04-06 zunda <zunda at freeshell.org>
-	* plugin/01sp.rb: records only plug-in filenames. When more than one plug-ins in different directories have the same filename, first occurance in sp.path will be used, without raising an error.
+	* plugin/01sp.rb: records only plug-in filenames. When more than one plug-ins in different directories have the same filename, first occurrence in sp.path will be used, without raising an error.
 
 2004-04-05 TADA Tadashi <sho@spc.gr.jp>
 	* theme/base.css: add .highlight class. thanks ZnZ <zn@mbf.nifty.com> and Naoko <naoko@ns.undefine.to>.
@@ -530,7 +530,7 @@
 
 2003.12.30 Junichiro Kita <kita@kitaj.no-ip.com>
 	* plugin/00default.rb: my can handle 'yyyymmdd#txx'.
-	* wiki_style.rb: strip_subtitle returns nil if sibtitle == ''. thanks to YAA.
+	* wiki_style.rb: strip_subtitle returns nil if subtitle == ''. thanks to YAA.
 
 2003.12.26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/pstoreio.rb: fix bug: enable running 1.5.6 or later.
@@ -688,14 +688,14 @@
 	* tdiary.rb: change security error message in Plugin#add_cookie.
 
 2003.09.29 TADA Tadashi <sho@spc.gr.jp>
-	* plugin/01sp.rb: support sucure mode.
+	* plugin/01sp.rb: support secure mode.
 
 2003.09.28 TADA Tadashi <sho@spc.gr.jp>
 	* add new setting @referer_day_only to reduce 'referer noise'.
 
 2003.09.27 zunda <zunda at freeshell.org>
 	* plugin/01sp.rb: better to have default opt values set nil: hide* -> show*
-	* plugin/01sp.rb: shows help in the resouce file if there is
+	* plugin/01sp.rb: shows help in the resource file if there is
 
 2003.09.27 TADA Tadashi <sho@spc.gr.jp>
 	* add plugin/01sp.rb and resources of ja and en.
@@ -746,7 +746,7 @@
 	* rd_style.rb, wiki_style.rb insert "\n\n" at the end of @body.
 
 2003-08-28 Thu UECHI Yasumasa <uh@u.dhis.portside.net>
-	* rd_style.rb: fix bug when last section dosen't terminate by CR.
+	* rd_style.rb: fix bug when last section doesn't terminate by CR.
 
 2003-08-26 zunda <zunda at freeshell.org>
 	sp.rb: English translation
@@ -800,7 +800,7 @@
 	* wiki_style.rb: support TrackBack anchor.
 
 2003.07.29 UECHI Yasumasa <uh@u.dhis.portside.net>
-	* rd_style: fix Refference element to recognize trackbacks
+	* rd_style: fix Reference element to recognize trackbacks
 
 2003.07.29 Kazuhiko <kazuhiko@fdiary.net>
 	* index.rb: don't make 'body' in case of HEAD request.
@@ -877,7 +877,7 @@
 	* tdiary.rb: fix error in 1st preview in the new day.
 
 2003.05.30 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary.rb: fix wrong style selected in preview when editing a diary in the another stlye.
+	* tdiary.rb: fix wrong style selected in preview when editing a diary in the another style.
 	* base.css: add default of calendar3 plugin.
 
 2003.05.17 Kenta MURATA <muraken2@nifty.com>
@@ -915,7 +915,7 @@
 	* tdiary.rb: import classes for TrackBack(TDiary::TDiaryTrackBack*) from tb.rb.
 
 2003.05.02 TADA Tadashi <sho@spc.gr.jp>
-	* index.rb, updatre.rb: untaint org_path. thanks mput.
+	* index.rb, update.rb: untaint org_path. thanks mput.
 
 2003.04.28 TADA Tadashi <sho@spc.gr.jp>
 	* HOWTO-make-plugin.html: add about form_proc.
@@ -1010,10 +1010,10 @@
 	* suport ruby 1.8.0 preview2.
 
 2003.03.01 TADA Tadashi <sho@spc.gr.jp>
-	* rd style: fix subtitle without category (again). thenks mput and uechi.
+	* rd style: fix subtitle without category (again). thanks mput and uechi.
 
 2003.02.29 TADA Tadashi <sho@spc.gr.jp>
-	* rd style: fix subtitle without category. thenks mput.
+	* rd style: fix subtitle without category. thanks mput.
 
 2003.02.26 TADA Tadashi <sho@spc.gr.jp>
 	* wiki style: fix bug again when last section dosen't terminate by CR.
