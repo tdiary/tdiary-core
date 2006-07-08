@@ -1,3 +1,6 @@
+2006-07-08 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/filter/default.rb: TSUKKOMI filtered by 'POST' command exactly.
+
 2006-07-05 TADA Tadashi <sho@spc.gr.jp>
 	* misc/style/wiki: fix bug and add notice about obsolete to README.
 	thanks Norihiro Hattori <norihiro.hattori at gmail.com>.
