@@ -1,70 +1,68 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.8 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.9 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
 
 def spamfilter_conf_html
 	r = <<-HTML
-	<h3>基本</h3>
-	<p>spamと判定されたツッコミの処理方法。<br>
+	<h3>spamの扱い</h3>
+	<p>spamと判定されたツッコミを
 		<select name="spamfilter.filter_mode">
 			<option value="true"#{" selected" if @conf['spamfilter.filter_mode']}>非表示にする</option>
 			<option value="false"#{" selected" unless @conf['spamfilter.filter_mode']}>捨てる</option>
 	</select></p>
-	<p>ツッコミ中に以下の値より多くのURIが含まれるものはspamとみなす。<br>
-		<input type="text" name="spamfilter.max_uris" value="#{CGI.escapeHTML(@conf['spamfilter.max_uris'].to_s)}" size="5"></p>
-	<p>ツッコミの中でURIを表す文字数(バイト数)の占める割合が以下の値よりもよりも高いものはspamとみなす。<br>
-		<input type="text" name="spamfilter.max_rate" value="#{CGI.escapeHTML(@conf['spamfilter.max_rate'].to_s)}" size="5"></p>
-	<p>以下に列挙されたパターンを使って構成されるパターンにマッチするURIを含むツッコミはspamとみなす。実際に使用されるパターンについてはupdate_configメソッドを参照。<br>
-		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
-	<p>ツッコミ本文が以下に列挙されたパターンにマッチする場合はspamとみなす。<br>
-		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
-	<p>ツッコミのメールアドレスが以下に列挙されたパターンにマッチする場合はspamとみなす。<br>
-		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
-	<p>ツッコミのメールアドレスのチェックにURI用のパターンを使用する。<br>
+
+	<h3>内容によるフィルタ</h3>
+	<p>ツッコミ中のURLの数が<input type="text" name="spamfilter.max_uris" value="#{CGI.escapeHTML(@conf['spamfilter.max_uris'].to_s)}" size="5">個を超えたらspamとみなす</p>
+	<p>ツッコミ中でURLを表す文字の占める割合が<input type="text" name="spamfilter.max_rate" value="#{CGI.escapeHTML(@conf['spamfilter.max_rate'].to_s)}" size="5">%より高いものはspamとみなす</p>
+	<p>ツッコミ本文が以下のパターンに当てはまる場合はspamとみなす。正規表現が利用できます<br>
+		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
+	<p>ツッコミのメールアドレスが以下のパターンに当てはまる場合はspamとみなす。正規表現が使えます<br>
+		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
+	<p>以下のパターンに当てはまるURLを含むツッコミはspamとみなす(例:「example.com」)。正規表現が利用できます。なお、ここに何も書かなくても一部のパターンは標準でspamとみなします<br>
+		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
+	<p>上のパターンをツッコミのメールアドレスのチェックにも
 		<select name="spamfilter.bad_uri_patts_for_mails">
-			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>オン</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>オフ</option>
+			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>利用する</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>利用しない</option>
 		</select></p>
 
-	<h3>日付け</h3>
-	<p>以下の日付けへのツッコミはspamとみなす。<br>
-		<input type="text" name="spamfilter.date_limit" value="#{CGI.escapeHTML(@conf['spamfilter.date_limit'].to_s)}" size="5">日前(空欄は制限なし、0は当日のみ)</p>
+	<h3>日付けによるフィルタ</h3>
+	<p><input type="text" name="spamfilter.date_limit" value="#{CGI.escapeHTML(@conf['spamfilter.date_limit'].to_s)}" size="5">日以上前の日付けへのツッコミはspamとみなす<br>(空欄は制限なし、0は当日のみ)</p>
 
-	<h3>IPアドレス</h3>
-	<p>ツッコミやTrackBackの送信元のIPアドレスが以下のリストにマッチする場合はspamとみなす(リストには完全なIPアドレスまたは「.」で終わるIPアドレスの一部を記述する)。<br>
-		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_ip_addrs'] || '')}</textarea></p>
+	<h3>IPアドレスによるフィルタ</h3>
+	<p>ツッコミやTrackBack送信元のIPアドレスが、以下のパターンに当てはまる場合はspamとみなす(リストには完全なIPアドレスまたは「.」で終わるIPアドレスの一部を記述する)<br>
+		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_ip_addrs'] || '')}</textarea></p>
 	</p>
-	<p>TrackBack送信元のIPアドレスと実際のサイトのIPアドレスがマッチしない場合はspamとみなす。<br>
+	<p>TrackBack送信元と実際のサイトのIPアドレスが異なる場合は
 		<select name="spamfilter.resolv_check">
-			<option value="true"#{" selected" if @conf['spamfilter.resolv_check']}>オン</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check']}>オフ</option>
+			<option value="true"#{" selected" if @conf['spamfilter.resolv_check']}>spamとみなす</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check']}>spamとみなさない</option>
 		</select>
 	</p>
-	<p>IPアドレス条件によってspamとみなされたトラックバックの処理方法。<br>
+	<p>上の条件によってspamとみなされたTrackBackは
 		<select name="spamfilter.resolv_check_mode">
 			<option value="true"#{" selected" if resolv_check_mode}>非表示にする</option>
 			<option value="false"#{" selected" unless resolv_check_mode}>捨てる</option>
 		</select>
 	</p>
-   <h3>Domain Blacklist Services</h3>
-   <p>Domain Blacklist に利用するサーバーを指定します。複数のサーバーを指定する場合は改行で区切る必要があります。</p>
-   <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
-   <p>DNSBLに問い合わせを行わないホストを指定します。検索エンジン等を指定してください。</p>
-   <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.safe_domain.list'] )}</textarea></p>
+   <h3>ブラックリストサービスを使ったフィルタ</h3>
+   <p>ブラックリスト問い合わせサーバーを指定します<br>
+   <textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   <p>以下に指定したドメインはブラックリストに問い合わせません。検索エンジン等を指定してください<br>
+   <textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.safe_domain.list'] )}</textarea></p>
    HTML
    
 	unless @conf.secure then
 	r << <<-HTML
-	<h3>デバッグ</h3>
-	<p>デバッグモード。<br>
+	<h3>フィルタのログ</h3>
+	<p>フィルタのログを以下のファイルに
 		<select name="spamfilter.debug_mode">
-			<option value="true"#{" selected" if @conf['spamfilter.debug_mode']}>オン</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.debug_mode']}>オフ</option>
+			<option value="true"#{" selected" if @conf['spamfilter.debug_mode']}>記録する</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.debug_mode']}>記録しない</option>
 		</select></p>
-	<p>デバッグログを記録するファイルのファイル名。<br>
-		<input type="text" name="spamfilter.debug_file" value="#{CGI.escapeHTML(@conf['spamfilter.debug_file'] || '')}" size="30"></p>
+	<p>ファイル名: <input type="text" name="spamfilter.debug_file" value="#{CGI.escapeHTML(@conf['spamfilter.debug_file'] || '')}" size="50"></p>
 	HTML
 	end
 
