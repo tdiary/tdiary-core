@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.9 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.10 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -20,7 +20,7 @@ def spamfilter_conf_html
 		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
 	<p>ツッコミのメールアドレスが以下のパターンに当てはまる場合はspamとみなす。正規表現が使えます<br>
 		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
-	<p>以下のパターンに当てはまるURLを含むツッコミはspamとみなす(例:「example.com」)。正規表現が利用できます。なお、ここに何も書かなくても一部のパターンは標準でspamとみなします<br>
+	<p>ツッコミやリンク元に含まれるURLに、以下のパターンが含まれる場合はspamとみなす<br>
 		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
 	<p>上のパターンをツッコミのメールアドレスのチェックにも
 		<select name="spamfilter.bad_uri_patts_for_mails">

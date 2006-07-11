@@ -1,4 +1,9 @@
 2006-07-10 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/ja/10spamfilter.rb: modify messages of preference page more.
+	* theme/conf.css: hide div.footer, and enlarge submit button.
+	* skel/conf.rhtml: add some classes.
+
+2006-07-10 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/ja/10spamfilter.rb: modify messages of preference page.
 
 2006-07-08 TADA Tadashi <sho@spc.gr.jp>
