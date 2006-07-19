@@ -3,6 +3,7 @@
 
 require 'uri'
 require 'resolv'
+require 'timeout'
 
 module TDiary
 	module Filter
@@ -73,19 +74,19 @@ module TDiary
 					@resolv_check = @conf.options['spamfilter.resolv_check']
 				else
 					@resolv_check = true
-            end
+				end
 
-            if @conf.options.include?('spamlookup.domain.list')
-               @spamlookup_domain_list = @conf.options['spamlookup.domain.list']
-            else
-               @spamlookup_domain_list = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
-            end
+				if @conf.options.include?('spamlookup.domain.list')
+					@spamlookup_domain_list = @conf.options['spamlookup.domain.list']
+				else
+					@spamlookup_domain_list = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
+				end
 
-            if @conf.options.include?('spamlookup.safe_domain.list')
-               @spamlookup_safe_domain_list = @conf.options['spamlookup.safe_domain.list']
-            else
-               @spamlookup_safe_domain_list = "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
-            end
+				if @conf.options.include?('spamlookup.safe_domain.list')
+					@spamlookup_safe_domain_list = @conf.options['spamlookup.safe_domain.list']
+				else
+					@spamlookup_safe_domain_list = "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
+				end
 
 				if @conf.options.include?('spamfilter.resolv_check_mode')
 					if @conf.options['spamfilter.resolv_check_mode']
@@ -96,9 +97,9 @@ module TDiary
 				else
 					@resolv_check_mode = true # invisible
 				end
-			
+
 				if @conf.options.include?('spamfilter.bad_uri_patts_for_mails')
-					@bad_uri_patts_for_mails = 
+					@bad_uri_patts_for_mails =
 							@conf.options['spamfilter.bad_uri_patts_for_mails']
 				else
 					@bad_uri_patts_for_mails = false
@@ -179,7 +180,7 @@ module TDiary
 				else
 					@date_limit = nil
 				end
-			
+
 				nil
 			end
 
@@ -192,44 +193,41 @@ module TDiary
 				end
 			end
 
-         def black_domain?( domain )
-            chance = 2
-            @spamlookup_domain_list.split(/\n/).each do |dnsbl|
-               begin
-                  address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
-                  debug("lookup:#{domain}.#{dnsbl} address:#{address}")
-                  return true
-						rescue Resolv::ResolvTimeout
-							if chance > 0
-								chance -= 1
-								retry
-							end
-                     debug("resolv timeout.")
-                  rescue Resolv::ResolvError
-                     debug("resolv error.")
-                  rescue Exception
-                     debug("unknown resolv error.")
-               end
-            end
-            return false
-         end
-         
-         def black_url?( body )
-            body.scan( %r|https?://([^/:\s]+)| ) do |s|
-               if @spamlookup_safe_domain_list.include?( s[0] )
-                  debug("#{s[0]} is safe host.")
-                  next
-               end
-               return true if black_domain?( s[0] )
-            end
-            return false
-         end
+			def black_domain?( domain )
+				@spamlookup_domain_list.split(/\n/).each do |dnsbl|
+					begin
+						timeout(5) do
+							address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
+							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
+							return true
+						end
+					rescue ResolvError
+						debug("resolv error:#{domain}.#{dnsbl}")
+					rescue TimeoutError
+						debug("timeout error:#{domain}.#{dnsbl}")
+					rescue Exception
+						debug("unknown error:#{domain}.#{pudnsbl}")
+					end
+				end
+				return false
+			end
+
+			def black_url?( body )
+				body.scan( %r|https?://([^/:\s]+)| ) do |s|
+					if @spamlookup_safe_domain_list.include?( s[0] )
+						debug("#{s[0]} is safe host.")
+						next
+					end
+					return true if black_domain?( s[0] )
+				end
+				return false
+			end
 
 			def comment_filter( diary, comment )
 				update_config
 				#debug( "comment_filter start" )
 
-            return false if black_url?( comment.body )
+				return false if black_url?( comment.body )
 
 				if @date_limit
 					now = Time.now
@@ -241,7 +239,7 @@ module TDiary
 						return @filter_mode
 					end
 				end
-			
+
 				if %r{/\.\/} =~ ENV['REQUEST_URI']
 					debug( "REQUEST_URI contains %r{/\./}: #{ENV['REQUEST_URI']}" )
 					comment.show = false
@@ -254,7 +252,7 @@ module TDiary
 					comment.show = false
 					return @filter_mode
 				end
-				
+
 				if !comment.mail.empty? &&
 						%r<@[^@]+\.(?:#{TLD.join("|")})$>i !~ comment.mail
 					debug( "invalid domain name of mail address: #{comment.mail.dump}" )
@@ -275,7 +273,7 @@ module TDiary
 					comment.show = false
 					return @filter_mode
 				end
-				
+
 				if @bad_ips.detect {|p| p =~ @cgi.remote_addr}
 					debug( "ip address blacklisted: /#{p}/ =~ #{@cgi.remote_addr}" )
 					comment.show = false
@@ -323,7 +321,7 @@ module TDiary
 						end
 
 						if addrs.empty?
-							# IPアドレスを得られなかった
+							# IP?��??????????????��?
 							debug( "couldn't get addresses: #{uri.host}" )
 							comment.show = false
 							return @resolv_check_mode
@@ -381,8 +379,8 @@ module TDiary
 
 				update_config
 				#debug( "referer_filter start" )
-            
-            return false if black_url?( referer )
+
+				return false if black_url?( referer )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
 					debug( "referer has no path: #{referer}" )

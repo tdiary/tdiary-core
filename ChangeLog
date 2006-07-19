@@ -1,3 +1,6 @@
+2006-07-19 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* tdiary/filter/spam.rb: add timeout to black_domain.
+
 2006-07-19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/filter/spam.rb: recognize URI only http, https, ftp and mailto.
 	* tdiary/filter/spam.rb: max_rate means percentage.
@@ -6,9 +9,6 @@
 	* plugin/ja/10spamfilter.rb: modify messages of preference page more.
 	* theme/conf.css: hide div.footer, and enlarge submit button.
 	* skel/conf.rhtml: add some classes.
-
-2006-07-10 TADA Tadashi <sho@spc.gr.jp>
-	* plugin/ja/10spamfilter.rb: modify messages of preference page.
 
 2006-07-08 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/filter/default.rb: TSUKKOMI filtered by 'POST' command exactly.
