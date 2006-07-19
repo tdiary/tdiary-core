@@ -346,7 +346,7 @@ module TDiary
 					comment_body = comment.body
 				end
 
-				uris = URI.extract(comment_body)
+				uris = URI.extract( comment_body, %w(http https ftp mailto) )
 				unless uris.empty?
 					if @max_uris && @max_uris >= 0 && uris.size > @max_uris
 						debug( "too many URIs" )
