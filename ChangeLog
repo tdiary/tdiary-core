@@ -1,5 +1,6 @@
 2006-07-19 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/filter/spam.rb: recognize URI only http, https, ftp and mailto.
+	* tdiary/filter/spam.rb: max_rate means percentage.
 
 2006-07-10 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/ja/10spamfilter.rb: modify messages of preference page more.

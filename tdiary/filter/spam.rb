@@ -355,7 +355,7 @@ module TDiary
 					end
 
 					if @max_rate && @max_rate > 0 &&
-							uris.join('').size.to_f/comment_body.gsub(/\s+/, '').size.to_f > @max_rate
+							uris.join('').size * 100 / comment_body.gsub(/\s+/, '').size > @max_rate
 						debug( "too many URI-chars" )
 						comment.show = false
 						return @filter_mode
