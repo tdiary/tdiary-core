@@ -201,7 +201,7 @@ module TDiary
 							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
 							return true
 						end
-					rescue ResolvError
+					rescue Resolv::ResolvTimeout, Resolv::ResolvError
 						debug("resolv error:#{domain}.#{dnsbl}")
 					rescue TimeoutError
 						debug("timeout error:#{domain}.#{dnsbl}")
