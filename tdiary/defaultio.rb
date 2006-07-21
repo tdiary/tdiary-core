@@ -1,5 +1,5 @@
 #
-# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.42 $
+# defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.43 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -95,7 +95,7 @@ module TDiary
 
 					# convert to referer plugin format
 					diaries.each do |date,diary|
-						fname = file.sub( /\.tdr$/, "#{date[6,2]}.tdr" )
+						fname = file.sub( /\.tdr$/, "#{date[6,2]}.tdr".untaint )
 						File::open( fname, File::WRONLY | File::CREAT ) do |fhr|
 							fhr.flock( File::LOCK_EX )
 							fhr.rewind

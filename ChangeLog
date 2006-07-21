@@ -1,3 +1,7 @@
+2006-07-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* skel/mail.rtxt: output ENV['REMOTE_ADDR'].
+	* tdiary/filter/default.rb: untaint referer file names for mod_ruby.
+
 2006-07-19 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary/filter/spam.rb: add timeout to black_domain.
 
