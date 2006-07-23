@@ -1,3 +1,7 @@
+2006-07-23 TADA Tadashi <sho@spc.gr.jp>
+	* skel/mail.rtxt: ENV['REMOTE_ADDR'] -> @cgi.remote_addr, and move it to
+	bottom of the mail body.
+
 2006-07-21 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary/filter/spam.rb: fix namespace ResolvError.
 
