@@ -1,3 +1,8 @@
+2006-08-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/hikidoc.rb: sync with hikidoc rev.38.
+	  support nested modifier (reported by MoonWolf)
+	  support relative inline URL and fix parse_table
+
 2006-07-23 TADA Tadashi <sho@spc.gr.jp>
 	* skel/mail.rtxt: ENV['REMOTE_ADDR'] -> @cgi.remote_addr, and move it to
 	bottom of the mail body.
