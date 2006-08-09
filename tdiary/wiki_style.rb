@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.18 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.19 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -90,10 +90,7 @@ module TDiary
 				subtitle = true
 				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
 			end
-			r.gsub!( %r!<p>(.+?)</p>!m ) do
-				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
-			end unless subtitle
-			r.gsub!( %r!<tdiary-section>(.+?)</tdiary-section>!m ) do
+			r.gsub!( %r!^<p>(.+?)</p>$!m ) do
 				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
 			end unless subtitle
 			r.gsub( /<(\/)?tdiary-section>/, '<\\1p>' )
@@ -116,7 +113,7 @@ module TDiary
 				"<%=#{CGI.unescapeHTML($1)}%>"
 			end
 			html.gsub!( %r!<div class="plugin">\{\{(.+?)\}\}</div>!m ) do
-				"<tdiary-section><%=#{CGI.unescapeHTML($1)}%></tdiary-section>"
+				"<p><%=#{CGI.unescapeHTML($1)}%></p>"
 			end
 			html.gsub!( %r!<a href="(.+?)">(.+?)</a>! ) do
 				k, u = $2, $1
