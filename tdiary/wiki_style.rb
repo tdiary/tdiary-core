@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.19 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.20 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -85,12 +85,12 @@ module TDiary
 
 		def do_html4( date, idx, opt )
 			subtitle = false
-			r = @html.dup
+			r = @html.lstrip
 			r.sub!( %r!<h3>(.+?)</h3>! ) do
 				subtitle = true
 				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
 			end
-			r.gsub!( %r!^<p>(.+?)</p>$!m ) do
+			r.sub!( %r!^<p>(.+?)</p>$!m ) do
 				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
 			end unless subtitle
 			r.gsub( /<(\/)?tdiary-section>/, '<\\1p>' )
@@ -187,8 +187,22 @@ module TDiary
 		end
 	
 		def append( body, author = nil )
+			if /(.*?)(^![^!].*)/m =~ body
+				body1 = $1
+				body2 = $2
+			elsif /^![^!]/ !~ body
+				body1 = body
+				body2 = ''
+			else
+				body1 = ''
+				body2 = body
+			end
+
+			unless body1.empty?
+				@sections << WikiSection::new( body1, author )
+			end
 			section = nil
-			body.each do |l|
+			body2.each do |l|
 				case l
 				when /^\![^!]/
 					@sections << WikiSection::new( section, author ) if section

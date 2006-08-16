@@ -1,3 +1,6 @@
+2006-08-16  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/wiki_style.rb (append): revise detection of sections.
+
 2006-08-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/wiki_style.rb: revise to output correct HTML with the
 	makerss.rb plugin.
