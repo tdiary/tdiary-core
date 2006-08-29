@@ -206,7 +206,7 @@ module TDiary
 					rescue TimeoutError
 						debug("timeout error:#{domain}.#{dnsbl}")
 					rescue Exception
-						debug("unknown error:#{domain}.#{pudnsbl}")
+						debug("unknown error:#{domain}.#{dnsbl}")
 					end
 				end
 				return false
