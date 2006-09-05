@@ -1,4 +1,4 @@
-<%# i.day.rhtml $Revision: 1.13 $ %>
+<%# i.day.rhtml $Revision: 1.14 $ %>
 <H1><%= CGI::escapeHTML( @conf.html_title ) %></H1>
 <%
 diary = @diaries[@diaries.keys.sort[0]]
@@ -37,4 +37,4 @@ else %>
 	<A HREF="<%= @conf.index %>" ACCESSKEY="1">[1]<%= mobile_navi_latest %></A>
 	<P><%= no_diary %></P><%
 end %>
-
+<%%= mobile_navi %>
