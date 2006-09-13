@@ -1,3 +1,6 @@
+2006-09-13 Shun-ichi TAHARA  <jado at flowernet.gr.jp> 
+	* style/etdiary/etdiary_style.rb: fix bug for mobile mode.
+ 
 2006-09-13 Masahiro Sakai  <sakai at tom.sfc.keio.ac.jp> 
 	* style/rd/rd_style.rb: unescapeHTML for parameters of plugins.
  

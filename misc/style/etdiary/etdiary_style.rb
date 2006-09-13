@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.17 2006-05-23 16:00:03 kazuhiko Exp $
+# $Id: etdiary_style.rb,v 1.18 2006-09-13 07:20:42 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -235,7 +235,7 @@ module TDiary
 		def section_start( date )
 			"<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n"
 		end
-		def section_end
+		def section_end( date )
 			"<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n"
 		end
 		def block_title?( fragment )
