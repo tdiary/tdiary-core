@@ -1,3 +1,6 @@
+2006-09-13 Masahiro Sakai  <sakai at tom.sfc.keio.ac.jp> 
+	* style/rd/rd_style.rb: unescapeHTML for parameters of plugins.
+ 
 2006-09-05 TADA Tadashi <sho@spc.gr.jp>
 	* skel/i.*.rhtml: add navigation link to bottom of pages.
 

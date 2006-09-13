@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.29 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.30 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -87,7 +87,7 @@ module RD
 
 		# use for tDiary plugin :-p
 		def apply_to_Keyboard(element, content)
-		  	plugin, args = content.join("").split(/\s+/, 2)
+		  	plugin, args = CGI.unescapeHTML(content.join("")).split(/\s+/, 2)
 			%Q[<%=#{plugin} #{args}%>]
 		end
 
