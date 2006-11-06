@@ -35,6 +35,7 @@ class HikiDoc < String
   def initialize( content = '', options = {} )
     @level = options[:level] || 1
     @empty_element_suffix = options[:empty_element_suffix] || ' />'
+    @plugin_syntax = options[:plugin_syntax] || method(:valid_plugin_syntax?)
     super( content )
   end
 
@@ -89,6 +90,10 @@ class HikiDoc < String
   PLUGIN_CLOSE = '}}'
   PLUGIN_SPLIT_RE = /(#{Regexp.union( PLUGIN_OPEN, PLUGIN_CLOSE )})/
 
+  def valid_plugin_syntax?(code)
+    /['"]/ !~ code.gsub( /(['"]).*?\1/m, '' )
+  end
+
   def parse_plugin( text )
     ret = ''
     plugin = false
@@ -96,15 +101,21 @@ class HikiDoc < String
     text.split( PLUGIN_SPLIT_RE ).each do |str|
       case str
       when PLUGIN_OPEN
-        plugin = true
-        plugin_str += str
+        if !plugin
+          plugin = true
+          plugin_str = ''
+        else
+          plugin_str += str
+        end
       when PLUGIN_CLOSE
         if plugin
-          plugin_str += str
-          unless /['"]/ =~ plugin_str.gsub( /(['"]).*?\1/m, '' )
+          unescaped_plugin_str = unescape_meta_char(plugin_str, true)
+          if @plugin_syntax.call(CGI.unescapeHTML(unescaped_plugin_str))
+            ret << store_plugin_block("#{PLUGIN_OPEN}#{unescaped_plugin_str}#{PLUGIN_CLOSE}")
             plugin = false
-            ret << store_plugin_block( unescape_meta_char( plugin_str, true ) )
             plugin_str = ''
+          else
+            plugin_str += str
           end
         else
           ret << str
@@ -117,7 +128,7 @@ class HikiDoc < String
         end
       end
     end
-    ret << plugin_str if plugin
+    ret << PLUGIN_OPEN << plugin_str if plugin
     ret
   end
 

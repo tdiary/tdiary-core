@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.20 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.21 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -107,13 +107,22 @@ module TDiary
 		end
 
 	private
+		def valid_plugin_syntax?(code)
+			eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
+		rescue SyntaxError
+			false
+		end
+
 		def to_html( string )
-			html = HikiDoc::new( string, :level => 3, :empty_element_suffix => '>'  ).to_html.strip
+			html = HikiDoc::new( string,
+				:level => 3,
+				:empty_element_suffix => '>',
+				:plugin_syntax => method(:valid_plugin_syntax?) ).to_html.strip
 			html.gsub!( %r!<span class="plugin">\{\{(.+?)\}\}</span>!m ) do
-				"<%=#{CGI.unescapeHTML($1)}%>"
+				"<%=#{CGI.unescapeHTML($1)}\n%>"
 			end
 			html.gsub!( %r!<div class="plugin">\{\{(.+?)\}\}</div>!m ) do
-				"<p><%=#{CGI.unescapeHTML($1)}%></p>"
+				"<p><%=#{CGI.unescapeHTML($1)}\n%></p>"
 			end
 			html.gsub!( %r!<a href="(.+?)">(.+?)</a>! ) do
 				k, u = $2, $1

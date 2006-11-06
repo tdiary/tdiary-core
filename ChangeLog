@@ -1,3 +1,7 @@
+2006-11-06  Tanaka Akira <akr at fsij.org>
+	* tdiary/hikidoc.rb, tdiary/wiki_style.rb: support here document in wiki
+	style plugin syntax.
+ 
 2006-09-13 Shun-ichi TAHARA  <jado at flowernet.gr.jp> 
 	* style/etdiary/etdiary_style.rb: fix bug for mobile mode.
  
