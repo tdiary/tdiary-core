@@ -1,3 +1,6 @@
+2006-11-10 TADA Tadashi <sho@spc.gr.jp>
+	* style/wiki_style.rb: fix bug when plugin specified in subtitle.
+
 2006-11-09 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: add 'SoftBank' to mobile user agent.
 

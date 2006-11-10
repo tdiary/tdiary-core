@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.21 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.22 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -119,7 +119,7 @@ module TDiary
 				:empty_element_suffix => '>',
 				:plugin_syntax => method(:valid_plugin_syntax?) ).to_html.strip
 			html.gsub!( %r!<span class="plugin">\{\{(.+?)\}\}</span>!m ) do
-				"<%=#{CGI.unescapeHTML($1)}\n%>"
+				"<%=#{CGI.unescapeHTML($1)}%>"
 			end
 			html.gsub!( %r!<div class="plugin">\{\{(.+?)\}\}</div>!m ) do
 				"<p><%=#{CGI.unescapeHTML($1)}\n%></p>"
