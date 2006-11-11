@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.22 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.23 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -86,7 +86,7 @@ module TDiary
 		def do_html4( date, idx, opt )
 			subtitle = false
 			r = @html.lstrip
-			r.sub!( %r!<h3>(.+?)</h3>! ) do
+			r.sub!( %r!<h3>(.+?)</h3>!m ) do
 				subtitle = true
 				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
 			end
@@ -119,7 +119,7 @@ module TDiary
 				:empty_element_suffix => '>',
 				:plugin_syntax => method(:valid_plugin_syntax?) ).to_html.strip
 			html.gsub!( %r!<span class="plugin">\{\{(.+?)\}\}</span>!m ) do
-				"<%=#{CGI.unescapeHTML($1)}%>"
+				"<%=#{CGI.unescapeHTML($1)}\n%>"
 			end
 			html.gsub!( %r!<div class="plugin">\{\{(.+?)\}\}</div>!m ) do
 				"<p><%=#{CGI.unescapeHTML($1)}\n%></p>"

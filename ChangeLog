@@ -1,3 +1,6 @@
+2006-11-11  Tanaka Akira <akr at fsij.org>
+	* tdiary/wiki_style.rb: support here document ends without CR/LF in plugin.
+ 
 2006-11-10 TADA Tadashi <sho@spc.gr.jp>
 	* style/wiki_style.rb: fix bug when plugin specified in subtitle.
 
