@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.23 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.24 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -109,7 +109,7 @@ module TDiary
 	private
 		def valid_plugin_syntax?(code)
 			eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
-		rescue SyntaxError
+		rescue SyntaxError, SecurityError
 			false
 		end
 

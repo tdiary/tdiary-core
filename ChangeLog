@@ -1,4 +1,6 @@
 2006-11-13  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/wiki_style.rb: rescue SecurityError.
+
 	* tdiary/hikidoc.rb: sync with hikidoc rev.43.
 	  use Syntax library in multi-pre if possible
 
