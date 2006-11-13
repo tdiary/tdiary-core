@@ -28,9 +28,14 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
 require 'uri'
+begin
+  require 'rubygems' rescue nil
+  require 'syntax/convertors/html'
+rescue LoadError
+end
 
 class HikiDoc < String
-  Revision = %q$Rev: 38 $
+  Revision = %q$Rev: 43 $
 
   def initialize( content = '', options = {} )
     @level = options[:level] || 1
@@ -91,7 +96,7 @@ class HikiDoc < String
   PLUGIN_SPLIT_RE = /(#{Regexp.union( PLUGIN_OPEN, PLUGIN_CLOSE )})/
 
   def valid_plugin_syntax?(code)
-    /['"]/ !~ code.gsub( /(['"]).*?\1/m, '' )
+    /['"]/ !~ escape_meta_char(code).gsub( /(['"]).*?\1/m, '' )
   end
 
   def parse_plugin( text )
@@ -110,7 +115,7 @@ class HikiDoc < String
       when PLUGIN_CLOSE
         if plugin
           unescaped_plugin_str = unescape_meta_char(plugin_str, true)
-          if @plugin_syntax.call(CGI.unescapeHTML(unescaped_plugin_str))
+          if @plugin_syntax.call(unescape_html(unescaped_plugin_str))
             ret << store_plugin_block("#{PLUGIN_OPEN}#{unescaped_plugin_str}#{PLUGIN_CLOSE}")
             plugin = false
             plugin_str = ''
@@ -141,8 +146,14 @@ class HikiDoc < String
 
   def parse_pre( text )
     ret = text
-    ret.gsub!( /^#{MULTI_PRE_OPEN_RE}$(.*?)^#{MULTI_PRE_CLOSE_RE}$/m ) do |str|
-      "\n" + store_block( "<pre>%s</pre>" % restore_pre( $1 ) ) + "\n\n"
+    ret.gsub!( /^#{MULTI_PRE_OPEN_RE}[ \t]*(\w*)$(.*?)^#{MULTI_PRE_CLOSE_RE}$/m ) do |str|
+      begin
+        raise if $1.empty?
+        convertor = Syntax::Convertors::HTML.for_syntax($1.downcase)
+        "\n" + store_block( convertor.convert( unescape_html( restore_pre( $2 ) ) ) ) + "\n\n"
+      rescue
+        "\n" + store_block( "<pre>%s</pre>" % restore_pre( $2 ) ) + "\n\n"
+      end
     end
     ret.gsub!( /(?:#{PRE_RE}.*\n?)+/ ) do |str|
       str.chomp!
@@ -401,6 +412,12 @@ class HikiDoc < String
     text.gsub( /&/, '&amp;' ).
       gsub( /</, '&lt;' ).
       gsub( />/, '&gt;' )
+  end
+
+  def unescape_html( text )
+    text.gsub( /&gt;/, '>').
+      gsub( /&lt;/, '<').
+      gsub( /&amp;/, '&')
   end
 
   def escape_quote( text )
