@@ -29,7 +29,6 @@
  
 require 'uri'
 begin
-  require 'rubygems' rescue nil
   require 'syntax/convertors/html'
 rescue LoadError
 end
