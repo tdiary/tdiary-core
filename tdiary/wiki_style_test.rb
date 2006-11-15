@@ -113,14 +113,19 @@ ge}}
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
-<p><%=plugin%>
-<%=plugin%>
+<p><%=plugin
+%>
+<%=plugin
+%>
 aaa</p>
-<p><%=plugin%></p>
+<p><%=plugin
+%></p>
 <p>a<%=ho
-ge%>b</p>
+ge
+%>b</p>
 <p><%=ho
-ge%></p>
+ge
+%></p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF

@@ -1,3 +1,6 @@
+2006-11-15  Tanaka Akira <akr at fsij.org>
+	* tdiary/wiki_style.rb: check plugin syntax in $SAFE=4.
+
 2006-11-13  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/wiki_style.rb: rescue SecurityError.
 
