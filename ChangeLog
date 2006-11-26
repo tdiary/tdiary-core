@@ -1,9 +1,12 @@
+2006-11-26 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, skel/conf.rhtml: security fix: escape HTML for conf parameter
+	in update.rb.
+
 2006-11-15  Tanaka Akira <akr at fsij.org>
 	* tdiary/wiki_style.rb: check plugin syntax in $SAFE=4.
 
 2006-11-13  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/wiki_style.rb: rescue SecurityError.
-
 	* tdiary/hikidoc.rb: sync with hikidoc rev.43.
 	  use Syntax library in multi-pre if possible
 
