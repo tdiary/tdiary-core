@@ -1,3 +1,6 @@
+2006-11-28 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fix error when no 'conf' parameter in preferences page.
+
 2006-11-26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, skel/conf.rhtml: security fix: escape HTML for conf parameter
 	in update.rb.
