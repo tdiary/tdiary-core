@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.98 $
+# $Revision: 1.99 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -771,5 +771,5 @@ def saveconf_csrf_protection
 end
 
 def help( name )
-	%Q[<div class="help-icon"><a href="http://docs.tdiary.org/#{@conf.lang}/?#{name}" target="_blank"><img src="theme/help.png" width="19" height="19" alt="Help"></a></div>]
+	%Q[<div class="help-icon"><a href="http://docs.tdiary.org/#{@conf.lang}/?#{name}" target="_blank"><img src="#{theme_url}/help.png" width="19" height="19" alt="Help"></a></div>]
 end

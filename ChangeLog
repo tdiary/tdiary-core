@@ -1,3 +1,6 @@
+2006-12-04 HASHIMOTO Keisuke <ksk at be.to>
+	* plugin/00default.rb: change 'theme' to '#{theme}': position of help icon.
+
 2006-11-28 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix error when no 'conf' parameter in preferences page.
 
