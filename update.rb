@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.20 $
+# update.rb $Revision: 1.21 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -96,9 +96,9 @@ rescue Exception
 	end
 	puts "<h1>500 Internal Server Error</h1>"
 	puts "<pre>"
-	puts "#$! (#{$!.class})"
+	puts CGI::escapeHTML( "#{$!} (#{$!.class})" )
 	puts ""
-	puts $@.join( "\n" )
+	puts CGI::escapeHTML( $@.join( "\n" ) )
 	puts "</pre>"
 	puts "<div>#{' ' * 500}</div>"
 end
