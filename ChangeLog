@@ -1,3 +1,6 @@
+2006-12-10 TADA Tadashi <sho@spc.gr.jp>
+	* skel/conf.rhtml, skel/i.conf.rhtml: security fix: escape @key value.
+
 2006-12-05 zunda <zunda at freeshell.org>
 	* index.rb, update.rb: escape HTML for error page.
 
