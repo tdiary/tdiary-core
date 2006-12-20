@@ -189,7 +189,7 @@ module TDiary
 				require 'time'
 				File.open(@debug_file, 'a') do |io|
 					io.flock(File::LOCK_EX)
-					io.puts "#{Time.now.iso8601}: #{ENV['REMOTE_ADDR']}: #{msg}"
+					io.puts "#{Time.now.iso8601}: #{@cgi.remote_addr}->#{@cgi.params['date'][0].dump}: #{msg}"
 				end
 			end
 
