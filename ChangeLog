@@ -1,3 +1,6 @@
+2006-12-28 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/filter/spam.rb: fix error on logging when no 'date' parameter (again).
+
 2006-12-27 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/filter/spam.rb: fix error on logging when no 'date' parameter.
 
