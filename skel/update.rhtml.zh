@@ -1,14 +1,14 @@
-<%# update.rhtml $Revision: 1.3 $ %>
+<%# update.rhtml $Revision: 1.4 $ %>
 <%%=navi%>
 
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%= submit_label %>]</h1>
+<h1><%=h @conf.html_title %> [<%%= submit_label %>]</h1>
 
 <div class="update day">
 <div class="form">
 	<div class="caption">
 		更新日誌
 	</div>
-	<form class="update" method="post" action="<%= @conf.update %>"><div>
+	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">日誌主體</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<%=@csrf_protection%>
@@ -25,10 +25,10 @@
 			<input type="submit" tabindex="4" accesskey="E" name="edit" value="編輯這一天的日誌">
 		</span>
 		<div class="field title">
-			標題: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
+			標題: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			內文(<%= @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+			內文(<%=h @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">
@@ -49,7 +49,7 @@
 
 <div class="comment">
 	<div class="caption"><%%=comment_today%></div>
-	<form class="commentstat" method="post" action="<%= @conf.update %>"><div>
+	<form class="commentstat" method="post" action="<%=h @conf.update %>"><div>
 		<input type="hidden" name="year" value="<%= @date.year %>">
 		<input type="hidden" name="month" value="<%= @date.month %>">
 		<input type="hidden" name="day" value="<%= @date.day %>">
@@ -61,7 +61,7 @@
 				<span class="checkbox">
 					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
 				</span>
-				<span class="commentator"><%= CGI::escapeHTML( comment.name ) %></span>
+				<span class="commentator"><%=h comment.name %><%=h( " <#{h comment.mail}>" ) unless comment.mail.empty? %></span>
 				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
 			</div>
 			<p><%= comment.body.make_link.gsub( /\n/, "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%

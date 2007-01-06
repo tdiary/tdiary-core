@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.6 $
+# $Revision: 1.7 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -155,7 +155,7 @@ def referer_of_today_long( diary, limit )
 		result << %Q[<div class="caption">#{referer_today}</div>\n]
 		result << %Q[<ul>\n]
 		diary.each_referer( limit ) do |count,ref|
-			result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
+			result << %Q[<li>#{count} <a href="#{h ref}">#{h disp_referer( @referer_table, ref )}</a></li>\n]
 		end
 		result << '</ul>'
 	end
@@ -164,7 +164,7 @@ def referer_of_today_long( diary, limit )
 		result << %Q[<div class="caption">#{volatile_referer}</div>\n]
 		result << %Q[<ul>\n]
 		@referer_volatile.each_referer( limit ) do |count,ref|
-			result << %Q[<li>#{count} <a href="#{CGI::escapeHTML( ref )}">#{CGI::escapeHTML( disp_referer( @referer_table, ref ) )}</a></li>\n]
+			result << %Q[<li>#{count} <a href="#{h ref}">#{h disp_referer( @referer_table, ref )}</a></li>\n]
 		end
 		result << '</ul>'
 	end

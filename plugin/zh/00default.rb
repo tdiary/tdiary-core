@@ -9,7 +9,7 @@
 # header
 #
 def title_tag
-	r = "<title>#{CGI::escapeHTML( @html_title )}"
+	r = "<title>#{h @html_title}"
 	case @mode
 	when 'day', 'comment'
 		r << "(#{@date.strftime( '%Y-%m-%d' )})" if @date
@@ -121,31 +121,31 @@ add_conf_proc( 'default', '基本設定', 'basic' ) do
 	<<-HTML
 	<h3 class="subtitle">大標題</h3>
 	#{"<p>這是您日誌的大標題，您填入的值會用在 HTML 的 &lt;title&gt; 項目當中。特別注意，本欄位請勿使用 HTML 標籤(tags)。 </p>" unless @conf.mobile_agent?}
-	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
+	<p><input name="html_title" value="#{h @conf.html_title}" size="50"></p>
 
 	<h3 class="subtitle">作者</h3>
 	#{"<p>填上您的大名吧！此欄位的值將會用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
-	<p><input name="author_name" value="#{CGI::escapeHTML @conf.author_name}" size="40"></p>
+	<p><input name="author_name" value="#{h @conf.author_name}" size="40"></p>
 
 	<h3 class="subtitle">電子郵件</h3>
 	#{"<p>填入您的電子郵件位址，此欄位的值將用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
-	<p><input name="author_mail" value="#{@conf.author_mail}" size="40"></p>
+	<p><input name="author_mail" value="#{h @conf.author_mail}" size="40"></p>
 
 	<h3 class="subtitle">您索引網頁(首頁)的 URL</h3>
 	#{"<p>若您有自己的網站位址，可以填註在下面。</p>" unless @conf.mobile_agent?}
-	<p><input name="index_page" value="#{@conf.index_page}" size="50"></p>
+	<p><input name="index_page" value="#{h @conf.index_page}" size="50"></p>
 
 	<h3 class="subtitle">Description</h3>
 	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="70"></p>
+	<p><input name="description" value="#{h @conf.description}" size="70"></p>
 
 	<h3 class="subtitle">Site icon (favicon)</h3>
 	#{"<p>URL for the small icon (aka 'favicon') of your site. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="70"></p>
+	<p><input name="icon" value="#{h @conf.icon}" size="70"></p>
 
 	<h3 class="subtitle">Site banner</h3>
 	#{"<p>URL for the banner image of your site. makerss plugin will use this value to make RSS. Can be left blank.</p>" unless @conf.mobile_agent?}
-	<p><input name="banner" value="#{CGI::escapeHTML @conf.banner}" size="70"></p>
+	<p><input name="banner" value="#{h @conf.banner}" size="70"></p>
 	HTML
 end
 
@@ -156,10 +156,10 @@ add_conf_proc( 'header', '頁眉與頁腳', 'basic' ) do
 	<<-HTML
 	<h3 class="subtitle">頁眉</h3>
 	#{"<p>這段文字將會擺置在每個頁面的頂端，您可以使用 HTML 語法。但是請勿移除 \"&lt;%=navi%&gt;\"標籤，因為它代表包含\"更新\"(Update)功\能鈕在內的「導覽列」，而 \"&lt;%=calendar%&gt;\" 標籤代表日曆。此處您也可以自由搭配其它的 plugin。 </p>" unless @conf.mobile_agent?}
-	<p><textarea name="header" cols="70" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
+	<p><textarea name="header" cols="70" rows="10">#{h @conf.header}</textarea></p>
 	<h3 class="subtitle">頁腳</h3>
 	#{"<p>這段文字除了它的位置是置於底端以外，其餘都如同頁眉。 </p>" unless @conf.mobile_agent?}
-	<p><textarea name="footer" cols="70" rows="10">#{ CGI::escapeHTML @conf.footer }</textarea></p>
+	<p><textarea name="footer" cols="70" rows="10">#{h @conf.footer}</textarea></p>
 	HTML
 end
 
@@ -170,21 +170,21 @@ add_conf_proc( 'display', '顯示', 'basic' ) do
 	<<-HTML
 	<h3 class="subtitle">段落的錨點(anchor)代表記號</h3>
 	#{"<p>\"錨點\" 的意義在於讓其它網站可以與您的日誌互相連結。段落錨點會被置於每個段落的開頭處，您可以指定 \"&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;\"，而圖形化錨點的有無，會由佈景主題的設計來決定。 </p>" unless @conf.mobile_agent?}
-	<p><input name="section_anchor" value="#{ CGI::escapeHTML @conf.section_anchor }" size="40"></p>
+	<p><input name="section_anchor" value="#{h @conf.section_anchor}" size="40"></p>
 	<h3 class="subtitle">迴響的錨點(anchor)代表記號</h3>
 	#{"<p>迴響的錨點會置於每則迴響的開頭處，您可以指定 \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\"。</p>" unless @conf.mobile_agent?}
-	<p><input name="comment_anchor" value="#{ CGI::escapeHTML @conf.comment_anchor }" size="40"></p>
+	<p><input name="comment_anchor" value="#{h @conf.comment_anchor}" size="40"></p>
 	<h3 class="subtitle">日期的格式</h3>
 	#{"<p>日期的格式，一旦您指定下列這些 % 符號之後搭配的字元，其組合就可代表日期格式，如 \"%Y\"(年), \"%m\"(月)﹜\"%b\"(月份的簡短表示法), \"%B\"(月份的長表示法), \"%d\"(日), \"%a\"(星期的簡短表示法), \"%A\"(星期的長表示法)。</p>" unless @conf.mobile_agent?}
-	<p><input name="date_format" value="#{ CGI::escapeHTML @conf.date_format }" size="30"></p>
+	<p><input name="date_format" value="#{h @conf.date_format}" size="30"></p>
 	<h3 class="subtitle">「最新日誌」最多要秀出幾天份？</h3>
 	#{"<p>在「最新日誌」當中，您要顯示多少天份的日誌？ </p>" unless @conf.mobile_agent?}
-	<p><input name="latest_limit" value="#{@conf.latest_limit}" size="2"> 天份</p>
+	<p><input name="latest_limit" value="#{h @conf.latest_limit}" size="2"> 天份</p>
 	<h3 class="subtitle">往日情懷</h3>
 	#{"<p>是否要秀出 \"往日情懷\" (同月同日的過去日誌)？</p>" unless @conf.mobile_agent?}
 	<p><select name="show_nyear">
-		<option value="true"#{if @conf.show_nyear then " selected" end}>秀！</option>
-        <option value="false"#{if not @conf.show_nyear then " selected" end}>隱藏</option>
+		<option value="true"#{" selected" if @conf.show_nyear}>秀！</option>
+		<option value="false"#{" selected" unless @conf.show_nyear}>隱藏</option>
 	</select></p>
 	HTML
 end
@@ -195,7 +195,7 @@ add_conf_proc( 'timezone', '時間差的調整', 'update' ) do
 	<<-HTML
 	<h3 class="subtitle">時間差的調整</h3>
 	#{"<p>若是您更新了日誌，您可以透過此欄位(單位為小時)來做自動調整時間差。例如說，您若想要指定在清晨兩點所發表的日誌被當成是昨天的日誌，您就可以在這裡填入 -2。tDiary 會參考此數值來判定這篇日誌的發表日期。 </p>" unless @conf.mobile_agent?}
-	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
+	<p><input name="hour_offset" value="#{h @conf.hour_offset}" size="5"></p>
 	HTML
 end
 
@@ -224,15 +224,15 @@ add_conf_proc( 'comment', '迴響', 'tsukkomi' ) do
 	<h3 class="subtitle">是否要秀出迴響？</h3>
 	#{"<p>要不要秀出讀者們給您的迴響？ </p>" unless @conf.mobile_agent?}
 	<p><select name="show_comment">
-		<option value="true"#{if @conf.show_comment then " selected" end}>好</option>
-		<option value="false"#{if not @conf.show_comment then " selected" end}>不要</option>
+		<option value="true"#{" selected" if @conf.show_comment}>好</option>
+		<option value="false"#{" selected" unless @conf.show_comment}>不要</option>
 	</select></p>
 	<h3 class="subtitle">要秀出幾篇迴響？</h3>
 	#{"<p>在「最新日誌」或「某月日誌」模示下，您想要秀出多少篇可見的迴響？ 相對來說，在「單篇」模示下，所有的迴響都會秀出來。 </p>" unless @conf.mobile_agent?}
-	<p>秀出 <input name="comment_limit" value="#{ @conf.comment_limit }" size="3"> 篇迴響</p>
+	<p>秀出 <input name="comment_limit" value="#{h @conf.comment_limit}" size="3"> 篇迴響</p>
 	<h3 class="subtitle">Limit of TSUKKOMI per a day</h3>
 	#{"<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>" unless @conf.mobile_agent?}
-	<p><input name="comment_limit_per_day" value="#{ @conf.comment_limit_per_day }" size="3"> TSUKKOMIs</p>
+	<p><input name="comment_limit_per_day" value="#{h @conf.comment_limit_per_day}" size="3"> TSUKKOMIs</p>
 	HTML
 end
 
@@ -253,18 +253,18 @@ def comment_mail_basic_html
 	<h3 class="subtitle">是否利用信件通知有迴響？</h3>
 	#{"<p>請選擇在有新的迴響時要不要以電子郵件通知您。請記得這項功\能需要您在 tdiary.conf 設定 SMTP 伺服器。</p>" unless @conf.mobile_agent?}
 	<p><select name="comment_mail.enable">
-		<option value="true"#{if @conf['comment_mail.enable'] then " selected" end}>請用郵件通知</option>
-        <option value="false"#{if not @conf['comment_mail.enable'] then " selected" end}>不用了</option>
+		<option value="true"#{" selected" if @conf['comment_mail.enable']}>請用郵件通知</option>
+        <option value="false"#{" selected" unless @conf['comment_mail.enable']}>不用了</option>
 	</select></p>
 	<h3 class="subtitle">收件位址</h3>
 	#{"<p>請指定要收到迴響通知的電子郵件位址，一行寫一個位址。如果這裡沒有另外指定，則通知信將會寄到您的電子郵件位址。</p>" unless @conf.mobile_agent?}
-	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{CGI::escapeHTML( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
+	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{h ( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
 	<h3 class="subtitle">信件標題</h3>
 	#{"<p>指定一個會擺在通知信的「信件標題」開頭處的字串。信件標題會是 \"您指定的字串:DATE-SERIAL NAME\" 的樣式。 \"date\" 是您日誌發表的日期，但是如果您另行指定了日期的樣式，標題則會變為 \"您指定的字串-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @conf.mobile_agent?}
-	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf['comment_mail.header'])}"></p>
+	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
 	<h3 class="subtitle">About hidden TSUKKOMI</h3>
 	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @conf.mobile_agent?}
-	<p><input type="checkbox" name="comment_mail.sendhidden" value="#{@conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</p>
+	<p><input type="checkbox" name="comment_mail.sendhidden" value="#{" checked" if @conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</p>
 	HTML
 end
 
@@ -272,7 +272,7 @@ end
 # link to HOWTO write diary
 #
 def style_howto
-	%Q|/<a href="http://docs.tdiary.org/en/?#{@conf.style}Style">撰寫指引</a>|
+	%Q|/<a href="http://docs.tdiary.org/en/?#{h @conf.style}Style">撰寫指引</a>|
 end
 
 add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
@@ -328,13 +328,13 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	forged requests will not be granted. To enable this feature, you must specify the secret key below.
 	To allow Referer-disabled browsers, you must enable this setting.</p>" unless @conf.mobile_agent?}
 	<h4>CSRF protection key</h4>
-	<p><input type="text" name="key" value="#{CGI::escapeHTML csrf_protection_key}" size="20"></p>
+	<p><input type="text" name="key" value="#{h csrf_protection_key}" size="20"></p>
 	#{"<p>A secret key used for key-based CSRF protection. Specify a secret string which is not easy to guess.
 	If this key is leaked, CSRF attacks can be exploited.
 	Do not use any passwords used in other places. You need not to remember this phrase to type in.</p>" unless @conf.mobile_agent?}
 	#{"<p class=\"message\">Caution: 
 	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
-	<a href=\"#{@conf.update}?conf=csrf_protection\">Please open this page again via this link</a>.
+	<a href=\"#{h @update}?conf=csrf_protection\">Please open this page again via this link</a>.
 	If you see this message again, you must either change your browser setting (temporarily to change these settings, at least),
 	or edit \"tdiary.conf\" directly.</p>" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
 	</div>

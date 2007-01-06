@@ -1,25 +1,25 @@
-<%# referer.rhtml $Revision: 1.6 $ %>
+<%# referer.rhtml $Revision: 1.7 $ %>
 <div class="day">
 <% if @cgi.params['referer'][0] == 'no' then %>
 <h2><span class="title"><%%=label_no_referer%></span></h2>
 <div class="body">
 <ul>
-<%= (@conf.no_referer - @conf.no_referer2).collect{|r| "<li>#{r}</li>\n" }.join %>
+<%= (@conf.no_referer - @conf.no_referer2).collect{|r| "<li>#{h r}</li>\n" }.join %>
 </ul>
 </div>
 <% elsif @cgi.params['referer'][0] == 'volatile' %>
 <h2><span class="title"><%%=label_only_volatile%></span></h2>
 <div class="body">
 <ul>
-<%= (@conf.only_volatile - @conf.only_volatile2).collect{|r| "<li>#{r}</li>\n" }.join %>
+<%= (@conf.only_volatile - @conf.only_volatile2).collect{|r| "<li>#{h r}</li>\n" }.join %>
 </ul>
 </div>
 <% else %>
 <h2><span class="title"><%%=label_referer_table%></span></h2>
 <div class="body">
-<ul>
-<%= (@conf.referer_table - @conf.referer_table2).collect{|r,n| "<li>#{r} <b>#{n}</b></li>\n" }.join %>
-</ul>
+<table>
+<%= (@conf.referer_table - @conf.referer_table2).collect{|r,n| "<td><td>#{h r}</td><td>#{h n}</td></tr>\n" }.join %>
+</table>
 </div>
 <% end %>
 </div>

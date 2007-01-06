@@ -1,18 +1,18 @@
-<%# conf.rhtml $Revision: 1.29 $ %>
+<%# conf.rhtml $Revision: 1.30 $ %>
 <%%=navi%>
-<h1><%= CGI::escapeHTML( @conf.html_title ) %>(<%%=navi_preference%>) - <%%=conf_label( <%=@key.dump%> )%></h1>
+<h1><%=h @conf.html_title %>(<%%=h navi_preference%>) - <%%=h conf_label( <%=@key.dump%> )%></h1>
 <div class="sidebar">
 	<%% each_conf_genre do |genre|%>
 	<div class="block">
-	<h3><%%=conf_genre_label( genre )%></h3>
+	<h3><%%=h conf_genre_label( genre ) %></h3>
 	<ul><%% each_conf_key( genre ) do |key|%>
-		<li<%%=conf_current_style( key )%>><a href="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></a></li>
+		<li class="<%%=h conf_current_style( key ) %>"><a href="<%%=h @conf.update %>?conf=<%%=key%>"><%%=h conf_label( key )%></a></li>
 	<%% end %></ul>
 	</div>
 	<%% end %>
 </div>
-<form class="conf" method="post" action="<%= @conf.update %>"><div>
-	<input type="hidden" name="conf" value=<%=@key.dump%>>
+<form class="conf" method="post" action="<%=h @conf.update %>"><div>
+	<input type="hidden" name="conf" value="<%=h @key%>">
 	<%=@csrf_protection%>
 	<%%=help( <%=@key.dump%> + '.rb' )%>
 	<%%=conf_proc( <%=@key.dump%> )%>

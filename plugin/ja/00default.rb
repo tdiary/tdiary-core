@@ -9,7 +9,7 @@
 # header
 #
 def title_tag
-	r = "<title>#{CGI::escapeHTML( @html_title )}"
+	r = "<title>#{h @html_title}"
 	case @mode
 	when 'day', 'comment'
 		r << "(#{@date.strftime( '%Y-%m-%d' )})" if @date
@@ -29,7 +29,7 @@ def title_tag
 		r << '(設定完了)'
 	when 'nyear'
 		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
-		r << "(#{@cgi.params['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
+		r << "(#{h @cgi.params['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
 	end
 	r << '</title>'
 end
@@ -55,18 +55,18 @@ def comment_mail_basic_html
 	<h3 class="subtitle">ツッコミメールを送る</h3>
 	#{"<p>ツッコミがあった時に、メールを送るかどうかを選択します。</p>" unless @conf.mobile_agent?}
 	<p><select name="comment_mail.enable">
-		<option value="true"#{if @conf['comment_mail.enable'] then " selected" end}>送る</option>
-        <option value="false"#{if not @conf['comment_mail.enable'] then " selected" end}>送らない</option>
+		<option value="true"#{" selected" if @conf['comment_mail.enable']}>送る</option>
+        <option value="false"#{" selected" unless @conf['comment_mail.enable']}>送らない</option>
 	</select></p>
 	<h3 class="subtitle">送付先</h3>
 	#{"<p>メールの送付先を指定します。1行に1メールアドレスの形で、複数指定可能です。指定のない場合には、あなたのメールアドレスに送られます。</p>" unless @conf.mobile_agent?}
-	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{CGI::escapeHTML( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
+	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{h( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
 	<h3 class="subtitle">メールヘッダ</h3>
 	#{"<p>メールのSubjectにつけるヘッダ文字列を指定します。振り分け等に便利なように指定します。実際のSubjectには「指定文字列:日付-1」のように、日付とコメント番号が付きます。ただし指定文字列中に、%に続く英字があった場合、それを日付フォーマット指定を見なします。つまり「日付」の部分は自動的に付加されなくなります(コメント番号は付加されます)。</p>" unless @conf.mobile_agent?}
-	<p><input name="comment_mail.header" value="#{CGI::escapeHTML( @conf['comment_mail.header'])}"></p>
+	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
 	<h3 class="subtitle">非表示ツッコミの扱い</h3>
 	#{"<p>フィルタの結果、最初から非表示にされたツッコミが記録されることがあります。この非表示のツッコミが来たときにもメールを発信するかどうかを選択します。</p>" unless @conf.mobile_agent?}
-	<p><input type="checkbox" name="comment_mail.sendhidden" value="true"#{@conf['comment_mail.sendhidden'] ? ' checked': ''}>非表示のツッコミでもメールを送る</p>
+	<p><input type="checkbox" name="comment_mail.sendhidden" value="true"#{" checked" if @conf['comment_mail.sendhidden']}>非表示のツッコミでもメールを送る</p>
 	HTML
 end
 
@@ -74,7 +74,7 @@ end
 # link to HOWTO write diary
 #
 def style_howto
-	%Q|/<a href="http://docs.tdiary.org/ja/?#{@conf.style}%A5%B9%A5%BF%A5%A4%A5%EB">書き方</a>|
+	%Q|/<a href="http://docs.tdiary.org/ja/?#{h @conf.style}%A5%B9%A5%BF%A5%A4%A5%EB">書き方</a>|
 end
 
 #
@@ -163,31 +163,31 @@ add_conf_proc( 'default', 'サイトの情報', 'basic' ) do
 	<<-HTML
 	<h3 class="subtitle">タイトル</h3>
 	#{"<p>HTMLの&lt;title&gt;タグ中および、モバイル端末からの参照時に使われるタイトルです。HTMLタグは使えません。</p>" unless @conf.mobile_agent?}
-	<p><input name="html_title" value="#{ CGI::escapeHTML @conf.html_title }" size="50"></p>
+	<p><input name="html_title" value="#{h @conf.html_title}" size="50"></p>
 
 	<h3 class="subtitle">著者名</h3>
 	#{"<p>あなたの名前を指定します。HTMLヘッダ中に展開されます。</p>" unless @conf.mobile_agent?}
-	<p><input name="author_name" value="#{CGI::escapeHTML @conf.author_name}" size="40"></p>
+	<p><input name="author_name" value="#{h @conf.author_name}" size="40"></p>
 
 	<h3 class="subtitle">メールアドレス</h3>
 	#{"<p>あなたのメールアドレスを指定します。HTMLヘッダ中に展開されます。</p>" unless @conf.mobile_agent?}
-	<p><input name="author_mail" value="#{@conf.author_mail}" size="40"></p>
+	<p><input name="author_mail" value="#{h @conf.author_mail}" size="40"></p>
 
 	<h3 class="subtitle">トップページURL</h3>
 	#{"<p>日記よりも上位のコンテンツがあれば指定します。存在しない場合は何も入力しなくてかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="index_page" value="#{@conf.index_page}" size="70"></p>
+	<p><input name="index_page" value="#{h @conf.index_page}" size="70"></p>
 
 	<h3 class="subtitle">日記の説明</h3>
 	#{"<p>この日記の簡単な説明を指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="description" value="#{CGI::escapeHTML @conf.description}" size="70"></p>
+	<p><input name="description" value="#{h @conf.description}" size="70"></p>
 
 	<h3 class="subtitle">サイトアイコン(favicon)</h3>
 	#{"<p>この日記を表す小さなアイコン画像(favicon)があればそのURLを指定します。HTMLヘッダ中に展開されます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="icon" value="#{CGI::escapeHTML @conf.icon}" size="70"></p>
+	<p><input name="icon" value="#{h @conf.icon}" size="70"></p>
 
 	<h3 class="subtitle">バナー画像</h3>
 	#{"<p>この日記を表す画像(バナー)があればそのURLを指定します。makerssプラグインなどでRSSを出力する場合などに使われます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
-	<p><input name="banner" value="#{CGI::escapeHTML @conf.banner}" size="70"></p>
+	<p><input name="banner" value="#{h @conf.banner}" size="70"></p>
 	HTML
 end
 
@@ -197,10 +197,10 @@ add_conf_proc( 'header', 'ヘッダ・フッタ', 'basic' ) do
 	<<-HTML
 	<h3 class="subtitle">ヘッダ</h3>
 	#{"<p>日記の先頭に挿入される文章を指定します。HTMLタグが使えます。「&lt;%=navi%&gt;」で、ナビゲーションボタンを挿入できます(これがないと更新ができなくなるので削除しないようにしてください)。また、「&lt;%=calendar%&gt;」でカレンダーを挿入できます。その他、各種プラグインを記述できます。</p>" unless @conf.mobile_agent?}
-	<p><textarea name="header" cols="70" rows="10">#{ CGI::escapeHTML @conf.header }</textarea></p>
+	<p><textarea name="header" cols="70" rows="10">#{h @conf.header}</textarea></p>
 	<h3 class="subtitle">フッタ</h3>
 	#{"<p>日記の最後に挿入される文章を指定します。ヘッダと同様に指定できます。</p>" unless @conf.mobile_agent?}
-	<p><textarea name="footer" cols="70" rows="10">#{ CGI::escapeHTML @conf.footer }</textarea></p>
+	<p><textarea name="footer" cols="70" rows="10">#{h @conf.footer}</textarea></p>
 	HTML
 end
 
@@ -210,21 +210,21 @@ add_conf_proc( 'display', '表示一般', 'basic' ) do
 	<<-HTML
 	<h3 class="subtitle">セクションアンカー</h3>
 	#{"<p>日記のセクションの先頭(サブタイトルの行頭)に挿入される、リンク用のアンカー文字列を指定します。なお「&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;」を指定すると、テーマによっては自動的に画像アンカーがつくようになります。</p>" unless @conf.mobile_agent?}
-	<p><input name="section_anchor" value="#{ CGI::escapeHTML @conf.section_anchor }" size="40"></p>
+	<p><input name="section_anchor" value="#{h @conf.section_anchor}" size="40"></p>
 	<h3 class="subtitle">ツッコミアンカー</h3>
 	#{"<p>読者からのツッコミの先頭に挿入される、リンク用のアンカー文字列を指定します。なお「&lt;span class=\"canchor\"&gt;_&lt;/span&gt;」を指定すると、テーマによっては自動的に画像アンカーがつくようになります。</p>" unless @conf.mobile_agent?}
-	<p><input name="comment_anchor" value="#{ CGI::escapeHTML @conf.comment_anchor }" size="40"></p>
+	<p><input name="comment_anchor" value="#{h @conf.comment_anchor}" size="40"></p>
 	<h3 class="subtitle">日付フォーマット</h3>
 	#{"<p>日付の表示部分に使われるフォーマットを指定します。任意の文字が使えますが、「%」で始まる英字には次のような特殊な意味があります。「%Y」(西暦年)、「%m」(月数値)、「%b」(短月名)、「%B」(長月名)、「%d」(日)、「%a」(短曜日名)、「%A」(長曜日名)。</p>" unless @conf.mobile_agent?}
-	<p><input name="date_format" value="#{ CGI::escapeHTML @conf.date_format }" size="30"></p>
+	<p><input name="date_format" value="#{h @conf.date_format}" size="30"></p>
 	<h3 class="subtitle">最新表示の最大日数</h3>
 	#{"<p>最新の日記を表示するときに、そのページ内に何日分の日記を表示するかを指定します。</p>" unless @conf.mobile_agent?}
-	<p>最大<input name="latest_limit" value="#{ @conf.latest_limit }" size="2">日分</p>
+	<p>最大<input name="latest_limit" value="#{h @conf.latest_limit}" size="2">日分</p>
 	<h3 class="subtitle">長年日記の表示</h3>
 	#{"<p>長年日記を表示するためのリンクを表示するかどうかを指定します。</p>" unless @conf.mobile_agent?}
 	<p><select name="show_nyear">
-		<option value="true"#{if @conf.show_nyear then " selected" end}>表示</option>
-        <option value="false"#{if not @conf.show_nyear then " selected" end}>非表示</option>
+		<option value="true"#{" selected" if @conf.show_nyear}>表示</option>
+		<option value="false"#{" selected" unless @conf.show_nyear}>非表示</option>
 	</select></p>
 	HTML
 end
@@ -235,7 +235,7 @@ add_conf_proc( 'timezone', '時差調整', 'update' ) do
 	<<-HTML
 	<h3 class="subtitle">時差調整</h3>
 	#{"<p>更新時、フォームに挿入される日付を時間単位で調整できます。例えば午前2時までは前日として扱いたい場合には「-2」のように指定することで、2時間分引かれた日付が挿入されるようになります。また、この日付はWebサーバ上の時刻になっているので、海外のサーバで運営している場合の時差調整にも利用できます。</p>" unless @conf.mobile_agent?}
-	<p><input name="hour_offset" value="#{@conf.hour_offset}" size="5"></p>
+	<p><input name="hour_offset" value="#{h @conf.hour_offset}" size="5"></p>
 	HTML
 end
 
@@ -262,15 +262,15 @@ add_conf_proc( 'comment', 'ツッコミ', 'tsukkomi' ) do
 	<h3 class="subtitle">ツッコミの表示</h3>
 	#{"<p>読者からのツッコミを表示するかどうかを指定します。</p>" unless @conf.mobile_agent?}
 	<p><select name="show_comment">
-		<option value="true"#{if @conf.show_comment then " selected" end}>表示</option>
-		<option value="false"#{if not @conf.show_comment then " selected" end}>非表示</option>
+		<option value="true"#{" selected" if @conf.show_comment}>表示</option>
+		<option value="false"#{" selected" unless @conf.show_comment}>非表示</option>
 	</select></p>
 	<h3 class="subtitle">ツッコミリスト表示数</h3>
 	#{"<p>最新もしくは月別表示時に表示する、ツッコミの最大件数を指定します。なお、日別表示時にはここの指定にかかわらずすべてのツッコミが表示されます。</p>" unless @conf.mobile_agent?}
-	<p>最大<input name="comment_limit" value="#{ @conf.comment_limit }" size="3">件</p>
+	<p>最大<input name="comment_limit" value="#{h @conf.comment_limit}" size="3">件</p>
 	<h3 class="subtitle">1日あたりのツッコミ最大数</h3>
 	#{"<p>1日に書き込めるツッコミの最大数を指定します。この数を超えると、ツッコミ用のフォームが非表示になります。なお、TrackBackプラグインを入れている場合には、ツッコミとTrackBackの合計がこの制限を受けます。</p>" unless @conf.mobile_agent?}
-	<p>最大<input name="comment_limit_per_day" value="#{ @conf.comment_limit_per_day }" size="3">件</p>
+	<p>最大<input name="comment_limit_per_day" value="#{h @conf.comment_limit_per_day}" size="3">件</p>
 	HTML
 end
 
@@ -342,13 +342,13 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	プラグインが動作しなくなることがあります。</p>
 	" unless @conf.mobile_agent?}
 	<h4>CSRF 防止キー</h4>
-	<p><input type="text" name="key" value="#{CGI::escapeHTML csrf_protection_key}" size="30"></p>
+	<p><input type="text" name="key" value="#{h csrf_protection_key}" size="30"></p>
 	#{"<p>偽装防止キーを設定します。推測しにくい適当な文字列を指定して下さい。
 	この鍵が外部に洩れると、CSRF攻撃を受ける可能性があります。
 	他のパスワードと共用はしてはいけません。なお、設定した文字列をあなたが覚えておく必要はありません。</p>" unless @conf.mobile_agent?}
 	#{"<p class=\"message\">注意: 
 	あなたのブラウザは現在Refererを送出していないようです。
-	<a href=\"#{@conf.update}?conf=csrf_protection\">このリンクからもう一回
+	<a href=\"#{h @update}?conf=csrf_protection\">このリンクからもう一回
 	このページを開いてみて下さい</a>。
 	それでもこのメッセージが出る状況では、この設定を変える場合、
 	一時的にRefererを送出する設定にするか、

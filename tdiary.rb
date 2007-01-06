@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.290 $
+tdiary.rb $Revision: 1.291 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20061228'
+TDIARY_VERSION = '2.1.4.20070106'
 
 require 'cgi'
 require 'uri'
@@ -305,6 +305,7 @@ module TDiary
 	#  Base module of Diary.
 	#
 	module DiaryBase
+		include ERB::Util
 		include CommentManager
 		include RefererManager
 
@@ -610,6 +611,7 @@ module TDiary
 	#  plugin management class
 	#
 	class Plugin
+		include ERB::Util
 		attr_reader :cookies
 
 		def initialize( params )
@@ -876,9 +878,9 @@ module TDiary
 
 		def conf_current_style( key )
 			if key == @cgi.params['conf'][0] then
-				' class="current"'
+				'selected'
 			else
-				''
+				'other'
 			end
 		end
 
@@ -923,6 +925,10 @@ module TDiary
 			@conf.bot?
 		end
 
+		def help( name )
+			%Q[<div class="help-icon"><a href="http://docs.tdiary.org/#{h @conf.lang}/?#{h name}" target="_blank"><img src="#{theme_url}/help.png" width="19" height="19" alt="Help"></a></div>]
+		end
+
 		def method_missing( *m )
 			super if @debug
 			# ignore when no plugin
@@ -948,6 +954,8 @@ module TDiary
 	#  tDiary CGI
 	#
 	class TDiaryBase
+		include ERB::Util
+
 		DIRTY_NONE = 0
 		DIRTY_DIARY = 1
 		DIRTY_COMMENT = 2
@@ -1206,7 +1214,7 @@ module TDiary
 			updaterb_regexp = '' unless updaterb_regexp
 
 			if (masterkey != '' && check_key)
-				@csrf_protection="<input type=\"hidden\" name=\"csrf_protection_key\" value=\"#{CGI::escapeHTML(masterkey)}\">"
+				@csrf_protection = %Q[<input type="hidden" name="csrf_protection_key" value="#{h masterkey}">]
 			else
 				@csrf_protection="<!-- no CSRF protection key used -->"
 			end
@@ -1252,9 +1260,9 @@ Security Error: Possible Cross-site Request Forgery (CSRF)
                     - GET is #{ csrf_protection_get_is_okay ? '' : 'not '}allowed
                 - Request Method is #{ is_post ? 'POST' : 'not POST' }
                 - Referer is #{ referer_is_empty ? 'empty' : referer_is_config ? 'config' : 'another page' }
-                    - Given referer:       #{ CGI::escapeHTML( referer_uri.to_s )}
-                    - Expected base URI:   #{ CGI::escapeHTML( base_uri.to_s )}
-                    - Expected update URI: #{ CGI::escapeHTML( config_uri.to_s )}
+                    - Given referer:       #{h referer_uri.to_s}
+                    - Expected base URI:   #{h base_uri.to_s}
+                    - Expected update URI: #{h config_uri.to_s}
                 - CSRF key is #{ is_key_ok ? 'OK' : given_key ? 'NG (' + (given_key || '') + ')' : 'nothing' }
 EOS
 		end
@@ -1510,7 +1518,7 @@ EOS
 
 		def initialize( cgi, rhtml, conf )
 			super
-			@key = CGI::escapeHTML( @cgi.params['conf'][0] || '' )
+			@key = @cgi.params['conf'][0] || ''
 		end
 	end
 
@@ -1978,7 +1986,7 @@ HERE
 <?xml version="1.0" encoding="iso-8859-1"?>
 <response>
 <error>1</error>
-<message>#{reason}</message>
+<message>#{h reason}</message>
 </response>
 HERE
 		end
@@ -2002,15 +2010,15 @@ HERE
 			raise TDiaryTrackBackError.new("invalid date: #{@date.strftime('%Y%m%d')}") unless @diary
 			load_plugins
 			r = <<RSSHEAD
-<?xml version="1.0" encoding="#{@conf.encoding}"?>
+<?xml version="1.0" encoding="#{h @conf.encoding}"?>
 <response>
 <error>0</error>
 <rss version="0.91">
 <channel>
-<title>#{@diary.title}</title>
-<link>#{diary_url}</link>
+<title>#{h @diary.title}</title>
+<link>#{h diary_url}</link>
 <description></description>
-<language>#{@conf.html_lang}</language>
+<language>#{h @conf.html_lang}</language>
 RSSHEAD
 			@diary.each_comment do |com, idx|
 				begin
@@ -2022,9 +2030,9 @@ RSSHEAD
 				url, blog_name, title, excerpt = com.body.split(/\n/, 4)
 				r << <<RSSITEM
 <item>
-<title>#{CGI::escapeHTML( title )}</title>
-<link>#{CGI::escapeHTML( url )}</link>
-<description>#{CGI::escapeHTML( excerpt )}</description>
+<title>#{h title}</title>
+<link>#{h url}</link>
+<description>#{h excerpt}</description>
 </item>
 RSSITEM
 			end

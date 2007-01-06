@@ -1,7 +1,7 @@
-<%# preview.rhtml $Revision: 1.12 $ %>
+<%# preview.rhtml $Revision: 1.13 $ %>
 <%%=navi%>
 
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=preview_label%>]</h1>
+<h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>
 <%
 param = {
 	'date_format' => @conf.date_format,
@@ -26,8 +26,8 @@ param = {
 	<h2><span class="title">プラグイン・エラー</span></h2>
 	<div class="body">
 	<div class="section">
-		<h3><%= CGI::escapeHTML( @exception.class.to_s ) %></strong></h3>
-		<pre><%= CGI::escapeHTML( @exception.to_s ).gsub( / /, '&nbsp;' ) %></pre>
+		<h3><%=h @exception.class.to_s %></strong></h3>
+		<pre><%=h @exception.to_s.gsub( / /, '&nbsp;' ) %></pre>
 	</div>
 	</div>
 	</div>
@@ -38,8 +38,8 @@ param = {
 <div class="update day">
 <h2><span class="title">更新フォーム</span></h2>
 <div class="form">
-	<form class="update" method="post" action="<%= @conf.update %>"><div>
-		<input type="hidden" name="old" value="<%= @old_date %>">
+	<form class="update" method="post" action="<%=h @conf.update %>"><div>
+		<input type="hidden" name="old" value="<%=h @old_date %>">
 		<%=@csrf_protection%>
 		<span class="field year">
 			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>年
@@ -51,10 +51,10 @@ param = {
 			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>日
 		</span>
 		<div class="field title">
-			タイトル: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
+			タイトル: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			本文(<%= @conf.style %>スタイル<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+			本文(<%=h @conf.style %>スタイル<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">

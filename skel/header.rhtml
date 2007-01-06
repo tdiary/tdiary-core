@@ -1,9 +1,9 @@
-<%%=doctype%><%# header.rhtml $Revision: 1.6 $ %>
-<html lang="<%%=@conf.html_lang%>">
+<%%=doctype%><%# header.rhtml $Revision: 1.7 $ %>
+<html lang="<%%=h @conf.html_lang%>">
 <head>
 <%%=header_proc%>
 </head>
 <body>
 <% if @error then %><p class="message">Security Error?<br>
-<%= @error[0].to_s %><br><%= @error[1][0] %>
+<%=h @error[0].to_s %><br><%=h @error[1][0] %>
 </p><% end %>

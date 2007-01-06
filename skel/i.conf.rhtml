@@ -1,14 +1,14 @@
-<%# i.conf.rhtml $Revision: 1.10 $ %>
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=navi_preference%>]</h1>
+<%# i.conf.rhtml $Revision: 1.11 $ %>
+<h1><%=h @conf.html_title %> [<%%=h navi_preference %>]</h1>
 <P>
 <%%= mobile_navi %>
 </P>
-<P>|<%% each_conf_genre do |genre|%><%% each_conf_key( genre ) do |key|%><A HREF="<%%=@conf.update%>?conf=<%%=key%>"><%%=conf_label( key )%></A>|<%% end %>|<%% end %></P>
+<P>|<%% each_conf_genre do |genre|%><%% each_conf_key( genre ) do |key|%><A HREF="<%%=h @conf.update%>?conf=<%%=key%>"><%%=h conf_label( key )%></A>|<%% end %>|<%% end %></P>
 
-<FORM METHOD="POST" ACTION="<%= @conf.update %>">
-<INPUT TYPE="HIDDEN" NAME="conf" VALUE=<%=@key.dump%>>
+<FORM METHOD="POST" ACTION="<%=h @conf.update %>">
+<INPUT TYPE="HIDDEN" NAME="conf" VALUE="<%=h @key%>">
 <H2><%%=conf_label( <%=@key.dump%> )%></H2>
-<%%=conf_proc( "#{@cgi.params['conf'][0]}" )%>
+<%%=conf_proc( <%=@key.dump%> )%>
 <INPUT TYPE="SUBMIT" NAME="saveconf" VALUE="OK">
 </FORM>
 

@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.10 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.11 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -14,14 +14,14 @@ def spamfilter_conf_html
 	</select></p>
 
 	<h3>内容によるフィルタ</h3>
-	<p>ツッコミ中のURLの数が<input type="text" name="spamfilter.max_uris" value="#{CGI.escapeHTML(@conf['spamfilter.max_uris'].to_s)}" size="5">個を超えたらspamとみなす</p>
-	<p>ツッコミ中でURLを表す文字の占める割合が<input type="text" name="spamfilter.max_rate" value="#{CGI.escapeHTML(@conf['spamfilter.max_rate'].to_s)}" size="5">%より高いものはspamとみなす</p>
+	<p>ツッコミ中のURLの数が<input type="text" name="spamfilter.max_uris" value="#{h @conf['spamfilter.max_uris']}" size="5">個を超えたらspamとみなす</p>
+	<p>ツッコミ中でURLを表す文字の占める割合が<input type="text" name="spamfilter.max_rate" value="#{h @conf['spamfilter.max_rate']}" size="5">%より高いものはspamとみなす</p>
 	<p>ツッコミ本文が以下のパターンに当てはまる場合はspamとみなす。正規表現が利用できます<br>
-		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="5">#{h( @conf['spamfilter.bad_comment_patts'] || '' )}</textarea></p>
 	<p>ツッコミのメールアドレスが以下のパターンに当てはまる場合はspamとみなす。正規表現が使えます<br>
-		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="5">#{h( @conf['spamfilter.bad_mail_patts'] || '' )}</textarea></p>
 	<p>ツッコミやリンク元に含まれるURLに、以下のパターンが含まれる場合はspamとみなす<br>
-		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="5">#{h( @conf['spamfilter.bad_uri_patts'] || '' )}</textarea></p>
 	<p>上のパターンをツッコミのメールアドレスのチェックにも
 		<select name="spamfilter.bad_uri_patts_for_mails">
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>利用する</option>
@@ -29,11 +29,11 @@ def spamfilter_conf_html
 		</select></p>
 
 	<h3>日付けによるフィルタ</h3>
-	<p><input type="text" name="spamfilter.date_limit" value="#{CGI.escapeHTML(@conf['spamfilter.date_limit'].to_s)}" size="5">日以上前の日付けへのツッコミはspamとみなす<br>(空欄は制限なし、0は当日のみ)</p>
+	<p><input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">日以上前の日付けへのツッコミはspamとみなす<br>(空欄は制限なし、0は当日のみ)</p>
 
 	<h3>IPアドレスによるフィルタ</h3>
 	<p>ツッコミやTrackBack送信元のIPアドレスが、以下のパターンに当てはまる場合はspamとみなす(リストには完全なIPアドレスまたは「.」で終わるIPアドレスの一部を記述する)<br>
-		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="5">#{CGI.escapeHTML(@conf['spamfilter.bad_ip_addrs'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="5">#{h( @conf['spamfilter.bad_ip_addrs'] || '' )}</textarea></p>
 	</p>
 	<p>TrackBack送信元と実際のサイトのIPアドレスが異なる場合は
 		<select name="spamfilter.resolv_check">
@@ -49,9 +49,9 @@ def spamfilter_conf_html
 	</p>
    <h3>ブラックリストサービスを使ったフィルタ</h3>
    <p>ブラックリスト問い合わせサーバーを指定します<br>
-   <textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   <textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
    <p>以下に指定したドメインはブラックリストに問い合わせません。検索エンジン等を指定してください<br>
-   <textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.safe_domain.list'] )}</textarea></p>
+   <textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
    HTML
    
 	unless @conf.secure then
@@ -62,7 +62,7 @@ def spamfilter_conf_html
 			<option value="true"#{" selected" if @conf['spamfilter.debug_mode']}>記録する</option>
 			<option value="false"#{" selected" unless @conf['spamfilter.debug_mode']}>記録しない</option>
 		</select></p>
-	<p>ファイル名: <input type="text" name="spamfilter.debug_file" value="#{CGI.escapeHTML(@conf['spamfilter.debug_file'] || '')}" size="50"></p>
+	<p>ファイル名: <input type="text" name="spamfilter.debug_file" value="#{h( @conf['spamfilter.debug_file'] || '' )}" size="50"></p>
 	HTML
 	end
 

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.99 $
+# $Revision: 1.100 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -48,17 +48,17 @@ end
 
 def navi_user_latest
 	result = ''
-	result << navi_item( "#{@index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev'] and not bot?
+	result << navi_item( "#{h @index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev'] and not bot?
 	result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
-	result << navi_item( "#{@index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next'] and not bot?
+	result << navi_item( "#{h @index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next'] and not bot?
 	result
 end
 
 def navi_user_day
 	result = ''
-	result << navi_item( "#{@index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
 	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{@index}#{anchor @next_day}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result << navi_item( "#{h @index}#{anchor @next_day}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
 	result
 end
 
@@ -74,17 +74,17 @@ def navi_user_month
 	next_month = ym[ym.index( now )+1]
 
 	result = ''
-	result << navi_item( "#{@index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" ) if prev_month and not bot?
+	result << navi_item( "#{h @index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" ) if prev_month and not bot?
 	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{@index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" ) if next_month and not bot?
+	result << navi_item( "#{h @index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" ) if next_month and not bot?
 	result
 end
 
 def navi_user_nyear
 	result = ''
-	result << navi_item( "#{@index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+	result << navi_item( "#{h @index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
 	result << navi_item( @index, navi_latest ) unless @mode == 'latest'
-	result << navi_item( "#{@index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result << navi_item( "#{h @index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
 	result
 end
 
@@ -92,12 +92,12 @@ def navi_user_edit
 	result = ''
 	if @prev_day then
 		a = @prev_day.scan( /^(\d{4})(\d\d)(\d\d)$/ ).flatten
-		result << navi_item( "#{@update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" )
+		result << navi_item( "#{h @update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" )
 	end
 	result << navi_item( @index, navi_latest )
 	if @next_day then
 		a = @next_day.scan( /^(\d{4})(\d\d)(\d\d)$/ ).flatten
-		result << navi_item( "#{@update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" )
+		result << navi_item( "#{h @update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" )
 	end
 	result
 end
@@ -108,11 +108,11 @@ end
 
 def navi_admin
 	if @mode == 'day' then
-		result = navi_item( "#{@update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", navi_edit )
+		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", navi_edit )
 	else
 		result = navi_item( @update, navi_update )
 	end
-	result << navi_item( "#{@update}?conf=default", navi_preference ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
+	result << navi_item( "#{h @update}?conf=default", navi_preference ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
 end
 
@@ -121,18 +121,18 @@ def mobile_navi
 	result = []
 	i = 1
 	if @prev_day
-		result << %Q[<A HREF="#{@index}#{anchor @prev_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_prev_diary}</A>]
+		result << %Q[<A HREF="#{h @index}#{anchor @prev_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_prev_diary}</A>]
 		i += 1
 	end
 	if @mode != 'latest'
-		result << %Q[<A HREF="#{@index}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_latest}</A>]
+		result << %Q[<A HREF="#{h @index}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_latest}</A>]
 		i += 1
 	end
 	if @next_day
-		result << %Q[<A HREF="#{@index}#{anchor @next_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_next_diary}</A>]
+		result << %Q[<A HREF="#{h @index}#{anchor @next_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_next_diary}</A>]
 	end
-	result << %Q[<A HREF="#{@update}" ACCESSKEY="0">[0]#{mobile_navi_update}</A>]
-	result << %Q[<A HREF="#{@update}?conf=default" ACCESSKEY="9">[9]#{mobile_navi_preference}</A>] unless /^(latest|month|day|conf|nyear)$/ === @mode
+	result << %Q[<A HREF="#{h @update}" ACCESSKEY="0">[0]#{mobile_navi_update}</A>]
+	result << %Q[<A HREF="#{h @update}?conf=default" ACCESSKEY="9">[9]#{mobile_navi_preference}</A>] unless /^(latest|month|day|conf|nyear)$/ === @mode
 	result.join('|')
 end
 
@@ -145,7 +145,7 @@ def calendar
 		result << %Q[<div class="year">#{year}|]
 		@years[year.to_s].sort.each do |month|
 			m = "#{year}#{month}"
-			result << %Q[<a href="#{@index}#{anchor m}">#{month}</a>|]
+			result << %Q[<a href="#{h @index}#{anchor m}">#{month}</a>|]
 		end
 		result << "</div>\n"
 	end
@@ -159,7 +159,7 @@ def insert( file )
 	begin
 		File::readlines( file ).join
 	rescue
-		%Q[<p class="message">#$! (#{$!.class})<br>cannot read #{file}.</p>]
+		%Q[<p class="message">#$! (#{h $!.class})<br>cannot read #{h file}.</p>]
 	end
 end
 
@@ -176,8 +176,8 @@ end
 add_header_proc do
 	calc_links
 	<<-HEADER
-	<meta http-equiv="Content-Type" content="text/html; charset=#{charset}">
-	<meta name="generator" content="tDiary #{TDIARY_VERSION}">
+	<meta http-equiv="Content-Type" content="text/html; charset=#{h charset}">
+	<meta name="generator" content="tDiary #{h TDIARY_VERSION}">
 	#{last_modified_header}
 	#{content_script_type}
 	#{author_name_tag}
@@ -266,12 +266,12 @@ def last_modified_header
 end
 
 def content_script_type
-	%Q[<meta http-equiv="Content-Script-Type" content="text/javascript; charset=#{charset}">]
+	%Q[<meta http-equiv="Content-Script-Type" content="text/javascript; charset=#{h charset}">]
 end
 
 def author_name_tag
 	if @author_name and not(@author_name.empty?) then
-		%Q[<meta name="author" content="#{@author_name}">]
+		%Q[<meta name="author" content="#{h @author_name}">]
 	else
 		''
 	end
@@ -279,7 +279,7 @@ end
 
 def author_mail_tag
 	if @author_mail and not(@author_mail.empty?) then
-		%Q[<link rev="made" href="mailto:#{@author_mail}">]
+		%Q[<link rev="made" href="mailto:#{h @author_mail}">]
 	else
 		''
 	end
@@ -288,25 +288,25 @@ end
 def index_page_tag
 	result = ''
 	if @index_page and @index_page.size > 0 then
-		result << %Q[<link rel="index" title="#{navi_index}" href="#{@index_page}">\n\t]
+		result << %Q[<link rel="index" title="#{h navi_index}" href="#{h @index_page}">\n\t]
 	end
 	if @prev_day then
 		case @mode
 		when 'day'
-			result << %Q[<link rel="prev" title="#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @prev_day}">\n\t]
+			result << %Q[<link rel="prev" title="#{navi_prev_diary( Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]) )}" href="#{h @index}#{anchor @prev_day}">\n\t]
 		when 'nyear'
-			result << %Q[<link rel="prev" title="#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @prev_day[4,4]}">\n\t]
+			result << %Q[<link rel="prev" title="#{navi_prev_nyear( Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]) )}" href="#{h @index}#{anchor @prev_day[4,4]}">\n\t]
 		end
 	end
 	if @next_day then
 		case @mode
 		when 'day'
-			result << %Q[<link rel="next" title="#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @next_day}">\n\t]
+			result << %Q[<link rel="next" title="#{navi_next_diary( Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]) )}" href="#{h @index}#{anchor @next_day}">\n\t]
 		when 'nyear'
-			result << %Q[<link rel="next" title="#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" href="#{@index}#{anchor @next_day[4,4]}">\n\t]
+			result << %Q[<link rel="next" title="#{h navi_next_nyear( Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]) )}" href="#{h @index}#{anchor @next_day[4,4]}">\n\t]
 		end
 	end
-	result << %Q[<link rel="start" title="#{navi_latest}" href="#{@index}">\n\t]
+	result << %Q[<link rel="start" title="#{navi_latest}" href="#{h @index}">\n\t]
 	result.chop.chop
 end
 
@@ -318,15 +318,15 @@ def mobile_link_discovery
 	if @mode == 'day' then
 		uri += anchor( @date.strftime( '%Y%m%d' ) )
 	end
-	%Q[<link rel="alternate" media="handheld" type="text/html" href="#{uri}">]
+	%Q[<link rel="alternate" media="handheld" type="text/html" href="#{h uri}">]
 end
 
 def icon_tag
 	if @conf.icon and not(@conf.icon.empty?) then
 		if /\.ico$/ =~ @conf.icon then
-			%Q[<link rel="shortcut icon" href="#{CGI::escapeHTML @conf.icon}">]
+			%Q[<link rel="shortcut icon" href="#{h @conf.icon}">]
 		else
-			%Q[<link rel="icon" href="#{CGI::escapeHTML @conf.icon}">]
+			%Q[<link rel="icon" href="#{h @conf.icon}">]
 		end
 	else
 		''
@@ -335,7 +335,7 @@ end
 
 def description_tag
 	if @conf.description and not(@conf.description.empty?) then
-		%Q[<meta name="description" content="#{CGI::escapeHTML @conf.description}">]
+		%Q[<meta name="description" content="#{h @conf.description}">]
 	else
 		''
 	end
@@ -347,15 +347,15 @@ def css_tag
 	if @mode =~ /conf$/ then
 		css = "#{theme_url}/conf.css"
 	elsif @conf.theme and @conf.theme.length > 0
-		css = "#{theme_url}/#{@conf.theme}/#{@conf.theme}.css"
+		css = "#{theme_url}/#{h @conf.theme}/#{h @conf.theme}.css"
 	else
 		css = @css
 	end
-	title = CGI::escapeHTML( File::basename( css, '.css' ) )
+	title = File::basename( css, '.css' )
 	<<-CSS
 <meta http-equiv="content-style-type" content="text/css">
 	<link rel="stylesheet" href="#{theme_url}/base.css" type="text/css" media="all">
-	<link rel="stylesheet" href="#{css}" title="#{title}" type="text/css" media="all">
+	<link rel="stylesheet" href="#{h css}" title="#{h title}" type="text/css" media="all">
 	CSS
 end
 
@@ -377,7 +377,7 @@ end
 def title_of_day( date, title )
 	r = <<-HTML
 	<span class="date">
-	<a href="#{@index}#{anchor( date.strftime( '%Y%m%d' ) )}">#{date.strftime @date_format}</a>
+	<a href="#{h @index}#{anchor( date.strftime( '%Y%m%d' ) )}">#{date.strftime @date_format}</a>
 	</span> 
 	<span class="title">#{title}</span>
 	HTML
@@ -395,7 +395,7 @@ def nyear_link( date, title )
 		d = date.strftime( '%d' )
 		years = @years.find_all {|year, months| months.include? m}
 		if years.length >= 2 then
-			%Q|#{title} <span class="nyear">[<a href="#{@index}#{anchor m + d}" title="#{nyear_diary_title date, years}">#{nyear_diary_label date, years}</a>]</span>|
+			%Q|#{title} <span class="nyear">[<a href="#{h @index}#{anchor m + d}" title="#{nyear_diary_title date, years}">#{nyear_diary_label date, years}</a>]</span>|
 		else
 			title
 		end
@@ -431,17 +431,17 @@ def subtitle_link( date, index, subtitle )
 
 	if @conf.mobile_agent? then
 		r << %Q[<A NAME="p#{'%02d' % index}">*</A> ]
-		r << %Q|(#{@author})| if @multi_user and @author and subtitle
+		r << %Q|(#{h @author})| if @multi_user and @author and subtitle
 		r << subtitle if subtitle
 	else
 		if date then
 			r << "<a "
 			r << %Q[name="p#{'%02d' % index}" ] if @anchor_name
 			param = "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % index}"
-			r << %Q[href="#{@index}#{anchor param}">#{@conf.section_anchor}</a> ]
+			r << %Q[href="#{h @index}#{anchor param}">#{@conf.section_anchor}</a> ]
 		end
 	
-		r << %Q[(#{@author}) ] if @multi_user and @author and subtitle
+		r << %Q[(#{h @author}) ] if @multi_user and @author and subtitle
 		if subtitle
 			if respond_to?( :category_anchor ) then
 				r << subtitle.sub( /^(\[([^\[]+?)\])+/ ) do
@@ -468,9 +468,9 @@ def my( a, str, title = nil )
 	index = /^https?:/ =~ @index ? '' : @conf.base_url
 	index += @index.sub(%r|^\./|, '')
 	if title then
-		%Q[<a href="#{index}#{anchor anc}" title="#{title}">#{str}</a>]
+		%Q[<a href="#{h index}#{anchor anc}" title="#{h title}">#{str}</a>]
 	else
-		%Q[<a href="#{index}#{anchor anc}">#{str}</a>]
+		%Q[<a href="#{h index}#{anchor anc}">#{str}</a>]
 	end
 end
 
@@ -511,13 +511,13 @@ def comment_form
 		else
 			r << <<-FORM
 					<div class="caption"><a name="c">#{comment_description}</a></div>
-					<form class="comment" method="post" action="#{@conf.index}"><div>
+					<form class="comment" method="post" action="#{h @index}"><div>
 					<input type="hidden" name="date" value="#{ @date.strftime( '%Y%m%d' )}">
 					<div class="field name">
-						#{comment_name_label}:<input class="field" name="name" value="#{CGI::escapeHTML( @cgi.cookies['tdiary'][0] || '' )}">
+						#{comment_name_label}:<input class="field" name="name" value="#{h( @cgi.cookies['tdiary'][0] || '' )}">
 					</div>
 					<div class="field mail">
-						#{comment_mail_label}:<input class="field" name="mail" value="#{CGI::escapeHTML( @cgi.cookies['tdiary'][1] || '' )}">
+						#{comment_mail_label}:<input class="field" name="mail" value="#{h( @cgi.cookies['tdiary'][1] || '' )}">
 					</div>
 					<div class="textarea">
 						#{comment_body_label}:<textarea name="body" cols="60" rows="5"></textarea>
@@ -539,7 +539,7 @@ def comment_form_mobile
 	return '' if @conf.hide_comment_form
 	return <<-FORM
 		<HR>
-		<FORM METHOD="POST" ACTION="#{@conf.index}">
+		<FORM METHOD="POST" ACTION="#{h @index}">
 			<INPUT TYPE="HIDDEN" NAME="date" VALUE="#{@date.strftime( '%Y%m%d' )}">
 			<P>#{comment_description_short}<BR>
 			#{comment_name_label_short}: <INPUT NAME="name"><BR>
@@ -671,12 +671,12 @@ def conf_theme_list
 			select = " selected"
 			t = index
 		end
-		r << %Q|<option value="#{theme[0]}"#{select}>#{theme[1]}</option>|
+		r << %Q|<option value="#{h theme[0]}"#{select}>#{theme[1]}</option>|
 	end
 	img = t == 0 ? 'nowprinting' : @conf.theme
 	r << <<-HTML
 	</select>
-	<input name="css" size="50" value="#{ @conf.css }">
+	<input name="css" size="50" value="#{h @conf.css}">
 	</p>
 	<p><img id="theme_thumbnail" src="http://www.tdiary.org/theme.image/#{img}.jpg" alt="#{@theme_thumbnail_label}"></p>
 	<script language="JavaScript"><!--
@@ -761,15 +761,11 @@ def saveconf_csrf_protection
 			if (check_method & 2 == 2 &&
 			    (old_method & 2 == 0 || old_key != check_key))
 				@conf.save
-				raise ForceRedirect, "#{@conf.update}?conf=csrf_protection#{@cgi.referer ? '&amp;referer_exists=true' : ''}"
+				raise ForceRedirect, "#{h @update}?conf=csrf_protection#{@cgi.referer ? '&amp;referer_exists=true' : ''}"
 			end
 		end
 		err
 	else
 		nil
 	end
-end
-
-def help( name )
-	%Q[<div class="help-icon"><a href="http://docs.tdiary.org/#{@conf.lang}/?#{name}" target="_blank"><img src="#{theme_url}/help.png" width="19" height="19" alt="Help"></a></div>]
 end

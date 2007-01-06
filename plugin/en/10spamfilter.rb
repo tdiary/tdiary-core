@@ -1,5 +1,5 @@
 #
-# en/spamfilter.rb: resource of en $Revision: 1.7 $
+# en/spamfilter.rb: resource of en $Revision: 1.8 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -14,15 +14,15 @@ def spamfilter_conf_html
 		</select>
 	</p>
 	<p>It is spam when TSUKKOMI body has URIs over this value.<br>
-		<input type="text" name="spamfilter.max_uris" value="#{CGI.escapeHTML(@conf['spamfilter.max_uris'].to_s)}" size="5"></p>
+		<input type="text" name="spamfilter.max_uris" value="#{h @conf['spamfilter.max_uris']}" size="5"></p>
 	<p>It is spam when percentage of URI charctors in TSUKKOMI body is over this value.<br>
-		<input type="text" name="spamfilter.max_rate" value="#{CGI.escapeHTML(@conf['spamfilter.max_rate'].to_s)}" size="5"></p>
+		<input type="text" name="spamfilter.max_rate" value="#{h @conf['spamfilter.max_rate']}" size="5"></p>
 	<p>It is spam when TSUKKOMI body has URIs match with these patterns.<br>
-		<textarea name="spamfilter.bad_uri_patts" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_uri_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_uri_patts" cols="60" rows="8">#{h( @conf['spamfilter.bad_uri_patts'] || '' )}</textarea></p>
 	<p>It is spam when TSUKKOMI body matches with these patterns.<br>
-		<textarea name="spamfilter.bad_comment_patts" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_comment_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_comment_patts" cols="60" rows="8">#{h( @conf['spamfilter.bad_comment_patts'] || '' )}</textarea></p>
 	<p>It is spam when mail address matches with these patterns.<br>
-		<textarea name="spamfilter.bad_mail_patts" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_mail_patts'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_mail_patts" cols="60" rows="8">#{h( @conf['spamfilter.bad_mail_patts'] || '' )}</textarea></p>
 	<p>Use patterns of URI for checking mail address.<br>
 		<select name="spamfilter.bad_uri_patts_for_mails">
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>ON</option>
@@ -31,12 +31,12 @@ def spamfilter_conf_html
 
 	<h3>Date</h3>
 	<p>It is spam that TSUKKOMI was made into<br>
-		<input type="text" name="spamfilter.date_limit" value="#{CGI.escapeHTML(@conf['spamfilter.date_limit'].to_s)}" size="5">days before (null: no limit, 0: only today)
+		<input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">days before (null: no limit, 0: only today)
 	</p>
 
 	<h3>IP address filters</h3>
 	<p>It is spam when sender IP address matches these patterns. You have to specify complete IP address or part of IP address ends by '.'.<br>
-		<textarea name="spamfilter.bad_ip_addrs" cols="60" rows="8">#{CGI.escapeHTML(@conf['spamfilter.bad_ip_addrs'] || '')}</textarea></p>
+		<textarea name="spamfilter.bad_ip_addrs" cols="60" rows="8">#{h( @conf['spamfilter.bad_ip_addrs'] || '' )}</textarea></p>
 	</p>
 	<p>It is spam when IP address of TrackBack sender dose not match with IP address of the site.<br>
 		<select name="spamfilter.resolv_check">
@@ -51,9 +51,9 @@ def spamfilter_conf_html
 	</p>
    <h3>Domain Blacklist Services</h3>
    <p>List of Domain Blacklist Services</p>
-   <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.domain.list'] )}</textarea></p>
+   <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
    <p>List of Safe Domain. Example for search engine.</p>
-   <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{CGI::escapeHTML( @conf['spamlookup.safe_domain.list'] )}</textarea></p>
+   <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
    HTML
 
 	unless @conf.secure then
@@ -65,7 +65,7 @@ def spamfilter_conf_html
 			<option value="false"#{" selected" unless @conf['spamfilter.debug_mode']}>OFF</option>
 		</select></p>
 	<p>File name of debug log.<br>
-		<input type="text" name="spamfilter.debug_file" value="#{CGI.escapeHTML(@conf['spamfilter.debug_file'] || '')}" size="30"></p>
+		<input type="text" name="spamfilter.debug_file" value="#{h( @conf['spamfilter.debug_file'] || '' )}" size="30"></p>
 	HTML
 	end
 

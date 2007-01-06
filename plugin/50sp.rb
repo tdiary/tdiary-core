@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.4 $
+# 01sp.rb - select-plugins plugin $Revision: 1.5 $
 
 SP_PREFIX = 'sp'
 @sp_path = ( @conf["#{SP_PREFIX}.path"] || "#{TDiary::PATH}/misc/plugin" ).to_a
@@ -35,7 +35,7 @@ def sp_li_plugins( paths, is_checked )
 	r = ''
 	paths.collect { |path| File.basename( path ) }.sort.each do |file|
 		r += <<-_HTML
-			<li><input name="#{SP_PREFIX}.#{CGI::escapeHTML( file )}" type="checkbox" value="t"#{is_checked ? ' checked' : ''}><a href="#{sp_doc_url( file )}">#{CGI::escapeHTML( file )}</a>
+			<li><input name="#{SP_PREFIX}.#{h file}" type="checkbox" value="t"#{'checked' if is_checked}><a href="#{h sp_doc_url( file )}">#{h file}</a>
 		_HTML
 	end
 	r

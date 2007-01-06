@@ -1,7 +1,7 @@
-<%# preview.rhtml.en $Revision: 1.3 $ %>
+<%# preview.rhtml.en $Revision: 1.4 $ %>
 <%%=navi%>
 
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> [<%%=preview_label%>]</h1>
+<h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>
 <%
 param = {
 	'date_format' => @conf.date_format,
@@ -26,8 +26,8 @@ param = {
 	<h2><span class="title">Plugin Error</span></h2>
 	<div class="body">
 	<div class="section">
-		<h3><%= CGI::escapeHTML( @exception.class.to_s ) %></strong></h3>
-		<pre><%= CGI::escapeHTML( @exception.to_s ).gsub( / /, '&nbsp;' ) %></pre>
+		<h3><%=h @exception.class.to_s %></strong></h3>
+		<pre><%=h @exception.to_s.gsub( / /, '&nbsp;' ) %></pre>
 	</div>
 	</div>
 	</div>
@@ -38,9 +38,9 @@ param = {
 <div class="update day">
 <h2><span class="title">更新日誌</span></h2>
 <div class="form">
-	<form class="update" method="post" action="<%= @conf.update %>"><div>
+	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<%=@csrf_protection%>
-		<input type="hidden" name="old" value="<%= @old_date %>">
+		<input type="hidden" name="old" value="<%=h @old_date %>">
 		<span class="field year">
 			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>-
 		</span>
@@ -51,10 +51,10 @@ param = {
 			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>
 		</span>
 		<div class="field title">
-			標題: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%= CGI::escapeHTML( @diary.title ) %>">
+			標題: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			內容(<%= @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%= CGI::escapeHTML( @diary.to_src ) %></textarea>
+			內容(<%=h @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">

@@ -1,7 +1,7 @@
-<%# category.rhtml $Revision: 1.7 $ %>
+<%# category.rhtml $Revision: 1.8 $ %>
 <%%= navi %>
-<%= @conf['category.header1'] %>
-<h1><%= CGI::escapeHTML( @conf.html_title ) %> <%%= category_title %></h1>
+<%=@conf['category.header1'] %>
+<h1><%=h @conf.html_title %> <%%=h category_title %></h1>
 <%= @conf['category.header2'] %>
 <hr class="sep">
 <%%= category_list_sections %>

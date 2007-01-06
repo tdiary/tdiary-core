@@ -1,25 +1,25 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta name="generator" content="<%= TDIARY_VERSION %>">
+	<meta name="generator" content="<%=h TDIARY_VERSION %>">
 	<title>Plugin Error</title>
 </head>
 <body>
 <h1>Plugin Error</h1>
 <%
 	if self.kind_of?( TDiary::TDiaryAdmin ) and @date then
-		update = %Q[<a href="#{@conf.update}?edit=true;#{@date.strftime( 'year=%Y;month=%m;day=%d' )}">Edit(#{@date.strftime( '%Y-%m-%d' )})</a>]
+		update = %Q[<a href="#{h @conf.update}?edit=true;#{@date.strftime( 'year=%Y;month=%m;day=%d' )}">Edit(#{@date.strftime( '%Y-%m-%d' )})</a>]
 	else
-		update = %Q[<a href="#{@conf.update}">Update</a>]
+		update = %Q[<a href="#{h @conf.update}">Update</a>]
 	end
 %>
 <p style="font-size: large;"><strong>
 	Errors in plugins?
-	Retry to <%= update %> or <a href="<%= @conf.update %>?conf=default">Configure</a>.
+	Retry to <%= update %> or <a href="<%=h @conf.update %>?conf=default">Configure</a>.
 </strong></p>
 <blockquote>
-	<strong><%= CGI::escapeHTML( $!.class.to_s ) %></strong><br>
-	<code><%= CGI::escapeHTML( $!.to_s ).gsub( / /, '&nbsp;' ).gsub( /\n/, "<br>\n" ) %></code>
+	<strong><%=h $!.class.to_s %></strong><br>
+	<code><%=h $!.to_s.gsub( / /, '&nbsp;' ).gsub( /\n/, "<br>\n" ) %></code>
 </blockquote>
 </body>
 </html>
