@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.34 $
+# index.rb $Revision: 1.35 $
 #
 # Copyright (C) 2001-2006, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -60,30 +60,32 @@ begin
 		body = ''
 		head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
-		if /HEAD/i !~ @cgi.request_method then
+		if /HEAD/i =~ @cgi.request_method then
+			head['Pragma'] = 'no-cache'
+			head['Cache-Control'] = 'no-cache'
+			print @cgi.header( head )
+		else
 			if @cgi.mobile_agent? then
 				body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 				head['charset'] = conf.mobile_encoding
 				head['Content-Length'] = body.size.to_s
 			else
-				require 'md5'
+				require 'digest/md5'
 				body = tdiary.eval_rhtml
-				head['ETag'] = %Q["#{MD5::md5( body )}"]
-				if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] then
+				head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
+				if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and /^GET$/i =~ @cgi.request_method then
 				   head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 					body = ''
 				else
 					head['charset'] = conf.encoding
 					head['Content-Length'] = body.size.to_s
 				end
+				head['Pragma'] = 'no-cache'
+				head['Cache-Control'] = 'no-cache'
 			end
 			head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 			print @cgi.header( head )
 			print body
-		else
-			head['Pragma'] = 'no-cache'
-			head['Cache-Control'] = 'no-cache'
-			print @cgi.header( head )
 		end
 	rescue TDiary::ForceRedirect
 		head = {
