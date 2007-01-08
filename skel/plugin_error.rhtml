@@ -18,8 +18,8 @@
 	Retry to <%= update %> or <a href="<%=h @conf.update %>?conf=default">Configure</a>.
 </strong></p>
 <blockquote>
-	<strong><%=h $!.class.to_s %></strong><br>
-	<code><%=h $!.to_s.gsub( / /, '&nbsp;' ).gsub( /\n/, "<br>\n" ) %></code>
+	<strong><%=h $!.class %></strong><br>
+	<pre><%=h $! %></pre>
 </blockquote>
 </body>
 </html>
