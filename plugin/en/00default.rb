@@ -333,7 +333,7 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	Do not use any passwords used in other places. You need not to remember this phrase to type in.</p>" unless @conf.mobile_agent?}
 	#{"<p class=\"message\">Caution: 
 	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
-	<a href=\"#{h @.update}?conf=csrf_protection\">Please open this page again via this link</a>.
+	<a href=\"#{h @update}?conf=csrf_protection\">Please open this page again via this link</a>.
 	If you see this message again, you must either change your browser setting (temporarily to change these settings, at least),
 	or edit \"tdiary.conf\" directly.</p>" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
 	</div>

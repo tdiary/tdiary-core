@@ -1,3 +1,6 @@
+2007-01-07 zunda <zunda at freeshell.org>
+	* plugin/en/00default.rb: fixed typo: s/@.update/@update/
+
 2007-01-08 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb: support ETag and If-None-Match header, and delete cache control
 	from GET response.
