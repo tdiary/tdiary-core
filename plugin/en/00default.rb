@@ -175,7 +175,7 @@ add_conf_proc( 'display', 'Display', 'basic' ) do
 	#{"<p>TSUKKOMI anchor is inserted into begining of each TSUKKOMIs. So You can specify \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\" for Image anchor.</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_anchor" value="#{h @conf.comment_anchor}" size="40"></p>
 	<h3 class="subtitle">Date format</h3>
-	#{"<p>Format of date. If you specify a charactor after %, it mean special about date formatting: \"%Y\"(Year), \"%m\"(Month)¡¢\"%b\"(Short name of month), \"%B\"(Long name of month), \"%d\"(Day), \"%a\"(Short name of day of week), \"%A\"(Long name of day of week).</p>" unless @conf.mobile_agent?}
+	#{"<p>Format of date. If you specify a charactor after %, it mean special about date formatting: \"%Y\"(Year), \"%m\"(Month), \"%b\"(Short name of month), \"%B\"(Long name of month), \"%d\"(Day), \"%a\"(Short name of day of week), \"%A\"(Long name of day of week).</p>" unless @conf.mobile_agent?}
 	<p><input name="date_format" value="#{h @conf.date_format}" size="30"></p>
 	<h3 class="subtitle">Max dates of Latest diaplay</h3>
 	#{"<p>In the Latest mode, you can specify the number of days in the page.</p>" unless @conf.mobile_agent?}
