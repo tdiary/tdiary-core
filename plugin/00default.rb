@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.100 $
+# $Revision: 1.101 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -42,23 +42,23 @@ end
 
 def navi_user_default
 	result = ''
-	result << navi_item( @index_page, navi_index ) unless @index_page.empty?
+	result << navi_item( h(@index_page), h(navi_index) ) unless @index_page.empty?
 	result
 end
 
 def navi_user_latest
 	result = ''
 	result << navi_item( "#{h @index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev'] and not bot?
-	result << navi_item( @index, navi_latest ) if @cgi.params['date'][0]
+	result << navi_item( h(@index), h(navi_latest) ) if @cgi.params['date'][0]
 	result << navi_item( "#{h @index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next'] and not bot?
 	result
 end
 
 def navi_user_day
 	result = ''
-	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
+	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{h(navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}" ) if @prev_day
 	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{h @index}#{anchor @next_day}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result << navi_item( "#{h @index}#{anchor @next_day}", "#{h(navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;" ) if @next_day
 	result
 end
 
@@ -74,17 +74,17 @@ def navi_user_month
 	next_month = ym[ym.index( now )+1]
 
 	result = ''
-	result << navi_item( "#{h @index}#{anchor( prev_month )}", "&laquo;#{navi_prev_month}" ) if prev_month and not bot?
-	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{h @index}#{anchor( next_month )}", "#{navi_next_month}&raquo;" ) if next_month and not bot?
+	result << navi_item( "#{h @index}#{anchor( prev_month )}", "&laquo;#{h navi_prev_month}" ) if prev_month and not bot?
+	result << navi_item( h(@index), h(navi_latest) )
+	result << navi_item( "#{h @index}#{anchor( next_month )}", "#{h navi_next_month}&raquo;" ) if next_month and not bot?
 	result
 end
 
 def navi_user_nyear
 	result = ''
-	result << navi_item( "#{h @index}#{anchor @prev_day[4,4]}", "&laquo;#{navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" ) if @prev_day
-	result << navi_item( @index, navi_latest ) unless @mode == 'latest'
-	result << navi_item( "#{h @index}#{anchor @next_day[4,4]}", "#{navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" ) if @next_day
+	result << navi_item( "#{h @index}#{anchor @prev_day[4,4]}", "&laquo;#{h(navi_prev_nyear Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}" ) if @prev_day
+	result << navi_item( h(@index), h(navi_latest) ) unless @mode == 'latest'
+	result << navi_item( "#{h @index}#{anchor @next_day[4,4]}", "#{h(navi_next_nyear Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;" ) if @next_day
 	result
 end
 
@@ -92,27 +92,27 @@ def navi_user_edit
 	result = ''
 	if @prev_day then
 		a = @prev_day.scan( /^(\d{4})(\d\d)(\d\d)$/ ).flatten
-		result << navi_item( "#{h @update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "&laquo;#{navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}" )
+		result << navi_item( "#{h @update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "&laquo;#{h(navi_prev_diary Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}" )
 	end
-	result << navi_item( @index, navi_latest )
+	result << navi_item( h(@index), h(navi_latest) )
 	if @next_day then
 		a = @next_day.scan( /^(\d{4})(\d\d)(\d\d)$/ ).flatten
-		result << navi_item( "#{h @update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "#{navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0])}&raquo;" )
+		result << navi_item( "#{h @update}?edit=true;year=#{a[0]};month=#{a[1]};day=#{a[2]}", "#{h(navi_next_diary Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;" )
 	end
 	result
 end
 
 def navi_user_else
-	navi_item( @index, navi_latest )
+	navi_item( h(@index), h(navi_latest) )
 end
 
 def navi_admin
 	if @mode == 'day' then
-		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", navi_edit )
+		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", h(navi_edit) )
 	else
-		result = navi_item( @update, navi_update )
+		result = navi_item( h(@update), h(navi_update) )
 	end
-	result << navi_item( "#{h @update}?conf=default", navi_preference ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
+	result << navi_item( "#{h @update}?conf=default", h(navi_preference) ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
 end
 

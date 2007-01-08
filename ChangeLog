@@ -1,4 +1,7 @@
 2007-01-07 zunda <zunda at freeshell.org>
+	* plugin/00default.rb: escaped arguments to navi_item
+
+2007-01-07 zunda <zunda at freeshell.org>
 	* plugin/en/00default.rb: fixed typo: s/@.update/@update/
 
 2007-01-08 TADA Tadashi <sho@spc.gr.jp>
