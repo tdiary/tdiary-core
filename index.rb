@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 #
-# index.rb $Revision: 1.33 $
+# index.rb $Revision: 1.34 $
 #
-# Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2001-2006, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $defout.binmode }
@@ -23,7 +23,7 @@ begin
 	status = nil
 	if %r[/\d{4,8}(-\d+)?\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' ) then
 		@cgi.params['date'] = [@cgi.redirect_url.sub( /.*\/(\d+)(-\d+)?\.html$/, '\1\2' )]
-		status = '200 OK'
+		status = CGI::HTTP_STATUS['OK']
 	end
 
 	begin
@@ -60,21 +60,22 @@ begin
 		body = ''
 		head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
-		# ETag testing code
-		#require 'md5'
-		#head['ETag'] = MD5::md5( body )
-
 		if /HEAD/i !~ @cgi.request_method then
 			if @cgi.mobile_agent? then
 				body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 				head['charset'] = conf.mobile_encoding
 				head['Content-Length'] = body.size.to_s
 			else
+				require 'md5'
 				body = tdiary.eval_rhtml
-				head['charset'] = conf.encoding
-				head['Content-Length'] = body.size.to_s
-				head['Pragma'] = 'no-cache'
-				head['Cache-Control'] = 'no-cache'
+				head['ETag'] = %Q["#{MD5::md5( body )}"]
+				if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] then
+				   head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
+					body = ''
+				else
+					head['charset'] = conf.encoding
+					head['Content-Length'] = body.size.to_s
+				end
 			end
 			head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 			print @cgi.header( head )
@@ -102,7 +103,7 @@ begin
 	end
 rescue Exception
 	if @cgi then
-		print @cgi.header( 'status' => '500 Internal Server Error', 'type' => 'text/html' )
+		print @cgi.header( 'status' => CGI::HTTP_STATUS['SERVER_ERROR'], 'type' => 'text/html' )
 	else
 		print "Status: 500 Internal Server Error\n"
 		print "Content-Type: text/html\n\n"
