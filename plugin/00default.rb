@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.102 $
+# $Revision: 1.103 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -345,16 +345,16 @@ def theme_url; 'theme'; end
 
 def css_tag
 	if @mode =~ /conf$/ then
-		css = "#{theme_url}/conf.css"
+		css = "#{h theme_url}/conf.css"
 	elsif @conf.theme and @conf.theme.length > 0
-		css = "#{theme_url}/#{h @conf.theme}/#{h @conf.theme}.css"
+		css = "#{h theme_url}/#{h @conf.theme}/#{h @conf.theme}.css"
 	else
 		css = @css
 	end
 	title = File::basename( css, '.css' )
 	<<-CSS
 <meta http-equiv="content-style-type" content="text/css">
-	<link rel="stylesheet" href="#{theme_url}/base.css" type="text/css" media="all">
+	<link rel="stylesheet" href="#{h theme_url}/base.css" type="text/css" media="all">
 	<link rel="stylesheet" href="#{h css}" title="#{h title}" type="text/css" media="all">
 	CSS
 end
@@ -395,7 +395,7 @@ def nyear_link( date, title )
 		d = date.strftime( '%d' )
 		years = @years.find_all {|year, months| months.include? m}
 		if years.length >= 2 then
-			%Q|#{title} <span class="nyear">[<a href="#{h @index}#{anchor m + d}" title="#{nyear_diary_title date, years}">#{nyear_diary_label date, years}</a>]</span>|
+			%Q|#{title} <span class="nyear">[<a href="#{h @index}#{anchor m + d}" title="#{h(nyear_diary_title(date, years))}">#{nyear_diary_label date, years}</a>]</span>|
 		else
 			title
 		end
@@ -523,7 +523,7 @@ def comment_form
 						#{comment_body_label}:<textarea name="body" cols="60" rows="5"></textarea>
 					</div>
 					<div class="button">
-						<input type="submit" name="comment" value="#{comment_submit_label}">
+						<input type="submit" name="comment" value="#{h comment_submit_label}">
 					</div>
 					</div></form>
 			FORM

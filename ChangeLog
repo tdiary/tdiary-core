@@ -1,3 +1,7 @@
+2007-01-09 zunda <zunda at freeshell.org>
+	* plugin/00default.rb: escaped theme_url, nyear_diary_title,
+	and comment_submit_label
+
 2007-01-10  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/zh/00default.rb: remove parentheses warnings.
 
