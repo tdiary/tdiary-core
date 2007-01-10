@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.293 $
+tdiary.rb $Revision: 1.294 $
 
 Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070108'
+TDIARY_VERSION = '2.1.4.20070109'
 
 require 'cgi'
 require 'uri'
@@ -1301,7 +1301,16 @@ EOS
 			rescue TDiaryError
 			end
 			@date = Time::now + (@conf.hour_offset * 3600).to_i
-			@diary = @io.diary_factory( @date, '', '', @conf.style )
+			title = ''
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				diary = self[@date]
+				if diary then
+					title = diary.title
+				end
+				DIRTY_NONE
+			end
+			@diary = @io.diary_factory( @date, title, '', @conf.style )
 		end
 	end
 

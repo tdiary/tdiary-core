@@ -1,3 +1,7 @@
+2007-01-09 zunda <zunda at freeshell.org>
+	* tdiary.rb: modified TDiaryForm so that, when appending a diary,
+	default title is set if there is already a diary for the same date.
+
 2007-01-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/00default.rb: remove parentheses warnings.
 
