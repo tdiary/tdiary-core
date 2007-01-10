@@ -258,7 +258,7 @@ def comment_mail_basic_html
 	</select></p>
 	<h3 class="subtitle">收件位址</h3>
 	#{"<p>請指定要收到迴響通知的電子郵件位址，一行寫一個位址。如果這裡沒有另外指定，則通知信將會寄到您的電子郵件位址。</p>" unless @conf.mobile_agent?}
-	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{h ( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
+	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{h @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n")}</textarea></p>
 	<h3 class="subtitle">信件標題</h3>
 	#{"<p>指定一個會擺在通知信的「信件標題」開頭處的字串。信件標題會是 \"您指定的字串:DATE-SERIAL NAME\" 的樣式。 \"date\" 是您日誌發表的日期，但是如果您另行指定了日期的樣式，標題則會變為 \"您指定的字串-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
