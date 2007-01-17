@@ -1,5 +1,5 @@
 #
-# tDiary language setup: English(en) $Revision: 1.3 $
+# tDiary language setup: English(en) $Revision: 1.4 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -33,7 +33,7 @@ end
 #
 # 'to_native' method converts string automatically to native encoding.
 # 
-def to_native( str )
+def to_native( str, charset = nil )
 	str.dup
 end
 

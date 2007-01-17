@@ -1,7 +1,7 @@
 #
 # tDiary language setup: Japanese(ja)
 #
-# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 
@@ -20,31 +20,23 @@ def mobile_encoding
 end
 
 require 'nkf'
-begin
-	raise LoadError if defined?( NKF::UTF8 )
-	require 'uconv'
-	eval( <<-TOPLEVEL_CLASS, TOPLEVEL_BINDING )
-		def Uconv.unknown_unicode_handler( unicode )
-			if unicode == 0xff5e
-				"¡Á"
-			else
-				raise Uconv::Error
-			end
-		end
-	TOPLEVEL_CLASS
 
-	def to_native( str )
-		begin
-			str = Uconv.u8toeuc( str )
-		rescue Uconv::Error
-			str = NKF::nkf( '-m0 -e', str )
-		end
-		str
+def to_native( str, charset = nil )
+	from = case charset
+		when /^utf-8$/i
+			$stderr.puts 'from UTF-8'
+			'W'
+		when /^shift_jis/i
+			$stderr.puts 'from Shift_JIS'
+			'S'
+		when /^EUC-JP/i
+			$stderr.puts 'from EUC-JP'
+			'E'
+		else
+			$stderr.puts 'from unknown'
+			''
 	end
-rescue LoadError
-	def to_native( str )
-		NKF::nkf( '-m0 -e', str )
-	end
+	NKF::nkf( "-m0 -#{from}e", str )
 end
 
 def to_mobile( str )

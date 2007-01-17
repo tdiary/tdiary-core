@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.294 $
+tdiary.rb $Revision: 1.295 $
 
-Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070109'
+TDIARY_VERSION = '2.1.4.20070117'
 
 require 'cgi'
 require 'uri'
@@ -2002,58 +2002,6 @@ HERE
 	end
 
 	#
-	# class TDiaryTrackBackRSS
-	#  generate RSS
-	#
-	class TDiaryTrackBackRSS < TDiaryTrackBackBase
-		def initialize( cgi, rhtml, conf )
-			super
-			@io.transaction( @date ) do |diaries|
-				@diaries = diaries
-				@diary = @diaries[@date.strftime('%Y%m%d')]
-				DIRTY_NONE
-			end
-		end
-
-		def eval_rhtml( prefix = '' )
-			raise TDiaryTrackBackError.new("invalid date: #{@date.strftime('%Y%m%d')}") unless @diary
-			load_plugins
-			r = <<RSSHEAD
-<?xml version="1.0" encoding="#{h @conf.encoding}"?>
-<response>
-<error>0</error>
-<rss version="0.91">
-<channel>
-<title>#{h @diary.title}</title>
-<link>#{h diary_url}</link>
-<description></description>
-<language>#{h @conf.html_lang}</language>
-RSSHEAD
-			@diary.each_comment do |com, idx|
-				begin
-					next unless com.visible_true?
-				rescue NameError, NoMethodError
-					next unless com.visible?
-				end
-				next unless /^(TrackBack|Pingback)$/ =~ com.name
-				url, blog_name, title, excerpt = com.body.split(/\n/, 4)
-				r << <<RSSITEM
-<item>
-<title>#{h title}</title>
-<link>#{h url}</link>
-<description>#{h excerpt}</description>
-</item>
-RSSITEM
-			end
-			r << <<RSSFOOT
-</channel>
-</rss>
-</response>
-RSSFOOT
-		end
-	end
-
-	#
 	# class TDiaryTrackBackReceive
 	#  receive TrackBack ping and store as comment
 	#
@@ -2062,10 +2010,15 @@ RSSFOOT
 			super
 			@error = nil
 
+			charset = nil
+			if @cgi.content_type =~ /charset=([^\s;]*)/i then
+				charset = $1
+			end
+			
 			url = @cgi.params['url'][0]
-			blog_name = @conf.to_native( @cgi.params['blog_name'][0] || '' )
-			title = @conf.to_native( @cgi.params['title'][0] || '' )
-			excerpt = @conf.to_native( @cgi.params['excerpt'][0] || '' )
+			blog_name = @conf.to_native( @cgi.params['blog_name'][0] || '', charset )
+			title = @conf.to_native( @cgi.params['title'][0] || '', charset )
+			excerpt = @conf.to_native( @cgi.params['excerpt'][0] || '', charset )
 			if excerpt.length > 255
 				excerpt = @conf.shorten( excerpt, 252 )
 			end
