@@ -24,16 +24,12 @@ require 'nkf'
 def to_native( str, charset = nil )
 	from = case charset
 		when /^utf-8$/i
-			$stderr.puts 'from UTF-8'
 			'W'
 		when /^shift_jis/i
-			$stderr.puts 'from Shift_JIS'
 			'S'
 		when /^EUC-JP/i
-			$stderr.puts 'from EUC-JP'
 			'E'
 		else
-			$stderr.puts 'from unknown'
 			''
 	end
 	NKF::nkf( "-m0 -#{from}e", str )
