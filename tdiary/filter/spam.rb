@@ -321,7 +321,6 @@ module TDiary
 						end
 
 						if addrs.empty?
-							# IP?ву??????????????гу?
 							debug( "couldn't get addresses: #{uri.host}" )
 							comment.show = false
 							return @resolv_check_mode
