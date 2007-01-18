@@ -78,6 +78,23 @@ def style_howto
 end
 
 #
+# convert to UTF-8
+#
+def to_utf8( str, charset = nil )
+	from = case charset
+		when /^utf-8$/i
+			'W'
+		when /^shift_jis/i
+			'S'
+		when /^EUC-JP/i
+			'E'
+		else
+			''
+	end
+	NKF::nkf( "-m0 -#{from}e", str )
+end
+
+#
 # labels (normal)
 #
 def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end

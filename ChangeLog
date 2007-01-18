@@ -1,3 +1,6 @@
+2007-01-18 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/{ja,en,zh}/00default.rb: add to_utf8 method.
+
 2007-01-17 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* plugin/00default.rb: add name field for comment-form.
 

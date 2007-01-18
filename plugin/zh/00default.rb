@@ -34,6 +34,20 @@ def title_tag
 	r << '</title>'
 end
 
+#
+# link to HOWTO write diary
+#
+def style_howto
+	%Q|/<a href="http://docs.tdiary.org/en/?#{h @conf.style}Style">撰寫指引</a>|
+end
+
+#
+# convert to UTF-8
+#
+require 'iconv'
+def to_utf8( str, charset = 'Big5' )
+	Iconv::conv( 'UTF-8', charset, str )
+end
 
 #
 # labels
@@ -266,13 +280,6 @@ def comment_mail_basic_html
 	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @conf.mobile_agent?}
 	<p><input type="checkbox" name="comment_mail.sendhidden" value="#{" checked" if @conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</p>
 	HTML
-end
-
-#
-# link to HOWTO write diary
-#
-def style_howto
-	%Q|/<a href="http://docs.tdiary.org/en/?#{h @conf.style}Style">撰寫指引</a>|
 end
 
 add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
