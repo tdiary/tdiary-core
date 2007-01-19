@@ -1,3 +1,6 @@
+2007-01-19 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/ja/00default.rb: fix bug in to_utf8 method ('e' -> 'w').
+
 2007-01-18 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/{ja,en,zh}/00default.rb: add to_utf8 method.
 

@@ -91,7 +91,7 @@ def to_utf8( str, charset = nil )
 		else
 			''
 	end
-	NKF::nkf( "-m0 -#{from}e", str )
+	NKF::nkf( "-m0 -#{from}w", str )
 end
 
 #
