@@ -1,3 +1,6 @@
+2007-01-22 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: add misc/lib into default search path of ruby library.
+
 2007-01-19 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/ja/00default.rb: fix bug in to_utf8 method ('e' -> 'w').
 
