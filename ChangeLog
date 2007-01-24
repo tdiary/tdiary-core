@@ -196,7 +196,7 @@
 
 2006-02-10 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/default_io.rb: revive safety global lock.
-	+ plugin/05referer.rb: change labels.
+	* plugin/05referer.rb: change labels.
 
 2006-02-06 TADA Tadashi <sho@spc.gr.jp>
 	* revive @referer_day_only option but reverse default value.
