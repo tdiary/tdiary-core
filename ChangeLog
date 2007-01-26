@@ -1,3 +1,7 @@
+2007-01-25 zunda <zunda at freeshell.org>
+	* skel/preview.html: removed gsub(/ /, '&nbsp;') from the view
+	of plugin error, as the string is espaced more completly with h()
+
 2007-01-26 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, filter/spam.rb, plugin/spamfilter.rb: move debug method into
 	Filter class. And rename options 'spamfilter.debug_*' to 'filter.debug_*'.
