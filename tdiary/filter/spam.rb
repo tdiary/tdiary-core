@@ -13,8 +13,6 @@ module TDiary
 			def initialize( *args )
 				super( *args )
 				@filter_mode = true
-				@debug_mode = false
-				@debug_file = nil
 				@max_uris = nil
 				@max_rate = nil
 				@resolv_check = true
@@ -44,18 +42,6 @@ module TDiary
 					end
 				else
 					@filter_mode = true # invisible
-				end
-
-				if @conf.options.include?('spamfilter.debug_mode')
-					@debug_mode = @conf.options['spamfilter.debug_mode']
-				else
-					@debug_mode = false
-				end
-
-				if @conf.options.include?('spamfilter.debug_file')
-					@debug_file = @conf.options['spamfilter.debug_file']
-				else
-					@debug_file = nil
 				end
 
 				if @conf.options.include?('spamfilter.max_uris')
@@ -184,15 +170,6 @@ module TDiary
 				nil
 			end
 
-			def debug( msg )
-				return unless @debug_mode
-				require 'time'
-				File.open(@debug_file, 'a') do |io|
-					io.flock(File::LOCK_EX)
-					io.puts "#{Time.now.iso8601}: #{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}"
-				end
-			end
-
 			def black_domain?( domain )
 				@spamlookup_domain_list.split(/\n/).each do |dnsbl|
 					begin
@@ -202,11 +179,11 @@ module TDiary
 							return true
 						end
 					rescue Resolv::ResolvTimeout, Resolv::ResolvError
-						debug("resolv error:#{domain}.#{dnsbl}")
+						debug("resolv error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					rescue TimeoutError
-						debug("timeout error:#{domain}.#{dnsbl}")
+						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					rescue Exception
-						debug("unknown error:#{domain}.#{dnsbl}")
+						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					end
 				end
 				return false
@@ -215,7 +192,7 @@ module TDiary
 			def black_url?( body )
 				body.scan( %r|https?://([^/:\s]+)| ) do |s|
 					if @spamlookup_safe_domain_list.include?( s[0] )
-						debug("#{s[0]} is safe host.")
+						debug("#{s[0]} is safe host.", DEBUG_FULL)
 						next
 					end
 					return true if black_domain?( s[0] )
@@ -225,7 +202,7 @@ module TDiary
 
 			def comment_filter( diary, comment )
 				update_config
-				#debug( "comment_filter start" )
+				#debug( "comment_filter start", DEBUG_FULL )
 
 				return false if black_url?( comment.body )
 
@@ -377,7 +354,7 @@ module TDiary
 				return true unless referer
 
 				update_config
-				#debug( "referer_filter start" )
+				#debug( "referer_filter start", DEBUG_FULL )
 
 				return false if black_url?( referer )
 

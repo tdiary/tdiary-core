@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.298 $
+tdiary.rb $Revision: 1.299 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070122'
+TDIARY_VERSION = '2.1.4.20070126'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -288,8 +288,24 @@ module TDiary
 	#
 	module Filter
 		class Filter
+			DEBUG_NONE = 0
+			DEBUG_SPAM = 1
+			DEBUG_FULL = 2
+
 			def initialize( cgi, conf )
 				@cgi, @conf = cgi, conf
+
+				if @conf.options.include?('filter.debug_mode')
+					@debug_mode = @conf.options['filter.debug_mode']
+				else
+					@debug_mode = DEBUG_NONE
+				end
+
+				if @conf.options.include?('filter.debug_file')
+					@debug_file = @conf.options['filter.debug_file']
+				else
+					@debug_file = nil
+				end
 			end
 
 			def comment_filter( diary, comment )
@@ -298,6 +314,17 @@ module TDiary
 
 			def referer_filter( referer )
 				true
+			end
+
+			def debug( msg, level = DEBUG_SPAM )
+				return if @debug_mode == DEBUG_NONE
+				return if @debug_mode == DEBUG_SPAM and level == DEBUG_FULL
+
+				require 'time'
+				File.open( @debug_file, 'a' ) do |io|
+					io.flock(File::LOCK_EX)
+					io.puts "#{Time.now.iso8601}: #{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}"
+				end
 			end
 		end
 	end

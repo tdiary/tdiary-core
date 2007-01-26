@@ -1,5 +1,5 @@
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.7 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.8 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -60,12 +60,13 @@ def spamfilter_conf_html
 	r << <<-HTML
 	<h3>for Debug</h3>
 	<p>Debug mode.<br>
-		<select name="spamfilter.debug_mode">
-			<option value="true"#{" selected" if @conf['spamfilter.debug_mode']}>ON</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.debug_mode']}>OFF</option>
+		<select name="filter.debug_mode">
+			<option value="0"#{" selected" if @conf['filter.debug_mode'] == 0}>OFF</option>
+			<option value="1"#{" selected" if @conf['filter.debug_mode'] == 1}>Only spam</option>
+			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>Full</option>
 		</select></p>
 	<p>File name of debug log.<br>
-		<input type="text" name="spamfilter.debug_file" value="#{h( @conf['spamfilter.debug_file'] || '' )}" size="30"></p>
+		<input type="text" name="spamfilter.debug_file" value="#{h( @conf['filter.debug_file'] || '' )}" size="30"></p>
 	HTML
 	end
 
