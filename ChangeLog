@@ -2,6 +2,7 @@
 	* tdiary.rb, filter/spam.rb, plugin/spamfilter.rb: move debug method into
 	Filter class. And rename options 'spamfilter.debug_*' to 'filter.debug_*'.
 	And split debug mode to 3 state: DEBUG_NONE, DEBUG_SPAM and DEBUG_FULL.
+	* skel/i.update.rhtml*, plugin/00default.rb: enlarge TEXTAREA size.
 
 2007-01-22 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: add misc/lib into default search path of ruby library.

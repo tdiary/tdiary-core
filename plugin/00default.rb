@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.104 $
+# $Revision: 1.105 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -545,7 +545,7 @@ def comment_form_mobile
 			#{comment_name_label_short}: <INPUT NAME="name"><BR>
 			#{comment_mail_label_short}: <INPUT NAME="mail"><BR>
 			#{comment_body_label_short}:<BR>
-			<TEXTAREA NAME="body"></TEXTAREA><BR>
+			<TEXTAREA NAME="body" COLS="100%" ROWS="5"></TEXTAREA><BR>
 			<INPUT TYPE="SUBMIT" NAME="comment" value="#{comment_submit_label_short}"></P>
 		</FORM>
 	FORM
