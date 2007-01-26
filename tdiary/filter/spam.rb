@@ -171,7 +171,7 @@ module TDiary
 			end
 
 			def black_domain?( domain )
-				@spamlookup_domain_list.split(/\n/).each do |dnsbl|
+				@spamlookup_domain_list.split(/[\n\r]+/).each do |dnsbl|
 					begin
 						timeout(5) do
 							address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
