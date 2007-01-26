@@ -1,4 +1,4 @@
-<%# preview.rhtml.en $Revision: 1.12 $ %>
+<%# preview.rhtml.en $Revision: 1.13 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>
@@ -27,7 +27,7 @@ param = {
 	<div class="body">
 	<div class="section">
 		<h3><%=h @exception.class.to_s %></strong></h3>
-		<pre><%=h @exception.to_s.gsub( / /, '&nbsp;' ) %></pre>
+		<pre><%=h @exception.to_s %></pre>
 	</div>
 	</div>
 	</div>
