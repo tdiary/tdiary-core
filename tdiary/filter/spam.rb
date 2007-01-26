@@ -51,7 +51,7 @@ module TDiary
 				end
 
 				if @conf.options.include?('spamfilter.max_rate')
-					@max_rate = @conf.options['spamfilter.max_rate'].to_f
+					@max_rate = @conf.options['spamfilter.max_rate'].to_i
 				else
 					@max_rate = nil
 				end

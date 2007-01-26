@@ -13,10 +13,10 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 
 		if @cgi.params['spamfilter.max_rate'] &&
 				@cgi.params['spamfilter.max_rate'][0] &&
-				/\A\d*(?:\.\d*)\z/ =~ @cgi.params['spamfilter.max_rate'][0]
+				/\A\d*\z/ =~ @cgi.params['spamfilter.max_rate'][0]
 			@conf['spamfilter.max_rate'] = @cgi.params['spamfilter.max_rate'][0]
 		else
-			@conf['spamfilter.max_rate'] = 0.0
+			@conf['spamfilter.max_rate'] = 0
 		end
 
 		if @cgi.params['spamfilter.bad_uri_patts'] &&

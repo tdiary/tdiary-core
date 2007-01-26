@@ -1,3 +1,6 @@
+2007-01-26 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* filer/spam.rb,plugin/10spamfilter.rb: fix spamfilter.max_rate float to interger.
+
 2007-01-25 zunda <zunda at freeshell.org>
 	* skel/preview.html*: removed gsub(/ /, '&nbsp;') from the view
 	of plugin error, as the string is espaced more completly with h()
@@ -18,7 +21,7 @@
 	* plugin/{ja,en,zh}/00default.rb: add to_utf8 method.
 
 2007-01-17 SHIBATA Hiroshi <h-sbt@nifty.com>
-	* plugin/00default.rb: add name field for comment-form.
+	* plugin/00default.rb: add name attribute for comment-form.
 
 2007-01-17 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: support TrackBack spec 1.2.
