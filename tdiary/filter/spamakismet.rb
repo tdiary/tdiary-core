@@ -1,9 +1,10 @@
 #
-# spamakismet.rb: tDiary comment spam filter using Akismet API
+# spamakismet.rb: tDiary comment spam filter using Akismet API $Revision: 1.2 $
 #
 # usage:
 #    1) Get your Akismet free API from http://akismet.com/personal/.
-#    2) Set the API key to your tdiary.conf. See below.
+#    2) Set the API key and enable filter in your tdiary.conf. See below.
+#          @options['akismet.enable'] = true
 #          @options['akismet.key'] = '1234567890ab'
 #
 # Copyright (C) TADA Tadashi <sho@spc.gr.jp> 2007.
@@ -16,12 +17,13 @@ require 'uri'
 module TDiary::Filter
 	class SpamakismetFilter < Filter
 		def comment_filter( diary, comment )
-			$stderr.puts "start Spamakismet"
+			return true unless @conf['akismet.enable']
+
 			key = @conf['akismet.key']
 			return true unless (key || '' ).length > 0
 
 			blog = @conf.index.dup
-			blog[0, 0] = @conf.base_url unless %r|^https?://|i =~ @blog
+			blog[0, 0] = @conf.base_url unless %r|^https?://|i =~ blog
 			blog.gsub!( %r|/\./|, '/' )
 			permalink = "#{blog}?date=#{diary.date.strftime('%Y%m%d')}"
 
@@ -55,7 +57,7 @@ module TDiary::Filter
 
 		def check( uri, data )
 			header = {
-				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.1 $",
+				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.2 $",
 				'Content-Type' => 'application/x-www-form-urlencoded'
 			}
 			body = nil
@@ -73,9 +75,4 @@ module TDiary::Filter
 		end
 	end
 end
-
-# verify API key
-#uri = URI::parse( 'http://rest.akismet.com/1.1/verify-key' )
-#data = "key=#{api_key}&blog=#{blog}"
-#p post( uri, data )
 
