@@ -1,3 +1,6 @@
+2007-01-29 TADA Tadashi <sho@spc.gr.jp>
+	* filter/spamakismet.rb: add spam filter using Akismet <http://akismet.com/>.
+
 2007-01-26 TADA Tadashi <sho@spc.gr.jp>
 	* filter/spam.rb: split RBL list by '\n' -> '[\r\n]+'.
 
