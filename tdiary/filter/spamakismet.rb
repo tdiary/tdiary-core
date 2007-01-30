@@ -1,5 +1,5 @@
 #
-# spamakismet.rb: tDiary comment spam filter using Akismet API $Revision: 1.2 $
+# spamakismet.rb: tDiary comment spam filter using Akismet API $Revision: 1.3 $
 #
 # usage:
 #    1) Get your Akismet free API from http://akismet.com/personal/.
@@ -49,7 +49,11 @@ module TDiary::Filter
 			unless check( uri, data ) then
 				debug( "akismet judged spam." )
 				comment.show = false
-				return (@conf['spamfilter.filter_mode'] || true)
+				#
+				# NOTICE: force hide TSUKKOMIs. because Akismet judge
+				#         Japanese TSUKKOMI to spam sometime.
+				#
+				return true # (@conf['spamfilter.filter_mode'] || true)
 			end
 			debug( "akismet judged ham.", DEBUG_FULL )
 			return true
@@ -57,7 +61,7 @@ module TDiary::Filter
 
 		def check( uri, data )
 			header = {
-				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.2 $",
+				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.3 $",
 				'Content-Type' => 'application/x-www-form-urlencoded'
 			}
 			body = nil

@@ -1,3 +1,7 @@
+2007-01-30 TADA Tadashi <sho@spc.gr.jp>
+	* filter/spamakismet.rb: force hide TSUKKOMIs. Because Akismet judge
+	Japanese TSUKKOMI to spam sometime.
+
 2007-01-29 TADA Tadashi <sho@spc.gr.jp>
 	* filter/spamakismet.rb: add spam filter using Akismet <http://akismet.com/>.
 
