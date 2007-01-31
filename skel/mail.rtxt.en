@@ -14,3 +14,5 @@ X-URL: http://www.tdiary.org/
 <%= body %>
 --
 <%= @conf.index =~ %r|^https?://|i ? '': @conf.base_url %><%= @conf.index.sub(%r|^\./|, '') %><%= anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial)) %>
+IP: <%=@cgi.remote_addr%>
+Status: <%= @comment.visible? ? 'shown' : 'hidden'%>
