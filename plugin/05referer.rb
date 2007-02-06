@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.7 $
+# $Revision: 1.8 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -15,7 +15,7 @@ add_header_proc do
 end
 
 def referer_save_trigger
-	return if @conf.io_class != ::TDiary::DefaultIO
+	return if @conf.io_class.to_s != 'TDiary::DefaultIO'
 	return if @conf.referer_day_only and @mode == 'latest'
 	return if @mode !~ /^latest|day|form|edit|append|replace$/
 
