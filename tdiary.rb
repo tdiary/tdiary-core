@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.300 $
+tdiary.rb $Revision: 1.301 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070131'
+TDIARY_VERSION = '2.1.4.20070206'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -1010,8 +1010,8 @@ module TDiary
 		def eval_rhtml( prefix = '' )
 			begin
 				r = do_eval_rhtml( prefix )
-			rescue PluginError, SyntaxError, ArgumentError
-				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
+#			rescue PluginError, SyntaxError, ArgumentError
+#				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
 			rescue Exception
 				raise
 			end
@@ -1197,6 +1197,7 @@ module TDiary
 			load_filters unless @filters
 			@filters.each do |filter|
 				return false unless filter.comment_filter( diary, comment )
+				break unless comment.visible?
 			end
 			true
 		end
