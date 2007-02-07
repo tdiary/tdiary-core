@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.25 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.26 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -130,24 +130,28 @@ module TDiary
 			html.gsub!( %r!<a href="(.+?)">(.+?)</a>! ) do
 				k, u = $2, $1
 				if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ u then
-					%Q[<%=my '#{$1}#{$2}', '#{k}' %>]
+					%Q[<%=my '#{$1}#{$2}', '#{escape_quote k}' %>]
 				elsif /:/ =~ u
 					scheme, path = u.split( /:/, 2 )
 					if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
       				u.sub!( /^\w+:/, '' ) if %r|://| !~ u and /^mailto:/ !~ u
 						%Q[<a href="#{u}">#{k}</a>]
 					elsif ( k == u )
-						%Q[<%=kw '#{u}'%>]
+						%Q[<%=kw '#{escape_quote u}'%>]
 					else
-						%Q[<%=kw '#{u}', '#{k}'%>]
+						%Q[<%=kw '#{escape_quote u}', '#{escape_quote k}'%>]
 					end
 				elsif k == u
-					%Q[<%=kw '#{u}', '#{k}'%>]
+					%Q[<%=kw '#{escape_quote u}', '#{escape_quote k}'%>]
 				else
 					%Q[<a href="#{u}">#{k}</a>]
 				end
 			end
 			html
+		end
+
+		def escape_quote( s )
+			s.gsub( /'/, "\\\\'" )
 		end
 
 		def strip_headings( string )

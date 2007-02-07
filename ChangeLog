@@ -2,6 +2,7 @@
 	* tdiary.rb: rewind about proxy.
 	* tdiary.conf.*: add about @options['proxy'].
 	* doc/HOWTO-use-plugin.html: add about @options['proxy']
+	* tdiary/wiki_style.rb: escape single quote in expand parameters of plugins.
 
 2007-02-06 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: @options['proxy'] set to ENV['HTTP_PROXY'] in Plugin.
