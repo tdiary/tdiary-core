@@ -140,13 +140,17 @@ ge
 
 [[aaa|bbb]]
 
+[[aaa'bbb|ccc]]
+
 [[aaa|aaa]]
 
-[[aaa:»ª]]
+[[aaa:é¯–]]
 
 [[aaa|bbb:ccc]]
 
-[[»ª|http://ja.wikipedia.org/wiki/%E9%AF%96]]
+[[aaa'bbb|bbb:ccc]]
+
+[[é¯–|http://ja.wikipedia.org/wiki/%E9%AF%96]]
 
 http://ja.wikipedia.org/wiki/%E9%AF%96
     EOF
@@ -158,10 +162,12 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
 <p><%=kw 'aaa', 'aaa'%></p>
 <p><a href="bbb">aaa</a></p>
+<p><a href="ccc">aaa'bbb</a></p>
 <p><%=kw 'aaa', 'aaa'%></p>
-<p><%=kw 'aaa:»ª'%></p>
+<p><%=kw 'aaa:é¯–'%></p>
 <p><%=kw 'bbb:ccc', 'aaa'%></p>
-<p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">»ª</a></p>
+<p><%=kw 'bbb:ccc', 'aaa\'bbb'%></p>
+<p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">é¯–</a></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">http://ja.wikipedia.org/wiki/%E9%AF%96</a></p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
