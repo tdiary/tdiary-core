@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.303 $
+tdiary.rb $Revision: 1.304 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070206'
+TDIARY_VERSION = '2.1.4.20070207'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -683,11 +683,6 @@ module TDiary
 				@cgi.params.each_value do |p|
 					p.each {|v| v.taint}
 				end
-			end
-
-			# shared options initialize
-			if @options['proxy'] then
-				ENV['HTTP_PROXY'] = @options['proxy']
 			end
 
 			# loading plugins
