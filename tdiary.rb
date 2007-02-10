@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.304 $
+tdiary.rb $Revision: 1.305 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070207'
+TDIARY_VERSION = '2.1.4.20070210'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -921,6 +921,10 @@ module TDiary
 			end
 		end
 
+		def remove_tag( str )
+			str.gsub( /<[^"'<>]*(?:"[^"]*"[^"'<>]*|'[^']*'[^"'<>]*)*(?:>|(?=<)|$)/, '' )
+		end
+
 		def apply_plugin( str, remove_tag = false )
 			return '' unless str
 			r = str.dup
@@ -934,7 +938,7 @@ module TDiary
 					end
 				end
 			end
-			r.gsub!( /<[^"'<>]*(?:"[^"]*"[^"'<>]*|'[^']*'[^"'<>]*)*(?:>|(?=<)|$)/, '' ) if remove_tag
+			r = remove_tag( r ) if remove_tag
 			r
 		end
 
