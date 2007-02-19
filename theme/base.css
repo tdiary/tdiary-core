@@ -197,3 +197,10 @@ div.recentsubtitles {
 	margin-left: 1em;
 }
 
+/*
+edit-today plugin
+*/
+h2 span.edit-today {
+	font-size: small;
+}
+
