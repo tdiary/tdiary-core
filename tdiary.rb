@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.306 $
+tdiary.rb $Revision: 1.307 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070218'
+TDIARY_VERSION = '2.1.4.20070220'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -2068,8 +2068,12 @@ HERE
 					@diary = @diaries[@date.strftime('%Y%m%d')]
 					if @diary and comment_filter( @diary, @comment ) then
 						@diary.add_comment(@comment)
+						unless @comment.visible?
+							@error = 'Your TrackBack has been filtered (maybe).'
+						end
 						DIRTY_COMMENT
 					else
+						@error = 'Your TrackBack has been filtered.'
 						@comment = nil
 						DIRTY_NONE
 					end
