@@ -4,6 +4,7 @@
 	* rename linkcheck.rb to spamlinkcheck.rb in filter.
 	* plugin/10spamfilter.rb, filter/spamlinkcheck.rb: add options of
 	TrackBack linkcheck.
+	* plugin/00default.rb: add comment_form_mobile_mail_field method.
 
 2007-02-20 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: raise error when TrackBack has been filtered.

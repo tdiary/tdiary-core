@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.105 $
+# $Revision: 1.106 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -535,6 +535,10 @@ def comment_form
 	r
 end
 
+def comment_form_mobile_mail_field
+	%Q|#{comment_mail_label_short}: <INPUT NAME="mail"><BR>|
+end
+
 def comment_form_mobile
 	return '' if @conf.hide_comment_form
 	return <<-FORM
@@ -543,7 +547,7 @@ def comment_form_mobile
 			<INPUT TYPE="HIDDEN" NAME="date" VALUE="#{@date.strftime( '%Y%m%d' )}">
 			<P>#{comment_description_short}<BR>
 			#{comment_name_label_short}: <INPUT NAME="name"><BR>
-			#{comment_mail_label_short}: <INPUT NAME="mail"><BR>
+			#{comment_form_mobile_mail_field}
 			#{comment_body_label_short}:<BR>
 			<TEXTAREA NAME="body" COLS="100%" ROWS="5"></TEXTAREA><BR>
 			<INPUT TYPE="SUBMIT" NAME="comment" value="#{comment_submit_label_short}"></P>
