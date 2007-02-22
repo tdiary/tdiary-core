@@ -1,5 +1,6 @@
 2007-02-22 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.beginner: add some spam and referer data.
+	* filter/spam.rb: spam when referer has a fragment.
 
 2007-02-20 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: raise error when TrackBack has been filtered.

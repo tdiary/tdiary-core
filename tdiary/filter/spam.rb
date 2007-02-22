@@ -356,6 +356,11 @@ module TDiary
 				update_config
 				#debug( "referer_filter start", DEBUG_FULL )
 
+				if /#/ =~ referer then
+					debug( "referer has a fragment: #{referer}" )
+					return false
+				end
+
 				return false if black_url?( referer )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
