@@ -1,5 +1,5 @@
 #
-# en/spamfilter.rb: resource of en $Revision: 1.9 $
+# en/spamfilter.rb: resource of en $Revision: 1.10 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -28,6 +28,10 @@ def spamfilter_conf_html
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>ON</option>
 			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>OFF</option>
 		</select></p>
+	<p><select name="spamfilter.linkcheck">
+		<option value="0"#{' selected' if @conf['spamfilter.linkcheck'] == 0}>Receiving all TrackBack without checking it's contents.</option>
+		<option value="1"#{' selected' if @conf['spamfilter.linkcheck'] == 1}>Checking which TrackBack sender has any links to my site.</option>
+	</select></p>
 
 	<h3>Date</h3>
 	<p>It is spam that TSUKKOMI was made into<br>

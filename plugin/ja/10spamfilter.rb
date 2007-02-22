@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.12 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.13 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -27,6 +27,10 @@ def spamfilter_conf_html
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>利用する</option>
 			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>利用しない</option>
 		</select></p>
+	<p>TrackBack送信元の<select name="spamfilter.linkcheck">
+		<option value="0"#{' selected' if @conf['spamfilter.linkcheck'] == 0}>内容をチェックせずにすべて受信する</option>
+		<option value="1"#{' selected' if @conf['spamfilter.linkcheck'] == 1}>中に自サイトへのリンクがあれば受信する</option>
+	</select></p>
 
 	<h3>日付けによるフィルタ</h3>
 	<p><input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">日以上前の日付けへのツッコミはspamとみなす<br>(空欄は制限なし、0は当日のみ)</p>

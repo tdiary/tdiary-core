@@ -129,6 +129,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			@conf['spamlookup.safe_domain.list'] = nil
 		end
 
+		@conf['spamfilter.linkcheck'] = (@cgi.params['spamfilter.linkcheck'][0] || '1').to_i
 	end
 
 	# initialize DNSBL list
@@ -136,6 +137,9 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 
 	# initialize safe domain list.
 	@conf['spamlookup.safe_domain.list'] ||= "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
+
+	# initialize spamfilter.linkcheck mode.
+	@conf['spamfilter.linkcheck'] = 1 unless @conf['spamfilter.linkcheck']
 
 	spamfilter_conf_html
 end
