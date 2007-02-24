@@ -1,5 +1,5 @@
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.9 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.10 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -49,8 +49,8 @@ def spamfilter_conf_html
 	</select></p>
 	<p>Which dou you want to do spam TrackBack finally?<br>
 		<select name="spamfilter.resolv_check_mode">
-			<option value="true"#{" selected" if resolv_check_mode}>hide</option>
-			<option value="false"#{" selected" unless resolv_check_mode}>dispose</option>
+			<option value="true"#{" selected" if @conf['spamfilter.resolv_check_mode']}>hide</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>dispose</option>
 		</select>
 	</p>
    <h3>Domain Blacklist Services</h3>

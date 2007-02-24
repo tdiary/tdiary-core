@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.13 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.14 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -47,8 +47,8 @@ def spamfilter_conf_html
 	</p>
 	<p>上の条件によってspamとみなされたTrackBackは
 		<select name="spamfilter.resolv_check_mode">
-			<option value="true"#{" selected" if resolv_check_mode}>非表示にする</option>
-			<option value="false"#{" selected" unless resolv_check_mode}>捨てる</option>
+			<option value="true"#{" selected" if @conf['spamfilter.resolv_check_mode']}>非表示にする</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>捨てる</option>
 		</select>
 	</p>
    <h3>ブラックリストサービスを使ったフィルタ</h3>
