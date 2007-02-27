@@ -1,3 +1,6 @@
+2007-02-27 TADA Tadashi <sho@spc.gr.jp>
+	* theme/base.css: add more detail styles for amazon plugin.
+
 2007-02-24 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* plugin/{ja,en,zh}/10spamfilter.rb: fix bug resolv_check_mode setting.
 

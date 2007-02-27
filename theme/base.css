@@ -81,6 +81,22 @@ div.section, div.comment {
 	clear: both;
 }
 
+img.amazon-detail {
+	margin-top: 0px;
+}
+
+span.amazon-title {
+	font-weight: bold;
+}
+
+span.amazon-author {
+	font-size: 90%;
+}
+
+span.amazon-label, span.amazon-price {
+	font-size: 80%;
+}
+
 /*
 image plugin
 */
