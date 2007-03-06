@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.26 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.27 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -9,7 +9,7 @@
 # Copyright (C) 2005, Kazuhiko <kazuhiko@fdiary.net>
 # You can distribute this under GPL.
 #
-require 'tdiary/hikidoc'
+require 'hikidoc'
 
 module TDiary
 	class WikiSection
