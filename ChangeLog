@@ -1,3 +1,6 @@
+2007-03-11 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp>
+	* tdiary.rb: CGI::request_uri support IIS and some other httpds.
+
 2007-03-06 TADA Tadashi <sho@spc.gr.jp>
 	* hikidoc.rb was moved from 'tdiary' to 'misc/lib'.
 

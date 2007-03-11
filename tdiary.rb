@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.309 $
+tdiary.rb $Revision: 1.310 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070306'
+TDIARY_VERSION = '2.1.4.20070311'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -69,7 +69,18 @@ class CGI
 	end
 
 	def redirect_url
-		env_table['REDIRECT_URL']
+		_request_uri = env_table['REQUEST_URI']
+		_script_name = env_table['SCRIPT_NAME']
+		if !_request_uri || _request_uri == '' || _request_uri == _script_name then
+			_path_info    = env_table['PATH_INFO'] || ''
+			_query_string = env_table['QUERY_STRING'] || ''
+			# Workaround for IIS-style PATH_INFO ('/dir/script.cgi/path', not '/path')
+			# See http://support.microsoft.com/kb/184320/
+			_request_uri = _path_info.include?(_script_name) ? '' : _script_name.dup
+			_request_uri << _path_info
+			_request_uri << '?' + _query_string if _query_string != ''
+		end
+		_request_uri
 	end
 
 	if RUBY_VERSION >= '1.8.0' && RUBY_VERSION < '1.8.2'
