@@ -1,7 +1,7 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.310 $
+tdiary.rb $Revision: 1.311 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
@@ -2040,7 +2040,7 @@ HERE
 <?xml version="1.0" encoding="iso-8859-1"?>
 <response>
 <error>1</error>
-<message>#{h reason}</message>
+<message>#{CGI::escapeHTML reason}</message>
 </response>
 HERE
 		end

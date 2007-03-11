@@ -1,3 +1,7 @@
+2007-03-11 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: 'h' replace to 'CGI::escapeHTML' in TDiaryTrackBackError.
+	thanks to MIYASAKA Masaru.
+
 2007-03-11 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp>
 	* tdiary.rb: CGI::request_uri support IIS and some other httpds.
 
