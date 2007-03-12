@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.311 $
+tdiary.rb $Revision: 1.312 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070311'
+TDIARY_VERSION = '2.1.4.20070312'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -65,10 +65,6 @@ class CGI
 	end
 
 	def request_uri
-		env_table['REQUEST_URI']
-	end
-
-	def redirect_url
 		_request_uri = env_table['REQUEST_URI']
 		_script_name = env_table['SCRIPT_NAME']
 		if !_request_uri || _request_uri == '' || _request_uri == _script_name then
@@ -81,6 +77,10 @@ class CGI
 			_request_uri << '?' + _query_string if _query_string != ''
 		end
 		_request_uri
+	end
+
+	def redirect_url
+		env_table['REDIRECT_URL']
 	end
 
 	if RUBY_VERSION >= '1.8.0' && RUBY_VERSION < '1.8.2'
