@@ -1,3 +1,6 @@
+2007-03-28 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp>
+	* 00default.rb: fix counting @prev_day and @next_day error in calc_links.
+
 2007-03-11 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: 'h' replace to 'CGI::escapeHTML' in TDiaryTrackBackError.
 	thanks to MIYASAKA Masaru.

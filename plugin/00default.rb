@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.106 $
+# $Revision: 1.107 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -216,9 +216,9 @@ def calc_links
 		days |= [today]
 		days.sort!
 		days.unshift(nil).push(nil)
-
-		days.index( today ).times do |i|
-			@prev_day = days[days.index( today ) - i - 1]
+		
+		 days[0 .. days.index( today ) - 1].reverse_each do |d|
+		 	@prev_day = d
 			break unless @prev_day
 			break if (@mode == 'edit') or @diaries[@prev_day].visible?
 		end
@@ -232,8 +232,8 @@ def calc_links
 			@prev_day = (Time.local(y, m, 1) - 24*60*60).strftime( '%Y%m%d' )
 		end
 
-		days.index( today ).times do |i|
-			@next_day = days[days.index( today ) + i + 1]
+		days[days.index( today ) + 1 .. -1].each do |d|
+			@next_day = d
 			break unless @next_day
 			break if (@mode == 'edit') or @diaries[@next_day].visible?
 		end
