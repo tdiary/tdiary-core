@@ -1,3 +1,6 @@
+2007-03-28 hajime miyauchi <hajime.miyauchi at gmail.com>
+	* style/rd/rd_style.rb: section_enter/leave_proc into mobile mode.
+
 2007-03-28 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp>
 	* 00default.rb: fix counting @prev_day and @next_day error in calc_links.
 

@@ -1,5 +1,5 @@
 #
-# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.30 $
+# rd_style.rb: RD style for tDiary 2.x format. $Revision: 1.31 $
 # based on Wiki style which Copyright belongs to TADA Tadashi.
 #
 # if you want to use this style, install RDtool
@@ -249,8 +249,8 @@ module TDiary
 		def html( date, idx, opt, mode = :HTML)
 			if mode == :CHTML
 				visitor = RD2tDiaryCHTMLVistor.new( date, idx, opt, @author)
-				section_open = ''
-				section_close = ''
+				section_open = "<%=section_enter_proc( Time::at( #{date.to_i} ))%>\n"
+				section_close = "<%=section_leave_proc( Time::at( #{date.to_i} ))%>\n"
 			else
 				visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
 				section_open = %Q[<div class="section">\n<%=section_enter_proc( Time::at( #{date.to_i} ))%>\n]
