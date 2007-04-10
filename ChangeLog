@@ -1,3 +1,7 @@
+2007-04-10 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/wiki_style.rb: marge new text without subtitle into previous
+	section.
+
 2007-03-28 hajime miyauchi <hajime.miyauchi at gmail.com>
 	* style/rd/rd_style.rb: section_enter/leave_proc into mobile mode.
 

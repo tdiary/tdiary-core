@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.27 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.28 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -203,6 +203,8 @@ module TDiary
 		end
 	
 		def append( body, author = nil )
+			# body1 is a section starts without subtitle.
+			# body2 are sections starts with subtitle.
 			if /(.*?)(^![^!].*)/m =~ body
 				body1 = $1
 				body2 = $2
@@ -215,6 +217,10 @@ module TDiary
 			end
 
 			unless body1.empty?
+				current_section = @sections.pop
+				if current_section then
+					body1 = "#{current_section.body.sub( /\n+\Z/, '' )}\n\n#{body1}"
+				end
 				@sections << WikiSection::new( body1, author )
 			end
 			section = nil
