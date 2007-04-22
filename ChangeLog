@@ -1,3 +1,6 @@
+2007-04-22 TADA Tadashi <sho@spc.gr.jp>
+	* add skel/i.category.rb for category page on mobile mode.
+
 2007-04-10 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/wiki_style.rb: marge new text without subtitle into previous
 	section.
