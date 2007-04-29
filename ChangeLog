@@ -1,6 +1,7 @@
 2007-04-29 TADA Tadashi <sho@spc.gr.jp>
 	* skel/i.category.rb, plugin/00default.rb: category support mobile mode
 	more.
+	* plugin/05referer.rb: add rel="nofollow" into anchors.
 
 2007-04-22 TADA Tadashi <sho@spc.gr.jp>
 	* add skel/i.category.rb for category page on mobile mode.
