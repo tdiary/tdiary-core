@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.107 $
+# $Revision: 1.108 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -426,13 +426,30 @@ add_subtitle_proc do |date, index, subtitle|
 	subtitle_link( date, index, subtitle )
 end
 
+def make_category_link( subtitle )
+	r = ''
+	if subtitle
+		if respond_to?( :category_anchor ) then
+			r << subtitle.sub( /^(\[([^\[]+?)\])+/ ) do
+				$&.gsub( /\[(.*?)\]/ ) do
+					$1.split( /,/ ).collect do |c|
+						category_anchor( "#{c}" )
+					end.join
+				end
+			end
+		else
+			r << subtitle
+		end
+	end
+	r
+end
+
 def subtitle_link( date, index, subtitle )
 	r = ''
 
 	if @conf.mobile_agent? then
 		r << %Q[<A NAME="p#{'%02d' % index}">*</A> ]
 		r << %Q|(#{h @author})| if @multi_user and @author and subtitle
-		r << subtitle if subtitle
 	else
 		if date then
 			r << "<a "
@@ -442,21 +459,8 @@ def subtitle_link( date, index, subtitle )
 		end
 	
 		r << %Q[(#{h @author}) ] if @multi_user and @author and subtitle
-		if subtitle
-			if respond_to?( :category_anchor ) then
-				r << subtitle.sub( /^(\[([^\[]+?)\])+/ ) do
-					$&.gsub( /\[(.*?)\]/ ) do
-						$1.split( /,/ ).collect do |c|
-							category_anchor( "#{c}" )
-						end.join
-					end
-				end
-			else
-				r << subtitle
-			end
-		end
 	end
-	r
+	r << make_category_link( subtitle )
 end
 
 #
