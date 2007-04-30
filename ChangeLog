@@ -1,3 +1,7 @@
+2007-04-30 TADA Tadashi <sho@spc.gr.jp>
+	* skel/update.rhtml*, plugin/*/00default.rb; add label elements in update
+	and preferences form.
+
 2007-04-29 TADA Tadashi <sho@spc.gr.jp>
 	* skel/i.category.rb, plugin/00default.rb: category support mobile mode
 	more.

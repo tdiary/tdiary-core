@@ -66,7 +66,7 @@ def comment_mail_basic_html
 	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
 	<h3 class="subtitle">非表示ツッコミの扱い</h3>
 	#{"<p>フィルタの結果、最初から非表示にされたツッコミが記録されることがあります。この非表示のツッコミが来たときにもメールを発信するかどうかを選択します。</p>" unless @conf.mobile_agent?}
-	<p><input type="checkbox" name="comment_mail.sendhidden" value="true"#{" checked" if @conf['comment_mail.sendhidden']}>非表示のツッコミでもメールを送る</p>
+	<p><label for="comment_mail.sendhidden"><input type="checkbox" id="comment_mail.sendhidden" name="comment_mail.sendhidden" value="true"#{" checked" if @conf['comment_mail.sendhidden']}>非表示のツッコミでもメールを送る</label></p>
 	HTML
 end
 

@@ -278,7 +278,7 @@ def comment_mail_basic_html
 	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
 	<h3 class="subtitle">About hidden TSUKKOMI</h3>
 	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @conf.mobile_agent?}
-	<p><input type="checkbox" name="comment_mail.sendhidden" value="#{" checked" if @conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</p>
+	<p><label for="comment_mail.sendhidden"><input type="checkbox" id="comment_mail.sendhidden" name="comment_mail.sendhidden" value="#{" checked" if @conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</label></p>
 	HTML
 end
 
