@@ -71,7 +71,11 @@ Require user  foo
 <p>また、利用するWWWサーバの設定が、CGIの実行ファイルのサフィックスを固定(例:.cgi)にしている場合があります。この場合、<code>AddHandler</code>や<code>DirectoryIndex</code>も変更する必要があるでしょう。これに応じて、<code>index.rb</code>や<code>update.rb</code>のファイル名も変更する必要があります。</p>
 
 <h3>tdiary.confの作成</h3>
-<p>次に、<code>tdiary.conf.sample</code>を<code>tdiary.conf</code>にリネームして、内容を書き換えます。これはRubyスクリプトとして、CGIに直接読み込まれます。tDiaryの設定はほとんどCGI経由で行えるので、最低限書き換えるべきなのは最初に出てくる<code>@data_path</code>だけです。</p>
+<p>次に、tDiaryの設定ファイルである</code>tdiary.conf</code>を作ります。</p>
+
+<p>初めてtDiaryをインストールする人には、付属の<code>tdiary.conf.beginner</code>を使うのがオススメです。最初に使えるようにしておくと良いプラグインがあらかじめONになっていたり、spamフィルタにある程度の設定がされているなど、インストールしてすぐに使いやすい状態になっています。</p>
+
+<p><code>tdiary.conf.beginner</code>を<code>tdiary.conf</code>にリネームして、内容を書き換えます。tDiaryの設定はほとんどWebブラウザ経由で行えるので、最低限書き換えるべきなのは最初に出てくる<code>@data_path</code>だけです。</p>
 
 <pre>
 @data_path = '/home/foo/diary'
@@ -79,7 +83,7 @@ Require user  foo
 
 <p><code>@data_path</code>は、日記のデータを保存するディレクトリです。このディレクトリは通常、WWW経由でアクセスできない(<code>public_html</code>配下でない)ディレクトリを指定します。このディレクトリは、WWWサーバの権限で書き込めるパーミッションにしておく必要があります。</p>
 
-<p><code>tdiary.conf</code>には、他にもいろいろな設定項目を記述できます。それらの項目には以下の3つの種類があります。</p>
+<p><code>tdiary.conf</code>には、他にもいろいろな設定項目を記述できます。これらの項目には以下の3つの種類があります。</p>
 
 <h4>CGIで設定できない項目</h4>
 	<p><code>@data_path</code>のように、CGIでは設定できない項目です。これらの項目は、<code>tdiary.conf</code>ファイルを直接編集して変更しなければいけません。</p>
