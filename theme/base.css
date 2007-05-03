@@ -46,10 +46,12 @@ div.body span.footnote {
 	vertical-align: super;
 	font-size: 70%;
 }
-div.footnote {
+
+div.day div.footnote {
 	font-size: small;
 	clear: both;
 }
+
 p.footnote {
 	margin: 0.5em;
 	padding: 0em;
@@ -78,7 +80,10 @@ img.right {
 	margin: 0.5em;
 }
 
-div.section, div.comment, div.tags {
+div.section,
+div.comment,
+div.day div.tags,
+div.day div.sequel {
 	clear: both;
 }
 
