@@ -48,6 +48,7 @@ div.body span.footnote {
 }
 div.footnote {
 	font-size: small;
+	clear: both;
 }
 p.footnote {
 	margin: 0.5em;
@@ -77,7 +78,7 @@ img.right {
 	margin: 0.5em;
 }
 
-div.section, div.comment {
+div.section, div.comment, div.tags {
 	clear: both;
 }
 
