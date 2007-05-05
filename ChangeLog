@@ -1,5 +1,6 @@
 2007-05-05 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: TrackBacks save the date of received to spam log.
+	* theme/base.css: add 'span.message'.
 
 2007-05-03 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.beginner: update spam filter conditions.
