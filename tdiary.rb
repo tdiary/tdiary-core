@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.316 $
+tdiary.rb $Revision: 1.317 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070430'
+TDIARY_VERSION = '2.1.4.20070505'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -2020,6 +2020,7 @@ EOS
 			else
 				@date = Time::now
 			end
+			@cgi.params['date'] = [@date.strftime( '%Y%m%d' )]
 		end
 
 		def diary_url
