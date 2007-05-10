@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.35 $
+# tDiary configuration file $Revision: 1.36 $
 #
 # For those who do not read Japanese: please read doc/README.en.html or
 # misc/i18n/README-en.rd and use misc/i18n/tdiary.conf.sample-en.
@@ -83,18 +83,12 @@
 
 # bot扱いすべきUser-Agentたち。Googlebotなどはデフォルトで対応している
 @options['bot'] = [
-	'^(Naverbot|Cowbot)-',
 	'^BlogLines/',
 	'^blogmap',
-	'^FAST-WebCrawler/',
-	'^Hatena Antenna/',
 	'MI[CK]AN/',
-	'^msnbot/',
 	'^NG/',
-	'^Openbot/',
 	'^samidare',
-	'^TAMATEBAKO/',
-	'^TomSoftAntenna'
+	'^TAMATEBAKO/'
 ]
 
 # リンク元の記録制御(true/false)【オプション】

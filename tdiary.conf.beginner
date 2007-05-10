@@ -39,18 +39,12 @@
 # @options['proxy'] = 'proxy.example.com:8080'
 
 @options['bot'] = [
-	'^(Naverbot|Cowbot)-',
 	'^BlogLines/',
 	'^blogmap',
-	'^FAST-WebCrawler/',
-	'^Hatena Antenna/',
 	'MI[CK]AN/',
-	'^msnbot/',
 	'^NG/',
-	'^Openbot/',
 	'^samidare',
-	'^TAMATEBAKO/',
-	'^TomSoftAntenna'
+	'^TAMATEBAKO/'
 ]
 
 @options['sp.selected'] =

@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.317 $
+tdiary.rb $Revision: 1.318 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070505'
+TDIARY_VERSION = '2.1.4.20070510'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -478,7 +478,7 @@ module TDiary
 				)
 			end
 
-			bot = ["googlebot", "Hatena Antenna", "moget@goo.ne.jp"]
+			bot = ["bot", "spider", "antenna", "crawler", "moget", "slurp"]
 			bot += @options['bot'] || []
 			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
 		end
