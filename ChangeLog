@@ -1,3 +1,6 @@
+2007-06-05 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.conf.beginner: add spam filter conditions.
+
 2007-05-10 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, tdiary.conf.*: add/delete some bots.
 
