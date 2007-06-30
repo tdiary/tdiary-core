@@ -1,3 +1,7 @@
+2007-06-30 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: set @date to newest visible date in latest mode.
+	* 00default.rb: skip hidden diary for mobile navigation in latest mode.
+
 2007-06-05 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.beginner: add spam filter conditions.
 

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.108 $
+# $Revision: 1.109 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -216,9 +216,11 @@ def calc_links
 		days |= [today]
 		days.sort!
 		days.unshift(nil).push(nil)
-		
-		 days[0 .. days.index( today ) - 1].reverse_each do |d|
+
+		current_date = @date.strftime( '%Y%m%d' )
+		days[0 .. days.index( today ) - 1].reverse_each do |d|
 		 	@prev_day = d
+			next if @mode == 'latest' and current_date == d
 			break unless @prev_day
 			break if (@mode == 'edit') or @diaries[@prev_day].visible?
 		end

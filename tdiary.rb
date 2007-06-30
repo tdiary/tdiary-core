@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.318 $
+tdiary.rb $Revision: 1.319 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070510'
+TDIARY_VERSION = '2.1.4.20070630'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -1862,7 +1862,14 @@ EOS
 						@date = @diary.date if @diary
 					end
 					unless @diary then
-						@diary = @diaries[@diaries.keys.sort.reverse[0]]
+						@diaries.keys.sort.reverse_each do |d|
+							diary = @diaries[d]
+							if diary.visible?
+								@diary = diary
+								break
+							end
+						end
+						@diary = @diaries[@diaries.keys.sort.reverse[0]] unless @diary
 						@date = @diary.date if @diary
 					end
 					DIRTY_NONE
