@@ -130,7 +130,7 @@ module TDiary
 					@bad_mail_patts = @conf.options['spamfilter.bad_mail_patts']
 					tmp = @bad_mail_patts.split(/[\r\n]+/)
 					tmp.delete_if {|t| t.empty?}
-					@bad_mails = tmp.collect {|t| %r!#{t}!i }
+					@bad_mails = tmp.collect {|t| %r!#{t}!i rescue nil}.compact
 				end
 
 				unless @conf.options.include?('spamfilter.bad_comment_patts')
@@ -140,7 +140,7 @@ module TDiary
 					@bad_comment_patts = @conf.options['spamfilter.bad_comment_patts']
 					tmp = @bad_comment_patts.split(/[\r\n]+/)
 					tmp.delete_if {|t| t.empty?}
-					@bad_comments = tmp.collect {|t| %r!#{t}!i }
+					@bad_comments = tmp.collect {|t| %r!#{t}!i rescue nil}.compact
 				end
 
 				unless @conf.options.include?('spamfilter.bad_ip_addrs')
