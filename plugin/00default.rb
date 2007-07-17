@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.109 $
+# $Revision: 1.110 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -16,8 +16,8 @@ def navi
 	result << %Q[</div>]
 end
 
-def navi_item( link, label )
-	%Q[<span class="adminmenu"><a href="#{link}">#{label}</a></span>\n]
+def navi_item( link, label, rel = false )
+	%Q[<span class="adminmenu"><a href="#{link}"#{rel ? " rel=\"nofollow\"" : ''}>#{label}</a></span>\n]
 end
 
 def navi_user
@@ -108,9 +108,9 @@ end
 
 def navi_admin
 	if @mode == 'day' then
-		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", h(navi_edit) )
+		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", h(navi_edit), true )
 	else
-		result = navi_item( h(@update), h(navi_update) )
+		result = navi_item( h(@update), h(navi_update), true )
 	end
 	result << navi_item( "#{h @update}?conf=default", h(navi_preference) ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
