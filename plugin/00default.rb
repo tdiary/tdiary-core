@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.110 $
+# $Revision: 1.111 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -642,6 +642,7 @@ def saveconf_default
 		@conf.description = @conf.to_native( @cgi.params['description'][0] )
 		@conf.icon = @cgi.params['icon'][0]
 		@conf.banner = @cgi.params['banner'][0]
+		@conf['base_url'] = @cgi.params['base_url'][0]
 	end
 end
 

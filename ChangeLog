@@ -1,3 +1,6 @@
+2007-08-04 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, plugin/00default.rb: specify base_url in preference page.
+
 2007-07-17 TADA Tadashi <sho@spc.gr.jp>
 	* 00default.rb: add 'rel="nofollow"' attribute to add/edit navigation.
 

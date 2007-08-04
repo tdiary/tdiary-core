@@ -1,13 +1,13 @@
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
-tdiary.rb $Revision: 1.320 $
+tdiary.rb $Revision: 1.321 $
 
 Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.1.4.20070717'
+TDIARY_VERSION = '2.1.4.20070804'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -520,6 +520,16 @@ module TDiary
 		end
 
 		def base_url
+			begin
+				if @options['base_url'].length > 0 then
+					return @options['base_url']
+				end
+			rescue
+			end
+			base_url_auto
+		end
+
+		def base_url_auto
 			return '' unless @cgi.script_name
 			if @cgi.https?
 				port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s

@@ -149,6 +149,11 @@ add_conf_proc( 'default', 'Site information', 'basic' ) do
 	#{"<p>The URL of index of your website if you have.</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{h @conf.index_page}" size="50"></p>
 
+	<h3 class="subtitle">URL of Your Diary</h3>
+	#{"<p>Specify your diary's URL. This URL is used by some plugins for indicate your diary</p>" unless @conf.mobile_agent?}
+	#{"<p><strong>NOTICE!! The URL specified below is different from current URL of accessed now.</strong></p>" unless @conf.base_url == @conf.base_url_auto}
+	<p><input name="base_url" value="#{h @conf.base_url}" size="70"></p>
+
 	<h3 class="subtitle">Description</h3>
 	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @conf.mobile_agent?}
 	<p><input name="description" value="#{h @conf.description}" size="60"></p>
