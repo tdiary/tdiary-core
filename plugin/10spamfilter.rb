@@ -129,6 +129,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			@conf['spamlookup.safe_domain.list'] = nil
 		end
 
+		@conf['comment_description'] = @cgi.params['comment_description'][0]
 		@conf['spamfilter.linkcheck'] = (@cgi.params['spamfilter.linkcheck'][0] || '1').to_i
 	end
 

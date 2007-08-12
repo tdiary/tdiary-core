@@ -56,7 +56,7 @@ def no_diary; "No diary on #{@date.strftime( @conf.date_format )}"; end
 def comment_today; "Today's TSUKKOMI"; end
 def comment_total( total ); "(Total: #{total})"; end
 def comment_new; 'Add a TSUKKOMI'; end
-def comment_description; 'Add a TSUKKOMI or Comment please. E-mail address will be shown to only me.'; end
+def comment_description_default; 'Add a TSUKKOMI or Comment please. E-mail address will be shown to only me.'; end
 def comment_limit_label; 'You cannot make more TSUKKOMI because it has over limit.'; end
 def comment_description_short; 'TSUKKOMI!!'; end
 def comment_name_label; 'Name'; end

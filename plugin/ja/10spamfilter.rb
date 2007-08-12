@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.14 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.15 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -56,6 +56,9 @@ def spamfilter_conf_html
    <textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
    <p>以下に指定したドメインはブラックリストに問い合わせません。検索エンジン等を指定してください<br>
    <textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
+   <h3>ツッコミの注意文</h3>
+   <p>ツッコミフォームの上に表示する注意文を設定します。spam判定条件を変更した場合に、読者にそれをきちんと知らせましょう<br>
+   <textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
    HTML
    
 	unless @conf.secure then

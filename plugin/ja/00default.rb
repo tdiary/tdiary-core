@@ -101,7 +101,7 @@ def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end
 def comment_today; '本日のツッコミ'; end
 def comment_total( total ); "(全#{total}件)"; end
 def comment_new; 'ツッコミを入れる'; end
-def comment_description; 'ツッコミ・コメントがあればどうぞ! E-mailアドレスは公開されません。'; end
+def comment_description_default; 'ツッコミ・コメントがあればどうぞ! E-mailアドレスは公開されません。'; end
 def comment_limit_label; '本日の日記はツッコミ数の制限を越えています。'; end
 def comment_description_short; 'ツッコミ!!'; end
 def comment_name_label; 'お名前'; end

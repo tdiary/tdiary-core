@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.111 $
+# $Revision: 1.112 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -502,6 +502,16 @@ end
 #
 # make comment form
 #
+def comment_description
+   begin
+      if @options['comment_description'].length > 0 then
+         return @options['comment_description']
+      end
+   rescue
+   end
+   comment_description_default
+end
+
 def comment_form
 	return '' unless @mode == 'day'
 

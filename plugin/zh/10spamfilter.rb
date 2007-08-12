@@ -1,5 +1,5 @@
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.10 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.11 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -58,6 +58,8 @@ def spamfilter_conf_html
    <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
    <p>List of Safe Domain. Example for search engine.</p>
    <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
+   <h3>Description of TSUKKOMI</h3>
+   <p>Show messeges and spam conditions for your subscribers.<br><textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
    HTML
 
 	unless @conf.secure then

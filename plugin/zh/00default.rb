@@ -56,7 +56,7 @@ def no_diary; "#{@date.strftime( @conf.date_format )} 這天沒有發表日誌"; end
 def comment_today; "今日迴響"; end
 def comment_total( total ); "(總共有: #{total} 則)"; end
 def comment_new; '發表迴響'; end
-def comment_description; '歡迎發表您對本文的迴響，您填寫的 email 位址只有日誌主人可以看見。'; end
+def comment_description_default; '歡迎發表您對本文的迴響，您填寫的 email 位址只有日誌主人可以看見。'; end
 def comment_limit_label; 'You cannot make more TSUKKOMI because it has over limit.'; end
 def comment_description_short; '發表迴響!!'; end
 def comment_name_label; '姓名'; end
