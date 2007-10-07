@@ -102,11 +102,12 @@ def nyear_diary_title(date, years); "過去的此時此刻"; end
 #
 # labels (for mobile)
 #
-def mobile_navi_latest; 'Latest'; end
-def mobile_navi_update; 'Update'; end
-def mobile_navi_preference; 'Prefs'; end
-def mobile_navi_prev_diary; 'Prev'; end
-def mobile_navi_next_diary; 'Next'; end
+def mobile_navi_latest; '最新日誌'; end
+def mobile_navi_update; "新增"; end
+def mobile_navi_edit; "編輯"; end
+def mobile_navi_preference; "選項設定"; end
+def mobile_navi_prev_diary; "前一則日誌})"; end
+def mobile_navi_next_diary; "下一則日誌})"; end
 def mobile_label_hidden_diary; 'This day is HIDDEN.'; end
 
 #

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.112 $
+# $Revision: 1.113 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -119,20 +119,21 @@ end
 def mobile_navi
 	calc_links
 	result = []
-	i = 1
 	if @prev_day
-		result << %Q[<A HREF="#{h @index}#{anchor @prev_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_prev_diary}</A>]
-		i += 1
+		result << %Q[<A HREF="#{h @index}#{anchor @prev_day}" ACCESSKEY="*">[*]#{mobile_navi_prev_diary}</A>]
 	end
 	if @mode != 'latest'
-		result << %Q[<A HREF="#{h @index}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_latest}</A>]
-		i += 1
+		result << %Q[<A HREF="#{h @index}" ACCESSKEY="0">[0]#{mobile_navi_latest}</A>]
 	end
 	if @next_day
-		result << %Q[<A HREF="#{h @index}#{anchor @next_day}" ACCESSKEY="#{i}">[#{i}]#{mobile_navi_next_diary}</A>]
+		result << %Q[<A HREF="#{h @index}#{anchor @next_day}" ACCESSKEY="#">[#]#{mobile_navi_next_diary}</A>]
 	end
-	result << %Q[<A HREF="#{h @update}" ACCESSKEY="0">[0]#{mobile_navi_update}</A>]
-	result << %Q[<A HREF="#{h @update}?conf=default" ACCESSKEY="9">[9]#{mobile_navi_preference}</A>] unless /^(latest|month|day|conf|nyear)$/ === @mode
+	if @mode == 'day' then
+		result << %Q[<A HREF="#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}" ACCESSKEY="5">[5]#{mobile_navi_edit}</A>]
+	else
+		result << %Q[<A HREF="#{h @update}" ACCESSKEY="5">[5]#{mobile_navi_update}</A>]
+	end
+	result << %Q[<A HREF="#{h @update}?conf=default" ACCESSKEY="8">[8]#{mobile_navi_preference}</A>] unless /^(latest|month|day|conf|nyear)$/ === @mode
 	result.join('|')
 end
 

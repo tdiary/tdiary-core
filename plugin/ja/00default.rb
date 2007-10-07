@@ -148,6 +148,7 @@ def nyear_diary_title(date, years); "長年日記"; end
 #
 def mobile_navi_latest; '最新'; end
 def mobile_navi_update; "追記"; end
+def mobile_navi_edit; "編集"; end
 def mobile_navi_preference; "設定"; end
 def mobile_navi_prev_diary; "前"; end
 def mobile_navi_next_diary; "次"; end

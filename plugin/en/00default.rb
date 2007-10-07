@@ -104,6 +104,7 @@ def nyear_diary_title(date, years); "same days in past"; end
 #
 def mobile_navi_latest; 'Latest'; end
 def mobile_navi_update; 'Update'; end
+def mobile_navi_edit; "Edit"; end
 def mobile_navi_preference; 'Prefs'; end
 def mobile_navi_prev_diary; 'Prev'; end
 def mobile_navi_next_diary; 'Next'; end
