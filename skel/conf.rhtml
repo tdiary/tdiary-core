@@ -1,4 +1,4 @@
-<%# conf.rhtml $Revision: 1.30 $ %>
+<%# conf.rhtml $Revision: 1.31 $ %>
 <%%=navi%>
 <h1><%=h @conf.html_title %>(<%%=h navi_preference%>) - <%%=h conf_label( <%=@key.dump%> )%></h1>
 <div class="sidebar">
@@ -15,6 +15,7 @@
 	<input type="hidden" name="conf" value="<%=h @key%>">
 	<%=@csrf_protection%>
 	<%%=help( <%=@key.dump%> + '.rb' )%>
+	<div class="saveconf"><input class="saveconf" type="submit" name="saveconf" value="OK"></div>
 	<%%=conf_proc( <%=@key.dump%> )%>
 	<div class="saveconf"><input class="saveconf" type="submit" name="saveconf" value="OK"></div>
 </div></form>

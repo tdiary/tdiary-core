@@ -1,3 +1,6 @@
+2007-10-31 TADA Tadashi <sho@spc.gr.jp>
+	* skel/conf.rhtml: inserted submit button to page top.
+
 2007-10-07 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: ACCESSKEY changed in mobile mode.
 	* plugin/00default.rb: replaced Update link to Edit in mobile navi menu.

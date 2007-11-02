@@ -1,6 +1,6 @@
 @charset "euc-jp";
 /*
-conf.css: style sheet of tDiary preferences page. $Revision: 1.9 $
+conf.css: style sheet of tDiary preferences page. $Revision: 1.10 $
 Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 */
@@ -129,7 +129,6 @@ div.section {
 
 div.saveconf {
 	text-align: right;
-	margin-bottom: 3em;
 	margin-right: 2em;
 }
 
@@ -207,6 +206,8 @@ img#theme_thumbnail {
 
 div.help-icon {
 	text-align: right;
+	margin-right: 2em;
+	margin-bottom: 1em;
 }
 
 div.help-icon img {
