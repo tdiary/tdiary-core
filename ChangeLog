@@ -1,3 +1,6 @@
+2007-12-16 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.2.0.
+
 2007-10-31 TADA Tadashi <sho@spc.gr.jp>
 	* skel/conf.rhtml: inserted submit button to page top.
 
@@ -35,7 +38,7 @@
 2007-05-03 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.beginner: update spam filter conditions.
 	* doc/INSTALL.html: add about tdiary.conf.beginner.
-	* theme/base.css: add style for fooynote.rb, my-sequel.rb and
+	* theme/base.css: add style for footnote.rb, my-sequel.rb and
 	category_to_tag.rb plugins.
 
 2007-04-30 TADA Tadashi <sho@spc.gr.jp>
