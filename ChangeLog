@@ -1,3 +1,7 @@
+2008-01-03 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: unescaped category name because over escape on Wiki
+	style.
+
 2007-12-16 TADA Tadashi <sho@spc.gr.jp>
 	* release 2.2.0.
 

@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.113 $
+# $Revision: 1.114 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -436,7 +436,7 @@ def make_category_link( subtitle )
 			r << subtitle.sub( /^(\[([^\[]+?)\])+/ ) do
 				$&.gsub( /\[(.*?)\]/ ) do
 					$1.split( /,/ ).collect do |c|
-						category_anchor( "#{c}" )
+						category_anchor( "#{CGI::unescapeHTML c}" )
 					end.join
 				end
 			end
