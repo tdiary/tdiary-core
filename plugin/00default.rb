@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.114 $
+# $Revision: 1.115 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -558,6 +558,9 @@ end
 
 def comment_form_mobile
 	return '' if @conf.hide_comment_form
+	if @diaries[@date.strftime('%Y%m%d')].count_comments( true ) >= @conf.comment_limit_per_day then
+		return "<HR><P>#{comment_limit_label}</P>"
+	end
 	return <<-FORM
 		<HR>
 		<FORM METHOD="POST" ACTION="#{h @index}">

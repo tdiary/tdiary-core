@@ -1,3 +1,6 @@
+2008-01-05 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: hide comment form when over comments per day on mobile mode.
+
 2008-01-03 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: unescaped category name because over escape on Wiki
 	style.
