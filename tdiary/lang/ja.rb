@@ -32,6 +32,7 @@ def to_native( str, charset = nil )
 		else
 			''
 	end
+	from = @options['encode_from'] if @options['encode_from'] and from.size == 0
 	NKF::nkf( "-m0 -#{from}e", str )
 end
 
