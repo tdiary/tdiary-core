@@ -1,3 +1,6 @@
+2008-01-08 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/05referer.rb: saving recent a few days into volatile.
+
 2008-01-06 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/lang/ja.rb: [workaround] support 'from encoding' specified by @options['encode_from'].
 
