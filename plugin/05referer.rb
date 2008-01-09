@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.11 $
+# $Revision: 1.12 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -57,7 +57,7 @@ class RefererDiary
 	def referer_clear_oldest( newest )
 		return if (@refs.keys.sort[-1] || '') > newest
 		@refs[newest] = {}
-		return if @refs.keys.size <= keep
+		return if @refs.keys.size <= @keep
 		@refs.delete( @refs.keys.sort[0] )
 	end
 
