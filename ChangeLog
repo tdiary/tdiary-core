@@ -1,3 +1,6 @@
+2008-01-11 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/00default.rb: hide comment form when accessed by bot.
+
 2008-01-08 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/05referer.rb: saving recent a few days into volatile.
 
