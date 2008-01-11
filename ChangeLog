@@ -1,3 +1,8 @@
+2008-01-11 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* plugin/00default.rb, plugin/10spamfilter.rb,
+	plugin/*/10spamfilter.rb: add option for hide comment-form before
+	days considered to be spam.
+
 2008-01-11 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: hide comment form when accessed by bot.
 

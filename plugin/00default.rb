@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.116 $
+# $Revision: 1.117 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -517,6 +517,10 @@ def comment_form
 	return '' unless @mode == 'day'
 	return '' if bot?
 
+	if @conf.options['spamfilter.hide_commentform'] then
+		return '' if hide_comment_day_limit
+	end
+
 	r = ''
 	unless @conf.hide_comment_form then
 		r = <<-FORM
@@ -560,9 +564,15 @@ end
 def comment_form_mobile
 	return '' if @conf.hide_comment_form
 	return '' if bot?
+
 	if @diaries[@date.strftime('%Y%m%d')].count_comments( true ) >= @conf.comment_limit_per_day then
 		return "<HR><P>#{comment_limit_label}</P>"
 	end
+
+	if @conf.options['spamfilter.hide_commentform'] then
+		return '' if hide_comment_day_limit
+	end
+
 	return <<-FORM
 		<HR>
 		<FORM METHOD="POST" ACTION="#{h @index}">
@@ -575,6 +585,21 @@ def comment_form_mobile
 			<INPUT TYPE="SUBMIT" NAME="comment" value="#{comment_submit_label_short}"></P>
 		</FORM>
 	FORM
+end
+
+def hide_comment_day_limit
+	if @conf.options.include?('spamfilter.date_limit') &&
+			@conf.options['spamfilter.date_limit'] &&
+			/\A\d+\z/ =~ @conf.options['spamfilter.date_limit'].to_s
+		date_limit = @conf.options['spamfilter.date_limit'].to_s.to_i
+		now = Time.now
+		today = Time.local(now.year, now.month, now.day)
+		limit = today - 24 * 60 * 60 * date_limit
+		if @date < limit
+			return true
+		end
+	end
+	return false
 end
 
 #

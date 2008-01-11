@@ -1,5 +1,5 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.15 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.16 $
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
@@ -34,6 +34,11 @@ def spamfilter_conf_html
 
 	<h3>日付けによるフィルタ</h3>
 	<p><input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">日以上前の日付けへのツッコミはspamとみなす<br>(空欄は制限なし、0は当日のみ)</p>
+	<p>上の日数より前のツッコミフォームは
+		<select name="spamfilter.hide_commentform">
+			<option value="true"#{" selected" if @conf['spamfilter.hide_commentform']}>隠す</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.hide_commentform']}>隠さない</option>
+		</select>
 
 	<h3>IPアドレスによるフィルタ</h3>
 	<p>ツッコミやTrackBack送信元のIPアドレスが、以下のパターンに当てはまる場合はspamとみなす(リストには完全なIPアドレスまたは「.」で終わるIPアドレスの一部を記述する)<br>

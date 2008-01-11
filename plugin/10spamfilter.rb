@@ -103,6 +103,14 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			else
 				@conf['spamfilter.date_limit'] = nil
 			end
+
+			if @cgi.params['spamfilter.hide_commentform'] &&
+					@cgi.params['spamfilter.hide_commentform'][0] &&
+					@cgi.params['spamfilter.hide_commentform'][0] == "false"
+				@conf['spamfilter.hide_commentform'] = false
+			else
+				@conf['spamfilter.hide_commentform'] = true
+			end
 		end
 
 		if @conf['spamfilter.filter_mode'].nil? || @conf['spamfilter.filter_mode']
