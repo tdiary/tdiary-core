@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.12 $
+# $Revision: 1.13 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -43,6 +43,7 @@ class RefererDiary
 
 	alias :add_referer_orig :add_referer
 	def add_referer( ref, count = 1 )
+		return nil unless ref
 		current = @current_date || @refs.keys.sort[-1] || '00000000'
 		ref_info = add_referer_orig( ref, count )
 		uref = CGI::unescape( ref )
