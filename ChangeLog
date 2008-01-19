@@ -1,3 +1,8 @@
+2008-01-19 TADA Tadashi <sho@spc.gr.jp>
+	* misc/lib/hikidoc.rb: updated to 0.0.2.
+	* tdiary/wiki_style.rb: added :use_wiki_name and
+	:allow_bracket_inline_image option to false to HikiDoc. thanks to ds14050.
+
 2008-01-15 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/05referer.rb: fixed #11: error on update with no referer.
 

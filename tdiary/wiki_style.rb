@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.28 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.29 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -120,6 +120,8 @@ module TDiary
 			html = HikiDoc::new( string,
 				:level => 3,
 				:empty_element_suffix => '>',
+				:use_wiki_name => false,
+				:allow_bracket_inline_image => false,
 				:plugin_syntax => method(:valid_plugin_syntax?) ).to_html.strip
 			html.gsub!( %r!<span class="plugin">\{\{(.+?)\}\}</span>!m ) do
 				"<%=#{CGI.unescapeHTML($1)}\n%>"
