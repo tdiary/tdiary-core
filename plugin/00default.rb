@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.117 $
+# $Revision: 1.118 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -513,14 +513,7 @@ def comment_description
    comment_description_default
 end
 
-def comment_form
-	return '' unless @mode == 'day'
-	return '' if bot?
-
-	if @conf.options['spamfilter.hide_commentform'] then
-		return '' if hide_comment_day_limit
-	end
-
+def comment_form_text
 	r = ''
 	unless @conf.hide_comment_form then
 		r = <<-FORM
@@ -532,22 +525,22 @@ def comment_form
 			FORM
 		else
 			r << <<-FORM
-					<div class="caption"><a name="c">#{comment_description}</a></div>
-					<form class="comment" name="comment-form" method="post" action="#{h @index}"><div>
-					<input type="hidden" name="date" value="#{ @date.strftime( '%Y%m%d' )}">
-					<div class="field name">
-						#{comment_name_label}:<input class="field" name="name" value="#{h( @cgi.cookies['tdiary'][0] || '' )}">
-					</div>
-					<div class="field mail">
-						#{comment_mail_label}:<input class="field" name="mail" value="#{h( @cgi.cookies['tdiary'][1] || '' )}">
-					</div>
-					<div class="textarea">
-						#{comment_body_label}:<textarea name="body" cols="60" rows="5"></textarea>
-					</div>
-					<div class="button">
-						<input type="submit" name="comment" value="#{h comment_submit_label}">
-					</div>
-					</div></form>
+				<div class="caption"><a name="c">#{comment_description}</a></div>
+				<form class="comment" name="comment-form" method="post" action="#{h @index}"><div>
+				<input type="hidden" name="date" value="#{ @date.strftime( '%Y%m%d' )}">
+				<div class="field name">
+					#{comment_name_label}:<input class="field" name="name" value="#{h( @cgi.cookies['tdiary'][0] || '' )}">
+				</div>
+				<div class="field mail">
+					#{comment_mail_label}:<input class="field" name="mail" value="#{h( @cgi.cookies['tdiary'][1] || '' )}">
+				</div>
+				<div class="textarea">
+					#{comment_body_label}:<textarea name="body" cols="60" rows="5"></textarea>
+				</div>
+				<div class="button">
+					<input type="submit" name="comment" value="#{h comment_submit_label}">
+				</div>
+				</div></form>
 			FORM
 		end
 		r << <<-FORM
@@ -555,6 +548,31 @@ def comment_form
 		FORM
 	end
 	r
+end
+
+add_footer_proc do
+	if @mode != 'day' or bot? then
+		''
+	elsif @conf.options['spamfilter.hide_commentform'] and hide_comment_day_limit
+		r = ''
+		r << <<-JS
+			<script type="text/javascript"><!--
+			document.getElementById('comment-form-section').innerHTML = '#{comment_form_text.gsub( /[\r\n]/, '' )}';
+			//--></script>
+		JS
+	else
+		''
+	end
+end
+
+def comment_form
+	return '' unless @mode == 'day'
+	return '' if bot?
+
+	if @conf.options['spamfilter.hide_commentform'] then
+		return '' if hide_comment_day_limit
+	end
+	comment_form_text
 end
 
 def comment_form_mobile_mail_field

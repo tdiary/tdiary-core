@@ -1,3 +1,7 @@
+2008-02-03 TADA Tadashi <sho@spc.gr.jp>
+	* skel/diary.rhtml, plugin/00default.rb: [EXPERIMENTAL] add TSUKKOMI form
+	by Javascript in the hidden comment form condition.
+
 2008-01-19 TADA Tadashi <sho@spc.gr.jp>
 	* misc/lib/hikidoc.rb: updated to 0.0.2.
 	* tdiary/wiki_style.rb: added :use_wiki_name and
