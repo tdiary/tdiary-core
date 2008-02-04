@@ -1,5 +1,5 @@
 #
-# en/spamfilter.rb: resource of en $Revision: 1.13 $
+# en/spamfilter.rb: resource of en $Revision: 1.14 $
 #
 
 @spamfilter_label_conf = 'spam filter'
@@ -34,14 +34,9 @@ def spamfilter_conf_html
 	</select></p>
 
 	<h3>Date</h3>
-	<p>It is spam that TSUKKOMI was made into<br>
+	<p>Javascript is used to display TSUKKOMI from into<br>
 		<input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">days before (null: no limit, 0: only today)
 	</p>
-	<p>Hide TSUKKOMI form before above days.
-		<select name="spamfilter.hide_commentform">
-			<option value="true"#{" selected" if @conf['spamfilter.hide_commentform']}>ON</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.hide_commentform']}>OFF</option>
-		</select></p>
 
 	<h3>IP address filters</h3>
 	<p>It is spam when sender IP address matches these patterns. You have to specify complete IP address or part of IP address ends by '.'.<br>

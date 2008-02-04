@@ -1,3 +1,10 @@
+2008-02-04 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* tdiary.rb,plugin/00default.rb,plugin/10spamfilter.rb,
+	plugin/en/10spamfilter.rb,plugin/ja/10spamfilter.rb,
+	plugin/zh/10spamfilter.rb,tdiary/filter/spam.rb:
+	[EXPERIMENTAL] remove option for spamfilter.hide_comment.
+	Javascript is used to display all TSUKKOMI from into setting days before.
+
 2008-02-03 TADA Tadashi <sho@spc.gr.jp>
 	* skel/diary.rhtml, plugin/00default.rb: [EXPERIMENTAL] add TSUKKOMI form
 	by Javascript in the hidden comment form condition.

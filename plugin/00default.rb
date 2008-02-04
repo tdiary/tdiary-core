@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.118 $
+# $Revision: 1.119 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -553,7 +553,7 @@ end
 add_footer_proc do
 	if @mode != 'day' or bot? then
 		''
-	elsif @conf.options['spamfilter.hide_commentform'] and hide_comment_day_limit
+	elsif hide_comment_day_limit
 		r = ''
 		r << <<-JS
 			<script type="text/javascript"><!--
@@ -568,10 +568,8 @@ end
 def comment_form
 	return '' unless @mode == 'day'
 	return '' if bot?
+	return '' if hide_comment_day_limit
 
-	if @conf.options['spamfilter.hide_commentform'] then
-		return '' if hide_comment_day_limit
-	end
 	comment_form_text
 end
 
@@ -582,13 +580,10 @@ end
 def comment_form_mobile
 	return '' if @conf.hide_comment_form
 	return '' if bot?
+	return '' if hide_comment_day_limit
 
 	if @diaries[@date.strftime('%Y%m%d')].count_comments( true ) >= @conf.comment_limit_per_day then
 		return "<HR><P>#{comment_limit_label}</P>"
-	end
-
-	if @conf.options['spamfilter.hide_commentform'] then
-		return '' if hide_comment_day_limit
 	end
 
 	return <<-FORM

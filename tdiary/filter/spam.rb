@@ -159,14 +159,6 @@ module TDiary
 					end
 				end
 
-				if @conf.options.include?('spamfilter.date_limit') &&
-						@conf.options['spamfilter.date_limit'] &&
-						/\A\d+\z/ =~ @conf.options['spamfilter.date_limit'].to_s
-					@date_limit = @conf.options['spamfilter.date_limit'].to_s.to_i
-				else
-					@date_limit = nil
-				end
-
 				nil
 			end
 
@@ -205,17 +197,6 @@ module TDiary
 				#debug( "comment_filter start", DEBUG_FULL )
 
 				return false if black_url?( comment.body )
-
-				if @date_limit
-					now = Time.now
-					today = Time.local(now.year, now.month, now.day)
-					limit = today - 24*60*60*@date_limit
-					if diary.date < limit
-						debug( "too old: #{diary.date} (limit >= #{limit})" )
-						comment.show = false
-						return @filter_mode
-					end
-				end
 
 				if %r{/\.\/} =~ ENV['REQUEST_URI']
 					debug( "REQUEST_URI contains %r{/\./}: #{ENV['REQUEST_URI']}" )
