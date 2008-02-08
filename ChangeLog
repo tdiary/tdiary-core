@@ -1,3 +1,6 @@
+2008-02-08 TADA Tadashi <sho@spc.gr.jp>
+	* skel/diary.rhtml: hide div#comment-form-section without day mode.
+
 2008-02-04 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* tdiary.rb,plugin/00default.rb,plugin/10spamfilter.rb,
 	plugin/en/10spamfilter.rb,plugin/ja/10spamfilter.rb,

@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.28 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
+<%# diary.rhtml $Revision: 1.29 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
 <div class="day">
 <h2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump.gsub( /%/, '\\\\045' ) %> ) %></h2>
 
@@ -48,7 +48,7 @@ elsif opt['show_comment'] %>
 end %>
 </div>
 
-<div id="comment-form-section"><%%=comment_form%></div>
+<%% if @mode == 'day' %><div id="comment-form-section"><%%=comment_form%></div><%% end %>
 
 <%% unless @plugin_files.grep(/tb-show.rb\z/).empty? then %><%
 	if opt['long_mode'] then %><%%=
