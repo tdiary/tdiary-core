@@ -1,3 +1,6 @@
+2008-02-10 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary/wiki_style.rb: removed warning by HikiDoc#to_html.
+
 2008-02-08 TADA Tadashi <sho@spc.gr.jp>
 	* skel/diary.rhtml: hide div#comment-form-section without day mode.
 
