@@ -468,7 +468,9 @@ class HikiDoc
   end
 
   def fix_uri(uri)
-    if %r|://| !~ uri and /\Amailto:/ !~ uri
+    if /:/ =~ uri and %r!\A(https?|ftp|file|mailto):! !~ uri
+      uri
+    elsif %r|://| !~ uri and /\Amailto:/ !~ uri
       uri.sub(/\A\w+:/, "")
     else
       uri
@@ -506,7 +508,7 @@ class HikiDoc
       when chunk = m[1]
         mod, s = split_mod(chunk)
         mid = MODTAG[mod]
-        buf << @output.__send__(mid, compile_modifier(s))
+        buf << @output.__send__(mid, compile_inline(s))
       else
         raise UnexpectedError, "must not happen"
       end

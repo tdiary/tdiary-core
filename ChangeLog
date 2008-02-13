@@ -1,3 +1,6 @@
+2008-02-13 TADA Tadashi <sho@spc.gr.jp>
+	* misc/lib/hikidoc.rb: updated to trunk and fix about InterWikiName.
+
 2008-02-10 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary/wiki_style.rb: removed warning by HikiDoc#to_html.
 
