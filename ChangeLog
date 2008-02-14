@@ -1,3 +1,6 @@
+2008-02-14 ds14050 <ds14050 at vvvvvv.sakura.ne.jp>
+	* tdiary/wiki_style.rb: fixed eval error in valid_plugin_syntax?.
+
 2008-02-13 TADA Tadashi <sho@spc.gr.jp>
 	* misc/lib/hikidoc.rb: updated to trunk and fix about InterWikiName.
 
