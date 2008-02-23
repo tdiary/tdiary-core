@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.14 $
+# $Revision: 1.15 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -166,6 +166,7 @@ def referer_add_to_diary( diary, body )
 end
 
 def referer_load_current( diary )
+	return unless diary
 	referer_load( referer_file_name( diary ), diary ) do |headers, body|
 		referer_add_to_diary( diary, body )
 	end
