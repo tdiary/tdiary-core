@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.13 $
+# $Revision: 1.14 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -15,18 +15,19 @@ add_header_proc do
 end
 
 def referer_save_trigger
-	return if @conf.referer_day_only and @mode == 'latest'
-	return if @mode !~ /^latest|day|form|edit|append|replace$/
+	return unless @conf.io_class.to_s == 'TDiary::DefaultIO'
+	return unless @mode =~ /^(latest|day|edit|append|replace)$/
 
 	if @date then
 		diary = @diaries[@date.strftime( '%Y%m%d' )]
-		if diary then
-			diary.clear_referers
-			referer_update( diary )
-		end
+		diary.clear_referers if diary
 	end
+	referer_update( diary )
 end
 
+#
+# fake diary class for volatile referer
+#
 class RefererDiary
 	include ::TDiary::RefererManager
 
@@ -37,8 +38,19 @@ class RefererDiary
 		@refs = {}
 	end
 
-	def current_date=( date )
-		@current_date = date
+	# return Time object
+	def date
+		if @current_date then
+			Time::local( *(@current_date.scan( /^(\d{4})(\d\d)(\d\d)$/ )[0]) )
+		else
+			@date
+		end
+	end
+
+	# date as String 'YYYYMMDD'
+	def current_date=( d )
+		@current_date = d
+		@refs[d] ||= {} if d
 	end
 
 	alias :add_referer_orig :add_referer
@@ -47,7 +59,7 @@ class RefererDiary
 		current = @current_date || @refs.keys.sort[-1] || '00000000'
 		ref_info = add_referer_orig( ref, count )
 		uref = CGI::unescape( ref )
-		@refs[current] = {} unless @refs[current]
+		@refs[current] ||= {}
 		if pair = @refs[current][uref] then
 			@refs[current][uref] = [pair[0] + count, ref_info[1]]
 		else
@@ -55,9 +67,9 @@ class RefererDiary
 		end
 	end
 
-	def referer_clear_oldest( newest )
+	def clear_oldest_referer( newest )
 		return if (@refs.keys.sort[-1] || '') > newest
-		@refs[newest] = {}
+		@refs[newest] = {} unless @refs[newest]
 		return if @refs.keys.size <= @keep
 		@refs.delete( @refs.keys.sort[0] )
 	end
@@ -77,9 +89,11 @@ class RefererDiary
 	end
 
 	def each_date
-		@refs.keys.sort.each do |date|
-			yield( date )
+		@refs.keys.sort.each do |d|
+			@current_date = d
+			yield( self )
 		end
+		current_date = nil
 	end
 end
 
@@ -91,121 +105,118 @@ def latest_day?( diary )
 end
 
 def referer_update( diary )
-	# checking saving conditions
-	only_volatile = false
-	if @cgi.referer then
-		ref = CGI::unescape( @cgi.referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
-		@conf.only_volatile.each do |volatile|
-			if /#{volatile}/i =~ ref then
-				only_volatile = true
-				break
-			end
-		end
-	end
-
-	save_current = save_volatile = false
-	if @cgi.referer then
-		if @mode == 'day' then
-			if latest_day?( diary ) then
-				if only_volatile then
-					save_volatile = true
-				else
-					save_current = true
-				end
-			else
-				save_volatile = true
-				save_current = true unless only_volatile
-			end
-		elsif @mode == 'latest'
-			save_volatile = true
-		end
-	end
-
-	# load and save referers of current day
-	if referer_load( diary ) or save_current then
-		diary.add_referer( @cgi.referer )
-		referer_save( diary )
-	end
-
-	# load and save volatile
 	@referer_volatile = RefererDiary::new( @conf.latest_limit )
-	if referer_load( @referer_volatile ) or save_volatile then
-		@referer_volatile.add_referer( @cgi.referer )
-		referer_save( @referer_volatile )
+
+	case @mode
+	when 'latest'
+		if @cgi.referer and !@conf.referer_day_only then
+			referer_load_volatile( @referer_volatile )
+			referer_save_volatile( @referer_volatile, @cgi.referer )
+		end
+
+	when 'day'
+		referer_load_current( diary )
+		referer_save_current( diary, referer )
+		if latest_day?( diary ) then
+			referer_load_volatile( @referer_volatile )
+		elsif @cgi.referer
+			referer_load_volatile( @referer_volatile )
+			referer_save_volatile( @referer_volatile, @cgi.referer )
+		end
+
+	when "edit"
+		referer_load_current( diary )
+
+	when /^(append|replace)$/
+		referer_load_volatile( @referer_volatile )
+		@referer_volatile.clear_oldest_referer( @date.strftime( '%Y%m%d' ) )
+		referer_save_volatile( @referer_volatile, nil )
 	end
 end
 
 def referer_file_name( diary )
-	if diary.respond_to?( :date ) then
-		diary.date.strftime( "#{@conf.data_path}%Y/%Y%m%d.tdr" )
-	else
-		"#{@conf.data_path}volatile.tdr"
-	end
+	diary.date.strftime( "#{@conf.data_path}%Y/%Y%m%d.tdr" )
 end
 
-#
-# return boolean: force save on next chance
-#
-def referer_load( diary = nil, save = false )
-	return if @conf.io_class.to_s != 'TDiary::DefaultIO'
+def referer_volatile_file_name
+	"#{@conf.data_path}volatile.tdr"
+end
 
-	volatile = !diary.respond_to?( :date )
-	ymd = nil
-	file = referer_file_name( diary )
-
+def referer_load( file, diary )
 	begin
-		File::open( file, 'r' ) do |fh|
+		File::open( file ) do |fh|
 			fh.flock( File::LOCK_SH )
 			fh.gets # read magic
 			fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 				headers, body = ::TDiary::parse_tdiary( l )
-				diary.current_date = headers['Date'] if volatile
-				next unless body
-				body.each do |r|
-					count, ref = r.chomp.split( / /, 2 )
-					next unless ref
-					diary.add_referer( ref.chomp, count.to_i )
-				end
+				yield( headers, body )
 			end
 		end
 	rescue Errno::ENOENT
 	end
-	diary.current_date = nil if volatile
+end
 
-	if @mode =~ /^(append|replace)$/ and volatile then
-		diary.referer_clear_oldest( @date.strftime( '%Y%m%d' ) )
-		return true
-	else
-		return false
+def referer_add_to_diary( diary, body )
+	return unless body
+	body.each do |r|
+		count, ref = r.chomp.split( / /, 2 )
+		next unless ref
+		diary.add_referer( ref.chomp, count.to_i )
 	end
 end
 
-def referer_save( diary )
-	volatile = !diary.respond_to?( :date )
-	ymd = (volatile ? Time::now : diary.date).strftime( '%Y%m%d' )
-	file = referer_file_name( diary )
+def referer_load_current( diary )
+	referer_load( referer_file_name( diary ), diary ) do |headers, body|
+		referer_add_to_diary( diary, body )
+	end
+end
 
+def referer_load_volatile( diary )
+	referer_load( referer_volatile_file_name, diary ) do |headers, body|
+		diary.current_date = headers['Date']
+		referer_add_to_diary( diary, body )
+	end
+	diary.current_date = nil
+end
+
+def referer_save( file, diary )
 	File::open( file, File::WRONLY | File::CREAT ) do |fh|
 		fh.flock( File::LOCK_EX )
 		fh.rewind
 		fh.truncate( 0 )
 		fh.puts( ::TDiary::TDIARY_MAGIC )
-		if volatile then
-			diary.each_date do |date|
-				diary.current_date = date
-				fh.puts( "Date: #{date}\n\n" )
-				diary.each_referer( diary.count_referers ) do |count,ref|
-					fh.puts( "#{count} #{ref}" )
-				end
-				fh.puts( '.' )
-			end
-			diary.current_date = nil
-		else
-			fh.puts( "Date: #{ymd}\n\n" )
-			diary.each_referer( diary.count_referers ) do |count,ref|
-				fh.puts( "#{count} #{ref}" )
-			end
-			fh.puts( '.' )
+		yield( fh )
+	end
+end
+
+def referer_write_from_diary( fh, diary )
+	fh.puts( "Date: #{diary.date.strftime( '%Y%m%d' )}\n\n" )
+	diary.each_referer( diary.count_referers ) do |count,ref|
+		fh.puts( "#{count} #{ref}" )
+	end
+	fh.puts( '.' )
+end
+
+def referer_save_current( diary, referer )
+	return unless referer
+
+	# checking only volatile list
+	ref = CGI::unescape( referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
+	@conf.only_volatile.each do |volatile|
+		return if /#{volatile}/i =~ ref
+	end
+	
+	diary.add_referer( referer )
+	referer_save( referer_file_name( diary ), diary ) do |fh|
+		referer_write_from_diary( fh, diary )
+	end
+end
+
+def referer_save_volatile( diary, referer )
+	diary.add_referer( referer ) if referer
+	referer_save( referer_volatile_file_name, diary ) do |fh|
+		diary.each_date do |date|
+			referer_write_from_diary( fh, diary )
 		end
 	end
 end

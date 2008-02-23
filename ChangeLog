@@ -1,3 +1,6 @@
+2008-01-23 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/05referer.rb: fixed #11: again.
+
 2008-02-14 ds14050 <ds14050 at vvvvvv.sakura.ne.jp>
 	* tdiary/wiki_style.rb: fixed eval error in valid_plugin_syntax?.
 
