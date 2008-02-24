@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.15 $
+# $Revision: 1.16 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -116,7 +116,7 @@ def referer_update( diary )
 
 	when 'day'
 		referer_load_current( diary )
-		referer_save_current( diary, referer )
+		referer_save_current( diary, @cgi.referer )
 		if latest_day?( diary ) then
 			referer_load_volatile( @referer_volatile )
 		elsif @cgi.referer
@@ -206,7 +206,7 @@ def referer_save_current( diary, referer )
 	@conf.only_volatile.each do |volatile|
 		return if /#{volatile}/i =~ ref
 	end
-	
+
 	diary.add_referer( referer )
 	referer_save( referer_file_name( diary ), diary ) do |fh|
 		referer_write_from_diary( fh, diary )
