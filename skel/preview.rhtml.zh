@@ -1,4 +1,4 @@
-<%# preview.rhtml.en $Revision: 1.5 $ %>
+<%# preview.rhtml.en $Revision: 1.6 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>
@@ -63,9 +63,9 @@ param = {
 		<span class="button append">
 			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
 		</span>
-		<span class="checkbox hidediary">
-			不要刊出這天的日誌(隱藏)<input type="checkbox" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">
-		</span>
+		<span class="checkbox hidediary"><label for="hide">
+			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">不要刊出這天的日誌(隱藏)
+		</label></span>
 	</div></form>
 </div>
 </div>
