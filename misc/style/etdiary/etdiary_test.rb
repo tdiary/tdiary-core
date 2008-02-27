@@ -52,6 +52,7 @@ Section without title.
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>
 hogehoge
 fugafuga
@@ -60,14 +61,16 @@ fugafuga
 fugahoge
 hogera
 </p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
 
 <div class="section">
-<h3>subTitle</h3>
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
 <p>
 honbun
 </p>
-<h4>subTitleH4:</h4>
+<h4><%= subtitle_proc( Time::at( 1041346800 ), "subTitleH4" ) %>:</h4>
 <p>
 honbun
 </p>
@@ -85,12 +88,13 @@ hogehoge
 <pre>
 In &lt;pre&gt;, &lt; and &gt; are automatically escaped.
 </pre>
-<p>
+<p><%= subtitle_proc( Time::at( 1041346800 ), nil ) %>
 Section without title and anchor.
 </p>
 <p><a name="p04"></a>
 Section without title.
 </p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
     checkConversion(source, html)
@@ -108,11 +112,13 @@ paragraph
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>
 paragraph
 </q>
 
 </p>(tDiary warning: tag &lt;p&gt; is not terminated.)
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
     checkConversion(source, html)
@@ -126,8 +132,10 @@ paragraph
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>
 </p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
     checkConversion(source, html)
@@ -143,10 +151,12 @@ fuga
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
-<h3>hoge</h3>
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "hoge" ) %></h3>
 <p>
 fuga
 </p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
 
@@ -167,8 +177,10 @@ fuga
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>para1</p>
 <p>para2</p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
     preConvertHtml = proc { |diary|
@@ -192,12 +204,14 @@ fuga
     # -------- HTML
     html = <<-'EOF'
 <div class="section">
-<h3>hoge</h3>
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "hoge" ) %></h3>
 <pre>
 hoge
 
 fuga
 </pre>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
 
@@ -241,7 +255,7 @@ sect2-para0
     if opt[:preConvertHtml]
       opt[:preConvertHtml].call(diary)
     end
-    htmlResult = diary.to_html({'anchor' => true})
+    htmlResult = diary.to_html({'anchor' => true, 'index' => ''})
     if htmlExpected == htmlResult
       assert(true)
     else

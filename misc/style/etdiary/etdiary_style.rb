@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.18 2006-09-13 07:20:42 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.19 2008-02-27 08:45:03 tadatadashi Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -91,7 +91,23 @@ module TDiary
 				''
 			end
 		end
-		alias :body_to_html :body
+
+		def body_to_html
+			if @bodies then
+				r = ''
+				in_p = false
+				@bodies.join( '' ).each( "\n\n" ) do |p|
+					if /\A</ !~ p then
+						r << "<p>#{p.chomp}</p>\n"
+					else
+						r << p
+					end
+				end
+				r
+			else
+				''
+			end
+		end
 
 		def << (string)
 			@bodies << string
