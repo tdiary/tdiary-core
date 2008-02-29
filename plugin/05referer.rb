@@ -1,6 +1,6 @@
 #
 # 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.16 $
+# $Revision: 1.17 $
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -126,6 +126,7 @@ def referer_update( diary )
 
 	when "edit"
 		referer_load_current( diary )
+		referer_load_volatile( @referer_volatile ) if latest_day?( diary )
 
 	when /^(append|replace)$/
 		referer_load_volatile( @referer_volatile )

@@ -1,3 +1,6 @@
+2008-02-29 YAA <yaa at mail.ne.jp>
+	* plugin/05referer.rb: fixed to display volatile referers in latest edit page.
+
 2008-02-27 TADA Tadashi <sho@spc.gr.jp>
 	* misc/style/etdiary: catch up current specification of the style.
 	* skel/preview.rhtml*: supported label element for hide diary checkbox.
