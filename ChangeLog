@@ -1,3 +1,6 @@
+2008-02-29 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.2.1.
+
 2008-02-29 YAA <yaa at mail.ne.jp>
 	* plugin/05referer.rb: fixed to display volatile referers in latest edit page.
 
