@@ -1,6 +1,6 @@
 #
 # 00default.rb: default plugins 
-# $Revision: 1.119 $
+# $Revision: 1.120 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -680,6 +680,13 @@ def comment_mail_basic_setting
 		@conf['comment_mail.header'] = @cgi.params['comment_mail.header'][0]
 		@conf['comment_mail.sendhidden'] = @cgi.params['comment_mail.sendhidden'][0] == 'true' ? true : false
 	end
+end
+
+#
+# convert to UTF-8
+#
+def to_utf8( str, charset = nil )
+	@conf.to_native( str, charset )
 end
 
 #

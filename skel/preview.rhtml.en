@@ -1,4 +1,4 @@
-<%# preview.rhtml.en $Revision: 1.14 $ %>
+<%# preview.rhtml.en $Revision: 1.15 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>

@@ -1,24 +1,24 @@
 =begin
 
-= IO���饹�κ����
+= IOクラスの作り方
 
-== ����
-tDiary�ϡ���¸�������������ҥե����ޥåȤ򺹤��ؤ��뤳�Ȥ��Ǥ��ޤ���
-��¸������IO���饹�ȸƤФ��TDiary::IOBase���饹��Ѿ��������饹���
-�����뤳�Ȥ��ѹ���ǽ�Ǥ����ޤ������ҥե����ޥåȤ�DiaryBase�⥸�塼
-���include�������饹�Ǽ������ޤ������Υɥ�����ȤǤϡ������μ�
-���˴ؤ�������Ԥ��ޤ���
+== 概要
+tDiaryは、保存形式や日記記述フォーマットを差し替えることができます。
+保存形式はIOクラスと呼ばれるTDiary::IOBaseクラスを継承したクラスを実
+装することで変更可能です。また、記述フォーマットはDiaryBaseモジュー
+ルをincludeしたクラスで実装します。このドキュメントでは、これらの実
+装に関する解説を行います。
 
-== IO���饹
-��¸�������ѹ����뿷���ʥ��饹���������tdiary.conf�ǻ��ꤹ�뤳�Ȥǡ�
-tDiary�ȼ�����¸�����Ȱ㤦���ȼ�����¸����������Ǥ��ޤ����㤨��DBMS
-�������ǡ�������¸���������ۤʤ뱿�Ѥ�tDiary���뤳�Ȥ���ǽ�Ǥ�����
-���¸����뤿��λ��Ȥߤ����Τ��ơ�IO���饹�פȸƤ�Ǥ��ޤ�(Ruby��IO
-���饹�Ȥϰ㤤�ޤ�)��
+== IOクラス
+保存形式を変更する新たなクラスを作成し、tdiary.confで指定することで、
+tDiary独自の保存形式と違う、独自の保存形式を選択できます。例えばDBMS
+に日記データを保存する等、異なる運用のtDiaryを作ることが可能です。こ
+れを実現するための仕組みを総称して「IOクラス」と呼んでいます(RubyのIO
+クラスとは違います)。
 
-=== IOBase���饹
-tdiary.rb�ˤ�TDiary::IOBase�Ȥ������饹���������Ƥ��ꡢ�����Ѿ�
-�����ȼ���IO���饹��������ޤ�����������ϡ�HogeIO��������Ƥ��ޤ���
+=== IOBaseクラス
+tdiary.rbにはTDiary::IOBaseというクラスが定義されており、これを継承
+して独自のIOクラスを作成します。下記の例は、HogeIOを定義しています。
 
  class HogeIO < TDiary::IOBase
     def clendar
@@ -28,18 +28,18 @@ tdiary.rb�ˤ�TDiary::IOBase�Ȥ������饹���������Ƥ��ꡢ�����Ѿ�
     .....
  end
 
-=== ����¼������٤����
-IOBase���饹�ˤ�IO���饹�˶��̤ʤ����Ĥ��Υ᥽�åɤ����Ǥ˼������Ƥ�
-��ޤ��������Ѿ�����IO���饹�Ǥϡ�����˰ʲ��Τ褦�ʥ᥽�åɤ����
-���ʤ��ƤϤ����ޤ���
+=== 最低限実装すべきもの
+IOBaseクラスにはIOクラスに共通ないくつかのメソッドがすでに実装してあ
+ります。これを継承したIOクラスでは、さらに以下のようなメソッドを実装
+しなくてはいけません。
 
 ==== calendar
-tDiary�ˡ�������¸�ߤ���ǯ������Τ��뤿��Υ᥽�åɤǤ����¹Ի���tDiary
-����ƤӽФ���ޤ���
+tDiaryに、日記が存在する年月を通知するためのメソッドです。実行時にtDiary
+から呼び出されます。
 
-�֤��ͤˤϡ��������ѤǤ����������ޤޤ�Ƥ���ǯ�����Hash���֥�����
-�Ȥ��֤��ޤ���Hash�˴ޤޤ�Ƥ�����ͤϡ�����������ǯ(String��4ʸ��)��
-�б������ͤˤ�Array�Ƿ�(String��2��)�����ꤷ�ޤ����ʲ�����򼨤��ޤ���
+返り値には、現在利用できる日記が含まれている年・月を、Hashオブジェク
+トで返します。Hashに含まれている各値は、キーに西暦年(Stringで4文字)、
+対応する値にはArrayで月(Stringで2桁)を設定します。以下に例を示します。
 
  def calendar
     return {
@@ -49,26 +49,26 @@ tDiary�ˡ�������¸�ߤ���ǯ������Τ��뤿��Υ᥽�åɤǤ����¹Ի���tDiary
  end
 
 ==== transaction( date )
-���ꤵ�줿��������ǡ������ɤ߹��ߡ�tDiary������Ǥ�������Ϥ��ޤ���
+指定された月の日記データを読み込み、tDiaryに理解できる形で渡します。
 
-����date��Time���֥������Ȥǡ�ǯ�ȷ�Τߤ�localtime��Ϳ�����ޤ���
+引数dateはTimeオブジェクトで、年と月のみがlocaltimeで与えられます。
 
-transaction�᥽�åɤ�date�ǻ��ꤵ�줿��������ǡ�����ե�����(�ޤ���
-����¾������)�����ɤ߽Ф��ơ��֥��å��ѥ�᥿�Ȥ���tDiary���֤��ޤ���
-���Υ֥��å��ѥ�᥿��Hash�ǡ�������ǯ����(String��8��)���ͤ������ǡ�
-��(��Ҥ���DiaryBase��include�������饹�Υ��󥹥���)������ޤ���
+transactionメソッドはdateで指定された月の日記データをファイル(または
+その他の媒体)から読み出して、ブロックパラメタとしてtDiaryに返します。
+このブロックパラメタはHashで、キーに年月日(Stringで8桁)、値に日記デー
+タ(後述するDiaryBaseをincludeしたクラスのインスタンス)を持ちます。
 
-�֥��å��ѥ�᥿������Ȥä�tDiary�ϡ������Ȥä�������ɽ���ޤ��Ϲ�
-������Τǡ�transaction�᥽�åɤϤ����֤��ͤ˽��ä���������¸������
-�ν�����Ԥ��ޤ����ʲ���tDiary������֤��ͤ򼨤��ޤ����ºݤˤϤ����
-�������¤��֤�ޤ���
+ブロックパラメタを受けとったtDiaryは、それを使って日記を表示または更
+新するので、transactionメソッドはその返り値に従って日記を保存する等
+の処理を行えます。以下にtDiaryからの返り値を示します。実際にはこれら
+の論理和が返ります。
 
-* TDiary::TDiaryBase::DIRTY_NONE: �����ǡ������ѹ��Ϥ���ޤ���Ǥ���
-* TDiary::TDiaryBase::DIRTY_DIARY: ������ʸ���ѹ�������ޤ���
-* TDiary::TDiaryBase::DIRTY_COMMENT: �ĥå��ߤ��ѹ�������ޤ���
-* TDiary::TDiaryBase::DIRTY_REFERER: ��󥯸����ѹ�������ޤ���
+* TDiary::TDiaryBase::DIRTY_NONE: 日記データに変更はありませんでした
+* TDiary::TDiaryBase::DIRTY_DIARY: 日記本文に変更がありました
+* TDiary::TDiaryBase::DIRTY_COMMENT: ツッコミに変更がありました
+* TDiary::TDiaryBase::DIRTY_REFERER: リンク元に変更がありました
 
-�ʲ���transaction����򼨤��ޤ���
+以下にtransactionの例を示します。
 
  def trasaction( date )
     diaries = { ... } # restore data
@@ -83,16 +83,16 @@ transaction�᥽�åɤ�date�ǻ��ꤵ�줿��������ǡ�����ե�����(�ޤ���
  end
 
 ==== diary_factory( date, title, body, style = 'tDiary' )
-diary_factory�ϡ����ꤵ�줿�ե����ޥåȤ��������֥������Ȥ���������
-�֤��ޤ���
+diary_factoryは、指定されたフォーマットの日記オブジェクトを生成して
+返します。
 
-����date������(String��8��)����ꤷ�ޤ���title��body�Ϥ��줾��������
-�������Υ����ȥ����ʸ�Ǥ�(String)��style�������ε��ҷ�������ꤹ��
-ʸ����ǡ�diary_factory�˰�¸���ޤ���
+引数dateは日付(Stringで8桁)を指定します。title、bodyはそれぞれ生成す
+る日記のタイトルと本文です(String)。styleは日記の記述形式を指定する
+文字列で、diary_factoryに依存します。
 
-�֤��ͤ�DiaryBase��include�����Ѿ��������饹�Υ��֥������ȤǤ���
+返り値はDiaryBaseをincludeした継承したクラスのオブジェクトです。
 
-�ʲ���diary_factory����򼨤��ޤ���
+以下にdiary_factoryの例を示します。
 
  def diary_factory( date, title, body, style = 'tDiary' )
     case style
@@ -103,72 +103,72 @@ diary_factory�ϡ����ꤵ�줿�ե����ޥåȤ��������֥������Ȥ���������
     end
  end
 
-�⤷������������б�����IO���饹����ʤ顢initialize��load_style��
-�Ƥ����ǡ��ʲ��Τ褦��styled_diary_factory��Ƥ֤������ɤ��Ǥ���
+もし、スタイルに対応したIOクラスを作るなら、initializeでload_styleを
+呼んだ上で、以下のようにstyled_diary_factoryを呼ぶだけで良いです。
 
  def diary_factory( date, title, body, style = 'tDiary' )
  	styled_diary_factory( date, title, body, style )
  end
 
-== �����ǡ���
-³���ơ�IO���饹��transaction�᥽�åɤ��֤��ͤ˴ޤޤ�������ǡ�����
-�������٤����ˤĤ��ƽҤ٤ޤ���
-�����ǡ����ζ�����Ȥ��Ƥ� tdiary/tdiary_style.rb ���������Ƥ���
-TDiary::DefaultDiary �򻲾Ȥ��Ƥ���������
+== 日記データ
+続いて、IOクラスのtransactionメソッドの返り値に含まれる日記データが
+満たすべき条件について述べます。
+日記データの具体例としては tdiary/tdiary_style.rb で定義されている
+TDiary::DefaultDiary を参照してください。
 
-�������ǡ����פϰʲ������Ǥ��鹽������Ƥ��ޤ���
+「日記データ」は以下の要素から構成されています。
 
-* ����
-* �����ȥ�
-* �ǽ�������
-* 0�İʾ�Υ��������
-* 0�İʾ�Υĥå���
-* 0�İʾ�Υ�󥯸�
+* 日付
+* タイトル
+* 最終更新日
+* 0個以上のセクション
+* 0個以上のツッコミ
+* 0個以上のリンク元
 
-����ˡ֥��������פϰʲ������Ǥ��鹽������Ƥ��ޤ���
+さらに「セクション」は以下の要素から構成されています。
 
-* ���֥����ȥ�
-* ����
-* ��ʸ
+* サブタイトル
+* 著者
+* 本文
 
-�����Υǡ�����¤������ȴ�����Ʊ��Ǥ���ɬ�פϤʤ��������ǡ������ղ�
-Ū�ʥǡ�������ä��ꡢ
-��������󤬤����Ĥ��Υ��֥���������ʬ���줿�ꤷ�Ƥ��ɤ��Ǥ���
+日記のデータ構造がこれと完全に同一である必要はなく、日記データが付加
+的なデータを持ったり、
+セクションがいくつかのサブセクションに分かれたりしても良いです。
 
-== ���ƥ��굡ǽ�ˤĤ���
-���ƥ��굡ǽ�Ȥϡ�������Υ��������˥�����ɤ��դ��ơ�
-���Ȥ�Ʊ��������ɤ�ޤȤ�ư����Ǥ��뵡ǽ�Τ��ȤǤ���
+== カテゴリ機能について
+カテゴリ機能とは、日記中のセクションにキーワードを付けて、
+あとで同じキーワードをまとめて一覧できる機能のことです。
 
-���������Υ��ƥ���ϡ����֥����ȥ���ǻ��ꤷ�ޤ���
-tDiary��������Ǥ�
+セクションのカテゴリは、サブタイトル中で指定します。
+tDiaryスタイルでは
 
-  [���ƥ���] ���֥����ȥ�
+  [カテゴリ] サブタイトル
 
-�Τ褦�˥��ƥ������ꤹ�뤳�Ȥˤ��Ƥ��ޤ�����
-IO���饹/���������Ԥ���IO���饹/���������Ŭ����
-���ƥ�������ʸˡ��������Ʋ�������
+のようにカテゴリを指定することにしていますが、
+IOクラス/スタイル作者が各IOクラス/スタイルに適した
+カテゴリ指定の文法を定義して下さい。
 
-���ƥ��굡ǽ�μ�����ɬ�ܤǤϤ���ޤ���
-�����ǡ����򥫥ƥ��굡ǽ���б������뤫�ɤ�����IO���饹�κ�Ԥ�Ƚ�Ǥ��Ʋ�������
+カテゴリ機能の実装は必須ではありません。
+日記データをカテゴリ機能に対応させるかどうかはIOクラスの作者が判断して下さい。
 
-== �����ǡ����Υ��饹
-�����ǡ�������Ϥ������ա������ȥ롢�ǽ���������������ʸ��
-�����ȡ�Referer�����������ʤɤ򻲾ȤǤ���ɬ�פ�����ޤ���
+== 日記データのクラス
+日記データからはその日付、タイトル、最終更新日、日記本文、
+コメント、Referer、セクションなどを参照できる必要があります。
 
-�⤷�����������ǡ����򥹥�����Ȥ����߷פ���ΤǤ���С�IO���饹�Ȥ�
-ʬΥ���ơ��̤Υե�����ˤ���ɬ�פ�����ޤ������ξ�硢��������̾��
-�ե�����̾�������ǡ������饹̾�ˤ϶�����¸��������ޤ�����Hoge�פȤ���
-������������硢�ʲ��Τ褦�˺��ɬ�פ�����ޤ���
+もし、この日記データをスタイルとして設計するのであれば、IOクラスとは
+分離して、別のファイルにする必要があります。この場合、スタイル名と
+ファイル名、日記データクラス名には強い依存性があります。「Hoge」という
+スタイルを作る場合、以下のように作る必要があります。
 
-* ��������̾: Hoge
-* �ե�����̾: hoge_style.rb
-* ���饹̾��: TDiary::HogeDiary (��������̾.capitalize + 'Diary')
+* スタイル名: Hoge
+* ファイル名: hoge_style.rb
+* クラス名　: TDiary::HogeDiary (スタイル名.capitalize + 'Diary')
 
-=== DiaryBase�⥸�塼��
-tdiary.rb�ˤ�DiaryBase�Ȥ����⥸�塼�뤬�������Ƥ��ꡢ
-�����ǡ����Υ��饹�Ϥ��Υ⥸�塼���include���ʤ���Фʤ�ޤ���
+=== DiaryBaseモジュール
+tdiary.rbにはDiaryBaseというモジュールが定義されており、
+日記データのクラスはこのモジュールをincludeしなければなりません。
 
-���������HogeDiary��DiaryBase��include���Ƥ��ޤ���
+下記の例はHogeDiaryにDiaryBaseをincludeしています。
 
    class HogeDiary
      include DiaryBase
@@ -176,13 +176,13 @@ tdiary.rb�ˤ�DiaryBase�Ȥ����⥸�塼�뤬�������Ƥ��ꡢ
      .....
    end
 
-=== CategorizableDiary/UncategorizableDiary�⥸�塼��
-tdiary.rb�ˤ�CategorizableDiary��UncategorizableDiary�Ȥ����⥸�塼�뤬�������Ƥ��ޤ���
-�����ǡ����Υ��饹�ϡ����ƥ��굡ǽ���б����Ƥ������CategorizableDiary�⥸�塼���
-���ƥ��굡ǽ���б����Ƥ��ʤ�����UncategorizableDiary�⥸�塼���
-include���ʤ���Фʤ�ޤ���
+=== CategorizableDiary/UncategorizableDiaryモジュール
+tdiary.rbにはCategorizableDiaryとUncategorizableDiaryというモジュールが定義されています。
+日記データのクラスは、カテゴリ機能に対応している場合はCategorizableDiaryモジュールを、
+カテゴリ機能に対応していない場合はUncategorizableDiaryモジュールを
+includeしなければなりません。
 
-���������HogeDiary��CategoriabeleDiary��include���Ƥ��ޤ���
+下記の例はHogeDiaryにCategoriabeleDiaryをincludeしています。
 
    class HogeDiary
      include CategorizableDiary
@@ -190,11 +190,11 @@ include���ʤ���Фʤ�ޤ���
      .....
    end
 
-=== ����¼������٤����
-DiaryBase�⥸�塼��ˤ������ǡ����Υ��饹��ɬ�פʴ��Ĥ��Υ᥽�åɤ�
-�������Ƥ��ޤ���DiaryBase���������Ƥ���᥽�åɰʳ���
-�����ǡ����Υ��饹��������٤��᥽�åɤϲ����Τ�Τˤʤ�ޤ���
-(�����Ǥ����᥽�åɤ� Public Instance Method �Τ��ȤǤ���)
+=== 最低限実装すべきもの
+DiaryBaseモジュールには日記データのクラスに必要な幾つかのメソッドが
+定義されています。DiaryBaseで定義されているメソッド以外に
+日記データのクラスが備えるべきメソッドは下記のものになります。
+(ここでいうメソッドは Public Instance Method のことです。)
 
 * initialize
 * replace
@@ -204,17 +204,17 @@ DiaryBase�⥸�塼��ˤ������ǡ����Υ��饹��ɬ�פʴ��Ĥ��Υ᥽�åɤ�
 * to_src
 * style
 
-�᥽�åɤǤϤ���ޤ��󤬡� ���󥹥����ѿ��� @last_modified �ˤϵ���Ĥ��ޤ��礦��
-�����ǡ������ѹ������ä����� @last_modified ��Ŭ�ڤ�Time���֥������Ȥ����ꤷ�ʤ��ȡ�
-����å���ι��������ޤ������ޤ���
+メソッドではありませんが、 インスタンス変数の @last_modified には気をつけましょう。
+日記データに変更があった場合に @last_modified に適切なTimeオブジェクトを設定しないと、
+キャッシュの更新がうまくいきません。
 
 * @last_modified
 
 ==== initialize
-�����ǡ������������ޤ���������IO���饹�ˤ�äư㤦��Τˤʤ�ޤ���
-���Υ᥽�åɤǤ� DiaryBase#init_diary ��ƤФʤ��ƤϤʤ�ޤ���
+日記データを初期化します。引数はIOクラスによって違うものになります。
+このメソッドでは DiaryBase#init_diary を呼ばなくてはなりません。
 
-��
+例
    class HogeDiary
      include DiaryBase
      .....
@@ -228,30 +228,30 @@ DiaryBase�⥸�塼��ˤ������ǡ����Υ��饹��ɬ�פʴ��Ĥ��Υ᥽�åɤ�
    end
 
 ==== replace(date, title, body)
-�����ǡ��������դ�date�ˡ�������ʸ�Υ�������body�ˡ������ȥ��title���ѹ����ޤ���
-date��Time���֥������ȡ��⤷���ϡ����դ򤢤�魯ʸ����('YYYYMMDD')�Ǥ���
-���դ�ɽ��ʸ����϶���Ū�ˤϲ��Τ褦�ˤʤ�ޤ���
+日記データの日付をdateに、日記本文のソースをbodyに、タイトルをtitleに変更します。
+dateはTimeオブジェクト、もしくは、日付をあらわす文字列('YYYYMMDD')です。
+日付を表す文字列は具体的には下のようになります。
 
 * '20020831'
 * '20010101'
 
-body, title��ʸ����Ǥ���
+body, titleは文字列です。
 
-������ʸ���ѹ����줿��硢������ʸ���ᤷľ��ɬ�פ�����ޤ���
-��ᤷľ�����ˤ������ǡ����������륻���������ѹ�����ޤ���
+日記本文が変更された場合、日記本文を解釈し直す必要があります。
+解釈し直す時には日記データを構成するセクションも変更されます。
 
 ==== append(body, author = nil)
-������ʸ���ɲä��ޤ���body���ɲä����������ʸ�Ǥ���
-author�������򵭽Ҥ����ͤ�̾���ǡ�ʸ����Ǥ���
-author�ΰ����ϥǥե���Ȥ�nil�ˤ��ʤ���Фʤ�ޤ���
+日記本文を追加します。bodyは追加される日記本文です。
+authorは日記を記述した人の名前で、文字列です。
+authorの引数はデフォルトでnilにしなければなりません。
 
-������ʸ���ѹ����줿��硢������ʸ���ᤷľ��ɬ�פ�����ޤ���
-��ᤷľ�����ˤ������ǡ����������륻���������ѹ�����ޤ���
+日記本文が変更された場合、日記本文を解釈し直す必要があります。
+解釈し直す時には日記データを構成するセクションも変更されます。
 
 ==== each_section 
-each_section �ϳƥ���������֥��å��ѥ�᡼���Ȥ����֤��ޤ���
+each_section は各セクションをブロックパラメータとして返します。
 
-���˰���򼨤��ޤ���������@sections�ϥ����������ݻ�����Array�Υ��֥������ȤǤ���
+下に一例を示します。ここで@sectionsはセクションを保持するArrayのオブジェクトです。
 
   class HogeDiary
     .....
@@ -266,41 +266,41 @@ each_section �ϳƥ���������֥��å��ѥ�᡼���Ȥ����֤��ޤ���
   end
 
 ==== to_html(opt, mode = :HTML)
-�����ǡ�����HTML���Ѵ����ޤ�������opt������ե�����(tdiary.conf)�����Ƥΰ�����
-�ݻ�����Hash���֥������ȤǤ�������mode��Symbol���֥������Ȥǡ�
-���ߤϲ����Τ����줫�Ǥ���
+日記データをHTMLに変換します。引数optは設定ファイル(tdiary.conf)の内容の一部を
+保持するHashオブジェクトです。引数modeはSymbolオブジェクトで、
+現在は下記のいずれかです。
 
 * :HTML
 * :CHTML
 
-���ꤷ�ʤ�mode�����ꤵ�줿���ϡ�:HTML�����ꤵ�줿��ΤȤߤʤ��Ʋ�
-������:HTML�ξ����̾�Υ֥饦���Ѥ�HTML�ˡ�:CHTML�ξ��Ϸ���ü��
-�Ѥ�cHTML���Ѵ����ʤ���Фʤ�ޤ���
+想定しないmodeが指定された場合は、:HTMLが指定されたものとみなして下
+さい。:HTMLの場合は通常のブラウザ用にHTMLに、:CHTMLの場合は携帯端末
+用にcHTMLに変換しなければなりません。
 
-opt�����Ƥˤ�äơ������Υ������ѹ����ʤ���Фʤ�ʤ��Τǡ�����
-��ɬ�פǤ���
+optの内容によって、日記のリンク先を変更しなければならないので、注意
+が必要です。
 
-���ƥ��굡ǽ���б����������ǡ����Υ��饹�Ǥϡ�
-�ƥ��������Υ��֥����ȥ���Υ��ƥ�������category_anchor�ץ饰����θƽФ����Ѵ����Ʋ�������
+カテゴリ機能に対応した日記データのクラスでは、
+各セクションのサブタイトル中のカテゴリ指定をcategory_anchorプラグインの呼出しに変換して下さい。
 
 ==== to_src
-��������ʸ���֤��ޤ���
+日記の本文を返します。
 
 ==== style
-�����ǡ����򵭽Ҥ��륹������̾���֤��ޤ���
-tDiaryɸ��ε��ҷ����ξ��ϡ�tDiary�פǤ���
-����ʸ����ϡ������ƥ����羮ʸ������̤��ޤ���
+日記データを記述するスタイル名を返します。
+tDiary標準の記述形式の場合は「tDiary」です。
+この文字列は、システム上は大小文字を区別しません。
 
 
-== ���������Υ��饹
-������ʸ�ϴ��Ĥ��Υ���������ʬ����ޤ���
-����������������ʸ�����������Υ����ȥ롢����������񤤤��ͤ�̾��
-�ʤɤ�ǡ����Ȥ����ݻ����Ƥ��ޤ���
-��������󥯥饹����Ȥ��Ƥϡ�tdiary/defaultio.rb�ˤ���
-TDiary::DefaultSection���饹�򻲾Ȥ��Ƥ���������
+== セクションのクラス
+日記本文は幾つかのセクションに分かれます。
+セクションは日記本文、セクションのタイトル、セクションを書いた人の名前
+などをデータとして保持しています。
+セクションクラスの例としては、tdiary/defaultio.rbにある
+TDiary::DefaultSectionクラスを参照してください。
 
-=== ����¼������٤��᥽�å�
-�ʲ��˥��������Υ��饹���������٤��᥽�åɤ���󤷤ޤ���
+=== 最低限実装すべきメソッド
+以下にセクションのクラスが実装すべきメソッドを列挙します。
 
 * subtitle
 * body
@@ -309,42 +309,42 @@ TDiary::DefaultSection���饹�򻲾Ȥ��Ƥ���������
 * subtitle_to_html
 * body_to_html
 
-���ƥ��굡ǽ���б�������ˤϡ��ʲ��Υ᥽�åɤ��������ɬ�פ�����ޤ���
+カテゴリ機能に対応させるには、以下のメソッドを実装する必要があります。
 
 * stripped_subtitle
 * stripped_subtitle_to_html
 * categories
 
-==== subtitle��subtitle_to_html
-���������Υ����ȥ��ʸ����Ȥ����֤��ޤ���
-�����ȥ뤬�ʤ�����nil���֤��ޤ���
+==== subtitleとsubtitle_to_html
+セクションのタイトルを文字列として返します。
+タイトルがない場合はnilを返します。
 
-subtitle�ϥ��������ʸˡ�ǵ��Ҥ��줿��ʸ��subtitle_to_html��HTML���Ѵ������ʸ���֤��ޤ���
+subtitleはスタイルの文法で記述された本文を、subtitle_to_htmlはHTMLに変換後の本文を返します。
 
-==== body��body_to_html
-�����������б�������ʸ���֤��ޤ����֤��ͤ�ʸ����ˤϥ����ȥ�����Ԥ�ޤޤ�ޤ���
-��ʸ���ʤ����϶�ʸ��("")���֤��ޤ���
+==== bodyとbody_to_html
+セクションに対応する本文を返します。返り値の文字列にはタイトルも著者も含まれません。
+本文がない場合は空文字("")を返します。
 
-body�ϥ��������ʸˡ�ǵ��Ҥ��줿��ʸ��body_to_html��HTML���Ѵ������ʸ���֤��ޤ���
+bodyはスタイルの文法で記述された本文を、body_to_htmlはHTMLに変換後の本文を返します。
 
 ==== to_src
-�����������б�������ʸ���֤��ޤ����֤��ͤ�ʸ����ˤϥ����ȥ�����Ԥ��ޤޤ�ޤ���
-��ʸ���ʤ����϶�ʸ��("")���֤��ޤ���
+セクションに対応する本文を返します。返り値の文字列にはタイトルと著者が含まれます。
+本文がない場合は空文字("")を返します。
 
 ==== author
-����������񤤤��ͤ�̾����ʸ����Ȥ����֤��ޤ���
-�񤤤��ͤ�̾�����ʤ����� nil ���֤��ޤ���
+セクションを書いた人の名前を文字列として返します。
+書いた人の名前がない場合は nil を返します。
 
-==== stripped_subtitle��stripped_subtitle_to_html
-���������Υ����ȥ뤫�饫�ƥ��������ʬ���������ʸ������֤��ޤ���
-�����ȥ뤬�ʤ����䡢���ƥ��������ʬ���������ʸ���󤬶�ʸ��("")�ξ���
-nil���֤��ޤ���
+==== stripped_subtitleとstripped_subtitle_to_html
+セクションのタイトルからカテゴリ指定部分を取り除いた文字列を返します。
+タイトルがない場合や、カテゴリ指定部分を取り除いた文字列が空文字("")の場合は
+nilを返します。
 
-stripped_subtitle�ϥ��������ʸˡ�ǵ��Ҥ��줿��ʸ��stripped_subtitle_to_html��HTML���Ѵ������ʸ���֤��ޤ���
+stripped_subtitleはスタイルの文法で記述された本文を、stripped_subtitle_to_htmlはHTMLに変換後の本文を返します。
 
 ==== categories
-���������Υ��ƥ����ʸ���������Ȥ����֤��ޤ���
-�����ȥ���˥��ƥ�����꤬�ʤ�����[]���֤��ޤ���
+セクションのカテゴリを文字列の配列として返します。
+タイトル中にカテゴリ指定がない場合は[]を返します。
 
 =end
 

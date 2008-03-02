@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.13 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.14 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -22,7 +22,7 @@ module TDiary
 			if lines.size > 1 then
 				if /^<</ =~ lines[0]
 					@subtitle = lines.shift.chomp.sub( /^</, '' )
-				elsif /^[¡¡ <]/e !~ lines[0]
+				elsif /^[ã€€ <]/u !~ lines[0]
 					@subtitle = lines.shift.chomp
 				end
 			end
@@ -196,10 +196,10 @@ module TDiary
 				if /^</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
-					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[¡¡ ]/e, '')}.join( "</p>\n<p>" )}</p>\n]
+					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[ã€€ ]/u, '')}.join( "</p>\n<p>" )}</p>\n]
 				else
 					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[¡¡ ]/e, '' )}.join( "</p>\n<p>" )}</p>]
+					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[ã€€ ]/u, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 				r << %Q[</div>]
@@ -220,10 +220,10 @@ module TDiary
 					idx += 1
 					r << section.body
 				elsif section.subtitle
-					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[¡¡ ]/e, '' )}.join( "</P>\n<P>" )}</P>\n]
+					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[ã€€ ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
 				else
 					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[¡¡ ]/e, '' )}.join( "</P>\n<P>" )}</P>\n]
+					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[ã€€ ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
 				end
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 				idx += 1

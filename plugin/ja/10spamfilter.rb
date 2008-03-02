@@ -1,76 +1,76 @@
 #
-# ja/spamfilter.rb: resource of ja $Revision: 1.17 $
+# ja/spamfilter.rb: resource of ja $Revision: 1.18 $
 #
 
-@spamfilter_label_conf = 'spam�ե��륿'
+@spamfilter_label_conf = 'spamフィルタ'
 
 def spamfilter_conf_html
 	r = <<-HTML
-	<h3>spam�ΰ���</h3>
-	<p>spam��Ƚ�ꤵ�줿�ĥå��ߤ�
+	<h3>spamの扱い</h3>
+	<p>spamと判定されたツッコミを
 		<select name="spamfilter.filter_mode">
-			<option value="true"#{" selected" if @conf['spamfilter.filter_mode']}>��ɽ���ˤ���</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.filter_mode']}>�ΤƤ�</option>
+			<option value="true"#{" selected" if @conf['spamfilter.filter_mode']}>非表示にする</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.filter_mode']}>捨てる</option>
 	</select></p>
 
-	<h3>���Ƥˤ��ե��륿</h3>
-	<p>�ĥå������URL�ο���<input type="text" name="spamfilter.max_uris" value="#{h @conf['spamfilter.max_uris']}" size="5">�Ĥ�Ķ������spam�Ȥߤʤ�</p>
-	<p>�ĥå������URL��ɽ��ʸ���������礬<input type="text" name="spamfilter.max_rate" value="#{h @conf['spamfilter.max_rate']}" size="5">%���⤤��Τ�spam�Ȥߤʤ�</p>
-	<p>�ĥå�����ʸ���ʲ��Υѥ���������ƤϤޤ����spam�Ȥߤʤ�������ɽ�������ѤǤ��ޤ�<br>
+	<h3>内容によるフィルタ</h3>
+	<p>ツッコミ中のURLの数が<input type="text" name="spamfilter.max_uris" value="#{h @conf['spamfilter.max_uris']}" size="5">個を超えたらspamとみなす</p>
+	<p>ツッコミ中でURLを表す文字の占める割合が<input type="text" name="spamfilter.max_rate" value="#{h @conf['spamfilter.max_rate']}" size="5">%より高いものはspamとみなす</p>
+	<p>ツッコミ本文が以下のパターンに当てはまる場合はspamとみなす。正規表現が利用できます<br>
 		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="5">#{h( @conf['spamfilter.bad_comment_patts'] || '' )}</textarea></p>
-	<p>�ĥå��ߤΥ᡼�륢�ɥ쥹���ʲ��Υѥ���������ƤϤޤ����spam�Ȥߤʤ�������ɽ�����Ȥ��ޤ�<br>
+	<p>ツッコミのメールアドレスが以下のパターンに当てはまる場合はspamとみなす。正規表現が使えます<br>
 		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="5">#{h( @conf['spamfilter.bad_mail_patts'] || '' )}</textarea></p>
-	<p>�ĥå��ߤ��󥯸��˴ޤޤ��URL�ˡ��ʲ��Υѥ����󤬴ޤޤ�����spam�Ȥߤʤ�<br>
+	<p>ツッコミやリンク元に含まれるURLに、以下のパターンが含まれる場合はspamとみなす<br>
 		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="5">#{h( @conf['spamfilter.bad_uri_patts'] || '' )}</textarea></p>
-	<p>��Υѥ������ĥå��ߤΥ᡼�륢�ɥ쥹�Υ����å��ˤ�
+	<p>上のパターンをツッコミのメールアドレスのチェックにも
 		<select name="spamfilter.bad_uri_patts_for_mails">
-			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>���Ѥ���</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>���Ѥ��ʤ�</option>
+			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>利用する</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>利用しない</option>
 		</select></p>
-	<p>TrackBack��������<select name="spamfilter.linkcheck">
-		<option value="0"#{' selected' if @conf['spamfilter.linkcheck'] == 0}>���Ƥ�����å������ˤ��٤Ƽ�������</option>
-		<option value="1"#{' selected' if @conf['spamfilter.linkcheck'] == 1}>��˼������ȤؤΥ�󥯤�����м�������</option>
+	<p>TrackBack送信元の<select name="spamfilter.linkcheck">
+		<option value="0"#{' selected' if @conf['spamfilter.linkcheck'] == 0}>内容をチェックせずにすべて受信する</option>
+		<option value="1"#{' selected' if @conf['spamfilter.linkcheck'] == 1}>中に自サイトへのリンクがあれば受信する</option>
 	</select></p>
 
-	<h3>���դ��ˤ��ե��륿</h3>
-	<p><input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">���ʾ��������դ��Υĥå��ߥե������javascript��ɽ�����롣<br>(��������¤ʤ���0�������Τ�)</p>
+	<h3>日付けによるフィルタ</h3>
+	<p><input type="text" name="spamfilter.date_limit" value="#{h @conf['spamfilter.date_limit']}" size="5">日以上前の日付けのツッコミフォームはjavascriptで表示する。<br>(空欄は制限なし、0は当日のみ)</p>
 
-	<h3>IP���ɥ쥹�ˤ��ե��륿</h3>
-	<p>�ĥå��ߤ�TrackBack��������IP���ɥ쥹�����ʲ��Υѥ���������ƤϤޤ����spam�Ȥߤʤ�(�ꥹ�Ȥˤϴ�����IP���ɥ쥹�ޤ��ϡ�.�פǽ����IP���ɥ쥹�ΰ����򵭽Ҥ���)<br>
+	<h3>IPアドレスによるフィルタ</h3>
+	<p>ツッコミやTrackBack送信元のIPアドレスが、以下のパターンに当てはまる場合はspamとみなす(リストには完全なIPアドレスまたは「.」で終わるIPアドレスの一部を記述する)<br>
 		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="5">#{h( @conf['spamfilter.bad_ip_addrs'] || '' )}</textarea></p>
 	</p>
-	<p>TrackBack�������ȼºݤΥ����Ȥ�IP���ɥ쥹���ۤʤ����
+	<p>TrackBack送信元と実際のサイトのIPアドレスが異なる場合は
 		<select name="spamfilter.resolv_check">
-			<option value="true"#{" selected" if @conf['spamfilter.resolv_check']}>spam�Ȥߤʤ�</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check']}>spam�Ȥߤʤ��ʤ�</option>
+			<option value="true"#{" selected" if @conf['spamfilter.resolv_check']}>spamとみなす</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check']}>spamとみなさない</option>
 		</select>
 	</p>
-	<p>��ξ��ˤ�ä�spam�Ȥߤʤ��줿TrackBack��
+	<p>上の条件によってspamとみなされたTrackBackは
 		<select name="spamfilter.resolv_check_mode">
-			<option value="true"#{" selected" if @conf['spamfilter.resolv_check_mode']}>��ɽ���ˤ���</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>�ΤƤ�</option>
+			<option value="true"#{" selected" if @conf['spamfilter.resolv_check_mode']}>非表示にする</option>
+			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>捨てる</option>
 		</select>
 	</p>
-   <h3>�֥�å��ꥹ�ȥ����ӥ���Ȥä��ե��륿</h3>
-   <p>�֥�å��ꥹ���䤤��碌�����С�����ꤷ�ޤ�<br>
+   <h3>ブラックリストサービスを使ったフィルタ</h3>
+   <p>ブラックリスト問い合わせサーバーを指定します<br>
    <textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
-   <p>�ʲ��˻��ꤷ���ɥᥤ��ϥ֥�å��ꥹ�Ȥ��䤤��碌�ޤ��󡣸������󥸥�������ꤷ�Ƥ�������<br>
+   <p>以下に指定したドメインはブラックリストに問い合わせません。検索エンジン等を指定してください<br>
    <textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
-   <h3>�ĥå��ߤ�����ʸ</h3>
-   <p>�ĥå��ߥե�����ξ��ɽ����������ʸ�����ꤷ�ޤ���spamȽ������ѹ��������ˡ��ɼԤˤ���򤭤�����Τ餻�ޤ��礦<br>
+   <h3>ツッコミの注意文</h3>
+   <p>ツッコミフォームの上に表示する注意文を設定します。spam判定条件を変更した場合に、読者にそれをきちんと知らせましょう<br>
    <textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
    HTML
    
 	unless @conf.secure then
 	r << <<-HTML
-	<h3>�ե��륿�Υ���</h3>
-	<p>�ե��륿�Υ�����ʲ��Υե������
+	<h3>フィルタのログ</h3>
+	<p>フィルタのログを以下のファイルに
 		<select name="filter.debug_mode">
-			<option value="0"#{" selected" if @conf['filter.debug_mode'] == 0}>��Ͽ���ʤ�</option>
-			<option value="1"#{" selected" if @conf['filter.debug_mode'] == 1}>spam������Ͽ����</option>
-			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>���٤Ƶ�Ͽ����</option>
+			<option value="0"#{" selected" if @conf['filter.debug_mode'] == 0}>記録しない</option>
+			<option value="1"#{" selected" if @conf['filter.debug_mode'] == 1}>spamだけ記録する</option>
+			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>すべて記録する</option>
 		</select></p>
-	<p>�ե�����̾: <input type="text" name="filter.debug_file" value="#{h( @conf['filter.debug_file'] || '' )}" size="50"></p>
+	<p>ファイル名: <input type="text" name="filter.debug_file" value="#{h( @conf['filter.debug_file'] || '' )}" size="50"></p>
 	HTML
 	end
 

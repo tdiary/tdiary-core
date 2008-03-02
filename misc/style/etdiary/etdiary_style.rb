@@ -1,6 +1,6 @@
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
-# $Id: etdiary_style.rb,v 1.19 2008-02-27 08:45:03 tadatadashi Exp $
+# $Id: etdiary_style.rb,v 1.20 2008-03-02 09:01:20 kazuhiko Exp $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #

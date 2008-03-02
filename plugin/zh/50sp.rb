@@ -1,4 +1,4 @@
-# Traditional-Chinese resources of 01sp.rb $Revision: 1.2 $
+# Traditional-Chinese resources of 01sp.rb $Revision: 1.3 $
 
 =begin
 = Select-plugin plugin
@@ -39,10 +39,10 @@ distribution of modified versions of this work under the terms of GPL
 version 2 or later.
 =end
 
-@sp_label = '¿ï¥Î Plugin'
-@sp_label_description = '<p>½Ğ¿ï¾Ü±z·Q¨Ï¥Îªº plugins¡C</p>'
-@sp_label_please_select = '<p>¿ï¾Ü±z·Q¨Ï¥Îªº plugins¡A¨C­Ó plugin ªºÁåµ²³£·|³s¨ì¥¦ªº»¡©ú¤å¥ó¡A½ĞÀ°¦£·s¼W©Î§ï¶i»¡©ú¤å¥óªº¤º®e¡C</p>'
-@sp_label_new = '<h3>·sÂA³f¡I¸Õ¤@¸Õ°Ú¡I</h3>'
-@sp_label_used = '<h3>¤w¿ï¥Îªº</h3>'
-@sp_label_notused = '<h3>¤£¿ï¥Îªº</h3>'
-@sp_label_noplugin = '<p>¨S¦³ plugin ¥i¿ï¥Î¡C</p>'
+@sp_label = 'é¸ç”¨ Plugin'
+@sp_label_description = '<p>è«‹é¸æ“‡æ‚¨æƒ³ä½¿ç”¨çš„ pluginsã€‚</p>'
+@sp_label_please_select = '<p>é¸æ“‡æ‚¨æƒ³ä½¿ç”¨çš„ pluginsï¼Œæ¯å€‹ plugin çš„éŠçµéƒ½æœƒé€£åˆ°å®ƒçš„èªªæ˜æ–‡ä»¶ï¼Œè«‹å¹«å¿™æ–°å¢æˆ–æ”¹é€²èªªæ˜æ–‡ä»¶çš„å…§å®¹ã€‚</p>'
+@sp_label_new = '<h3>æ–°é®®è²¨ï¼è©¦ä¸€è©¦å•Šï¼</h3>'
+@sp_label_used = '<h3>å·²é¸ç”¨çš„</h3>'
+@sp_label_notused = '<h3>ä¸é¸ç”¨çš„</h3>'
+@sp_label_noplugin = '<p>æ²’æœ‰ plugin å¯é¸ç”¨ã€‚</p>'

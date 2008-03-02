@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.8 $
+# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.9 $
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -9,10 +9,10 @@ $KCODE= 'e'
 =begin How to usage
 ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]
 
--p <tDiary path>     : tDiary¤Î¥¤¥ó¥¹¥È¡¼¥ë¥Ñ¥¹¡£Ì¤»ØÄê»ş¤Ï¥«¥ì¥ó¥È¥Ç¥£¥ì¥¯¥È¥ê
-                       Îã: -p /usr/local/tdiary
--c <tdiary.conf path>: tdiary.conf¤¬Â¸ºß¤¹¤ë¥Ñ¥¹¡£Ì¤»ØÄê»ş¤Ï¥«¥ì¥ó¥È¥Ç¥£¥ì¥¯¥È¥ê
-                       Îã: -c /home/hoge/public_html/diary
+-p <tDiary path>     : tDiaryã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãƒ‘ã‚¹ã€‚æœªæŒ‡å®šæ™‚ã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+                       ä¾‹: -p /usr/local/tdiary
+-c <tdiary.conf path>: tdiary.confãŒå­˜åœ¨ã™ã‚‹ãƒ‘ã‚¹ã€‚æœªæŒ‡å®šæ™‚ã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+                       ä¾‹: -c /home/hoge/public_html/diary
 =end
 
 =begin ChangeLog

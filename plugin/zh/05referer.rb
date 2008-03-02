@@ -5,35 +5,35 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 
-def referer_today; "¤µ¤éÁåµ²"; end
+def referer_today; "ä»Šæ—¥éŠçµ"; end
 def volatile_referer; "Links to old diaries"; end
 
-def label_no_referer; "³o¬O¤µ¤Ñ¥¼¦C¥XªºÁåµ²¦Cªí"; end
+def label_no_referer; "é€™æ˜¯ä»Šå¤©æœªåˆ—å‡ºçš„éŠçµåˆ—è¡¨"; end
 def label_only_volatile; "Volatile Links List"; end
 def label_referer_table; "Today's Link Conversion Rule"; end
 
 # referer
-add_conf_proc( 'referer', "¤µ¤éÁåµ²", 'referer' ) do
+add_conf_proc( 'referer', "ä»Šæ—¥éŠçµ", 'referer' ) do
 	saveconf_referer
 
 	<<-HTML
-	<h3 class="subtitle">¬O§_¨q¥XÁåµ²</h3>
-	#{"<p>±z¥i¥H¿ï¾Ü¬O§_­n¨q¥X¡u¤µ¤éÁåµ²¡v¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ˜¯å¦ç§€å‡ºéŠçµ</h3>
+	#{"<p>æ‚¨å¯ä»¥é¸æ“‡æ˜¯å¦è¦ç§€å‡ºã€Œä»Šæ—¥éŠçµã€ã€‚ </p>" unless @conf.mobile_agent?}
 	<p><select name="show_referer">
-		<option value="true"#{" selected" if @conf.show_referer}>¦n</option>
-		<option value="false"#{" selected" unless @conf.show_referer}>¤£­n</option>
+		<option value="true"#{" selected" if @conf.show_referer}>å¥½</option>
+		<option value="false"#{" selected" unless @conf.show_referer}>ä¸è¦</option>
 	</select></p>
 	<h3 class="subtitle">#{label_no_referer}</h3>
-	#{"<p>¦b¡u¤µ¤éÁåµ²¡v¸Ì¤£­n°O¿ı°_¨ÓªºÁåµ²¡C½Ğ¥H regular expression §Î¦¡¤@¦æ¤@¦æ«ü©w¨C­Ó¤£·Q°O¿ıªººô§}¡C </p>" unless @conf.mobile_agent?}
-	<p>½Ğ¬İ<a href="#{h @update}?referer=no" target="referer">¹w³]³]©w</a>¡C</p>
+	#{"<p>åœ¨ã€Œä»Šæ—¥éŠçµã€è£¡ä¸è¦è¨˜éŒ„èµ·ä¾†çš„éŠçµã€‚è«‹ä»¥ regular expression å½¢å¼ä¸€è¡Œä¸€è¡ŒæŒ‡å®šæ¯å€‹ä¸æƒ³è¨˜éŒ„çš„ç¶²å€ã€‚ </p>" unless @conf.mobile_agent?}
+	<p>è«‹çœ‹<a href="#{h @update}?referer=no" target="referer">é è¨­è¨­å®š</a>ã€‚</p>
 	<p><textarea name="no_referer" cols="70" rows="10">#{h @conf.no_referer2.join( "\n" )}</textarea></p>
 	<h3 class="subtitle">#{label_only_volatile}</h3>
 	#{"<p>List of URLs recorded to only volatile lists. This list will be clear when update diary in new day. Specify it in regular expression, and a URL into a line.</p>" unless @conf.mobile_agent?}
 	<p>See <a href="#{h @update}?referer=volatile" target="referer">Default configuration is here</a>.</p>
 	<p><textarea name="only_volatile" cols="70" rows="10">#{h @conf.only_volatile2.join( "\n" )}</textarea></p>
 	<h3 class="subtitle">#{label_referer_table}</h3>
-	#{"<p>±N¡u¤µ¤éÁåµ²¡v¤¤¯S©wªººô§}Âà´«¬°¨ã·N¸qªº¦r­±¡A½Ğ¥H regular expression §Î¦¡¤@¦æ¤@¦æ«ü©w¨C­Ó­n°µ¦r­±Âà´«ªººô§}¡C <p>" unless @conf.mobile_agent?}
-	<p>½Ğ¬İ<a href="#{h @update}?referer=table" target="referer">¹w³]³]©w</a>.</p>
+	#{"<p>å°‡ã€Œä»Šæ—¥éŠçµã€ä¸­ç‰¹å®šçš„ç¶²å€è½‰æ›ç‚ºå…·æ„ç¾©çš„å­—é¢ï¼Œè«‹ä»¥ regular expression å½¢å¼ä¸€è¡Œä¸€è¡ŒæŒ‡å®šæ¯å€‹è¦åšå­—é¢è½‰æ›çš„ç¶²å€ã€‚ <p>" unless @conf.mobile_agent?}
+	<p>è«‹çœ‹<a href="#{h @update}?referer=table" target="referer">é è¨­è¨­å®š</a>.</p>
 	<p><textarea name="referer_table" cols="70" rows="10">#{h @conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end

@@ -1,5 +1,5 @@
 #
-# tDiary language setup: English(en) $Revision: 1.4 $
+# tDiary language setup: English(en) $Revision: 1.5 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -21,13 +21,13 @@ end
 # 'encoding' method returns String of HTTP or HTML charactor encoding.
 # 
 def encoding
-	'ISO-8859-1'
+	'UTF-8'
 end
 
 #
 # 'mobile_encoding' method returns charactor encoding in mobile mode.
 def mobile_encoding
-	'ISO-8859-1'
+	'UTF-8'
 end
 
 #

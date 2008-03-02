@@ -1,4 +1,4 @@
-<%# preview.rhtml $Revision: 1.15 $ %>
+<%# preview.rhtml $Revision: 1.16 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>
@@ -23,7 +23,7 @@ param = {
 	<%= @diary.eval_rhtml( param, PATH ) %>
 <% else %>
 	<div class="day">
-	<h2><span class="title">е╫еще░едеєбжеиещб╝</span></h2>
+	<h2><span class="title">уГЧуГйуВ░уВдуГ│уГ╗уВиуГйуГ╝</span></h2>
 	<div class="body">
 	<div class="section">
 		<h3><%=h @exception.class.to_s %></strong></h3>
@@ -36,25 +36,25 @@ param = {
 <hr class="sep">
 
 <div class="update day">
-<h2><span class="title">╣╣┐╖е╒ейб╝ер</span></h2>
+<h2><span class="title">цЫ┤цЦ░уГХуВйуГ╝уГа</span></h2>
 <div class="form">
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<input type="hidden" name="old" value="<%=h @old_date %>">
 		<%=@csrf_protection%>
 		<span class="field year">
-			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>╟п
+			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>х╣┤
 		</span>
 		<span class="field month">
-			<input type="hidden" name="month" value="<%= @date.mon %>"><%= @date.mon %>╖ю
+			<input type="hidden" name="month" value="<%= @date.mon %>"><%= @date.mon %>цЬИ
 		</span>
 		<span class="field day">
-			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>╞№
+			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>цЧе
 		</span>
 		<div class="field title">
-			е┐еде╚еы: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
+			уВ┐уВдуГИуГл: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			╦▄╩╕(<%=h @conf.style %>е╣е┐едеы<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
+			цЬмцЦЗ(<%=h @conf.style %>уВ╣уВ┐уВдуГл<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">
@@ -64,7 +64,7 @@ param = {
 			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
 		</span>
 		<span class="checkbox hidediary"><label for="hide">
-			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">д│д╬╞№д╬╞№╡ндЄ▒гд╣
+			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">уБУуБоцЧеуБоцЧешиШуВТщЪауБЩ
 		</label></span>
 	</div></form>
 </div>

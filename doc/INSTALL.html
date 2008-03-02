@@ -10,30 +10,30 @@
 	<title>tDiary README</title>
 </head>
 <body>
-<h1>tDiary<br><span style="font-size:medium">���󥹥ȡ���ޥ˥奢��</span></h1>
+<h1>tDiary<br><span style="font-size:medium">インストールマニュアル</span></h1>
 
-<h2>tDiary�Υ��󥹥ȡ��������</h2>
-<p>����Ū��CGI�μ¹Ԥ���Ĥ��Ƥ���ISP���󥿥륵���о�����Ѥ���������ꤷ���ʲ��Τ褦�ʴĶ�������������ޤ���</p>
+<h2>tDiaryのインストールと設定</h2>
+<p>一般的なCGIの実行を許可しているISPやレンタルサーバ上で利用する場合を想定し、以下のような環境を例に説明します。</p>
 
 <ul>
-	<li>WWW������: Apache 1.3.x</li>
-	<li>�桼��̾: foo</li>
-	<li>������URL: http://www.hoge.example.org/~foo/diary/</li>
-	<li>�嵭URL�Υѥ�: /home/foo/public_html/diary</li>
+	<li>WWWサーバ: Apache 1.3.x</li>
+	<li>ユーザ名: foo</li>
+	<li>日記のURL: http://www.hoge.example.org/~foo/diary/</li>
+	<li>上記URLのパス: /home/foo/public_html/diary</li>
 </ul>
 
-<h3>CGI������ץȤ�����</h3>
-<p>���ۥ��������֤�Ÿ��������Ȥ򤹤٤�<code>/home/foo/public_html/diary</code>�˥��ԡ����ޤ����ʲ���2�ĤΥե����뤬CGI������ץ����ΤʤΤǡ�WWW�����Фθ��¤Ǽ¹Բ�ǽ�ʤ褦�˥ѡ��ߥå��������ꤷ�Ƥ���������</p>
+<h3>CGIスクリプトの設定</h3>
+<p>配布アーカイブを展開し、中身をすべて<code>/home/foo/public_html/diary</code>にコピーします。以下の2つのファイルがCGIスクリプト本体なので、WWWサーバの権限で実行可能なようにパーミッションを設定してください。</p>
 
 <ul>
 	<li>index.rb</li>
 	<li>update.rb</li>
 </ul>
 
-<p>�ޤ���/usr/bin/env��Ȥä���ư���Ǥ��ʤ��Ķ��Ǥϡ��ƥե��������Ƭ��ruby�Υѥ��˽񤭴�����ɬ�פ�����Ǥ��礦��ISP�Υۡ���ǥ��쥯�ȥ�ˤ��ä���Ruby�����줿�褦�ʾ���������̾�Ϥ��ޤ굤�ˤ��ʤ��Ƥ��ɤ��Ϥ��Ǥ���</p>
+<p>また、/usr/bin/envを使った起動ができない環境では、各ファイルの先頭を、rubyのパスに書き換える必要があるでしょう。ISPのホームディレクトリにこっそりRubyを入れたような場合を除き、通常はあまり気にしなくても良いはずです。</p>
 
-<h3>.htaccess�κ���</h3>
-<p>³���ơ�CGI�μ¹ԴĶ��������ޤ���<code>dot.htaccess</code>��<code>.htaccess</code>�˥�͡��ष�ơ��Ķ��˹�碌�ƽ񤭴����ޤ���ź�դΥ���ץ�ϰʲ��Τ褦�ˤʤäƤ��ޤ���</p>
+<h3>.htaccessの作成</h3>
+<p>続いて、CGIの実行環境を整えます。<code>dot.htaccess</code>を<code>.htaccess</code>にリネームして、環境に合わせて書き換えます。添付のサンプルは以下のようになっています。</p>
 
 <pre>
 Options +ExecCGI
@@ -56,104 +56,104 @@ Require user  foo
 &lt;/Files&gt;
 </pre>
 
-<p>�����Ǥϡ�</p>
+<p>ここでは、</p>
 
 <ul>
-	<li>CGI�μ¹Ԥ��ǽ�ˤ���</li>
-	<li>���ե��å�����.rb�פΥե������CGI��ǧ��������</li>
-	<li>index.rb��ǥե���ȤΥե���������ꤷ��</li>
-	<li>*.rhtml��tdiary.*�Υե�����λ��Ȥ�ػߤ��ơ�</li>
-	<li>update.rb�ؤΥ��������ˤϥ桼��ǧ�ڤ�ɬ��</li>
+	<li>CGIの実行を可能にし、</li>
+	<li>サフィックス「.rb」のファイルをCGIと認識させ、</li>
+	<li>index.rbをデフォルトのファイルに設定し、</li>
+	<li>*.rhtmlとtdiary.*のファイルの参照を禁止して、</li>
+	<li>update.rbへのアクセスにはユーザ認証が必要</li>
 </ul>
 
-<p>�Ȥ�������ˤʤäƤ��ޤ����Ȥꤢ�����񤭴�����ɬ�פʤΤϡ�<code>AuthUserFile</code>��<code>Require user</code>�Ǥ��礦����̣��Web�ǤǤ�Ĵ�٤Ʋ�������<code>AuthUseFile</code>�ϡ����餫����<code>htpasswd</code>���ޥ�ɤǺ������Ƥ���ɬ�פ�����ޤ�(�����Web��Ĵ�٤�Ф狼��ޤ�)��</p>
+<p>という設定になっています。とりあえず書き換えが必要なのは、<code>AuthUserFile</code>と<code>Require user</code>でしょう。意味はWebででも調べて下さい。<code>AuthUseFile</code>は、あらかじめ<code>htpasswd</code>コマンドで作成しておく必要があります(これもWebで調べればわかります)。</p>
 
-<p>�ޤ������Ѥ���WWW�����Ф����꤬��CGI�μ¹ԥե�����Υ��ե��å��������(��:.cgi)�ˤ��Ƥ����礬����ޤ������ξ�硢<code>AddHandler</code>��<code>DirectoryIndex</code>���ѹ�����ɬ�פ�����Ǥ��礦������˱����ơ�<code>index.rb</code>��<code>update.rb</code>�Υե�����̾���ѹ�����ɬ�פ�����ޤ���</p>
+<p>また、利用するWWWサーバの設定が、CGIの実行ファイルのサフィックスを固定(例:.cgi)にしている場合があります。この場合、<code>AddHandler</code>や<code>DirectoryIndex</code>も変更する必要があるでしょう。これに応じて、<code>index.rb</code>や<code>update.rb</code>のファイル名も変更する必要があります。</p>
 
-<h3>tdiary.conf�κ���</h3>
-<p>���ˡ�tDiary������ե�����Ǥ���</code>tdiary.conf</code>����ޤ���</p>
+<h3>tdiary.confの作成</h3>
+<p>次に、tDiaryの設定ファイルである</code>tdiary.conf</code>を作ります。</p>
 
-<p>����tDiary�򥤥󥹥ȡ��뤹��ͤˤϡ���°��<code>tdiary.conf.beginner</code>��Ȥ��Τ���������Ǥ����ǽ�˻Ȥ���褦�ˤ��Ƥ������ɤ��ץ饰���󤬤��餫����ON�ˤʤäƤ����ꡢspam�ե��륿�ˤ������٤����꤬����Ƥ���ʤɡ����󥹥ȡ��뤷�Ƥ����˻Ȥ��䤹�����֤ˤʤäƤ��ޤ���</p>
+<p>初めてtDiaryをインストールする人には、付属の<code>tdiary.conf.beginner</code>を使うのがオススメです。最初に使えるようにしておくと良いプラグインがあらかじめONになっていたり、spamフィルタにある程度の設定がされているなど、インストールしてすぐに使いやすい状態になっています。</p>
 
-<p><code>tdiary.conf.beginner</code>��<code>tdiary.conf</code>�˥�͡��ष�ơ����Ƥ�񤭴����ޤ���tDiary������ϤۤȤ��Web�֥饦����ͳ�ǹԤ���Τǡ�����½񤭴�����٤��ʤΤϺǽ�˽ФƤ���<code>@data_path</code>�����Ǥ���</p>
+<p><code>tdiary.conf.beginner</code>を<code>tdiary.conf</code>にリネームして、内容を書き換えます。tDiaryの設定はほとんどWebブラウザ経由で行えるので、最低限書き換えるべきなのは最初に出てくる<code>@data_path</code>だけです。</p>
 
 <pre>
 @data_path = '/home/foo/diary'
 </pre>
 
-<p><code>@data_path</code>�ϡ������Υǡ�������¸����ǥ��쥯�ȥ�Ǥ������Υǥ��쥯�ȥ���̾WWW��ͳ�ǥ��������Ǥ��ʤ�(<code>public_html</code>�۲��Ǥʤ�)�ǥ��쥯�ȥ����ꤷ�ޤ������Υǥ��쥯�ȥ�ϡ�WWW�����Фθ��¤ǽ񤭹����ѡ��ߥå����ˤ��Ƥ���ɬ�פ�����ޤ���</p>
+<p><code>@data_path</code>は、日記のデータを保存するディレクトリです。このディレクトリは通常、WWW経由でアクセスできない(<code>public_html</code>配下でない)ディレクトリを指定します。このディレクトリは、WWWサーバの権限で書き込めるパーミッションにしておく必要があります。</p>
 
-<p><code>tdiary.conf</code>�ˤϡ�¾�ˤ⤤��������������ܤ򵭽ҤǤ��ޤ��������ι��ܤˤϰʲ���3�Ĥμ��ब����ޤ���</p>
+<p><code>tdiary.conf</code>には、他にもいろいろな設定項目を記述できます。これらの項目には以下の3つの種類があります。</p>
 
-<h4>CGI������Ǥ��ʤ�����</h4>
-	<p><code>@data_path</code>�Τ褦�ˡ�CGI�Ǥ�����Ǥ��ʤ����ܤǤ��������ι��ܤϡ�<code>tdiary.conf</code>�ե������ľ���Խ������ѹ����ʤ���Ф����ޤ���</p>
-<h4>CGI������Ǥ������</h4>
-	<p>�ѹ����̤Υ�˥塼�ˤ��������פ򳫤��ȡ��֥饦������tDiary��������ѹ��Ǥ��ޤ����ۤȤ�ɤι��ܤϤ�����������Ǥ���Τǡ��虜�虜<code>tdiary.conf</code>���ǽ񤭴�����ɬ�פϤ���ޤ���</p>
-<h4>CGI���ɲ�����Ǥ��뤬��ɸ������򵭽ҤǤ������</h4>
-	<p><code>tdiary.conf</code>�˵��Ҥ��Ƥ������Ȥǡ�CGI��������̤�����Խ��Ǥ��ʤ����ɲäϤǤ���Ȥ��ä������Ǥ�����ܤ�����ޤ�(��󥯸���Ͽ�����䡢��󥯸��Ѵ�ɽ)�����餫����<code>tdiary.conf</code>�˵��Ҥ��Ƥ������Ȥǡ�ʣ���οͤ�Ʊ�쥵���о��tDiary��Ȥ��褦�ʾ��˼�֤�ʤ����Ȥ��Ǥ��ޤ���</p>
+<h4>CGIで設定できない項目</h4>
+	<p><code>@data_path</code>のように、CGIでは設定できない項目です。これらの項目は、<code>tdiary.conf</code>ファイルを直接編集して変更しなければいけません。</p>
+<h4>CGIで設定できる項目</h4>
+	<p>変更画面のメニューにある「設定」を開くと、ブラウザからtDiaryの設定を変更できます。ほとんどの項目はここから設定できるので、わざわざ<code>tdiary.conf</code>を手で書き換える必要はありません。</p>
+<h4>CGIで追加設定できるが、標準設定を記述できる項目</h4>
+	<p><code>tdiary.conf</code>に記述しておくことで、CGIの設定画面からは編集できないが追加はできるといった設定をできる項目があります(リンク元記録除外や、リンク元変換表)。あらかじめ<code>tdiary.conf</code>に記述しておくことで、複数の人が同一サーバ上でtDiaryを使うような場合に手間を省くことができます。</p>
 
-<p>�ơ��ι��ܤˤĤ��Ƥϡ�<code>tdiary.conf.sample</code>���������ɤ�Ǥ�������������Ū�ʻ��ѤǤϡ�<code>@data_path</code>���������������ꤹ��С����Ȥϥ֥饦�������ѹ�����ǽ�Ǥ���</p>
+<p>各々の項目については、<code>tdiary.conf.sample</code>の説明を読んでください。一般的な使用では、<code>@data_path</code>だけを正しく設定すれば、あとはブラウザから変更が可能です。</p>
 
-<p>�ޤ������ե��å���.rb�Υե������CGI������ץȤȤ��ƻ���Ǥ��ʤ��Ķ��Ǥϡ�<code>index.rb</code>��<code>update.rb</code>�Υե�����̾���ѹ�����ɬ�פ�����ޤ����������ѹ���tDiary�˶����뤿��ˡ�<code>@index</code>��<code>@update</code>�Ȥ����ѿ����Ѱդ���Ƥ��ޤ����Ķ��ˤ�äƤϤ������ꤹ��ɬ�פ�����Ǥ��礦��</p>
+<p>また、サフィックス.rbのファイルをCGIスクリプトとして指定できない環境では、<code>index.rb</code>や<code>update.rb</code>のファイル名を変更する必要がありますが、この変更をtDiaryに教えるために、<code>@index</code>や<code>@update</code>という変数が用意されています。環境によってはこれも指定する必要があるでしょう。</p>
 
-<p><code>tdiary.conf</code>�����꤬����ä��顢<code>http://www.hoge.example.org/~foo/diary/</code>�˥����������Ƥߤޤ��礦������äݤ������ڡ������Ф��������������Ǥ����Թ��ˤ��ơ�Internal Server Error�פ��ФƤ��ޤä��顢Apache�Υ��顼�����򻲾Ȥ��ƴְ�ä�����������Ƥ���������</p>
+<p><code>tdiary.conf</code>の設定が終わったら、<code>http://www.hoge.example.org/~foo/diary/</code>にアクセスしてみましょう。からっぽの日記ページが出れば設定は正しいです。不幸にして「Internal Server Error」が出てしまったら、Apacheのエラーログを参照して間違った設定を修正してください。</p>
 
-<h3>�������ƥ�</h3>
-<p><code>tdiary.conf</code>�ˤϡ�tDiary�������CGI����Ԥ����Υ������ƥ���٥��Ĵ�������ѿ�������ޤ�����ʬ����������Web�����Фǡ���ʬ�������Ȥ����ˤϤ��ޤ굤�ˤ��ʤ��Ƥ��ɤ��Ǥ������οͤ��ߤ����ꡢtDiary��Ȥä����������ӥ����󶡤���褦�ʾ��ˤϡ��桼���ˤǤ��뤳�Ȥ����¤�������礬���ʤ�����ޤ���</p>
+<h3>セキュリティ</h3>
+<p><code>tdiary.conf</code>には、tDiaryの設定をCGIから行う場合のセキュリティレベルを調整する変数があります。自分が管理するWebサーバで、自分だけが使う場合にはあまり気にしなくても良いですが、知人に貸したり、tDiaryを使った日記サービスを提供するような場合には、ユーザにできることを制限したい場合が少なくありません。</p>
 
-<p>�����ǡ�<code>tdiary.conf</code>��ǥ������ƥ��������Ԥ��ޤ����̾<code>tdiary.conf</code>�������ˤϰʲ���2�Ԥ��񤫤�Ƥ��ޤ���</p>
+<p>そこで、<code>tdiary.conf</code>中でセキュリティの設定を行います。通常、<code>tdiary.conf</code>の末尾には以下の2行が書かれています。</p>
 
 <pre>
 @secure = false
 load_cgi_conf
 </pre>
 
-<p><code>@secure</code>�ϡ��������ƥ��������ꤹ���ѿ��Ǥ��������ͤ�<code>false</code>�ξ�硢�������ƥ������å��Ϥ��ä���������ޤ��󡣥桼����CGI����ǹ������꤬�Ǥ��ޤ�������Ǥϴ����Ȥ�����������tDiary�򱿱Ĥ�����ˤϡ�<code>@secure</code>���ͤ�<code>true</code>�ˤ��ޤ�����������ȡ�CGI������ˤ�����������ѿ�����ե��������ػߤ���ޤ���</p>
+<p><code>@secure</code>は、セキュリティ設定を指定する変数です。この値が<code>false</code>の場合、セキュリティチェックはいっさいかかりません。ユーザはCGI設定で好き放題ができます。それでは危険という状況下でtDiaryを運営する場合には、<code>@secure</code>の値を<code>true</code>にします。そうすると、CGI設定中における危険な変数操作やファイル操作が禁止されます。</p>
 
-<p>�ޤ���<code>@secure</code>���ͤϡ�������ɽ�����˸�Ҥ���ץ饰�����¹Ԥ�����ˤ�ƶ���ڤܤ��ޤ�������ˤ�ꡢ<code>@secure</code>��<code>true</code>�ξ��ˤϡ������Ĥ��Υץ饰�������ѤǤ��ʤ��ʤ�ޤ���</p>
+<p>また、<code>@secure</code>の値は、日記の表示時に後述するプラグインを実行する場合にも影響を及ぼします。これにより、<code>@secure</code>が<code>true</code>の場合には、いくつかのプラグインが利用できなくなります。</p>
 
-<p><code>load_cgi_conf</code>�Ϥ��ΰ��֤�CGI�ˤ��������ɤ߹������Ǥ����Ĥޤꡢ<code>@secure</code>�ǥ������ƥ���٥�����ꤷ�����Ȥǥե�������ɤ߹���褦�ˤʤäƤ��ޤ���</p>
+<p><code>load_cgi_conf</code>はその位置でCGIによる設定を読み込む指令です。つまり、<code>@secure</code>でセキュリティレベルを設定したあとでファイルを読み込むようになっています。</p>
 
-<p>�ʤ���ξ�Ԥλ�����֤���Ω���Ƥ���Τǡ�ξ�Ԥΰ��֤��Ȥ߹�碌�뤳�Ȥ��͡��������Ԥ����Ȥ���ǽ�Ǥ����ޤ���<code>@secure</code>����ꤷ�ʤ����Υǥե�����ͤ�<code>true</code>�Ǥ���</p>
+<p>なお、両者の指定位置は独立しているので、両者の位置を組み合わせることで様々な設定を行うことが可能です。また、<code>@secure</code>を指定しない場合のデフォルト値は<code>true</code>です。</p>
 
-<h2>tDiary�μ¹�</h2>
-<h3><a name="update">�����ι���</a></h3>
-<p>�ڡ�������Ƭ�ˤϡ��֥ȥåססֹ����פ�2�ĤΥ�󥯤�����ޤ����֥ȥåספ�@index_page�ǻ��ꤷ��ɽ��ء��ֹ����פ������򹹿�����ե�����ذ�ư���ޤ����⤷�ֹ����פ򥯥�å���������ǧ�ڥ������������Фʤ��ä��顢<code>.htaccess</code>�ε��Ҥ��������ʤ���ǽ��������ޤ���</p>
+<h2>tDiaryの実行</h2>
+<h3><a name="update">日記の更新</a></h3>
+<p>ページの先頭には、「トップ」「更新」の2つのリンクがあります。「トップ」は@index_pageで指定した表紙へ、「更新」は日記を更新するフォームへ移動します。もし「更新」をクリックした時、認証ダイアログが出なかったら、<code>.htaccess</code>の記述が正しくない可能性があります。</p>
 
-<p>�����ڡ�������Ƭ�ˤ��˥塼������ޤ������ֱ�ü�ˡ�����פ������Ƥ���Ǥ��礦�������򥯥�å�����ȡ������ѤΥڡ����������ޤ����ܤ�����<a href="#config">����������</a>�򻲾Ȥ��Ƥ���������</p>
+<p>更新ページの先頭にもメニューがあります。一番右端に「設定」が増えているでしょう。ここをクリックすると、設定用のページが開きます。詳しくは<a href="#config">日記の設定</a>を参照してください。</p>
 
-<p>�����ڡ����ˤϡ����������դȤ������Υ����ȥ롢��ʸ�����Ϥ���ե����ब����ޤ������ա������ȥ롢��ʸ�����Ϥ��ơ��ɲáץܥ���򲡤��ȡ����������������ɲä���ޤ��������ȥ����ʸ�Ϥɤ�����ά��ǽ�Ǥ����ɲäʤΤǡ������˲��٤�������񤯾��ˡ��虜�虜�����Υǡ�����ƤӽФ�ɬ�פϤ���ޤ��󡣤ޤ������Ǥ˥����ȥ뤬���ꤵ��Ƥ����硢�����ȥ�����Ϥ��ʤ���а������ꤷ����Τ��Ȥ��ޤ���</p>
+<p>更新ページには、日記の日付とその日のタイトル、本文を入力するフォームがあります。日付、タイトル、本文を入力して「追加」ボタンを押すと、その日の日記に追加されます。タイトルと本文はどちらも省略可能です。追加なので、一日に何度も日記を書く場合に、わざわざ以前のデータを呼び出す必要はありません。また、すでにタイトルが指定されている場合、タイトルを入力しなければ以前指定したものが使われます。</p>
 
-<p>�ե���������դ����Ϥ��ơ֤������դ��������Խ��ץܥ���򲡤��ȡ�(�����������������Ǥ�¸�ߤ����)�����ȥ����ʸ�˲��������Υǡ������ɤ߹��ޤ�ޤ������λ����ե�����κǸ�Υܥ���ϡ���Ͽ�פˤʤ�ޤ�(�Ĥޤꡢ�ɲäǤϤ���ޤ���)��</p>
+<p>フォームで日付を入力して「この日付の日記を編集」ボタンを押すと、(その日の日記がすでに存在すれば)タイトルと本文に過去の日記のデータが読み込まれます。この時、フォームの最後のボタンは「登録」になります(つまり、追加ではありません)。</p>
 
-<p>������ʸ�ˤ����������˾����ü첽����HTML��Ȥ��ޤ���¿���ʤ����äƿͤˤ�äƤϤʤ��ʤ�������ʤ����Ȥ�����褦�ʤΤǡ�<a href="HOWTO-write-tDiary.html">�����ν���</a>�ˤ�ɬ���ܤ��̤��Ʋ�������</p>
+<p>日記本文には日記向けに少し特殊化したHTMLを使います。多少癖があって人によってはなかなか馴染めないことがあるようなので、<a href="HOWTO-write-tDiary.html">日記の書き方</a>には必ず目を通して下さい。</p>
 
 
-<h3><a name="config">����������</a></h3>
-<p>�������̤ǡ�����פ򥯥�å�����ȡ�������̤ˤʤ�ޤ��������Ǥ�tDiary�Τ��ޤ��ޤ�������ܤ�֥饦����������Ǥ��ޤ����ƹ��ܤ������ϲ�����˵��Ҥ��Ƥ���ޤ����顢����򻲹ͤˤ���������������Ѥ��ƤߤƤ����������ޤ����ڡ�����ˤ����Ѥ��䤹�����뤿��ˡ�OK�ץܥ��󤬤��������֤��Ƥ���ޤ��������٤�Ʊ����ΤǤ����Ĥޤꡢ�ɤΡ�OK�פ򲡤��Ƥ⤹�٤Ƥι��ܤ���¸����ޤ���</p>
+<h3><a name="config">日記の設定</a></h3>
+<p>更新画面で「設定」をクリックすると、設定画面になります。ここではtDiaryのさまざまな設定項目をブラウザから設定できます。各項目の説明は画面中に記述してありますから、それを参考にいろいろと設定を変えてみてください。また、ページ中には利用しやすくするために「OK」ボタンがたくさん置いてありますが、すべて同じものです。つまり、どの「OK」を押してもすべての項目が保存されます。</p>
 
-<p>�ʤ�������������̤ǹԤä��ѹ��ϡ�<code>@data_path</code>�ǻ��ꤷ���ǥ��쥯�ȥ���̤�<code>tdiary.conf</code>�Ȥ�����¸����ޤ�(���������˼�ư�ǽ񤭴�����<code>tdiary.conf</code>�ǤϤ���ޤ���)�����Υե�����ϡ�����<code>tdiary.conf</code>�Τ��Ȥ��ɤ߹��ޤ��Τǡ���������Ƥϥ֥饦��������ꤷ����Τ�ͥ�褵��ޤ�(������������<code>tdiary.conf</code>���������Ѥ��뤳�Ȥǡ��ɤ߹��ॿ���ߥ󥰤��ѹ��Ǥ��ޤ�)��</p>
+<p>なお、この設定画面で行った変更は、<code>@data_path</code>で指定したディレクトリに別の<code>tdiary.conf</code>として保存されます(初期設定時に手動で書き換えた<code>tdiary.conf</code>ではありません)。このファイルは、元の<code>tdiary.conf</code>のあとに読み込まれるので、設定の内容はブラウザから指定したものが優先されます(ただし、元の<code>tdiary.conf</code>中の設定を変えることで、読み込むタイミングは変更できます)。</p>
 
-<h3><a name="view">�����λ���</a></h3>
-<p>�����λ��Ȥˤϡ��ǿ������̡����̤�3����Υ⡼�ɤ�����ޤ����ǥե���ȥڡ����Ϻǿ��Ǥ������̤ϡ��ڡ����κǽ�����˽Ф륫�������򥯥�å�����Ȼ��ȤǤ��ޤ����ޤ������̤����դ򥯥�å�����Ȼ��ȤǤ��ޤ���</p>
+<h3><a name="view">日記の参照</a></h3>
+<p>日記の参照には、最新、月別、日別の3種類のモードがあります。デフォルトページは最新です。月別は、ページの最初の方に出るカレンダーをクリックすると参照できます。また、日別は日付をクリックすると参照できます。</p>
 
-<p>�ǿ������̤����̤ˤϡ�ɽ����������Ƥ˰㤤������ޤ����ǿ������̤Ǥϡ������Υĥå��ߡס������Υ�󥯸��פ���ά�����ɽ�������Τ��Ф������̤ǤϤ��٤�ɽ������ޤ����ޤ������̤ˤϥĥå����ѤΥե����ब����ޤ����ĥå��ߤ򤷤Ƥ�餤�����ä��顢�ɼԤ����̥ڡ�����ͶƳ����褦�ˡ��إå�(@header)���פ���ɬ�פ����뤫���Τ�ޤ���</p>
+<p>最新・月別と日別には、表示される内容に違いがあります。最新・月別では「本日のツッコミ」「本日のリンク元」が省略されて表示されるのに対し、日別ではすべて表示されます。また、日別にはツッコミ用のフォームがあります。ツッコミをしてもらいたかったら、読者を日別ページに誘導するように、ヘッダ(@header)を工夫する必要があるかも知れません。</p>
 
-<p>�������������󡢥ĥå��ߤˤϡ����줾�쥢�󥫡������ꡢ¾�ξ�꤫���󥯤Ǥ���褦�ˤʤäƤ��ޤ������줾��Υ��󥫡��ϥ�󥯤ˤ�ʤäƤ���Τǡ������˥ݥ��󥿤��碌�뤳�Ȥǡ�����URL���Τ뤳�Ȥ��Ǥ��ޤ���</p>
+<p>月、日、セクション、ツッコミには、それぞれアンカーがあり、他の場所からリンクできるようになっています。それぞれのアンカーはリンクにもなっているので、そこにポインタを合わせることで、そのURLを知ることができます。</p>
 
-<p>����ü������λ��ȤǤϥǡ����̤����¤����뤿�ᡢ�嵭�ε�ǽ�ϤۤȤ�ɻȤ��ޤ��󡣺ǿ��Ϻǿ����դ�����������ɽ�����졢�����������ذ�ư�Ǥ�������Ǥ��������������٤ƤΥڡ����˥ĥå����ѥե����ब�դ��Ƥ���Τǡ��ĥå��ߤ�����뤳�Ȥϲ�ǽ�Ǥ���</p>
+<p>携帯端末からの参照ではデータ量に制限があるため、上記の機能はほとんど使えません。最新は最新日付の日記だけが表示され、前日・翌日へ移動できるだけです。ただし、すべてのページにツッコミ用フォームが付いているので、ツッコミを入れることは可能です。</p>
 
-<h3>�ץ饰����ˤ�륫�����ޥ���</h3>
-<p>tDiary�ˤϥץ饰����ȸƤФ�뵡ǽ������ޤ����ץ饰������ɲä��뤳�Ȥǡ�tDiary�ε�ǽ�����䤷���ꡢ�ѹ������ꤹ�뤳�Ȥ���ǽ�Ǥ����ץ饰����ˤĤ��Ƥξܤ��������ϡ�<a href="HOWTO-use-plugin.html">HOWTO-use-plugin.html</a>(�Ȥ���)��<a href="HOWTO-make-plugin.html">HOWTO-make-plugin.html</a>(�����)�򻲾Ȥ��Ƥ���������</p>
+<h3>プラグインによるカスタマイズ</h3>
+<p>tDiaryにはプラグインと呼ばれる機能があります。プラグインを追加することで、tDiaryの機能を増やしたり、変更したりすることが可能です。プラグインについての詳しい説明は、<a href="HOWTO-use-plugin.html">HOWTO-use-plugin.html</a>(使い方)・<a href="HOWTO-make-plugin.html">HOWTO-make-plugin.html</a>(作り方)を参照してください。</p>
 
-<h3>���Ȥϡġ�</h3>
-<p>������Ĥ�³��������Ǥ�(���줬�����񤷤�:-)��Have fun!!</p>
+<h3>あとは……</h3>
+<p>日記をつけ続けるだけです(これが一番難しい:-)。Have fun!!</p>
 
-<h2>��������ݡ��Ȥʤ�</h2>
-<p>tDiary���Τϡ�����ԤǤ��뤿��������(sho@spc.gr.jp)����GPL�θ������ۡ����Ѥ���Ĥ���ե꡼���եȥ������Ǥ���</p>
-<p>�ޤ���tDiary�ե륻�åȤ���°����ơ��ޡ��ץ饰����Ϥ��٤ơ����줾��θ���Ԥ������ͭ���ޤ����饤�������˴ؤ��Ƥϸġ��Υե�����򻲾Ȥ��Ƥ���������</p>
+<h2>著作権、サポートなど</h2>
+<p>tDiary本体は、原作者であるただただし(sho@spc.gr.jp)が、GPLの元で配布、改変を許可するフリーソフトウェアです。</p>
+<p>また、tDiaryフルセットに付属するテーマ、プラグインはすべて、それぞれの原作者が著作権を有します。ライセンス等に関しては個々のファイルを参照してください。</p>
 
-<p>tDiary��<a href="http://www.tdiary.org/">http://www.tdiary.org/</a>�ǥ��ݡ��Ȥ�ԤäƤ��ޤ������ո�������˾�Ϥ�����ؤɤ������ѥå����ޤǤ���</p>
+<p>tDiaryは<a href="http://www.tdiary.org/">http://www.tdiary.org/</a>でサポートを行っています。ご意見・ご要望はこちらへどうぞ。パッチ歓迎です。</p>
 
 </body>
 </html>

@@ -1,46 +1,46 @@
-# Japanese resources of 01sp.rb $Revision: 1.2 $
+# Japanese resources of 01sp.rb $Revision: 1.3 $
 
 =begin
-= �ץ饰��������ץ饰����((-$Id: 50sp.rb,v 1.2 2005-08-24 15:11:28 tadatadashi Exp $-))
+= プラグイン選択プラグイン((-$Id: 50sp.rb,v 1.3 2008-03-02 09:01:21 kazuhiko Exp $-))
 Please see below for an English description.
 
-== ����
-�ɤΥץ饰�����Ȥ��Τ����Ӥޤ�
+== 概要
+どのプラグインを使うのか選びます
 
-���Υץ饰�����00defaults.rb�μ����ɤޤ졢���Υץ饰���󼫿Ȥ��������
-ǽ�ʥץ饰�����ɤޤ�ޤ������θ�˥ǥե���ȤΥѥ��ˤ���ץ饰������
-�߹��ޤ�ޤ��Τǡ�Ʊ���᥽�åɤ�������Ƥ�����ˤϡ��ǥե���ȤΥѥ���
-��Τ�ͭ���ˤʤ�ޤ���
+このプラグインは00defaults.rbの次に読まれ、このプラグイン自身から選択可
+能なプラグインが読まれます。その後にデフォルトのパスにあるプラグインが読
+み込まれますので、同じメソッドを定義している場合には、デフォルトのパスの
+ものが有効になります。
 
-== �Ȥ���
-���Υץ饰�����plugin/�ǥ��쥯�ȥ�����֤��Ƥ���������
+== 使い方
+このプラグインをplugin/ディレクトリに配置してください。
 
-�ޤ���00defaults.rb�䤳�Υץ饰����ʤɡ����Ф�ɬ�פʥץ饰����ʳ��ϡ�
-http�����С����鸫�����̤Υǥ��쥯�ȥ�˰ܤ��Ƥ����������ʲ�����Ǥϡ�
-plugin�ǥ��쥯�ȥ�β���selectable�Ȥ����ǥ��쥯�ȥ���äƤ��ޤ���
+また、00defaults.rbやこのプラグインなど、絶対に必要なプラグイン以外は、
+httpサーバーから見られる別のディレクトリに移してください。以下の例では、
+pluginディレクトリの下にselectableというディレクトリを作っています。
 
-�Ǹ�ˡ�tdiary.rb��Ʊ�����ˤ���tdiary.conf�ˡ�
+最後に、tdiary.rbと同じ場所にあるtdiary.confに、
   @options['sp.path'] = 'misc/plugin'
-�ʤɤȡ�����Ǥ���ץ饰����Τ���ǥ��쥯�ȥ��tdiary.rb�Τ���ǥ��쥯
-�ȥ꤫������Хѥ������Хѥ��ǻ��ꤷ�Ƥ���������
+などと、選択できるプラグインのあるディレクトリをtdiary.rbのあるディレク
+トリからの相対パスか絶対パスで指定してください。
 
-secure==true�������Ǥ�Ȥ��ޤ���
+secure==trueな日記でも使えます。
 
-== ���ץ����
+== オプション
 :@options['sp.path']
-  'plugin/selectable'�ʤɤȡ�����Ǥ���ץ饰����Τ���ǥ��쥯�ȥ��
-  tdiary.rb�Τ���ǥ��쥯�ȥ꤫������Хѥ������Хѥ��ǻ��ꤷ�Ƥ���������
+  'plugin/selectable'などと、選択できるプラグインのあるディレクトリを、
+  tdiary.rbのあるディレクトリからの相対パスか絶対パスで指定してください。
 
 :@options['sp.usenew']
-  ���������󥹥ȡ��뤵�줿�ץ饰�����ǥե���ȤǻȤ��褦�ˤ������
-  true�����ꤷ�Ƥ������������������󥹥ȡ��뤵�줿�ץ饰����򸡽Ф����
-  �ϡ����˥ץ饰�������򤵤����Ǥ���
+  新しくインストールされたプラグインをデフォルトで使うようにする場合は
+  trueに設定してください。新しくインストールされたプラグインを検出するの
+  は、次にプラグインが選択される時です。
 
 == TODO
-���򤵤�Ƥ����ץ饰���󤬾õ�줿���ˤɤ����뤫�����ߤμ����Ǥϡ��ץ�
-�������ɤ߹��߻��ˤ�̵�뤷�ơ���������򤷤ʤ��������˾ä��롣
+選択されていたプラグインが消去された時にどうするか。現在の実装では、プラ
+グイン読み込み時には無視して、次に選択をしなおした時に消える。
 
-== ����ˤĤ��� (Copyright notice)
+== 著作権について (Copyright notice)
 Copyright (C) 2003 zunda <zunda at freeshell.org>
 
 Permission is granted for use, copying, modification, distribution, and
@@ -49,10 +49,10 @@ version 2 or later.
 =end
 
 
-@sp_label = '�ץ饰��������'
-@sp_label_description = '<p>�ɤΥץ饰�����Ȥ������򤷤ޤ���</p>'
-@sp_label_please_select = '<p>ͭ���ˤ������ץ饰����˥����å����Ƥ����������ץ饰����Υե�����̾�򥯥�å�����ȥɥ�����Ȥ������뤫�⤷��ޤ��󡣤����ɲá��Խ����Ƥ��������͡�</p>'
-@sp_label_new = '<h3>�����١������������</h3>'
-@sp_label_used = '<h3>������</h3>'
-@sp_label_notused = '<h3>�ٷ���</h3>'
-@sp_label_noplugin = '<p>�����ǽ�ʥץ饰����Ϥ���ޤ���</p>'
+@sp_label = 'プラグイン選択'
+@sp_label_description = '<p>どのプラグインを使うか選択します。</p>'
+@sp_label_please_select = '<p>有効にしたいプラグインにチェックしてください。プラグインのファイル名をクリックするとドキュメントが見られるかもしれません。ぜひ追加・編集してくださいね。</p>'
+@sp_label_new = '<h3>新入荷！お試しください</h3>'
+@sp_label_used = '<h3>使用中</h3>'
+@sp_label_notused = '<h3>休憩中</h3>'
+@sp_label_noplugin = '<p>選択可能なプラグインはありません。</p>'

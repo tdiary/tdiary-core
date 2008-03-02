@@ -1,5 +1,5 @@
 #
-# spamakismet.rb: tDiary comment spam filter using Akismet API $Revision: 1.3 $
+# spamakismet.rb: tDiary comment spam filter using Akismet API $Revision: 1.4 $
 #
 # usage:
 #    1) Get your Akismet free API from http://akismet.com/personal/.
@@ -61,7 +61,7 @@ module TDiary::Filter
 
 		def check( uri, data )
 			header = {
-				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.3 $",
+				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.4 $",
 				'Content-Type' => 'application/x-www-form-urlencoded'
 			}
 			body = nil

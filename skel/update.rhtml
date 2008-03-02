@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.31 $ %>
+<%# update.rhtml $Revision: 1.32 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%= submit_label %>]</h1>
@@ -6,29 +6,29 @@
 <div class="update day">
 <div class="form">
 	<div class="caption">
-		Æüµ­¤Î¹¹¿·
+		æ—¥è¨˜ã®æ›´æ–°
 	</div>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
-		<h3 class="subtitle">Æüµ­ËÜÊ¸</h3>
+		<h3 class="subtitle">æ—¥è¨˜æœ¬æ–‡</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<%=@csrf_protection%>
 		<span class="field year">
-			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">Ç¯
+			<input class="field" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">å¹´
 		</span>
 		<span class="field month">
-			<input class="field" name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">·î
+			<input class="field" name="month" tabindex="2" accesskey="M" size="2" value="<%= @date.mon %>">æœˆ
 		</span>
 		<span class="field day">
-			<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">Æü
+			<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">æ—¥
 		</span>
 		<span class="button edit">
-			<input type="submit" tabindex="4" accesskey="E" name="edit" value="¤³¤ÎÆüÉÕ¤ÎÆüµ­¤òÊÔ½¸">
+			<input type="submit" tabindex="4" accesskey="E" name="edit" value="ã“ã®æ—¥ä»˜ã®æ—¥è¨˜ã‚’ç·¨é›†">
 		</span>
 		<div class="field title">
-			¥¿¥¤¥È¥ë: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
+			ã‚¿ã‚¤ãƒˆãƒ«: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			ËÜÊ¸(<%=h @conf.style %>¥¹¥¿¥¤¥ë<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
+			æœ¬æ–‡(<%=h @conf.style %>ã‚¹ã‚¿ã‚¤ãƒ«<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">
@@ -38,7 +38,7 @@
 			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
 		</span>
 		<span class="checkbox hidediary"><label for="hide">
-			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">¤³¤ÎÆü¤ÎÆüµ­¤ò±£¤¹
+			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">ã“ã®æ—¥ã®æ—¥è¨˜ã‚’éš ã™
 		</label></span>
 	</div></form>
 </div>
@@ -68,7 +68,7 @@
 		end
 		if idx > 0 then %>
 			<div class="button">
-				<input type="submit" tabindex="<%=2000+idx%>" name="comment" value="¥Ä¥Ã¥³¥ßÉ½¼¨¾õÂÖÊÑ¹¹">
+				<input type="submit" tabindex="<%=2000+idx%>" name="comment" value="ãƒ„ãƒƒã‚³ãƒŸè¡¨ç¤ºçŠ¶æ…‹å¤‰æ›´">
 			</div><%
 		end %>
 		</div>

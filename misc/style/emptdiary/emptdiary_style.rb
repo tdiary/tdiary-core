@@ -1,5 +1,5 @@
 =begin
-= emptDiary style((-$Id: emptdiary_style.rb,v 1.10 2005-10-12 06:20:33 tadatadashi Exp $-))
+= emptDiary style((-$Id: emptdiary_style.rb,v 1.11 2008-03-02 09:01:20 kazuhiko Exp $-))
 
 == Summary
 This style is an extension to the tDiary style which allows plug-in
@@ -102,7 +102,7 @@ of split. initialize method is overrideen.
 			if lines.size > 1 then
 				if /\A<</ =~ lines[0]
 					@subtitle = lines.shift.chomp.sub( /\A</, '' )
-				elsif /\A[¡¡ <]/e !~ lines[0]
+				elsif /\A[ã€€ <]/u !~ lines[0]
 					@subtitle = lines.shift.chomp
 				end
 			end
@@ -157,10 +157,10 @@ sections.
 				if /\A</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
-					r << %Q[<p>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[¡¡ ]/e, '')}.join( "</p>\n<p>" )}</p>]
+					r << %Q[<p>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[ã€€ ]/u, '')}.join( "</p>\n<p>" )}</p>]
 				else
 					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
-					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[¡¡ ]/e, '' )}.join( "</p>\n<p>" )}</p>]
+					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[ã€€ ]/u, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
 				r << %Q[</div>]
@@ -178,10 +178,10 @@ sections.
 				if /\A</ =~ section.body then
 					r << section.body
 				elsif section.subtitle
-					r << %Q[<P>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[¡¡ ]/e, '' )}.join( "</P>\n<P>" )}</P>]
+					r << %Q[<P>#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[ã€€ ]/u, '' )}.join( "</P>\n<P>" )}</P>]
 				else
 					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
-					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[¡¡ ]/e, '' )}.join( "</P>\n<P>" )}</P>]
+					r << %Q[#{section.body.split_unless_plugin( "\n+" ).collect{|l|l.chomp.sub( /\A[ã€€ ]/u, '' )}.join( "</P>\n<P>" )}</P>]
 				end
 				r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
 			end

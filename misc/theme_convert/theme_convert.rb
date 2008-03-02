@@ -1,11 +1,11 @@
 #
-# theme_convert.rb: tDiary 1.4 ·ÏÍÑ¥Æ¡¼¥Ş¤ò 2.0 ·ÏÍÑ¤Ë*¤Æ¤­¤È¡¼*¤ËÊÑ´¹¤¹¤ë
+# theme_convert.rb: tDiary 1.4 ç³»ç”¨ãƒ†ãƒ¼ãƒã‚’ 2.0 ç³»ç”¨ã«*ã¦ãã¨ãƒ¼*ã«å¤‰æ›ã™ã‚‹
 #
-# »È¤¤Êı: $ ruby theme_convert.rb hoge.css
-#         ¤È¼Â¹Ô¤¹¤ë¤È¡¢hoge-2.css ¤È hoge-simple.css ¤¬ºîÀ®¤µ¤ì¤Ş¤¹¡£
-#         hoge-2.css ¤¬ 2.0 ·ÏÍÑ¤ËÊÑ´¹¤µ¤ì¤¿ CSS ¥Õ¥¡¥¤¥ë¤Ç¤¹¡£
-#         ºÙ¤«¤¤ÅÀ¤Ï¤½¤Î CSS ¥Õ¥¡¥¤¥ë¤ò¼ê¤Ç½¤Àµ¤·¤Æ¤¯¤À¤µ¤¤¡£
-#         ¡Êhoge-simple.css ¤Ïºî¶ÈÍÑ¤Î°ì»ş¥Õ¥¡¥¤¥ë¡Ë
+# ä½¿ã„æ–¹: $ ruby theme_convert.rb hoge.css
+#         ã¨å®Ÿè¡Œã™ã‚‹ã¨ã€hoge-2.css ã¨ hoge-simple.css ãŒä½œæˆã•ã‚Œã¾ã™ã€‚
+#         hoge-2.css ãŒ 2.0 ç³»ç”¨ã«å¤‰æ›ã•ã‚ŒãŸ CSS ãƒ•ã‚¡ã‚¤ãƒ«ã§ã™ã€‚
+#         ç´°ã‹ã„ç‚¹ã¯ãã® CSS ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ‰‹ã§ä¿®æ­£ã—ã¦ãã ã•ã„ã€‚
+#         ï¼ˆhoge-simple.css ã¯ä½œæ¥­ç”¨ã®ä¸€æ™‚ãƒ•ã‚¡ã‚¤ãƒ«ï¼‰
 #
 # Copyright (c) 2002 NT <nt@24i.net>
 # Distributed under the GPL
@@ -388,14 +388,14 @@ def theme_convert ( fname, hash )
             elsif %r[^#{x[0]}] =~ line
               f.puts x[1] + $'
               break
-            elsif %r[span\.commentator] =~ line #¸µ¡¹¤¢¤ë span.commentator ¤ò¾Ã¤¹
+            elsif %r[span\.commentator] =~ line #å…ƒã€…ã‚ã‚‹ span.commentator ã‚’æ¶ˆã™
               flag = true
             elsif i == table.size - 1 && %r[^#{x[0]}] !~ line
               f.puts line
             end
           }
         else
-          if flag && /\}/ =~ line #¸µ¡¹¤¢¤ë span.commentator ¤ò¾Ã¤¹¡ÊÂ³¤­¡Ë
+          if flag && /\}/ =~ line #å…ƒã€…ã‚ã‚‹ span.commentator ã‚’æ¶ˆã™ï¼ˆç¶šãï¼‰
             flag = false
           elsif flag
           else

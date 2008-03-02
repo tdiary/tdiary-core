@@ -1,5 +1,5 @@
 #
-# en/spamfilter.rb: resource of en $Revision: 1.14 $
+# en/spamfilter.rb: resource of en $Revision: 1.15 $
 #
 
 @spamfilter_label_conf = 'spam filter'

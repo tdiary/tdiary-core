@@ -1,5 +1,5 @@
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.13 $
+# zh/spamfilter.rb: resource of zh $Revision: 1.14 $
 #
 
 @spamfilter_label_conf = 'spam filter'

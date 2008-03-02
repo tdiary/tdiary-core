@@ -38,76 +38,68 @@ end
 # link to HOWTO write diary
 #
 def style_howto
-	%Q|/<a href="http://docs.tdiary.org/en/?#{h @conf.style}Style">¼¶¼g«ü¤Ş</a>|
-end
-
-#
-# convert to UTF-8
-#
-require 'iconv'
-def to_utf8( str, charset = 'Big5' )
-	Iconv::conv( 'UTF-8', charset, str )
+	%Q|/<a href="http://docs.tdiary.org/en/?#{h @conf.style}Style">æ’°å¯«æŒ‡å¼•</a>|
 end
 
 #
 # labels
 #
-def no_diary; "#{@date.strftime( @conf.date_format )} ³o¤Ñ¨S¦³µoªí¤é»x"; end
-def comment_today; "¤µ¤é°jÅT"; end
-def comment_total( total ); "(Á`¦@¦³: #{total} «h)"; end
-def comment_new; 'µoªí°jÅT'; end
-def comment_description_default; 'Åwªïµoªí±z¹ï¥»¤åªº°jÅT¡A±z¶ñ¼gªº email ¦ì§}¥u¦³¤é»x¥D¤H¥i¥H¬İ¨£¡C'; end
+def no_diary; "#{@date.strftime( @conf.date_format )} é€™å¤©æ²’æœ‰ç™¼è¡¨æ—¥èªŒ"; end
+def comment_today; "ä»Šæ—¥è¿´éŸ¿"; end
+def comment_total( total ); "(ç¸½å…±æœ‰: #{total} å‰‡)"; end
+def comment_new; 'ç™¼è¡¨è¿´éŸ¿'; end
+def comment_description_default; 'æ­¡è¿ç™¼è¡¨æ‚¨å°æœ¬æ–‡çš„è¿´éŸ¿ï¼Œæ‚¨å¡«å¯«çš„ email ä½å€åªæœ‰æ—¥èªŒä¸»äººå¯ä»¥çœ‹è¦‹ã€‚'; end
 def comment_limit_label; 'You cannot make more TSUKKOMI because it has over limit.'; end
-def comment_description_short; 'µoªí°jÅT!!'; end
-def comment_name_label; '©m¦W'; end
-def comment_name_label_short; '©m¦W'; end
-def comment_mail_label; '¹q¤l¶l¥ó'; end
-def comment_mail_label_short; '¶l¥ó'; end
-def comment_body_label; '°jÅT'; end
-def comment_body_label_short; '°jÅT'; end
-def comment_submit_label; 'µoªí'; end
-def comment_submit_label_short; 'µoªí'; end
+def comment_description_short; 'ç™¼è¡¨è¿´éŸ¿!!'; end
+def comment_name_label; 'å§“å'; end
+def comment_name_label_short; 'å§“å'; end
+def comment_mail_label; 'é›»å­éƒµä»¶'; end
+def comment_mail_label_short; 'éƒµä»¶'; end
+def comment_body_label; 'è¿´éŸ¿'; end
+def comment_body_label_short; 'è¿´éŸ¿'; end
+def comment_submit_label; 'ç™¼è¡¨'; end
+def comment_submit_label_short; 'ç™¼è¡¨'; end
 def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
-def trackback_today; "¤µ¤é¤Ş¥Î"; end
-def trackback_total( total ); "(Á`¦@¦³: #{total} «h)"; end
+def trackback_today; "ä»Šæ—¥å¼•ç”¨"; end
+def trackback_total( total ); "(ç¸½å…±æœ‰: #{total} å‰‡)"; end
 
-def navi_index; '­º­¶'; end
-def navi_latest; '³Ì·s¤é»x'; end
-def navi_oldest; '³ÌÂÂ¤é»x'; end
-def navi_update; "·s¼W"; end
-def navi_edit; "½s¿è"; end
-def navi_preference; "¿ï¶µ³]©w"; end
-def navi_prev_diary(date); "«e¤@«h¤é»x (#{date.strftime(@date_format)})"; end
-def navi_next_diary(date); "¤U¤@«h¤é»x (#{date.strftime(@date_format)})"; end
+def navi_index; 'é¦–é '; end
+def navi_latest; 'æœ€æ–°æ—¥èªŒ'; end
+def navi_oldest; 'æœ€èˆŠæ—¥èªŒ'; end
+def navi_update; "æ–°å¢"; end
+def navi_edit; "ç·¨è¼¯"; end
+def navi_preference; "é¸é …è¨­å®š"; end
+def navi_prev_diary(date); "å‰ä¸€å‰‡æ—¥èªŒ (#{date.strftime(@date_format)})"; end
+def navi_next_diary(date); "ä¸‹ä¸€å‰‡æ—¥èªŒ (#{date.strftime(@date_format)})"; end
 def navi_prev_month; "Prev month"; end
 def navi_next_month; "Next month"; end
-def navi_prev_nyear(date); "¥h¦~¤é»x (#{date.strftime('%m-%d')})"; end
-def navi_next_nyear(date); "¦¸¦~¤é»x (#{date.strftime('%m-%d')})"; end
+def navi_prev_nyear(date); "å»å¹´æ—¥èªŒ (#{date.strftime('%m-%d')})"; end
+def navi_next_nyear(date); "æ¬¡å¹´æ—¥èªŒ (#{date.strftime('%m-%d')})"; end
 def navi_prev_ndays; "#{@conf.latest_limit} days before"; end
 def navi_next_ndays; "#{@conf.latest_limit} days after"; end
 
 def submit_label
 	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
-		'·s¼W' #'Append'
+		'æ–°å¢' #'Append'
 	else
-		'´À´«' #'Replace'
+		'æ›¿æ›' #'Replace'
 	end
 end
-def preview_label; '¹wÄı'; end #'Preview'
+def preview_label; 'é è¦½'; end #'Preview'
 
-def nyear_diary_label(date, years); "©¹¤é±¡Ãh"; end
-def nyear_diary_title(date, years); "¹L¥hªº¦¹®É¦¹¨è"; end
+def nyear_diary_label(date, years); "å¾€æ—¥æƒ…æ‡·"; end
+def nyear_diary_title(date, years); "éå»çš„æ­¤æ™‚æ­¤åˆ»"; end
 
 
 #
 # labels (for mobile)
 #
-def mobile_navi_latest; '³Ì·s¤é»x'; end
-def mobile_navi_update; "·s¼W"; end
-def mobile_navi_edit; "½s¿è"; end
-def mobile_navi_preference; "¿ï¶µ³]©w"; end
-def mobile_navi_prev_diary; "«e¤@«h¤é»x})"; end
-def mobile_navi_next_diary; "¤U¤@«h¤é»x})"; end
+def mobile_navi_latest; 'æ®»ã€é®Ÿx'; end
+def mobile_navi_update; "ã‚­sã‚·W"; end
+def mobile_navi_edit; "ã‚¹sã‚½; end
+def mobile_navi_preference; "éšæ•™ã‚¥w"; end
+def mobile_navi_prev_diary; "ã‚©eã€@ã‚©hã€é®Ÿx})"; end
+def mobile_navi_next_diary; "ã€Uã€@ã‚©hã€é®Ÿx})"; end
 def mobile_label_hidden_diary; 'This day is HIDDEN.'; end
 
 #
@@ -120,7 +112,7 @@ def category_anchor(c); "[#{c}]"; end
 #
 
 # genre labels
-@conf_genre_label['basic'] = '°ò¥»'
+@conf_genre_label['basic'] = 'åŸºæœ¬'
 @conf_genre_label['theme'] = 'Themes'
 @conf_genre_label['tsukkomi'] = 'TSUKKOMI'
 @conf_genre_label['referer'] = 'Referrer'
@@ -128,26 +120,26 @@ def category_anchor(c); "[#{c}]"; end
 @conf_genre_label['etc'] = 'etc'
 
 # basic (default)
-add_conf_proc( 'default', '°ò¥»³]©w', 'basic' ) do
+add_conf_proc( 'default', 'åŸºæœ¬è¨­å®š', 'basic' ) do
 	saveconf_default
 	@conf.description ||= ''
 	@conf.icon ||= ''
 	@conf.banner ||= ''
 	<<-HTML
-	<h3 class="subtitle">¤j¼ĞÃD</h3>
-	#{"<p>³o¬O±z¤é»xªº¤j¼ĞÃD¡A±z¶ñ¤Jªº­È·|¥Î¦b HTML ªº &lt;title&gt; ¶µ¥Ø·í¤¤¡C¯S§Oª`·N¡A¥»Äæ¦ì½Ğ¤Å¨Ï¥Î HTML ¼ĞÅÒ(tags)¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">å¤§æ¨™é¡Œ</h3>
+	#{"<p>é€™æ˜¯æ‚¨æ—¥èªŒçš„å¤§æ¨™é¡Œï¼Œæ‚¨å¡«å…¥çš„å€¼æœƒç”¨åœ¨ HTML çš„ &lt;title&gt; é …ç›®ç•¶ä¸­ã€‚ç‰¹åˆ¥æ³¨æ„ï¼Œæœ¬æ¬„ä½è«‹å‹¿ä½¿ç”¨ HTML æ¨™ç±¤(tags)ã€‚ </p>" unless @conf.mobile_agent?}
 	<p><input name="html_title" value="#{h @conf.html_title}" size="50"></p>
 
-	<h3 class="subtitle">§@ªÌ</h3>
-	#{"<p>¶ñ¤W±zªº¤j¦W§a¡I¦¹Äæ¦ìªº­È±N·|¥Î¦b HTML ¼ĞÀY(header)¸Ì¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">ä½œè€…</h3>
+	#{"<p>å¡«ä¸Šæ‚¨çš„å¤§åå§ï¼æ­¤æ¬„ä½çš„å€¼å°‡æœƒç”¨åœ¨ HTML æ¨™é ­(header)è£¡ã€‚</p>" unless @conf.mobile_agent?}
 	<p><input name="author_name" value="#{h @conf.author_name}" size="40"></p>
 
-	<h3 class="subtitle">¹q¤l¶l¥ó</h3>
-	#{"<p>¶ñ¤J±zªº¹q¤l¶l¥ó¦ì§}¡A¦¹Äæ¦ìªº­È±N¥Î¦b HTML ¼ĞÀY(header)¸Ì¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">é›»å­éƒµä»¶</h3>
+	#{"<p>å¡«å…¥æ‚¨çš„é›»å­éƒµä»¶ä½å€ï¼Œæ­¤æ¬„ä½çš„å€¼å°‡ç”¨åœ¨ HTML æ¨™é ­(header)è£¡ã€‚</p>" unless @conf.mobile_agent?}
 	<p><input name="author_mail" value="#{h @conf.author_mail}" size="40"></p>
 
-	<h3 class="subtitle">±z¯Á¤Şºô­¶(­º­¶)ªº URL</h3>
-	#{"<p>­Y±z¦³¦Û¤vªººô¯¸¦ì§}¡A¥i¥H¶ñµù¦b¤U­±¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ‚¨ç´¢å¼•ç¶²é (é¦–é )çš„ URL</h3>
+	#{"<p>è‹¥æ‚¨æœ‰è‡ªå·±çš„ç¶²ç«™ä½å€ï¼Œå¯ä»¥å¡«è¨»åœ¨ä¸‹é¢ã€‚</p>" unless @conf.mobile_agent?}
 	<p><input name="index_page" value="#{h @conf.index_page}" size="50"></p>
 
 	<h3 class="subtitle">URL of Your Diary</h3>
@@ -170,65 +162,65 @@ add_conf_proc( 'default', '°ò¥»³]©w', 'basic' ) do
 end
 
 # header/footer (header)
-add_conf_proc( 'header', '­¶¬Ü»P­¶¸}', 'basic' ) do
+add_conf_proc( 'header', 'é çœ‰èˆ‡é è…³', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
-	<h3 class="subtitle">­¶¬Ü</h3>
-	#{"<p>³o¬q¤å¦r±N·|Â\¸m¦b¨C­Ó­¶­±ªº³»ºİ¡A±z¥i¥H¨Ï¥Î HTML »yªk¡C¦ı¬O½Ğ¤Å²¾°£ \"&lt;%=navi%&gt;\"¼ĞÅÒ¡A¦]¬°¥¦¥Nªí¥]§t\"§ó·s\"(Update)¥\\¯à¶s¦b¤ºªº¡u¾ÉÄı¦C¡v¡A¦Ó \"&lt;%=calendar%&gt;\" ¼ĞÅÒ¥Nªí¤é¾ä¡C¦¹³B±z¤]¥i¥H¦Û¥Ñ·f°t¨ä¥¦ªº plugin¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">é çœ‰</h3>
+	#{"<p>é€™æ®µæ–‡å­—å°‡æœƒæ“ºç½®åœ¨æ¯å€‹é é¢çš„é ‚ç«¯ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨ HTML èªæ³•ã€‚ä½†æ˜¯è«‹å‹¿ç§»é™¤ \"&lt;%=navi%&gt;\"æ¨™ç±¤ï¼Œå› ç‚ºå®ƒä»£è¡¨åŒ…å«\"æ›´æ–°\"(Update)åŠŸ\èƒ½éˆ•åœ¨å…§çš„ã€Œå°è¦½åˆ—ã€ï¼Œè€Œ \"&lt;%=calendar%&gt;\" æ¨™ç±¤ä»£è¡¨æ—¥æ›†ã€‚æ­¤è™•æ‚¨ä¹Ÿå¯ä»¥è‡ªç”±æ­é…å…¶å®ƒçš„ pluginã€‚ </p>" unless @conf.mobile_agent?}
 	<p><textarea name="header" cols="70" rows="10">#{h @conf.header}</textarea></p>
-	<h3 class="subtitle">­¶¸}</h3>
-	#{"<p>³o¬q¤å¦r°£¤F¥¦ªº¦ì¸m¬O¸m©ó©³ºİ¥H¥~¡A¨ä¾l³£¦p¦P­¶¬Ü¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">é è…³</h3>
+	#{"<p>é€™æ®µæ–‡å­—é™¤äº†å®ƒçš„ä½ç½®æ˜¯ç½®æ–¼åº•ç«¯ä»¥å¤–ï¼Œå…¶é¤˜éƒ½å¦‚åŒé çœ‰ã€‚ </p>" unless @conf.mobile_agent?}
 	<p><textarea name="footer" cols="70" rows="10">#{h @conf.footer}</textarea></p>
 	HTML
 end
 
 # diaplay
-add_conf_proc( 'display', 'Åã¥Ü', 'basic' ) do
+add_conf_proc( 'display', 'é¡¯ç¤º', 'basic' ) do
 	saveconf_display
 
 	<<-HTML
-	<h3 class="subtitle">¬q¸¨ªºÁãÂI(anchor)¥Nªí°O¸¹</h3>
-	#{"<p>\"ÁãÂI\" ªº·N¸q¦b©óÅı¨ä¥¦ºô¯¸¥i¥H»P±zªº¤é»x¤¬¬Û³sµ²¡C¬q¸¨ÁãÂI·|³Q¸m©ó¨C­Ó¬q¸¨ªº¶}ÀY³B¡A±z¥i¥H«ü©w \"&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;\"¡A¦Ó¹Ï§Î¤ÆÁãÂIªº¦³µL¡A·|¥Ñ§G´º¥DÃDªº³]­p¨Ó¨M©w¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ®µè½çš„éŒ¨é»(anchor)ä»£è¡¨è¨˜è™Ÿ</h3>
+	#{"<p>\"éŒ¨é»\" çš„æ„ç¾©åœ¨æ–¼è®“å…¶å®ƒç¶²ç«™å¯ä»¥èˆ‡æ‚¨çš„æ—¥èªŒäº’ç›¸é€£çµã€‚æ®µè½éŒ¨é»æœƒè¢«ç½®æ–¼æ¯å€‹æ®µè½çš„é–‹é ­è™•ï¼Œæ‚¨å¯ä»¥æŒ‡å®š \"&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;\"ï¼Œè€Œåœ–å½¢åŒ–éŒ¨é»çš„æœ‰ç„¡ï¼Œæœƒç”±ä½ˆæ™¯ä¸»é¡Œçš„è¨­è¨ˆä¾†æ±ºå®šã€‚ </p>" unless @conf.mobile_agent?}
 	<p><input name="section_anchor" value="#{h @conf.section_anchor}" size="40"></p>
-	<h3 class="subtitle">°jÅTªºÁãÂI(anchor)¥Nªí°O¸¹</h3>
-	#{"<p>°jÅTªºÁãÂI·|¸m©ó¨C«h°jÅTªº¶}ÀY³B¡A±z¥i¥H«ü©w \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\"¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">è¿´éŸ¿çš„éŒ¨é»(anchor)ä»£è¡¨è¨˜è™Ÿ</h3>
+	#{"<p>è¿´éŸ¿çš„éŒ¨é»æœƒç½®æ–¼æ¯å‰‡è¿´éŸ¿çš„é–‹é ­è™•ï¼Œæ‚¨å¯ä»¥æŒ‡å®š \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\"ã€‚</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_anchor" value="#{h @conf.comment_anchor}" size="40"></p>
-	<h3 class="subtitle">¤é´Áªº®æ¦¡</h3>
-	#{"<p>¤é´Áªº®æ¦¡¡A¤@¥¹±z«ü©w¤U¦C³o¨Ç % ²Å¸¹¤§«á·f°tªº¦r¤¸¡A¨ä²Õ¦X´N¥i¥Nªí¤é´Á®æ¦¡¡A¦p \"%Y\"(¦~), \"%m\"(¤ë)¡¢\"%b\"(¤ë¥÷ªºÂ²µuªí¥Üªk), \"%B\"(¤ë¥÷ªºªøªí¥Üªk), \"%d\"(¤é), \"%a\"(¬P´ÁªºÂ²µuªí¥Üªk), \"%A\"(¬P´Áªºªøªí¥Üªk)¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ—¥æœŸçš„æ ¼å¼</h3>
+	#{"<p>æ—¥æœŸçš„æ ¼å¼ï¼Œä¸€æ—¦æ‚¨æŒ‡å®šä¸‹åˆ—é€™äº› % ç¬¦è™Ÿä¹‹å¾Œæ­é…çš„å­—å…ƒï¼Œå…¶çµ„åˆå°±å¯ä»£è¡¨æ—¥æœŸæ ¼å¼ï¼Œå¦‚ \"%Y\"(å¹´), \"%m\"(æœˆ)ï¹œ\"%b\"(æœˆä»½çš„ç°¡çŸ­è¡¨ç¤ºæ³•), \"%B\"(æœˆä»½çš„é•·è¡¨ç¤ºæ³•), \"%d\"(æ—¥), \"%a\"(æ˜ŸæœŸçš„ç°¡çŸ­è¡¨ç¤ºæ³•), \"%A\"(æ˜ŸæœŸçš„é•·è¡¨ç¤ºæ³•)ã€‚</p>" unless @conf.mobile_agent?}
 	<p><input name="date_format" value="#{h @conf.date_format}" size="30"></p>
-	<h3 class="subtitle">¡u³Ì·s¤é»x¡v³Ì¦h­n¨q¥X´X¤Ñ¥÷¡H</h3>
-	#{"<p>¦b¡u³Ì·s¤é»x¡v·í¤¤¡A±z­nÅã¥Ü¦h¤Ö¤Ñ¥÷ªº¤é»x¡H </p>" unless @conf.mobile_agent?}
-	<p><input name="latest_limit" value="#{h @conf.latest_limit}" size="2"> ¤Ñ¥÷</p>
-	<h3 class="subtitle">©¹¤é±¡Ãh</h3>
-	#{"<p>¬O§_­n¨q¥X \"©¹¤é±¡Ãh\" (¦P¤ë¦P¤éªº¹L¥h¤é»x)¡H</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">ã€Œæœ€æ–°æ—¥èªŒã€æœ€å¤šè¦ç§€å‡ºå¹¾å¤©ä»½ï¼Ÿ</h3>
+	#{"<p>åœ¨ã€Œæœ€æ–°æ—¥èªŒã€ç•¶ä¸­ï¼Œæ‚¨è¦é¡¯ç¤ºå¤šå°‘å¤©ä»½çš„æ—¥èªŒï¼Ÿ </p>" unless @conf.mobile_agent?}
+	<p><input name="latest_limit" value="#{h @conf.latest_limit}" size="2"> å¤©ä»½</p>
+	<h3 class="subtitle">å¾€æ—¥æƒ…æ‡·</h3>
+	#{"<p>æ˜¯å¦è¦ç§€å‡º \"å¾€æ—¥æƒ…æ‡·\" (åŒæœˆåŒæ—¥çš„éå»æ—¥èªŒ)ï¼Ÿ</p>" unless @conf.mobile_agent?}
 	<p><select name="show_nyear">
-		<option value="true"#{" selected" if @conf.show_nyear}>¨q¡I</option>
-		<option value="false"#{" selected" unless @conf.show_nyear}>ÁôÂÃ</option>
+		<option value="true"#{" selected" if @conf.show_nyear}>ç§€ï¼</option>
+		<option value="false"#{" selected" unless @conf.show_nyear}>éš±è—</option>
 	</select></p>
 	HTML
 end
 
 # timezone
-add_conf_proc( 'timezone', '®É¶¡®tªº½Õ¾ã', 'update' ) do
+add_conf_proc( 'timezone', 'æ™‚é–“å·®çš„èª¿æ•´', 'update' ) do
 	saveconf_timezone
 	<<-HTML
-	<h3 class="subtitle">®É¶¡®tªº½Õ¾ã</h3>
-	#{"<p>­Y¬O±z§ó·s¤F¤é»x¡A±z¥i¥H³z¹L¦¹Äæ¦ì(³æ¦ì¬°¤p®É)¨Ó°µ¦Û°Ê½Õ¾ã®É¶¡®t¡C¨Ò¦p»¡¡A±z­Y·Q­n«ü©w¦b²M±á¨âÂI©Òµoªíªº¤é»x³Q·í¦¨¬O¬Q¤Ñªº¤é»x¡A±z´N¥i¥H¦b³o¸Ì¶ñ¤J -2¡CtDiary ·|°Ñ¦Ò¦¹¼Æ­È¨Ó§P©w³o½g¤é»xªºµoªí¤é´Á¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ™‚é–“å·®çš„èª¿æ•´</h3>
+	#{"<p>è‹¥æ˜¯æ‚¨æ›´æ–°äº†æ—¥èªŒï¼Œæ‚¨å¯ä»¥é€éæ­¤æ¬„ä½(å–®ä½ç‚ºå°æ™‚)ä¾†åšè‡ªå‹•èª¿æ•´æ™‚é–“å·®ã€‚ä¾‹å¦‚èªªï¼Œæ‚¨è‹¥æƒ³è¦æŒ‡å®šåœ¨æ¸…æ™¨å…©é»æ‰€ç™¼è¡¨çš„æ—¥èªŒè¢«ç•¶æˆæ˜¯æ˜¨å¤©çš„æ—¥èªŒï¼Œæ‚¨å°±å¯ä»¥åœ¨é€™è£¡å¡«å…¥ -2ã€‚tDiary æœƒåƒè€ƒæ­¤æ•¸å€¼ä¾†åˆ¤å®šé€™ç¯‡æ—¥èªŒçš„ç™¼è¡¨æ—¥æœŸã€‚ </p>" unless @conf.mobile_agent?}
 	<p><input name="hour_offset" value="#{h @conf.hour_offset}" size="5"></p>
 	HTML
 end
 
 # themes
-@theme_location_comment = "<p>±z¥i¥H¦b <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(¤é¥»»y) ¨ú±o§ó¦hªº§G´º¥DÃD¡I</p>"
+@theme_location_comment = "<p>æ‚¨å¯ä»¥åœ¨ <a href=\"http://www.tdiary.org/20021001.html\">Theme Gallery</a>(æ—¥æœ¬èª) å–å¾—æ›´å¤šçš„ä½ˆæ™¯ä¸»é¡Œï¼</p>"
 @theme_thumbnail_label = "Thumbnail"
 
-add_conf_proc( 'theme', '§G´º¥DÃD', 'theme' ) do
+add_conf_proc( 'theme', 'ä½ˆæ™¯ä¸»é¡Œ', 'theme' ) do
 	saveconf_theme
 
 	 r = <<-HTML
-	<h3 class="subtitle">§G´º¥DÃD</h3>
-	#{"<p>¿ï¾Ü±z¤é»x·Q­nªº§G´º¥DÃD©Î¼Ë¦¡ªí(CSS)¡A¦pªG±z¿ï¾Ü¤F \"CSS specify\"¡A½Ğ¦b¥k(¤U)¤èÄæ¦ì¸Ì¿é¤J CSS ©Ò¦bªººô§}¡C </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">ä½ˆæ™¯ä¸»é¡Œ</h3>
+	#{"<p>é¸æ“‡æ‚¨æ—¥èªŒæƒ³è¦çš„ä½ˆæ™¯ä¸»é¡Œæˆ–æ¨£å¼è¡¨(CSS)ï¼Œå¦‚æœæ‚¨é¸æ“‡äº† \"CSS specify\"ï¼Œè«‹åœ¨å³(ä¸‹)æ–¹æ¬„ä½è£¡è¼¸å…¥ CSS æ‰€åœ¨çš„ç¶²å€ã€‚ </p>" unless @conf.mobile_agent?}
 	<p>
 	<select name="theme" onChange="changeTheme( theme_thumbnail, this )">
 		<option value="">CSS Specify-&gt;</option>
@@ -237,19 +229,19 @@ add_conf_proc( 'theme', '§G´º¥DÃD', 'theme' ) do
 end
 
 # comments
-add_conf_proc( 'comment', '°jÅT', 'tsukkomi' ) do
+add_conf_proc( 'comment', 'è¿´éŸ¿', 'tsukkomi' ) do
 	saveconf_comment
 
 	<<-HTML
-	<h3 class="subtitle">¬O§_­n¨q¥X°jÅT¡H</h3>
-	#{"<p>­n¤£­n¨q¥XÅªªÌ­Ìµ¹±zªº°jÅT¡H </p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ˜¯å¦è¦ç§€å‡ºè¿´éŸ¿ï¼Ÿ</h3>
+	#{"<p>è¦ä¸è¦ç§€å‡ºè®€è€…å€‘çµ¦æ‚¨çš„è¿´éŸ¿ï¼Ÿ </p>" unless @conf.mobile_agent?}
 	<p><select name="show_comment">
-		<option value="true"#{" selected" if @conf.show_comment}>¦n</option>
-		<option value="false"#{" selected" unless @conf.show_comment}>¤£­n</option>
+		<option value="true"#{" selected" if @conf.show_comment}>å¥½</option>
+		<option value="false"#{" selected" unless @conf.show_comment}>ä¸è¦</option>
 	</select></p>
-	<h3 class="subtitle">­n¨q¥X´X½g°jÅT¡H</h3>
-	#{"<p>¦b¡u³Ì·s¤é»x¡v©Î¡u¬Y¤ë¤é»x¡v¼Ò¥Ü¤U¡A±z·Q­n¨q¥X¦h¤Ö½g¥i¨£ªº°jÅT¡H ¬Û¹ï¨Ó»¡¡A¦b¡u³æ½g¡v¼Ò¥Ü¤U¡A©Ò¦³ªº°jÅT³£·|¨q¥X¨Ó¡C </p>" unless @conf.mobile_agent?}
-	<p>¨q¥X <input name="comment_limit" value="#{h @conf.comment_limit}" size="3"> ½g°jÅT</p>
+	<h3 class="subtitle">è¦ç§€å‡ºå¹¾ç¯‡è¿´éŸ¿ï¼Ÿ</h3>
+	#{"<p>åœ¨ã€Œæœ€æ–°æ—¥èªŒã€æˆ–ã€ŒæŸæœˆæ—¥èªŒã€æ¨¡ç¤ºä¸‹ï¼Œæ‚¨æƒ³è¦ç§€å‡ºå¤šå°‘ç¯‡å¯è¦‹çš„è¿´éŸ¿ï¼Ÿ ç›¸å°ä¾†èªªï¼Œåœ¨ã€Œå–®ç¯‡ã€æ¨¡ç¤ºä¸‹ï¼Œæ‰€æœ‰çš„è¿´éŸ¿éƒ½æœƒç§€å‡ºä¾†ã€‚ </p>" unless @conf.mobile_agent?}
+	<p>ç§€å‡º <input name="comment_limit" value="#{h @conf.comment_limit}" size="3"> ç¯‡è¿´éŸ¿</p>
 	<h3 class="subtitle">Limit of TSUKKOMI per a day</h3>
 	#{"<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_limit_per_day" value="#{h @conf.comment_limit_per_day}" size="3"> TSUKKOMIs</p>
@@ -262,7 +254,7 @@ def comment_mail_mime( str )
 	[str.dup]
 end
 
-def comment_mail_conf_label; '¥H«H¥ó³qª¾±z¦³°jÅT'; end
+def comment_mail_conf_label; 'ä»¥ä¿¡ä»¶é€šçŸ¥æ‚¨æœ‰è¿´éŸ¿'; end
 
 def comment_mail_basic_html
 	@conf['comment_mail.header'] = '' unless @conf['comment_mail.header']
@@ -270,17 +262,17 @@ def comment_mail_basic_html
 	@conf['comment_mail.sendhidden'] = false unless @conf['comment_mail.sendhidden']
 
 	<<-HTML
-	<h3 class="subtitle">¬O§_§Q¥Î«H¥ó³qª¾¦³°jÅT¡H</h3>
-	#{"<p>½Ğ¿ï¾Ü¦b¦³·sªº°jÅT®É­n¤£­n¥H¹q¤l¶l¥ó³qª¾±z¡C½Ğ°O±o³o¶µ¥\\¯à»İ­n±z¦b tdiary.conf ³]©w SMTP ¦øªA¾¹¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ˜¯å¦åˆ©ç”¨ä¿¡ä»¶é€šçŸ¥æœ‰è¿´éŸ¿ï¼Ÿ</h3>
+	#{"<p>è«‹é¸æ“‡åœ¨æœ‰æ–°çš„è¿´éŸ¿æ™‚è¦ä¸è¦ä»¥é›»å­éƒµä»¶é€šçŸ¥æ‚¨ã€‚è«‹è¨˜å¾—é€™é …åŠŸ\èƒ½éœ€è¦æ‚¨åœ¨ tdiary.conf è¨­å®š SMTP ä¼ºæœå™¨ã€‚</p>" unless @conf.mobile_agent?}
 	<p><select name="comment_mail.enable">
-		<option value="true"#{" selected" if @conf['comment_mail.enable']}>½Ğ¥Î¶l¥ó³qª¾</option>
-        <option value="false"#{" selected" unless @conf['comment_mail.enable']}>¤£¥Î¤F</option>
+		<option value="true"#{" selected" if @conf['comment_mail.enable']}>è«‹ç”¨éƒµä»¶é€šçŸ¥</option>
+        <option value="false"#{" selected" unless @conf['comment_mail.enable']}>ä¸ç”¨äº†</option>
 	</select></p>
-	<h3 class="subtitle">¦¬¥ó¦ì§}</h3>
-	#{"<p>½Ğ«ü©w­n¦¬¨ì°jÅT³qª¾ªº¹q¤l¶l¥ó¦ì§}¡A¤@¦æ¼g¤@­Ó¦ì§}¡C¦pªG³o¸Ì¨S¦³¥t¥~«ü©w¡A«h³qª¾«H±N·|±H¨ì±zªº¹q¤l¶l¥ó¦ì§}¡C</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">æ”¶ä»¶ä½å€</h3>
+	#{"<p>è«‹æŒ‡å®šè¦æ”¶åˆ°è¿´éŸ¿é€šçŸ¥çš„é›»å­éƒµä»¶ä½å€ï¼Œä¸€è¡Œå¯«ä¸€å€‹ä½å€ã€‚å¦‚æœé€™è£¡æ²’æœ‰å¦å¤–æŒ‡å®šï¼Œå‰‡é€šçŸ¥ä¿¡å°‡æœƒå¯„åˆ°æ‚¨çš„é›»å­éƒµä»¶ä½å€ã€‚</p>" unless @conf.mobile_agent?}
 	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{h @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n")}</textarea></p>
-	<h3 class="subtitle">«H¥ó¼ĞÃD</h3>
-	#{"<p>«ü©w¤@­Ó·|Â\¦b³qª¾«Hªº¡u«H¥ó¼ĞÃD¡v¶}ÀY³Bªº¦r¦ê¡C«H¥ó¼ĞÃD·|¬O \"±z«ü©wªº¦r¦ê:DATE-SERIAL NAME\" ªº¼Ë¦¡¡C \"date\" ¬O±z¤é»xµoªíªº¤é´Á¡A¦ı¬O¦pªG±z¥t¦æ«ü©w¤F¤é´Áªº¼Ë¦¡¡A¼ĞÃD«h·|ÅÜ¬° \"±z«ü©wªº¦r¦ê-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @conf.mobile_agent?}
+	<h3 class="subtitle">ä¿¡ä»¶æ¨™é¡Œ</h3>
+	#{"<p>æŒ‡å®šä¸€å€‹æœƒæ“ºåœ¨é€šçŸ¥ä¿¡çš„ã€Œä¿¡ä»¶æ¨™é¡Œã€é–‹é ­è™•çš„å­—ä¸²ã€‚ä¿¡ä»¶æ¨™é¡Œæœƒæ˜¯ \"æ‚¨æŒ‡å®šçš„å­—ä¸²:DATE-SERIAL NAME\" çš„æ¨£å¼ã€‚ \"date\" æ˜¯æ‚¨æ—¥èªŒç™¼è¡¨çš„æ—¥æœŸï¼Œä½†æ˜¯å¦‚æœæ‚¨å¦è¡ŒæŒ‡å®šäº†æ—¥æœŸçš„æ¨£å¼ï¼Œæ¨™é¡Œå‰‡æœƒè®Šç‚º \"æ‚¨æŒ‡å®šçš„å­—ä¸²-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
 	<h3 class="subtitle">About hidden TSUKKOMI</h3>
 	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @conf.mobile_agent?}

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# update.rb $Revision: 1.21 $
+# update.rb $Revision: 1.22 $
 #
 # Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.

@@ -1,4 +1,4 @@
-<%# update.rhtml $Revision: 1.5 $ %>
+<%# update.rhtml $Revision: 1.6 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%= submit_label %>]</h1>
@@ -6,10 +6,10 @@
 <div class="update day">
 <div class="form">
 	<div class="caption">
-		§ó·s¤é»x
+		æ›´æ–°æ—¥èªŒ
 	</div>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
-		<h3 class="subtitle">¤é»x¥DÅé</h3>
+		<h3 class="subtitle">æ—¥èªŒä¸»é«”</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<%=@csrf_protection%>
 		<span class="field year">
@@ -22,13 +22,13 @@
 			<input class="field" name="day" tabindex="3" accesskey="D" size="2" value="<%= @date.day %>">
 		</span>
 		<span class="button edit">
-			<input type="submit" tabindex="4" accesskey="E" name="edit" value="½s¿è³o¤@¤Ñªº¤é»x">
+			<input type="submit" tabindex="4" accesskey="E" name="edit" value="ç·¨è¼¯é€™ä¸€å¤©çš„æ—¥èªŒ">
 		</span>
 		<div class="field title">
-			¼ÐÃD: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
+			æ¨™é¡Œ: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			¤º¤å(<%=h @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
+			å…§æ–‡(<%=h @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">
@@ -38,7 +38,7 @@
 			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
 		</span>
 		<span class="checkbox hidediary"><label for="hide">
-			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">¤£­n¥Z¥X³o¤@¤Ñªº¤é»x(ÁôÂÃ)
+			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">ä¸è¦åˆŠå‡ºé€™ä¸€å¤©çš„æ—¥èªŒ(éš±è—)
 		</label></span>
 	</div></form>
 </div>

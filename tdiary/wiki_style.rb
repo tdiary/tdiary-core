@@ -1,5 +1,5 @@
 #
-# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.31 $
+# Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.32 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -227,7 +227,7 @@ module TDiary
 				@sections << WikiSection::new( body1, author )
 			end
 			section = nil
-			body2.each do |l|
+			body2.each_line do |l|
 				case l
 				when /^\![^!]/
 					@sections << WikiSection::new( section, author ) if section

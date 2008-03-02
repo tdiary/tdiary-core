@@ -56,9 +56,6 @@
 2008-01-08 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/05referer.rb: saving recent a few days into volatile.
 
-2008-01-06 TADA Tadashi <sho@spc.gr.jp>
-	* tdiary/lang/ja.rb: [workaround] support 'from encoding' specified by @options['encode_from'].
-
 2008-01-05 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/00default.rb: hide comment form when over comments per day on mobile mode.
 
@@ -213,9 +210,6 @@
 
 2007-01-22 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: add misc/lib into default search path of ruby library.
-
-2007-01-19 TADA Tadashi <sho@spc.gr.jp>
-	* plugin/ja/00default.rb: fix bug in to_utf8 method ('e' -> 'w').
 
 2007-01-18 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/{ja,en,zh}/00default.rb: add to_utf8 method.
@@ -2133,7 +2127,7 @@
 	* configuration via CGI.
 	* index.rb, update.rb: no-cache.
 	* errata: "auther" -> "author" (^^;
-	* changing term: "Referer" -> "¥ê¥ó¥¯¸µ"
+	* changing term: "Referer" -> "ãƒªãƒ³ã‚¯å…ƒ"
 
 2001.07.25 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fix bug bad cookie when running on root directory.

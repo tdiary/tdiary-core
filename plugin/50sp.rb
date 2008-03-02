@@ -1,4 +1,4 @@
-# 01sp.rb - select-plugins plugin $Revision: 1.5 $
+# 01sp.rb - select-plugins plugin $Revision: 1.6 $
 
 SP_PREFIX = 'sp'
 @sp_path = ( @conf["#{SP_PREFIX}.path"] || "#{TDiary::PATH}/misc/plugin" ).to_a

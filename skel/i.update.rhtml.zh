@@ -1,4 +1,4 @@
-<%# i.update.rhtml $Revision: 1.6 $ %>
+<%# i.update.rhtml $Revision: 1.7 $ %>
 <H1><%=h @conf.html_title %> [<%%= submit_label %>]</H1>
 
 <P>

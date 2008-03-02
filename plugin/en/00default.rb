@@ -43,13 +43,6 @@ def style_howto
 end
 
 #
-# convert to UTF-8
-#
-def to_utf8( str, charset = nil )
-	str.dup
-end
-
-#
 # labels
 #
 def no_diary; "No diary on #{@date.strftime( @conf.date_format )}"; end

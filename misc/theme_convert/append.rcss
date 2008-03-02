@@ -1,6 +1,6 @@
 
 /*
-¥Ä¥Ã¥³¥ß¾ÊÎ¬ÈÇËÜÊ¸
+ãƒ„ãƒƒã‚³ãƒŸçœç•¥ç‰ˆæœ¬æ–‡
 */
 div.commentshort {
         font-size: 0.9em;
@@ -18,7 +18,7 @@ div.commentshort p {
 }
 
 /*
-¥Ä¥Ã¥³¥ßËÜÂÎ
+ãƒ„ãƒƒã‚³ãƒŸæœ¬ä½“
 */
 div.commentbody {
         font-size: 0.9em;
@@ -27,7 +27,7 @@ div.commentbody {
 }
 
 /*
-¥Ä¥Ã¥³¥ß¤·¤¿¿Í¤Î¾ğÊó
+ãƒ„ãƒƒã‚³ãƒŸã—ãŸäººã®æƒ…å ±
 */
 div.commentator {<% if hash.fetch("p.commenttitle", {})["border-color"] %>
         border-style: solid;
@@ -37,7 +37,7 @@ div.commentator {<% if hash.fetch("p.commenttitle", {})["border-color"] %>
 }
 
 /*
-¥Ä¥Ã¥³¥ßËÜÊ¸
+ãƒ„ãƒƒã‚³ãƒŸæœ¬æ–‡
 */
 div.commentbody p {
         margin: 0.5em;
@@ -45,7 +45,7 @@ div.commentbody p {
 }
 
 /*
-¥Õ¥©¡¼¥à¤ÎÀßÄê
+ãƒ•ã‚©ãƒ¼ãƒ ã®è¨­å®š
 */
 div.form form {
         margin: 0em 0em 0em 2em;
@@ -94,7 +94,7 @@ div.button {
 }
 
 /*
-¹¹¿·¥Õ¥©¡¼¥à
+æ›´æ–°ãƒ•ã‚©ãƒ¼ãƒ 
 */
 div.update.day div.form {
         border: none;
@@ -143,7 +143,7 @@ form.update span.checkbox.hidediary {
 }
 
 /*
-¥Ä¥Ã¥³¥ß¾õÂÖÊÑ¹¹¥Õ¥©¡¼¥à
+ãƒ„ãƒƒã‚³ãƒŸçŠ¶æ…‹å¤‰æ›´ãƒ•ã‚©ãƒ¼ãƒ 
 */
 div.comment form {
         margin-top: 0em;
