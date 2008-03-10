@@ -1,3 +1,6 @@
+2008-03-11 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* dot.htaccess: add 'AddType application/xml'
+
 2008-03-02 TADA Tadashi <sho@spc.gr.jp>
 	* marged with Test_UTF8 branch, and started development of series 2.3.
 
