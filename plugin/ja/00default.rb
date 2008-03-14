@@ -359,6 +359,7 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	それでもこのメッセージが出る状況では、この設定を変える場合、
 	一時的にRefererを送出する設定にするか、
 	直接tdiary.confを編集して下さい。</p>
-	</div>" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
+	" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
+	</div>
 	HTML
 end

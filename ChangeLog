@@ -1,3 +1,6 @@
+2008-03-14  Kazuhiko  <kazuhiko@fdiary.net>
+	* plugin/ja/00default.db: fix invalid HTML (reported by hb).
+
 2008-03-11 SHIBATA Hiroshi <h-sbt@nifty.com>
 	* dot.htaccess: add 'AddType application/xml'
 
