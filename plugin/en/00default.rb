@@ -306,28 +306,28 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
             <input type="hidden" name="check_enabled" value="true">'
           else
             '<input type="checkbox" name="check_enabled" value="true">'
-        end}Enabled (default)</input>
+        end}Enabled (default)
 	</p>
 	#{"<p>Configures Referer-based CSRF protection.
 	TDiary checks the Referer value sent from your web browser. If the post request comes from some outer page,
 	the request will be rejected. This setting can't be disabled through web-based configuration, for safety reasons.</p>
 	" unless @conf.mobile_agent?}
 	<h3 class="subtitle">Handling of Referer-disabled browsers</h3>
-	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>Reject (default)</input>
-	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>Accept</input>
+	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>Reject (default)
+	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>Accept
 	</p>
 	#{"<p>Configures handling for requests without any Referer: value.
 	By default tDiary rejects such request for safety reasons.
 	If your browser is configured not to send Referer values, alter that setting to allow sending Referer, at least for
-	originating sites. If it is impossible, configure the key-based CSRF protection below, and 
+	originating sites. If it is impossible, configure the key-based CSRF protection below, and
 	change this setting to \"Accept\".</p>
 	" unless @conf.mobile_agent?}
 	</div>
 	<div class="section">
 	<h3 class="subtitle">Checking CSRF key</h3>
 	<h4>Checks for CSRF protection key</h4>
-	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>Enabled</input>
-	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>Disabled (default)</input>
+	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>Enabled
+	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>Disabled (default)
 	</p>
 	#{"<p>TDiary can add a secret key for every post form to prevent CSRF. As long as attackers do not know the secret key,
 	forged requests will not be granted. To enable this feature, you must specify the secret key below.
@@ -337,7 +337,7 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	#{"<p>A secret key used for key-based CSRF protection. Specify a secret string which is not easy to guess.
 	If this key is leaked, CSRF attacks can be exploited.
 	Do not use any passwords used in other places. You need not to remember this phrase to type in.</p>" unless @conf.mobile_agent?}
-	#{"<p class=\"message\">Caution: 
+	#{"<p class=\"message\">Caution:
 	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
 	<a href=\"#{h @update}?conf=csrf_protection\">Please open this page again via this link</a>.
 	If you see this message again, you must either change your browser setting (temporarily to change these settings, at least),

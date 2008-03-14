@@ -1,4 +1,6 @@
 2008-03-14  Kazuhiko  <kazuhiko@fdiary.net>
+	* plugin/en/00default.rb, plugin/ja/00default.rb,
+	plugin/zh/00default.rb: fix invalid HTML.
 	* plugin/ja/00default.db: fix invalid HTML (reported by hb).
 
 2008-03-11 SHIBATA Hiroshi <h-sbt@nifty.com>

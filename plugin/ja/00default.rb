@@ -308,7 +308,7 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
             <input type="hidden" name="check_enabled" value="true">'
           else
             '<input type="checkbox" name="check_enabled" value="true">'
-        end}する(標準)</input>
+        end}する(標準)
 	</p>
 	#{"<p>あなたのブラウザが送出するReferer(リンク元情報)を検査します。
 	書き込み要求が正しいページから送出されたことを確認することで、
@@ -317,8 +317,8 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	この設定画面では、無効にすることは出来ません。</p>
 	" unless @conf.mobile_agent?}
 	<h4>Refererを送出しないブラウザを拒否</h4>
-	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>する(標準)</input>
-	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>しない</input>
+	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>する(標準)
+	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>しない
 	</p>
 	#{"<p>ブラウザからRefererが送られてこなかった場合の動作を指定します。</p>
 	<p>標準では、Refererが送出されない場合、不正なリクエストを
@@ -336,8 +336,8 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	<div class="section">
 	<h3 class="subtitle">CSRF防止キーによる防衛</h3>
 	<h4>CSRF防止キーの検査</h4>
-	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>する</input>
-	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>しない(標準)</input>
+	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>する
+	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>しない(標準)
 	</p>
 	#{"<p>書き込みフォームに偽装書き込み防止のためのキーを設定し、CSRFを防ぎます。
 	偽ページが秘密のキーを知らない限り、
@@ -352,7 +352,7 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	#{"<p>偽装防止キーを設定します。推測しにくい適当な文字列を指定して下さい。
 	この鍵が外部に洩れると、CSRF攻撃を受ける可能性があります。
 	他のパスワードと共用はしてはいけません。なお、設定した文字列をあなたが覚えておく必要はありません。</p>" unless @conf.mobile_agent?}
-	#{"<p class=\"message\">注意: 
+	#{"<p class=\"message\">注意:
 	あなたのブラウザは現在Refererを送出していないようです。
 	<a href=\"#{h @update}?conf=csrf_protection\">このリンクからもう一回
 	このページを開いてみて下さい</a>。
