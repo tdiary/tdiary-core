@@ -1,3 +1,6 @@
+2008-03-22 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* doc/*.html: fix document charset, change euc-jp to utf-8.
+
 2008-03-14  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/en/00default.rb, plugin/ja/00default.rb,
 	plugin/zh/00default.rb: fix invalid HTML.
