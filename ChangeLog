@@ -1,3 +1,6 @@
+2008-03-31 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary_style.rb: fixed #74.
+
 2008-03-22 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* doc/*.html: fix document charset, change euc-jp to utf-8.
 

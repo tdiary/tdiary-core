@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.14 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.15 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -110,12 +110,7 @@ module TDiary
 
 		def strip_subtitle
 			return nil unless @subtitle
-			r = @subtitle.sub(/^(\[(.*?)\])+\s*/,'')
-			if r == ""
-				nil
-			else
-				r
-			end
+			@subtitle.sub( /^(\[(.*?)\])+\s*/, '' )
 		end
 	end
 
