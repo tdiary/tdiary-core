@@ -1,5 +1,5 @@
 #
-# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.15 $
+# tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.16 $
 #
 # if you want to use this style, add @style into tdiary.conf below:
 #
@@ -180,7 +180,6 @@ module TDiary
 		end
 	
 		def to_html4( opt )
-			idx = 1
 			r = ''
 			each_section do |section|
 				r << %Q[<div class="section">\n]
@@ -198,13 +197,11 @@ module TDiary
 				end
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 				r << %Q[</div>]
-				idx += 1
 			end
 			r
 		end
 	
 		def to_chtml( opt )
-			idx = 1
 			r = ''
 			each_section do |section|
 				r << %Q[<%= section_enter_proc( Time::at( #{date.to_i} ) ) %>\n]
@@ -212,7 +209,6 @@ module TDiary
 					r << %Q[<H3><%= subtitle_proc( Time::at( #{date.to_i} ), #{section.subtitle.dump.gsub( /%/, '\\\\045' )} ) %></H3>\n]
 				end
 				if /^</ =~ section.body then
-					idx += 1
 					r << section.body
 				elsif section.subtitle
 					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
@@ -221,7 +217,6 @@ module TDiary
 					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
 				end
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
-				idx += 1
 			end
 			r
 		end
