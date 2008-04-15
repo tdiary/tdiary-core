@@ -1,3 +1,6 @@
+2008-04-15 Yamaguchi <yamag@mbg.nifty.com>
+	* tdiary.rb: fixed #80.
+
 2008-03-31 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary_style.rb: fixed #74.
 
