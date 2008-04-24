@@ -95,14 +95,14 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			else
 				@conf['filter.debug_file'] = nil
 			end
+		end
 
-			if @cgi.params['spamfilter.date_limit'] &&
-					@cgi.params['spamfilter.date_limit'][0] &&
-					/\A\d+\z/ =~ @cgi.params['spamfilter.date_limit'][0]
-				@conf['spamfilter.date_limit'] = @cgi.params['spamfilter.date_limit'][0]
-			else
-				@conf['spamfilter.date_limit'] = nil
-			end
+		if @cgi.params['spamfilter.date_limit'] &&
+				@cgi.params['spamfilter.date_limit'][0] &&
+				/\A\d+\z/ =~ @cgi.params['spamfilter.date_limit'][0]
+			@conf['spamfilter.date_limit'] = @cgi.params['spamfilter.date_limit'][0]
+		else
+			@conf['spamfilter.date_limit'] = nil
 		end
 
 		if @conf['spamfilter.filter_mode'].nil? || @conf['spamfilter.filter_mode']
