@@ -1,4 +1,7 @@
 2008-05-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* skel/diary.rhtml, skel/latest.rhtml, skel/month.rhtml: fixed #88.
+
+2008-05-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.conf.beginner, tdiary.conf.sample, skel/preview.rhtml,
 	skel/update.rhtml: fixed #81.
 

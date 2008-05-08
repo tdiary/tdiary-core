@@ -1,4 +1,4 @@
-<%# diary.rhtml $Revision: 1.30 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
+<%# diary.rhtml $Revision: 1.31 $ %><%% @anchor_name = <%=opt['anchor'] || false%> %>
 <div class="day">
 <h2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump.gsub( /%/, '\\\\045' ) %> ) %></h2>
 
@@ -43,7 +43,7 @@ if opt['show_comment'] and count_comments > 0 then
 		end %>
 		</div><%
 	end
-elsif opt['show_comment'] %>
+elsif !opt['hide_comment_form'] %>
 	<div class="caption">[<a href="<%=h opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c" %>"><%%=comment_new%></a>]</div><%
 end %>
 </div>
