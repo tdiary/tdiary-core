@@ -1,4 +1,4 @@
-<%# preview.rhtml $Revision: 1.16 $ %>
+<%# preview.rhtml $Revision: 1.17 $ %>
 <%%=navi%>
 
 <h1><%=h @conf.html_title %> [<%%=preview_label%>]</h1>
@@ -18,7 +18,20 @@ param = {
 	'hide_comment_form' => true,
 	'anchor' => true,
 	'show_nyear' => @conf.show_nyear,
-} %>
+}
+## accesskeys
+if @conf.accesskey_enabled
+	accesskeys = {
+		'title'   => ' accesskey="T"',
+		'body'    => ' accesskey="C"',
+		'preview' => ' accesskey="P"',
+		'submit'  => ' accesskey="A"',
+		'hide'    => ' accesskey="H"',
+	}
+else
+	accesskeys = {}
+end
+%>
 <% if @show_result %>
 	<%= @diary.eval_rhtml( param, PATH ) %>
 <% else %>
@@ -51,20 +64,20 @@ param = {
 			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>日
 		</span>
 		<div class="field title">
-			タイトル: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
+			タイトル: <input class="field" name="title" tabindex="5"<%= accesskeys['title'] %> size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			本文(<%=h @conf.style %>スタイル<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
+			本文(<%=h @conf.style %>スタイル<%%= style_howto %>):<textarea name="body" tabindex="6"<%= accesskeys['body'] %> cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">
-			<input type="submit" tabindex="998" accesskey="P" name="<%%= preview_command %>" value="<%%= preview_label %>">
+			<input type="submit" tabindex="998"<%= accesskeys['preview'] %> name="<%%= preview_command %>" value="<%%= preview_label %>">
 		</span>
 		<span class="button append">
-			<input type="submit" tabindex="999" accesskey="A" name="<%%= submit_command %>" value=" <%%= submit_label %> ">
+			<input type="submit" tabindex="999"<%= accesskeys['submit'] %> name="<%%= submit_command %>" value=" <%%= submit_label %> ">
 		</span>
 		<span class="checkbox hidediary"><label for="hide">
-			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000" accesskey="H">この日の日記を隠す
+			<input type="checkbox" id="hide" name="hide" value="true" <% unless @diary.visible? then %>checked <% end %>tabindex="1000"<%= accesskeys['hide'] %>>この日の日記を隠す
 		</label></span>
 	</div></form>
 </div>

@@ -1,5 +1,5 @@
 #
-# tDiary configuration file $Revision: 1.37 $
+# tDiary configuration file $Revision: 1.38 $
 #
 # For those who do not read Japanese: please read doc/README.en.html or
 # misc/i18n/README-en.rd and use misc/i18n/tdiary.conf.sample-en.
@@ -77,6 +77,11 @@
 
 # プラグイン適用後にもういちどプラグインを適用するかどうか(true/false)
 @options['apply_plugin'] = true
+
+# 編集画面でのアクセスキー
+#   true なら有効になります。Safari で Emacs と同じキーバインディングを
+#   使いたい場合は false にするといいでしょう。
+@accesskey_enabled = true
 
 # tDiaryをproxyの内側に設置する場合(頭に「http://」を付けない)
 # @options['proxy'] = 'proxy.example.com:8080'

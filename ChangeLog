@@ -1,3 +1,7 @@
+2008-05-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary.conf.beginner, tdiary.conf.sample, skel/preview.rhtml,
+	skel/update.rhtml: fixed #81.
+
 2008-04-24 TADA Tadashi <sho@spc.gr.jp>
 	* plugin/10spamfilter.rb: fixed #84.
 

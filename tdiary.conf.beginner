@@ -35,6 +35,8 @@
 	'misc/plugin'
 ]
 
+@accesskey_enabled = false    # false なら編集画面でアクセスキーが無効になる
+
 # tDiaryをproxyの内側に設置する場合に設定
 # @options['proxy'] = 'proxy.example.com:8080'
 
