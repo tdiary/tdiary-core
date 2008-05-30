@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080508'
+TDIARY_VERSION = '2.3.0.20080531'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -481,6 +481,18 @@ module TDiary
 			bot = ["bot", "spider", "antenna", "crawler", "moget", "slurp"]
 			bot += @options['bot'] || []
 			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
+
+			require 'logger'
+			log_path = @options['logger'] || "#{@data_path}/log/"
+			unless FileTest::directory?( log_path ) then
+				begin
+					Dir::mkdir( log_path )
+				rescue Errno::EEXIST
+				end
+			end
+			log_file = log_path + "debug.log"
+			@logger = Logger::new( log_file, 'weekly' )
+
 		end
 
 		# saving to tdiary.conf in @data_path
@@ -501,6 +513,21 @@ module TDiary
 
 		def bot?
 			@bot =~ @cgi.user_agent
+		end
+
+		def debug( str, level = "DEBUG")
+			case( level )
+			when "FATAL"
+				@logger.fatal( str )
+			when "ERROR"
+				@logger.error( str )
+			when "WARN"
+				@logger.warn( str )
+			when "INFO"
+				@logger.info( str )
+			else 
+				@logger.debug( str )			
+			end
 		end
 
 		#
