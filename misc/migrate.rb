@@ -78,9 +78,9 @@ begin
 				if /\Aundefined class\/module (.+?)(::)?\z/ =~ $!.message
 					klass = $1
 					if /EmptdiaryString\z/ =~ klass
-						eval("class #{klass} < String; end")
+						eval("class ::#{klass} < String; end")
 					else
-						eval("class #{klass}; end")
+						eval("class ::#{klass}; end")
 					end
 					retry
 				end
