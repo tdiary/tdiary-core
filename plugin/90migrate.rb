@@ -66,8 +66,8 @@ unless @conf.tdiary_version
 	end
 
 	# convert pstore cache files of plugins
-	dir = @conf.cache_path || "#{@data_path}cache"
-	%w(makerss.cache recent_comments recent_trackbacks tlink/tlink.dat).each do |e|
+	dir = @cache_path || "#{@data_path}cache"
+	%w(makerss.cache recent_comments recent_trackbacks tlink/tlink.dat whatsnew-list blog_category).each do |e|
 		convert_pstore( "#{dir}/#{e}" ) if File.exist?( "#{dir}/#{e}" )
 	end
 	Dir["#{dir}/disp_referrer2.d/*"].each do |file|
