@@ -6,7 +6,7 @@
 #
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
-	TDIARY_MAGIC_MINOR = '00.00'
+	TDIARY_MAGIC_MINOR = '01.00'
 	TDIARY_MAGIC = "#{TDIARY_MAGIC_MAJOR}.#{TDIARY_MAGIC_MINOR}"
 
 	def TDiary::parse_tdiary( data )
@@ -33,10 +33,19 @@ module TDiary
 		end
 
 		def restore_comment( file, diaries )
+			minor = ''
 			begin
 				File::open( file, 'r' ) do |fh|
 					fh.flock( File::LOCK_SH )
-					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
+
+					major, minor = fh.gets.chomp.split( /\./, 2 )
+					unless TDIARY_MAGIC_MAJOR == major then
+						raise StandardError, 'bad file format.'
+					end
+
+					s = fh.read
+					s = migrate_to_01( s ) if minor == '00.00' and !@tdiary.conf['stop_migrate_01']
+					s.split( /\r?\n\.\r?\n/ ).each do |l|
 						headers, body = TDiary::parse_tdiary( l )
 						next unless body
 						comment = Comment::new(
@@ -50,6 +59,7 @@ module TDiary
 				end
 			rescue Errno::ENOENT
 			end
+			return minor == '00.00' ? TDiaryBase::DIRTY_COMMENT : TDiaryBase::DIRTY_NONE
 		end
 
 		def store_comment( file, diaries )
@@ -113,6 +123,7 @@ module TDiary
 				File::rename( file, file.sub( /\.tdr$/, '.tdr~' ) )
 			rescue Errno::ENOENT
 			end
+			return TDiaryBase::DIRTY_NONE
 		end
 
 		def store_referer( file, diaries )
@@ -149,17 +160,18 @@ module TDiary
 				fh.flock( File::LOCK_EX )
 
 				cache = @tdiary.restore_parser_cache( date, 'defaultio' )
+				force_save = TDiaryBase::DIRTY_NONE
 				unless cache then
-					restore( fh, diaries )
-					restore_comment( cfile, diaries )
-					restore_referer( rfile, diaries )
+					force_save |= restore( fh, diaries )
+					force_save |= restore_comment( cfile, diaries )
+					force_save |= restore_referer( rfile, diaries )
 				else
 					diaries.update( cache )
 				end
 				dirty = yield( diaries ) if iterator?
-				store( fh, diaries ) if dirty & TDiaryBase::DIRTY_DIARY != 0
-				store_comment( cfile, diaries ) if dirty & TDiaryBase::DIRTY_COMMENT != 0
-				store_referer( rfile, diaries ) if dirty & TDiaryBase::DIRTY_REFERER != 0
+				store( fh, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_DIARY) != 0
+				store_comment( cfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_COMMENT) != 0
+				store_referer( rfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_REFERER) != 0
 				if dirty != TDiaryBase::DIRTY_NONE or not cache then
 					@tdiary.store_parser_cache( date, 'defaultio', diaries )
 				end
@@ -208,16 +220,19 @@ module TDiary
 
 	private
 		def restore( fh, diaries )
+			
 			begin
 				fh.seek( 0 )
 				begin
-					major, minor = fh.gets.split( /\./, 2 )
+					major, minor = fh.gets.chomp.split( /\./, 2 )
 					unless TDIARY_MAGIC_MAJOR == major then
 						raise StandardError, 'bad file format.'
 					end
 
 					# read and parse diary
-					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
+					s = fh.read
+					s = migrate_to_01( s ) if minor == '00.00' and !@tdiary.conf['stop_migrate_01']
+					s.split( /\r?\n\.\r?\n/ ).each do |l|
 						headers, body = TDiary::parse_tdiary( l )
 						style_name = headers['Format'] || 'tDiary'
 						diary = eval( "#{style( style_name )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
@@ -229,6 +244,7 @@ module TDiary
 					# no magic number when it is new file.
 				end
 			end
+			return minor == '00.00' ? TDiaryBase::DIRTY_DIARY : TDiaryBase::DIRTY_NONE
 		end
 
 		def store( fh, diaries )
@@ -248,6 +264,10 @@ module TDiary
 				end
 				fh.truncate( fh.tell )
 			end
+		end
+
+		def migrate_to_01( day )
+			@tdiary.conf.migrate_to_utf8( day )
 		end
 	end
 end

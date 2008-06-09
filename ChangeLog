@@ -1,3 +1,9 @@
+2008-06-09 TADA Tadashi <sho@spc.gr.jp>
+	* self converting to UTF-8. thanks kazuhiko.
+	* tdiary/lang/*.rb: added migrate_to_utf8 method.
+	* tdiary/defaultio.rb: added migration code to utf-8.
+	* skel/tdiary.rconf added tdiary_veersion.
+
 2008-06-02 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* misc/migrate.rb: fix undefined class/module convert in PStore. thx KURODA Hiraku.
 

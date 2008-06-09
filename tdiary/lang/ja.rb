@@ -43,6 +43,10 @@ def to_native( str, charset = nil )
 	end
 end
 
+def migrate_to_utf8( str )
+	to_native( str, 'EUC-JP' )
+end
+
 def to_mobile( str )
 	NKF::nkf( '-m0 -W -s', str )
 end

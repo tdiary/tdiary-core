@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080531'
+TDIARY_VERSION = '2.3.0.20080609'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -643,6 +643,7 @@ module TDiary
 			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{PATH}/"
 
 			variables = [
+				:tdiary_version,
 				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
 				:description, :icon, :banner,
 				:header, :footer,

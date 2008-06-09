@@ -38,6 +38,14 @@ def to_native( str, charset = nil )
 end
 
 #
+# 'migrate_to_utf8' method converts string to UTF-8
+#
+def migrate_to_utf8( str )
+	require 'iconv'
+	Iconv::iconv( 'UTF-8', 'Big5', str )
+end
+
+#
 # 'to_mobile' method converts string automatically to mobile mode encoding.
 # 
 def to_mobile( str )
