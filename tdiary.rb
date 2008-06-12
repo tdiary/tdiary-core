@@ -110,8 +110,8 @@ module Safe
 			result = yield
 		end
 		result
-  end
-  module_function :safe
+	end
+	module_function :safe
 end
 
 #
