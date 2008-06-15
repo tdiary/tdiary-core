@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080609'
+TDIARY_VERSION = '2.3.0.20080615'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -483,7 +483,7 @@ module TDiary
 			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
 
 			require 'logger'
-			log_path = @options['logger'] || "#{@data_path}/log/"
+			log_path = @options['log_path'] || "#{@data_path}/log/"
 			unless FileTest::directory?( log_path ) then
 				begin
 					Dir::mkdir( log_path )
@@ -492,7 +492,6 @@ module TDiary
 			end
 			log_file = log_path + "debug.log"
 			@logger = Logger::new( log_file, 'weekly' )
-
 		end
 
 		# saving to tdiary.conf in @data_path
