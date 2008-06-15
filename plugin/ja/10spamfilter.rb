@@ -64,13 +64,12 @@ def spamfilter_conf_html
 	unless @conf.secure then
 	r << <<-HTML
 	<h3>フィルタのログ</h3>
-	<p>フィルタのログを以下のファイルに
+	<p>フィルタのログを
 		<select name="filter.debug_mode">
 			<option value="0"#{" selected" if @conf['filter.debug_mode'] == 0}>記録しない</option>
 			<option value="1"#{" selected" if @conf['filter.debug_mode'] == 1}>spamだけ記録する</option>
 			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>すべて記録する</option>
 		</select></p>
-	<p>ファイル名: <input type="text" name="filter.debug_file" value="#{h( @conf['filter.debug_file'] || '' )}" size="50"></p>
 	HTML
 	end
 

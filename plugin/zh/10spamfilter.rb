@@ -71,8 +71,6 @@ def spamfilter_conf_html
 			<option value="1"#{" selected" if @conf['filter.debug_mode'] == 1}>Only spam</option>
 			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>Full</option>
 		</select></p>
-	<p>File name of debug log.<br>
-		<input type="text" name="spamfilter.debug_file" value="#{h( @conf['filter.debug_file'] || '' )}" size="30"></p>
 	HTML
 	end
 

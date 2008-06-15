@@ -1,4 +1,7 @@
 2008-06-15 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary.rb: integrate logger and spamfilter debug log.
+
+2008-06-15 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.rb: changed logger path option. 
 
 2008-06-09 TADA Tadashi <sho@spc.gr.jp>

@@ -89,12 +89,6 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			else
 				@conf['filter.debug_mode'] = 0
 			end
-
-			if @cgi.params['filter.debug_file'] && @cgi.params['filter.debug_file'][0]
-				@conf['filter.debug_file'] = @cgi.params['filter.debug_file'][0]
-			else
-				@conf['filter.debug_file'] = nil
-			end
 		end
 
 		if @cgi.params['spamfilter.date_limit'] &&

@@ -311,12 +311,6 @@ module TDiary
 				else
 					@debug_mode = DEBUG_NONE
 				end
-
-				if @conf.options.include?('filter.debug_file')
-					@debug_file = @conf.options['filter.debug_file']
-				else
-					@debug_file = nil
-				end
 			end
 
 			def comment_filter( diary, comment )
@@ -331,11 +325,7 @@ module TDiary
 				return if @debug_mode == DEBUG_NONE
 				return if @debug_mode == DEBUG_SPAM and level == DEBUG_FULL
 
-				require 'time'
-				File.open( @debug_file, 'a' ) do |io|
-					io.flock(File::LOCK_EX)
-					io.puts "#{Time.now.iso8601}: #{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}"
-				end
+				@conf.debug("#{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}")
 			end
 		end
 	end
