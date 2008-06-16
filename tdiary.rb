@@ -481,7 +481,7 @@ module TDiary
 				end
 			end
 			log_file = log_path + "debug.log"
-			@logger = Logger::new( log_file, 'weekly' )
+			@logger = Logger::new( log_file, 'daily' )
 		end
 
 		# saving to tdiary.conf in @data_path
