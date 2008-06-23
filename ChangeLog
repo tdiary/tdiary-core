@@ -1,6 +1,7 @@
 2008-06-23 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.rb: add 'Semulator', 'Vemulator', 'J-EMULATOR' and 'emobile' to 
 	mobile user agent.
+	* skel/footer.rhtml: display RUBY_PATCHLEVEL in footer.
 
 2008-06-15 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/10spamfilter.rb, plugin/*/10spamfilter.rb,
