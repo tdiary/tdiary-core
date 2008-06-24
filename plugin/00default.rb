@@ -458,7 +458,8 @@ def subtitle_link( date, index, subtitle )
 			r << "<a "
 			r << %Q[name="p#{'%02d' % index}" ] if @anchor_name
 			param = "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % index}"
-			r << %Q[href="#{h @index}#{anchor param}">#{@conf.section_anchor}</a> ]
+			titleattr = (not subtitle or subtitle.empty?) ? '' : %Q[ title="#{remove_tag( subtitle )}"]
+			r << %Q[href="#{h @index}#{anchor param}"#{titleattr}>#{@conf.section_anchor}</a> ]
 		end
 	
 		r << %Q[(#{h @author}) ] if @multi_user and @author and subtitle

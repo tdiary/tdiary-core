@@ -1,3 +1,6 @@
+2008-06-24 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb: added title attribute in subtitle anchor.
+
 2008-06-23 TADA Tadashi <sho@spc.gr.jp>
 	* skel/footer.rhtml: using rescue on display to RUBY_PATCHLEVEL.
 
