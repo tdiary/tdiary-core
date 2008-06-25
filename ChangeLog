@@ -1,3 +1,7 @@
+2008-06-25 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb: escape double quotation in title attribute of
+	subtitle anchor.
+
 2008-06-24 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb: added title attribute in subtitle anchor.
 
