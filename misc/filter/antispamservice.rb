@@ -1,13 +1,16 @@
 #
-# spamakismet.rb: tDiary comment spam filter using Akismet API $Revision: 1.4 $
+# antispamservice.rb: tDiary comment spam filter using Antispam API $Revision: 1.4 $
 #
 # usage:
-#    1) Get your Akismet free API from http://akismet.com/personal/.
+#    1) Get your free API Key from:
+#         a. Akismet API from http://akismet.com/personal/
+#         b. TypePad Antispam API from http://antispam.typepad.com/info/get-api-key.html
 #    2) Set the API key and enable filter in your tdiary.conf. See below.
-#          @options['akismet.enable'] = true
-#          @options['akismet.key'] = '1234567890ab'
+#          @options['antispam.service'] = 'rest.akismet.com'
+#          @options['antispam.key'] = '1234567890ab'
 #
 # Copyright (C) TADA Tadashi <sho@spc.gr.jp> 2007.
+# Modified by SHIBATA Hiroshi <shibata.hiroshi@gmail.com> 2008.
 # Distributed under GPL2.
 #
 
@@ -15,11 +18,20 @@ require 'net/http'
 require 'uri'
 
 module TDiary::Filter
-	class SpamakismetFilter < Filter
+	class AntispamserviceFilter < Filter
 		def comment_filter( diary, comment )
-			return true unless @conf['akismet.enable']
 
-			key = @conf['akismet.key']
+			@antispam_service_list = {
+				# Service => ServiceHost
+				'Akismet' => 'rest.akismet.com',
+				'TypePad' => 'api.antispam.typepad.com'
+			}
+
+			host  = @antispam_service_list[@conf['antispam.service']]
+			return true unless (host || '' ).length > 0
+			debug("#{host}")
+
+			key = @conf['antispam.key']
 			return true unless (key || '' ).length > 0
 
 			blog = @conf.index.dup
@@ -35,7 +47,7 @@ module TDiary::Filter
 				comment_author_url = nil
 			end
 
-			uri = URI::parse( "http://#{key}.rest.akismet.com/1.1/comment-check" )
+			uri = URI::parse( "http://#{key}.#{host}/1.1/comment-check" )
 			data =  "blog=#{blog}"
 			data << "&user_ip=#{@cgi.remote_addr}"
 			data << "&user_agent=#{u @cgi.user_agent}"
@@ -47,30 +59,30 @@ module TDiary::Filter
 			data << "&comment_content=#{u comment.body}"
 
 			unless check( uri, data ) then
-				debug( "akismet judged spam." )
+				debug( "antispam judged spam." )
 				comment.show = false
 				#
-				# NOTICE: force hide TSUKKOMIs. because Akismet judge
+				# NOTICE: force hide TSUKKOMIs. because Antispam judge
 				#         Japanese TSUKKOMI to spam sometime.
 				#
 				return true # (@conf['spamfilter.filter_mode'] || true)
 			end
-			debug( "akismet judged ham.", DEBUG_FULL )
+			debug( "antispam judged ham.", DEBUG_FULL )
 			return true
 		end
 
 		def check( uri, data )
 			header = {
-				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Akismet filter/$Revision: 1.4 $",
+				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Antispam filter/$Revision: 1.4 $",
 				'Content-Type' => 'application/x-www-form-urlencoded'
 			}
 			body = nil
-			debug( "akismet request: #{data}", DEBUG_FULL )
+			debug( "antispam request: #{data}", DEBUG_FULL )
 			proxy_h, proxy_p = (@conf['proxy'] || '').split( /:/ )
 			::Net::HTTP::Proxy( proxy_h, proxy_p ).start( uri.host, uri.port ) do |http|
 				res, body = http.post( uri.path, data, header )
 			end
-			debug( "akismet result: #{body}", DEBUG_FULL )
+			debug( "antispam result: #{body}", DEBUG_FULL )
 			return (body != 'true')
 		end
 

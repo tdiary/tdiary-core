@@ -1,3 +1,11 @@
+2008-07-02 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* merge from Test_SelectFilter.
+
+2008-07-01 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* misc/filter/plugin/antispamservice.rb: fix key verify condition.
+	* misc/filter/antispam.rb, misc/filter/plugin/antispam.rb,
+	misc/filter/plugin/*/antispam.rb: rename antispam to antispamservice.
+
 2008-06-25 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb: escape double quotation in title attribute of
 	subtitle anchor.
@@ -12,6 +20,10 @@
 	* tdiary.rb: add 'Semulator', 'Vemulator', 'J-EMULATOR' and 'emobile' to 
 	mobile user agent.
 	* skel/footer.rhtml: display RUBY_PATCHLEVEL in footer.
+
+2008-06-15 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* misc/filter/antispam.rb, misc/filter/plugin/antispam.rb,
+	misc/filter/plugin/*/antispam.rb: delete antispam.enable option.
 
 2008-06-15 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/10spamfilter.rb, plugin/*/10spamfilter.rb,
@@ -32,6 +44,12 @@
 
 2008-05-31 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.rb: added logger.
+
+2008-05-24 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/60sf.rb: fix bug, plugin file unreadable error.
+
+2008-05-22 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary.rb, plugin/60sf.rb, plugin/*/60sf.rb: applied patch #58.
 
 2008-05-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* skel/diary.rhtml, skel/latest.rhtml, skel/month.rhtml: fixed #88.

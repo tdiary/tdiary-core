@@ -14,7 +14,7 @@ require 'open-uri'
 require 'timeout'
 
 module TDiary::Filter
-	class SpamlinkcheckFilter < Filter
+	class LinkcheckFilter < Filter
 		def initialize( *args )
 			super( *args )
 			@filter_mode = @conf['spamfilter.filter_mode']

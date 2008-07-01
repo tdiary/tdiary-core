@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080615'
+TDIARY_VERSION = '2.3.0.20080702'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -1235,9 +1235,13 @@ module TDiary
 			end
 		end
 
+		def all_filters
+			load_filters
+			@filters + (load_plugins.sf_filters || [])
+		end
+
 		def comment_filter( diary, comment )
-			load_filters unless @filters
-			@filters.each do |filter|
+			all_filters.each do |filter|
 				return false unless filter.comment_filter( diary, comment )
 				break unless comment.visible?
 			end
@@ -1245,8 +1249,7 @@ module TDiary
 		end
 
 		def referer_filter( referer )
-			load_filters unless @filters
-			@filters.each do |filter|
+			all_filters.each do |filter|
 				return false unless filter.referer_filter( referer )
 			end
 			true
