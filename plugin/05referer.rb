@@ -56,7 +56,7 @@ class RefererDiary
 	alias :add_referer_orig :add_referer
 	def add_referer( ref, count = 1 )
 		return nil unless ref
-		current = @current_date || @refs.keys.sort[-1] || '00000000'
+		current = @current_date || @refs.keys.sort[-1] || '00000101'
 		ref_info = add_referer_orig( ref, count )
 		uref = CGI::unescape( ref )
 		@refs[current] ||= {}
