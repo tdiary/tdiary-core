@@ -373,6 +373,8 @@ def iphone_tag
 	}
 	--></style>
 	CSS
+	else
+		''
 	end
 end
 
