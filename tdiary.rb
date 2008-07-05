@@ -396,6 +396,7 @@ module TDiary
 	class PermissionError < TDiaryError; end
 	class PluginError < TDiaryError; end
 	class BadStyleError < TDiaryError; end
+	class NotFound < TDiaryError;	end
 
 	#
 	# class IOBase
@@ -1732,6 +1733,14 @@ EOS
 			@diary ? @diary.last_modified : Time::at( 0 )
 		end
 
+		def eval_rhtml( prefix = '' )
+			if not @diary and @conf.bot?
+				raise NotFound
+			else
+				super(prefix)
+			end
+		end
+
 	protected
 		def load( date )
 			if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
@@ -1809,10 +1818,24 @@ EOS
 	end
 
 	#
+	# class TDiaryMonthBase
+	#  base of TDiaryMonth and TDiaryNYear
+	#
+	class TDiaryMonthBase < TDiaryView
+		def eval_rhtml( prefix = '' )
+			if @diaries.empty? and @conf.bot?
+				raise NotFound
+			else
+				super(prefix)
+			end
+		end
+	end
+	
+	#
 	# class TDiaryMonth
 	#  show month mode view
 	#
-	class TDiaryMonth < TDiaryView
+	class TDiaryMonth < TDiaryMonthBase
 		def initialize( cgi, rhtml, conf )
 			super
 
@@ -1843,7 +1866,7 @@ EOS
 	# class TDiaryNYear
 	#  show nyear mode view
 	#
-	class TDiaryNYear < TDiaryView
+	class TDiaryNYear < TDiaryMonthBase
 		def initialize(cgi, rhtml, conf)
 			super
 

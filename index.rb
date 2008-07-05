@@ -102,6 +102,15 @@ begin
 			</head>
 			<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 			</html>]
+	rescue TDiary::NotFound
+		if @cgi then
+			print @cgi.header( 'status' => CGI::HTTP_STATUS['NOT_FOUND'], 'type' => 'text/html' )
+		else
+			print "Status: 404 Not Found\n"
+			print "Content-Type: text/html\n\n"
+		end
+		puts "<h1>404 Not Found</h1>"
+		puts "<div>#{' ' * 500}</div>"
 	end
 rescue Exception
 	if @cgi then
