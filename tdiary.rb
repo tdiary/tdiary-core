@@ -59,6 +59,10 @@ class CGI
 		self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM|SoftBank|Semulator|Vemulator|J-EMULATOR|emobile)]i
 	end
 
+	def iphone?
+		self.user_agent =~ /iPhone|iPod/
+	end
+
 	def https?
 		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS']
 		true
@@ -499,6 +503,10 @@ module TDiary
 
 		def mobile_agent?
 			@cgi.mobile_agent?
+		end
+
+		def iphone?
+			@cgi.iphone?
 		end
 
 		def bot?

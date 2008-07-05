@@ -188,6 +188,7 @@ add_header_proc do
 	#{icon_tag}
 	#{description_tag}
 	#{css_tag.chomp}
+	#{iphone_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
 	HEADER
@@ -360,6 +361,19 @@ def css_tag
 	<link rel="stylesheet" href="#{h theme_url}/base.css" type="text/css" media="all">
 	<link rel="stylesheet" href="#{h css}" title="#{h title}" type="text/css" media="all">
 	CSS
+end
+
+def iphone_tag
+	if @conf.iphone? then
+	<<-CSS
+<meta name="viewport" content="width = 320" />
+	<style type="text/css"><!--
+	form.comment textarea { 
+		width: 80%;
+	}
+	--></style>
+	CSS
+	end
 end
 
 def robot_control

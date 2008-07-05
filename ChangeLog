@@ -1,5 +1,6 @@
 2008-07-05 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.rb, index.rb: raise 404 error when bot access to no existent diary.
+	* tdiary.rb, plugin/00default.rb: support iPhone/iPod touch.
 
 2008-07-05 KURODA Hiraku <hiraku at sapporo.email.ne.jp>
 	* fixed error when volatile.tdr is not exist.
