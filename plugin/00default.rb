@@ -366,7 +366,7 @@ end
 def iphone_tag
 	if @conf.iphone? then
 	<<-CSS
-<meta name="viewport" content="width = 320" />
+<meta name = "viewport" content = "width = device-width">
 	<style type="text/css"><!--
 	form.comment textarea { 
 		width: 80%;

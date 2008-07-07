@@ -1,3 +1,6 @@
+2008-07-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary.rb, plugin/00default.rb: use device-width accessed by iPhone/iPod touch.
+
 2008-07-05 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.rb, index.rb: raise 404 error when bot access to no existent diary.
 	* tdiary.rb, plugin/00default.rb: support iPhone/iPod touch.
