@@ -91,7 +91,7 @@ def sp_list_plugins( sp_opt )
 end
 
 # things needed to configure this plugin
-if SP_PREFIX == @cgi.params['conf'][0] then
+if SP_PREFIX == @cgi.params['conf'] && @cgi.params['conf'][0] then
 	# list of plugins
 	@sp_opt = sp_hash_from_dirs( @sp_path )
 
