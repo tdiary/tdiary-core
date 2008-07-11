@@ -94,7 +94,7 @@ def sf_list_plugins( sf_opt )
 end
 
 # things needed to configure this plugin
-if SP_PREFIX == @cgi.params['conf'] && @cgi.params['conf'][0] then
+if SF_PREFIX == (@cgi.params['conf'] && @cgi.params['conf'][0]) then
 	# list of plugins
 	@sf_opt = sf_hash_from_dirs( @sf_path )
 

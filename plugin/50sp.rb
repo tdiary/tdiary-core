@@ -44,7 +44,7 @@ end
 # lists of plugins
 def sp_list_plugins( sp_opt )
 	r = ''
-	unless sp_opt.empty? then
+	if ( sp_opt && !sp_opt.empty? ) then
 		# categorize the available plugins
 		used = Array.new
 		notused = Array.new
@@ -91,7 +91,7 @@ def sp_list_plugins( sp_opt )
 end
 
 # things needed to configure this plugin
-if SP_PREFIX == @cgi.params['conf'] && @cgi.params['conf'][0] then
+if SP_PREFIX == (@cgi.params['conf'] && @cgi.params['conf'][0]) then
 	# list of plugins
 	@sp_opt = sp_hash_from_dirs( @sp_path )
 

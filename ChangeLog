@@ -1,4 +1,7 @@
-2008-07-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+2008-07-11 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/50sp.rb: fix #113. thx KAKUTANI Shintaro.
+
+2008-07-10 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/50sp.rb, 60sf.rb: fix #111. thx KAKUTANI Shintaro.
 
 2008-07-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
