@@ -47,7 +47,7 @@ end
 # lists of plugins
 def sf_list_plugins( sf_opt )
 	r = ''
-	unless sf_opt.empty? then
+	if ( sf_opt && !sf_opt.empty? ) then
 		# categorize the available plugins
 		used = Array.new
 		notused = Array.new

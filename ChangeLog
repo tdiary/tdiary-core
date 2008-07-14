@@ -1,3 +1,6 @@
+2008-07-14 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/60sf.rb: fix #114. thx KAKUTANI Shintaro.
+
 2008-07-11 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/50sp.rb: fix #113. thx KAKUTANI Shintaro.
 
