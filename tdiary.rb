@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080708'
+TDIARY_VERSION = '2.3.0.20080718'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -2063,6 +2063,18 @@ EOS
 	#  base of category view mode classes
 	#
 	class TDiaryCategoryView < TDiaryBase
+		attr_reader :last_modified
+		def initialize(cgi, rhtml, conf)
+			super
+			@last_modified = Time.now
+		end
+	end
+
+	#
+	# class TDiarySearch
+	#  base of search view mode classes
+	#
+	class TDiarySearch < TDiaryBase
 		attr_reader :last_modified
 		def initialize(cgi, rhtml, conf)
 			super

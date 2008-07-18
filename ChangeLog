@@ -1,3 +1,6 @@
+2008-07-18 TADA Tadashi <sho@spc.gr.jp>
+	* index.rb, tdiary.rb, skel/search.rhtml: added site search template.
+
 2008-07-14 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/60sf.rb: fix #114. thx KAKUTANI Shintaro.
 

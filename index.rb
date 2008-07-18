@@ -42,6 +42,8 @@ begin
 			end
 		elsif @cgi.valid?( 'category' )
 			tdiary = TDiary::TDiaryCategoryView::new( @cgi, "category.rhtml", conf )
+		elsif @cgi.valid?( 'q' )
+			tdiary = TDiary::TDiarySearch::new( @cgi, "search.rhtml", conf )
 		else
 			tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
 		end
