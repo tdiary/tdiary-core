@@ -7,6 +7,26 @@
 #
 
 #
+# setting @date
+#
+unless @date
+	if @diary then
+		@date = @diary.date
+	else
+		@date = case @mode
+		when 'day'
+			Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)(\d\d)/ ).flatten )
+		when 'month'
+			Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)/ ).flatten )
+		when 'edit'
+			Time::local( @cgi.params['year'][0].to_i, @cgi.params['month'][0].to_i, @cgi.params['day'][0].to_i )
+		else
+			nil
+		end
+	end
+end
+
+#
 # make navigation buttons
 #
 def navi

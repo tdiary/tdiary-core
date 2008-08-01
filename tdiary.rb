@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080718'
+TDIARY_VERSION = '2.3.0.20080801'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -1730,7 +1730,8 @@ EOS
 			super
 			begin
 				# time is noon for easy to calc leap second.
-				load( Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60 )
+				@date = Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60
+				load( @date )
 			rescue ArgumentError, NameError
 				raise TDiaryError, 'bad date'
 			end
@@ -1752,11 +1753,10 @@ EOS
 	protected
 		def load( date )
 			if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
-				@date = date
-				@io.transaction( @date ) do |diaries|
+				@io.transaction( date ) do |diaries|
 					@diaries = diaries
 					dirty = DIRTY_NONE
-					@diary = self[@date]
+					@diary = self[date]
 					if @diary and @cgi.referer then
 						@diary.add_referer( @cgi.referer )
 						dirty = DIRTY_REFERER
@@ -1764,8 +1764,7 @@ EOS
 					dirty
 				end
 			else
-				@date = date
-				@diary = self[@date]
+				@diary = self[date]
 			end
 		end
 

@@ -1,3 +1,6 @@
+2008-08-01 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb, 00default.rb: set @date starting with plugin running.
+
 2008-07-18 TADA Tadashi <sho@spc.gr.jp>
 	* index.rb, tdiary.rb, skel/search.rhtml: added site search template.
 
