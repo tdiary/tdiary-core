@@ -230,6 +230,7 @@ module TDiary
 					end
 
 					# read and parse diary
+					style_name = ''
 					s = fh.read
 					s = migrate_to_01( s ) if minor == '00.00' and !@tdiary.conf['stop_migrate_01']
 					s.split( /\r?\n\.\r?\n/ ).each do |l|
@@ -240,6 +241,8 @@ module TDiary
 						diaries[headers['Date']] = diary
 					end
 
+				rescue SyntaxError
+					raise "#{style_name} style not found."
 				rescue NameError
 					# no magic number when it is new file.
 				end
