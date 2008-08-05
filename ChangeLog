@@ -1,5 +1,6 @@
 2008-08-05 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: detected error of no style file.
+	* plugin/00default.rb: fixed #104, error on no existent day.
 
 2008-08-01 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb, 00default.rb: set @date starting with plugin running.

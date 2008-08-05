@@ -551,12 +551,17 @@ def comment_description
 end
 
 def comment_form_text
+	unless @diary then
+		@diary = @diaries[@date.strftime( '%Y%m%d' )]
+		return '' unless @diary
+	end
+
 	r = ''
 	unless @conf.hide_comment_form then
 		r = <<-FORM
 			<div class="form">
 		FORM
-		if @diaries[@date.strftime('%Y%m%d')].count_comments( true ) >= @conf.comment_limit_per_day then
+		if @diary.count_comments( true ) >= @conf.comment_limit_per_day then
 			r << <<-FORM
 				<div class="caption"><a name="c">#{comment_limit_label}</a></div>
 			FORM
