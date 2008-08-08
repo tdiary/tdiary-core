@@ -1,3 +1,8 @@
+2008-08-08  Kazuhiko  <kazuhiko@fdiary.net>
+	* plugin/90migrate.rb: fix typos to convert category cache correctly.
+	set @conf.tdiary_version just after converting tdiary.conf to prevent
+	converting twice.
+
 2008-08-05 TADA Tadashi <sho@spc.gr.jp>
 	* defaultio.rb: detected error of no style file.
 	* plugin/00default.rb: fixed #104, error on no existent day.

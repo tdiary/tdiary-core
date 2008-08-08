@@ -51,7 +51,7 @@ unless @conf.tdiary_version
 
 	require "fileutils"
 
-	# convert tdiary.conf in @data_path
+	# convert tdiary.conf in @conf.data_path
 	begin
 		conf_path = "#{@conf.data_path}tdiary.conf"
 		conf = File::open( conf_path ){|f| @conf.migrate_to_utf8( f.read ) }
@@ -64,21 +64,22 @@ unless @conf.tdiary_version
 		o.puts %Q!tdiary_version = "#{TDIARY_VERSION}"!
 		o.print( conf ) if conf
 	end
+	@conf.tdiary_version = TDIARY_VERSION
 
 	# convert pstore cache files of plugins
-	dir = @cache_path || "#{@data_path}cache"
+	dir = @cache_path || "#{@conf.data_path}cache"
 	%w(makerss.cache recent_comments recent_trackbacks tlink/tlink.dat whatsnew-list blog_category).each do |e|
 		convert_pstore( "#{dir}/#{e}" ) if File.exist?( "#{dir}/#{e}" )
 	end
 	Dir["#{dir}/disp_referrer2.d/*"].each do |file|
 		convert_pstore( file )
 	end
-	Dir["#{@data_path}category/*"].each do |file|
+	Dir["#{@conf.data_path}category/*"].each do |file|
 		convert_pstore( file )
 	end
 
 	# rename category cache files
-	Dir["#{@data_path}category/*"].each do |file|
+	Dir["#{@conf.data_path}category/*"].each do |file|
 		dirname, basename = File.split( file )
 		new_basename = u( @conf.migrate_to_utf8( CGI::unescape( basename ) ) )
 		FileUtils.mv( file, File.join( dirname, new_basename ) ) unless basename == new_basename
