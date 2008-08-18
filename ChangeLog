@@ -1,3 +1,6 @@
+2008-08-18 TADA Tadashi <sho@spc.gr.jp>
+	* misc/lib/hikidoc.rb: replaced HikiDoc library by 0.0.2.
+
 2008-08-08  Kazuhiko  <kazuhiko@fdiary.net>
 	* plugin/90migrate.rb: fix typos to convert category cache correctly.
 	set @conf.tdiary_version just after converting tdiary.conf to prevent

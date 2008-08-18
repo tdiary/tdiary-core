@@ -330,9 +330,9 @@ class HikiDoc
 
   def compile_indented_pre(f)
     lines = f.span(INDENTED_PRE_RE)\
-        .map {|line| rstrip(line.sub(INDENTED_PRE_RE, "")) }\
-        .map {|line| @output.text(line) }
-    @output.preformatted restore_plugin_block(lines.join("\n"))
+        .map {|line| rstrip(line.sub(INDENTED_PRE_RE, "")) }
+    text = restore_plugin_block(lines.join("\n"))
+    @output.preformatted(@output.text(text))
   end
 
   BLOCK_PRE_OPEN_RE = /\A<<<\s*(\w+)?/
@@ -468,9 +468,7 @@ class HikiDoc
   end
 
   def fix_uri(uri)
-    if /:/ =~ uri and %r!\A(https?|ftp|file|mailto):! !~ uri
-      uri
-    elsif %r|://| !~ uri and /\Amailto:/ !~ uri
+    if /\A(?:https?|ftp|file):(?!\/\/)/ =~ uri
       uri.sub(/\A\w+:/, "")
     else
       uri
