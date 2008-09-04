@@ -1,3 +1,7 @@
+2008-09-04 TADA Tadashi <sho@spc.gr.jp>
+	* tdiary.rb: fixed #119: Insecure error in CGI::https? when runnning on
+	secure mode.
+
 2008-08-18 TADA Tadashi <sho@spc.gr.jp>
 	* misc/lib/hikidoc.rb: replaced HikiDoc library by 0.0.2.
 

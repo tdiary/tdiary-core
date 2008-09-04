@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.0.20080805'
+TDIARY_VERSION = '2.3.0.20080904'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -556,13 +556,17 @@ module TDiary
 
 		def base_url_auto
 			return '' unless @cgi.script_name
-			if @cgi.https?
-				port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
-				"https://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
-			else
-				port = (@cgi.server_port == 80) ? '' : ':' + @cgi.server_port.to_s
-				"http://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
-			end.sub(%r|/+$|, '/')
+			begin
+				if @cgi.https?
+					port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
+					"https://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
+				else
+					port = (@cgi.server_port == 80) ? '' : ':' + @cgi.server_port.to_s
+					"http://#{ @cgi.server_name }#{ port }#{File::dirname(@cgi.script_name)}/"
+				end.sub(%r|/+$|, '/')
+			rescue SecurityError
+				''
+			end
 		end
 
 	private
