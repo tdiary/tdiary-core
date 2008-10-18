@@ -1,3 +1,6 @@
+2008-10-18 TADA Tadashi <sho@spc.gr.jp>
+	* plugin/90migrate.rb: supported a.dat (a.rb plugin's dictionary).
+
 2008-09-04 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.rb: fixed #119: Insecure error in CGI::https? when runnning on
 	secure mode.

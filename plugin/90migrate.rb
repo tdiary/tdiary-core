@@ -85,6 +85,11 @@ unless @conf.tdiary_version
 		FileUtils.mv( file, File.join( dirname, new_basename ) ) unless basename == new_basename
 	end
 
+	# other files
+	a_dat = @conf['a.path'] || "#{dir}/a.dat"
+	t = File::open( a_dat ){|f| f.read}
+	File::open( a_dat, 'wb' ){|f| f.write( @conf.migrate_to_utf8( t ) )}
+
 	# remove ruby/erb cache files
 	Dir["#{dir}/*.rb"].each{|f| FileUtils.rm_f( f )}
 	Dir["#{dir}/*.parser"].each{|f| FileUtils.rm_f( f )}
