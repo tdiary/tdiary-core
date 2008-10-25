@@ -27,7 +27,7 @@
 @style = 'Wiki'
 
 #@index = './'
-@update = 'update.cgi'
+@update = 'update.rb'
 
 @options['apply_plugin'] = true
 
