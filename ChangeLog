@@ -1,3 +1,6 @@
+2008-10-26 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/90migrate.rb: fixed error when a.dat is not exist.
+
 2008-10-25 TADA Tadashi <sho@spc.gr.jp>
 	* tdiary.conf.beginner: 'update.cgi' -> 'update.rb'
 

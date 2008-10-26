@@ -87,8 +87,10 @@ unless @conf.tdiary_version
 
 	# other files
 	a_dat = @conf['a.path'] || "#{dir}/a.dat"
-	t = File::open( a_dat ){|f| f.read}
-	File::open( a_dat, 'wb' ){|f| f.write( @conf.migrate_to_utf8( t ) )}
+	if File.exist?( a_dat ) then
+		t = File::open( a_dat ){|f| f.read}
+		File::open( a_dat, 'wb' ){|f| f.write( @conf.migrate_to_utf8( t ) )}
+	end
 
 	# remove ruby/erb cache files
 	Dir["#{dir}/*.rb"].each{|f| FileUtils.rm_f( f )}
