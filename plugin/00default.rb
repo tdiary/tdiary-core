@@ -589,7 +589,7 @@ def comment_form_text
 			</div>
 		FORM
 	end
-	r
+	r.gsub( /<\//, '<\\/' )
 end
 
 add_footer_proc do
