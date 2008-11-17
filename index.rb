@@ -5,7 +5,7 @@
 # Copyright (C) 2001-2006, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
-BEGIN { $defout.binmode }
+BEGIN { $stdout.binmode }
 $KCODE = 'n'
 
 begin

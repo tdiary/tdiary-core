@@ -1,3 +1,6 @@
+2008-11-17 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* index.rb, update.rb: replaced $defout to $stdout. ($defout is obsolete in ruby1.8) 
+
 2008-10-31 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb: escaped comment_form_text. thx fudan.
 
