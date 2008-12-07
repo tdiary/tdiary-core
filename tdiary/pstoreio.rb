@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.25 $
 #

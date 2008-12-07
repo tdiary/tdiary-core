@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # ja/00default.rb: Japanese resources of 00default.rb.
 #

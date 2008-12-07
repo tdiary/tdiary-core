@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #!/usr/bin/env ruby
 #
 # index.rb $Revision: 1.35 $

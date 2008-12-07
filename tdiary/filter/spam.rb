@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 # Copyright (C) 2005  akira yamada
 # You can redistribute it and/or modify it under GPL2.
 

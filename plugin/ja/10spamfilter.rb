@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # ja/spamfilter.rb: resource of ja $Revision: 1.18 $
 #

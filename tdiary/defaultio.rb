@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # defaultio.rb: tDiary IO class for tDiary 2.x format. $Revision: 1.44 $
 #

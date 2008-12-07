@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # 00default.rb: default plugins 
 # $Revision: 1.120 $

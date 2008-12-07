@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # 05referer.rb: Traditional-Chinese resource of referer plugin
 #

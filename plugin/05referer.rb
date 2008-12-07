@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # 01referer.rb: load/save and show today's referer plugin
 # $Revision: 1.18 $

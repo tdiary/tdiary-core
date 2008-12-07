@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.32 $
 #

@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # etdiary_style.rb: tDiary style class for etDiary format.
 # $Id: etdiary_style.rb,v 1.20 2008-03-02 09:01:20 kazuhiko Exp $

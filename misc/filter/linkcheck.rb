@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # linkcheck.rb: tDiary filter for checking link to my site in TrackBack source site.
 #

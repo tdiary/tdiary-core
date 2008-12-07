@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # zh/spamfilter.rb: resource of zh $Revision: 1.14 $
 #

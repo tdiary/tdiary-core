@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # default.rb: included TDiary::Filter::DefaultFilter class
 #

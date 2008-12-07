@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # tdiary_style.rb: tDiary style class for tDiary 2.x format. $Revision: 1.16 $
 #

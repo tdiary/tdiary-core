@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # zh/00default.rb: Traditional-Chinese resources of 00default.rb.
 #

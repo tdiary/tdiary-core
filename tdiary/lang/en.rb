@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # tDiary language setup: English(en) $Revision: 1.5 $
 #

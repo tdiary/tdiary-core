@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 # 50sf.rb.rb - select-filters plugin
 # This file is based on 01sp.rb Revision: 1.5
 # Modified by KURODA Hiraku.

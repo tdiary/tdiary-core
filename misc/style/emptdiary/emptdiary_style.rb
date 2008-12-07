@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 =begin
 = emptDiary style((-$Id: emptdiary_style.rb,v 1.11 2008-03-02 09:01:20 kazuhiko Exp $-))
 

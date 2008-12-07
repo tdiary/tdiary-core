@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #!/usr/bin/env ruby
 #
 # update.rb $Revision: 1.22 $

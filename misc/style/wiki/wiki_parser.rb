@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 # wiki_parser.rb: Wiki parser for tDiary style $Revision: 1.10 $
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>

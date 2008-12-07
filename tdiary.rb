@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
@@ -6,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1'
+TDIARY_VERSION = '2.3.1.20081207'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 

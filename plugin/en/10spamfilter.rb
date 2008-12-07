@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # en/spamfilter.rb: resource of en $Revision: 1.15 $
 #

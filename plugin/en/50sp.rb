@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 # English resources of 01sp.rb $Revision: 1.2 $
 
 =begin

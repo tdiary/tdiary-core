@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #!/usr/bin/env ruby
 #
 # migrate.rb $Revision: 1.2 $

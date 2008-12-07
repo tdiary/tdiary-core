@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # tDiary language setup: (zh) $Revision: 1.4 $
 #

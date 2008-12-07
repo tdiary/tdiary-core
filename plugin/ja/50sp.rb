@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 # Japanese resources of 01sp.rb $Revision: 1.3 $
 
 =begin

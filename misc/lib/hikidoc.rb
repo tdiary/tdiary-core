@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 # Copyright (c) 2005, Kazuhiko <kazuhiko@fdiary.net>
 # Copyright (c) 2007 Minero Aoki
 # All rights reserved.

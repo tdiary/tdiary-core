@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # en/antispamservice.rb: English resource of Antispam filter setup plugin. $Revision: 1.2 $
 #

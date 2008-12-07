@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # migrate.rb: tDiary plugin for migration 2.2 to 2.3.
 #
