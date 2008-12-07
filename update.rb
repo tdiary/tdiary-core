@@ -1,5 +1,5 @@
-# -*- coding: utf-8; -*-
 #!/usr/bin/env ruby
+# -*- coding: utf-8; -*-
 #
 # update.rb $Revision: 1.22 $
 #
