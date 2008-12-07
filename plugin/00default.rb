@@ -698,7 +698,7 @@ def comment_mail_send
 	mail_header = (@conf['comment_mail.header'] || '').dup
 	mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
 	mail_header = @date.strftime( mail_header )
-	mail_header = comment_mail_mime( @conf.to_mail( mail_header ) ).join( "\n " ) if /[\x80-\xff]/ =~ mail_header
+	mail_header = comment_mail_mime( @conf.to_mail( mail_header ) ).join( "\n " ) #if /[\x80-\xff]/ =~ mail_header
 
 	rmail = ''
 	begin

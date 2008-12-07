@@ -36,7 +36,7 @@ module TDiary
 		def restore_comment( file, diaries )
 			minor = ''
 			begin
-				File::open( file, 'r' ) do |fh|
+				File::open( file, 'r:utf-8' ) do |fh|
 					fh.flock( File::LOCK_SH )
 
 					major, minor = fh.gets.chomp.split( /\./, 2 )
@@ -92,7 +92,7 @@ module TDiary
 
 		def restore_referer( file, diaries )
 			begin
-				File::open( file, 'r' ) do |fh|
+				File::open( file, 'r:utf-8' ) do |fh|
 					fh.flock( File::LOCK_SH )
 					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 						headers, body = TDiary::parse_tdiary( l )
@@ -154,9 +154,9 @@ module TDiary
 			begin
 				Dir::mkdir( dir ) unless FileTest::directory?( dir )
 				begin
-					fh = File::open( @dfile, 'r+' )
+					fh = File::open( @dfile, 'r+:utf-8' )
 				rescue
-					fh = File::open( @dfile, 'w+' )
+					fh = File::open( @dfile, 'w+:utf-8' )
 				end
 				fh.flock( File::LOCK_EX )
 

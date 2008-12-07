@@ -28,8 +28,8 @@ module TDiary
 			def referer_filter( referer )
 				if not referer then
 					false
-				elsif /[\x00-\x20\x7f-\xff]/ =~ referer then
-					false
+				#elsif /[\x00-\x20\x7f-\xff]/ =~ referer then
+				#	false
 				elsif @conf.bot?
 					false
 				elsif %r|^https?://|i =~ referer
