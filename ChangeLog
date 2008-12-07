@@ -1,4 +1,7 @@
 2008-12-07 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* misc/lib/compatible.rb: add compatible.rb
+
+2008-12-07 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* **/*.rb: insert magic comment.
 
 2008-11-17 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>

@@ -18,6 +18,7 @@ begin
 rescue LoadError
 	require 'erb'
 end
+require 'compatible'
 
 =begin
 == String class
