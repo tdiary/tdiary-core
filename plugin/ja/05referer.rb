@@ -32,7 +32,7 @@ add_conf_proc( 'referer', 'リンク元', 'referer' ) do
 	<p>→<a href="#{h @update}?referer=volatile" target="referer">既存設定はこちら</a></p>
 	<p><textarea name="only_volatile" cols="70" rows="10">#{h @conf.only_volatile2.join( "\n" )}</textarea></p>
 	<h3 class="subtitle">#{label_referer_table}</h3>
-	#{"<p>リンク元リストのURLを、特定の文字列に変換する対応表を指定できます。1件につき、URLと表示文字列を空白で区切って指定します。正規表現が使えるので、URL中に現れた「(〜)」は、置換文字列中で「\\1」のような「\数字」で利用できます。</p>" unless @conf.mobile_agent?}
+	#{"<p>リンク元リストのURLを、特定の文字列に変換する対応表を指定できます。1件につき、URLと表示文字列を空白で区切って指定します。正規表現が使えるので、URL中に現れた「(〜)」は、置換文字列中で「\\\\1」のような「\\数字」で利用できます。</p>" unless @conf.mobile_agent?}
 	<p>→<a href="#{h @update}?referer=table" target="referer">既存設定はこちら</a></p>
 	<p><textarea name="referer_table" cols="70" rows="10">#{h @conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML

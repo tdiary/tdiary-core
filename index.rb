@@ -71,7 +71,7 @@ begin
 			if @cgi.mobile_agent? then
 				body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 				head['charset'] = conf.mobile_encoding
-				head['Content-Length'] = body.size.to_s
+				head['Content-Length'] = body.bytesize.to_s
 			else
 				require 'digest/md5'
 				body = tdiary.eval_rhtml
@@ -81,7 +81,7 @@ begin
 					body = ''
 				else
 					head['charset'] = conf.encoding
-					head['Content-Length'] = body.size.to_s
+					head['Content-Length'] = body.bytesize.to_s
 				end
 				head['Pragma'] = 'no-cache'
 				head['Cache-Control'] = 'no-cache'

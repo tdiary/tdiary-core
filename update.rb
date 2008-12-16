@@ -56,7 +56,7 @@ begin
 				'status' => '200 OK',
 				'type' => 'text/html',
 				'charset' => conf.mobile_encoding,
-				'Content-Length' => body.size.to_s,
+				'Content-Length' => body.bytesize.to_s,
 				'Vary' => 'User-Agent'
 			)
 		else
@@ -65,7 +65,7 @@ begin
 				'status' => '200 OK',
 				'type' => 'text/html',
 				'charset' => conf.encoding,
-				'Content-Length' => body.size.to_s,
+				'Content-Length' => body.bytesize.to_s,
 				'Vary' => 'User-Agent'
 			)
 		end
