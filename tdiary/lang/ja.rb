@@ -6,8 +6,6 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 
-$KCODE = 'u'
-
 require 'nkf'
 begin
 	require "iconv"

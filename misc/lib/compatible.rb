@@ -66,22 +66,6 @@ end
 # tDiary 用の設定
 # --------------------------------------------------------
 
-# Ruby1.9でNKF::nkfを呼ぶと文字列のencodingが変わってしまう。
-# そのため、encodingがBinaryの環境で動かすと
-# "character encodings differ" エラーとなる。
-begin
-  require 'nkf'
-  module NKF
-    alias :_nkf :nkf
-    def nkf(option, src)
-      r = _nkf(option, src)
-      r.force_encoding('Binary')
-    end
-    module_function :nkf, :_nkf
-  end
-rescue
-end
-
 # 日本語を含むツッコミを入れると diary.last_modified が String になる (原因不明)
 # (PStore 保存前は Time だが, 保存後に String となる)
 # 暫定的に String だったら Time へ変換する

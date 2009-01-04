@@ -7,7 +7,11 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $stdout.binmode }
-$KCODE = 'n'
+if RUBY_VERSION < '1.9.1'
+	$KCODE = 'n'
+else
+	Encoding::default_external = 'UTF-8'
+end
 
 begin
 	if FileTest::symlink?( __FILE__ ) then

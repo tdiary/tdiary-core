@@ -7,11 +7,6 @@
 #
 
 #
-# setting ruby charctor encoding.
-# 
-$KCODE = 'n'
-
-#
 # 'html_lang' method returns String of HTML language attribute.
 # 
 def html_lang

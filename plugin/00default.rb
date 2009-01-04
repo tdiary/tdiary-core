@@ -702,9 +702,9 @@ def comment_mail_send
 
 	rmail = ''
 	begin
-		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt.#{@conf.lang}" ){|f| f.read }
+		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt.#{@conf.lang}", 'r:utf-8' ){|f| f.read }
 	rescue
-		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
+		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt", 'r:utf-8' ){|f| f.read }
 	end
 	text = ERB::new( rmail.untaint ).result( binding )
 	receivers.each { |i| i.untaint }

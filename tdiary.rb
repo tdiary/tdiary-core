@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20081216'
+TDIARY_VERSION = '2.3.1.20090104'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -645,28 +645,31 @@ module TDiary
 			@data_path += '/' if /\/$/ !~ @data_path
 			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{PATH}/"
 
-			variables = [
-				:tdiary_version,
-				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
-				:description, :icon, :banner,
-				:header, :footer,
-				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
-				:theme, :css,
-				:show_comment, :comment_limit, :comment_limit_per_day,
-				:mail_on_comment, :mail_header,
-				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
-				:options2,
-			]
 			begin
+				def_vars1 = ''
+				def_vars2 = ''
+				[
+					:tdiary_version,
+					:html_title, :author_name, :author_mail, :index_page, :hour_offset,
+					:description, :icon, :banner,
+					:header, :footer,
+					:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
+					:theme, :css,
+					:show_comment, :comment_limit, :comment_limit_per_day,
+					:mail_on_comment, :mail_header,
+					:show_referer, :no_referer2, :only_volatile2, :referer_table2,
+					:options2,
+				].each do |var|
+					def_vars1 << "@#{var} = nil\n"
+					def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
+				end
+
 				cgi_conf = File::open( "#{@data_path}tdiary.conf", 'r:utf-8' ){|f| f.read }
 				cgi_conf.untaint unless @secure
-				def_vars = ""
-				variables.each do |var| def_vars << "#{var} = nil\n" end
-				eval( def_vars )
+
 				Safe::safe( @secure ? 4 : 1 ) do
-					eval( cgi_conf, binding, "(TDiary::Config#cgi_conf)", 1 )
+					eval( def_vars1 + cgi_conf + def_vars2, binding, "(TDiary::Config#load_cgi_conf)", 1 )
 				end
-				variables.each do |var| eval "@#{var} = #{var} if #{var} != nil" end
 			rescue IOError, Errno::ENOENT
 			end
 		end
@@ -999,7 +1002,7 @@ module TDiary
 			str = nil
 			table.each do |url, name|
 				if /#{url}/i =~ ref then
-					str = ref.gsub( /#{url}/in, name )
+					str = ref.gsub( /#{url}/i, name )
 					break
 				end
 			end

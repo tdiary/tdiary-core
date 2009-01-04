@@ -1,3 +1,6 @@
+2009-01-04 TADA Tadashi <t@tdtds.jp>
+	* supported ruby 1.9.1 more, but it dose not work well.
+
 2008-12-16 TADA Tadashi <t@tdtds.jp>
 	* index.rb, update.rb: String#size -> String#bytesize.
 	* plugin/ja/05referer.rb: escaped backslash more.
