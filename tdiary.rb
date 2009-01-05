@@ -660,7 +660,7 @@ module TDiary
 					:show_referer, :no_referer2, :only_volatile2, :referer_table2,
 					:options2,
 				].each do |var|
-					def_vars1 << "@#{var} = nil\n"
+					def_vars1 << "#{var} = nil\n"
 					def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
 				end
 
