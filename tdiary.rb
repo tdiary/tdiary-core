@@ -7,7 +7,7 @@ Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20090104'
+TDIARY_VERSION = '2.3.1.20090107'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -667,9 +667,12 @@ module TDiary
 				cgi_conf = File::open( "#{@data_path}tdiary.conf", 'r:utf-8' ){|f| f.read }
 				cgi_conf.untaint unless @secure
 
+				b = binding.taint
+				eval( def_vars1, b )
 				Safe::safe( @secure ? 4 : 1 ) do
-					eval( def_vars1 + cgi_conf + def_vars2, binding, "(TDiary::Config#load_cgi_conf)", 1 )
+					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
 				end
+				eval( def_vars2, b )
 			rescue IOError, Errno::ENOENT
 			end
 		end

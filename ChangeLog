@@ -1,3 +1,6 @@
+2009-01-07 TADA Tadashi <t@tdtds.jp>
+	* tdiary.rb: supported secure mode in load_cgi_conf, but dose not works on secure mode...
+
 2009-01-04 TADA Tadashi <t@tdtds.jp>
 	* supported ruby 1.9.1 more, but it dose not work well.
 
