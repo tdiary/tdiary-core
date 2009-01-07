@@ -572,7 +572,7 @@ def comment_form_text
 				<form class="comment" name="comment-form" method="post" action="#{h @index}"><div>
 				<input type="hidden" name="date" value="#{ @date.strftime( '%Y%m%d' )}">
 				<div class="field name">
-					#{comment_name_label}:<input class="field" name="name" value="#{h( @cgi.cookies['tdiary'][0] || '' )}">
+					#{comment_name_label}:<input class="field" name="name" value="#{h( @conf.to_native(@cgi.cookies['tdiary'][0]) || '' )}">
 				</div>
 				<div class="field mail">
 					#{comment_mail_label}:<input class="field" name="mail" value="#{h( @cgi.cookies['tdiary'][1] || '' )}">
