@@ -55,7 +55,7 @@ unless @conf.tdiary_version
 	# convert tdiary.conf in @conf.data_path
 	begin
 		conf_path = "#{@conf.data_path}tdiary.conf"
-		conf = File::open( conf_path, 'r:utf-8' ){|f| @conf.migrate_to_utf8( f.read ) }
+		conf = File::open( conf_path ){|f| @conf.migrate_to_utf8( f.read ) }
 		conf.gsub!(/(\\[0-9]{3})+/) do |str|
 			@conf.migrate_to_utf8( eval( %Q["#{$&}"] ) ).dump[1...-1]
 		end
@@ -89,7 +89,7 @@ unless @conf.tdiary_version
 	# other files
 	a_dat = @conf['a.path'] || "#{dir}/a.dat"
 	if File.exist?( a_dat ) then
-		t = File::open( a_dat, 'r:utf-8' ){|f| f.read}
+		t = File::open( a_dat ){|f| f.read}
 		File::open( a_dat, 'wb' ){|f| f.write( @conf.migrate_to_utf8( t ) )}
 	end
 

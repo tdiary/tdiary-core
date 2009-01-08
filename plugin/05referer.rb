@@ -146,7 +146,7 @@ end
 
 def referer_load( file, diary )
 	begin
-		File::open( file, 'r:utf-8' ) do |fh|
+		File::open( file ) do |fh|
 			fh.flock( File::LOCK_SH )
 			fh.gets # read magic
 			fh.read.split( /\r?\n\.\r?\n/ ).each do |l|

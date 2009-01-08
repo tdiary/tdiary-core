@@ -3,11 +3,11 @@
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
 
-Copyright (C) 2001-2007, TADA Tadashi <sho@spc.gr.jp>
+Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20090107'
+TDIARY_VERSION = '2.3.1.20090108'
 
 $:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
 
@@ -390,7 +390,7 @@ module TDiary
 		end
 
 		def eval_rhtml( opt, path = '.' )
-			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml", 'r:utf-8' ){|f| f.read }.untaint ).result( binding )
+			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
 		end
 	end
 
@@ -492,7 +492,7 @@ module TDiary
 
 		# saving to tdiary.conf in @data_path
 		def save
-			result = ERB::new( File::open( "#{PATH}/skel/tdiary.rconf", 'r:utf-8' ){|f| f.read }.untaint ).result( binding )
+			result = ERB::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
 			result.untaint unless @secure
 			Safe::safe( @secure ? 4 : 1 ) do
 				eval( result, binding, "(TDiary::Config#save)", 1 )
@@ -575,12 +575,12 @@ module TDiary
 		def load
 			@secure = true unless @secure
 			@options = {}
-			eval( File::open( "tdiary.conf", 'r:utf-8' ){|f| f.read }.untaint, binding, "(tdiary.conf)", 1 )
+			eval( File::open( "tdiary.conf" ){|f| f.read }.untaint, binding, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
 			begin
-				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb", 'r:utf-8' ){|f| f.read }.untaint, "(tdiary/lang/#{@lang}.rb)", 1 )
+				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f| f.read }.untaint, "(tdiary/lang/#{@lang}.rb)", 1 )
 			rescue Errno::ENOENT
 				@lang = 'ja'
 				retry
@@ -664,7 +664,7 @@ module TDiary
 					def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
 				end
 
-				cgi_conf = File::open( "#{@data_path}tdiary.conf", 'r:utf-8' ){|f| f.read }
+				cgi_conf = File::open( "#{@data_path}tdiary.conf" ){|f| f.read }
 				cgi_conf.untaint unless @secure
 
 				b = binding.taint
@@ -762,13 +762,13 @@ module TDiary
 			@resource_loaded = false
 			begin
 				res_file = File::dirname( file ) + "/#{@conf.lang}/" + File::basename( file )
-				open( res_file.untaint, 'r:utf-8' ) do |src|
+				open( res_file.untaint ) do |src|
 					instance_eval( src.read.untaint, "(plugin/#{@conf.lang}/#{File::basename( res_file )})", 1 )
 				end
 				@resource_loaded = true
 			rescue IOError, Errno::ENOENT
 			end
-			File::open( file.untaint, 'r:utf-8' ) do |src|
+			File::open( file.untaint ) do |src|
 				instance_eval( src.read.untaint, "(plugin/#{File::basename( file )})", 1 )
 			end
 		end
@@ -1073,7 +1073,7 @@ module TDiary
 			begin
 				r = do_eval_rhtml( prefix )
 			rescue PluginError, SyntaxError, ArgumentError
-				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml", 'r:utf-8' ) {|f| f.read }.untaint ).result( binding )
+				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
 			rescue Exception
 				raise
 			end
@@ -1111,16 +1111,16 @@ module TDiary
 
 			# load and apply rhtmls
 			if cache_enable?( prefix ) then
-				r = File::open( "#{cache_path}/#{cache_file( prefix )}", 'r:utf-8' ) {|f| f.read } rescue nil
+				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 			if r.nil?
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
 				rhtml = files.collect {|file|
 					path = "#{PATH}/skel/#{prefix}#{file}"
 					begin
-						File::open( "#{path}.#{@conf.lang}", 'r:utf-8' ) {|f| f.read }
+						File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
 					rescue
-						File::open( path, 'r:utf-8' ) {|f| f.read }
+						File::open( path ) {|f| f.read }
 					end
 				}.join
 				r = ERB::new( rhtml.untaint ).result( binding )

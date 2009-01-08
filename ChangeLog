@@ -1,3 +1,6 @@
+2009-01-08 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* deleted encoding parameter in File::open.
+
 2009-01-07 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb: added to_native for cookie name.
 
