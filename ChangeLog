@@ -1,3 +1,6 @@
+2009-01-07 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb: added to_native for cookie name.
+
 2009-01-07 TADA Tadashi <t@tdtds.jp>
 	* tdiary.rb: supported secure mode in load_cgi_conf, but dose not works on secure mode...
 
