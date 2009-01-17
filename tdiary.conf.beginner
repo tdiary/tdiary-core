@@ -109,10 +109,10 @@ HEADER
 <%= recent_list %>
 
 <h3>最近のツッコミ</h3>
-<%= recent_comment %>
+<%= recent_comment3 %>
 
 <h3>最近のTrackBack</h3>
-<%= recent_trackback %>
+<%= recent_trackback3 %>
 </div>
 FOOTER
 
