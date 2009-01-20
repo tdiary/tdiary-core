@@ -1,3 +1,6 @@
+2009-01-20 TADA Tadashi <t@tdtds.jp>
+	* index.rb, update.rb: caught NameError on Encoding::default_external=.
+
 2009-01-18 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.conf.beginner: fix some plugin of header and footer.
 

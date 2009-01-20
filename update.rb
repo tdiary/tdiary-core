@@ -7,10 +7,10 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $stdout.binmode }
-if RUBY_VERSION < '1.9.1'
-	$KCODE = 'n'
-else
+begin
 	Encoding::default_external = 'UTF-8'
+rescue NameError
+	$KCODE = 'n'
 end
 
 begin
