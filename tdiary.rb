@@ -7,9 +7,9 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20090120'
+TDIARY_VERSION = '2.3.1.20090129'
 
-$:.insert( 1, File::dirname( __FILE__ ) + '/misc/lib' )
+$:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
 require 'cgi'
 require 'uri'
@@ -123,7 +123,7 @@ end
 # module TDiary
 #
 module TDiary
-	PATH = File::dirname( __FILE__ )
+	PATH = File::dirname( __FILE__ ).untaint
 
 	#
 	# class Comment

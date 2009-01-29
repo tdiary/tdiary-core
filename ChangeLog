@@ -1,3 +1,6 @@
+2009-01-29 TADA Tadashi <t@tdtds.jp>
+	* tdiary.rb: enabled 'require' in plugins on ruby 1.9.1 but it dosen't works well yet.
+
 2009-01-20 TADA Tadashi <t@tdtds.jp>
 	* index.rb, update.rb: caught NameError on Encoding::default_external=.
 
