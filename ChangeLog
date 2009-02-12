@@ -1,3 +1,6 @@
+2009-02-12 TADA Tadashi <t@tdtds.jp>
+	* tdiary.rb, compatible.rb: added suport code against $SAFE BUG of ruby 1.9.1. This is a temporally patch.
+
 2009-01-29 TADA Tadashi <t@tdtds.jp>
 	* tdiary.rb: enabled 'require' in plugins on ruby 1.9.1 but it dosen't works well yet.
 

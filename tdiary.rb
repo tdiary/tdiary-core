@@ -7,7 +7,8 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20090129'
+TDIARY_VERSION = '2.3.1.20090212'
+TDIARY_SAFE_NORMAL = 1
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -494,7 +495,7 @@ module TDiary
 		def save
 			result = ERB::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
 			result.untaint unless @secure
-			Safe::safe( @secure ? 4 : 1 ) do
+			Safe::safe( @secure ? 4 : TDIARY_SAFE_NORMAL ) do
 				eval( result, binding, "(TDiary::Config#save)", 1 )
 			end
 			File::open( "#{@data_path}tdiary.conf", 'w' ) do |o|
@@ -669,7 +670,7 @@ module TDiary
 
 				b = binding.taint
 				eval( def_vars1, b )
-				Safe::safe( @secure ? 4 : 1 ) do
+				Safe::safe( @secure ? 4 : TDIARY_SAFE_NORMAL ) do
 					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
 				end
 				eval( def_vars2, b )
@@ -783,7 +784,7 @@ module TDiary
 			@section_enter_procs.taint
 			@subtitle_procs.taint
 			@section_leave_procs.taint
-			return Safe::safe( secure ? 4 : 1 ) do
+			return Safe::safe( secure ? 4 : TDIARY_SAFE_NORMAL ) do
 				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			end
 		end
@@ -988,7 +989,7 @@ module TDiary
 			r = str.dup
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
-				Safe::safe( @conf.secure ? 4 : 1 ) do
+				Safe::safe( @conf.secure ? 4 : TDIARY_SAFE_NORMAL ) do
 					begin
 						r = ERB::new( r ).result( binding )
 					rescue Exception

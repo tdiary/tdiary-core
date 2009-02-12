@@ -1,12 +1,22 @@
 # -*- coding: utf-8 -*-
-# = for Ruby1.9.0 compatible =
+# = for Ruby1.9.1 compatible =
 #
 
 # --------------------------------------------------------
 # 汎用的な設定
 # --------------------------------------------------------
 
-# for Ruby1.9.0
+# for Ruby1.9.1
+
+# temporally path for BUG of $SAFE == 1
+Thread.start {
+	begin
+		$SAFE = 1
+		require 'stringio'
+	rescue SecurityError
+		TDIARY_SAFE_NORMAL = 0
+	end
+}.join
 
 unless "".respond_to?('to_a')
   class String
