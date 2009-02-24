@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20090212'
+TDIARY_VERSION = '2.3.1.20090224'
 TDIARY_SAFE_NORMAL = 1
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
@@ -671,7 +671,20 @@ module TDiary
 				b = binding.taint
 				eval( def_vars1, b )
 				Safe::safe( @secure ? 4 : TDIARY_SAFE_NORMAL ) do
-					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
+					begin
+						eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
+					rescue SyntaxError
+						enc = case @lang
+							when 'en'
+								'UTF-8'
+							when 'zh'
+								'Big5'
+							else
+								'EUC-JP'
+							end
+						cgi_conf.force_encoding( enc )
+						retry
+					end
 				end
 				eval( def_vars2, b )
 			rescue IOError, Errno::ENOENT
@@ -1124,7 +1137,12 @@ module TDiary
 						File::open( path ) {|f| f.read }
 					end
 				}.join
-				r = ERB::new( rhtml.untaint ).result( binding )
+				begin
+					r = ERB::new( rhtml.untaint ).result( binding )
+				rescue Encoding::CompatibilityError
+					# migration error on ruby 1.9 only 1st time, reload.
+					raise ForceRedirect::new( @conf.base_url )
+				end
 				r = ERB::new( r ).src
 				store_cache( r, prefix ) unless @diaries.empty?
 			end

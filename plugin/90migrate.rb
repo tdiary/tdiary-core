@@ -97,4 +97,6 @@ unless @conf.tdiary_version
 	Dir["#{dir}/*.rb"].each{|f| FileUtils.rm_f( f )}
 	Dir["#{dir}/*.parser"].each{|f| FileUtils.rm_f( f )}
 
+	# redirect to top page
+	raise ::TDiary::ForceRedirect( @conf.base_url )
 end

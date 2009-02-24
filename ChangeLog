@@ -1,3 +1,6 @@
+2009-02-24 TADA Tadashi <t@tdtds.jp>
+	* enable migration on ruby 1.9.1.
+
 2009-02-12 TADA Tadashi <t@tdtds.jp>
 	* tdiary.rb, compatible.rb: added suport code against $SAFE BUG of ruby 1.9.1. This is a temporally patch.
 

@@ -20,6 +20,11 @@ def encoding
 	'UTF-8'
 end
 
+def encoding_old
+	'UTF-8'
+end
+
+
 #
 # 'mobile_encoding' method returns charactor encoding in mobile mode.
 def mobile_encoding

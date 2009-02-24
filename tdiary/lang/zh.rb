@@ -26,6 +26,11 @@ def mobile_encoding
 	'UTF-8'
 end
 
+def encoding_old
+	'Big5'
+end
+
+
 #
 # 'to_native' method converts string automatically to native encoding.
 # 
@@ -38,7 +43,7 @@ end
 #
 def migrate_to_utf8( str )
 	require 'iconv'
-	Iconv::iconv( 'UTF-8', 'Big5', str )
+	Iconv::iconv( encoding, encoding_old, str )
 end
 
 #

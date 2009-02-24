@@ -126,6 +126,8 @@ if sp_option( 'selected' ) then
 				begin
 					load_plugin( path )
 					@plugin_files << path
+				rescue ArgumentError
+					next
 				rescue Exception
 					raise PluginError::new( "Plugin error in '#{path}'.\n#{$!}" )
 				end

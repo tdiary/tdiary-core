@@ -20,6 +20,10 @@ def encoding
 	'UTF-8'
 end
 
+def encoding_old
+	'EUC-JP'
+end
+
 def mobile_encoding
 	'Shift_JIS'
 end
@@ -43,7 +47,7 @@ def to_native( str, charset = nil )
 end
 
 def migrate_to_utf8( str )
-	to_native( str, 'EUC-JP' )
+	to_native( str, encoding_old )
 end
 
 def to_mobile( str )
