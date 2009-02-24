@@ -767,6 +767,8 @@ module TDiary
 					load_plugin( file )
 					@plugin_files << plugin_file
 				end
+			rescue ::TDiary::ForceRedirect
+				raise
 			rescue Exception
 				raise PluginError::new( "Plugin error in '#{File::basename( plugin_file )}'.\n#{$!}\n#{$!.backtrace[0]}" )
 			end

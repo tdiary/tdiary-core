@@ -94,21 +94,6 @@ begin
 			print @cgi.header( head )
 			print body
 		end
-	rescue TDiary::ForceRedirect
-		head = {
-			#'Location' => $!.path
-			'type' => 'text/html',
-		}
-		head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-		print @cgi.header( head )
-		print %Q[
-			<html>
-			<head>
-			<meta http-equiv="refresh" content="1;url=#{$!.path}">
-			<title>moving...</title>
-			</head>
-			<body>Wait or <a href="#{$!.path}">Click here!</a></body>
-			</html>]
 	rescue TDiary::NotFound
 		if @cgi then
 			print @cgi.header( 'status' => CGI::HTTP_STATUS['NOT_FOUND'], 'type' => 'text/html' )
@@ -119,6 +104,21 @@ begin
 		puts "<h1>404 Not Found</h1>"
 		puts "<div>#{' ' * 500}</div>"
 	end
+rescue TDiary::ForceRedirect
+	head = {
+		#'Location' => $!.path
+		'type' => 'text/html',
+	}
+	head['cookie'] = tdiary.cookies if tdiary && tdiary.cookies.size > 0
+	print @cgi.header( head )
+	print %Q[
+		<html>
+		<head>
+		<meta http-equiv="refresh" content="1;url=#{$!.path}">
+		<title>moving...</title>
+		</head>
+		<body>Wait or <a href="#{$!.path}">Click here!</a></body>
+		</html>]
 rescue Exception
 	if @cgi then
 		print @cgi.header( 'status' => CGI::HTTP_STATUS['SERVER_ERROR'], 'type' => 'text/html' )
