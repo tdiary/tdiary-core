@@ -13,6 +13,7 @@ Thread.start {
 	begin
 		$SAFE = 1
 		require 'stringio'
+		TDIARY_SAFE_NORMAL = 1
 	rescue SecurityError
 		TDIARY_SAFE_NORMAL = 0
 	end
