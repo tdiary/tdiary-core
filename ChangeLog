@@ -1,3 +1,6 @@
+2009-02-28 TADA Tadashi <t@tdtds.jp>
+	* tdiary/defaultio.rb: sorted by date before saving.
+
 2009-02-26 TADA Tadashi <t@tdtds.jp>
 	* tdiary.rb, misc/lib/compatible.rb: fixed warning on ruby 1.9.1.
 

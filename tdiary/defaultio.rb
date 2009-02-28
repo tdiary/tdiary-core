@@ -255,7 +255,7 @@ module TDiary
 			begin
 				fh.seek( 0 )
 				fh.puts( TDIARY_MAGIC )
-				diaries.each do |date,diary|
+				diaries.sort_by {|date, diary| date}.each do |date,diary|
 					# save diaries
 					fh.puts( "Date: #{date}" )
 					fh.puts( "Title: #{diary.title}" )
