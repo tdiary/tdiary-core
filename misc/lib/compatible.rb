@@ -44,6 +44,12 @@ end
 # for Ruby1.8.X
 
 unless "".respond_to?('force_encoding')
+	class Encoding
+		def Encoding.const_missing(id)
+			self
+		end
+	end
+
 	class String
 		def force_encoding(encoding)
 			self
