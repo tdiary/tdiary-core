@@ -1,3 +1,7 @@
+2009-03-10 TADA Tadashi <t@tdtds.jp>
+	* plugin/00default: moved mail encoding point after all text builded.
+	* skel/mail.rtxt.*: changed encoding to UTF-8.
+
 2009-02-28 TADA Tadashi <t@tdtds.jp>
 	* tdiary/defaultio.rb: sorted by date before saving.
 

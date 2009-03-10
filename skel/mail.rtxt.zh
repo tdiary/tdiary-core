@@ -5,7 +5,7 @@ Message-Id: <%= message_id %>
 Subject: <%= mail_header %>-<%= serial %> 
  <%= name %>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="big5"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Errors-To: <%= @conf.author_mail %>
 X-Mailer: tDiary <%= TDIARY_VERSION %>

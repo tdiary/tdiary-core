@@ -681,7 +681,7 @@ def comment_mail_send
 	require 'socket'
 
 	name = comment_mail_mime( @conf.to_mail( @comment.name ) )[0]
-	body = @conf.to_mail( @comment.body.sub( /[\r\n]+\Z/, '' ) )
+	body = @comment.body.sub( /[\r\n]+\Z/, '' )
 	mail = @comment.mail
 	mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
 	mail = receivers[0] if mail.empty?
@@ -706,7 +706,7 @@ def comment_mail_send
 	rescue
 		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
 	end
-	text = ERB::new( rmail.untaint ).result( binding )
+	text = @conf.to_mail( ERB::new( rmail.untaint ).result( binding ) )
 	receivers.each { |i| i.untaint }
 	comment_mail( text, receivers )
 end
