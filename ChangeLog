@@ -1,3 +1,6 @@
+2009-03-21 TADA Tadashi <t@tdtds.jp>
+	* plugin/ja/00default.rb: fixed typo.
+
 2009-03-10 TADA Tadashi <t@tdtds.jp>
 	* plugin/00default: moved mail encoding point after all text builded.
 	* skel/mail.rtxt.*: changed encoding to UTF-8.

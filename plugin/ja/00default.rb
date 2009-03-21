@@ -180,7 +180,7 @@ add_conf_proc( 'default', 'サイトの情報', 'basic' ) do
 	<p><input name="index_page" value="#{h @conf.index_page}" size="70"></p>
 
 	<h3 class="subtitle">日記のURL</h3>
-	#{"<p>日記のURLを指定します。このURLは、さまざまなプラグインで日記の指し示すために利用されるので、正しく一意なものを指定しましょう。</p>" unless @conf.mobile_agent?}
+	#{"<p>日記のURLを指定します。このURLは、さまざまなプラグインで日記を指し示すために利用されるので、正しく一意なものを指定しましょう。</p>" unless @conf.mobile_agent?}
 	#{"<p><strong>指定してある値と、現在アクセス中のURLが異なります。注意してください。</strong></p>" unless @conf.base_url == @conf.base_url_auto}
 	<p><input name="base_url" value="#{h @conf.base_url}" size="70"></p>
 
