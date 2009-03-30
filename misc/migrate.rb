@@ -7,7 +7,7 @@
 # Copyright (C) 2007, Kazuhiko <kazuhiko@fdiary.net>
 # You can redistribute it and/or modify it under GPL2.
 #
-BEGIN { $defout.binmode }
+BEGIN { $stdout.binmode }
 $KCODE = 'n'
 
 require "nkf"

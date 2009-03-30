@@ -1,3 +1,6 @@
+2009-03-30 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* misc/migrate.rb: replace defout to stdout. defout is obsolete.
+
 2009-03-21 TADA Tadashi <t@tdtds.jp>
 	* plugin/ja/00default.rb: fixed typo.
 
