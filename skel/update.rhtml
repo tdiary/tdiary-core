@@ -73,13 +73,16 @@ end
 		<%=@csrf_protection%>
 		<div class="commentbody"><%
 		idx = 0
-		@diary.each_comment do |comment| %>
+		@diary.each_comment do |comment|
+			comment_checkbox_id = "commentcheckboxr#{idx}" %>
 			<div class="commentator">
 				<span class="checkbox">
-					<input class="checkbox" type="checkbox" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
+					<input class="checkbox" type="checkbox" id="<%= comment_checkbox_id %>" tabindex="<%=2000+idx%>" name="<%= idx += 1 %>" value="true"<% if comment.visible? then %> checked<% end %>>
 				</span>
-				<span class="commentator"><%=h comment.name %><%=h( " <#{comment.mail}>" ) unless comment.mail.empty? %></span>
-				<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
+				<label for="<%= comment_checkbox_id %>">
+					<span class="commentator"><%=h comment.name %><%=h( " <#{comment.mail}>" ) unless comment.mail.empty? %></span>
+					<span class="commenttime"><%%=comment_date( Time::at( <%=comment.date.to_i%> ) )%></span>
+				</label>
 			</div>
 			<p><%= comment.body.make_link.gsub( /\n/, "<br>" ).gsub( /<br><br>\Z/, '' ) %></p><%
 		end
