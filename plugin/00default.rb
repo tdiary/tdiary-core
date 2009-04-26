@@ -733,6 +733,12 @@ def to_utf8( str, charset = nil )
 end
 
 #
+# layout
+#
+def brr; '<br clear="right">'; end
+def brl; '<br clear="left">';  end
+
+#
 # preferences (saving methods)
 #
 
