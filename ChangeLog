@@ -1,3 +1,7 @@
+2009-04-27 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary/lang/ja.rb: added encoding flag from a regexp.
+	(revert r3424)
+
 2009-04-26 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary/defaultio.rb: applied patch #112. thx kakutani.
 
