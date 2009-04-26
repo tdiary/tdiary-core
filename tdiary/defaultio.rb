@@ -237,7 +237,7 @@ module TDiary
 					s.split( /\r?\n\.\r?\n/ ).each do |l|
 						headers, body = TDiary::parse_tdiary( l )
 						style_name = headers['Format'] || 'tDiary'
-						diary = eval( "#{style( style_name )}::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )" )
+						diary = style( style_name )::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
 						diary.show( headers['Visible'] == 'true' ? true : false )
 						diaries[headers['Date']] = diary
 					end
