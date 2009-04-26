@@ -1,6 +1,8 @@
 2009-04-26 TADA Tadashi <t@tdtds.jp>
 	* tdiary/lang/ja.rb: removed encoding flag from a regexp.
 	* skel/plugin_error.rhtml: added stack trace.
+	* plugin/05referer.rb: force encoded to ASCII-8BIT in load_referer.
+	* misc/lib/compatible.rb: added dummy String#encode on ruby 1.8.
 
 2009-04-10 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* skel/update.rhtml: applied patch #78, thx kakutani.

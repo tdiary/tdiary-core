@@ -54,6 +54,10 @@ unless "".respond_to?('force_encoding')
 		def force_encoding(encoding)
 			self
 		end
+
+		def encode(encoding)
+			self
+		end
 	end
 end
 
