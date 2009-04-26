@@ -1,3 +1,6 @@
+2009-04-26 TADA Tadashi <t@tdtds.jp>
+	* tdiary/lang/ja.rb: removed encoding flag from a regexp.
+
 2009-04-10 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* skel/update.rhtml: applied patch #78, thx kakutani.
 
