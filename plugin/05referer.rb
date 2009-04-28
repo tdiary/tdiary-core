@@ -146,10 +146,10 @@ end
 
 def referer_load( file, diary )
 	begin
-		File::open( file ) do |fh|
+		File::open( file, 'rb' ) do |fh|
 			fh.flock( File::LOCK_SH )
 			fh.gets # read magic
-			fh.read.encode( 'ASCII-8BIT' ).split( /\r?\n\.\r?\n/ ).each do |l|
+			fh.read..split( /\r?\n\.\r?\n/ ).each do |l|
 				headers, body = ::TDiary::parse_tdiary( l )
 				yield( headers, body )
 			end
