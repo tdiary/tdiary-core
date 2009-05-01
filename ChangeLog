@@ -1,3 +1,7 @@
+2009-05-01 TADA Tadashi <t@tdtds.jp>
+	* plugin/05referer.rb: fixed Encoding::CompatibilityError in referer_load.
+	thanks valda.
+
 2009-04-28 TADA Tadashi <t@tdtds.jp>
 	* plugin/05referer.rb: opened reading mode of *.tdr file to 'rb'.
 
