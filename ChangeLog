@@ -1,3 +1,6 @@
+2009-05-02 TADA Tadashi <t@tdtds.jp>
+	* tdiary.rb: fixed bug in Comment#shorten.
+
 2009-05-01 TADA Tadashi <t@tdtds.jp>
 	* plugin/05referer.rb: fixed Encoding::CompatibilityError in referer_load.
 	thanks valda.

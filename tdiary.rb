@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.1.20090501'
+TDIARY_VERSION = '2.3.1.20090502'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -138,7 +138,7 @@ module TDiary
 		end
 
 		def shorten( length = 120 )
-			matched = body.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/ )[0]
+			matched = body.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/u )[0]
 			unless $'.empty? then
 				matched + '..'
 			else
