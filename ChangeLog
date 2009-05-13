@@ -1,3 +1,6 @@
+2009-05-14 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary.conf.sample: delete obsolete referer.
+
 2009-05-08 TADA Tadashi <t@tdtds.jp>
 	* release 2.3.2.
 
