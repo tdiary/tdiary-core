@@ -8,7 +8,8 @@
 
 # for Ruby1.9.1
 
-# temporally path for BUG of $SAFE == 1
+# temporally path for BUG of $SAFE == 1 on ruby 1.9.1p0
+# This problem was fixed on ruby 1.9.1p129.
 Thread.start {
 	begin
 		$SAFE = 1
