@@ -277,14 +277,15 @@ FOOTER
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)(\d\d)\.html', 'tDiary.Net[\1](\2-\3-\4)'],
 	['^http://([^\.]*)\.tdiary\.net/(\d{4})(\d\d)\.html', 'tDiary.Net[\1](\2-\3)'],
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],
-	['^http://www.google.(com|co\.jp)/search.*?q=([^&]*).*', 'google検索(\2)'],
-	['^http://search.yahoo.(com|co\.jp)/.*?p=([^&]*).*', 'Yahoo検索(\3)'],
+	['^http://www.google.(com|co\.jp)/(search|ie).*?q=([^&]*).*', 'google検索(\2)'],
+	['^http://search.yahoo.(com|co\.jp)/.*?p=([^&]*).*', 'Yahoo検索(\2)'],
 	['^http://search.www.infoseek.co.jp/.*?qt=([^&]*).*', 'Infoseek検索(\1)'],
-	['^http://(kotochu|search).fresheye.com/.*?kw=([^&]*).*', 'FreshEye検索(\1)'],
+	['^http://(kotochu|search).fresheye.com/.*?kw=([^&]*).*', 'FreshEye検索(\2)'],
 	['^http://(www|search).goo.ne.jp/.*?MT=([^&]*).*', 'goo検索(\2)'],
 	['^http://(www|search).nifty.com/.*?(q|Text)=([^&]*).*', '@nifty検索(\3)'],
 	['^http://www.excite.co.jp/.*?(search|s)=([^&]*).*', 'excite検索(\2)'],
 	['^http://search.msn.co.jp/.*?(q|MT)=([^&]*).*', 'msn検索(\2)'],
+	['^http://search.live.com/.*?q=([^&]*).*', 'Live Search(\1)'],
 	["^http://cgi.search.biglobe.ne.jp/cgi-bin/search.*?q=([^&]*).*", "BIGLOBE検索(\\1)"],
 	#
 	# 以下の設定は、上記の置換リストで変換されなかったリンク元URLのうち、
