@@ -1,3 +1,6 @@
+2009-05-21 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb, skel/diary.rhtml: support AutoPagerize.
+
 2009-05-14 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.conf.sample: delete obsolete referer.
 

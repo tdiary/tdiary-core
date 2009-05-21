@@ -37,8 +37,10 @@ def navi
 	result << %Q[</div>]
 end
 
-def navi_item( link, label, rel = false )
-	%Q[<span class="adminmenu"><a href="#{link}"#{rel ? " rel=\"nofollow\"" : ''}>#{label}</a></span>\n]
+def navi_item( link, label, rel = nil )
+	result = %Q[<span class="adminmenu"><a href="#{link}"]
+	result << %Q[ rel="#{rel}"] if rel
+	result << %Q[>#{label}</a></span>\n]
 end
 
 def navi_user
@@ -69,17 +71,17 @@ end
 
 def navi_user_latest
 	result = ''
-	result << navi_item( "#{h @index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}" ) if @conf['ndays.prev'] and not bot?
+	result << navi_item( "#{h @index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}", "next" ) if @conf['ndays.prev'] and not bot?
 	result << navi_item( h(@index), h(navi_latest) ) if @cgi.params['date'][0]
-	result << navi_item( "#{h @index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" ) if @conf['ndays.next'] and not bot?
+	result << navi_item( "#{h @index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" "prev") if @conf['ndays.next'] and not bot?
 	result
 end
 
 def navi_user_day
 	result = ''
-	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{h navi_prev_diary(Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}" ) if @prev_day
+	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{h navi_prev_diary(Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}", "next" ) if @prev_day
 	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{h @index}#{anchor @next_day}", "#{h navi_next_diary(Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;" ) if @next_day
+	result << navi_item( "#{h @index}#{anchor @next_day}", "#{h navi_next_diary(Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;", "prev" ) if @next_day
 	result
 end
 
@@ -129,9 +131,9 @@ end
 
 def navi_admin
 	if @mode == 'day' then
-		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", h(navi_edit), true )
+		result = navi_item( "#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}", h(navi_edit), "nofollow" )
 	else
-		result = navi_item( h(@update), h(navi_update), true )
+		result = navi_item( h(@update), h(navi_update), "nofollow")
 	end
 	result << navi_item( "#{h @update}?conf=default", h(navi_preference) ) if /^(latest|month|day|comment|conf|nyear|category.*)$/ !~ @mode
 	result
