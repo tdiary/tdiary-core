@@ -73,7 +73,7 @@ def navi_user_latest
 	result = ''
 	result << navi_item( "#{h @index}#{anchor( @conf['ndays.prev'] + '-' + @conf.latest_limit.to_s )}", "&laquo;#{navi_prev_ndays}", "next" ) if @conf['ndays.prev'] and not bot?
 	result << navi_item( h(@index), h(navi_latest) ) if @cgi.params['date'][0]
-	result << navi_item( "#{h @index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;" "prev") if @conf['ndays.next'] and not bot?
+	result << navi_item( "#{h @index}#{anchor( @conf['ndays.next'] + '-' + @conf.latest_limit.to_s )}", "#{navi_next_ndays}&raquo;", "prev") if @conf['ndays.next'] and not bot?
 	result
 end
 
