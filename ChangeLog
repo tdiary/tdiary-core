@@ -1,3 +1,6 @@
+2009-05-28 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb: revert AutoPagerize support when day mode.
+
 2009-05-21 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb, skel/diary.rhtml: support AutoPagerize.
 

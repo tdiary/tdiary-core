@@ -79,9 +79,9 @@ end
 
 def navi_user_day
 	result = ''
-	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{h navi_prev_diary(Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}", "next" ) if @prev_day
+	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{h navi_prev_diary(Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}" ) if @prev_day
 	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{h @index}#{anchor @next_day}", "#{h navi_next_diary(Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;", "prev" ) if @next_day
+	result << navi_item( "#{h @index}#{anchor @next_day}", "#{h navi_next_diary(Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;" ) if @next_day
 	result
 end
 
