@@ -1,3 +1,6 @@
+2009-06-20 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tdiary.conf.sample, tdiary.conf.beginner: added some referer engine.
+
 2009-05-28 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb: revert AutoPagerize support when day mode.
 
