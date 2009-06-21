@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.2.20090528'
+TDIARY_VERSION = '2.3.2.20090621'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -478,14 +478,13 @@ module TDiary
 			bot += @options['bot'] || []
 			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
 
+			# create log directory
+			require 'fileutils'
 			require 'logger'
+
 			log_path = @options['log_path'] || "#{@data_path}/log/"
-			unless FileTest::directory?( log_path ) then
-				begin
-					Dir::mkdir( log_path )
-				rescue Errno::EEXIST
-				end
-			end
+			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
+
 			log_file = log_path + "debug.log"
 			@logger = Logger::new( log_file, 'daily' )
 		end
