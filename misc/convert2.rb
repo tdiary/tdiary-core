@@ -1,8 +1,7 @@
 # -*- coding: utf-8; -*-
 #!/usr/bin/env ruby
-$KCODE= 'e'
 #
-# convert2: convert diary data file format tDiary1 to tDiary2. $Revision: 1.9 $
+# convert2: convert diary data file format tDiary1 to tDiary2.
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
