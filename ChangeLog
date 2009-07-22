@@ -1,3 +1,7 @@
+2009-07-21 Kazuhiko  <kazuhiko@fdiary.net>
+	* index.fcgi: initial commit based on the code by Akinori
+	Musha and moriq.
+
 2009-06-21 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary.rb: uses FileUtils::mkdir_p when create log directory.
 
