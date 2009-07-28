@@ -1,3 +1,6 @@
+2009-07-28  Kazuhiko  <kazuhiko@fdiary.net>
+	* skel/footer.rhtml: display fcgi information in footer.
+
 2009-07-21 Kazuhiko  <kazuhiko@fdiary.net>
 	* index.fcgi: initial commit based on the code by Akinori
 	Musha and moriq.
