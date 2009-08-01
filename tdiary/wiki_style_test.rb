@@ -84,8 +84,7 @@ honbun
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
-<p>
-honbun</p>
+<p>honbun</p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
     EOF
@@ -178,7 +177,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 
   def checkConversion(source, htmlExpected, opt = nil)
     opt ||= {}
-    diary = TDiary::WikiDiary.new(Time.local(2003, 1, 1), "TITLE", "")
+    diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
     diary.append(source)
     if opt[:preConvertHtml]
       opt[:preConvertHtml].call(diary)

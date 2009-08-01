@@ -234,7 +234,7 @@ sect1-para2
 <<sect2>>
 sect2-para0
     EOF
-    diary = TDiary::EtdiaryDiary.new(Time.local(2003, 1, 1), "TITLE", "")
+    diary = TDiary::EtdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
     diary.append(source)
     sections = []
     diary.each_section { |sect|
@@ -251,7 +251,7 @@ sect2-para0
 
   def checkConversion(source, htmlExpected, opt = nil)
     opt ||= {}
-    diary = TDiary::EtdiaryDiary.new(Time.local(2003, 1, 1), "TITLE", "")
+    diary = TDiary::EtdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
     diary.append(source)
     if opt[:preConvertHtml]
       opt[:preConvertHtml].call(diary)
