@@ -81,7 +81,7 @@ class RefererDiary
 			@refs[@current_date].values.sort.reverse.each_with_index do |ary,idx|
 				break if idx >= limit
 				yield( ary[0], ary[1] )
-         end
+			end
 		else
 			each_referer_orig( limit ) do |count, ref|
 				yield( count, ref )
