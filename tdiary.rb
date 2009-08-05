@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.3'
+TDIARY_VERSION = '2.3.3.20090805'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -1022,8 +1022,8 @@ module TDiary
 			ref = @conf.to_native( CGI::unescape( ref ) )
 			str = nil
 			table.each do |url, name|
-				if /#{url}/i =~ ref then
-					str = ref.gsub( /#{url}/i, name )
+				if /#{url}/iu =~ ref then
+					str = ref.gsub( /#{url}/iu, name )
 					break
 				end
 			end

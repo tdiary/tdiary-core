@@ -1,3 +1,7 @@
+2009-08-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb (TDiary::Plugin::disp_referer): add encoding flag in
+	regexp.
+
 2009-08-03 TADA Tadashi <t@tdtds.jp>
 	* release 2.3.3.
 
