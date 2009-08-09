@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.3.20090805'
+TDIARY_VERSION = '2.3.3.20090809'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -716,6 +716,7 @@ module TDiary
 	class Plugin
 		include ERB::Util
 		attr_reader :cookies
+		attr_writer :comment, :date, :diaries, :last_modified
 
 		def initialize( params )
 			@header_procs = []
@@ -1163,6 +1164,13 @@ module TDiary
 
 		def load_plugins
 			calendar
+			if @plugin
+				@plugin.diaries = @diaries
+				@plugin.date = @date
+				@plugin.last_modified = last_modified
+				@plugin.comment = @comment
+				return @plugin
+			end
 			@plugin = Plugin::new(
 				'conf' => @conf,
 				'mode' => mode,
