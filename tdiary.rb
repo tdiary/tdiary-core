@@ -737,7 +737,7 @@ module TDiary
 			@cookies = []
 
 			params.each_key do |key|
-				eval( "@#{key} = params['#{key}']" )
+				instance_variable_set( "@#{key}", value )
 			end
 
 			# for 1.4 compatibility

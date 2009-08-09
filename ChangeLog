@@ -1,6 +1,8 @@
 2009-08-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb (TDiary::TDiaryBase::load_plugins): reuse existing
 	Plugin instance if possible.
+	(TDiary::Plugin::initialize): use Object#instance_variable_set
+	instead of Kernel.eval.
 
 2009-08-05  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb (TDiary::Plugin::disp_referer): add encoding flag in
