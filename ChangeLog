@@ -1,3 +1,7 @@
+2009-08-15  zunda  <zunda at freeshell.org>
+	* tdiary/defaultio.rb (DefaultIO#restore): modified to expose
+	style that is not installed
+
 2009-08-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb (TDiary::TDiaryBase::load_plugins): reuse existing
 	Plugin instance if possible.
