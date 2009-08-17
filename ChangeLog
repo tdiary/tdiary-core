@@ -1,3 +1,7 @@
+2009-08-17  Kazuhiko  <kazuhiko@fdiary.net>
+	* skel/tdiary.rconf: force encoding all String in 'ASCII-8BIT' to
+	get the same dump format on both Ruby-1.8 and Ruby-1.9.
+
 2009-08-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb (TDiary::TDiaryBase::load_plugins): reuse existing
 	Plugin instance if possible.
