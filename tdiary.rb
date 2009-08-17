@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.3.20090809'
+TDIARY_VERSION = '2.3.3.20090815'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -425,11 +425,7 @@ module TDiary
 		end
 
 		def styled_diary_factory( date, title, body, style_name = 'tDiary' )
-			if style_class = style( style_name.downcase )
-				return style_class::new( date, title, body )
-			else
-				raise BadStyleError, "bad style: #{style_name}"
-			end
+			return style( style_name.downcase )::new( date, title, body )
 		end
 
 		def load_styles
@@ -442,7 +438,14 @@ module TDiary
 		end
 
 		def style( s )
-			@styles ? @styles[s.downcase] : nil
+			unless @styles
+				raise BadStyleError, "styles are not loaded"
+			end
+			r = @styles[s.downcase]
+			unless r
+				raise BadStyleError, "bad style: #{s}"
+			end
+			return r
 		end
 	end
 

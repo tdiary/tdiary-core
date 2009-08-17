@@ -242,8 +242,6 @@ module TDiary
 						diaries[headers['Date']] = diary
 					end
 
-				rescue SyntaxError
-					raise "#{style_name} style not found."
 				rescue NameError
 					# no magic number when it is new file.
 				end

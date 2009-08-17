@@ -1,3 +1,6 @@
+2009-08-17  zunda  <zunda at freeshell.org>
+	* tdiary.rb, tdiary/defaultio.rb: modified to let style raise BadStyleError
+
 2009-08-17  Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/lib/compatible.rb (PStore::load): auto convert ASCII_8BIT
 	pstore data (created by Ruby-1.8) to UTF-8 in Ruby-1.9.
