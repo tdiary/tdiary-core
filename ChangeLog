@@ -1,4 +1,7 @@
 2009-08-17  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/lib/compatible.rb (PStore::load): auto convert ASCII_8BIT
+	pstore data (created by Ruby-1.8) to UTF-8 in Ruby-1.9.
+
 	* skel/tdiary.rconf: force encoding all String in 'ASCII-8BIT' to
 	get the same dump format on both Ruby-1.8 and Ruby-1.9.
 
