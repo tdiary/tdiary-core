@@ -15,11 +15,11 @@ end
 
 begin
 	if FileTest::symlink?( __FILE__ ) then
-		org_path = File::dirname( File::readlink( __FILE__ ) )
+		org_path = File::dirname( File::readlink( __FILE__ ) ).untaint
 	else
-		org_path = File::dirname( __FILE__ )
+		org_path = File::dirname( __FILE__ ).untaint
 	end
-	$:.unshift( org_path.untaint )
+	$:.unshift( org_path ) unless $:.include?( org_path )
 	require 'tdiary'
 
 	@cgi = CGI::new

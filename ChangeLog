@@ -1,3 +1,7 @@
+2009-08-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* index.rb, update.rb: call $:.unshift only if it is required,
+	otherwise the same path is added by each request in FastCGI mode.
+
 2009-08-17  zunda  <zunda at freeshell.org>
 	* tdiary.rb, tdiary/defaultio.rb: modified to let style raise BadStyleError
 
