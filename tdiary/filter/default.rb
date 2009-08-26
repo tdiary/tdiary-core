@@ -33,9 +33,9 @@ module TDiary
 				elsif @conf.bot?
 					false
 				elsif %r|^https?://|i =~ referer
-					ref = CGI::unescape( referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) )
+					ref = CGI::unescape( referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) ).force_encoding('ASCII-8BIT')
 					@conf.no_referer.each do |noref|
-						return false if /#{noref}/i =~ ref
+						return false if /#{noref.dup.force_encoding('ASCII-8BIT')}/i =~ ref
 					end
 					true
 				else

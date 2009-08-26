@@ -1,4 +1,8 @@
 2009-08-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/filter/default.rb: match on ASCII-8BIT encoding because
+	incoming referer and/or configured non_referer can be non-UTF8
+	encoding.
+
 	* index.rb, update.rb: call $:.unshift only if it is required,
 	otherwise the same path is added by each request in FastCGI mode.
 
