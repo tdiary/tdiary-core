@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.3.20091018'
+TDIARY_VERSION = '2.3.3.20091124'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -1300,16 +1300,16 @@ module TDiary
 				@logger = Logger::new( log_file, 'daily' )
 
 				case @conf.options['log_level']
-				when "DEBUG"
-					@logger.level = Logger::DEBUG
-				when "WARN"
-					@logger.level = Logger::WARN
-				when "ERROR"
-					@logger.level = Logger::ERROR
 				when "FATAL"
 					@logger.level = Logger::FATAL
-				else
+				when "ERROR"
+					@logger.level = Logger::ERROR
+				when "WARN"
+					@logger.level = Logger::WARN
+				when "INFO"
 					@logger.level = Logger::INFO
+				else
+					@logger.level = Logger::DEBUG
 				end
 			end
 		end
