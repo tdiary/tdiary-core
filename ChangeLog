@@ -1,4 +1,7 @@
 2009-11-24  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary.rb, plugin/00default.rb, 
+	plugin/{ja,en,zh}/00default.rb: change logger implementation.
+
 	* tdiary.rb, plugin/00default.rb: change implemention of 
 	navi_user_day to navi_user.rb.
 
