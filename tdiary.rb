@@ -334,7 +334,7 @@ module TDiary
 				return if @debug_mode == DEBUG_NONE
 				return if @debug_mode == DEBUG_SPAM and level == DEBUG_FULL
 
-				@conf.debug("#{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}")
+				@logger.info("#{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}")
 			end
 		end
 	end
@@ -484,16 +484,6 @@ module TDiary
 			bot = ["bot", "spider", "antenna", "crawler", "moget", "slurp"]
 			bot += @options['bot'] || []
 			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
-
-			# create log directory
-			require 'fileutils'
-			require 'logger'
-
-			log_path = @options['log_path'] || "#{@data_path}/log/"
-			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
-
-			log_file = log_path + "debug.log"
-			@logger = Logger::new( log_file, 'daily' )
 		end
 
 		# saving to tdiary.conf in @data_path
@@ -518,21 +508,6 @@ module TDiary
 
 		def bot?
 			@bot =~ @cgi.user_agent
-		end
-
-		def debug( str, level = "DEBUG")
-			case( level )
-			when "FATAL"
-				@logger.fatal( str )
-			when "ERROR"
-				@logger.error( str )
-			when "WARN"
-				@logger.warn( str )
-			when "INFO"
-				@logger.info( str )
-			else 
-				@logger.debug( str )			
-			end
 		end
 
 		#
@@ -1128,6 +1103,9 @@ module TDiary
 
 	protected
 		def do_eval_rhtml( prefix )
+			# load logger
+			load_logger
+
 			# load plugin files
 			load_plugins
 
@@ -1307,6 +1285,33 @@ module TDiary
 				return false unless filter.referer_filter( referer )
 			end
 			true
+		end
+
+		def load_logger
+			if @logger.nil? then
+				require 'fileutils'
+				require 'logger'
+
+				# create log directory
+				log_path = @conf.options['log_path'] || "#{@conf.data_path}/log/"
+				FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
+
+				log_file = log_path + "debug.log"
+				@logger = Logger::new( log_file, 'daily' )
+
+				case @conf.options['log_level']
+				when "DEBUG"
+					@logger.level = Logger::DEBUG
+				when "WARN"
+					@logger.level = Logger::WARN
+				when "ERROR"
+					@logger.level = Logger::ERROR
+				when "FATAL"
+					@logger.level = Logger::FATAL
+				else
+					@logger.level = Logger::INFO
+				end
+			end
 		end
 	end
 

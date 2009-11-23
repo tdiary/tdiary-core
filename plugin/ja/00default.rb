@@ -364,3 +364,14 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	</div>
 	HTML
 end
+
+add_conf_proc( 'logger', 'ログレベル選択', 'basic' ) do
+	saveconf_logger
+
+	r = <<-HTML
+	<h3 class="subtitle">ログレベルの設定</h3>
+	<p>tDiaryが出力するログレベルを指定します。spam フィルタのログ記録を利用する場合は INFO または DEBUG に指定して下さい。</p>
+	<p><select name="log_level">
+	HTML
+	r << conf_logger_list
+end

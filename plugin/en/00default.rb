@@ -346,3 +346,14 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	</div>
 	HTML
 end
+
+add_conf_proc( 'logger', 'Log Level', 'basic' ) do
+	saveconf_logger
+
+	r = <<-HTML
+	<h3 class="subtitle">Log Level</h3>
+	<p>Select log level of tDiary's output. If you selected spam filter's log level is enabled then select INFO or DEBUG.</p>
+	<p><select name="log_level">
+	HTML
+	r << conf_logger_list
+end
