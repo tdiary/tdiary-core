@@ -238,8 +238,10 @@ def calc_links
 		yms.unshift(nil).push(nil)
 		yms[yms.index(this_month) - 1, 3].each do |ym|
 			next unless ym
+			now = @cgi.params['date']
 			@cgi.params['date'] = [ym]
 			m = TDiaryMonthWithoutFilter.new(@cgi, '', @conf)
+			@cgi.params['date'] = now
 			m.diaries.delete_if {|date,diary| !diary.visible?}
 			days += m.diaries.keys.sort
 		end
