@@ -79,9 +79,11 @@ end
 
 def navi_user_day
 	result = ''
-	result << navi_item( "#{h @index}#{anchor @prev_day}", "&laquo;#{h navi_prev_diary(Time::local(*@prev_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}" ) if @prev_day
-	result << navi_item( @index, navi_latest )
-	result << navi_item( "#{h @index}#{anchor @next_day}", "#{h navi_next_diary(Time::local(*@next_day.scan(/^(\d{4})(\d\d)(\d\d)$/)[0]))}&raquo;" ) if @next_day
+	if @navi_user_days then
+		result << navi_item( "#{h @index}#{anchor @navi_user_days[0]}", "&laquo;#{h navi_prev_diary(navi_user_format(@navi_user_days[0]))}" ) if @navi_user_days[0]
+		result << navi_item( h(@index), h(navi_latest) )
+		result << navi_item( "#{h @index}#{anchor @navi_user_days[2]}", "#{h navi_next_diary(navi_user_format(@navi_user_days[2]))}&raquo;" ) if @navi_user_days[2]
+	end
 	result
 end
 
@@ -127,6 +129,10 @@ end
 
 def navi_user_else
 	navi_item( h(@index), h(navi_latest) )
+end
+
+def navi_user_format( day )
+	Time::local( *day.scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] )
 end
 
 def navi_admin
@@ -219,55 +225,28 @@ end
 
 def calc_links
 	if /day|edit/ =~ @mode or (@conf.mobile_agent? and /latest|month|nyear/ =~ @mode) then
-		years = []
-		@years.each do |k, v|
-			v.each do |m|
-				years << k + m
-			end
-		end
-		this_month = @date.strftime('%Y%m')
-		years |= [this_month]
-		years.sort!
-		years.unshift(nil).push(nil)
-		prev_month, dummy, next_month = years[years.index(this_month) - 1, 3]
-
+		today = @date.strftime('%Y%m%d')
 		days = []
-		if /(latest|month|nyear)/ === @mode
-			today = @diaries.keys.sort[-1]
-		else
-			today = @date.strftime('%Y%m%d')
+		yms = []
+		this_month = today[0,6]
+
+		@years.keys.each do |y|
+			yms += @years[y].collect {|m| y + m}
 		end
-		days += @diaries.keys
+		yms |= [this_month]
+		yms.sort!
+		yms.unshift(nil).push(nil)
+		yms[yms.index(this_month) - 1, 3].each do |ym|
+			next unless ym
+			@cgi.params['date'] = [ym]
+			m = TDiaryMonthWithoutFilter.new(@cgi, '', @conf)
+			m.diaries.delete_if {|date,diary| !diary.visible?}
+			days += m.diaries.keys.sort
+		end
 		days |= [today]
 		days.sort!
 		days.unshift(nil).push(nil)
-
-		current_date = @date.strftime( '%Y%m%d' )
-		days[0 .. days.index( today ) - 1].reverse_each do |d|
-		 	@prev_day = d
-			next if @mode == 'latest' and current_date == d
-			break unless @prev_day
-			break if (@mode == 'edit') or @diaries[@prev_day].visible?
-		end
-		if not @prev_day and prev_month then
-			y, m = prev_month.scan(/(\d{4})(\d\d)/)[0]
-			if m == "12"
-				y, m = y.to_i + 1, 1
-			else
-				y, m = y.to_i, m.to_i + 1
-			end
-			@prev_day = (Time.local(y, m, 1) - 24*60*60).strftime( '%Y%m%d' )
-		end
-
-		days[days.index( today ) + 1 .. -1].each do |d|
-			@next_day = d
-			break unless @next_day
-			break if (@mode == 'edit') or @diaries[@next_day].visible?
-		end
-		if not @next_day and next_month then
-			y, m = next_month.scan(/(\d{4})(\d\d)/)[0]
-			@next_day = Time.local(y, m, 1).strftime( '%Y%m%d' )
-		end
+		@navi_user_days = days[days.index(today) - 1, 3]
 	elsif @mode == 'nyear'
 		y = 2000 # specify leam year
 		m, d = @cgi.params['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
