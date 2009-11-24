@@ -129,7 +129,7 @@ if sf_option( 'selected' ) && !@sf_filters then
 			if File.readable?( path ) then
 				begin
 					require path
-					@sf_filters << TDiary::Filter::const_get("#{File::basename(filename, ".rb").capitalize}Filter")::new(@cgi, @conf)
+					@sf_filters << TDiary::Filter::const_get("#{File::basename(filename, ".rb").capitalize}Filter")::new(@cgi, @conf, @logger)
 					plugin_path = "#{dir}/plugin/#{filename}"
 					load_plugin(plugin_path) if File.readable?(plugin_path)
 				rescue Exception

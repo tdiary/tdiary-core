@@ -312,8 +312,8 @@ module TDiary
 			DEBUG_SPAM = 1
 			DEBUG_FULL = 2
 
-			def initialize( cgi, conf )
-				@cgi, @conf = cgi, conf
+			def initialize( cgi, conf, logger )
+				@cgi, @conf, @logger = cgi, conf, logger
 
 				if @conf.options.include?('filter.debug_mode')
 					@debug_mode = @conf.options['filter.debug_mode']
@@ -1161,7 +1161,8 @@ module TDiary
 				'cache_path' => cache_path,
 				'date' => @date,
 				'comment' => @comment,
-				'last_modified' => last_modified
+				'last_modified' => last_modified,
+				'logger' => @logger
 			)
 		end
 
@@ -1263,7 +1264,7 @@ module TDiary
 			filter_path = @conf.filter_path || "#{PATH}/tdiary/filter"
 			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
 				require file.untaint
-				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf )
+				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf, @logger )
 			end
 		end
 
