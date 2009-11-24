@@ -1288,29 +1288,29 @@ module TDiary
 		end
 
 		def load_logger
-			if @logger.nil? then
-				require 'fileutils'
-				require 'logger'
+			return if @logger
 
-				# create log directory
-				log_path = @conf.options['log_path'] || "#{@conf.data_path}/log/"
-				FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
+			require 'fileutils'
+			require 'logger'
 
-				log_file = log_path + "debug.log"
-				@logger = Logger::new( log_file, 'daily' )
+			# create log directory
+			log_path = @conf.options['log_path'] || "#{@conf.data_path}/log/"
+			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
 
-				case @conf.options['log_level']
-				when "FATAL"
-					@logger.level = Logger::FATAL
-				when "ERROR"
-					@logger.level = Logger::ERROR
-				when "WARN"
-					@logger.level = Logger::WARN
-				when "INFO"
-					@logger.level = Logger::INFO
-				else
-					@logger.level = Logger::DEBUG
-				end
+			log_file = log_path + "debug.log"
+			@logger = Logger::new( log_file, 'daily' )
+
+			case @conf.options['log_level']
+			when "FATAL"
+				@logger.level = Logger::FATAL
+			when "ERROR"
+				@logger.level = Logger::ERROR
+			when "WARN"
+				@logger.level = Logger::WARN
+			when "INFO"
+				@logger.level = Logger::INFO
+			else
+				@logger.level = Logger::DEBUG
 			end
 		end
 	end
