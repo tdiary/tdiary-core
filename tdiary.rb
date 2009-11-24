@@ -1064,6 +1064,9 @@ module TDiary
 				@conf.io_class = DefaultIO
 			end
 			@io = @conf.io_class.new( self )
+
+			# load logger
+			load_logger
 		end
 
 		def eval_rhtml( prefix = '' )
@@ -1103,9 +1106,6 @@ module TDiary
 
 	protected
 		def do_eval_rhtml( prefix )
-			# load logger
-			load_logger
-
 			# load plugin files
 			load_plugins
 
