@@ -1,5 +1,5 @@
 # -*- coding: utf-8; -*-
-# Japanese resources of 01sp.rb $Revision: 1.3 $
+# Japanese resources of 50sp.rb
 
 =begin
 = プラグイン選択プラグイン((-$Id: 50sp.rb,v 1.3 2008-03-02 09:01:21 kazuhiko Exp $-))
