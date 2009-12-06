@@ -1,5 +1,5 @@
 # -*- coding: utf-8; -*-
-# English resources of 01sp.rb $Revision: 1.2 $
+# English resources of 50sp.rb
 
 =begin
 = Select-plugin plugin

@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
-# Japanese resources of 50sf.rb
-# Based on 01sp.rb Revision: 1.2
+# Japanese resources of 60sf.rb
+# Based on 50sp.rb
 # Modified by KURODA Hiraku.
 
 =begin

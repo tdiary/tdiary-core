@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8; -*-
 #
-# index.rb $Revision: 1.35 $
+# index.rb
 #
-# Copyright (C) 2001-2006, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $stdout.binmode }

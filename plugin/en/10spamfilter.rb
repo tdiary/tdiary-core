@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# en/spamfilter.rb: resource of en $Revision: 1.15 $
+# en/10spamfilter.rb: resource of en
 #
 
 @spamfilter_label_conf = 'spam filter'

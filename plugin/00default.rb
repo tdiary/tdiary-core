@@ -1,7 +1,6 @@
 # -*- coding: utf-8; -*-
 #
 # 00default.rb: default plugins 
-# $Revision: 1.120 $
 #
 # Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -482,7 +481,7 @@ def subtitle_link( date, index, subtitle )
 			titleattr = (not subtitle or subtitle.empty?) ? '' : %Q[ title="#{remove_tag( subtitle ).gsub( /"/, "&quot;" )}"]
 			r << %Q[href="#{h @index}#{anchor param}"#{titleattr}>#{@conf.section_anchor}</a> ]
 		end
-	
+
 		r << %Q[(#{h @author}) ] if @multi_user and @author and subtitle
 	end
 	r << make_category_link( subtitle )

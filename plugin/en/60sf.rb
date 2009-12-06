@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
-# English resources of 50sf.rb
-# Based on English resources of 01sp.rb Revision: 1.2
+# English resources of 60sf.rb
+# Based on English resources of 50sp.rb Revision: 1.2
 # Modified by KURODA Hiraku
 
 =begin

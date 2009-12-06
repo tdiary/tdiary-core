@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8; -*-
 #
-# update.rb $Revision: 1.22 $
+# update.rb
 #
-# Copyright (C) 2001-2003, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $stdout.binmode }
@@ -91,7 +91,7 @@ begin
 			<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 			</html>]
 	end
-	
+
 rescue Exception
 	if @cgi then
 		print @cgi.header( 'status' => '500 Internal Server Error', 'type' => 'text/html' )

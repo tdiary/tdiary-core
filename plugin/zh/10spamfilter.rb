@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# zh/spamfilter.rb: resource of zh $Revision: 1.14 $
+# zh/10spamfilter.rb: resource of zh
 #
 
 @spamfilter_label_conf = 'spam filter'

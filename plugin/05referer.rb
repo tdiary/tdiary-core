@@ -1,7 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# 01referer.rb: load/save and show today's referer plugin
-# $Revision: 1.18 $
+# 05referer.rb: load/save and show today's referer plugin
 #
 # Copyright (C) 2005, TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.

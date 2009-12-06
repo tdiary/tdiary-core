@@ -1888,7 +1888,7 @@ EOS
 			end
 		end
 	end
-	
+
 	#
 	# class TDiaryMonth
 	#  show month mode view
@@ -2197,7 +2197,7 @@ HERE
 			if @cgi.content_type =~ /charset=([^\s;]*)/i then
 				charset = $1
 			end
-			
+
 			url = @cgi.params['url'][0]
 			blog_name = @conf.to_native( @cgi.params['blog_name'][0] || '', charset )
 			title = @conf.to_native( @cgi.params['title'][0] || '', charset )
