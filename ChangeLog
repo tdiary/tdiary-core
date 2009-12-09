@@ -1,3 +1,7 @@
+2009-12-09  Kazuhiko  <kazuhiko@fdiary.net>
+	* skel/i.header.rhtml: invoke header_proc without embedding its result.
+	* plugin/00default.rb: fix mobile_navi according to navi_user integration.
+
 2009-12-04 TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: fixed bug of no saved referer under new navi_user plugin.
 

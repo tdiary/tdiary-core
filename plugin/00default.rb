@@ -145,16 +145,15 @@ def navi_admin
 end
 
 def mobile_navi
-	calc_links
 	result = []
-	if @prev_day
-		result << %Q[<A HREF="#{h @index}#{anchor @prev_day}" ACCESSKEY="*">[*]#{mobile_navi_prev_diary}</A>]
+	if @navi_user_days and @navi_user_days[0]
+		result << %Q[<A HREF="#{h @index}#{anchor @navi_user_days[0]}" ACCESSKEY="*">[*]#{mobile_navi_prev_diary}</A>]
 	end
 	if @mode != 'latest'
 		result << %Q[<A HREF="#{h @index}" ACCESSKEY="0">[0]#{mobile_navi_latest}</A>]
 	end
-	if @next_day
-		result << %Q[<A HREF="#{h @index}#{anchor @next_day}" ACCESSKEY="#">[#]#{mobile_navi_next_diary}</A>]
+	if @navi_user_days and @navi_user_days[2]
+		result << %Q[<A HREF="#{h @index}#{anchor @navi_user_days[2]}" ACCESSKEY="#">[#]#{mobile_navi_next_diary}</A>]
 	end
 	if @mode == 'day' then
 		result << %Q[<A HREF="#{h @update}?edit=true;year=#{@date.year};month=#{@date.month};day=#{@date.day}" ACCESSKEY="5">[5]#{mobile_navi_edit}</A>]
