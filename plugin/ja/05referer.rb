@@ -38,3 +38,10 @@ add_conf_proc( 'referer', 'リンク元', 'referer' ) do
 	HTML
 end
 
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

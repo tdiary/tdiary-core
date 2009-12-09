@@ -64,3 +64,10 @@ Feb. 2008
 @sf_label_used = '<h3>使用中</h3>'
 @sf_label_notused = '<h3>休憩中</h3>'
 @sf_label_noplugin = '<p>選択可能なフィルターはありません。</p>'
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

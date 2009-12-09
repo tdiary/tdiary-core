@@ -901,3 +901,10 @@ end
 if __FILE__ == $0
   puts HikiDoc.to_html(ARGF.read(nil))
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

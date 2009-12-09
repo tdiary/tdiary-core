@@ -74,3 +74,10 @@ def antispam_verify_key?( host, key )
 	end
 	return (body == 'valid')
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

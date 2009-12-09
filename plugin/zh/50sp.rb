@@ -47,3 +47,10 @@ version 2 or later.
 @sp_label_used = '<h3>已選用的</h3>'
 @sp_label_notused = '<h3>不選用的</h3>'
 @sp_label_noplugin = '<p>沒有 plugin 可選用。</p>'
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

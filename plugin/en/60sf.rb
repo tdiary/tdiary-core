@@ -51,3 +51,10 @@ Feb. 2008
 @sf_label_used = '<h3>Being used</h3>'
 @sf_label_notused = '<h3>Currently not used</h3>'
 @sf_label_nofilter = '<p>There is no optional filters.</p>'
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

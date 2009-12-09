@@ -444,3 +444,10 @@ while cssname = ARGV.shift
   puts %Q[Conversion completed: #{cssname.sub( /\.css/i, "-2.css" )} was generated.]
 
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

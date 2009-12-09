@@ -11,3 +11,10 @@
 @antispam_label_key = 'API Key'
 @antispam_desc_key = 'API Key'
 @antispam_warn_key = 'API Keyが正しくありません。サービスの提供元によって拒絶されました。'
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

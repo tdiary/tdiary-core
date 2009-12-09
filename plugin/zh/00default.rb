@@ -357,3 +357,10 @@ add_conf_proc( 'logger', 'Log Level', 'basic' ) do
 	HTML
 	r << conf_logger_list
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

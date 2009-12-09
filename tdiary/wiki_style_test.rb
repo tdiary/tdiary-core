@@ -199,3 +199,10 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
     end
   end
 end #/WikiStyleTest
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

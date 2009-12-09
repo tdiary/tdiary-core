@@ -47,3 +47,10 @@ version 2 or later.
 @sp_label_used = '<h3>Being used</h3>'
 @sp_label_notused = '<h3>Currently not used</h3>'
 @sp_label_noplugin = '<p>There is no optional plugins.</p>'
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

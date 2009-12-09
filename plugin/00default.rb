@@ -895,3 +895,10 @@ def conf_logger_list
 
 	r << %Q|</select></p>|
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

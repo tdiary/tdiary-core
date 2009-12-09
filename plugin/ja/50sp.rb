@@ -57,3 +57,10 @@ version 2 or later.
 @sp_label_used = '<h3>使用中</h3>'
 @sp_label_notused = '<h3>休憩中</h3>'
 @sp_label_noplugin = '<p>選択可能なプラグインはありません。</p>'
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
