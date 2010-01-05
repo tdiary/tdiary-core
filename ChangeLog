@@ -1,4 +1,6 @@
 2010-01-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/lib/hikidoc.rb: sync with hikidoc rev.126.
+
 	* misc/lib/compatible.rb: define CGI::ENV so as to avoid "Insecure
 	operation `[]' at level 4" exception.
 

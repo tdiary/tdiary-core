@@ -1,4 +1,4 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) 2005, Kazuhiko <kazuhiko@fdiary.net>
 # Copyright (c) 2007 Minero Aoki
 # All rights reserved.
@@ -38,7 +38,7 @@ rescue LoadError
 end
 
 class HikiDoc
-  VERSION = "0.0.2" # FIXME
+  VERSION = "0.0.5" # FIXME
 
   class Error < StandardError
   end
@@ -91,7 +91,7 @@ class HikiDoc
   #
 
   def valid_plugin_syntax?(code)
-    /['"]/ !~ code.gsub(/'(?:[^\\']+|\\.)*'|"(?:[^\\"]+|\\.)*"/m, "")
+    /['"]/ !~ code.gsub(/\\\\/, "").gsub(/\\['"]/,"").gsub(/'[^']*'|"[^"]*"/m, "")
   end
 
   def escape_plugin_blocks(text)
@@ -408,7 +408,7 @@ class HikiDoc
 
       link, uri, mod, wiki_name = m[1, 4]
       if wiki_name and wiki_name[0, 1] == "^"
-        pending_str = m.pre_match + wiki_name[1..-1]
+        pending_str = m.pre_match + wiki_name[1..-1] + str
         next
       end
 
@@ -437,7 +437,7 @@ class HikiDoc
   end
 
   def compile_bracket_link(link)
-    if m = /\A(?>[^|\\]+|\\.)*\|/.match(link)
+    if m = /\A(.*)\|/.match(link)
       title = m[0].chop
       uri = m.post_match
       fixed_uri = fix_uri(uri)
@@ -485,17 +485,20 @@ class HikiDoc
   STRONG = "'''"
   EM = "''"
   DEL = "=="
+  TT = "``"
 
   STRONG_RE = /'''.+?'''/
   EM_RE     = /''.+?''/
   DEL_RE    = /==.+?==/
+  TT_RE    = /``.+?``/
 
-  MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE)
+  MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE, TT_RE)
 
   MODTAG = {
     STRONG => "strong",
     EM     => "em",
-    DEL    => "del"
+    DEL    => "del",
+    TT     => 'tt'
   }
 
   def compile_modifier(str)
@@ -524,6 +527,8 @@ class HikiDoc
     when /\A''/
       return str[0, 2], str[2...-2]
     when /\A==/
+      return str[0, 2], str[2...-2]
+    when /\A``/
       return str[0, 2], str[2...-2]
     else
       raise UnexpectedError, "must not happen: #{str.inspect}"
@@ -722,12 +727,16 @@ class HikiDoc
       "<del>#{item}</del>"
     end
 
+    def tt(item)
+      "<tt>#{item}</tt>"
+    end
+
     def text(str)
       escape_html(str)
     end
 
     def inline_plugin(src)
-      %Q(<span class="plugin">{{#{src}}}</span>)
+      %Q(<span class="plugin">{{#{escape_html(src)}}}</span>)
     end
 
     #
