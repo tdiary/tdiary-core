@@ -63,6 +63,8 @@ end
 
 unless "".respond_to?('force_encoding')
 	class Encoding
+		class CompatibilityError < Exception; end
+
 		def Encoding.const_missing(id)
 			self
 		end
