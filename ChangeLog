@@ -1,3 +1,7 @@
+2010-01-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* skel/footer.rhtml: disypal RUBY_RELEASE_DATE instead of
+	RUBY_PATCHLEVEL if RUBY_PATCH_LEVEL is missing.
+
 2009-12-09  Kazuhiko  <kazuhiko@fdiary.net>
 	* skel/i.header.rhtml: invoke header_proc without embedding its result.
 	* plugin/00default.rb: fix mobile_navi according to navi_user integration.
