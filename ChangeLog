@@ -1,4 +1,7 @@
 2010-01-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/lib/compatible.rb: define CGI::ENV so as to avoid "Insecure
+	operation `[]' at level 4" exception.
+
 	* misc/lib/compatible.rb: define Encoding::CompatibilityError for
 	ruby 1.8.x because it appears in rescue clauses.
 

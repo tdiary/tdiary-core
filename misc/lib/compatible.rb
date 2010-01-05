@@ -58,6 +58,11 @@ class String
 	end
 end
 
+# ENV#[] raises an exception on secure mode
+class CGI
+	ENV = ::ENV.to_hash
+end
+
 
 # for Ruby1.8.X
 
