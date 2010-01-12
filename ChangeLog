@@ -1,3 +1,10 @@
+2010-01-12  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* doc/README.html: fixed supported ruby version.
+
+	* doc/HOWTO-make-theme.html, INSTALL.html: s/GPL/GPL2
+
+	* doc/*.html, *.css: fixed old mail address.
+
 2010-01-05  Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/lib/hikidoc.rb: sync with hikidoc rev.126.
 
