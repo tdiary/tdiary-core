@@ -1,19 +1,18 @@
+2010-03-26  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: loading jQuery 1.4 via googleapi to Edit and Preference pages.
+	* js/00default.js: added default loading js file.
+
 2010-01-12  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* doc/README.html: fixed supported ruby version.
-
 	* doc/HOWTO-make-theme.html, INSTALL.html: s/GPL/GPL2
-
 	* doc/*.html, *.css: fixed old mail address.
 
 2010-01-05  Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/lib/hikidoc.rb: sync with hikidoc rev.126.
-
 	* misc/lib/compatible.rb: define CGI::ENV so as to avoid "Insecure
 	operation `[]' at level 4" exception.
-
 	* misc/lib/compatible.rb: define Encoding::CompatibilityError for
 	ruby 1.8.x because it appears in rescue clauses.
-
 	* skel/footer.rhtml: disypal RUBY_RELEASE_DATE instead of
 	RUBY_PATCHLEVEL if RUBY_PATCH_LEVEL is missing.
 
@@ -27,7 +26,6 @@
 2009-11-24  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* tdiary.rb, plugin/00default.rb, 
 	plugin/{ja,en,zh}/00default.rb: change logger implementation.
-
 	* tdiary.rb, plugin/00default.rb: change implemention of 
 	navi_user_day to navi_user.rb.
 
@@ -35,7 +33,6 @@
 	* tdiary/filter/default.rb: match on ASCII-8BIT encoding because
 	incoming referer and/or configured non_referer can be non-UTF8
 	encoding.
-
 	* index.rb, update.rb: call $:.unshift only if it is required,
 	otherwise the same path is added by each request in FastCGI mode.
 
@@ -45,7 +42,6 @@
 2009-08-17  Kazuhiko  <kazuhiko@fdiary.net>
 	* misc/lib/compatible.rb (PStore::load): auto convert ASCII_8BIT
 	pstore data (created by Ruby-1.8) to UTF-8 in Ruby-1.9.
-
 	* skel/tdiary.rconf: force encoding all String in 'ASCII-8BIT' to
 	get the same dump format on both Ruby-1.8 and Ruby-1.9.
 

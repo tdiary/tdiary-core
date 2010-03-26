@@ -2,7 +2,7 @@
 #
 # 00default.rb: default plugins 
 #
-# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2010, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 
@@ -214,6 +214,7 @@ add_header_proc do
 	#{mobile_link_discovery}
 	#{icon_tag}
 	#{description_tag}
+	#{jquery_tag.chomp}
 	#{css_tag.chomp}
 	#{iphone_tag.chomp}
 	#{title_tag.chomp}
@@ -343,6 +344,14 @@ end
 def description_tag
 	if @conf.description and not(@conf.description.empty?) then
 		%Q[<meta name="description" content="#{h @conf.description}">]
+	else
+		''
+	end
+end
+
+def jquery_tag
+	if /^(form|edit|preview|showcomment|conf|saveconf)$/ =~ @mode then
+		%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
 	else
 		''
 	end
