@@ -89,8 +89,19 @@ div.day div.sequel {
 	clear: both;
 }
 
+div.amazon-detail {
+	margin: 0px;
+	padding: 4px;
+	background-color: #fff;
+}
+
 img.amazon-detail {
 	margin-top: 0px;
+}
+
+div.amazon-detail-desc {
+	overflow: auto;
+	zoom: 1;
 }
 
 span.amazon-title {

@@ -1,3 +1,6 @@
+2010-03-27  TADA Tadashi <t@tdtds.jp>
+	* theme/base.css: added style for amazon plugin.
+
 2010-03-26  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: loading jQuery 1.4 via googleapi to Edit and Preference pages.
 	* js/00default.js: added default loading js file.
