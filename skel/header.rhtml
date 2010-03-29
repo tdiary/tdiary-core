@@ -3,7 +3,7 @@
 <head>
 <%%=header_proc%>
 </head>
-<body>
+<body<%%= /form|edit|preview/ =~ @mode ? ' class="update"' : ''%>>
 <% if @error then %><p class="message">Security Error?<br>
 <%=h @error[0].to_s %><br><%=h @error[1][0] %>
 </p><% end %>

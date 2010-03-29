@@ -1,3 +1,6 @@
+2010-03-29  TADA Tadashi <t@tdtds.jp>
+	* skel/header.rhtml: added 'class="update"' into body element when update mode.
+
 2010-03-27  TADA Tadashi <t@tdtds.jp>
 	* theme/base.css: added style for amazon plugin.
 
