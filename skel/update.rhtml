@@ -21,10 +21,8 @@ end
 <h1><%=h @conf.html_title %> [<%%= submit_label %>]</h1>
 
 <div class="update day">
+<h2><span class="title">日記の更新</span></h2>
 <div class="form">
-	<div class="caption">
-		日記の更新
-	</div>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">日記本文</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">

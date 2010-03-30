@@ -1,13 +1,12 @@
 <%# update.rhtml $Revision: 1.6 $ %>
 <%%=navi%>
 
+	<h2><span class="title">
 <h1><%=h @conf.html_title %> [<%%= submit_label %>]</h1>
 
 <div class="update day">
+<h2><span class="title">更新日誌</span></h2>
 <div class="form">
-	<div class="caption">
-		更新日誌
-	</div>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">日誌主體</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
