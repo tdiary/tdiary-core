@@ -1,5 +1,6 @@
 2010-03-30  TADA Tadashi <t@tdtds.jp>
 	* skel/update.rhtml*: changed element of top of div.caption to h2.
+	* theme/base.css: added style of profile plugin.
 
 2010-03-29  TADA Tadashi <t@tdtds.jp>
 	* skel/header.rhtml: added 'class="update"' into body element when update mode.

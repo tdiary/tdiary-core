@@ -239,3 +239,18 @@ h2 span.edit-today {
 	font-size: small;
 }
 
+/*
+profile plugin
+*/
+div.profile {
+	margin: 1em;
+	text-align: center;
+	border: solid 1px #999;
+}
+div.profile img {
+	border: none;
+}
+div.profile span {
+	font-size: 0.9em;
+	display: block;
+}
