@@ -1,3 +1,6 @@
+2010-04-06  TADA Tadashi <t@tdtds.jp>
+	* theme/base.css: adjusted some styles for amazon plugin.
+
 2010-03-30  TADA Tadashi <t@tdtds.jp>
 	* skel/update.rhtml*: changed element of top of div.caption to h2.
 	* theme/base.css: added style of profile plugin.

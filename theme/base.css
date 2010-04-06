@@ -75,11 +75,13 @@ amazon plugin
 img.left {
 	float: left;
 	margin: 0.5em;
+	margin-top: 0px;
 }
 
-img.right {
+img.right, img.amazon {
 	float: right;
 	margin: 0.5em;
+	margin-top: 0px;
 }
 
 div.section,
@@ -93,6 +95,14 @@ div.amazon-detail {
 	margin: 0px;
 	padding: 4px;
 	background-color: #fff;
+	border: solid 1px #ddd;
+}
+
+a.amazon-detail,
+a.amazon-detail:visited,
+a.amazon-detail:hover {
+	color: #000;
+	text-decoration: none;
 }
 
 img.amazon-detail {
