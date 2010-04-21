@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.3.20100420'
+TDIARY_VERSION = '2.3.3.20100421'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -63,7 +63,6 @@ class CGI
 	def smartphone?
 		self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
 	end
-	alias iphone? smartphone?
 
 	def https?
 		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS']
@@ -503,9 +502,10 @@ module TDiary
 			@cgi.mobile_agent?
 		end
 
-		def iphone?
-			@cgi.iphone?
+		def smartphone?
+			@cgi.smartphone?
 		end
+		alias iphone? smartphone?
 
 		def bot?
 			@bot =~ @cgi.user_agent

@@ -1,5 +1,8 @@
+2010-04-21  TADA Tadashi <t@tdtds.jp>
+	* added Config#smartphone? calling CGI::smartphone?. And alias as iphone?.
+
 2010-04-20  TADA Tadashi <t@tdtds.jp>
-	* added Config#smartphone? for some SmartPhone's user agent. And alias as iphone?.
+	* added CGI#smartphone? for some SmartPhone's user agent.
 
 2010-04-06  TADA Tadashi <t@tdtds.jp>
 	* theme/base.css: adjusted some styles for amazon plugin.
