@@ -4,7 +4,6 @@
 
 require 'uri'
 require 'resolv'
-require 'socket'
 require 'timeout'
 
 module TDiary
@@ -168,19 +167,18 @@ module TDiary
 				@spamlookup_domain_list.split(/[\n\r]+/).each do |dnsbl|
 					begin
 						timeout(5) do
-							ip = IPSocket::getaddress( domain ).split(/\./).reverse.join(".")
-							address = Resolv.getaddress( "#{ip}.#{dnsbl}" )
+							address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
 							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
 							return true
 						end
 					rescue Resolv::ResolvTimeout, Resolv::ResolvError
-						debug("resolv error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					rescue TimeoutError
 						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					rescue Exception
 						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					end
 				end
+				debug("#{domain} is safe host.", DEBUG_FULL)
 				return false
 			end
 
@@ -197,7 +195,6 @@ module TDiary
 
 			def comment_filter( diary, comment )
 				update_config
-				#debug( "comment_filter start", DEBUG_FULL )
 
 				return false if black_url?( comment.body )
 
@@ -338,14 +335,13 @@ module TDiary
 				return true unless referer
 
 				update_config
-				#debug( "referer_filter start", DEBUG_FULL )
+
+				return false if black_url?( referer )
 
 				if /#/ =~ referer then
 					debug( "referer has a fragment: #{referer}" )
 					return false
 				end
-
-				return false if black_url?( referer )
 
 				if %r{\A[^:]+://[^/]*\z} =~ referer
 					debug( "referer has no path: #{referer}" )

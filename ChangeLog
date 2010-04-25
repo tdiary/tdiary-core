@@ -1,5 +1,5 @@
 2010-04-25  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
-	* tdiary/filter/spam.rb: fixed bug of resolve url not used ip address for domain.
+	* tdiary/filter/spam.rb: revert r3619. and fix debug message.
 
 2010-04-21  TADA Tadashi <t@tdtds.jp>
 	* added Config#smartphone? calling CGI::smartphone?. And alias as iphone?.
