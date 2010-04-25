@@ -181,9 +181,9 @@ module TDiary
 						end
 					rescue Resolv::ResolvTimeout, Resolv::ResolvError
 					rescue TimeoutError
-						debug("timeout error:#{ip}.#{dnsbl}", DEBUG_FULL)
+						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					rescue Exception
-						debug("unknown error:#{ip}.#{dnsbl}", DEBUG_FULL)
+						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					end
 				end
 
