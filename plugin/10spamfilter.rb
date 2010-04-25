@@ -112,6 +112,12 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			resolv_check_mode = false
 		end
 
+		if @cgi.params['spamlookup.ip.list'] && @cgi.params['spamlookup.ip.list'][0]
+			@conf['spamlookup.ip.list'] = @cgi.params['spamlookup.ip.list'][0]
+		else
+			@conf['spamlookup.ip.list'] = nil
+		end
+
 		if @cgi.params['spamlookup.domain.list'] && @cgi.params['spamlookup.domain.list'][0]
 			@conf['spamlookup.domain.list'] = @cgi.params['spamlookup.domain.list'][0]
 		else
@@ -128,6 +134,9 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 		@conf['spamfilter.linkcheck'] = (@cgi.params['spamfilter.linkcheck'][0] || '1').to_i
 	end
 
+	# initialize IP based DNSBL list
+	@conf['spamlookup.ip.list'] ||= "dnsbl.spam-champuru.livedoor.com"
+
 	# initialize DNSBL list
 	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
 
@@ -138,6 +147,39 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 	@conf['spamfilter.linkcheck'] = 1 unless @conf['spamfilter.linkcheck']
 
 	spamfilter_conf_html
+end
+
+add_conf_proc( 'dnsblfilter', @dnsblfilter_label_conf, 'security' ) do
+	if @mode == 'saveconf'
+		if @cgi.params['spamlookup.ip.list'] && @cgi.params['spamlookup.ip.list'][0]
+			@conf['spamlookup.ip.list'] = @cgi.params['spamlookup.ip.list'][0]
+		else
+			@conf['spamlookup.ip.list'] = nil
+		end
+
+		if @cgi.params['spamlookup.domain.list'] && @cgi.params['spamlookup.domain.list'][0]
+			@conf['spamlookup.domain.list'] = @cgi.params['spamlookup.domain.list'][0]
+		else
+			@conf['spamlookup.domain.list'] = nil
+		end
+
+		if @cgi.params['spamlookup.safe_domain.list'] && @cgi.params['spamlookup.safe_domain.list'][0]
+			@conf['spamlookup.safe_domain.list'] = @cgi.params['spamlookup.safe_domain.list'][0]
+		else
+			@conf['spamlookup.safe_domain.list'] = nil
+		end
+	end
+
+	# initialize IP based DNSBL list
+	@conf['spamlookup.ip.list'] ||= "dnsbl.spam-champuru.livedoor.com"
+
+	# initialize DNSBL list
+	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
+
+	# initialize safe domain list.
+	@conf['spamlookup.safe_domain.list'] ||= "www.google.com\nwww.google.co.jp\nsearch.yahoo.co.jp\nwww.bing.com"
+
+	dnsblfilter_conf_html
 end
 
 # Local Variables:

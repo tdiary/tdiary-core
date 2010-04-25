@@ -4,6 +4,7 @@
 #
 
 @spamfilter_label_conf = 'spam filter'
+@dnsblfilter_label_conf = 'DNSBL filter'
 
 def spamfilter_conf_html
 	r = <<-HTML
@@ -19,11 +20,11 @@ def spamfilter_conf_html
 	<p>It is spam when percentage of URI charctors in TSUKKOMI body is over this value.<br>
 		<input type="text" name="spamfilter.max_rate" value="#{h @conf['spamfilter.max_rate']}" size="5"></p>
 	<p>It is spam when TSUKKOMI body has URIs match with these patterns.<br>
-		<textarea name="spamfilter.bad_uri_patts" cols="70" rows="8">#{h( @conf['spamfilter.bad_uri_patts'] || '' )}</textarea></p>
+		<textarea name="spamfilter.bad_uri_patts" cols="60" rows="8">#{h( @conf['spamfilter.bad_uri_patts'] || '' )}</textarea></p>
 	<p>It is spam when TSUKKOMI body matches with these patterns.<br>
-		<textarea name="spamfilter.bad_comment_patts" cols="70" rows="8">#{h( @conf['spamfilter.bad_comment_patts'] || '' )}</textarea></p>
+		<textarea name="spamfilter.bad_comment_patts" cols="60" rows="8">#{h( @conf['spamfilter.bad_comment_patts'] || '' )}</textarea></p>
 	<p>It is spam when mail address matches with these patterns.<br>
-		<textarea name="spamfilter.bad_mail_patts" cols="70" rows="8">#{h( @conf['spamfilter.bad_mail_patts'] || '' )}</textarea></p>
+		<textarea name="spamfilter.bad_mail_patts" cols="60" rows="8">#{h( @conf['spamfilter.bad_mail_patts'] || '' )}</textarea></p>
 	<p>Use patterns of URI for checking mail address.<br>
 		<select name="spamfilter.bad_uri_patts_for_mails">
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>ON</option>
@@ -41,7 +42,7 @@ def spamfilter_conf_html
 
 	<h3>IP address filters</h3>
 	<p>It is spam when sender IP address matches these patterns. You have to specify complete IP address or part of IP address ends by '.'.<br>
-		<textarea name="spamfilter.bad_ip_addrs" cols="70" rows="8">#{h( @conf['spamfilter.bad_ip_addrs'] || '' )}</textarea></p>
+		<textarea name="spamfilter.bad_ip_addrs" cols="60" rows="8">#{h( @conf['spamfilter.bad_ip_addrs'] || '' )}</textarea></p>
 	</p>
 	<p>It is spam when IP address of TrackBack sender dose not match with IP address of the site.<br>
 		<select name="spamfilter.resolv_check">
@@ -54,14 +55,9 @@ def spamfilter_conf_html
 			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>dispose</option>
 		</select>
 	</p>
-   <h3>Domain Blacklist Services</h3>
-   <p>List of Domain Blacklist Services</p>
-   <p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
-   <p>List of Safe Domain. Example for search engine.</p>
-   <p><textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
-   <h3>Description of TSUKKOMI</h3>
-   <p>Show messeges and spam conditions for your subscribers.<br><textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
-   HTML
+	<h3>Description of TSUKKOMI</h3>
+	<p>Show messeges and spam conditions for your subscribers.<br><textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
+	HTML
 
 	unless @conf.secure then
 	r << <<-HTML
@@ -74,6 +70,20 @@ def spamfilter_conf_html
 		</select></p>
 	HTML
 	end
+
+	r
+end
+
+def dnsblfilter_conf_html
+	r = <<-HTML
+	<h3>Domain Blacklist Services</h3>
+	<p>List of IP based Domain Blacklist Services</p>
+	<p><textarea name="spamlookup.ip.list" cols="70" rows="5">#{h @conf['spamlookup.ip.list']}</textarea></p>
+	<p>List of Domain Blacklist Services</p>
+	<p><textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
+	<p>List of Safe Domain. Example for search engine.</p>
+	<p><textarea name="spamlookup.safe_domain.list" cols="70" rows="10">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
+	HTML
 
 	r
 end

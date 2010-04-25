@@ -4,6 +4,7 @@
 #
 
 @spamfilter_label_conf = 'spamフィルタ'
+@dnsblfilter_label_conf = 'DNSBLフィルタ'
 
 def spamfilter_conf_html
 	r = <<-HTML
@@ -52,16 +53,11 @@ def spamfilter_conf_html
 			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>捨てる</option>
 		</select>
 	</p>
-   <h3>ブラックリストサービスを使ったフィルタ</h3>
-   <p>ブラックリスト問い合わせサーバーを指定します<br>
-   <textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
-   <p>以下に指定したドメインはブラックリストに問い合わせません。検索エンジン等を指定してください<br>
-   <textarea name="spamlookup.safe_domain.list" cols="70" rows="5">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
-   <h3>ツッコミの注意文</h3>
-   <p>ツッコミフォームの上に表示する注意文を設定します。spam判定条件を変更した場合に、読者にそれをきちんと知らせましょう<br>
-   <textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
-   HTML
-   
+	<h3>ツッコミの注意文</h3>
+	<p>ツッコミフォームの上に表示する注意文を設定します。spam判定条件を変更した場合に、読者にそれをきちんと知らせましょう<br>
+	<textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
+	HTML
+
 	unless @conf.secure then
 	r << <<-HTML
 	<h3>フィルタのログ</h3>
@@ -73,6 +69,20 @@ def spamfilter_conf_html
 		</select></p>
 	HTML
 	end
+
+	r
+end
+
+def dnsblfilter_conf_html
+	r = <<-HTML
+	<h3>DNSBL(DNSブラックリスト)サービスを使ったフィルタ</h3>
+	<p>IPベースのブラックリスト問い合わせサーバーを指定します<br>
+	<textarea name="spamlookup.ip.list" cols="70" rows="5">#{h @conf['spamlookup.ip.list']}</textarea></p>
+	<p>ドメインベースのブラックリスト問い合わせサーバーを指定します<br>
+	<textarea name="spamlookup.domain.list" cols="70" rows="5">#{h @conf['spamlookup.domain.list']}</textarea></p>
+	<p>以下に指定したドメインはブラックリストに問い合わせません。検索エンジン等を指定してください<br>
+	<textarea name="spamlookup.safe_domain.list" cols="70" rows="10">#{h @conf['spamlookup.safe_domain.list']}</textarea></p>
+	HTML
 
 	r
 end

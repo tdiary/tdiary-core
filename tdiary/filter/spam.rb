@@ -63,6 +63,12 @@ module TDiary
 					@resolv_check = true
 				end
 
+				if @conf.options.include?('spamlookup.ip.list')
+					@spamlookup_ip_list = @conf.options['spamlookup.ip.list']
+				else
+					@spamlookup_ip_list = "dnsbl.spam-champuru.livedoor.com"
+				end
+
 				if @conf.options.include?('spamlookup.domain.list')
 					@spamlookup_domain_list = @conf.options['spamlookup.domain.list']
 				else
@@ -72,7 +78,7 @@ module TDiary
 				if @conf.options.include?('spamlookup.safe_domain.list')
 					@spamlookup_safe_domain_list = @conf.options['spamlookup.safe_domain.list']
 				else
-					@spamlookup_safe_domain_list = "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
+					@spamlookup_safe_domain_list = "www.google.com\nwww.google.co.jp\nsearch.yahoo.co.jp\nwww.bing.com"
 				end
 
 				if @conf.options.include?('spamfilter.resolv_check_mode')
@@ -164,6 +170,22 @@ module TDiary
 			end
 
 			def black_domain?( domain )
+				@spamlookup_ip_list.split(/[\n\r]+/).each do |dnsbl|
+					begin
+						timeout(5) do
+							ip = IPSocket::getaddress( str ).split(/\./).reverse.join(".")
+							address = Resolv.getaddress( "#{ip}.#{dnsbl}" )
+							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
+							return true
+						end
+					rescue Resolv::ResolvTimeout, Resolv::ResolvError
+					rescue TimeoutError
+						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
+					rescue Exception
+						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
+					end
+				end
+
 				@spamlookup_domain_list.split(/[\n\r]+/).each do |dnsbl|
 					begin
 						timeout(5) do
@@ -178,6 +200,7 @@ module TDiary
 						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
 					end
 				end
+
 				debug("#{domain} is safe host.", DEBUG_FULL)
 				return false
 			end
