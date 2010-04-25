@@ -174,7 +174,7 @@ module TDiary
 				@spamlookup_ip_list.split(/[\n\r]+/).each do |dnsbl|
 					begin
 						timeout(5) do
-							ip = IPSocket::getaddress( str ).split(/\./).reverse.join(".")
+							ip = IPSocket::getaddress( domain ).split(/\./).reverse.join(".")
 							address = Resolv.getaddress( "#{ip}.#{dnsbl}" )
 							debug("lookup:#{ip}.#{dnsbl} address:#{address}")
 							return true
