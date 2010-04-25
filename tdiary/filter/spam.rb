@@ -4,6 +4,7 @@
 
 require 'uri'
 require 'resolv'
+require 'socket'
 require 'timeout'
 
 module TDiary
@@ -167,7 +168,8 @@ module TDiary
 				@spamlookup_domain_list.split(/[\n\r]+/).each do |dnsbl|
 					begin
 						timeout(5) do
-							address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
+							ip = IPSocket::getaddress( domain ).split(/\./).reverse.join(".")
+							address = Resolv.getaddress( "#{ip}.#{dnsbl}" )
 							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
 							return true
 						end
