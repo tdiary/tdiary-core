@@ -4,6 +4,7 @@
 
 require 'uri'
 require 'resolv'
+require 'socket'
 require 'timeout'
 
 module TDiary
@@ -175,14 +176,14 @@ module TDiary
 						timeout(5) do
 							ip = IPSocket::getaddress( str ).split(/\./).reverse.join(".")
 							address = Resolv.getaddress( "#{ip}.#{dnsbl}" )
-							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
+							debug("lookup:#{ip}.#{dnsbl} address:#{address}")
 							return true
 						end
 					rescue Resolv::ResolvTimeout, Resolv::ResolvError
 					rescue TimeoutError
-						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
+						debug("timeout error:#{ip}.#{dnsbl}", DEBUG_FULL)
 					rescue Exception
-						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
+						debug("unknown error:#{ip}.#{dnsbl}", DEBUG_FULL)
 					end
 				end
 
