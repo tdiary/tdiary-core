@@ -44,6 +44,7 @@ module RD
 
 		def apply_to_Headline(element, title)
 			level = element.level + TDIARY_BASE_LEVEL
+			title = title.join
 			if level == 3
 				r = %Q[<h#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></h#{level}>]
 			else
@@ -53,7 +54,7 @@ module RD
 		end
 
 		def apply_to_DescListItem(element, term, description)
-			%Q[<dt>#{term}</dt>] +
+			%Q[<dt>#{term.join}</dt>] +
 			if description.empty? then
 				"\n"
 			else
@@ -159,6 +160,7 @@ module RD
 	class RD2tDiaryCHTMLVistor < RD2tDiaryVisitor
 		def apply_to_Headline(element, title)
 			level = element.level + TDIARY_BASE_LEVEL
+			title = title.join
 			if level == 3
 				r = %Q[<H#{level}><%= subtitle_proc( Time::at( #{@td_date.to_i} ), #{title.to_s.dump.gsub( /%/, '\\\\045' )} ) %></H#{level}>]
 			else
@@ -258,7 +260,7 @@ module TDiary
 				section_close = "<%=section_leave_proc( Time::at( #{date.to_i} ))%>\n</div>\n"
 			end
 
-			src = to_src.to_a
+			src = to_src.split(/^/)
 			src.unshift("=begin\n").push("=end\n")
 			tree = RDTree.new( src, nil, nil)
 			begin
@@ -273,7 +275,7 @@ module TDiary
 		private
 		def manufacture(str, subtitle = false)
 			return nil unless str
-			src = str.strip.to_a.unshift("=begin\n").push("=end\n")
+			src = str.strip.split(/^/).unshift("=begin\n").push("=end\n")
 			visitor = RD2tDiaryVisitor.new
 			tree = RDTree.new(src, nil, nil)
 			begin

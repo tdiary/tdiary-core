@@ -1,3 +1,6 @@
+2010-04-30  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* misc/style/rd/rd_style.rb: applied patch #190, thx kumaryu.
+
 2010-04-25  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* tdiary/filter/spam.rb: revert r3619. and fix debug message.
 	* tdiary/filter/spam.rb: added IP based DNSBL filter.
