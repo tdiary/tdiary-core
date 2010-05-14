@@ -376,6 +376,19 @@ add_conf_proc( 'logger', 'ログレベル選択', 'basic' ) do
 	r << conf_logger_list
 end
 
+add_conf_proc( 'suggestfilter', 'おすすめフィルタ', 'basic' ) do
+	saveconf_recommendfilter
+
+	<<-HTML
+	<h3>おすすめフィルタの利用</h3>
+	<p>spam 対策をtDiaryおすすめの設定に変更します。現在、設定されている内容を全て変更するので注意してください。</p>
+	<p>
+		<input type="checkbox" id="recommend.filter" name="recommend.filter" value="true">
+		<label for="recommend.filter">おすすめフィルタ設定にする</label>
+	</p>
+	HTML
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t

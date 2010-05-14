@@ -904,6 +904,12 @@ def conf_logger_list
 	r << %Q|</select></p>|
 end
 
+def saveconf_recommendfilter
+	if @mode == 'saveconf' && @cgi.params['recommend.filter'] == 'true' then
+		# TODO おすすめフィルタの内容をここに書く
+	end
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t

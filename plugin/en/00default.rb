@@ -358,6 +358,19 @@ add_conf_proc( 'logger', 'Log Level', 'basic' ) do
 	r << conf_logger_list
 end
 
+add_conf_proc( 'suggestfilter', 'Recommend filter', 'basic' ) do
+	saveconf_recommendfilter
+
+	<<-HTML
+	<h3>Recommend filter</h3>
+	<p>Spam filtering for tDiary recommended to change the settings. Now, caution that all change what is settings.</p>
+	<p>
+		<input type="checkbox" id="recommend.filter" name="recommend.filter" value="true">
+		<label for="recommend.filter">Enabled recommend filter</label>
+	</p>
+	HTML
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t
