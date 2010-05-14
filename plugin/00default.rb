@@ -906,7 +906,27 @@ end
 
 def saveconf_recommendfilter
 	if @mode == 'saveconf' && @cgi.params['recommend.filter'] == 'true' then
-		# TODO おすすめフィルタの内容をここに書く
+		@conf['sf.selected'] = ""
+		@conf['sp.selected'].concat("\nhide_comment_form.rb") unless @conf['sp.selected'].include?("hide_comment_form.rb")
+		@conf['comment_description'] = "ツッコミ・コメントがあればどうぞ! spam対策でE-mail欄は隠してあります。もしE-mail欄が見えていても、何も入力しないで下さい。また、URIは1つまで入力可能です。"
+		@conf['spamfilter.bad_comment_patts'] = "href=\r\nurl=\r\nURL=\r\n"
+		@conf['spamfilter.bad_ip_addrs'] = ""
+		@conf['spamfilter.bad_mail_patts'] = "@"
+		@conf['spamfilter.bad_uri_patts'] = ""
+		@conf['spamfilter.bad_uri_patts_for_mails'] = false
+		@conf['spamfilter.date_limit'] = "7"
+		@conf['spamfilter.debug_file'] = ""
+		@conf['spamfilter.debug_mode'] = false
+		@conf['spamfilter.filter_mode'] = false
+		@conf['spamfilter.hide_commentform'] = true
+		@conf['spamfilter.linkcheck'] = 1
+		@conf['spamfilter.max_rate'] = "0"
+		@conf['spamfilter.max_uris'] = "1"
+		@conf['spamfilter.resolv_check'] = true
+		@conf['spamfilter.resolv_check_mode'] = false
+		@conf['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nsc.surbl.org\r\nrbl.bulkfeeds.jp"
+		@conf['spamlookup.ip.list'] = "dnsbl.spam-champuru.livedoor.com"
+		@conf['spamlookup.safe_domain.list'] = "www.google.com\r\nwww.google.co.jp\r\nezsch.ezweb.ne.jp\r\nwww.yahoo.co.jp\r\nsearch.mobile.yahoo.co.jp\r\nwww.bing.com"
 	end
 end
 
