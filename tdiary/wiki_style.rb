@@ -6,7 +6,7 @@
 #
 #    @style = 'Wiki'
 #
-# Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2003, TADA Tadashi <t@tdtds.jp>
 # Copyright (C) 2005, Kazuhiko <kazuhiko@fdiary.net>
 # You can distribute this under GPL.
 #

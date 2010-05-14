@@ -2,7 +2,7 @@
 #
 # tDiary language setup: English(en) $Revision: 1.5 $
 #
-# Copyright (C) 2001-2005, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 

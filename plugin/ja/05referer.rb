@@ -2,7 +2,7 @@
 #
 # 05referer.rb: Japanese resource of referer plugin
 #
-# Copyright (C) 2006, TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2006, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 
