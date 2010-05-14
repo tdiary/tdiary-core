@@ -905,7 +905,7 @@ def conf_logger_list
 end
 
 def saveconf_recommendfilter
-	if @mode == 'saveconf' && @cgi.params['recommend.filter'] == 'true' then
+	if @mode == 'saveconf' && @cgi.params['recommend.filter'][0] == 'true' then
 		@conf['sf.selected'] = ""
 		@conf['sp.selected'].concat("\nhide_comment_form.rb") unless @conf['sp.selected'].include?("hide_comment_form.rb")
 		@conf['comment_description'] = "ツッコミ・コメントがあればどうぞ! spam対策でE-mail欄は隠してあります。もしE-mail欄が見えていても、何も入力しないで下さい。また、URIは1つまで入力可能です。"
