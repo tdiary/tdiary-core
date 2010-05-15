@@ -907,11 +907,20 @@ end
 def saveconf_recommendfilter
 	if @mode == 'saveconf' && @cgi.params['recommend.filter'][0] == 'true' then
 		@conf['sf.selected'] = ""
-		@conf['sp.selected'].concat("hide-mail-field.rb") unless @conf['sp.selected'].include?("hide-mail-field.rb")
-		@conf['comment_description'] = "ツッコミ・コメントがあればどうぞ! spam対策でE-mail欄は隠してあります。もしE-mail欄が見えていても、何も入力しないで下さい。また、URIは1つまで入力可能です。"
+		@conf['comment_description'] = "ツッコミ・コメントがあればどうぞ! URIは1つまで入力可能です。"
+
+		if @sp_path.inject(false){|r, dir| r || FileTest.exist?("#{dir}/hide-mail-field.rb") }
+			if @conf['sp.selected']
+				@conf['sp.selected'].concat("hide-mail-field.rb\n")
+			else
+				@conf['sp.selected'] = "hide-mail-field.rb\n"
+			end
+			@conf['spamfilter.bad_mail_patts'] = "@"
+			@conf['comment_description'].concat("spam対策でE-mail欄は隠してあります。もしE-mail欄が見えていても、何も入力しないで下さい。")
+		end
+
 		@conf['spamfilter.bad_comment_patts'] = "href=\r\nurl=\r\nURL=\r\n"
 		@conf['spamfilter.bad_ip_addrs'] = ""
-		@conf['spamfilter.bad_mail_patts'] = "@"
 		@conf['spamfilter.bad_uri_patts'] = ""
 		@conf['spamfilter.bad_uri_patts_for_mails'] = false
 		@conf['spamfilter.date_limit'] = "7"

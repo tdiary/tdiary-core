@@ -1,3 +1,6 @@
+2010-05-16  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb, plugin/{ja,en,zh}/00default.rb: added recommended filter setting.
+
 2010-04-30  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* misc/style/rd/rd_style.rb: applied patch #190, thx kumaryu.
 
