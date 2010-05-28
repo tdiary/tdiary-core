@@ -1,0 +1,20 @@
+!機能
+
+blogger API/metaWeblog API/MovableType APIでのtDiaryの更新ができます。
+
+!インストール方法
+xmlrpc.rb,ja/xmlrpc.rb,en/xmlrpc.rb,zh/xmlrpc.rbをpluginディレクトリにコピーします。
+xmlrpc/xmlrpc.rbをtDiaryのインストールされているディレクトリ(index.rbなどと同じディレクトリ)にコピーします。xmlrpc.rbのパーミッションは、755などに変更する必要があります。
+index.rbを設置したディレクトリにrsd.xmlというファイルを作成し、CGIから書き換えられるように書き込み権限を設定します。
+
+!使用方法
+
+設定画面から'XML-RPC API'を選択してXML-RPC APIの設定を行いOKボタンをクリックします。
+
+あとはblogger API/metaWeblog API/MovableType APIに対応したツールからアクセスします。
+たとえばubicast BloggerだとXMl-RPCエンドポイントという設定にはxmlrpc.rbのURLを指定します。
+
+  (MovableTypeの場合) http://<youdomain>/<path>/mt-xmlrpc.cgi
+  (xmlrpc.rbの場合)   http://<youdomain>/<path>/xmlrpc.rb
+
+rsd.xmlに対応したクライアントならサイトのトップページのURLを指定すればOKです。

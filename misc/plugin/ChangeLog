@@ -1,0 +1,2330 @@
+2010-04-13  TADA Tadashi <t@tdtds.jp>
+	* pre_wrap.rb: supported URLs in comments.
+
+2010-04-07  TADA Tadashi <t@tdtds.jp>
+	* category.rb: fixed bug: div.conf -> div.category.
+
+2010-04-06  TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: set empty alt in img elements for better accessibility.
+	* amazon.rb: make link around all elements.
+	* amazon.rb: added a class "amazon-detail" for img element of isbn_detail.
+	* amazon.rb, image.rb: deleted width/height attr on iPhone.
+	* pre_wrap.rb: added new plugin.
+
+2010-03-29  TADA Tadashi <t@tdtds.jp>
+	* categody.rb: moved script to header.
+	* image.rb: moved script to header.
+
+2010-03-27  TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: added div element around description in isbn_detail.
+
+2010-03-12  TADA Tadashi <t@tdtds.jp>
+	* gradient.rb, gradation.rb: fixed bug of splitting by character.
+
+2010-02-17  TADA Tadashi <t@tdtds.jp>
+	* tb-send.rb: changed character encoding of some parameters.
+
+2010-01-11  TADA Tadashi <t@tdtds.jp>
+	* ja/makerss.rb: fixed typo (ticket #186).
+
+2009-12-24  TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: supported EAN code. Thanks for yoshida.
+
+2009-11-24  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* navi_user.rb: obsolete.
+
+2009-10-24  TADA Tadashi <t@tdtds.jp>
+	* highlight.rb: splitted exactly local jump URL.
+
+2009-10-15  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* makerss.rb : applied patch #178. thx sakai.
+
+2009-09-07  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb (absolutify): fix a bug that raises an exception when
+	replacing attributes don't appear.
+
+2009-09-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb (absolutify): fix a bug that raises an exception when
+	there are white spaces around '='.
+
+2009-09-01  Kazuhiko  <kazuhiko@fdiary.net>
+	* navi_user.rb, pb-show.rb, recent_list.rb, title_tag.rb:
+	delete eval to define toplevel module, that is not required on
+	Ruby 1.8 or later.
+	* disp_referrer.rb: remove a code for Ruby 1.6 compatibility.
+
+2009-09-01 TADA Tadashi <t@tdtds.jp>
+	* makerss.rb: deleteed eval for define toplevel module.
+
+2009-08-26 zunda <zunda at freeshell.org>
+	* makerss.rb: modified to cache regexps (Thanks to Kazuhiko)
+
+2009-08-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb: use autoload for kconv library not to reduce
+	performance for non-required case. make an Array explicitly not to
+	depends on String#to_a, that is provided in compatible.rb.
+
+2009-08-23  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb (absolutify): fix a bug that breaks html if new lines
+	are included in a tag.
+
+2009-08-22  sakai <masahiro.sakai at gmail.com>
+	* category.rb: redirected to old encoding access to UTF-8's.
+
+2009-08-19  zunda <zunda at freeshell.org>
+	* makerss.rb: modified handle absolute URLs w/o host with query/fragment
+
+2009-08-18  zunda <zunda at freeshell.org>
+	* makerss.rb: modified to make absolute URLs in CDATA
+
+2009-08-10  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb: code cleanup. use sort_by for better performance.
+
+2009-08-09  Kazuhiko  <kazuhiko@fdiary.net>
+	* navi_user.rb, recent_list.rb: create and use
+	TDiaryMonthWithoutFilter instead of TDiaryMonth to reduce
+	load_plugins() call.
+	* navi_user.rb: a little optimisation to reduce Time#strftime
+	call.
+
+2009-08-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* disp_referrer.rb (DispRef2URL::parse_as_others): add encoding
+	flag in regexp.
+
+2009-08-03 TADA Tadashi <t@tdtds.jp>
+	* release 2.3.3.
+
+2009-08-02 TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: added option @conf['amazon.default_country'].
+
+2009-08-02  Kazuhiko  <kazuhiko@fdiary.net>
+	* en/category.rb, ja/category.rb, zh/category.rb: escape
+	configuration sample's HTML. thanks to Motoya Kurotsu for
+	providing a patch.
+
+2009-07-31 TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: added option @conf['amazon.endpoints'] for replacement default
+	proxy server of amazon API.
+
+2009-07-28 TADA Tadashi <t@tdtds.jp>
+	* footnote.rb: escaped HTML to marks.
+
+2009-07-27  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon/amazonimg.rb: change entry point of Amazon API to
+	amazon-auth-proxy. special thanks to furyu-tei. support amazon.ca.
+
+2009-07-22 TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: supported request redirection by amazon-auth-proxy.
+
+2009-07-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* recent_trackback3.rb: fix a typo.
+	* amazon.rb: support amazon.ca.
+
+2009-07-21 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* recent_comment3.rb, recent_trackback3.rb: fix data path when data path is not empty.
+
+2009-07-20 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* recent_comment3.rb, recent_trackback3.rb, todo.rb: changed save data path.
+	* todo.rb: use Time.parse instead of ParseDate.
+
+2009-07-19 TADA Tadashi <t@tdtds.jp>
+	* amazon.rb: changed entry point of Amazon API to amazon-auth-proxy. special thanks to furyu-tei.
+
+2009-07-07 Motoya Kurotsu <motoya.kurotsu.2009@gmail.com>
+	* image.rb: fixed error on upload when PNG file header has 0x0a.
+
+2009-06-10 TADA Tadashi <t@tdtds.jp>
+	* ja/disp_referrer.rb: added search engine: Bing, auOne.
+	* ja/disp_referrer.rb: added some condition for some search engines:
+	Google, Infoseek.
+
+2009-05-17 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: added u option to regular expressions
+
+2009-05-08 TADA Tadashi <t@tdtds.jp>
+	* release 2.3.2.
+
+2009-05-07 TADA Tadashi <t@tdtds.jp>
+	* makerss.rb: without downcase character entities. thanks Masahiro Sakai.
+
+2009-05-06 TADA Tadashi <t@tdtds.jp>
+	* my-sequel.rb: fixed redundant nested repeat operator in Regexp.
+	* comment_mail_smtp.rb: fixed error on ruby 1.9.1.
+	* counter.rb: fixed error when @conf['bot'] is nil. And fixed a wrong HTML tag.
+
+2009-04-30 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* amazon.rb: applied patch #151. thx arton.
+
+2009-04-27 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* ja/calendar2.rb: modified language resource, changed Array of String.
+
+2009-04-26 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* category.rb: applied patch #130. thx tamo.
+	thx sugiyama. http://www.kde.ics.tut.ac.jp/~sugiyama/diary/20061127.html#p01
+
+2009-03-30 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* pingback/pb.rb, trackback/tb.rb, xmlrpc/xmlrpc.rb:
+	replace defout to stdout. defout is obsolete.
+
+2009-03-10 TADA Tadashi <t@tdtds.jp>
+	* todo.rb: changed WAVE DASH to TILDA.
+	* squeeze.rb: changed name of global variable.
+
+2009-02-26 TADA Tadashi <t@tdtds.jp>
+	* my-ex.rb: fixed warning of Regexp on ruby 1.9.1.
+
+2009-02-25 TADA Tadashi <sho@spc.gr.jp>
+	* highlight.rb: suppressed Regexp warning on ruby 1.9.1.
+
+2009-02-11 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* category.rb, random_google.rb, speed_comment.rb, weather.rb: supported ruby 1.9.1 more.
+
+2009-02-03 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: deleted duplicated author names.
+
+2009-01-20 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: added user_agent and request_method into fake CGI class.
+
+2008-12-26 TADA Tadashi <sho@spc.gr.jp>
+	* calendar2.rb, calendar3.rb: fixed bug on search mode. Thanks NT.
+
+2008-12-15 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: added "Artist" to author elements.
+
+2008-11-12 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: added comment mode into no overriding TDiary::Comment class.
+
+2008-11-07 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: fixed bad numeric entiries value (again).
+
+2008-10-26 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* recent_comment3.rb, */recent_comment3.rb: applied patch #128. thx tamo.
+
+2008-10-26 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* recent_comment.rb, */recent_comment.rb: fix #128. thx tamo.
+
+2008-10-24 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: added "Creator" to author elements.
+
+2008-10-19 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.3.1.
+
+2008-10-18 TADA Tadashi <sho@spc.gr.jp>
+	* navi_user.rb: added request_method to NaviUserCGI class.
+
+2008-10-17 TADA Tadashi <sho@spc.gr.jp>
+	* highlight.rb: compared tag name case insensitive.
+
+2008-09-10 KURODA Hiraku <hiraku at sapporo.email.ne.jp>
+	* highlight.rb: enable to work on XHTML mode.
+
+2008-08-26 TADA Tadashi <sho@spc.gr.jp>
+	* recent_rss.rb: added a parameter 'show_modified'.
+
+2008-08-20 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb: fixed #120, memory leak by nested loading. thanks KURODA Hiraku
+	<hiraku at sapporo.email.ne.jp>.
+	* squeeze.rb: fixed #122, unsecure operation using with -p option.
+	thanks KURODA Hiraku <hiraku at sapporo.email.ne.jp>.
+	* squeeze.rb: added --overwrite option.
+
+2008-08-04 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: fixed #82, incompatible of white space of category.
+
+2008-08-03 TADA Tadashi <sho@spc.gr.jp>
+	* titile_tag.rb: fixed a bug about no site name in the title.
+	* highlight.rb: changed title format to as same as default.
+
+2008-08-01 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb: inserted user_navi plugin into the footer.
+	* navi_user.rb: added user_agent method into dummy CGI class.
+
+2008-07-21 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: fixed error when subtitle was nil.
+
+2008-07-21 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* squeeze.rb: fix #117. thx Kazuhiko.
+
+2008-07-11 TADA Tadashi <sho@spc.gr.jp>
+	* title_tag.rb: changed title format to start with day title.
+
+2008-07-10 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: sorted categories in case-insensitive.
+
+2008-07-05 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* category.rb: raise 404 error when bot access to no existent diary.
+
+2008-07-04 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* counter.rb: fix indent.
+
+2008-07-02 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* squeeze.rb: changed module TDiary to TOPLEVEL.
+
+2008-07-02 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: fixed over deleting category name from title. thanks for
+	TAKAHASHI Tamotsu.
+
+2008-06-18 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* tlink.rb: convert to toutf8 instead of toeuc.
+
+2008-06-18 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* a.rb: add utf8 option.
+
+2008-06-17 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* title_tag.rb, ja/search_form.rb: convert to utf-8 instead of euc-jp.
+	
+2008-05-12 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* navi_user.rb: fix indent.
+	
+2008-05-12 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* makerss.rb: tabify.
+	
+2008-04-29 SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* category.rb: fixed #79.
+	
+2008-02-29 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.2.1.
+
+2008-02-28 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: fixed bad numeric entiries value.
+
+2008-02-25 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: replaced character entities to numeric. 
+
+2008-01-24 TADA Tadashi <sho@spc.gr.jp>
+	* */hide-mail-field.rb: added notice to rewite TSUKKOMI information.
+
+2008-01-23 TADA Tadashi <sho@spc.gr.jp>
+	* */makerss.rb: change some labels on edit page.
+
+2008-01-19 zunda <zunda at freeshell.org>
+	* weather.rb, */weather.rb: modified so that weather can be shown at right
+	of title
+	* weather.rb: modified to include default CSS
+
+2008-01-16 zunda <zunda at freeshell.org>
+	* */weather.rb: fixed escape of URL of NOAA
+
+2008-01-16 zunda <zunda at freeshell.org>
+	* weather.rb, */weather.rb: moved definition of surrounding tags to
+	html_string methods
+
+2008-01-15 zunda <zunda at freeshell.org>
+	* */weather.rb: added included weather/condition and temperature into span
+
+2008-01-14 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* weather.rb: Hide output string in RSS feed.
+
+2008-01-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon.rb, amazon/amazonimg.rb: support multi-country amazon links.
+
+2008-01-06 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: delete over escape of <title> in each items. thanks for Ogawa
+	KenIchi.
+
+2008-01-05 akira yamada <akira at arika.org>
+	* highlight.rb: escape backslash in diary title and delete white space from tail
+	of subtitle.
+
+2008-01-03 OGAWA KenIchi <kenichi at ice.email.ne.jp>
+	* category.rb: delete over escapes from categories.
+	* */category.rb: delete character entity reference from navigation default.
+
+2007-12-16 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.2.0.
+
+2007-12-10 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: modified to allow to write keys for seach word (String)
+	and recursive URL (Symbol) in an Array
+	* ja/disp_referrer.rb: added translation URLs from Google
+
+2007-12-10 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: added search engines from chew, wordtantei,
+	sfa-cms, hatena, Live Search. Modified search engines from Yahoo and
+	Infoseek. Thank you, knu
+
+2007-12-10 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: added require 'uri' to test code
+
+2007-12-07 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: modified to recursively convert URL in query
+	with keyword specified with a Symbol
+	* disp_referrer.rb: refactored parse_as_search()
+	* ja/disp_referrer.rb: modified an entry of DispReferrer2_Engines
+	accordingly
+	* ja/disp_referrer.rb: add an option to extensive test. Provide path
+	to .tdr files to the command line
+	* en/disp_referrer.rb, zh/disp_referrer.rb: added a comment for
+	specifing recuseive conversion
+
+2007-12-06 zunda <zunda at freeshell.org>
+	* disp_referrer.rb, ja/disp_referrer.rb: applied patch at
+	http://d.akinori.org/?date=20070704#p01 by Akinori MUSHA
+	<akinori:at:musha:dot:org>. Thank you. Please note that I am
+	thinking of chaging the notation from prev>q to {'prev' => 'q'}
+	or something simpler.
+	* ja/disp_referrer.rb: added a test case for recursive conversion
+
+2007-12-06 zunda <zunda at freeshell.org>
+	* ??/disp_referrer.rb: added label tags to radio buttons and check boxes
+
+2007-12-05 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: added support for unit test
+
+2007-09-27 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: escape HTML more.
+
+2007-09-23 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: splited CDATA section by each ']]>'.
+
+2007-08-12 TADA Tadashi <sho@spc.gr.jp>
+	* hide-mail-field.rb: add preference page for changing description of
+	TSUKKOMI.
+
+2007-07-22 TADA Tadashi <sho@spc.gr.jp>
+	* a.rb: i18n.
+
+2007-07-17 TADA Tadashi <sho@spc.gr.jp>
+	* edit_today.rb: add 'rel="nofollow"' attribute to add/edit navigation.
+
+2007-07-15 TADA Tadashi <sho@spc.gr.jp>
+	* navi_user.rb: do not show navigations to hidden diaries.
+
+2007-07-15  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb: update category caches in append or replace mode
+	only.
+
+2007-07-14  Kazuhiko  <kazuhiko@fdiary.net>
+	* highlight.rb: calculate the length of the section anchor not by
+	ruby but by javascript.
+
+2007-07-09 TADA Tadashi <sho@spc.gr.jp>
+	* recent_trackback3.rb: fix error on changing visibility of TrackBack in
+	mobile mode.
+
+2007-05-05 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: print error message from amazon API when preview mode.
+	* search_form.rb: i18n.
+	* search_form.rb: add extract_search_keyword plugin using disp_referrer.rb.
+
+2007-05-03 TADA Tadashi <sho@spc.gr.jp>
+	* search_control.rb: force nofollow in category page.
+
+2007-05-01 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb, category.rb, recent_comment3.rb, recent_trakcback3.rb,
+	my-sequel.rb, search_control.rb: add label elements in preferences form.
+
+2007-04-30 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb, ping.rb: add label elements in update form.
+
+2007-04-29 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: support mobile mode more.
+
+2007-04-26 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: postfixed slashes to host names, prefixed `:?'
+	to parenthesis which are not referred.
+
+2007-04-26 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: made regexps stricter, sorted out goo
+	search engines, and added support for goo OEM search, such as
+	So-net's. Thanks to Akinori MUSHA <knu at idaemons.org>
+
+2007-04-22 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: support mobile mode.
+
+2007-04-19 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: cleaned up and added some URLs
+	Thanks to Akinori MUSHA <knu at idaemons.org>
+
+2007-04-03 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb: sorry, re-tabify.
+
+2007-04-12 zunda <zunda at freeshell.org>
+	* ja/disp_referer.rb: modified for more of mobile.goo.ne.jp search engines.
+
+2007-04-03 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb,recent_trackback3.rb: replace soft tab to hard tab.
+	
+2007-03-28 TADA Tadashi <sho@spc.gr.jp>
+	* hide-mail-field.rb: set empty string into mail field by JavaScript.
+
+2007-03-26 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: fix error when no price, no label on isbn_detail
+
+2007-03-23 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp>
+	* category.rb: class CGI -> Category::CGI.
+
+2007-03-11 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp>
+	* squeeze.rb: close each data transactions before convert.
+
+2007-03-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* number_anchor.rb: fix a warning message.
+
+2007-03-06 TADA Tadashi <sho@spc.gr.jp>
+	* edit_today.rb: fix warning message was shown on Firefox.
+
+2007-02-27 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: add span elements into isbn_detail.
+
+2007-02-09 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: delete xhtml prefix from attributes of mobile link discovery.
+	* amazon.rb: add new plugin 'isbn_detail'.
+
+2007-02-23 MIYASAKA Masaru <alkaid at coral.ocn.ne.jp> 
+	* category.rb: @index -> @conf.index in Info class.
+
+2007-02-23 TADA Tadashi <sho@spc.gr.jp>
+	* recent_comment3.rb: compare date after to_s.
+
+2007-02-22 TADA Tadashi <sho@spc.gr.jp>
+	* add new plugin: hide-mail-field.rb
+	* zh/tb-show.rb: up to date to recent preferences page.
+	* trackback/tb.rb: up to date to recent error page.
+	* hide-mail-field.rb: set hidden attribute on mobile mode.
+
+2007-02-21 zunda <zunda at freeshell.org>
+	* my-sequel.rb: reformatted the CSS and Javascript sniplets.
+	Thanks to miyasaka_m: http://zunda.freeshell.org/d/20070122.html#c04
+
+2007-02-21 zunda <zunda at freeshell.org>
+	* my-sequel.rb: updated testconfhtml following the new
+	specification for the configuration interface
+
+2007-02-21 zunda <zunda at freeshell.org>
+	* my-sequel.rb: fixed the bug that shows only links from a month
+
+2007-02-21 zunda <zunda at freeshell.org>
+	* my-sequel.rb: added a test case `testadd_two_months',
+	which reproduces the bug reported at
+	http://zunda.freeshell.org/d/20070122.html#c01
+	Thanks to miyasaka_m
+
+2007-02-21 TADA Tadashi <sho@spc.gr.jp>
+	* footnote.rb: fix bug on Wiki style. support latest and month view.
+	thanks to sunoko.
+
+2007-02-19 TADA Tadashi <sho@spc.gr.jp>
+	* add new plugin: edit_today.rb.
+
+2007-02-15  Kazuhiko  <kazuhiko@fdiary.net>
+	* footnote.rb: modified to work on secure mode.
+
+2007-02-13 TADA Tadashi <sho@spc.gr.jp>
+	* footnote.rb: support whatsnew-list.rb in Blogkit.
+
+2007-02-10 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: fix: author dose not have '()'.
+	* footnote.rb: insert footnote into each section.
+	* makerss.rb: insert body_enter and body_leave procs.
+	* makerss.rb: add 'feed?' method that turns true in feed.
+
+2007-02-09 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: delete xhtml prefix from attributes of mobile link discovery.
+	* amazon.rb: add new plugin 'isbn_detail'.
+
+2007-02-07 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: rewind about proxy, and use @conf['proxy'].
+
+2007-02-06 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* amazon.rb: replace NKF::nkf to @conf.to_native.
+
+2007-02-06 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: delete proxy code (using ENV in open-uri).
+
+2007-01-29 TADA Tadashi <sho@spc.gr.jp>
+	* akismet.rb: add plugin to setup Akismet spam filter.
+
+2007-01-27 TADA Tadashi <sho@spc.gr.jp>
+	* my-sequel.rb: remove <p> inner <div>.
+
+2007-01-24 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_trackback3.rb,recent_comment3.rb: fix bug: enable to shoten title.
+
+2007-01-24 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: support Amazon-ECS 2007-01-17: ISBN-13.
+
+2007-01-23 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: added blog-search.yahoo.co.jp
+
+2007-01-21 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb: modified not to escape anchor().
+	* recent_trackback3.rb: rollback visible to visible_true.
+	
+2007-01-20 zunda <zunda at freeshell.org>
+	* my-sequel.rb: MySequel::Conf: uncheck the restore checkbox
+	onfocus instead of onchange. Thank you, Tada-san
+
+2007-01-20 zunda <zunda at freeshell.org>
+	* my-sequel.rb: MySequel::Conf: added event handlers so default
+	values are displayed when checkboxes are checked and
+	checkboxes are unchecked when settings are edited.
+
+2007-01-20 zunda <zunda at freeshell.org>
+	* my-sequel.rb: MySequel::Conf: modified to execute event
+	handlers in configuration HTML. Event handlers are still to be
+	implmented.
+
+2007-01-21 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_trackback3.rb: fix bug: show invisible trackbacks.
+
+2007-01-19 zunda <zunda at freeshell.org>
+	* my-sequel.rb: modified to require 'erb' only when needed
+	* my-sequel.rb: MySequel::Conf: modified to use separate parameter,
+	and added check boxes to restore to the default values
+	* my-sequel.rb: MySequel::css: modified not to use empty css
+
+2007-01-19 zunda <zunda at freeshell.org>
+	* my-sequel.rb: copied from zunda's local repository, v.1.28
+	* ja/my-sequel.rb: copied from zunda's local repository, v.1.10
+
+2007-01-18 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb, ping.rb, tb-send.rb: fix charset to UTF-8, and using to_utf8 method.
+
+2007-01-18 zunda <zunda at freeshell.org>
+	* category.rb: added a code to recreate category cache files
+	when escape or encoding for cache files has been chnaged
+
+2007-01-17 zunda <zunda at freeshell.org>
+	* navi_user.rb: added and modified to use mock-up CGI class to
+	avoid error from cgi.rb:980:in `read_multipart': no content
+	body (EOFError)
+
+2007-01-18  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon.rb: convert to String first.
+
+2007-01-17 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* pb-show.rb: modified not to escape anchor() because
+	number_anchor.rb returns class attribute for a tag. This might
+	be a security problem in the future.
+
+2007-01-17 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: support TrackBack spec 1.2 and send by UTF-8 charset.
+	* trackback/tb.rb: support TrackBack spec 1.2.
+	* ja/{makerss,ping}.rb: use NKF insted of Uconv.
+	* zh/{makerss,ping}.rb: use Iconv for convert to UTF-8.
+
+2007-01-16 TADA Tadashi <sho@spc.gr.jp>
+	* bq.rb: i18n. {ja,en,zh}/bq.rb added.
+
+2007-01-14 TADA Tadashi <sho@spc.gr.jp>
+	* tlink.rb, xmlrpc.rb: modified to use ERB::Util.h instead of CGI::escpaeHTML and escape base-html
+
+2007-01-13 zunda <zunda at freeshell.org>
+	* search_form.rb: modified to escape button name, quoated some
+	values in HTML tags
+
+2007-01-13 zunda <zunda at freeshell.org>
+	* recent_namazu.rb: modified to URL-escape the keywords instead
+	of HTML-escape. Sorry, not tested.
+
+2007-01-13 zunda <zunda at freeshell.org>
+	* recent_list.rb: modified not to escape anchor() because
+	number_anchor.rb returns class attribute for a tag. This might
+	be a security problem in the future.
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* recent_comment.rb: modified not to escape anchor() because
+	number_anchor.rb returns class attribute for a tag. This might
+	be a security problem in the future.
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* random_google.rb: modified to better escape the query string
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* random_google.rb: modified to escape values of input tags in
+	configuration interface
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* navi_user.rb: modified to check @date before going further.
+	@date is nil in configuration mode.
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* makelirs.rb: modified to escape comma in uri
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* kw.rb: modified to escape anchor string
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* image.rb: removed an escape which was too much
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* image.rb: added escapes
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* highlight.rb: modified to unescape section_title in Javascript
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* */category.rb: stoped HTML-escaping category_title. Escape
+	should be done just when constructing HTML sniplets.
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* gradient.rb: modified to escape each character
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* gradation.rb: modified to escape each character
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* footnote.rb: modified to escape later to make future
+	maintenance easier
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* dropdown_calendar.rb: escape @index
+
+2007-01-11 zunda <zunda at freeshell.org>
+	* daily_theme.rb: modified to URL-escape urls as well as escape
+	theme names
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* amazon.rb and category.rb: stop HTML-escaping URL-escaped
+	strings. Excuse me, this was too much.
+
+2007-01-11 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: support ISBN-13 (only starts with 978, maybe).
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* counter.rb: modified to escape theme_url and values for
+	inputs and text areas
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* category.rb: modified to escape category names in sub
+	titles (as is done in the other place) and URL-escape
+	category names in URLs. We might still have to take care
+	of charactor codes before URL-escaping category names.
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* calendar3.rb: modified to escape title attributes of pop-ups
+
+2007-01-11  Kazuhiko  <kazuhiko@fdiary.net>
+	* title_list.rb: remove escape of *_to_html() results.
+	* kw.rb: url_encode key instead of html_escape. add '-m0' option
+	to nkf().
+	* xmlrpc/xmlrpc.rb: use nkf instead of uconv.
+
+2007-01-10  Kazuhiko  <kazuhiko@fdiary.net>
+	* xmlrpc/xmlrpc.rb: support recent tDiary.
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* navi_user.rb: fixed bug introduced with previous commit: should
+	have userd navi_latest for link to latest view
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* amazon.rb: modified to escape pos, which can be typed
+	by the user, and URL-escape asin and amazon.imgsize.
+
+2007-01-10 zunda <zunda at freeshell.org>
+	* a.rb: modified to URL-escape syntheized part of URL independent of
+	charset, use h() insted of CGI.escapeHTML(), and HTML-escape data
+	inside textarea
+
+2007-01-10 TADA Tadashi <sho@spc.gr.jp>
+	* src.rb: modified to use ERB::Util.h instead of CGI::escpaeHTML.
+	* todo .rb: modified to use ERB::Util.h instead of CGI::escpaeHTML and escape base-html
+	* tb-show.rbm pb-show.rb: rewind some over escapes.
+
+2007-01-09 zunda <zunda at freeshell.org>
+	* navi_user.rb: modified to work on secure mode
+
+2007-01-10  Kazuhiko  <kazuhiko@fdiary.net>
+	* pb-show.rb, recent_list.rb, title_list.rb: remove parentheses
+	warnings.
+
+2007-01-10 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: include ERB::Util to MakeRssFull class.
+
+2007-01-09 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: extend ERB::Util to use h() on ruby-1.8.2
+
+2007-01-09 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* apply HTML escape when generate HTML in some more plugins.
+
+2007-01-09 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: do not try to use ERB::Util.h which will
+	fail on ruby-1.8.2
+	* */weather.rb: include ERB::Util in class Weather for ruby-1.8.2
+	* */weather.rb: use u() instead of h() to encode URLs
+
+2007-01-08 TADA Tadashi <sho@spc.gr.jp>
+	* makelirs.rb: remove CR/LF char from LIRS items.
+	* makerss.rb: escape HTML tags from feed XML.
+
+2007-01-08 zunda <zunda at freeshell.org>
+	* navi_user.rb: escaped arguments to navi_item
+
+2007-01-07 zunda <zunda at freeshell.org>
+	* highlgiht.rb: modififed to escape diary_title in Ruby and
+	unescape it in Javascript
+
+2007-01-07 zunda <zunda at freeshell.org>
+	* search_control.rb: modified to use h instead of
+	CGI::escpaeHTML and escape base-html
+
+2007-01-07 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: fixed typo in to_short_html
+
+2007-01-07 zunda <zunda at freeshell.org>
+	* my-ex.rb: modified to use ERB::Util.h instead of
+	CGI::escpaeHTML and escape base-html
+
+2007-01-07 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: try ERB::Util.h before trying CGI::escpaeHTML
+	* disp_referrer.rb, */disp_referrer.rb: added HTML-escapes to
+	@conf.update, urls, and other strings
+
+2007-01-07 zunda <zunda at freeshell.org>
+	* */weather.rb: use ERB::Util.h instead of CGI::escpaeHTML and
+	added HTML-escapes to URLs
+
+2007-01-07 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* apply HTML escape when generate HTML in some more plugins.
+
+2007-01-07 TADA Tadashi <sho@spc.gr.jp>
+	* apply HTML escape when generate HTML in some more plugins.
+
+2007-01-06 TADA Tadashi <sho@spc.gr.jp>
+	* apply HTML escape when generate HTML in some plugins.
+
+2006-12-28 zunda <zunda at freeshell.org>
+	* my-ex.rb: fix bug: bad link maked for YYYYMMDD#.. in Wiki style.
+
+2006-12-12 zunda <zunda at freeshell.org>
+	* ja/disp_referer.rb: added 209.85.128.0/17 for Google cache
+
+2006-12-14 zunda <zunda at freeshell.org>
+	* my-ex.rb: allow a URL as the first argument
+
+2006-12-12 zunda <zunda at freeshell.org>
+	* disp_referer.rb: refined regexp of livedoor Reader
+
+2006-12-12 zunda <zunda at freeshell.org>
+	* disp_referer.rb: added http://reader.livedoor.com/reader/ to antenna
+	URL
+	* ja/disp_referer.rb: added ezweb to search engines. Could not confirm
+	the page title from the internet.
+	* ja/disp_referer.rb: updated URLs for Matome-kensaku. Thank you
+	Eguchi-san
+	* ja/disp_referer.rb: added overture, multimeta, starware, Technorati,
+	pageone, and yahoogle. Thank you kobito-san.
+	* ja/disp_referer.rb: added wrs.search.yahoo.co.jp to search engines.
+	Thank you J-san.
+	* ja/disp_referer.rb: added and checked rambler.
+
+2006-12-04 YAMAGUCHI Seiji <valda at underscore.jp>
+	* recent_rss.rb: fix error on Ruby 1.8.5.
+
+2006-09-13  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb: guess rss uris by rss file names. add
+	"makerss.suffix" and "makerss.no_comments.suffix" options.
+
+2006-08-01 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* title_tag.rb: hide title in invisible diary.
+
+2006-07-23 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: delete control codes without "\n", "\r" and "\t".
+	thanks KURODA Hiraku  <hiraku at hinet.mydns.jp>.
+
+2006-07-02 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: change ID of preference page 'TrackBack' -> 'tb-show'.
+
+2006-06-18 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: MakeRssFull#writable? check more when file dose not exist.
+
+2006-06-18 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* makerss.rb: change value of Auto-Discovery title element.
+
+2006-06-18 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: enable to make another feed without TSUKKOMI.
+	* makerss.rb: obsolete makerss.hidecomment option.
+
+2006-05-05 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* tb-show.rb: bugfix count up in trackbacks_of_today_short.
+
+2006-04-15 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.1.4.
+
+2006-03-28 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb: fix order of TSUKKOMI in normal view mode.
+	* recent_trackback3.rb: fix order of Trackback in normal view mode.
+
+2006-03-23 TADA Tadashi <sho@spc.gr.jp>
+	* {ja,en,zh}/makerss.rb: correct TSUKKOMI number into <title> when it over
+	100. thanks Namamura.
+
+2006-03-18 TADA Tadashi <sho@spc.gr.jp>
+	* recent_rss.rb: fix some typo. thanks kou-san.
+	* comment_rank.rb, makerss.rb, recent_comment3.rb, recent_trackback3.rb,
+	tb-show.rb: remove a limit of TSUKKOMI count.
+	* makerss.rb: support Mobile Link Discovery.
+
+2006-03-18 KURODA Hiraku  <hiraku at hinet.mydns.jp>
+	* ja/disp_referrer.rb: support new Google cache.
+
+2006-03-17 TADA Tadashi <sho@spc.gr.jp>
+	* recent_rss.rb: replace 'rss_recent' to 'recent-rss' in class name in HTML.
+
+2006-03-14 TADA Tadashi <sho@spc.gr.jp>
+	* recent_rss.rb: replace 'rss_recent' to 'recent_rss' in all sources.
+	* ja/disp_referrer.rb: remove 'my.yahoo' and 'blog.yahoo' from search engines.
+
+2006-03-13 TADA Tadashi <sho@spc.gr.jp>
+	* rename {ja,en,zh}rss-recent.rb to recent_rss.rb.
+
+2006-03-07 TADA Tadashi <sho@spc.gr.jp>
+	* rename rss-recent.rb to recent_rss.rb, and make method alias to recent_rss.
+
+2006-03-06 Kouhei Sutou <kou at cozmixng.org>
+	* rss-recent.rb: support HTTPS.
+
+2006-02-27 Kouhei Sutou <kou at cozmixng.org>
+	* makerss.rb: erase deleted sections from cache.
+
+2006-02-24 TADA Tadashi <sho@spc.gr.jp>
+	* disp_referrer.rb: fix bug: no_cache option effective.
+
+2006-02-14 Masao Mutoh
+	* counter.rb:
+	  + Add some user-agents.
+	  + Fixed a problem when counter2_access.dat is broken by Ken-ichi Mito.
+	  + 2.0.2
+
+2006-02-12 TADA Tadashi <sho@spc.gr.jp>
+	* disp_referrer.rb: fix bug: hide volatile referer in old diaries.
+
+2006-02-11 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* ja/amazon.rb: fix typo.
+
+2006-02-10 TADA Tadashi <sho@spc.gr.jp>
+	* disp_referrer.rb: support volatile referer and disable cache in
+	default_io.
+
+2006-02-07 MUTOH Masao
+	* Revert the log file name from counter2.log to counter.log.
+	  Reported by Ken-ichi Mito.
+
+2006-02-03 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb: delete referer when generate static HTML files.
+
+2006-02-02 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: acceptable numeric ASIN.
+
+2006-01-20 MUTOH Masao  <mutoh@highway.ne.jp>
+	* counter.rb:
+	  + Improves the speed and stability.
+		 - Separate data to counterdata and accessdata.
+		 - counterdata is the target of backup, but accessdata doesn't do backup.
+		 - change a key of an Array of String to a hash.
+		 - Removed "counter.daily_backup" option. Now daily_backup is applied
+			everyday unless this setting.
+		 - Add a new "counter.max_keep_access_num" option which you can set
+			the max number to keep users in the accessdata file to avoid to become
+			too large the accessdata file.
+	  + Follow tDiary framework.
+		 - Add configuration page.
+	  + Misc
+		 - Removed "counter.deny_remote_addrs" option.
+		 - Added default deny user-agents.
+
+2006-01-23 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* ping.rb: fix update option.
+
+2006-01-12  Kazuhiko  <kazuhiko@fdiary.net>
+	* recent_trackback3.rb: more revise for mod_ruby.
+
+2005-12-20  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon.rb: display an item name if no image is found and the
+	'amazon.nodefault' option is true.
+
+2005-12-07 Lilia <nursery at s8.xrea.com>
+	* kw.rb: unescape HTML for google query in default.
+
+2005-12-04 zunda <zunda at freeshell.org>
+	* highlight.rb: apply_plugin before counting sanchor
+
+2005-12-04 Lilia <nursery at s8.xrea.com>
+	* kw.rb: support title attribute and add some escapes in HTML.
+
+2005-12-04 Taku YASUI <tach at debian.or.jp>
+	* kw.rb: support UTF-8.
+
+2005-12-04 N.KASHIJUKU <n-kashi at whi.m-net.ne.jp>
+	* image.rb: swap width and height in image_info method.
+
+2005-12-01  SHIBATA Hiroshi  <h-sbt@nifty.com>
+	* makerss.rb: insert link of Tsukkomi in RSS.
+
+2005-11-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: move to contrib/util/rast-search/.
+
+2005-11-18  Kazuhiko  <kazuhiko@fdiary.net>
+	* recent_trackback3.rb: revise for mod_ruby.
+	* recent_comment3.rb: revise for mod_ruby.
+	* image.rb (image_info): fix a bug in analysing jpeg files.
+
+2004-11-17 MoonWolf <moonwolf@moonwolf.com>
+	* image.rb: rescue ENOENT.
+
+2005-11-13 Kazuhiko  <kazuhiko@fdiary.net>
+	* recent_trackback3.rb: revise for mod_ruby.
+	* recent_comment3.rb: revise for mod_ruby.
+
+2005-11-11 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* daily_theme.rb: use css_tag.
+
+2005-11-10 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* daily_theme.rb: add new plugin.
+
+2005-11-02  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: revise for rast-0.3.x.
+
+2005-10-20 peo <peo at mb.neweb.ne.jp>
+	* rss-recent.rb: support HTTP 304 response.
+
+2005-10-19  Masao Mutoh  <mutoh@highway.ne.jp>
+	* counter.rb: Fixed a problem on Win32. Reported by Ken-ichi Mito
+
+2005-10-18 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: added net range 72.14.192.0-239.255 for Google cache
+
+2005-10-18 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb: fix typo.(nill to nil)
+	* recent_trackback3.rb: fix typo.(nill to nil)
+	Thanks to yowa <yowa at yowaken.dip.jp>.
+
+2005-10-16 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: add notify about amazon associate ID in preference page.
+
+2005-10-15 zunda <zunda at freeshell.org>
+	*/disp_referrer.rb: update description about Nora.
+	Thanks to yowa <yowa at yowaken.dip.jp>.
+
+2005-10-14 zunda <zunda at freeshell.org>
+	* */disp_referrer.rb: update description about unknown URLs
+	listed on the browser. Thanks to FUDAN <joker at comel.or.jp>.
+
+2005-10-13 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: delte category tags from title.
+	* my-ex.rb: delete category tags from title.
+
+2005-10-11 vette <vette at mail.ne.jp>
+	* ping.rb: inherit checkbox status to preview page.
+
+2005-10-11 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: delete category tags from title.
+
+2005-10-10 TADA Tadashi <sho@spc.gr.jp>
+	* my-ex.rb: my plugin: fix bug when @index was full path.
+
+2005-10-05 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: never hide TrackBack in trackbackreceive mode.
+
+2005-10-04 NT <nt@be.to>
+	* tlink.rb: fix to create a cache file on ruby 1.8.
+			 thanks Takeshi Miyasaka <miyaken at iname.com>.
+
+2005-09-29 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.1.3.
+
+2005-09-28 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: remove catching SocketError.
+
+2005-09-28 TADA Tadahi <sho@spc.gr.jp>
+	* rss-recent.rb: insert a message when running on secure mode.
+
+2005-09-27 TADA Tadahi <sho@spc.gr.jp>
+	* amazon/*.png: add sample of default images.
+
+2005-09-25 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: more titles to be categorized as antennas,
+	generates better regexp for unknown URLs
+
+2005-09-20 TADA Tadahi <sho@spc.gr.jp>
+	* amazon.rb: use default images on tDiary.org.
+
+2005-09-19 TADA Tadahi <sho@spc.gr.jp>
+	* makerss.rb: correct tabindex and some fix.
+
+2005-09-17 FUDAN <joker at comel.or.jp>
+	* amazon.rb: quote image URL when using @amazon_default_image.
+	* category.rb: add div element inside of form element.
+
+2005-09-16 TADA Tadahi <sho@spc.gr.jp>
+	* amazon.rb: return asin when SocketError.
+
+2005-09-12 Keiichiro SAKURAI <kei-tdiary at ksakurai.nwr.jp>
+	* makerss.rb: suppress making null entry when exclude TSUKKOMI into RSS.
+
+2005-09-12 TADA Tadahi <sho@spc.gr.jp>
+	* recent_comment3.rb, recent_trackback3.rb: insert a message when running
+	on secure mode.
+
+2005-09-09 TADA Tadahi <sho@spc.gr.jp>
+	* makerss.rb: invert initial state of update option.
+
+2005-09-08 TADA Tadahi <sho@spc.gr.jp>
+	* makerss.rb, ping.rb: move genre from etc to update.
+
+2005-09-07 TADA Tadahi <sho@spc.gr.jp>
+	* some plugins: a little adjustment design in English.
+
+2005-09-07 vette <vette at mail.ne.jp>
+	* recent_trackback3.rb: support tree view mode.
+
+2005-09-06 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* makerss.rb: add update option for edit mode.
+
+2005-09-06 TADA Tadahi <sho@spc.gr.jp>
+	* amazon.rb: deny zero length proxy.
+
+2005-09-05 TADA Tadahi <sho@spc.gr.jp>
+	* amazon.rb: remove 'over18' option.
+	* amazon.rb: add class into img element in secure html.
+
+2005-09-04  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb: remove cache files when ArgumentError raises that
+	may occurs by changing implementation of the Wiki style.
+
+2005-09-03  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon.rb: not display images in the category mode.
+
+2005-09-01  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon.rb: escape HTML in labels.
+	* amazon/amazonimg.rb: mkdir @cache_path if not exists. revise for
+	mod_ruby.
+
+2005-08-31 TADA Tadahi <sho@spc.gr.jp>
+	* amazon.rb: whole rewrite using Amazon ECS 4.0.
+	* add amazon/amazonimg.rb: support CGI script for amazon.rb.
+
+2005-08-30 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb: change date format at tree view mode.
+
+2005-08-28 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment3.rb: add Tree view mode.
+	thanks MORIOKA Toru <vette at mail.ne.jp>.
+
+2005-08-25 TADA Tadahi <sho@spc.gr.jp>
+	* specify genre of preference to some plugins.
+
+2005-08-20 Taku YASUI <tach at debian.or.jp>
+	* tb-send.rb: support basic authentication for TrackBack ping URL.
+
+2005-08-18 zunda <zunda at freeshell.org>
+	* recent_comment3.rb: no longer records comments rejected by filter/spam.rb
+
+2005-08-15 TADA Tadahi <sho@spc.gr.jp>
+	* calendar2.rb: add image mode, thanks KASHIJUKU <n-kashi at whi.m-net.ne.jp>
+	* recent_comment3.rb, recent_trackback3.rb: disable on secure mode.
+	* calendar2.rb: i18n.
+
+2005-08-11 TADA Tadahi <sho@spc.gr.jp>
+	* sqeeze.rb: fix fatal bug when running on CGI mode.
+	thanks TAKEMURA Masahiro <mas at mstk.que.jp>.
+	* hilight.rb, append-css.rb: suppress action for bot.
+
+2005-08-10 TADA Tadahi <sho@spc.gr.jp>
+	* my-ex.rb: generate absolute URLs.
+
+2005-08-10  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb (makerss_body): output the full text of comments to
+	<content:encoded>.
+
+2005-08-07 TADA Tadahi <sho@spc.gr.jp>
+	* image.rb: default value of @image_url to absolute URL.
+
+2005-08-07 MORIOKA Toru <vette at mail.ne.jp>
+	* makerss.rb: change <copyright> to <dc:rights>.
+
+2005-08-07 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
+	* makelirs.rb: fix when update.rb is in different path of index.rb.
+
+2005-07-31 TADA Tadashi <sho@spc.gr.jp>
+	* highlight.rb : add copyright.
+
+2005-07-29 TADA Tadashi <sho@spc.gr.jp>
+	* bq.rb: add license.
+	* comment_rank.rb, gradation.rb, gradient.rb, recent_comment.rb: add
+	license.
+
+2005-07-28 TADA Tadashi <sho@spc.gr.jp>
+	* dropdown_calendar.rb: add license.
+	* en/recent_trackback3.rb, zh/recent_trackback3.rb: correct label of
+	preference.
+	* rast-register.rb: add license.
+	* windex.rb: move to contrib/plugin.
+	* amazon.rb: add license.
+
+2005-07-27 TADA Tadashi <sho@spc.gr.jp>
+	* doctype-html401tr.rb, src.rb, title_list.rb: add license.
+	* add new plugin: rss-recent.rb.
+	* highlight.rb, makelirs.rb: add license.
+
+2005-07-25 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* recent_comment.rb : fix a anchor value.
+
+2005-07-22 zunda <zunda at freeshell.org>
+	* referer_scheme.rb: added URL for n-day mode in TdiaryDates,
+	  thanks to yowa, http://yowaken.dip.jp/tdiary/20050721.html#p01
+
+2005-07-20 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.1.2.
+
+2005-07-12 zunda <zunda at freeshell.org>
+	* disp_referer.rb: clear cache only in saveconf mode
+
+2005-07-07 TADA Tadashi <sho@spc.gr.jp>
+	* category.rb: against CSRF attack.
+
+2005-07-07 Yutaka OIWA <y.oiwa at aist.go.jp>
+	* image.rb: against CSRF attack.
+
+2005-07-07 SHIBATA Hiroshi <h-sbt@nifty.com>
+	* xmlrpc.rb : fix name value(xmlrpc.lastname).
+
+2005-07-06 TADA Tadashi <sho@spc.gr.jp>
+	* recent_list.rb: add </li> to recent-list items.
+
+2005-06-29 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb: fix bug: without data updating in command mode.
+
+2005-06-27 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: for a little modified of web site changing.
+
+2005-06-24  Kazuhiko  <kazuhiko@fdiary.net>
+	* disp_referrer.rb (update_options): use 'next' instead of
+	'continue'.
+
+2005-06-23 SHIBATA Hiroshi <h-sbt at nifty.com>
+	* recent_comment.rb: add a configuration page, and delete all parameters.
+
+2005-06-23 TADA Tadashi <sho@spc.gr.jp>
+	* jdate.rb: move to contrib/plugin/japanese.
+
+2005-06-22 SHIBATA Hiroshi <h-sbt at nifty.com>
+	* recent_comment3.rb: add a configuration page, and delete all parameters.
+
+2005-06-22  Kazuhiko  <kazuhiko@fdiary.net>
+	* disp_referrer.rb: fix a typo.
+
+2005-06-21 Hiroyuki Ikezoe <poincare@ikezoe.net>
+	* recent_comment.rb, comment_rank.rb: Added GPL2 Licence.
+	Delegated copy right to TADA-san.
+
+2005-06-17 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: no operation when no TrackBack ping URL specified.
+
+2005-06-15 TADA Tadashi <sho@spc.gr.jp>
+	* recent_comment3.rb: bug fix: enable 'max' parameter.
+
+2005-06-13 TADA Tadashi <sho@spc.gr.jp>
+	* html_anchor.rb: change description of web server settings to using URL of
+	  tDiary-users wiki.
+	* title_list.rb, recent_list.rb: change HTML to using <ul>.
+	* recent_comment.rb, recent_comment3.rb: change HTML to using <ul>.
+	* recent_trackback3.rb: change HTML to using <ul> and delete
+	  recent_trackback3.sep option.
+
+2005-06-09 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.1.1.
+
+2005-06-04 TADA Tadashi <sho@spc.gr.jp>
+	* navi_user.rb: support 'n days before/after' mode.
+	* navi_user.rb: change implementation to overwrite navi_user_day.
+
+2005-06-03 TADA Tadashi <sho@spc.gr.jp>
+	* html_anchor.rb, my-ex.rb: support 'n days before/after' mode.
+
+2005-05-12 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb, recent_comment3.rb, recent_trackback3.rb: creation
+	RSS file only once when showcomment mode.
+
+2005-05-11  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: set false to show_nyear option in command/cgi
+	mode.
+
+2005-05-11 TADA Tadashi <sho@spc.gr.jp>
+	* rast-resister.rb: set false to show_nyear option.
+
+2005-05-10 TADA Tadashi <sho@spc.gr.jp>
+	* rast-resister.rb: get title from h2 element.
+
+2005-05-10  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: use diary's title as 'title' attribute.
+	include 'title' to 'body'.
+
+2005-05-01  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb (category_list_sections): fix a bug in an image url.
+
+2005-04-28  ishinao <ishinao at ishinao.net>
+	* highlight.rb: set subtitle into title element.
+
+2005-04-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: fix a typo. not set @ignore_parser_cache.
+
+2005-04-21 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb, windex.rb: remove setting of $KCODE.
+	* recent_comment3.rb, recent_trackback3.rb: return emprty string.
+
+2005-04-16  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: never set $KCODE.
+
+2005-04-14 zunda <zunda at freeshell.org>
+	* disp_referrer.rb, */disp_referrer.rb: better handle ignore_urls
+
+2005-04-14  Kazuhiko  <kazuhiko@fdiary.net>
+	* rast-register.rb: new plugin.
+
+2005-04-08 TADA Tadashi <sho@spc.gr.jp>
+	* append-css.rb: not apply in configuration mode.
+
+2005-03-16 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: last section focused in default.
+
+2005-03-10 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: add some error check and bug fix. thanks Yutaka Oiwa <yutaka at oiwa.jp>.
+	* image.rb: add new option "image.maxwidth", thanks Masaru Yokoi <masaru at masaru.org>.
+
+2005-03-09 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: remove debug print.
+
+2005-03-09 TAHARA Shunichi <jado at flowernet.gr.jp>
+	* calendar2.rb: escape quote in subtitle.
+
+2005-03-03 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: handle rush conditions more properly when removing cache
+
+2005-03-02  Tatsuki Sugiura <sugi@nemui.org>
+	* tb-show.rb, ja/tb-show.rb, en/tb-show.rb: trackbacks_of_today_short is now selectable when in non-BlogKit mode from the config page
+
+2005-02-28 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: handle rush conditions properly when removing cache
+
+2005-02-21 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: debug code removed
+	* disp_referrer.rb, {ja,en,zh}/disp_referrer.rb: configurable cache size
+	* zh/disp_referrer.rb: sync with the en resource
+
+2005-02-20 zunda <zunda at freeshell.org>
+	* disp_referrer.rb, {ja,en,zh}/disp_referrer.rb: cache URLs of search engines, cache files are divided into each month, thanks to Aoki-san and kazuhiko-san.
+
+2005-02-10 zunda <zunda at freeshell.org>
+	* makerss.rb: escape comment body, thanks to Kouhei Sutou <kou at cozmixng.org>
+
+2005-02-01 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: added del.icio.us to antenna regexp
+	* ja/disp_referrer.rb: gw.mobile.goo.ne.jp and msearch.mobile.goo.ne.jp added to search engines
+
+2005-01-26 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: better key for Feedback search, more URLs for livedoor and goo, thanks to Hahahaha <rin_ne at big.or.jp>
+	* disp_referrer.rb, ja/disp_referrer.rb: can get search keyword from URL for Matome-search, thanks to Hahahaha <rin_ne at big.or.jp>
+
+2005-01-25 zunda <zunda at freeshell.org>
+	* makerss.rb: fix bug not to make empty items, contribution from Keiichiro SAKURAI <kei-tdiary at ksakurai.nwr.jp>
+
+2005-01-22 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb: Feedback search and blogpeople, thanks to Hahahaha <rin_ne at big.or.jp>
+	* disp_referrer.rb: add rel="nofollow" to links, see http://www.google.com/googleblog/2005/01/preventing-comment-spam.html
+
+2005-01-12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* calendar3.rb: hide 'onmouseover' if @options['calendar3.show_popup'] == false, thanks to Ohiwa-san
+
+2005-01-12  Masao Mutoh <mutoh@highway.ne.jp>
+	* amazon.rb (get_amazon_image): add a title attribute.
+
+2005-01-11 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: rescue PStore errors on ruby-1.8.1 and 1.6.8, thanks to Ohiwa-san
+
+2005-01-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* image.rb (image_info): get correct size of any jpeg files.
+
+2004-12-17 zunda <zunda at freeshell.org>
+	* makerss.rb: escapes inside description and title, thanks to Hideki Ikemoto <ikemo at wakaba.jp>
+
+2004-12-05  NT  <nt@be.to>
+	* tlink.rb: adjusted to ruby 1.8.2
+
+2004-12-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb: delete category icon setting if 'none' is selected
+
+2004-11-29 zunda <zunda at freeshell.org>
+	* zh/search_control.rb: forgot to follow revision of search_control.rb
+
+2004-11-29 zunda <zunda at freeshell.org>
+	* makerss.rb: @conf.icon can be empty
+
+2004-11-29 zunda <zunda at freeshell.org>
+	* ja/makerss.rb: better description of options,
+	thanks to TADA Tadashi <sho@spc.gr.jp>
+
+2004-11-28 zunda <zunda at freeshell.org>
+	* makerss.rb, {ja,en,zh}/makerss.rb: added option to hide
+	tsukkomi-items from rss, thanks to Keiichiro SAKURAI
+	<kei-tdiary at ksakurai.nwr.jp>
+
+2004-11-24 zunda <zunda at freeshell.org>
+	* makerss.rb: does not include TSUKKOMI when it is hidden,
+	thanks to Mr. Hiromitsu Takagi (http://takagi-hiromitsu.jp/diary/20041124.html#p02)
+
+2004-11-18 zunda <zunda at freeshell.org>
+	* {en,zh}/makerss.rb: fixed typo, thanks to vette <vette at mail.ne.jp>
+	* {ja,en,zh}/makerss.rb: reflects form values only when OK button has
+	been pushed, thanks to vette <vette at mail.ne.jp>
+
+2004-11-16 zunda <zunda at freeshell.org>
+  * makerss.rb, {ja,en,zh}/makerss.rb: more options:
+		- hidecomment, hidecontent, shortdescription: configurable thru. browser
+		- @conf.icon @conf.description: configurable thru. browser in the future
+		- file, url, partial: configurable in tdiary.conf
+	* makerss.rb: includes copyright notice, shortened text as title when
+	there is no subtitle.
+
+2004-11-12 zunda <zunda at freeshell.org>
+	* search_control.rb: config form remembers number of agents.
+	Works properly even when the user delets an agent and
+	push back button to reconfigure it.
+
+
+2004-11-10 zunda <zunda at freeshell.org>
+	* ja/disp_refrrer.rb: better handles links from goo.ne.jp.
+	* ja/disp_refrrer.rb: support ocnsearch.goo.ne.jp
+	Thanks to Michitaka Ohno (http://bigfield.ddo.jp/diary/20041111.html#p01)
+
+2004-11-10 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: better handles links from bloglines.com as an antenna
+
+2004-11-09 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: shows unknown referrers when the diary is edited
+	Thanks to akira yamada (http://arika.org/diary/20041011#p01)
+	* ja/disp_referrer.rb: less livedoor.jp URLs as search engine
+	Thanks to Michitaka Ohno (http://bigfield.ddo.jp/diary/20041110.html#p02)
+
+2004-11-09 zunda <zunda at freeshell.org>
+	* search_control.rb: @cgi.user_agent can be nil
+
+2004-11-09 zunda <zunda at freeshell.org>
+	* search_control.rb, {en,ja}/search_control.rb: multiple user
+	agents are now allowed
+
+2004-11-09 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: delete cache when it is broken
+	* disp_referrer.rb: i-know.jp and bloglines.com added as antenna
+	* ja/disp_referrer.rb: added and modified DispReferrer2_Engines
+
+2004-11-04 MoonWolf <moonwolf@moonwolf.com>
+	* category.rb: remove TDiaryMonth::attr_reader
+	* xmlrpc/xmlrpc.rb remove eval's
+
+2004-11-03 MoonWolf <moonwolf@moonwolf.com>
+	* xmlrpc/xmlrpc.rb some changed
+
+2004-11-02 MoonWolf <moonwolf@moonwolf.com>
+	* xmlrpc.rb Added
+	* ja/xmlrpc Added
+	* en/xmlrpc.rb Added
+	* zh/xmlrpc.rb Added
+	* xmlrpc/xmlrpc.rb Changed
+	* xmlrpc/README Changed
+
+2004-10-29 MoonWolf <moonwolf@moonwolf.com>
+	* xmlrpc/README Added.
+	* xmlrpc/xmlrpc.rb Added.
+
+2004-10-28 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: exclude 'Pingback'.
+
+2004-10-13  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb: more revise for mod_ruby. add 'title' attribute in
+	categor_icon_sample. correct icon url in category_anchor
+
+2004-10-12  Kazuhiko  <kazuhiko@fdiary.net>
+	* category.rb: revise for mod_ruby
+
+2004-10-03 Junichiro Kita <kita@kitaj.no-ip.com>
+	* amazon.rb: add new option, @conf['amazon.over18']
+
+2004-10-01  Masao Mutoh  <mutoh@highway.ne.jp>
+	* counter.rb: Support @options["bot"]
+
+2004-09-30  Masao Mutoh  <mutoh@highway.ne.jp>
+	* a.rb: improve HTML
+
+2004-09-26  Masao Mutoh  <mutoh@highway.ne.jp>
+	* a.rb: Support config menu.
+	* en/a.rb: Added.
+	* a/: Removed.
+
+2004-09-15  URABE Shyouhei  <shyouhei@ice.uec.ac.jp>
+	* ja/disp_referrer.rb : add some search engines.
+
+2004-08-13 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: cut tail of entity reference. thanks IKEDA and snak.
+
+2004-08-10 zunda <zunda at freeshell.org>
+	* weather.rb, */weather.rb: show_robot enables to hide weather from robots
+
+2004-08-09 NT <nt@be.to>
+	* tlink.rb: fix typo.
+
+2004-08-08 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: fix bug in category_anchor.
+
+2004-08-07 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: watch changing subtitle.
+	* makerss.rb: delete entity references in description.
+	* makerss.rb: fix wrong TSUKKOMI id with TrackBacks.
+	* trackback/tb.rb: fix security hole of TrackBack spam by JavaScript.
+	* image.rb: fix thumbnail specify bug on secure mode.
+
+2004-07-30 zunda <zunda at freeshell.org>
+	* ja/referer_scheme.rb: better regexp, thanks to Nishiyama-san
+	<zn at mbf.nifty.com>
+
+2004-07-27 zunda <zunda at freeshell.org>
+	* ja/referer_scheme.rb: HatenaHost remended, thanks to Kakutani-san
+	<shintaro at kakutani.com>.
+
+2004-07-19 Junichiro Kita <kita@kitaj.no-ip.com>
+	* makelirs.rb: fix errors when user agent is mobile.
+
+2004-07-07 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: some HTML tags escaped in description and content:encoded.
+
+2004-07-06 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: add description elements to items.
+
+2004-07-05 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: add categories to dc:subject element. thanks smbd
+	<mitsuru@diana.dti.ne.jp>.
+
+2004-07-02 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: save HTML tag of subtitle in content. thanks smbd
+	<mitsuru@diana.dti.ne.jp>.
+
+2004-07-01 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: enclose subtitle with h3 element.
+	* category.rb: remove white space after category tag insert by JavaScript.
+
+2004-06-27 TADA Tadashi <sho@spc.gr.jp>
+	* release 2.0.0.
+
+2004-06-27 Junichiro Kita <kita@kitaj.no-ip.com>
+	* calendar3.rb: tDiary 1.4 is not supported any more
+
+2004-06-26 Junichiro Kita <kita@kitaj.no-ip.com>
+	* makerss.rb: define RDFSection if @mode == trackbackreceive
+	* my-ex.rb: invalidated if mobile_agent
+
+2004-06-24 Junichiro Kita <kita@kitaj.no-ip.com>
+	* random_google.rb: hide if user agent is bot or modile_agent.
+
+2004-06-23 Junichiro Kita <kita@kitaj.no-ip.com>
+	* recent_comment3.rb: hide invisible comments.
+	* recent_trackback3.rb: hide invisible trackbacks.
+
+2004-06-19 TADA Tadashi <sho@spc.gr.jp>
+	* footnote.rb: suppress making footnote in update mode.
+	* makerss.rb: call body_enter_proc and body_leave_proc before output each section.
+	* makerss.rb: support RSS auto discovery.
+
+2004-06-19 zunda <zunda at freeshell.org>
+	* category.rb: support ruby 1.6.x on secure mode.
+
+2004-06-18 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: catch more error from trackback server.
+
+2004-06-16 TADA Tadashi <sho@spc.gr.jp>
+	* add zh (Traditional Chinese) language resources. thanks Hiroshi Yui <thinker60@mail2000.com.tw>.
+	* makerss.rb: fix typo.
+
+2004-06-15 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: insert time zone into dc:date.
+	* makerss.rb: fix error when section has no subtitle.
+	* output_rdf.rb: remove.
+
+2004-06-14  Kazuhiko  <kazuhiko@fdiary.net>
+	* makerss.rb: CGI::escapeHTML title and description.
+
+2004-06-14 TADA Tadashi <sho@spc.gr.jp>
+	* makerss.rb: new plugin.
+
+2004-06-12 zunda <zunda at freeshell.org>
+	* disp_referer.rb: option added for command-line executed benchmark
+	* {en,ja}/disp_referer.rb: better regexp, thanks to Aoki-san http://i.loveruby.net/d/20040530.html#p02
+
+2004-06-12  Kazuhiko  <kazuhiko@fdiary.net>
+	* ping.rb: use cgi.params['key'][0] instead of cgi['key'][0]
+
+2004-06-11 TADA Tadashi <sho@spc.gr.jp>
+	* ping.rb: fix error when no @options['ping.list'].
+
+2004-06-10 TADA Tadashi <sho@spc.gr.jp>
+	* ping.rb: multi threading.
+	* ping.rb: 'Sending ping' checkbox in edit form.
+
+2004-06-09 TADA Tadashi <sho@spc.gr.jp>
+	* append-css.rb: fix typo.
+	* ping.rb: append.
+
+2004-06-07 TADA Tadashi <sho@spc.gr.jp>
+	* list.rb: apply_plugin to the result string.
+
+2004-05-28  Masao Mutoh  <mutoh@highway.ne.jp>
+	* search_form.rb: Fix a wrong anchor for Yahoo Japan.
+	Reported by michieru.
+
+2004-06-02 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb, en/disp_referrer.rb: constants tainted to be used under secure diaries and ruby-1.6.x. Thanks Kazuhiko.
+
+2004-06-01  Kazuhiko  <kazuhiko@fdiary.net>
+	* windex.rb: check existence of the pstore directory in load().
+	* squeeze.rb: 'add_update_proc' in plugin mode only.
+
+2004-05-29 TADA Tadashi <sho@spc.gr.jp>
+	* image.rb: fix bad width attribute in secure mode.
+
+2004-05-28  Masao Mutoh  <mutoh@highway.ne.jp>
+	* a.rb: escape HTML in anchor tag by Akinori MUSHA.
+
+2004-05-17  Kazuhiko  <kazuhiko@fdiary.net>
+	* title_tag.rb: apply_plugin in a day's title.
+	* title_tag.rb: escape diary's title and day's title.
+
+2004-05-16  mput <root@mput.dip.jp>
+	* title_tag.rb : New file.
+
+2004-05-14 zunda <zunda at freeshell.org>
+	* ja/weather.rb: correct translation of `rain showers': http://zunda.freeshell.org/d/20040428.html#p02
+
+2004-05-09 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb, tb-show.rb, output_rdf.rb: support absolute path of @conf.index.
+	* tb-show.rb: apply_plugin to dc:title.
+
+2004-05-05 TADA Tadashi <sho@spc.gr.jp>
+	* makelirs.rb: change ruby version independ code.
+
+2004-05-05 yowa <yowaken@cool.ne.jp>
+	* tb-send.rb: check excerpt is not null.
+
+2004-05-04 TADA Tadashi <sho@spc.gr.jp>
+	* makelirs.rb: add a comment into HTML header.
+
+2004-05-03 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: support to specify multiple ping URL.
+	* tb-show.rb: remove to add '...' after shorten.
+
+2004-05-02 TADA Tadashi <sho@spc.gr.jp>
+	* image.rb: a little modify forms and labels.
+	* tb-send.rb: select section support in append mode.
+
+2004-04-23  mput <root@mput.dip.jp>
+	* recent_comment3.rb (recent_comment3): Sorry the commit I posted yesterday had another problem.  Fixed that.  Thanks to Kitaj.
+
+2004-04-22 mput <root@mput.dip.jp>
+	* recent_comment3.rb (recent_comment3): Bug fix.
+
+2004.04.10 Masanori_KADO <QVE02451@nifty.com>
+	* category.rb: display categories you use on update form.
+
+2004-04-05 TADA Tadashi <sho@spc.gr.jp>
+	* highlight.rb: using CSS class as .highlight. thanks ZnZ <zn@mbf.nifty.com>.
+	* highlight.rb: insert when day mode only.
+
+2004-03-31 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: section subtitle into TrackBack title when excerpt specified.
+	* tb-send.rb: set tabindex to section field.
+
+2004.03.23 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: works in secure mode. sorry.
+
+2004.03.23 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb, */category.rb: icon dir can be configured in unsecure mode.
+
+2004.03.22 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb, */category.rb: category icons can be configured.
+
+2004-03-20 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: specify section of TrackBack source. thanks yowa <yowaken@cool.ne.jp>.
+	* {ja,en}/tb-send.rb, tb-show.rb: a little modified some labels.
+
+2004-03-16 TADA Tadashi <sho@spc.gr.jp>
+	* referer_scheme.rb: support WiLiKi style.
+
+2004.03.16 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: cache shorten body this time around. sumaso-
+
+2004.03.15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: add category_dropdown_list.
+	* */category.rb: escape category name by CGI.escapeHTML in category_title.
+
+2004.03.15 Masashi Seiki <mass@starshine.jp>
+	* category.rb: category_navi does'nt show buttons who have empty labels.
+
+2004.03.15 Masashi Seiki <mass@starshine.jp>
+	* category.rb: save configurations.
+	* category.rb: add new conf parameter: @conf['category.period']
+
+2004-03-15  mput <root@mput.dip.jp>
+	* category.rb (Cache::categorize_diary): bug fix for heredoc handling
+
+2004.03.15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: works in secure mode. cache shorten body again.
+
+2004.03.15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* amazon.rb: don't show image when @mode == categoryview.
+
+2004.03.15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: cache entire body. Thanks kazuhiko.
+
+2004.03.15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* category.rb: indexed category. Thanks mass and phonondrive.com.
+
+2004-03-04 TADA Tadashi <sho@spc.gr.jp>
+	* makelirs.rb: running under update_proc.
+	* output_rdf.rb: running under update_proc.
+	* squeeze.rb: running under update_proc.
+	* tb-send.rb: running under update_proc.
+	* comment_mail-*.rb: running under update_proc.
+
+2004-02-26 TADA Tadashi <sho@spc.gr.jp>
+	* ja/referer_scheme.rb: fix mod_ruby's error.
+	* ja/referer_scheme.rb: modify hatena's URL. thanks KAKUTANI Shintaro <shintaro@kakutani.com>
+	* output_rdf.rb: add <dc:creator> into RDF.
+	* output_rdf.rb: remove path name from @options['outout_rdf.file']. Kazuhiro NISHIYAMA <zn@mbf.nifty.com>.
+	* a/a_conf.rhtml: support ruby 1.8's ERB. thanks miyaken.
+
+2004-02-25  mput <mput@users.sf.net>
+	* en/disp_referrer.rb (DispRef2SetupIF::show_unknown_list): ditto.
+	* ja/disp_referrer.rb (DispRef2SetupIF::show_unknown_list): add similarity search, answerbus, dogpile.
+
+2004-02-24 TADA Tadashi <sho@spc.gr.jp>
+	* referer_scheme.rb: a little modify about wiki scheme.
+
+2004-02-22  Kazuhiko  <kazuhiko@fdiary.net>
+	* output_rdf.rb: catch exception of 'File::mtime( rdf_file )'
+
+2004-02-17 TADA Tadashi <sho@spc.gr.jp>
+	* trackback/bookmarklet.ja: add. written by s.sawada <moonwave@ba2.so-net.ne.jp>.
+
+2004-02-16 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: swap aliased method names, and bug fix.
+
+2004-02-09 TADA Tadashi <sho@spc.gr.jp>
+	* my-ex.rb: fuzzy regexp in my plugin.
+	* makelirs.rb: remove option 'makelirs.url'.
+
+2004-02-09 sfanla <tdiary@sfanla.com>
+	* append-css.rb: without escape CSS elements.
+
+2004.01.28 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: fix error when TrackBack has only URL.
+
+2004.01.27 mput <mput@users.sf.net>
+	* ja/disp_referrer.rb: add Bulkfeeds to search engine.
+
+2004.01.26 Junichiro Kita <kita@kitaj.no-ip.com>
+	* calendar3.rb: fix displacement of popup window. thanks sfanla<tdiary@sfanla.com>.
+
+2004.01.25 Junichiro Kita <kita@kitaj.no-ip.com>
+	* recent_trackback3.rb: setting via conf.
+
+2004.01.21 Junichiro Kita <kita@kitaj.no-ip.com>
+	* recent_trackback3.rb: Oops. remove debug code.
+
+2004.01.21 Junichiro Kita <kita@kitaj.no-ip.com>
+	* recent_trackback3.rb: add.
+
+2004.01.20 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: fix typo on autodiscovery RDF.
+
+2004.01.14 Junichiro Kita <kita@kitaj.no-ip.com>
+	* makelirs.rb: define Time#utc_offset if not defined.
+
+2004.01.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* my-ex.rb: this time, my can handle 'yyyymmdd#txx'.
+
+2004.01.12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-*.rb: if trackback is longer than 255 byte, it will be shorten to 252 byte and '...' will be added.
+
+2004.01.09 RedGecko <redgecko@redgecko.jp>
+	* random_google.rb: hide link access by bot.
+
+2003.12.30 Junichiro Kita <kita@kitaj.no-ip.com>
+	* my-ex.rb: my can handle 'yyyymmdd#txx'.
+
+2003.12.26 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: shorten excerpt into 256 bytes.
+	* image.rb: support blog styles.
+
+2003.12.25 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: support error messages in multi-lines.
+	* makelirs.rb: set last-modified to time stamp of file. thanks Takeru KOMORIYA <komoriya@paken.org>.
+	* output_rdf.rb: set revious time stamp to RDF when diary was hidden.
+
+2003.12.19 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb, windex.rb, trackback/tb.rb: set $KCODE to 'n'.
+
+2003-12-17 zunda <zunda at freeshell.org>
+	* referer_scheme.rb: updated documentation in the lang. resources
+	* referer_scheme.rb: avoid infinite call of aliased `each' when the plug-in is eval'ed more than once.
+	* referer_scheme.rb: scheme_tdiary moved to the plugin-body
+	* referer_scheme.rb: bug fixed for scheme_tdiarynet. thanks to kosaka http://tnat.net/diary/?date=20031217#p01
+	* ja/weather.rb: translation for heavy rain added. thanks to kosaka http://tnat.net/diary/?date=20031217
+	* referer_scheme.rb: scheme_ymd added. thanks to kitaj http://kitaj.no-ip.com/tdiary/20031218.html#p02
+
+2003-12-16 zunda <zunda at freeshell.org>
+	* referer_scheme.rb: new plug-in to expand referer_table. Idea by akira yamada <akira at akira.org>, doesn't work with ruby 1.6.7 ;(
+	* referer_scheme.rb: now works on ruby 1.6.7. thanks Minero Aoki <aamine at loveruby.net>
+
+2003-12-16 TADA Tadashi <sho@spc.gr.jp>
+	* my-ex.rb: accept fuzzy anchor style.
+
+2003-12-12 TADA Tadashi <sho@spc.gr.jp>
+	* output_rdf.rb: add output_rdf.image option. thanks Kouhei Sutou <kou@cozmixng.org>.
+
+2003-12-11 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb: behave to like a bot.
+
+2003-12-10 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: add 'clear cache' switch in prefenrences page.
+	* tb-show.rb: hide link when bot access (against trackback spam).
+	* tb-show.rb: hide RDF of ping url when bot access (against trackback spam).
+
+2003-12-05 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: hide conf menu when secure mode and amazon.hideconf.
+
+2003-12-02  Kazuhiko  <kazuhiko@fdiary.net>
+	* amazon.rb: hide some options in secure mode.
+
+2003-12-02 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: add options amazon.imgsize and amazon.nodefault. thanx KOMORIYA.
+	* amazon.rb: remove options amazon.smallimg.
+	* amazon.rb: split ja resource.
+
+2003-12-01 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: add options amazon.smallimg and amazon.hidename. thanx KOMORIYA.
+
+2003-11-26 nt <nt@be.to>
+	* tlink.rb: use @conf.base_url.
+
+2003-11-25 zunda <zunda at freeshell.org>
+	* weather.rb: avoid showing duplicated translation like mist/mist, thanks toshi-san.
+
+2003-11-19 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-send.rb, tb-show.rb, makelirs.rb, output_rdf.rb: use @conf.base_url
+
+2003-11-18 zunda <zunda at freeshell.org>
+	* ja/disp_referrer.rb, en/disp_referer.rb: hopefully more usable config menu
+	* Thanks to Kazuhiro NISHIYAMA, TADA Tadashi, NISHIMURA Takashi, ysano, Daigo Moriwaki, and mass.
+
+2003-11-19  Kazuhiko  <kazuhiko@fdiary.net>
+	* output_rdf.rb: escape @html_title. support hidden diary.
+
+2003-11-17 TADA Tadashi <sho@spc.gr.jp>
+	* edit.rb: remove.
+
+2003-11-14 TADA Tadashi <sho@spc.gr.jp>
+	* append-css.rb: add "type" attr and comment tag.
+	* random_google.rb: remove TARGET attr from A element.
+	* html_anchor.rb: add come comments.
+
+2003-11-13 TADA Tadashi <sho@spc.gr.jp>
+	* nazo.rb: removed.
+	* highlight.rb: nazo.rb modified and added. thanks to ZnZ <zn@mbf.nifty.com>
+
+2003-11-11  Kazuhiko  <kazuhiko@fdiary.net>
+	* comment_rank.rb: fix XSS.
+
+2003-11-10 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-show.rb: fix XSS.
+
+2003-11-10 TADA Tadashi <sho@spc.gr.jp>
+	* tb-send.rb: i18n, but not support UTF-8.
+	* tb-show.rb, trackback/tb.rb: i18n.
+
+2003-11-09 Junichiro Kita <kita@kitaj.no-ip.com>
+	* amazon.rb: fix bug in amazonNoImg.
+
+2003-11-07 TADA Tadashi <sho@spc.gr.jp>
+	* output_rdf.rb: add information to HTML header for Auto-Discovery. thanks mput.
+	* output_rdf.rb: i18n.
+
+2003-11-05 zunda <zunda at freesehll.org>
+	* ja/weather.rb: added `(partial )?(freezing )?' to `fog', ignore `patches of'
+
+2003-10-30 TADA Tadashi <sho@spc.gr.jp>
+	* tb-show.rb: fix bug in mod_ruby environment.
+
+2003-10-28 Junichiro Kita <kita@kitaj.no-ip.com>
+	* calendar2.rb, calendar3.rb, my-ex.rb,
+	output_rdf.rb, recent_list.rb, title_list.rb: support new io.
+
+2003-10-24 TADA Tadashi <sho@spc.gr.jp>
+	* disp_referrer.rb: fix bug on 23 Oct.
+
+2003-10-23 TADA Tadashi <sho@spc.gr.jp>
+	* disp_referrer.rb: escape a bug of String#tr in ruby 1.6 dose not run in secure mode.
+
+2003-10-23 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-show.rb: bug fix. Make <a name="t"> even if there is no trackbacks.
+
+2003-10-22 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: language resources for ja and en completed (kondo koso..)
+
+2003-10-21 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: language resources for ja and en completed (hopefully :)
+
+2003-10-21 Junichiro Kita <kita@kitaj.no-ip.com>
+	* output_rdf.rb: follow new @conf.shorten.
+
+2003-10-21  Kazuhiko  <kazuhiko@fdiary.net>
+	* outpur_rdf.rb: make plain text title. ignore empty comment. add
+	'dc:date' to each comment.
+
+2003-10-20 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: syntax error fixed. su ma so...
+
+2003-10-20 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: search engine added: Comet Web Search
+
+2003-10-19 Junichiro Kita <kita@kitaj.no-ip.com>
+	* todo.rb: priority is optional.
+
+2003-10-18  Kazuhiko  <kazuhiko@fdiary.net>
+	* output_rdf.rb: make plain text description. change default file
+	name from 't.rdf' to 'index.rdf'. make an item per comment.
+
+2003-10-16  Kazuhiko  <kazuhiko@fdiary.net>
+	* plugin.rb: 'priority' is also optional.
+
+2003.10.14 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: search engine list in lang. resources (still more to do)
+
+2003.10.13 Gony <gony@sm.rim.or.jp>
+	* windex.rb: bug fix.
+	* windex.rb: add wikw method.
+	* windex.rb: support kw argument at CGI mode.
+	* windex.rb: support @options['windex.generate_all'] option.
+
+2003-10-13 zunda <zunda at freeshell.org>
+	* search_control.rb: ja and en resources are divided.
+
+2003-10-13 Junichiro Kita <kita@kitaj.no-ip.com>
+	* kw.rb: kw can take 2 args. thanks to yowa.
+
+2003-10-13 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-send.rb: HTMLize excerpt of TrackBack ping. thanks to matz.
+
+2003-10-13  Kazuhiko  <kazuhiko@fdiary.net>
+	* image.rb: revise for @conf.secure.
+
+2003-10-13 Junichiro Kita <kita@kitaj.no-ip.com>
+	* image.rb: support ruby1.8.
+
+2003-10-12 TADA Tadashi <sho@spc.gr.jp>
+	* image.rb: comma separated image size by 3digs.
+
+2003-10-12 Junichiro Kita <kita@kitaj.no-ip.com>
+	* image.rb: guess image type and image size from file header. thanks to akira@arika.org.
+
+2003-10-09  Kazuhiko  <kazuhiko@fdiary.net>
+	* comment_mail-qmail.rb: add "-f #{@conf.author_mail.untaint}"
+
+2003-10-09 TADA Tadashi <sho@spc.gr.jp>
+	* referer-antibot.rb: support 'bot?' method and English document.
+
+2003-10-08  Kazuhiko  <kazuhiko@fdiary.net>
+	* todo.rb: catch exception of 'FileTest::exist?(todo_file)' for mod_ruby.
+
+2003-10-08 Junichiro Kita <kita@kitaj.no-ip.com>
+	* todo.rb: if @conf['todo.todos'] == nil, @conf['todo.todos'] = ''.
+
+2003-10-08  Kazuhiko  <kazuhiko@fdiary.net>
+	* image.rb: show image size unless @conf.secure only.
+
+2003-10-07 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-send.rb, tb-show.rb: move from trackback/
+
+2003-10-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* comment_mail-smtp.rb: untaint 'From address' for mod_ruby.
+
+2003-10-02 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: refined match for nifty
+
+2003-10-01 Junichiro Kita <kita@kitaj.no-ip.com>
+	* todo/*: removed.
+	* todo.rb, ja/todo.rb, en/todo.rb: ToDo is saved into @conf['todo.todos'].
+
+2003-09-30 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: refined match for biglobe search, one more search engine
+
+2003-09-29 zunda <zunda at freeshell.org>
+	* weather.rb: Japanese resources divided into  a separate file, English resource created
+
+2003-09-29 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: forgot to change arguments after changing initialize()
+
+2003-09-28 Junichiro Kita <kita@kitaj.no-ip.com>
+	* image.rb: write images with print method instead of puts method.
+	* image.rb: show image size.
+
+2003-09-27 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-show.rb: make RDF only when @mode == 'day'.
+
+2003-09-26 TADA Tadashi <sho@spc.gr.jp>
+	* select_plugins.rb: enable running on ruby 1.6.5. again.
+
+2003-09-25 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: name.untaint to eval name
+
+2003-09-25 TADA Tadashi <sho@spc.gr.jp>
+	* select_plugins.rb: enable running on ruby 1.6.5.
+
+2003-09-25 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb.rb, todo/todo.rb: use conf.encoding and conf.mobile_encoding instead of conf.charset.
+
+2003-09-25 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: to_euc removed, instead using @conf.to_native
+
+2003-09-25 TADA Tadashi <sho@spc.gr.jp>
+	* support i18n framework.
+	* english support: append-css, image, kw, speed_comment, amazon, dropdown_calendar.
+	* *.rb: remove String#to_euc.
+	* referer-utf8.rb: obsolete.
+	* amazon.rb: safe on secure mode.
+
+2003-09-25 Kita Junichiro <kita@kitaj.no-ip.com>
+	* trackback/tb-show.rb: add <div class="trackbacks">. Thanks to mput.
+
+2003-09-25 TADA Tadashi <sho@spc.gr.jp>
+	* image.rb: english support.
+	* output_rdf.rb: use @conf.shorten.
+
+2003-09-24 TADA Tadashi <sho@spc.gr.jp>
+	* speed_comment.rb: support cookie for name, and conf_proc.
+
+2003-09-23 SAKAMOTO Hideki <hs@on-sky.net>
+	* sn.rb: document corrected
+
+2003-09-19 zunda <zunda at freeshell.org>
+	* disp_referrer.rb (head): overwritten with disp_referrer2.rb,v 1.1.2.104
+
+2003-09-19  Kazuhiko  <kazuhiko@fdiary.net>
+	* trackback/tb.rb: remove '</div>\n<div class="refererlist">'.
+
+2003-09-18 TADA Tadashi <sho@spc.gr.jp>
+	* whatsnew.rb: support apply_plugin.
+
+2003-09-17 SAKAMOTO Hideki <hs@on-sky.net>
+	* sn.rb: add add_body_leave_proc
+
+2003-09-16 TADA Tadashi <sho@spc.gr.jp>
+	* sn.rb: added.
+	* number_anchor.rb: fix typo.
+
+2003-09-10 zunda <zunda at freeshell.org>
+	* disp_referrer.rb: Branch_disp_referrer-1 made on disp_referrer.rb.
+	* disp_referrer.rb: use -r Branch_disp_referrer-1 option for MUTOH-san's
+
+2003-09-07 Junichiro Kita <kita@kitaj.no-ip.com>
+	* random_google.rb: add
+
+2003-09-01 zunda <zunda at freeshell.org>
+	* todo/todo.rhtml: s/%%>/%>/g for newer version of erb
+
+2003-08-26 zunda <zunda at freeshell.org>
+	* select_plugins.rb: simpler configuration display
+	* search_control.rb: simpler configuration display
+
+2003-08-27 zunda <zunda at freeshell.org>
+	* 01_select_plugins.rb: renamed as select_plugins.rb
+	* select_plugins.rb: does not show comments and sources in default
+
+2003-08-26 zunda <zunda at freeshell.org>
+	* search_control.rb: no table in configuration view, thanks to Tada-san.
+
+2003-08-26 zunda <zunda at freeshell.org>
+	* search_control.rb: added
+	* 01_select_plugins.rb: added
+
+2003-08-24 Junichiro Kita <kita@kitaj.no-ip.com>
+	* output_rdf.rb: use @date
+
+2003-08-20 TADA Tadashi <sho@spc.gr.jp>
+	* append-css.rb: add.
+
+2003-08-20 TADA Tadashi <sho@spc.gr.jp>
+	* search_form.rb: to valid HTML. thanks Kakutani.
+
+2003-08-20 TADA Tadashi <sho@spc.gr.jp>
+	* kw.rb: save as String to conf.
+
+2003-08-20 TADA Tadashi <sho@spc.gr.jp>
+	* kw.rb: support conf_proc. thanks kazuhiko.
+
+2003-08-16 zunda <zunda at freeshell.org>
+	* weather.rb: heavy rain showers, thank you halchan-san
+
+2003-08-11 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: fix error when amazon.aid was nil.
+
+2003-08-08 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: support conf_proc, and add an option 'amazon.hideconf'.
+
+2003-08-06 zunda <zunda at freeshell.org>
+	* weather.rb: lightning -> Inazuma, thank you kotak-san
+
+2003-08-06 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-send.rb: raise TDiaryTrackBackError if TrackBack Ping fail.
+
+2003-08-05  Kazuhiko  <kazuhiko@fdiary.net>
+	* squeeze.rb: make html when receiving TrackBack Ping
+	* output_rdf.rb: make rdf when receiving TrackBack Ping
+
+2003-08-04 zunda <zunda at freeshell.org>
+	* squeeze.rb: sets mtime of the HTML files, exit(1) when error
+
+2003-08-03 Junichiro Kita <kita@kitaj.no-ip.com>
+	* makelirs.rb: make lirs when receiving TrackBack Ping
+
+2003-07-24 zunda <zunda at freeshell.org>
+	* weather.rb: Syntax error in drizzle fixed
+
+2003-07-22 zunda <zunda at freeshell.org>
+	* weather.rb: debug code erased m(. .;;)m
+
+2003-07-21 zunda <zunda at freeshell.org>
+	* weather.rb: support conf_proc, %r literals for ruby-1.8.0
+
+2003-06-16 TADA Tadashi <sho@spc.gr.jp>
+	* comment_mail-*.rb: support conf_proc new spec.
+
+2003-06-14 TADA Tadashi <sho@spc.gr.jp>
+	* comment_mail-*.rb: support conf_proc.
+
+2003-06-12 TADA Tadashi <sho@spc.gr.jp>
+	* [TESTING] comment_mail-*.rb: support conf_proc.
+
+2003-06-07 TADA Tadashi <sho@spc.gr.jp>
+	* image.rb: renumbering tabindex.
+	* trackback/tb-send.rb: renumbering tabindex.
+
+2003-06-06 zunda <zunda at freeshell.org>
+	* weather.rb: checks data age, `towering cumulus clouds'
+
+2003-06-06 TADA Tadashi <sho@spc.gr.jp>
+	* edit.rb: obsolete.
+
+2003-06-03 zunda <zunda at freeshell.org>
+	* weather.rb: ignores `... in the vicinity' Thank you kosaka-san.
+
+2003-05-26 zunda <zunda at freeshell.org>
+	* weather.rb: fix typo on option names (thank you haluchan).
+
+2003-05-19 MUTOH Masao <mutoh@highway.ne.jp>
+	* disp_referrer.rb: Support to seperate Antenna similar to
+	disp_referrer2(by zunda).
+
+2003-05-17 TADA Tadashi <sho@spc.gr.jp>
+	* squeeze.rb: fix path of theme on CGI or CMD mode.
+	* image.rb: fix typo. thanks HASHIMOTO Keisuke.
+	* image.rb: add thumbnail in 3rd parameter of image method.
+	* image.rb: force image width to 160 in update form.
+	* image.rb: add image_link method.
+
+2003-05-15 TADA Tadashi <sho@spc.gr.jp>
+	* add trackback/README.
+
+2003-05-15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-show.rb: CGI::escapeHTML dc:title.
+	* tb-show.rb: replace /-{2,}/ in RDF's dc:title to '&#45;'s.
+
+2003-05-15 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-send.rb: add charset parameter.
+
+2003-05-13 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: cancel modify on 2003-05-11.
+	* amazon.rb: support ruby 1.8.
+
+2003-05-11 TADA Tadashi <sho@spc.gr.jp>
+	* amazon.rb: escapeHTML strings from amazon.
+
+2003-05-11 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb.rb: use day.rhtml to do some plugin task.
+
+2003-05-11 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-show.rb: new option. @options['tb.hide_if_no_tb'].
+
+2003-05-10 Junichiro Kita <kita@kitaj.no-ip.com>
+	* tb-send.rb: rescue failure to send TrackBack Ping.
+
+2003-05-09 Junichiro Kita <kita@kitaj.no-ip.com>
+	* calendar3.rb: use bot? to detect bot
+	* trackback/tb-show.rb: use bot? to detect bot
+
+2003-05-09 zunda <zunda at freeshell.org>
+	* weather.rb: imported from zunda's local revision 1.1.2.32.
+
+2003-05-08 TADA Tadashi <sho@spc.gr.jp>
+	* kw.rb: fix bug when no default in @options['kw.dic']. thenks yowa.
+	* kw.rb: @options['kw.show_inter'] support.
+
+2003-05-06 TADA Tadashi <sho@spc.gr.jp>
+	* image.rb: add notice 'JPEG only' when secure mode.
+	* trackback/tb-show.rb: fail safe for running on command line.
+	* html_anchor.rb, numberanchor.rb: anchor can handle yyyymmdd#txx.
+
+2003-05-06 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-show.rb: generate anchor for each TrackBack.
+	* recent_comment3.rb: use each_comment rather than count_comments to count comments. (for trackback)
+
+2003-05-05 TADA Tadashi <sho@spc.gr.jp>
+	* trackback/tb-send.rb: modify form layout.
+
+2003-05-04 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-show.rb: antibot.
+	* trackback/tb-show.rb: displaying position changed.
+	* trackback/tb-show.rb: don't use ENV['SERVER_PORT']. (ENV['HTTP_HOST'] includes port number.)
+
+2003-05-03 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-send.rb: Add methods for customizing messages.
+	* trackback/tb.rb: remove classes for TrackBack.
+
+2003-05-01 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-send.rb: shorten excerpt to about 255bytes.
+
+2003-04-30 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-show.rb: show TrackBacked time.
+
+2003-04-29 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb-show.rb: make anchor to TrackBack Ping URL.
+	* trackback/tb-send.rb: change separator of CGI parameters from ';' to '&'. now it works with b2.
+
+2003-04-28 TADA Tadashi <sho@spc.gr.jp>
+	* makelirs.rb: enable running on secure mode.
+
+2003-04-28 TADA Tadashi <sho@spc.gr.jp>
+	* trackback/tb-show.rb, tb.rb: fix some security holes.
+	* trackback/tb-show.rb: show ping url under 'add TSUKKOMI'.
+	* trackback/tb-show.rb: support name based virtual host and root directory.
+	* trackback/tb-send.rb: change name attr of fields for edit_proc spec.
+	* trackback/tb-send.rb: independ from net/uri.
+	* trackback/tb.rb: support symlink.
+	* trackback/tb.rb: save TrackBack in visible.
+	* image.rb: fix bug when comment status change.
+	* sqeeze.rb, output_rdf.rb, makelirs.rb: enable running on secure mode.
+	* output_rdf.rb: enable running on secure mode.
+	* output_rdf.rb: support non UTF-8 when cannot load uconv.
+
+2003-04-28 Junichiro Kita <kita@kitaj.no-ip.com>
+	* trackback/tb.rb: GET request is redirected to TrackBacks(?date=yyyymmdd#t).
+
+2003-04-27 TADA Tadashi <sho@spc.gr.jp>
+	* trackback/tb-show.rb: support TrackBack hide and ruby 1.8.
+
+2003-04-27 Junichiro Kita <kita@kitaj.no-ip.com>
+	* add trackback/*.
+
+2003-04-25 TADA Tadashi <sho@spc.gr.jp>
+	* image: maxnum and maxsize effective in secure mode.
+	* image: add JavaScript for insert plugin tag into diary. thanks Yoshimi KURUMA <yoshimik@iris.dti.ne.jp>.
+	* image: show message when upload failed.
+
+2003-04-24 TADA Tadashi <sho@spc.gr.jp>
+	* image: enable running on secure mode.
+
+2003-04-24 TADA Tadashi <sho@spc.gr.jp>
+	* add image.rb into plugin collection.
+
+2003-04-23 TADA Tadashi <sho@spc.gr.jp>
+	* amazon: add some comments to description of parameters.
+
+2003-04-19 TADA Tadashi <sho@spc.gr.jp>
+	* add jdate.rb.
+
+2003-04-18 TADA Tadashi <sho@spc.gr.jp>
+	* add comment_mail-{smtp,qmail,sendmail}.rb.
+
+2003-04-16 TADA Tadashi <sho@spc.gr.jp>
+	* dropdown_calendar: fix p.calendar -> div.calendar.
+	* dropdown_calendar: support @options['dropdown_calendar.label'].
+
+2003-03-04 TADA Tadashi <sho@spc.gr.jp>
+	* follow to changing book title style in Amazon's HTML.
+
+2003-03-28 TADA Tadashi <sho@spc.gr.jp>
+	* add referer-antibot.rb and referer-utf8.rb.
+
+2003-03-22 Minero Aoki <aamine@loveruby.net>
+	* a/a_conf.rb, bq.rb, kw.rb, nazo.rb, recent_comment3.rb, todo/todo.rb: remove warning on ruby 1.8.
+
+2003-03-08 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
+	* makelirs.rb: set TD. Thanks koyasu san.
+
+2003-03-04 TADA Tadashi <sho@spc.gr.jp>
+	* support ruby 1.8.0 preview2.
+
+2003-03-03 MUTOH Masao <mutoh@highway.ne.jp>
+	* a.rb: Added.
+
+2003-03-03 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
+	* output_rdf.rb: validate by RSS 1.0 <http://www.redland.opensource.ac.uk/rss/>
+	  Thanks Kakutani san. (see http://www.tdiary.net/archive/devel/msg00581.html)
+
+2003-02-09 Junichiro Kita <kita@kitaj.no-ip.com>
+	* merge from amazon2.rb. see http://kuwa.s26.xrea.com/b/20030211.html
+
+2003-01-27 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
+	* output_rdf.rb: reorder apply_plugin.
+
+2003-01-21 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
+	* output_rdf.rb: no requirement of diary.rrdf.
+	* output_rdf.rb: rss version 1.0.
+
+2003-01-13 TADA Tadashi <sho@spc.gr.jp>
+	* for ruby 1.6.8. thanks woods <sodium@da2.so-net.ne.jp>.
+
+2003-01-11 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
+	* output_rdf.rb: use Plugin#apply_plugin.
+	* output_rdf.rb: compatible defaultio
+
+2003-01-09 MUTOH Masao <mutoh@highway.ne.jp>
+	* my-ex.rb: Improve to show the anchor's title of section.subtitle.
+
+2003-01-02 Kazuhiko  <kazuhiko@fdiary.net>
+	* nazo.rb (nazo): Add 'type="text/javascript"' for valid html output. Revise URI of FAQ.
+
+2002-11-28 TADA Tadashi <sho@spc.gr.jp>
+	* HTML 4.01 Strict support.
+
+2002-10-28 zoe <zoe@kasumi.sakura.ne.jp>
+	* makelirs.rb: merge 1.4. Thanks koyasu san.
+
+2002-10-13 MUTOH Masao <mutoh@highway.ne.jp>
+	* search_form.rb: fix in Google search.
+	* search_form.rb: insert image into Yahoo search.
+	* search_form.rb: remove Lycos search. All of them were pointed out by patagon.
+	* search_form.rb: version 1.0.2
+
+2002-10-06 TADA Tadashi <http://sho.tdiary.net/>
+	* makelirs.rb: for tDiary 1.5.0.20021003.
+
+2002-09-01 Junichiro Kita <kita@kitaj.no-ip.com>
+	* change URL for images.
+
+2002-07-09 TADA Tadashi <sho@spc.gr.jp>
+	* follow chaging of title format in amazon.
+
+2002-05-19 MUTOH Masao <mutoh@highway.ne.jp>
+	* search_form.rb: document update.
+	* search_form.rb: version 1.0.1
+
+2002-05-05 TADA Tadashi <http://sho.tdiary.net/>
+	* makelirs.rb: support @options.
+
+2002-05-04 Kazuhiro NISHIYAMA <zn@mbf.nifty.com>
+	* makelirs.rb: create.
+
+2002-04-01 MUTOH Masao <mutoh@highway.ne.jp>
+	* search_form.rb: tab = 3, change document format.
+
+2002-03-24 MUTOH Masao <mutoh@highway.ne.jp>
+	* search_form.rb: support Namazu, Google, Yahoo!, Lycos
+	* search_form.rb: version 1.0.0
