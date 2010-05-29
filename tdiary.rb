@@ -11,6 +11,10 @@ TDIARY_VERSION = '2.3.3.20100515'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
+Dir.glob(File::dirname( __FILE__ ).untaint + '/vendor/*/lib') do |dir|
+	$:.insert( 1, dir )
+end
+
 require 'cgi'
 require 'uri'
 begin
@@ -557,7 +561,7 @@ module TDiary
 		def load
 			@secure = true unless @secure
 			@options = {}
-			eval( File::open( "tdiary.conf" ){|f| f.read }.untaint, binding, "(tdiary.conf)", 1 )
+			load_tdiary_config
 
 			# language setup
 			@lang = 'ja' unless @lang
@@ -669,6 +673,25 @@ module TDiary
 				end
 				eval( def_vars2, b )
 			rescue IOError, Errno::ENOENT
+			end
+		end
+
+		private
+		def load_tdiary_config
+			eval( File::open( tdiary_config_file_path ) {
+					|f| f.read }.untaint, b, "(#{tdiary_config_file_path})", 1 )
+		end
+
+		def tdiary_config_file_path
+			return @tdiary_config_file_path if @tdiary_config_file_path
+			@tdiary_config_file_path = default_tdiary_conf_path
+		end
+
+		def default_tdiary_conf_path
+			if defined?( ::Rack )
+				"tdiary.conf.rack"
+			else
+				"tdiary.conf"
 			end
 		end
 

@@ -1,0 +1,8 @@
+.bundle
+coverage.aggregate
+capybara-*.html
+data
+coverage
+tmp
+rdoc
+index.rdf

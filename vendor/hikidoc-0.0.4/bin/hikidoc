@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+
+require 'hikidoc'
+require 'optparse'
+require 'erb'
+
+HTML_TEMPLATE = <<EOS
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title><%= title %></title>
+</head>
+<body>
+<%= body %>
+</body>
+</html>
+EOS
+
+options = {}
+format_options = {}
+ARGV.options do |opts|
+  opts.banner = "Usage: #$0 [OPTIONS] FILE"
+
+  opts.on('-f', '--fragment',
+          'Output HTML fragments only') do
+    options[:fragment] = true
+  end
+  opts.on('-t', '--template=TEMPLATE',
+         'Specify a HTML template file') do |template|
+    options[:template] = template
+  end
+  opts.on('--no-wikiname', 'Disable WikiName link') do
+    format_options[:use_wiki_name] = false
+  end
+
+  opts.parse!
+end
+
+case ARGV.size
+when 0
+  title, text = '-', $stdin.read
+when 1
+  title, text = ARGV[0], File.read(ARGV[0])
+else
+  usage
+end
+
+body = HikiDoc.to_html(text, format_options)
+
+def result(erb, title, body, text)
+  erb.result(binding)
+end
+
+if options[:fragment]
+  puts(body)
+else
+  template = options[:template]
+  if template
+    source = File.read(template)
+  else
+    source = HTML_TEMPLATE
+  end
+  erb = ERB.new(source)
+  erb.filename = template
+  puts(result(erb, title, body, text))
+end
