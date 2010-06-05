@@ -106,15 +106,14 @@ end
 =begin
 == Safe module
 =end
-require 'thread'
 module Safe
 	def safe( level = 4 )
 		result = nil
 		if $SAFE < level then
-			Thread.start {
+			Proc.new {
 				$SAFE = level
 				result = yield
-			}.join
+			}.call
 		else
 			result = yield
 		end
