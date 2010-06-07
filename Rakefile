@@ -18,11 +18,16 @@ task :default => :spec
 
 desc "Run specs"
 task :spec do |t|
-	Rake::Task["spec:plugin"].invoke
-	Rake::Task["spec:acceptance"].invoke
+	Rake::Task["spec:all"].invoke
 end
 
 namespace :spec do
+	desc 'Run the code in spec'
+	Spec::Rake::SpecTask.new(:all) do |t|
+		t.spec_files = FileList['spec/**/*_spec.rb']
+		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+	end
+
 	desc 'Run the code examples in spec/plugin'
 	Spec::Rake::SpecTask.new(:plugin) do |t|
 		t.spec_files = FileList['spec/plugin/**/*_spec.rb']
