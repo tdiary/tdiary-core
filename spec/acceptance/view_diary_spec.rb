@@ -6,11 +6,17 @@ feature '日記を読む' do
 		setup_tdiary
 	end
 
-	scenario do
+	scenario '最新の日記の表示' do
 		visit '/'
 		within('title') { page.should have_content('【日記のタイトル】') }
 		within('h1') { page.should have_content('【日記のタイトル】') }
 		page.should have_css('a[href="update.rb"]')
 		page.should have_css('a[href="update.rb?conf=default"]')
 	end
+
+	scenario 'n日前の日記をまとめて表示'
+
+	scenario '月またぎの日記の表示'
+
+	scenario '指定をした日を表示'
 end
