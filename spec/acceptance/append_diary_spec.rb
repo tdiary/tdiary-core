@@ -111,4 +111,25 @@ BODY
 			page.should have_content "とみせかけてtDiary:-)"
 		}
 	end
+
+	scenario '日記のプレビュー' do
+		visit '/update.rb'
+		within('div.day div.form') {
+			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+			within('div.textarea') {
+				fill_in "body", :with => <<-BODY
+!さて、テストである。
+とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
+BODY
+			}
+		}
+
+		click 'プレビュー'
+
+		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day div.section'){
+			within('h3') { page.should have_content "さて、テストである。" }
+			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+		}
+	end
 end
