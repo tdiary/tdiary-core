@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require File.expand_path('../acceptance_helper', __FILE__)
 
-feature '日記の更新' do
+feature '日記の追記' do
 	background do
 		setup_tdiary
 	end
