@@ -14,9 +14,15 @@ feature '日記を読む' do
 		page.should have_css('a[href="update.rb?conf=default"]')
 	end
 
-	scenario 'n日前の日記をまとめて表示'
-
 	scenario '月またぎの日記の表示'
 
+	scenario 'n日前の日記をまとめて表示'
+
+	scenario 'n年日記機能を表示'
+
 	scenario '指定をした日を表示'
+
+	scenario '1年を表示'
+
+	scenario '1ヶ月を表示'
 end
