@@ -42,7 +42,7 @@ BODY
 		visit "/?date=#{Date.today.strftime("%Y%m%d")}"
 		within('div.day div.comment div.commentbody') { 
 			within('div.commentator'){
-				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-') }
+				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
 				within('span.commentator'){ page.should have_content "alpha" }
 			}
 			page.should have_content "こんにちは!こんにちは!"
@@ -82,7 +82,7 @@ BODY
 		visit "/?date=#{Date.today.strftime("%Y%m%d")}"
 		within('div.day div.comment div.commentbody') {
 			within('div.commentator'){
-				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-') }
+				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
 				within('span.commentator'){ page.should have_content "alpha" }
 				within('span.commentator'){ page.should have_content "bravo" }
 			}
