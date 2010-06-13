@@ -48,10 +48,14 @@ if "".respond_to?('force_encoding')
 			rescue PStoreRuby18Exception => e
 				# first loaded the pstore file (it's created by Ruby-1.8)
 				File.open(@filename, RDWR_ACCESS) {|f|
+					f.flock(File::LOCK_EX)
 					table = Marshal::load(f)
 					table[:__ruby_version] = RUBY_VERSION
-					f.rewind
-					Marshal::dump(table, f)
+					if on_windows?
+						save_data_with_fast_strategy(Marshal::dump(table), f)
+					else
+						save_data_with_atomic_file_rename_strategy(Marshal::dump(table), f)
+					end
 				}
 				retry
 			end
