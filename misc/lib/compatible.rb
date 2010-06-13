@@ -67,7 +67,7 @@ if "".respond_to?('force_encoding')
 		private
 		def load(content)
 			table = Marshal::load(content)
-			raise PStoreRuby18Exception.new if !table[:__ruby_version] || table[:__ruby_version] < RUBY_VERSION 
+			raise PStoreRuby18Exception.new if !table[:__ruby_version] || table[:__ruby_version] < '1.9'
 			# hide __ruby_version to caller
 			table.delete(:__ruby_version)
 			table
