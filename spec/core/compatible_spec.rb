@@ -2,7 +2,6 @@
 
 require 'tempfile'
 require 'pstore'
-require 'misc/lib/compatible'
 
 class String
 	def to_8bit
@@ -17,13 +16,14 @@ describe String do
 end
 
 describe PStore, "auto convert library" do
-	before(:each) do
+	before do
 		@dbfile = Tempfile.new("compatible_spec")
 		PStore.new(@dbfile).transaction do |db|
 			db["key1".to_8bit] = "val1".to_8bit
 			db["key2".to_8bit] = 2
 			db["key3".to_8bit] = [1, :sym, "string".to_8bit]
 		end
+		require 'misc/lib/compatible'
 	end
 
 	if "".respond_to?(:force_encoding)
