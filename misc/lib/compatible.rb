@@ -40,13 +40,18 @@ if "".respond_to?('force_encoding')
 	class PStore
 		private
 		def load(content)
-			load_proc = proc {|obj|
-				if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
-					obj.force_encoding('UTF-8')
-				end
-				obj
-			}
-			Marshal::load(content, load_proc)
+			table = Marshal::load(content)
+			if !table[:__ruby_version] || table[:__ruby_version] < '1.9'
+				load_proc = proc {|obj|
+					if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
+						obj.force_encoding('UTF-8')
+					end
+					obj
+				}
+				table = Marshal::load(content, load_proc)
+				table[:__ruby_version] = RUBY_VERSION
+			end
+			table
 		end
 	end
 end
