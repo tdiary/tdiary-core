@@ -47,8 +47,14 @@ if "".respond_to?('force_encoding')
 				compatible_transaction_original(*args, &block)
 			rescue PStoreRuby18Exception => e
 				# first loaded the pstore file (it's created by Ruby-1.8)
+				# force convert ASCII_8BIT pstore data to UTF_8
 				file = open_and_lock_file(@filename, false)
-				table = Marshal::load(file)
+				table = Marshal::load(file, proc {|obj|
+					if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
+						obj.force_encoding('UTF-8')
+					end
+					obj
+				})
 				table[:__ruby_version] = RUBY_VERSION
 				if on_windows?
 					save_data_with_fast_strategy(Marshal::dump(table), file)
@@ -59,22 +65,12 @@ if "".respond_to?('force_encoding')
 			end
 		end
 
-		# (1) force convert ASCII_8BIT pstore data if @force_convert_8bit_data == true
-		# (2) raise PStoreRuby18Exception if not found __ruby_version
 		private
 		def load(content)
 			table = Marshal::load(content)
-			if !table[:__ruby_version] || table[:__ruby_version] < '1.9'
+			if !table[:__ruby_version] || table[:__ruby_version] < RUBY_VERSION 
 				raise PStoreRuby18Exception.new
 			else
-				# only convert ASCII_8BIT to UTF_8
-				load_proc = proc {|obj|
-					if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
-						obj.force_encoding('UTF-8')
-					end
-					obj
-				}
-				table = Marshal::load(content, load_proc)
 				# hide __ruby_version to caller
 				table.delete(:__ruby_version)
 			end
