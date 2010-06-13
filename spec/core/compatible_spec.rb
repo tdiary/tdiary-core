@@ -17,7 +17,7 @@ end
 
 describe PStore, "auto convert library" do
 	before do
-		@dbfile = Tempfile.new("compatible_spec")
+		@dbfile = Tempfile.new("compatible_spec").path
 		PStore.new(@dbfile).transaction do |db|
 			db["key1".to_8bit] = "val1".to_8bit
 			db["key2".to_8bit] = 2
