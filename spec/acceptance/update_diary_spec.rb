@@ -6,9 +6,7 @@ feature '日記の更新' do
 		setup_tdiary
 	end
 
-	scenario '特定の日記の内容を更新する'
-
-	scenario '日記の削除' do
+	scenario '特定の日記の内容を更新する' do
 		visit '/'
 		click '追記'
 		within('div.day div.form') {
@@ -68,5 +66,34 @@ BODY
 		}
 	end
 
-	scenario '日記を隠す'
+	scenario '日記の削除' do
+		append_default_diary
+		visit '/'
+		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click '編集'
+
+		within('div.day div.form') {
+			within('div.textarea') { fill_in "body", :with => '' }
+		}
+
+		click_button "登録"
+		page.should have_content "Click here!"
+
+		visit '/'
+		within('div.day') { page.should have_no_css('h3') }
+	end
+
+	scenario '日記を隠す' do
+		append_default_diary
+		visit '/'
+		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click '編集'
+		check 'hide'
+
+		click_button "登録"
+		page.should have_content "Click here!"
+
+		visit '/'
+		page.should have_no_css('div[class="day"]')
+	end
 end
