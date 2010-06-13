@@ -37,8 +37,7 @@ end
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
 if "".respond_to?('force_encoding')
 	require 'pstore'
-	class PStoreRuby18Exception < Exception
-	end
+	class PStoreRuby18Exception < Exception end
 
 	class PStore
 		alias compatible_transaction_original transaction unless defined?(compatible_transaction_original)
@@ -68,12 +67,9 @@ if "".respond_to?('force_encoding')
 		private
 		def load(content)
 			table = Marshal::load(content)
-			if !table[:__ruby_version] || table[:__ruby_version] < RUBY_VERSION 
-				raise PStoreRuby18Exception.new
-			else
-				# hide __ruby_version to caller
-				table.delete(:__ruby_version)
-			end
+			raise PStoreRuby18Exception.new if !table[:__ruby_version] || table[:__ruby_version] < RUBY_VERSION 
+			# hide __ruby_version to caller
+			table.delete(:__ruby_version)
 			table
 		end
 
