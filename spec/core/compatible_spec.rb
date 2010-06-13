@@ -17,7 +17,7 @@ describe String do
 end
 
 describe PStore, "auto convert library" do
-	before(:each) do
+	before do
 		@dbfile = Tempfile.new("compatible_spec")
 		PStore.new(@dbfile).transaction do |db|
 			db["key1".to_8bit] = "val1".to_8bit
@@ -29,9 +29,6 @@ describe PStore, "auto convert library" do
 	if "".respond_to?(:force_encoding)
 		it "should convert an encoding to UTF-8 automatically" do
 			PStore.new(@dbfile).transaction do |db|
-				db.roots.each do |key|
-					# key.encoding.should == Encoding::UTF_8
-				end
 				db["key1"].encoding.should == Encoding::UTF_8
 				db["key2"].should  == 2
 				db["key3"][2].encoding.should  == Encoding::UTF_8
