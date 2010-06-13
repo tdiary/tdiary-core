@@ -8,7 +8,6 @@ feature '基本設定の利用' do
 
 	scenario 'サイトの情報の設定' do
 		visit '/'
-
 		click '追記'
 		click '設定'
 		click 'サイトの情報'
@@ -43,7 +42,6 @@ feature '基本設定の利用' do
 
 	scenario 'ヘッダ・フッタの設定' do
 		visit '/'
-
 		click '追記'
 		click '設定'
 		click 'ヘッダ・フッタ'
@@ -86,7 +84,6 @@ FOOTER
 
 	scenario 'ログレベルの選択の設定' do
 		visit '/'
-
 		click '追記'
 		click '設定'
 		click 'ログレベル選択'
@@ -110,7 +107,6 @@ FOOTER
 
 	scenario '時差調整が保存される' do
 		visit '/'
-
 		click '追記'
 		click '設定'
 		click '時差調整'
@@ -134,8 +130,4 @@ FOOTER
 	end
 
 	scenario 'テーマ選択が保存される'
-
-	scenario 'ツッコミが保存される'
-
-	scenario 'リンク元が保存される'
 end

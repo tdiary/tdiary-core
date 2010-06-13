@@ -10,7 +10,6 @@ feature '日記の更新' do
 
 	scenario '日記の削除' do
 		visit '/'
-
 		click '追記'
 		within('div.day div.form') {
 			within('span.year') { fill_in "year", :with => '2001' }
@@ -27,9 +26,12 @@ feature '日記の更新' do
 BODY
 			}
 		}
-		click_button "追記"
 
-		visit '/index.rb?date=20010423'
+		click_button "追記"
+		page.should have_content "Click here!"
+
+		visit '/'
+		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') {
@@ -49,9 +51,12 @@ BODY
 BODY
 			}
 		}
-		click_button "登録"
 
-		visit '/index.rb?date=20010423'
+		click_button "登録"
+		page.should have_content "Click here!"
+
+		visit '/'
+		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') {

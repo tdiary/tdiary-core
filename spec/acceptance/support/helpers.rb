@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module HelperMethods
 	def setup_tdiary
 		fixture_conf = File.expand_path("../../fixtures/just_installed/tdiary.conf", File.dirname(__FILE__))
@@ -6,6 +7,18 @@ module HelperMethods
 
 		FileUtils.mkdir work_data_dir
 		FileUtils.cp_r fixture_conf, work_data_dir, :verbose => false unless fixture_conf.empty?
+	end
+
+	def append_default_diary
+		visit '/'
+
+		click '追記'
+		fill_in "title", :with => "tDiaryのテスト"
+		fill_in "body", :with => <<-BODY
+!さて、テストである。
+とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
+BODY
+		click_button "追記"
 	end
 end
 

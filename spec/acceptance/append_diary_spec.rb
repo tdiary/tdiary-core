@@ -7,7 +7,8 @@ feature '日記の追記' do
 	end
 
 	scenario '更新画面のデフォルト表示' do
-		visit '/update.rb'
+		visit '/'
+		click '追記'
 		page.should have_content('日記の更新')
 
 		y, m, d = Date.today.to_s.split('-').map {|t| t.sub(/^0+/, "") }
@@ -19,8 +20,8 @@ feature '日記の追記' do
 	end
 
 	scenario '今日の日記を書く' do
-		visit '/update.rb'
-
+		visit '/'
+		click '追記'
 		within('div.day div.form') {
 			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
 			within('div.textarea') {
@@ -41,7 +42,7 @@ BODY
 			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 		}
 
-		visit "/?date=#{Date.today.strftime("%Y%m%d")}"
+		click "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }
@@ -50,8 +51,8 @@ BODY
 	end
 
 	scenario '日付を指定して新しく日記を書く' do
-		visit '/update.rb'
-
+		visit '/'
+		click '追記'
 		within('div.day div.form') {
 			within('span.year') { fill_in "year", :with => '2001' }
 			within('span.month') { fill_in "month", :with => '4' }
@@ -68,7 +69,8 @@ BODY
 		click_button "追記"
 		page.should have_content "Click here!"
 
-		visit '/index.rb?date=20010423'
+		visit '/'
+		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }
@@ -77,7 +79,8 @@ BODY
 	end
 
 	scenario '今日の日記を追記する' do
-		visit '/update.rb'
+		visit '/'
+		click '追記'
 		within('div.day div.form') {
 			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
 			within('div.textarea') {
@@ -87,9 +90,12 @@ BODY
 BODY
 			}
 		}
-		click_button "追記"
 
-		visit '/update.rb'
+		click_button "追記"
+		page.should have_content "Click here!"
+
+		visit '/'
+		click '追記'
 		within('div.day div.form') {
 			within('div.title') { fill_in "title", :with => "Hikiのテスト" }
 			within('div.textarea') {
@@ -99,7 +105,9 @@ BODY
 BODY
 			}
 		}
+
 		click_button "追記"
+		page.should have_content "Click here!"
 
 		visit '/'
 		within('div.day span.title'){ page.should have_content "Hikiのテスト" }
@@ -113,7 +121,8 @@ BODY
 	end
 
 	scenario '日記のプレビュー' do
-		visit '/update.rb'
+		visit '/'
+		click '追記'
 		within('div.day div.form') {
 			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
 			within('div.textarea') {
@@ -125,7 +134,6 @@ BODY
 		}
 
 		click 'プレビュー'
-
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }
