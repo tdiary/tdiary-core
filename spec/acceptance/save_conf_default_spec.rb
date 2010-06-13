@@ -12,7 +12,6 @@ feature '基本設定の利用' do
 		click '追記'
 		click '設定'
 		click 'サイトの情報'
-
 		fill_in "author_name", :with => "ただただし"
 		fill_in "html_title", :with => "ただの日記"
 		fill_in "author_mail", :with => "t@tdtds.jp"
@@ -23,19 +22,15 @@ feature '基本設定の利用' do
 		#fill_in "banner", :with => "http://sho.tdiary.net/images/banner.png"
 
 		click_button "OK"
-
 		within('title') { page.should have_content('(設定完了)') }
-		save_and_open_page
 
 		click '最新'
-
 		# TODO その他の項目の反映を確認
 		within('title') { page.should have_content('ただの日記') }
 
 		click '追記'
 		click '設定'
 		click 'サイトの情報'
-
 		page.should have_field "author_name", :with => "ただただし"
 		page.should have_field "html_title", :with => "ただの日記"
 		page.should have_field "author_mail", :with => "t@tdtds.jp"
@@ -52,7 +47,6 @@ feature '基本設定の利用' do
 		click '追記'
 		click '設定'
 		click 'ヘッダ・フッタ'
-
 		fill_in "header", :with => <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
@@ -66,18 +60,15 @@ bravo
 FOOTER
 
 		click_button "OK"
-
 		within('title') { page.should have_content('(設定完了)') }
 
 		click '最新'
-		
 		within('h1') { page.should have_content('alpha') }
 		within('div.sidebar') { page.should have_content('bravo')}
 
 		click '追記'
 		click '設定'
 		click 'ヘッダ・フッタ'
-
 		page.should have_field "header", :with => <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
@@ -94,26 +85,25 @@ FOOTER
 	scenario '表示一版の設定'
 
 	scenario 'ログレベルの選択の設定' do
-		pending
 		visit '/'
 
 		click '追記'
 		click '設定'
 		click 'ログレベル選択'
-
-		select 'DEBUG'
+		select 'DEBUG', :from => 'log_level'
 
 		click_button "OK"
-
 		within('title') { page.should have_content('(設定完了)') }
 
 		click '最新'
-		
 		# TODO ログレベルの確認
 
 		click '追記'
 		click '設定'
 		click 'ログレベル選択'
+		within('select option[selected]'){
+			page.should have_content 'DEBUG'
+		}
 
 	end
 

@@ -34,7 +34,7 @@ specs:
 - json_pure: 
     version: 1.4.3
 - selenium-webdriver: 
-    version: 0.0.20
+    version: 0.0.22
 - capybara: 
     version: 0.3.8
     source: 0
