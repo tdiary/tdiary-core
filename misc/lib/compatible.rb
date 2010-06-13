@@ -35,21 +35,21 @@ unless "".respond_to?('each')
 end
 
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
-if "".respond_to?('force_encoding')
-	require 'pstore'
-	class PStore
-		private
-		def load(content)
-			load_proc = proc {|obj|
-				if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
-					obj.force_encoding('UTF-8')
-				end
-				obj
-			}
-			Marshal::load(content, load_proc)
-		end
-	end
-end
+#if "".respond_to?('force_encoding')
+#	require 'pstore'
+#	class PStore
+#		private
+#		def load(content)
+#			load_proc = proc {|obj|
+#				if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
+#					obj.force_encoding('UTF-8')
+#				end
+#				obj
+#			}
+#			Marshal::load(content, load_proc)
+#		end
+#	end
+#end
 
 # Ruby1.9では String が Enumerable ではなくなった
 class String
