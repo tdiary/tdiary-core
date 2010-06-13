@@ -50,7 +50,8 @@ if "".respond_to?('force_encoding')
 				File.open(@filename, RDWR_ACCESS) {|f|
 					table = Marshal::load(f)
 					table[:__ruby_version] = RUBY_VERSION
-					Marshal::dump(table, @filename)
+					f.rewind
+					Marshal::dump(table, f)
 				}
 				retry
 			end
