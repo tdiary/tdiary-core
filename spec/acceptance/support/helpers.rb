@@ -19,6 +19,18 @@ module HelperMethods
 とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
 BODY
 		click_button "追記"
+		page.should have_content "Click here!"
+	end
+
+	def append_default_comment
+		visit "/"
+		click 'ツッコミを入れる'
+		fill_in "name", :with => "alpha"
+		fill_in "body", :with => <<-BODY
+こんにちは!こんにちは!
+BODY
+		click_button '投稿'
+		page.should have_content "Click here!"
 	end
 end
 

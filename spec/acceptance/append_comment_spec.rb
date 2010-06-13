@@ -38,16 +38,7 @@ BODY
 
 	scenario 'ツッコミを2回入れる' do
 		append_default_diary
-		visit '/'
-		click 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
-こんにちは!こんにちは!
-BODY
-
-		click_button '投稿'
-		page.should have_content "Click here!"
-
+		append_default_comment
 		visit "/"
 		click 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"

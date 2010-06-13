@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require File.expand_path('../acceptance_helper', __FILE__)
 
-feature 'リンク元の管理' do
+feature 'リンク元設定の利用' do
 	background do
 		setup_tdiary
 	end
