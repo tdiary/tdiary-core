@@ -104,12 +104,34 @@ FOOTER
 		within('select option[selected]'){
 			page.should have_content 'DEBUG'
 		}
-
 	end
 
 	scenario 'プラグイン選択の設定'
 
-	scenario '時差調整が保存される'
+	scenario '時差調整が保存される' do
+		visit '/'
+
+		click '追記'
+		click '設定'
+		click '時差調整'
+		fill_in 'hour_offset', :with => '-24'
+
+		click_button "OK"
+		within('title') { page.should have_content('(設定完了)') }
+
+		click '追記'
+		y, m, d = (Date.today - 1).to_s.split('-').map {|t| t.sub(/^0+/, "") }
+		within('div.day div.form') {
+			within('span.year') { page.should have_field('year', :with => y) }
+			within('span.month') { page.should have_field('month', :with => m) }
+			within('span.day') { page.should have_field('day', :with => d) }
+		}
+
+		click '設定'
+		click '時差調整'
+
+		page.should have_field('hour_offset', :with => '-24.0')
+	end
 
 	scenario 'テーマ選択が保存される'
 
