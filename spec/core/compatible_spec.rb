@@ -35,6 +35,11 @@ describe PStore, "auto convert library" do
 			end
 		end
 
+		it "1回目のtransactionではMashal.loadが3回呼ばれる" do
+			Marshal.should_receive(:load).exactly(3).and_return({})
+			PStore.new(@dbfile).transaction {}
+		end
+
 		it "2回目のtransactionではMashal.loadが1回だけ呼ばれる" do
 			Marshal.should_receive(:load).exactly(4).and_return({})
 			PStore.new(@dbfile).transaction {}
@@ -42,4 +47,3 @@ describe PStore, "auto convert library" do
 		end
 	end
 end
-
