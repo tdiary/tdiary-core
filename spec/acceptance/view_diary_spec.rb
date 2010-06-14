@@ -14,9 +14,29 @@ feature '日記を読む' do
 		page.should have_css('a[href="update.rb?conf=default"]')
 	end
 
-	scenario '月またぎの日記の表示'
+	scenario '月またぎの日記の表示' do
+		append_default_diary('20100430')
+		append_default_diary('20100501')
 
-	scenario 'n日前の日記をまとめて表示'
+		visit '/'
+		click "#{Date.parse('20100430').strftime('%Y年%m月%d日')}"
+		within('span.adminmenu'){ page.should have_content "次の日記(#{Date.parse('20100430').strftime('%Y年%m月%d日')}})"}
+
+		click "次の日記(#{Date.parse('20100501').strftime('%Y年%m月%d日')})"
+		within('div.day') { page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
+
+	end
+
+	scenario 'n日前の日記をまとめて表示' do
+		append_default_diary('20100501')
+		append_default_diary('20100502')
+		append_default_diary('20100503')
+		append_default_diary('20100504')
+
+		visit '/'
+		
+		
+	end
 
 	scenario 'n年日記機能を表示'
 
