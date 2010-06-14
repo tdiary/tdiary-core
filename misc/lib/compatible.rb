@@ -37,7 +37,7 @@ end
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
 if "".respond_to?('force_encoding')
 	require 'pstore'
-	class PStoreRuby18Exception < Exception; end
+	class PStoreRuby18Exception < Exception end
 
 	class PStore
 		alias compatible_transaction_original transaction unless defined?(compatible_transaction_original)
