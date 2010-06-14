@@ -34,6 +34,12 @@ describe PStore, "auto convert library" do
 				db["key3"][2].encoding.should  == Encoding::UTF_8
 			end
 		end
+
+		it "2回目のtransactionではMashal.loadが1回だけ呼ばれる" do
+			Marshal.should_receive(:load).exactly(4).and_return({})
+			PStore.new(@dbfile).transaction {}
+			PStore.new(@dbfile).transaction {}
+		end
 	end
 end
 
