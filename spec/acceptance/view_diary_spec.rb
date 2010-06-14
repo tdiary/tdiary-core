@@ -18,24 +18,29 @@ feature '日記を読む' do
 		append_default_diary('20100430')
 		append_default_diary('20100501')
 
+		before_day = Date.parse('20100430').strftime('%Y年%m月%d日')
+		after_day = Date.parse('20100501').strftime('%Y年%m月%d日')
+
 		visit '/'
-		click "#{Date.parse('20100430').strftime('%Y年%m月%d日')}"
-		within('span.adminmenu'){ page.should have_content "次の日記(#{Date.parse('20100430').strftime('%Y年%m月%d日')}})"}
+		click "#{before_day}"
+		within('span.adminmenu'){ page.should have_content "次の日記(#{after_day})"}
 
-		click "次の日記(#{Date.parse('20100501').strftime('%Y年%m月%d日')})"
-		within('div.day') { page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
+		click "次の日記(#{after_day})"
+		within('div.day') { page.should have_content "#{after_day}" }
+		within('span.adminmenu'){ page.should have_content "前の日記(#{before_day})"}
 
+		click "前の日記(#{before_day})"
+		within('div.day') { page.should have_content "#{before_day}" }
 	end
 
 	scenario 'n日前の日記をまとめて表示' do
-		append_default_diary('20100501')
-		append_default_diary('20100502')
-		append_default_diary('20100503')
-		append_default_diary('20100504')
+		1.upto(11) {|i| append_default_diary("201005%02d" % i) }
 
 		visit '/'
-		
-		
+		within('div.day') { page.should have_no_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
+
+		click "前10日分"
+		within('div.day') { page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
 	end
 
 	scenario 'n年日記機能を表示'

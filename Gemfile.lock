@@ -48,7 +48,7 @@ specs:
     version: 1.3.0
 - steak: 
     version: 0.3.8
-hash: 4ba587cc33c92ba7d8bb8ef9c070fb1dd8f46cc1
+hash: 203c26b02a86f7acd26c0a25f4a95dc786d720bf
 sources: 
 - Git: 
     uri: http://github.com/ursm/capybara.git
