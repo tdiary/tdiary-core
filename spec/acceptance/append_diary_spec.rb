@@ -20,20 +20,7 @@ feature '日記の追記' do
 	end
 
 	scenario '今日の日記を書く' do
-		visit '/'
-		click '追記'
-		within('div.day div.form') {
-			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
-!さて、テストである。
-とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
-BODY
-			}
-		}
-
-		click_button "追記"
-		page.should have_content "Click here!"
+		append_default_diary
 
 		visit '/'
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
@@ -51,23 +38,7 @@ BODY
 	end
 
 	scenario '日付を指定して新しく日記を書く' do
-		visit '/'
-		click '追記'
-		within('div.day div.form') {
-			within('span.year') { fill_in "year", :with => '2001' }
-			within('span.month') { fill_in "month", :with => '4' }
-			within('span.day') { fill_in "day", :with => '23' }
-			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
-!さて、テストである。
-とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
-BODY
-			}
-		}
-
-		click_button "追記"
-		page.should have_content "Click here!"
+		append_default_diary('2001-04-23')
 
 		visit '/'
 		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
@@ -79,20 +50,7 @@ BODY
 	end
 
 	scenario '今日の日記を追記する' do
-		visit '/'
-		click '追記'
-		within('div.day div.form') {
-			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
-!さて、テストである。
-とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
-BODY
-			}
-		}
-
-		click_button "追記"
-		page.should have_content "Click here!"
+		append_default_diary
 
 		visit '/'
 		click '追記'

@@ -9,15 +9,22 @@ module HelperMethods
 		FileUtils.cp_r fixture_conf, work_data_dir, :verbose => false unless fixture_conf.empty?
 	end
 
-	def append_default_diary
+	def append_default_diary(ymd = Date.today.to_s)
+		y, m, d = Date.parse(ymd).to_s.split('-').map {|t| t.sub(/^0+/, "") }
 		visit '/'
-
 		click '追記'
-		fill_in "title", :with => "tDiaryのテスト"
-		fill_in "body", :with => <<-BODY
+		within('div.day div.form') {
+			within('span.year') { fill_in "year", :with => y }
+			within('span.month') { fill_in "month", :with => m }
+			within('span.day') { fill_in "day", :with => d }
+			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+			within('div.textarea') {
+				fill_in "body", :with => <<-BODY
 !さて、テストである。
 とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
 BODY
+			}
+		}
 		click_button "追記"
 		page.should have_content "Click here!"
 	end
