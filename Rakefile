@@ -28,6 +28,12 @@ namespace :spec do
 		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
 	end
 
+	desc 'Rub the code examples in spec/core'
+	Spec::Rake::SpecTask.new(:core) do |t|
+		t.spec_files = FileList['spec/core/**/*_spec.rb']
+		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+	end
+
 	desc 'Run the code examples in spec/plugin'
 	Spec::Rake::SpecTask.new(:plugin) do |t|
 		t.spec_files = FileList['spec/plugin/**/*_spec.rb']
