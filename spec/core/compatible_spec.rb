@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+if RUBY_VERSION > '1.9'
 require 'tempfile'
 require 'pstore'
 
@@ -46,4 +47,5 @@ describe PStore, "auto convert library" do
 			PStore.new(@dbfile).transaction {}
 		end
 	end
+end
 end
