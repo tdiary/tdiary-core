@@ -37,17 +37,74 @@ feature '日記を読む' do
 		1.upto(11) {|i| append_default_diary("201005%02d" % i) }
 
 		visit '/'
+		within('div.day') { page.should have_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}" }
+		within('div.day') { page.should have_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}" }
 		within('div.day') { page.should have_no_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
 
 		click "前10日分"
+		within('div.day') { page.should have_no_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}" }
+		within('div.day') { page.should have_no_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}" }
 		within('div.day') { page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
 	end
 
 	scenario 'n年日記機能を表示'
 
-	scenario '指定をした日を表示'
+	scenario '指定をした日を表示' do
+		append_default_diary('2001-04-23')
 
-	scenario '1年を表示'
+		visit '/?date=20010423'
+		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day div.section'){
+			within('h3') { page.should have_content "さて、テストである。" }
+			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+		}
+	end
 
-	scenario '1ヶ月を表示'
+	scenario '1ヶ月を表示' do
+		append_default_diary('2001-01-01')
+
+		visit '/'
+		click '追記'
+		within('div.day div.form') {
+			within('span.year') { fill_in "year", :with => 2001 }
+			within('span.month') { fill_in "month", :with => 01 }
+			within('span.day') { fill_in "day", :with => 31 }
+			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+			within('div.textarea') {
+				fill_in "body", :with => <<-BODY
+!さて、月末である。
+今月も終わる
+BODY
+			}
+		}
+		click_button "追記"
+
+		visit '/'
+		click '追記'
+		within('div.day div.form') {
+			within('span.year') { fill_in "year", :with => 2001 }
+			within('span.month') { fill_in "month", :with => 02 }
+			within('span.day') { fill_in "day", :with => 01 }
+			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+			within('div.textarea') {
+				fill_in "body", :with => <<-BODY
+!さて、月始めである。
+今月も始まる
+BODY
+			}
+		}
+		click_button "追記"
+
+		visit '/?date=200101'
+		within('div.day div.section'){
+			within('h3') {
+				page.should have_content "さて、テストである。"
+				page.should have_content "さて、月末である。"
+				page.should have_no_content "さて、月始めである。"
+			}
+			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			page.should have_content "今月も終わる"
+			page.should have_no_content "今月も始まる"
+		}
+	end
 end
