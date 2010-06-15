@@ -24,31 +24,21 @@ end
 namespace :spec do
 	desc 'Run the code in spec'
 	Spec::Rake::SpecTask.new(:all) do |t|
-		t.spec_files = FileList['spec/**/*_spec.rb']
+		t.spec_files = FileList["spec/**/*_spec.rb"]
 		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
 	end
 
-	desc 'Rub the code examples in spec/core'
-	Spec::Rake::SpecTask.new(:core) do |t|
-		t.spec_files = FileList['spec/core/**/*_spec.rb']
-		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
-	end
-
-	desc 'Run the code examples in spec/plugin'
-	Spec::Rake::SpecTask.new(:plugin) do |t|
-		t.spec_files = FileList['spec/plugin/**/*_spec.rb']
-		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
-	end
-
-	desc 'Run the code examples in spec/acceptance'
-	Spec::Rake::SpecTask.new(:acceptance) do |t|
-		t.spec_files = FileList['spec/acceptance/**/*_spec.rb']
-		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+	%w(core plugin acceptance).each do |dir|
+		desc "Rub the code examples in spec/#{dir}"
+		Spec::Rake::SpecTask.new(dir.to_sym) do |t|
+			t.spec_files = FileList["spec/#{dir}/**/*_spec.rb"]
+			t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+		end
 	end
 
 	desc 'Run specs w/ RCov'
 	Spec::Rake::SpecTask.new(:rcov) do |t|
-		t.spec_files = FileList['spec/**/*_spec.rb']
+		t.spec_files = FileList["spec/**/*_spec.rb"]
 		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
 		t.rcov = true
 		t.rcov_dir = File.expand_path("coverage/spec", File.dirname(__FILE__))
