@@ -26,7 +26,7 @@ specs:
 - nokogiri: 
     version: 1.4.2
 - rack: 
-    version: 1.2.0
+    version: 1.2.1
 - rack-test: 
     version: 0.5.4
 - ffi: 
@@ -34,7 +34,7 @@ specs:
 - json_pure: 
     version: 1.4.3
 - selenium-webdriver: 
-    version: 0.0.22
+    version: 0.0.24
 - capybara: 
     version: 0.3.8
     source: 0
