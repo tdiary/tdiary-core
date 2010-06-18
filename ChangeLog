@@ -1,3 +1,7 @@
+2010-06-15  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
+	* misc/lib/compatible.rb, spec/core/compatible_spec.rb:
+	convert encoding first time only. thx machu.
+
 2010-05-16  SHIBATA Hiroshi <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb, plugin/{ja,en,zh}/00default.rb: added recommended filter setting.
 
