@@ -80,7 +80,27 @@ bravo
 FOOTER
 	end
 
-	scenario '表示一版の設定'
+	scenario '表示一版の設定' do
+		visit '/'
+		click '追記'
+		click '設定'
+		click '表示一般'
+		fill_in 'section_anchor', :with => <<-SECTION
+<span class="sanchor">■</span>
+SECTION
+		fill_in 'comment_anchor', :with => <<-COMMENT
+<span class="canchor">#</span>
+COMMENT
+		fill_in 'date_format', :with => <<-DATE
+%Y/%m/%d
+DATE
+		fill_in 'latest_limit', :with => 1
+		select '非表示', :from => 'show_nyear'
+
+		click_button "OK"
+		within('title') { page.should have_content('(設定完了)') }
+
+	end
 
 	scenario 'ログレベルの選択の設定' do
 		visit '/'
@@ -102,8 +122,6 @@ FOOTER
 			page.should have_content 'DEBUG'
 		}
 	end
-
-	scenario 'プラグイン選択の設定'
 
 	scenario '時差調整が保存される' do
 		visit '/'
@@ -129,5 +147,26 @@ FOOTER
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
-	scenario 'テーマ選択が保存される'
+	scenario 'テーマ選択が保存される' do
+		visit '/'
+		click '追記'
+		click '設定'
+		click 'テーマ選択'
+		select 'Tdiary1', :from => 'theme'
+
+		click_button "OK"
+		within('title') { page.should have_content('(設定完了)') }
+
+		click '最新'
+		within('head') {
+			page.should have_css('link[href="theme/base.css"]')
+		}
+
+		click '追記'
+		click '設定'
+		click 'テーマ選択'
+		within('select option[selected]'){
+			page.should have_content 'Tdiary1'
+		}
+	end
 end
