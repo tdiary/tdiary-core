@@ -186,7 +186,8 @@ def image_list( date )
 	list = []
 	reg = /#{date}_(\d+)\.(#{image_ext})$/
 	begin
-		Dir::foreach( @image_dir ) do |file|
+		Dir::glob( @image_dir + "/#{date}_*" ) do |file|
+			file = File.basename( file )
 			list[$1.to_i] = file if reg =~ file
 		end
 	rescue Errno::ENOENT
