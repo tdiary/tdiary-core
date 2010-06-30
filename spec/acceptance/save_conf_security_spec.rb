@@ -193,8 +193,6 @@ BODY
 
 	scenario 'ツッコミの注意文が保存されて表示される'
 
-	scenario 'DNSBL設定が保存される'
-
 	scenario 'スパムフィルター選択が保存される'
 
 end
