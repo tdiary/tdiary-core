@@ -48,12 +48,11 @@ specs:
     version: 1.3.0
 - steak: 
     version: 0.3.8
-hash: 203c26b02a86f7acd26c0a25f4a95dc786d720bf
+hash: d87d58dbf5c5b605962dc8da40fd1d841426964f
 sources: 
 - Git: 
-    uri: http://github.com/ursm/capybara.git
-    branch: input-without-type
-    git: http://github.com/ursm/capybara.git
-    ref: 37e301200985e6aebc86ab593013c84bbcb58531
+    uri: git://github.com/jnicklas/capybara.git
+    git: git://github.com/jnicklas/capybara.git
+    ref: 35e81a434f022b1f06592b1d1f9c35a4a3f3d579
 - Rubygems: 
     uri: http://gemcutter.org
