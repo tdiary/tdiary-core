@@ -12,7 +12,7 @@ module HelperMethods
 	def append_default_diary(ymd = Date.today.to_s)
 		y, m, d = Date.parse(ymd).to_s.split('-').map {|t| t.sub(/^0+/, "") }
 		visit '/'
-		click '追記'
+		click_link '追記'
 		within('div.day div.form') {
 			within('span.year') { fill_in "year", :with => y }
 			within('span.month') { fill_in "month", :with => m }
@@ -31,7 +31,7 @@ BODY
 
 	def append_default_comment
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => <<-BODY
 こんにちは!こんにちは!

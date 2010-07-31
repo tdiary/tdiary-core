@@ -8,7 +8,7 @@ feature '日記の追記' do
 
 	scenario '更新画面のデフォルト表示' do
 		visit '/'
-		click '追記'
+		click_link '追記'
 		page.should have_content('日記の更新')
 
 		y, m, d = Date.today.to_s.split('-').map {|t| t.sub(/^0+/, "") }
@@ -29,7 +29,7 @@ feature '日記の追記' do
 			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 		}
 
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }
@@ -41,7 +41,7 @@ feature '日記の追記' do
 		append_default_diary('2001-04-23')
 
 		visit '/'
-		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
+		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }
@@ -53,7 +53,7 @@ feature '日記の追記' do
 		append_default_diary
 
 		visit '/'
-		click '追記'
+		click_link '追記'
 		within('div.day div.form') {
 			within('div.title') { fill_in "title", :with => "Hikiのテスト" }
 			within('div.textarea') {
@@ -80,7 +80,7 @@ BODY
 
 	scenario '日記のプレビュー' do
 		visit '/'
-		click '追記'
+		click_link '追記'
 		within('div.day div.form') {
 			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
 			within('div.textarea') {
@@ -91,7 +91,7 @@ BODY
 			}
 		}
 
-		click 'プレビュー'
+		click_link 'プレビュー'
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }

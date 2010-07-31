@@ -22,14 +22,14 @@ feature '日記を読む' do
 		after_day = Date.parse('20100501').strftime('%Y年%m月%d日')
 
 		visit '/'
-		click "#{before_day}"
+		click_link "#{before_day}"
 		within('span.adminmenu'){ page.should have_content "次の日記(#{after_day})"}
 
-		click "次の日記(#{after_day})"
+		click_link "次の日記(#{after_day})"
 		within('div.day') { page.should have_content "#{after_day}" }
 		within('span.adminmenu'){ page.should have_content "前の日記(#{before_day})"}
 
-		click "前の日記(#{before_day})"
+		click_link "前の日記(#{before_day})"
 		within('div.day') { page.should have_content "#{before_day}" }
 	end
 
@@ -41,7 +41,7 @@ feature '日記を読む' do
 		within('div.day') { page.should have_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}" }
 		within('div.day') { page.should have_no_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
 
-		click "前10日分"
+		click_link "前10日分"
 		within('div.day') { page.should have_no_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}" }
 		within('div.day') { page.should have_no_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}" }
 		within('div.day') { page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
@@ -64,7 +64,7 @@ feature '日記を読む' do
 		append_default_diary('2001-01-01')
 
 		visit '/'
-		click '追記'
+		click_link '追記'
 		within('div.day div.form') {
 			within('span.year') { fill_in "year", :with => 2001 }
 			within('span.month') { fill_in "month", :with => 01 }
@@ -80,7 +80,7 @@ BODY
 		click_button "追記"
 
 		visit '/'
-		click '追記'
+		click_link '追記'
 		within('div.day div.form') {
 			within('span.year') { fill_in "year", :with => 2001 }
 			within('span.month') { fill_in "month", :with => 02 }

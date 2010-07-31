@@ -16,16 +16,16 @@ feature 'spamフィルタ設定の利用' do
 		append_default_diary
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'spamフィルタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'spamフィルタ'
 		fill_in "spamfilter.max_uris", :with => 1
 
 		click_button 'OK'
 		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => <<-BODY
 こんにちは!こんにちは!
@@ -35,7 +35,7 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "body", :with => <<-BODY
 こんばんは!こんばんは!
@@ -54,16 +54,16 @@ BODY
 		append_default_diary
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'spamフィルタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'spamフィルタ'
 		fill_in "spamfilter.max_rate", :with => 50
 
 		click_button 'OK'
 		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => <<-BODY
 こんにちは!こんにちは!
@@ -73,7 +73,7 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "body", :with => <<-BODY
 こんばんは!こんばんは!
@@ -92,9 +92,9 @@ BODY
 		append_default_diary
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'spamフィルタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'spamフィルタ'
 		fill_in "spamfilter.bad_comment_patts", :with => <<-BODY
 こんにちは!
 BODY
@@ -102,7 +102,7 @@ BODY
 		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => <<-BODY
 こんにちは!こんにちは!
@@ -118,9 +118,9 @@ BODY
 		append_default_diary
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'spamフィルタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'spamフィルタ'
 		fill_in "spamfilter.bad_mail_patts", :with => <<-BODY
 example.com
 BODY
@@ -128,7 +128,7 @@ BODY
 		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "mail", :with => "admin@example.com"
 		fill_in "body", :with => <<-BODY
@@ -137,7 +137,7 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "mail", :with => "t@tdtds.jp"
 		fill_in "body", :with => <<-BODY
@@ -157,9 +157,9 @@ BODY
 		append_default_diary
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'spamフィルタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'spamフィルタ'
 		fill_in "spamfilter.bad_uri_patts", :with => <<-BODY
 example
 BODY
@@ -167,7 +167,7 @@ BODY
 		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => <<-BODY
 こんにちは! http://www.example.com
@@ -175,7 +175,7 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "body", :with => <<-BODY
 example こんにちは!

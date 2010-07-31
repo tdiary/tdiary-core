@@ -8,7 +8,7 @@ feature '日記の更新' do
 
 	scenario '特定の日記の内容を更新する' do
 		visit '/'
-		click '追記'
+		click_link '追記'
 		within('div.day div.form') {
 			within('span.year') { fill_in "year", :with => '2001' }
 			within('span.month') { fill_in "month", :with => '4' }
@@ -29,7 +29,7 @@ BODY
 		page.should have_content "Click here!"
 
 		visit '/'
-		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
+		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') {
@@ -40,7 +40,7 @@ BODY
 			page.should have_content "本当に動くかな?"
 		}
 
-		click '編集'
+		click_link '編集'
 		within('div.day div.form') {
 			within('div.textarea') {
 				fill_in "body", :with => <<-BODY
@@ -54,7 +54,7 @@ BODY
 		page.should have_content "Click here!"
 
 		visit '/'
-		click "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
+		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') {
@@ -69,8 +69,8 @@ BODY
 	scenario '日記の削除' do
 		append_default_diary
 		visit '/'
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
-		click '編集'
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link '編集'
 
 		within('div.day div.form') {
 			within('div.textarea') { fill_in "body", :with => '' }
@@ -86,8 +86,8 @@ BODY
 	scenario '日記を隠す' do
 		append_default_diary
 		visit '/'
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
-		click '編集'
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link '編集'
 		check 'hide'
 
 		click_button "登録"

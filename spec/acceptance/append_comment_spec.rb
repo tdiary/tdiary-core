@@ -9,7 +9,7 @@ feature 'ツッコミの更新' do
 	scenario 'ツッコミを入れてlatestとdayで表示する' do
 		append_default_diary
 		visit '/'
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => <<-BODY
 こんにちは!こんにちは!
@@ -26,7 +26,7 @@ BODY
 			page.should have_content "こんにちは!こんにちは!"
 		}
 
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day div.comment div.commentbody') { 
 			within('div.commentator'){
 				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
@@ -40,7 +40,7 @@ BODY
 		append_default_diary
 		append_default_comment
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "body", :with => <<-BODY
 こんばんは!こんばんは!
@@ -59,7 +59,7 @@ BODY
 			page.should have_content "こんばんは!こんばんは!"
 		}
 
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day div.comment div.commentbody') {
 			within('div.commentator'){
 				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }

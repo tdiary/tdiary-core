@@ -11,15 +11,15 @@ feature 'ツッコミ設定の利用' do
 		append_default_comment
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'ツッコミ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ツッコミ'
 		select '非表示', :from => 'show_comment'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
+		click_link '最新'
 		within('div.day div.comment') {
 			page.should have_no_css('div[class="commentshort"]')
 			page.should have_no_content "alpha"
@@ -32,7 +32,7 @@ feature 'ツッコミ設定の利用' do
 		append_default_comment
 
 		visit "/"
-		click 'ツッコミを入れる'
+		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "body", :with => <<-BODY
 こんばんは!こんばんは!
@@ -42,15 +42,15 @@ BODY
 		page.should have_content "Click here!"
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'ツッコミ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ツッコミ'
 		fill_in 'comment_limit', :with => '1'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
+		click_link '最新'
 		within('div.day div.comment div.commentshort') {
 			within('span.commentator') {
 				page.should have_no_content "alpha"
@@ -60,7 +60,7 @@ BODY
 			page.should have_content "こんばんは!こんばんは!"
 		}
 
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day div.comment div.commentbody') { 
 			within('div.commentator'){
 				within('span.commentator'){ page.should have_content "alpha" }
@@ -76,16 +76,16 @@ BODY
 		append_default_comment
 
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'ツッコミ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ツッコミ'
 		fill_in 'comment_limit_per_day', :with => '1'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
-		click "#{Date.today.strftime('%Y年%m月%d日')}"
+		click_link '最新'
+		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div#comment-form-section') {
 			within('div.caption') { page.should have_content('本日の日記はツッコミ数の制限を越えています。') }
 			page.should have_no_css('form')

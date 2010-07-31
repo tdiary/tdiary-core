@@ -8,9 +8,9 @@ feature '基本設定の利用' do
 
 	scenario 'サイトの情報の設定' do
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'サイトの情報'
+		click_link '追記'
+		click_link '設定'
+		click_link 'サイトの情報'
 		fill_in "author_name", :with => "ただただし"
 		fill_in "html_title", :with => "ただの日記"
 		fill_in "author_mail", :with => "t@tdtds.jp"
@@ -23,13 +23,13 @@ feature '基本設定の利用' do
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
+		click_link '最新'
 		# TODO その他の項目の反映を確認
 		within('title') { page.should have_content('ただの日記') }
 
-		click '追記'
-		click '設定'
-		click 'サイトの情報'
+		click_link '追記'
+		click_link '設定'
+		click_link 'サイトの情報'
 		page.should have_field "author_name", :with => "ただただし"
 		page.should have_field "html_title", :with => "ただの日記"
 		page.should have_field "author_mail", :with => "t@tdtds.jp"
@@ -42,9 +42,9 @@ feature '基本設定の利用' do
 
 	scenario 'ヘッダ・フッタの設定' do
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'ヘッダ・フッタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ヘッダ・フッタ'
 		fill_in "header", :with => <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
@@ -60,13 +60,13 @@ FOOTER
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
+		click_link '最新'
 		within('h1') { page.should have_content('alpha') }
 		within('div.sidebar') { page.should have_content('bravo')}
 
-		click '追記'
-		click '設定'
-		click 'ヘッダ・フッタ'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ヘッダ・フッタ'
 		page.should have_field "header", :with => <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
@@ -82,9 +82,9 @@ FOOTER
 
 	scenario '表示一版の設定' do
 		visit '/'
-		click '追記'
-		click '設定'
-		click '表示一般'
+		click_link '追記'
+		click_link '設定'
+		click_link '表示一般'
 		fill_in 'section_anchor', :with => <<-SECTION
 <span class="sanchor">■</span>
 SECTION
@@ -104,20 +104,20 @@ DATE
 
 	scenario 'ログレベルの選択の設定' do
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'ログレベル選択'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ログレベル選択'
 		select 'DEBUG', :from => 'log_level'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
+		click_link '最新'
 		# TODO ログレベルの確認
 
-		click '追記'
-		click '設定'
-		click 'ログレベル選択'
+		click_link '追記'
+		click_link '設定'
+		click_link 'ログレベル選択'
 		within('select option[selected]'){
 			page.should have_content 'DEBUG'
 		}
@@ -125,15 +125,15 @@ DATE
 
 	scenario '時差調整が保存される' do
 		visit '/'
-		click '追記'
-		click '設定'
-		click '時差調整'
+		click_link '追記'
+		click_link '設定'
+		click_link '時差調整'
 		fill_in 'hour_offset', :with => '-24'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '追記'
+		click_link '追記'
 		y, m, d = (Date.today - 1).to_s.split('-').map {|t| t.sub(/^0+/, "") }
 		within('div.day div.form') {
 			within('span.year') { page.should have_field('year', :with => y) }
@@ -141,30 +141,30 @@ DATE
 			within('span.day') { page.should have_field('day', :with => d) }
 		}
 
-		click '設定'
-		click '時差調整'
+		click_link '設定'
+		click_link '時差調整'
 
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
 	scenario 'テーマ選択が保存される' do
 		visit '/'
-		click '追記'
-		click '設定'
-		click 'テーマ選択'
+		click_link '追記'
+		click_link '設定'
+		click_link 'テーマ選択'
 		select 'Tdiary1', :from => 'theme'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		click '最新'
+		click_link '最新'
 		within('head') {
 			page.should have_css('link[href="theme/base.css"]')
 		}
 
-		click '追記'
-		click '設定'
-		click 'テーマ選択'
+		click_link '追記'
+		click_link '設定'
+		click_link 'テーマ選択'
 		within('select option[selected]'){
 			page.should have_content 'Tdiary1'
 		}

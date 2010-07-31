@@ -11,7 +11,7 @@ feature 'ツッコミの表示' do
 		append_default_comment
 
 		visit '/'
-		click '追記'
+		click_link '追記'
 		click_button "この日付の日記を編集"
 		uncheck 'commentcheckboxr0'
 		click_button 'ツッコミ表示状態変更'
@@ -19,7 +19,7 @@ feature 'ツッコミの表示' do
 		page.should have_no_content "alpha"
 		page.should have_no_content "こんにちは!こんにちは!"
 
-		click "#{Date.today.strftime("%Y年%m月%d日")}"
+		click_link "#{Date.today.strftime("%Y年%m月%d日")}"
 		page.should have_no_content "alpha"
 		page.should have_no_content "こんにちは!こんにちは!"
 	end
