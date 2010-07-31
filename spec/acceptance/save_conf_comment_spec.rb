@@ -52,20 +52,16 @@ BODY
 
 		click_link '最新'
 		within('div.day div.comment div.commentshort') {
-			within('span.commentator') {
-				page.should have_no_content "alpha"
-				page.should have_content "bravo"
-			}
+			page.should have_no_content "alpha"
+			page.should have_content "bravo"
 			page.should have_no_content "こんにちは!こんにちは!"
 			page.should have_content "こんばんは!こんばんは!"
 		}
 
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day div.comment div.commentbody') { 
-			within('div.commentator'){
-				within('span.commentator'){ page.should have_content "alpha" }
-				within('span.commentator'){ page.should have_content "bravo" }
-			}
+			page.should have_content "alpha"
+			page.should have_content "bravo"
 			page.should have_content "こんにちは!こんにちは!"
 			page.should have_content "こんばんは!こんばんは!"
 		}

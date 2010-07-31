@@ -69,11 +69,10 @@ BODY
 
 		visit '/'
 		within('div.day span.title'){ page.should have_content "Hikiのテスト" }
-		within('div.day div.section'){
-			within('h3') { page.should have_content "さて、テストである。" }
+		within('div.body'){
+			page.should have_content "さて、テストである。"
 			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
-
-			within('h3') { page.should have_content "さて、Hikiのテストである。" }
+			page.should have_content "さて、Hikiのテストである。"
 			page.should have_content "とみせかけてtDiary:-)"
 		}
 	end
@@ -91,7 +90,7 @@ BODY
 			}
 		}
 
-		click_link 'プレビュー'
+		click_button 'プレビュー'
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.day div.section'){
 			within('h3') { page.should have_content "さて、テストである。" }

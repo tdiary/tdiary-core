@@ -23,11 +23,11 @@ feature '日記を読む' do
 
 		visit '/'
 		click_link "#{before_day}"
-		within('span.adminmenu'){ page.should have_content "次の日記(#{after_day})"}
+		within('div.adminmenu'){ page.should have_content "次の日記(#{after_day})"}
 
 		click_link "次の日記(#{after_day})"
 		within('div.day') { page.should have_content "#{after_day}" }
-		within('span.adminmenu'){ page.should have_content "前の日記(#{before_day})"}
+		within('div.adminmenu'){ page.should have_content "前の日記(#{before_day})"}
 
 		click_link "前の日記(#{before_day})"
 		within('div.day') { page.should have_content "#{before_day}" }
@@ -37,14 +37,18 @@ feature '日記を読む' do
 		1.upto(11) {|i| append_default_diary("201005%02d" % i) }
 
 		visit '/'
-		within('div.day') { page.should have_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}" }
-		within('div.day') { page.should have_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}" }
-		within('div.day') { page.should have_no_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
+		within('div.main') {
+			page.should have_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}"
+			page.should have_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}"
+			page.should have_no_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}"
+		}
 
 		click_link "前10日分"
-		within('div.day') { page.should have_no_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}" }
-		within('div.day') { page.should have_no_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}" }
-		within('div.day') { page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}" }
+		within('div.main') {
+			page.should have_no_content "#{Date.parse('20100502').strftime('%Y年%m月%d日')}"
+			page.should have_no_content "#{Date.parse('20100511').strftime('%Y年%m月%d日')}"
+			page.should have_content "#{Date.parse('20100501').strftime('%Y年%m月%d日')}"
+		}
 	end
 
 	scenario 'n年日記機能を表示'
@@ -96,12 +100,10 @@ BODY
 		click_button "追記"
 
 		visit '/?date=200101'
-		within('div.day div.section'){
-			within('h3') {
-				page.should have_content "さて、テストである。"
-				page.should have_content "さて、月末である。"
-				page.should have_no_content "さて、月始めである。"
-			}
+		within('div.main'){
+			page.should have_content "さて、テストである。"
+			page.should have_content "さて、月末である。"
+			page.should have_no_content "さて、月始めである。"
 			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 			page.should have_content "今月も終わる"
 			page.should have_no_content "今月も始まる"

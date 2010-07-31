@@ -31,11 +31,10 @@ BODY
 		visit '/'
 		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
-		within('div.day div.section'){
-			within('h3') {
-				page.should have_content "さて、テストである。"
-				page.should have_content "もう一度テストである。"
-			}
+		within('div.body'){
+			page.should have_content "さて、テストである。"
+			page.should have_content "もう一度テストである。"
+
 			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 			page.should have_content "本当に動くかな?"
 		}
@@ -56,11 +55,10 @@ BODY
 		visit '/'
 		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
-		within('div.day div.section'){
-			within('h3') {
-				page.should have_no_content "さて、テストである。"
-				page.should have_content "もう一度テストである。"
-			}
+		within('div.body'){
+			page.should have_no_content "さて、テストである。"
+			page.should have_content "もう一度テストである。"
+
 			page.should have_no_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 			page.should have_content "本当に動くかな?"
 		}

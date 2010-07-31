@@ -51,21 +51,17 @@ BODY
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
-			within('span.commentator') {
-				page.should have_content "alpha"
-				page.should have_content "bravo"
-			}
+			page.should have_content "alpha"
+			page.should have_content "bravo"
 			page.should have_content "こんにちは!こんにちは!"
 			page.should have_content "こんばんは!こんばんは!"
 		}
 
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day div.comment div.commentbody') {
-			within('div.commentator'){
-				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
-				within('span.commentator'){ page.should have_content "alpha" }
-				within('span.commentator'){ page.should have_content "bravo" }
-			}
+			within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
+			page.should have_content "alpha"
+			page.should have_content "bravo"
 			page.should have_content "こんにちは!こんにちは!"
 			page.should have_content "こんばんは!こんばんは!"
 		}
