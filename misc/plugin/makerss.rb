@@ -429,7 +429,13 @@ add_conf_proc( 'makerss', @makerss_conf_label, 'update' ) do
 end
 
 add_edit_proc do
-	checked = @cgi.params['makerss_update'][0] == 'false' ? ' checked' : ''
+	checked = if @cgi.params['makerss_update'][0] == 'false' then
+		' checked'
+	elsif @date < (Time::now - 30*24*60*60) # older over a month
+		' checked'
+	else
+		''
+	end
 	r = <<-HTML
 	<div class="makerss"><label for="makerss_update">
 	<input type="checkbox" id="makerss_update" name="makerss_update" value="false"#{checked} tabindex="390">
