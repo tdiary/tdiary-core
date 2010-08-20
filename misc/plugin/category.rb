@@ -113,7 +113,7 @@ def category_list_sections
 	raise ::TDiary::NotFound if @categorized.empty? and bot?
 
 	@categorized.to_a.sort_by{|e| e[0].downcase}.each do |c, v|
-		info.category = c
+		info.category = [c]
 		if @category_icon[c]
 			img = %Q|<img class="category" src="#{h @category_icon_url}#{h @category_icon[c]}" alt="#{h c}">|
 		else
