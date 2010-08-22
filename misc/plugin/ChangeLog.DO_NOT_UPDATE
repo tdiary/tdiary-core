@@ -1,3 +1,6 @@
+### CAUTION ###
+This ChangeLog has frozen. Add new log to /ChangeLog.
+
 2010-04-13  TADA Tadashi <t@tdtds.jp>
 	* pre_wrap.rb: supported URLs in comments.
 
