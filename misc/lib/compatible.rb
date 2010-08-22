@@ -83,7 +83,11 @@ end
 # Ruby1.9では String が Enumerable ではなくなった
 class String
 	def method_missing(name, *args, &block)
-		each_line.__send__(name, *args, &block)
+		if each_line.respond_to?(name)
+			each_line.__send__(name, *args, &block)
+		else
+			super
+		end
 	end
 end
 
@@ -112,6 +116,12 @@ unless "".respond_to?('force_encoding')
 		def encode(encoding)
 			self
 		end
+	end
+end
+
+unless "".respond_to?('lines')
+	class String
+		alias_method :lines, :to_a
 	end
 end
 

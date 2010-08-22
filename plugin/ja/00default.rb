@@ -40,7 +40,7 @@ end
 #
 def comment_mail_mime( str )
 	require 'nkf'
-	NKF::nkf( "-j -m0 -f50", str ).collect do |s|
+	NKF::nkf( "-j -m0 -f50", str ).lines.collect do |s|
 		%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( /\n/, '' )}?=|
 	end
 end
