@@ -7,7 +7,7 @@ Copyright (C) 2001-2009, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '2.3.3.20100615'
+TDIARY_VERSION = '2.3.3.20100822'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
