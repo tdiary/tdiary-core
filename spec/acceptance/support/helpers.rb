@@ -39,6 +39,15 @@ BODY
 		click_button '投稿'
 		page.should have_content "Click here!"
 	end
+
+  def toggle_plugin(name)
+		visit "/"
+		click_link '追記'
+    click_link '設定'
+    click_link 'プラグイン選択'
+    check "sp.#{name}.rb"
+    click_button 'OK'
+  end
 end
 
 Spec::Runner.configuration.include(HelperMethods)
