@@ -1,3 +1,6 @@
+2010-08-24  MATSUOKA Kohei <kohei@machu.jp>
+  * plugin/05referer.rb: ignore an invalid referer. (non-ASCII character)
+
 2010-08-22  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* misc/lib/compatible.rb: added String#lines, check convert to Enumerator in method_missing.
 	* misc/plugin/category.rb: fix bug. called String#map in make_anchor.
