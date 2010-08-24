@@ -105,6 +105,9 @@ def latest_day?( diary )
 end
 
 def referer_update( diary )
+	# ignore an invalid URL including a non-ASCII character
+	return if @cgi.referer && !@cgi.referer.match(/^[!-~]+$/)
+
 	@referer_volatile = RefererDiary::new( @conf.latest_limit )
 
 	case @mode
