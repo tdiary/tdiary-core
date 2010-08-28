@@ -3,6 +3,8 @@
 require 'cgi'
 require 'rack/request'
 require 'rack/response'
+
+$:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/dispatcher'
 
 # FIXME too dirty hack :-<

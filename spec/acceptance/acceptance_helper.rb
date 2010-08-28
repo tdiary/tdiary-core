@@ -6,9 +6,9 @@ Bundler.require :default, :test
 
 require 'steak'
 require 'capybara/dsl'
-
 require 'rack'
-require 'tdiary_app'
+
+require File.dirname(__FILE__) + '/../../tdiary_app'
 
 Capybara.app = Rack::Builder.new do
 	map '/' do
