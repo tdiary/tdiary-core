@@ -1,23 +1,26 @@
 GIT
   remote: git://github.com/jnicklas/capybara.git
-  revision: c6edcf7
+  revision: a4ed172f7704ccf5699439ea1ecf42d71df52547
   specs:
     capybara (0.3.9)
+      celerity (>= 0.7.9)
       culerity (>= 0.2.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
-      selenium-webdriver (>= 0.0.3)
+      selenium-webdriver (>= 0.0.27)
+      xpath (>= 0.1.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
+    celerity (0.8.0)
     configuration (1.1.0)
-    culerity (0.2.10)
+    culerity (0.2.12)
     ffi (0.6.3)
       rake (>= 0.8.7)
-    json_pure (1.4.3)
+    json_pure (1.4.6)
     launchy (0.3.7)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
@@ -27,15 +30,16 @@ GEM
     rack-test (0.5.4)
       rack (>= 1.0)
     rake (0.8.7)
-    rr (0.10.11)
+    rr (1.0.0)
     rspec (1.3.0)
     rubyzip (0.9.4)
-    selenium-webdriver (0.0.27)
+    selenium-webdriver (0.0.28)
       ffi (>= 0.6.1)
       json_pure
       rubyzip
     steak (0.3.8)
       rspec (>= 1.3.0)
+    xpath (0.1.0)
 
 PLATFORMS
   ruby

@@ -1,0 +1,30 @@
+! NEWS
+
+!! Changes 0.0.6 from 0.0.5: 2010-08-28
+
+* fix missing NEWS.ja for packaging
+
+!! Changes 0.0.5 from 0.0.4: 2010-08-26
+
+* fix a bug: strings after non-WikiName expression are ignored
+* new text decoration ``monospaced text``
+* fix rake failure with Hoe 1.9.0 or later
+* add syntax highlighting with google-code-prettify
+
+!! Changes 0.0.4 from 0.0.3: 2009-08-17
+
+* escape collectly in inline_plugin same as block_plugin does.
+* fix a DoS vulnerability processing a plugin expression.
+
+!! Changes 0.0.3 from 0.0.2: 2008-08-25
+
+* fix warning message "Could not find main page README.txt" at installation via gem
+
+!! Changes 0.0.2 from 0.0.1: 2008-08-11
+
+* fix a bug: an inline that is inside of a modifier inline do not works
+* add a option "--no-wikiname" to `hikidoc' command
+* correct URI scheme behavior of InterWikiName
+* add some tests
+* add a Rake task "coverage" (requires rcov)
+

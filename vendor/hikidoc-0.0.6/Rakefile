@@ -17,7 +17,7 @@ manifest = File.join(base_dir, "Manifest.txt")
 manifest_contents = []
 base_dir_included_components = %w(COPYING README README.ja Rakefile
                                   TextFormattingRules TextFormattingRules.ja
-                                  setup.rb)
+                                  NEWS.ja setup.rb)
 excluded_components = %w(.svn doc log pkg)
 Find.find(base_dir) do |target|
   target = truncate_base_dir[target]
@@ -37,14 +37,15 @@ at_exit do
 end
 
 ENV["VERSION"] ||= HikiDoc::VERSION
-project = Hoe.new('hikidoc', HikiDoc::VERSION) do |project|
+project = Hoe.spec('hikidoc') do |project|
+  project.version = HikiDoc::VERSION
   project.author = ['Kazuhiko']
   project.email = ['kazuhiko@fdiary.net']
   project.description = project.paragraphs_of('README', 2).join
   project.summary = project.description.split(/(\.)/, 3)[0, 2].join
   project.url = 'http://rubyforge.org/projects/hikidoc/'
   project.test_globs = ['test/test_*.rb']
-  project.rdoc_pattern = /(?:^(?:lib|bin)|\AREADME\z)/
+  project.extra_rdoc_files = %w(README COPYING NEWS TextFormattingRules)
   project.changes = File.read("NEWS").split(/^!! .*$/)[1].strip
 end
 
@@ -54,23 +55,6 @@ task :tag do
   message = "Released HikiDoc #{version}!"
   base = "svn+ssh://rubyforge.org/var/svn/hikidoc/"
   sh 'svn', 'copy', '-m', message, "#{base}trunk", "#{base}tags/#{version}"
-end
-
-begin
-  require 'rcov/rcovtask'
-
-  desc "Analyze code coverage of the unit tests."
-  Rcov::RcovTask.new(:coverage) do |t|
-    t.test_files = FileList[project.test_globs]
-    t.verbose = true
-    t.rcov_opts << "--text-report"
-    begin
-      require "rubygems"
-      t.rcov_opts << "--exclude=^#{Regexp.escape(Gem.dir)}"
-    rescue LoadError
-    end
-  end
-rescue LoadError
 end
 
 

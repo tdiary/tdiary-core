@@ -226,6 +226,8 @@ TEST}}
                    "[[Hiki|http:hikiwiki.html]]")
     assert_convert(%Q|<p><img src="http://hikiwiki.org/img.png" alt="img.png" /></p>\n|,
                    "http://hikiwiki.org/img.png")
+    assert_convert(%Q|<p><img src="http://hikiwiki.org:80/img.png" alt="img.png" /></p>\n|,
+                   "http://hikiwiki.org:80/img.png")
     assert_convert(%Q|<p><a href="http://hikiwiki.org/ja/?c=edit;p=Test">| +
                    %Q|http://hikiwiki.org/ja/?c=edit;p=Test</a></p>\n|,
                    "http://hikiwiki.org/ja/?c=edit;p=Test")
@@ -246,6 +248,8 @@ TEST}}
                    "[[&]]")
     assert_convert(%Q|<p><a href="aa">aa</a>bb<a href="cc">cc</a></p>\n|,
                    "[[aa]]bb[[cc]]")
+    assert_convert(%Q!<p><a href="aa">a|a</a></p>\n!,
+                   "[[a|a|aa]]")
   end
 
   def test_inter_wiki_name
@@ -295,6 +299,8 @@ TEST}}
                    "^WikiName",
                    :use_wiki_name => false,
                    :use_not_wiki_name => false)
+    assert_convert("<p>foo WikiName bar</p>\n",
+                   "foo ^WikiName bar")
   end
 
   def test_use_wiki_name_option
@@ -359,6 +365,9 @@ TEST}}
     assert_convert("<dl>\n<dt>foo</dt>\n" +
                    "<dd><strong>bar</strong></dd>\n</dl>\n",
                    ":foo:'''bar'''")
+    assert_convert("<dl>\n<dt>foo</dt>\n" +
+                   "<dd><tt>bar</tt></dd>\n</dl>\n",
+                   ":foo:``bar``")
   end
 
   def test_definition_with_modifier_link
@@ -370,6 +379,10 @@ TEST}}
                    "<strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong>" +
                    "</dd>\n</dl>\n",
                    ":Website:'''[[Hiki|http://hikiwiki.org/]]'''")
+    assert_convert("<dl>\n<dt>Website</dt>\n<dd>" +
+                   "<tt><a href=\"http://hikiwiki.org/\">Hiki</a></tt>" +
+                   "</dd>\n</dl>\n",
+                   ":Website:``[[Hiki|http://hikiwiki.org/]]``")
   end
 
   def test_table
@@ -409,6 +422,10 @@ TEST}}
                    "'''foo''' and '''bar'''")
     assert_convert("<p><em>foo</em> and <em>bar</em></p>\n",
                    "''foo'' and ''bar''")
+    assert_convert("<p><tt>foo</tt></p>\n",
+                   "``foo``")
+    assert_convert("<p><tt>foo==bar</tt>baz==</p>\n",
+                   "``foo==bar``baz==")
   end
 
   def test_nested_modifier
@@ -423,6 +440,8 @@ TEST}}
                    "[['''Hiki'''|http://hikiwiki.org/]]")
     assert_convert("<p><strong><a href=\"http://hikiwiki.org/\">Hiki</a></strong></p>\n",
                    "'''[[Hiki|http://hikiwiki.org/]]'''")
+    assert_convert("<p><tt><a href=\"http://hikiwiki.org/\">Hiki</a></tt></p>\n",
+                   "``[[Hiki|http://hikiwiki.org/]]``")
   end
 
   def test_pre_and_plugin
@@ -437,18 +456,34 @@ TEST}}
   def test_plugin_in_modifier
     assert_convert("<p><strong><span class=\"plugin\">{{foo}}</span></strong></p>\n",
                    "'''{{foo}}'''")
+    assert_convert("<p><tt><span class=\"plugin\">{{foo}}</span></tt></p>\n",
+                   "``{{foo}}``")
   end
 
-  if Object.const_defined?(:Syntax)
-
-    def test_syntax_ruby
+  def test_syntax_ruby
+    if Object.const_defined?(:Syntax)
       assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
                      "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
       assert_convert("<pre><span class=\"keyword\">class </span><span class=\"class\">A</span>\n  <span class=\"keyword\">def </span><span class=\"method\">foo</span><span class=\"punct\">(</span><span class=\"ident\">bar</span><span class=\"punct\">)</span>\n  <span class=\"keyword\">end</span>\n<span class=\"keyword\">end</span></pre>\n",
                      "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
       assert_convert("<pre><span class=\"punct\">'</span><span class=\"string\">a&lt;&quot;&gt;b</span><span class=\"punct\">'</span></pre>\n",
                      "<<< ruby\n'a<\">b'\n>>>")
+
+      # redefine method for below tests
+      class << Syntax::Convertors::HTML
+	def for_syntax(syntax)
+	  raise
+	end
+      end
     end
+
+    # use google-code-prettify
+    assert_convert("<pre class=\"prettyprint\">class A\n  def foo(bar)\n  end\nend</pre>\n",
+                   "<<< ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
+    assert_convert("<pre class=\"prettyprint\">class A\n  def foo(bar)\n  end\nend</pre>\n",
+                   "<<< Ruby\nclass A\n  def foo(bar)\n  end\nend\n>>>")
+    assert_convert("<pre class=\"prettyprint\">'a&lt;\"&gt;b'</pre>\n",
+                   "<<< ruby\n'a<\">b'\n>>>")
   end
 
   def test_plugin_in_pre_with_header

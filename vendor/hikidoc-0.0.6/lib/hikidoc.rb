@@ -1,4 +1,4 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) 2005, Kazuhiko <kazuhiko@fdiary.net>
 # Copyright (c) 2007 Minero Aoki
 # All rights reserved.
@@ -38,7 +38,7 @@ rescue LoadError
 end
 
 class HikiDoc
-  VERSION = "0.0.4" # FIXME
+  VERSION = "0.0.6" # FIXME
 
   class Error < StandardError
   end
@@ -408,7 +408,7 @@ class HikiDoc
 
       link, uri, mod, wiki_name = m[1, 4]
       if wiki_name and wiki_name[0, 1] == "^"
-        pending_str = m.pre_match + wiki_name[1..-1]
+        pending_str = m.pre_match + wiki_name[1..-1] + str
         next
       end
 
@@ -437,7 +437,7 @@ class HikiDoc
   end
 
   def compile_bracket_link(link)
-    if m = /\A(?>[^|\\]+|\\.)*\|/.match(link)
+    if m = /\A(.*)\|/.match(link)
       title = m[0].chop
       uri = m.post_match
       fixed_uri = fix_uri(uri)
@@ -479,23 +479,26 @@ class HikiDoc
   IMAGE_EXTS = %w(.jpg .jpeg .gif .png)
 
   def image?(uri)
-    IMAGE_EXTS.include?(File.extname(uri).downcase)
+    IMAGE_EXTS.include?(uri[/\.[^.]+\z/].to_s.downcase)
   end
 
   STRONG = "'''"
   EM = "''"
   DEL = "=="
+  TT = "``"
 
   STRONG_RE = /'''.+?'''/
   EM_RE     = /''.+?''/
   DEL_RE    = /==.+?==/
+  TT_RE    = /``.+?``/
 
-  MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE)
+  MODIFIER_RE = Regexp.union(STRONG_RE, EM_RE, DEL_RE, TT_RE)
 
   MODTAG = {
     STRONG => "strong",
     EM     => "em",
-    DEL    => "del"
+    DEL    => "del",
+    TT     => 'tt'
   }
 
   def compile_modifier(str)
@@ -524,6 +527,8 @@ class HikiDoc
     when /\A''/
       return str[0, 2], str[2...-2]
     when /\A==/
+      return str[0, 2], str[2...-2]
+    when /\A``/
       return str[0, 2], str[2...-2]
     else
       raise UnexpectedError, "must not happen: #{str.inspect}"
@@ -673,6 +678,8 @@ class HikiDoc
           @f.puts convertor.convert(str)
           return
         rescue NameError, RuntimeError
+          @f.puts %Q|<pre class="prettyprint">#{text(str)}</pre>|
+          return
         end
       end
       preformatted(text(str))
@@ -720,6 +727,10 @@ class HikiDoc
 
     def del(item)
       "<del>#{item}</del>"
+    end
+
+    def tt(item)
+      "<tt>#{item}</tt>"
     end
 
     def text(str)

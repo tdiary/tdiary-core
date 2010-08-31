@@ -126,17 +126,21 @@ Text surrounded by sets of three single quotes (''') is strongly emphasised.
 
 Text surrounded by sets of double equal signs (===) is struck out.
 
+Text surrounded by sets of double backquotes (``) is inline literal.
+
 *Example statement
 
  If you write like this, it becomes ''emphasised''.
  And if you write like this, it becomes '''strongly emphasised'''.
  ==This is dull, but== And struck-out text is supported, too!
+ If you write like this, it becomes ``monospaced text``.
 
 *Example output
 
 If you write like this, it becomes ''emphasised''.
 And if you write like this, it becomes '''strongly emphasised'''.
 ==This is dull, but== And struck-out text is supported, too!
+If you write like this, it becomes ``monospaced text``.
 
 !Headings
 
