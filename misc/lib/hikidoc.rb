@@ -38,7 +38,7 @@ rescue LoadError
 end
 
 class HikiDoc
-  VERSION = "0.0.5" # FIXME
+  VERSION = "0.0.6" # FIXME
 
   class Error < StandardError
   end
@@ -479,7 +479,7 @@ class HikiDoc
   IMAGE_EXTS = %w(.jpg .jpeg .gif .png)
 
   def image?(uri)
-    IMAGE_EXTS.include?(File.extname(uri).downcase)
+    IMAGE_EXTS.include?(uri[/\.[^.]+\z/].to_s.downcase)
   end
 
   STRONG = "'''"
@@ -678,6 +678,8 @@ class HikiDoc
           @f.puts convertor.convert(str)
           return
         rescue NameError, RuntimeError
+          @f.puts %Q|<pre class="prettyprint">#{text(str)}</pre>|
+          return
         end
       end
       preformatted(text(str))
