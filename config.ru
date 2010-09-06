@@ -1,4 +1,4 @@
-require 'tdiary_app'
+require File.dirname(__FILE__) + '/tdiary_app'
 
 use Rack::ShowExceptions
 use Rack::CommonLogger
