@@ -23,3 +23,10 @@ map "/update.rb" do
 
 	run Rack::TDiaryApp.new(:update)
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
