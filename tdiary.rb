@@ -1168,13 +1168,6 @@ module TDiary
 
 		def load_plugins
 			calendar
-			if @plugin
-				@plugin.diaries = @diaries
-				@plugin.date = @date
-				@plugin.last_modified = last_modified
-				@plugin.comment = @comment
-				return @plugin
-			end
 			@plugin = Plugin::new(
 				'conf' => @conf,
 				'mode' => mode,
