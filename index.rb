@@ -22,7 +22,17 @@ begin
 	$:.unshift( org_path ) unless $:.include?( org_path )
 	require 'tdiary'
 
-	@cgi = CGI::new
+	encoding_error = {}
+	cgi = CGI::new(:accept_charset => "UTF-8") do |name, value|
+		encoding_error[name] = value
+	end
+	if encoding_error.empty?
+		@cgi = cgi
+	else
+		@cgi = CGI::new(:accept_charset => 'shift_jis')
+		@cgi.params = cgi.params
+	end
+
 	conf = TDiary::Config::new(@cgi)
 	tdiary = nil
 	status = nil
