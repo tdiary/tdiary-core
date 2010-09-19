@@ -69,6 +69,7 @@ BODY
 こんにちは!こんにちは!
 http://www.example.org
 http://www.example.org
+http://www.example.org
 BODY
 		click_button '投稿'
 
@@ -76,6 +77,7 @@ BODY
 		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "bravo"
 		fill_in "body", :with => <<-BODY
+こんばんは!こんばんは!
 こんばんは!こんばんは!
 http://www.example.org
 BODY
