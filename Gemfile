@@ -1,8 +1,9 @@
 source :rubygems
 
 group :test do
-	gem 'steak'
+	gem 'steak', :git => "git://github.com/cavalle/steak.git"
 	gem 'capybara', :git => "git://github.com/jnicklas/capybara.git"
-	gem 'rr'
 	gem 'launchy'
+	gem 'rspec', '>= 2.0.0.beta'
+	gem 'rr'
 end

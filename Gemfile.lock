@@ -1,6 +1,13 @@
 GIT
+  remote: git://github.com/cavalle/steak.git
+  revision: a3478e59b7942db1680df633bce3ce3e6769f8f4
+  specs:
+    steak (1.0.0.beta.1)
+      rspec
+
+GIT
   remote: git://github.com/jnicklas/capybara.git
-  revision: a4ed172f7704ccf5699439ea1ecf42d71df52547
+  revision: d584bb34e9782101aabe1c68a7dd68ed2aafb02a
   specs:
     capybara (0.3.9)
       celerity (>= 0.7.9)
@@ -15,9 +22,10 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    celerity (0.8.0)
+    celerity (0.8.2)
     configuration (1.1.0)
     culerity (0.2.12)
+    diff-lcs (1.1.2)
     ffi (0.6.3)
       rake (>= 0.8.7)
     json_pure (1.4.6)
@@ -31,14 +39,21 @@ GEM
       rack (>= 1.0)
     rake (0.8.7)
     rr (1.0.0)
-    rspec (1.3.0)
+    rspec (2.0.0.beta.22)
+      rspec-core (= 2.0.0.beta.22)
+      rspec-expectations (= 2.0.0.beta.22)
+      rspec-mocks (= 2.0.0.beta.22)
+    rspec-core (2.0.0.beta.22)
+    rspec-expectations (2.0.0.beta.22)
+      diff-lcs (>= 1.1.2)
+    rspec-mocks (2.0.0.beta.22)
+      rspec-core (= 2.0.0.beta.22)
+      rspec-expectations (= 2.0.0.beta.22)
     rubyzip (0.9.4)
     selenium-webdriver (0.0.28)
       ffi (>= 0.6.1)
       json_pure
       rubyzip
-    steak (0.3.8)
-      rspec (>= 1.3.0)
     xpath (0.1.0)
 
 PLATFORMS
@@ -48,4 +63,5 @@ DEPENDENCIES
   capybara!
   launchy
   rr
-  steak
+  rspec (>= 2.0.0.beta)
+  steak!

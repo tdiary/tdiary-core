@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 begin
 	Encoding::default_external = 'UTF-8'
 rescue NameError
@@ -13,6 +12,6 @@ require 'rubygems'
 require 'spec'
 require 'rr'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
 	config.mock_with :rr
 end
