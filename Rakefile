@@ -1,6 +1,6 @@
 require 'rake'
-require 'spec/rake/spectask'
 require 'rake/clean'
+require 'rspec/core/rake_task'
 
 CLEAN.include(
 	"tmp",
@@ -23,28 +23,22 @@ end
 
 namespace :spec do
 	desc 'Run the code in spec'
-	Spec::Rake::SpecTask.new(:all) do |t|
-		t.spec_files = FileList["spec/**/*_spec.rb"]
-		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+	RSpec::Core::RakeTask.new(:all) do |t|
+		t.pattern = "spec/**/*_spec.rb"
 	end
 
 	%w(core plugin acceptance).each do |dir|
 		desc "Rub the code examples in spec/#{dir}"
-		Spec::Rake::SpecTask.new(dir.to_sym) do |t|
-			t.spec_files = FileList["spec/#{dir}/**/*_spec.rb"]
-			t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+		RSpec::Core::RakeTask.new(dir.to_sym) do |t|
+			t.pattern = "spec/#{dir}/**/*_spec.rb"
 		end
 	end
 
 	desc 'Run specs w/ RCov'
-	Spec::Rake::SpecTask.new(:rcov) do |t|
-		t.spec_files = FileList["spec/**/*_spec.rb"]
-		t.spec_opts << '--options' << File.join('spec', 'spec.opts')
+	RSpec::Core::RakeTask.new(:rcov) do |t|
+		t.pattern = "spec/**/*_spec.rb"
 		t.rcov = true
-		t.rcov_dir = File.expand_path("coverage/spec", File.dirname(__FILE__))
-		t.rcov_opts = lambda do
-			IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
-		end
+		t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
 	end
 	task :rcov => "coverage:clean"
 end
@@ -59,7 +53,7 @@ namespace :coverage do
 end
 
 desc "all coverage"
-task :coverage => ["coverage:clean","spec:rcov"]
+task :coverage => ["coverage:clean", "spec:rcov"]
 
 desc "generate rdoc files"
 task :docs do

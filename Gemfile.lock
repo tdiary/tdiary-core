@@ -38,6 +38,7 @@ GEM
     rack-test (0.5.4)
       rack (>= 1.0)
     rake (0.8.7)
+    rcov (0.9.9)
     rr (1.0.0)
     rspec (2.0.0.beta.22)
       rspec-core (= 2.0.0.beta.22)
@@ -62,6 +63,7 @@ PLATFORMS
 DEPENDENCIES
   capybara!
   launchy
+  rcov
   rr
   rspec (>= 2.0.0.beta)
   steak!
