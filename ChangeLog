@@ -1,3 +1,6 @@
+2010-09-20  TADA Tadashi <t@tdtds.jp>
+	* Release 3.0.1.
+
 2010-09-08  KADO Masanori <kdmsnr@gmail.com>
 	* tdiary.rb: revert 500173f. and fix the error of blog-category.
 	* index.rb: fix the error of tsukkomi from mobile phone.
