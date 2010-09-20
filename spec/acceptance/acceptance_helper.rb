@@ -1,10 +1,6 @@
-require 'rubygems'
-require 'bundler'
+require File.dirname(__FILE__) + "/../spec_helper"
 
-Bundler.setup
-Bundler.require :default, :test
-
-require 'steak'
+require "steak"
 require 'capybara/dsl'
 require 'rack'
 
