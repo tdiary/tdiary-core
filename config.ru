@@ -9,11 +9,11 @@ use Rack::Static, :urls => ["/theme"], :root => "."
 use Rack::Static, :urls => ["/js"], :root => "."
 
 map "/" do
-	run Rack::TDiaryApp.new(:index)
+	run TDiary::Application.new(:index)
 end
 
 map "/index.rb" do
-	run Rack::TDiaryApp.new(:index)
+	run TDiary::Application.new(:index)
 end
 
 map "/update.rb" do
@@ -21,7 +21,7 @@ map "/update.rb" do
 		user == 'user' && pass == 'pass'
 	end
 
-	run Rack::TDiaryApp.new(:update)
+	run TDiary::Application.new(:update)
 end
 
 # Local Variables:

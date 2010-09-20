@@ -17,8 +17,8 @@ class CGI
 	alias :env_table :env_table_rack
 end
 
-module Rack
-	class TDiaryApp
+module TDiary
+	class Application
 		def initialize( target )
 			@target = target
 		end
@@ -41,7 +41,7 @@ module Rack
 		end
 
 		def adopt_rack_request_to_plain_old_tdiary_style(env)
-			req = Request.new(env)
+			req = Rack::Request.new(env)
 			$RACK_ENV = req.env
 			env["rack.input"].rewind
 			fake_stdin_as_params
