@@ -24,7 +24,7 @@ if RUBY_VERSION > '1.9'
 				db["key2".to_8bit] = 2
 				db["key3".to_8bit] = [1, :sym, "string".to_8bit]
 			end
-			require 'misc/lib/compatible'
+			require File.dirname(__FILE__) + '/../../misc/lib/compatible'
 		end
 
 		if "".respond_to?(:force_encoding)
