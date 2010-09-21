@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/tdiary_app'
+$:.unshift( File::dirname( __FILE__ ).untaint )
+require 'tdiary/tdiary_application'
 
 use Rack::ShowExceptions
 use Rack::CommonLogger
