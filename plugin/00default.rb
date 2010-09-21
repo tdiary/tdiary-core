@@ -744,6 +744,8 @@ def saveconf_default
 		@conf.icon = @cgi.params['icon'][0]
 		@conf.banner = @cgi.params['banner'][0]
 		@conf['base_url'] = @cgi.params['base_url'][0]
+		@conf.x_frame_options = @cgi.params['x_frame_options'][0]
+		@conf.x_frame_options = nil if @conf.x_frame_options.empty?
 	end
 end
 
