@@ -4,19 +4,19 @@ require "steak"
 require 'capybara/dsl'
 require 'rack'
 
-require File.dirname(__FILE__) + '/../../tdiary_app'
+require File.dirname(__FILE__) + '/../../tdiary/tdiary_application'
 
 Capybara.app = Rack::Builder.new do
 	map '/' do
-		run Rack::TDiaryApp.new(:index)
+		run TDiary::Application.new(:index)
 	end
 
 	map '/index.rb' do
-		run Rack::TDiaryApp.new(:index)
+		run TDiary::Application.new(:index)
 	end
 
 	map '/update.rb' do
-		run Rack::TDiaryApp.new(:update)
+		run TDiary::Application.new(:update)
 	end
 end
 
