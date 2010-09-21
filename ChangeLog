@@ -1,3 +1,6 @@
+2010-09-21  TADA Tadashi <t@tdtds.jp>
+	* supported X-Frame-Options header.
+
 2010-09-20  TADA Tadashi <t@tdtds.jp>
 	* Release 3.0.1.
 

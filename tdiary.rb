@@ -7,7 +7,7 @@ Copyright (C) 2001-2010, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.1'
+TDIARY_VERSION = '3.0.1.20100921'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -579,6 +579,7 @@ module TDiary
 			@hour_offset = 0 unless @hour_offset
 
 			@html_title = '' unless @html_title
+			@x_frame_options = nil unless @x_frame_options
 			@header = '' unless @header
 			@footer = '' unless @footer
 
@@ -633,7 +634,7 @@ module TDiary
 				[
 					:tdiary_version,
 					:html_title, :author_name, :author_mail, :index_page, :hour_offset,
-					:description, :icon, :banner,
+					:description, :icon, :banner, :x_frame_options,
 					:header, :footer,
 					:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 					:theme, :css,

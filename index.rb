@@ -99,6 +99,7 @@ begin
 				end
 				head['Pragma'] = 'no-cache'
 				head['Cache-Control'] = 'no-cache'
+				head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 			end
 			head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 			print @cgi.header( head )

@@ -195,6 +195,14 @@ add_conf_proc( 'default', 'サイトの情報', 'basic' ) do
 	<h3 class="subtitle">バナー画像</h3>
 	#{"<p>この日記を表す画像(バナー)があればそのURLを指定します。makerssプラグインなどでRSSを出力する場合などに使われます。何も入力しなくてもかまいません。</p>" unless @conf.mobile_agent?}
 	<p><input name="banner" value="#{h @conf.banner}" size="70"></p>
+
+	<h3 class="subtitle">フレーム内表示</h3>
+	#{"<p>日記全体をフレーム内にくるんで表示することを許可します。</p>" unless @conf.mobile_agent?}
+	<p><select name="x_frame_options">
+		<option value=""#{" selected" unless @conf.x_frame_options}>許可する</option>
+		<option value="SAMEORIGIN"#{" selected" if @conf.x_frame_options == 'SAMEORIGIN'}>同一ドメインなら許可する</option>
+		<option value="DENY"#{" selected" if @conf.x_frame_options == 'DENY'}>禁止する</option>
+	</select></p>
 	HTML
 end
 

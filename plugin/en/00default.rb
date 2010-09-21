@@ -160,6 +160,14 @@ add_conf_proc( 'default', 'Site information', 'basic' ) do
 	<h3 class="subtitle">Site banner</h3>
 	#{"<p>URL for the banner image of your site. makerss plugin will use this value to make RSS. Can be left blank.</p>" unless @conf.mobile_agent?}
 	<p><input name="banner" value="#{h @conf.banner}" size="60"></p>
+
+	<h3 class="subtitle">Permit display in Frames</h3>
+	#{"<p>Permit display your diary included by frames.</p>" unless @conf.mobile_agent?}
+	<p><select name="x_frame_options">
+		<option value=""#{" selected" unless @conf.x_frame_options}>Permit</option>
+		<option value="SAMEORIGIN"#{" selected" if @conf.x_frame_options == 'SAMEORIGIN'}>Permit in same domain</option>
+		<option value="DENY"#{" selected" if @conf.x_frame_options == 'DENY'}>Deny</option>
+	</select></p>
 	HTML
 end
 

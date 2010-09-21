@@ -16,6 +16,7 @@ hour_offset = <%= @hour_offset %>
 description = <%= (@description || '' ).force_encoding('ASCII-8BIT').dump %>
 icon = <%= (@icon || '').force_encoding('ASCII-8BIT').dump %>
 banner = <%= (@banner || '').force_encoding('ASCII-8BIT').dump %>
+x_frame_options = <%= @x_frame_options ? @x_frame_options.force_encoding('ASCII-8BIT').dump : 'nil' %>
 
 #
 # header / footer
