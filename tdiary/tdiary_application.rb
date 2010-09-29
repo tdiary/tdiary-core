@@ -22,32 +22,32 @@ module TDiary
 			@target = target
 		end
 
-		def call(env)
-			adopt_rack_request_to_plain_old_tdiary_style(env)
+		def call( env )
+			adopt_rack_request_to_plain_old_tdiary_style( env )
 			dispatch_request
 		end
 
 		private
 		def fake_stdin_as_params
-			stdin_spy = StringIO.new("")
+			stdin_spy = StringIO.new( "" )
 			# FIXME dirty hack
 			if $RACK_ENV && $RACK_ENV['rack.input']
-				stdin_spy.print($RACK_ENV['rack.input'].read)
+				stdin_spy.print( $RACK_ENV['rack.input'].read )
 				stdin_spy.rewind
 			end
 			$stdin = stdin_spy
 		end
 
-		def adopt_rack_request_to_plain_old_tdiary_style(env)
-			req = Rack::Request.new(env)
+		def adopt_rack_request_to_plain_old_tdiary_style( env )
+			req = Rack::Request.new( env )
 			$RACK_ENV = req.env
 			env["rack.input"].rewind
 			fake_stdin_as_params
 		end
 
 		def dispatch_request
-			dispatcher = TDiary::Dispatcher.__send__(@target)
-			dispatcher.dispatch_cgi(CGI.new)
+			dispatcher = TDiary::Dispatcher.__send__( @target )
+			dispatcher.dispatch_cgi( CGI.new )
 		end
 	end
 end
