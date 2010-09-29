@@ -2,9 +2,32 @@
 
 require 'stringio'
 require 'tdiary'
+require 'tdiary/response_helper'
 
 module TDiary
 	class Dispatcher
+		class << self
+			# stolen from Rack::Handler::CGI.send_headers
+			def send_headers( status, headers )
+				$stdout.print "Status: #{status}\r\n"
+				headers.each { |k, vs|
+					vs.split( "\n" ).each { |v|
+						$stdout.print "#{k}: #{v}\r\n"
+					}
+				}
+				$stdout.print "\r\n"
+				$stdout.flush
+			end
+
+			# stolen from Rack::Handler::CGI.send_body
+			def send_body( body )
+				body.each { |part|
+					$stdout.print part
+					$stdout.flush
+				}
+			end
+
+		end
 		class IndexMain
 			def self.run( cgi )
 				begin
@@ -204,12 +227,12 @@ module TDiary
 			@target = TARGET[target]
 		end
 
-		def dispatch_cgi( cgi = CGI.new, stdout = nil, stderr = nil )
-			stdout_orig = $stdout;stderr_orig = $stderr
+		def dispatch_cgi( cgi = CGI.new, raw_result = StringIO.new, dummy_stderr = StringIO.new )
+			stdout_orig = $stdout; stderr_orig = $stderr
 			begin
-				$stdout = stdout if stdout
-				$stderr = stderr if stderr
+				$stdout = raw_result; $stderr = dummy_stderr
 				@target.run( cgi )
+				ResponseHelper.parse( raw_result.rewind && raw_result.read ).to_a
 			ensure
 				$stdout = stdout_orig
 				$stderr = stderr_orig
@@ -217,7 +240,6 @@ module TDiary
 		end
 	end
 end
-
 
 # Local Variables:
 # mode: ruby

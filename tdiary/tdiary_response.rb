@@ -17,6 +17,10 @@ module TDiary
       def header
         @cgi.header(@headers)
       end
+
+		def to_a
+			[status, headers, body]
+		end
     end
   end
 end
