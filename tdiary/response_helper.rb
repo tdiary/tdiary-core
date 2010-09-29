@@ -1,4 +1,5 @@
 # -*- coding: utf-8; -*-
+require 'tdiary/tdiary_response'
 
 module TDiary
 	class ResponseHelper
@@ -7,13 +8,17 @@ module TDiary
 			def initialize(code, message)
 				@code, @message = code.to_i, message
 			end
+
+			def to_i
+				@code
+			end
 		end
 
 		class << self
 			def parse(raw_result)
-				response_spy = new(raw_result)
-				response_spy.parse_raw_result
-				response_spy
+				helper = new(raw_result)
+				helper.parse_raw_result!
+				TDiary::Response.new(helper.body, helper.status, helper.headers)
 			end
 			private :new
 		end
@@ -42,7 +47,7 @@ module TDiary
 			@status.code
 		end
 
-		def parse_raw_result
+		def parse_raw_result!
 			raw_header, @body = @raw.split(CGI::EOL * 2, 2)
 			@headers ||= parse_headers(raw_header)
 			@status = extract_status

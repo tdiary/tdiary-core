@@ -2,7 +2,6 @@
 
 require 'stringio'
 require 'tdiary'
-require 'tdiary/response_helper'
 
 module TDiary
 	class Dispatcher

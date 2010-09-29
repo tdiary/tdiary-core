@@ -5,6 +5,7 @@ require 'rack/request'
 require 'rack/response'
 
 require 'tdiary/dispatcher'
+require 'tdiary/response_helper'
 
 # FIXME too dirty hack :-<
 class CGI
@@ -24,8 +25,7 @@ module TDiary
 
 		def call(env)
 			adopt_rack_request_to_plain_old_tdiary_style(env)
-			raw_result = dispatch_request
-			convert_to_rack_response_from(raw_result)
+			dispatch_request
 		end
 
 		private
@@ -51,14 +51,8 @@ module TDiary
 			dummy_stderr = StringIO.new
 			dispatcher = TDiary::Dispatcher.__send__(@target)
 			dispatcher.dispatch_cgi(CGI.new, raw_result, dummy_stderr)
-			raw_result.rewind
-			raw_result
-		end
-
-		def convert_to_rack_response_from(raw_result)
-			res = ResponseHelper.parse(raw_result.read)
-			STDOUT.puts res.body if $DEBUG
-			return res.to_a
+			raw_result = (raw_result.rewind && raw_result.read )
+			ResponseHelper.parse(raw_result).to_a
 		end
 	end
 end
