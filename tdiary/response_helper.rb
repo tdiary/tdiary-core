@@ -4,6 +4,16 @@ require 'tdiary/tdiary_response'
 module TDiary
 	class ResponseHelper
 		class HTTPStatus
+			# TODO need refactoring
+			def self.parse(status_str)
+				return HTTPStatus.new(200, "OK") unless status_str
+				if m = status_str.match(/(\d+)\s(.+)\Z/)
+					HTTPStatus.new(*m[1..2])
+				else
+					HTTPStatus.new(200, "OK")
+				end
+			end
+
 			attr_reader :code, :message
 			def initialize(code, message)
 				@code, @message = code.to_i, message
