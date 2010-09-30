@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8; -*-
+#
+# server: script for running standalone tdiary cgi server.
+#
+# Copyright (C) 2008-2010, Kakutani Shintaro <shintaro@kakutani.com>
+# You can redistribute it and/or modify it under GPL2.
+
+$:.unshift( File.expand_path( "../lib", File.dirname(__FILE__) ) )
+require 'server'
+
+TDiary::StandaloneCGIServer.run( :port => 19292 )
