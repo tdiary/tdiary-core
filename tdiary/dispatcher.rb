@@ -231,8 +231,13 @@ module TDiary
 			stdout_orig = $stdout; stderr_orig = $stderr
 			begin
 				$stdout = raw_result; $stderr = dummy_stderr
-				@target.run( cgi )
-				ResponseHelper.parse( raw_result.rewind && raw_result.read ).to_a
+				result = @target.run( cgi )
+				# FIXME remove if done the TDiary::Response introdution work.
+				if result.is_a?(TDiary::Response)
+					result.to_a
+				else
+					ResponseHelper.parse( raw_result.rewind && raw_result.read ).to_a
+				end
 			ensure
 				$stdout = stdout_orig
 				$stderr = stderr_orig
