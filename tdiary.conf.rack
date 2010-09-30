@@ -26,8 +26,9 @@
 
 @style = 'Wiki'
 
+#@index = './' # sample setting
+#@index = 'index.rb" # suitable for cgi standalone server
 @update = 'update.rb'
-#@base_url = "http://www.example.com/"
 
 @options['apply_plugin'] = true
 
