@@ -18,7 +18,7 @@ module TDiary
 			def parse(raw_result)
 				helper = new(raw_result)
 				helper.parse_raw_result!
-				TDiary::Response.new(helper.body, helper.status, helper.headers)
+				TDiary::Response.new(helper.body, helper.status.to_i, helper.headers)
 			end
 			private :new
 		end
