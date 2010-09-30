@@ -80,7 +80,7 @@ module TDiary
 						if /HEAD/i =~ @cgi.request_method then
 							head['Pragma'] = 'no-cache'
 							head['Cache-Control'] = 'no-cache'
-							print @cgi.header( head )
+							return TDiary::Response.new( '', 200, head )
 						else
 							if @cgi.mobile_agent? then
 								body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
@@ -102,18 +102,13 @@ module TDiary
 								head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							end
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-							print @cgi.header( head )
-							print body
+							TDiary::Response.new( body, ResponseHelper::HTTPStatus.parse( status ), head )
 						end
 					rescue TDiary::NotFound
-						if @cgi then
-							print @cgi.header( 'status' => CGI::HTTP_STATUS['NOT_FOUND'], 'type' => 'text/html' )
-						else
-							print "Status: 404 Not Found\n"
-							print "Content-Type: text/html\n\n"
-						end
-						puts "<h1>404 Not Found</h1>"
-						puts "<div>#{' ' * 500}</div>"
+						body = %Q[
+									<h1>404 Not Found</h1>
+									<div>#{' ' * 500}</div>]
+						TDiary::Response.new( body, 404, { 'type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
 					head = {
@@ -121,8 +116,7 @@ module TDiary
 						'type' => 'text/html',
 					}
 					head['cookie'] = tdiary.cookies if tdiary && tdiary.cookies.size > 0
-					print @cgi.header( head )
-					print %Q[
+					body = %Q[
 								<html>
 								<head>
 								<meta http-equiv="refresh" content="1;url=#{$!.path}">
@@ -130,6 +124,8 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
+					# TODO return code should be 302? (current behaviour returns 200)
+					TDiary::Response.new( body, 200, head )
 				end
 			end
 		end
