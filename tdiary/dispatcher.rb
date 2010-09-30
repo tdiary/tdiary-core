@@ -165,33 +165,32 @@ module TDiary
 					head = body = ''
 					if @cgi.mobile_agent? then
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
-						head = @cgi.header(
+						head = {
 							'status' => '200 OK',
 							'type' => 'text/html',
 							'charset' => conf.mobile_encoding,
 							'Content-Length' => body.bytesize.to_s,
 							'Vary' => 'User-Agent'
-							)
+						}
 					else
 						body = tdiary.eval_rhtml
-						head = @cgi.header(
+						head = {
 							'status' => '200 OK',
 							'type' => 'text/html',
 							'charset' => conf.encoding,
 							'Content-Length' => body.bytesize.to_s,
 							'Vary' => 'User-Agent'
-							)
+						}
 					end
-					print head
-					print body if /HEAD/i !~ @cgi.request_method
+					body = ( /HEAD/i !~ @cgi.request_method ? body : '' )
+					TDiary::Response.new( body, 200, head )
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
 						'type' => 'text/html',
 					}
 					head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-					print @cgi.header( head )
-					print %Q[
+					body = %Q[
 								<html>
 								<head>
 								<meta http-equiv="refresh" content="1;url=#{$!.path}">
@@ -199,6 +198,8 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
+					# TODO return code should be 302? (current behaviour returns 200)
+					TDiary::Response.new( body, 200, head )
 				end
 			end
 		end
