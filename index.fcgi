@@ -14,7 +14,7 @@ FCGI.each_cgi do |cgi|
     ENV.clear
     ENV.update(cgi.env_table)
     class << CGI; self; end.class_eval do
-      define_method(:new) { cgi }
+      define_method(:new) {|*args| cgi }
     end
     dir = File::dirname( cgi.env_table["SCRIPT_FILENAME"] )
     Dir.chdir(dir) do
