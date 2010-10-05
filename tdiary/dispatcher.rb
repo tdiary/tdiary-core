@@ -80,7 +80,7 @@ module TDiary
 
 					begin
 						head = {
-							'type' => 'text/html',
+							'Content-Type' => 'text/html',
 							'Vary' => 'User-Agent'
 						}
 						head['status'] = status if status
@@ -118,12 +118,12 @@ module TDiary
 						body = %Q[
 									<h1>404 Not Found</h1>
 									<div>#{' ' * 500}</div>]
-						TDiary::Response.new( body, 404, { 'type' => 'text/html' } )
+						TDiary::Response.new( body, 404, { 'Content-Type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'type' => 'text/html',
+						'Content-Type' => 'text/html',
 					}
 					head['cookie'] = tdiary.cookies if tdiary && tdiary.cookies.size > 0
 					body = %Q[
@@ -177,7 +177,7 @@ module TDiary
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 						head = {
 							'status' => '200 OK',
-							'type' => 'text/html',
+							'Content-Type' => 'text/html',
 							'charset' => conf.mobile_encoding,
 							'Content-Length' => body.bytesize.to_s,
 							'Vary' => 'User-Agent'
@@ -186,7 +186,7 @@ module TDiary
 						body = tdiary.eval_rhtml
 						head = {
 							'status' => '200 OK',
-							'type' => 'text/html',
+							'Content-Type' => 'text/html',
 							'charset' => conf.encoding,
 							'Content-Length' => body.bytesize.to_s,
 							'Vary' => 'User-Agent'
@@ -197,7 +197,7 @@ module TDiary
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'type' => 'text/html',
+						'Content-Type' => 'text/html',
 					}
 					head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 					body = %Q[
