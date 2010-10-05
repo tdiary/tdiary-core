@@ -23,7 +23,9 @@ begin
 	require 'tdiary/dispatcher'
 
 	@cgi = CGI.new
-	TDiary::Dispatcher.update.dispatch_cgi( @cgi )
+	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( @cgi )
+	TDiary::Dispatcher.send_headers( status, headers )
+	TDiary::Dispatcher.send_body( body )
 
 rescue Exception
 	if @cgi then

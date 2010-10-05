@@ -2,10 +2,42 @@
 
 require 'stringio'
 require 'tdiary'
-require 'tdiary/response_helper'
+require 'tdiary/tdiary_response'
 
 module TDiary
 	class Dispatcher
+		class << self
+			# stolen from Rack::Handler::CGI.send_headers
+			def send_headers( status, headers )
+				$stdout.print "Status: #{status}\r\n"
+				headers.each { |k, vs|
+					vs.split( "\n" ).each { |v|
+						$stdout.print "#{k}: #{v}\r\n"
+					}
+				}
+				$stdout.print "\r\n"
+				$stdout.flush
+			end
+
+			# stolen from Rack::Handler::CGI.send_body
+			def send_body( body )
+				body.each { |part|
+					$stdout.print part
+					$stdout.flush
+				}
+			end
+
+			# FIXME temporary method during (scratch) refactoring
+			def extract_status_for_legacy_tdiary( status_str )
+				return 200 unless status_str
+				if m = status_str.match(/(\d+)\s(.+)\Z/)
+					m[1].to_i
+				else
+					200
+				end
+			end
+		end
+
 		class IndexMain
 			def self.run( cgi )
 				begin
@@ -58,7 +90,7 @@ module TDiary
 						if /HEAD/i =~ @cgi.request_method then
 							head['Pragma'] = 'no-cache'
 							head['Cache-Control'] = 'no-cache'
-							print @cgi.header( head )
+							return TDiary::Response.new( '', 200, head )
 						else
 							if @cgi.mobile_agent? then
 								body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
@@ -80,18 +112,13 @@ module TDiary
 								head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							end
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-							print @cgi.header( head )
-							print body
+							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( status ), head )
 						end
 					rescue TDiary::NotFound
-						if @cgi then
-							print @cgi.header( 'status' => CGI::HTTP_STATUS['NOT_FOUND'], 'type' => 'text/html' )
-						else
-							print "Status: 404 Not Found\n"
-							print "Content-Type: text/html\n\n"
-						end
-						puts "<h1>404 Not Found</h1>"
-						puts "<div>#{' ' * 500}</div>"
+						body = %Q[
+									<h1>404 Not Found</h1>
+									<div>#{' ' * 500}</div>]
+						TDiary::Response.new( body, 404, { 'type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
 					head = {
@@ -99,8 +126,7 @@ module TDiary
 						'type' => 'text/html',
 					}
 					head['cookie'] = tdiary.cookies if tdiary && tdiary.cookies.size > 0
-					print @cgi.header( head )
-					print %Q[
+					body = %Q[
 								<html>
 								<head>
 								<meta http-equiv="refresh" content="1;url=#{$!.path}">
@@ -108,6 +134,8 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
+					# TODO return code should be 302? (current behaviour returns 200)
+					TDiary::Response.new( body, 200, head )
 				end
 			end
 		end
@@ -147,33 +175,32 @@ module TDiary
 					head = body = ''
 					if @cgi.mobile_agent? then
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
-						head = @cgi.header(
+						head = {
 							'status' => '200 OK',
 							'type' => 'text/html',
 							'charset' => conf.mobile_encoding,
 							'Content-Length' => body.bytesize.to_s,
 							'Vary' => 'User-Agent'
-							)
+						}
 					else
 						body = tdiary.eval_rhtml
-						head = @cgi.header(
+						head = {
 							'status' => '200 OK',
 							'type' => 'text/html',
 							'charset' => conf.encoding,
 							'Content-Length' => body.bytesize.to_s,
 							'Vary' => 'User-Agent'
-							)
+						}
 					end
-					print head
-					print body if /HEAD/i !~ @cgi.request_method
+					body = ( /HEAD/i !~ @cgi.request_method ? body : '' )
+					TDiary::Response.new( body, 200, head )
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
 						'type' => 'text/html',
 					}
 					head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-					print @cgi.header( head )
-					print %Q[
+					body = %Q[
 								<html>
 								<head>
 								<meta http-equiv="refresh" content="1;url=#{$!.path}">
@@ -181,6 +208,8 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
+					# TODO return code should be 302? (current behaviour returns 200)
+					TDiary::Response.new( body, 200, head )
 				end
 			end
 		end
@@ -205,12 +234,12 @@ module TDiary
 			@target = TARGET[target]
 		end
 
-		def dispatch_cgi( cgi = CGI.new, stdout = nil, stderr = nil )
-			stdout_orig = $stdout;stderr_orig = $stderr
+		def dispatch_cgi( cgi = CGI.new, raw_result = StringIO.new, dummy_stderr = StringIO.new )
+			stdout_orig = $stdout; stderr_orig = $stderr
 			begin
-				$stdout = stdout if stdout
-				$stderr = stderr if stderr
-				@target.run( cgi )
+				$stdout = raw_result; $stderr = dummy_stderr
+				result = @target.run( cgi )
+				result.to_a
 			ensure
 				$stdout = stdout_orig
 				$stderr = stderr_orig
@@ -218,7 +247,6 @@ module TDiary
 		end
 	end
 end
-
 
 # Local Variables:
 # mode: ruby
