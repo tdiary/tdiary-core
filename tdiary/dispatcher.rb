@@ -2,7 +2,7 @@
 
 require 'stringio'
 require 'tdiary'
-require 'tdiary/response_helper'
+require 'tdiary/tdiary_response'
 
 module TDiary
 	class Dispatcher
@@ -27,7 +27,17 @@ module TDiary
 				}
 			end
 
+			# FIXME temporary method during (scratch) refactoring
+			def extract_status_for_legacy_tdiary( status_str )
+				return 200 unless status_str
+				if m = status_str.match(/(\d+)\s(.+)\Z/)
+					m[1].to_i
+				else
+					200
+				end
+			end
 		end
+
 		class IndexMain
 			def self.run( cgi )
 				begin
@@ -102,7 +112,7 @@ module TDiary
 								head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							end
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-							TDiary::Response.new( body, ResponseHelper::HTTPStatus.parse( status ), head )
+							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( status ), head )
 						end
 					rescue TDiary::NotFound
 						body = %Q[
@@ -229,12 +239,7 @@ module TDiary
 			begin
 				$stdout = raw_result; $stderr = dummy_stderr
 				result = @target.run( cgi )
-				# FIXME remove if done the TDiary::Response introdution work.
-				if result.is_a?(TDiary::Response)
-					result.to_a
-				else
-					ResponseHelper.parse( raw_result.rewind && raw_result.read ).to_a
-				end
+				result.to_a
 			ensure
 				$stdout = stdout_orig
 				$stderr = stderr_orig
