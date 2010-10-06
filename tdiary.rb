@@ -7,7 +7,7 @@ Copyright (C) 2001-2010, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.1.20100921'
+TDIARY_VERSION = '3.0.1.20101006'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -259,7 +259,11 @@ module TDiary
 			if /^([^:]+:\/\/)([^\/]+)/ =~ ref
 				ref = $1 + $2.downcase + $'
 			end
-			uref = CGI::unescape( ref )
+			begin
+				uref = CGI::unescape( ref )
+			rescue Encoding::CompatibilityError
+				return
+			end
 			if pair = @referers[uref] then
 				pair = [pair, ref] if pair.class != Array # for compatibility
 				@referers[uref] = [pair[0] + count, pair[1]]
