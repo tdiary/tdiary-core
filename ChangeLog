@@ -1,3 +1,6 @@
+2010-10-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb: fixed Encoding error on illegal referer.
+
 2010-10-05  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* index.fcgi:  fix error for mobile phone in Ruby 1.9.2
 
