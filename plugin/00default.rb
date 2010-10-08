@@ -349,8 +349,16 @@ def description_tag
 	end
 end
 
+def require_jquery
+	@require_jquery = true
+end
+
+if /^(form|edit|preview|showcomment|conf|saveconf)$/ =~ @mode then
+	require_jquery
+end
+
 def jquery_tag
-	if /^(form|edit|preview|showcomment|conf|saveconf)$/ =~ @mode then
+	if @require_jquery then
 		%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
 	else
 		''
