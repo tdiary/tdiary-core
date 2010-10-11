@@ -1,3 +1,6 @@
+2010-10-08  TADA Tadashi <t@tdtds.jp>
+	* require_jquery method for plugin.
+
 2010-10-06  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb: fixed Encoding error on illegal referer.
 
