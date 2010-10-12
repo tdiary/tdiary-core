@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>
+      How to testing tDiary
+    </title>
+    <link href='./doc.css' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <h1>How to testing tDiary</h1>
+    <h2>概要</h2>
+    <p>tDiary-3.0.1.20101011 以降のバージョンでは tDiary を test するための仕組みがいくつか導入されています。具体的には以下の2点です。</p>
+    <ul>
+      <li>Capybara と steak を使った End-to-End のテスト方法</li>
+      <li>RSpec2 による単体テスト方法</li>
+    </ul>
+    <p>前者の方法は tDiary の内部構造に意識せずに、初期データからブラウザに表示される内容をテストする方法であり、後者の方法はプラグインや特定のメソッドをテストするたびに用いられる方法です。</p>
+    <p>テスト可能な tDiary 最終目標は cgi.rb に依存する仕組みから Rack のインタフェースに載せ替えた上で、tDiary の各モジュールに対してテストを実行できるようにすることです。</p>
+    <h2>必要なもの</h2>
+    <p>tDiary でテストを実行するためには以下の環境を用意する必要があります。</p>
+    <ul>
+      <li>Ruby 1.8.7 以降または Ruby 1.9.2 以降</li>
+      <li>RubyGems 1.3.7 以降</li>
+      <li>Bundler 1.0.0 以降</li>
+    </ul>
+    <h2>動かし方</h2>
+    <p>tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。</p>
+    <pre>bundle install --path ~/.bundle</pre>
+    <p>bundler によるインストールが完了すると、tDiary でテストを実行できるようになります。以下のコマンドを実行すると、tDiary に付属しているテストが全て実行されます。</p>
+    <pre>bundle exec rake spec</pre>
+    <h2>テストのディレクトリ構成と Rake タスク</h2>
+    <p>tDiary に用意されているテストは以下の3種類で構成されています。この構成は今後も変更される可能性もあるので、Rake -T コマンドを実行して Rake タスクの内容を確認するようにしてください。</p>
+    <dl>
+      <dt>rake spec:acceptance</dt>
+      <dd>End-to-End のテストを実行します</dd>
+      <dt>rake spec:core</dt>
+      <dd>core(tDiary本体)に関わるテストを実行します。</dd>
+      <dt>rake spec:plugin</dt>
+      <dd>misc/plugin 配下に存在するプラグインファイルのテストを実行します。</dd>
+    </dl>
+  </body>
+</html>
