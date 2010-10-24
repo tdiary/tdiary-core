@@ -1,6 +1,5 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-require "steak"
 require 'capybara/dsl'
 require 'rack'
 
@@ -24,7 +23,7 @@ RSpec.configure do |config|
   config.include Capybara
 end
 
-Capybara.default_selector = :css
+Capybara.save_and_open_page_path = File.dirname(__FILE__) + '../../tmp'
 
 # Put your acceptance spec helpers inside /spec/acceptance/support
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
