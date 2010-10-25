@@ -10,11 +10,7 @@ module TDiary
 			# stolen from Rack::Handler::CGI.send_headers
 			def send_headers( status, headers )
 				$stdout.print "Status: #{status}\r\n"
-				headers.each { |k, vs|
-					vs.split( "\n" ).each { |v|
-						$stdout.print "#{k}: #{v}\r\n"
-					}
-				}
+				$stdout.print CGI.new.header( headers )
 				$stdout.print "\r\n"
 				$stdout.flush
 			end
