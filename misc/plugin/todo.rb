@@ -37,6 +37,7 @@
 # 
 
 require 'fileutils'
+require 'time'
 class ToDo
 	attr_reader :prio, :todo, :limit
 	def initialize(prio, todo, limit, deleted = nil)
