@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-begin
-	Encoding::default_external = 'UTF-8'
-rescue NameError
-	$KCODE = 'n'
-end
-
 require 'rubygems'
 require 'bundler'
 
