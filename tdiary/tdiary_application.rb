@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+$:.insert( 1, File::dirname( __FILE__ ).untaint + '/../' )
 
 require 'cgi'
 require 'rack/request'
