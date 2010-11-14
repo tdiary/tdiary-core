@@ -20,15 +20,7 @@ Thread.start {
 	end
 }.join
 
-unless "".respond_to?('to_a')
-	class String
-		def to_a
-			[ self ]
-		end
-	end
-end
-
-unless "".respond_to?('each')
+unless "".respond_to?('to_a') && "".respond_to?('each')
 	class String
 		alias each each_line
 		include Enumerable
