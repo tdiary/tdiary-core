@@ -31,6 +31,7 @@ end
 unless "".respond_to?('each')
 	class String
 		alias each each_line
+		include Enumerable
 	end
 end
 
@@ -80,22 +81,10 @@ if "".respond_to?('force_encoding')
 	end
 end
 
-# Ruby1.9では String が Enumerable ではなくなった
-class String
-	def method_missing(name, *args, &block)
-		if each_line.respond_to?(name)
-			each_line.__send__(name, *args, &block)
-		else
-			super
-		end
-	end
-end
-
 # ENV#[] raises an exception on secure mode
 class CGI
 	ENV = ::ENV.to_hash
 end
-
 
 # for Ruby1.8.X
 
