@@ -11,7 +11,6 @@ module TDiary
 			def send_headers( status, headers )
 				$stdout.print "Status: #{status}\r\n"
 				$stdout.print CGI.new.header( headers )
-				$stdout.print "\r\n"
 				$stdout.flush
 			end
 

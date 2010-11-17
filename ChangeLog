@@ -1,3 +1,6 @@
+2010-11-17  tamoot <tamoot@gmail.com>
+	* tdiary/dispatcher.rb: deleted an over CR/LF.
+
 2010-11-14  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* misc/lib/compatible.rb: use Enumerable for String#each and String#to_a in Ruby 1.9.
