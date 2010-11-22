@@ -234,6 +234,7 @@ module TDiary
 			begin
 				$stdout = raw_result; $stderr = dummy_stderr
 				result = @target.run( cgi )
+				result.headers.reject!{|k,v| k.to_s.downcase == "status" }
 				result.to_a
 			ensure
 				$stdout = stdout_orig
