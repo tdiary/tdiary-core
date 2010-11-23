@@ -13,7 +13,7 @@ GEM
     celerity (0.8.4)
     childprocess (0.1.4)
       ffi (~> 0.6.3)
-    configuration (1.1.0)
+    configuration (1.2.0)
     culerity (0.2.12)
     diff-lcs (1.1.2)
     ffi (0.6.3)
@@ -23,7 +23,7 @@ GEM
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
     mime-types (1.16)
-    nokogiri (1.4.3.1)
+    nokogiri (1.4.4)
     rack (1.2.1)
     rack-test (0.5.6)
       rack (>= 1.0)
@@ -44,7 +44,7 @@ GEM
       ffi (~> 0.6.3)
       json_pure
       rubyzip
-    steak (1.0.0.rc.2)
+    steak (1.0.0.rc.4)
       rspec
     xpath (0.1.2)
       nokogiri (~> 1.3)
