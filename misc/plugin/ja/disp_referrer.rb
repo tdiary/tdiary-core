@@ -445,11 +445,11 @@ DispReferrer2_Google_cache = /cache:[^:]+:([^+]+)+/
 DispReferrer2_Yahoofs = /u=(.+)/
 DispReferrer2_Engines = {
 	'google' => [
-		[%r{\Ahttp://(?:[^./]+\.)*google\.([^/]+)/((?:hws/|m/)?search|blogsearch|custom|ie)}i, '".#{$1}のGoogle検索"', ['as_q', 'q', 'as_epq'], DispReferrer2_Google_cache],
+		[%r{\Ahttp://(?:[^./]+\.)*google\.([^/]+)/((?:hws/|m/)?search|blogsearch|custom|ie|m)}i, '".#{$1}のGoogle検索"', ['as_q', 'q', 'as_epq'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://.*?\bgoogle\.([^/]+)/.*url}i, '".#{$1}のGoogleのURL検索?"', ['as_q', 'q'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://.*?\bgoogle/search}i, '"たぶんGoogle検索"', ['as_q', 'q'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://eval.google\.([^/]+)}i, '".#{$1}のGoogle Accounts"', [], nil],
-		[%r{\Ahttp://images\.google\.([^/]+)/images}i, '".#{$1}のGoogleイメージ検索"', ['q'], DispReferrer2_Google_cache],
+		[%r{\Ahttp://(?:images|www)\.google\.([^/]+)/(?:images|imglanding)}i, '".#{$1}のGoogleイメージ検索"', ['q'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://images\.google\.([^/]+)/imgres}i, '".#{$1}のGoogleイメージ検索"', [:prev], DispReferrer2_Google_cache],
 		[%r{\Ahttp://translate\.google\.([^/]+)/translate}i, '".#{$1}のGoogle検索"', [:prev], DispReferrer2_Google_cache],
 	],
