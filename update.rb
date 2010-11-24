@@ -20,10 +20,12 @@ begin
 		org_path = File::dirname( __FILE__ ).untaint
 	end
 	$:.unshift( org_path ) unless $:.include?( org_path )
+	require 'tdiary/tdiary_request'
 	require 'tdiary/dispatcher'
 
 	@cgi = CGI.new
-	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( @cgi )
+	request = TDiary::Request.new( ENV )
+	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
 	TDiary::Dispatcher.send_headers( status, headers )
 	TDiary::Dispatcher.send_body( body )
 

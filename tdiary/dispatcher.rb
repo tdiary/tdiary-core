@@ -34,7 +34,7 @@ module TDiary
 		end
 
 		class IndexMain
-			def self.run( cgi )
+			def self.run( request, cgi )
 				begin
 					@cgi = cgi
 					conf = TDiary::Config::new(@cgi)
@@ -136,7 +136,7 @@ module TDiary
 		end
 
 		class UpdateMain
-			def self.run( cgi )
+			def self.run( request, cgi )
 				@cgi = cgi
 				conf = TDiary::Config::new(@cgi)
 				tdiary = nil
@@ -229,11 +229,12 @@ module TDiary
 			@target = TARGET[target]
 		end
 
-		def dispatch_cgi( cgi = CGI.new, raw_result = StringIO.new, dummy_stderr = StringIO.new )
+		# FIXME rename method name to more suitable one.
+		def dispatch_cgi( request, cgi = CGI.new, raw_result = StringIO.new, dummy_stderr = StringIO.new )
 			stdout_orig = $stdout; stderr_orig = $stderr
 			begin
 				$stdout = raw_result; $stderr = dummy_stderr
-				result = @target.run( cgi )
+				result = @target.run( request, cgi )
 				result.headers.reject!{|k,v| k.to_s.downcase == "status" }
 				result.to_a
 			ensure
