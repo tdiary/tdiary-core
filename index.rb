@@ -33,7 +33,7 @@ begin
 		@cgi = CGI::new(:accept_charset => 'shift_jis')
 		@cgi.params = cgi.params
 	end
-	request = TDiary::Request.new( ENV )
+	request = TDiary::Request.new( ENV, @cgi )
 	status, headers, body = TDiary::Dispatcher.index.dispatch_cgi( request, @cgi )
 	TDiary::Dispatcher.send_headers( status, headers )
 	TDiary::Dispatcher.send_body( body )

@@ -24,7 +24,7 @@ begin
 	require 'tdiary/dispatcher'
 
 	@cgi = CGI.new
-	request = TDiary::Request.new( ENV )
+	request = TDiary::Request.new( ENV, @cgi )
 	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
 	TDiary::Dispatcher.send_headers( status, headers )
 	TDiary::Dispatcher.send_body( body )

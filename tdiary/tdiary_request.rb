@@ -11,8 +11,8 @@ module TDiary
 		# CGI を Rack::Request っぽいインターフェイスに変換する
 		class Request
 			attr_reader :env, :cgi
-			def initialize( env )
-				@cgi = CGI.new
+			def initialize( env, cgi = CGI.new )
+				@cgi = cgi
 				@env = env
 			end
 
