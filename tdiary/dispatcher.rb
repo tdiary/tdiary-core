@@ -83,7 +83,7 @@ module TDiary
 						body = ''
 						head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
-						if /HEAD/i =~ @cgi.request_method then
+						if request.head? then
 							head['Pragma'] = 'no-cache'
 							head['Cache-Control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
@@ -96,7 +96,7 @@ module TDiary
 								require 'digest/md5'
 								body = tdiary.eval_rhtml
 								head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
-								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and /^GET$/i =~ @cgi.request_method then
+								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
 									head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 									body = ''
 								else
@@ -188,7 +188,7 @@ module TDiary
 							'Vary' => 'User-Agent'
 						}
 					end
-					body = ( /HEAD/i !~ @cgi.request_method ? body : '' )
+					body = ( request.head? ? '' : body )
 					TDiary::Response.new( body, 200, head )
 				rescue TDiary::ForceRedirect
 					head = {
