@@ -172,7 +172,6 @@ module TDiary
 					if @cgi.mobile_agent? then
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 						head = {
-							'status' => '200 OK',
 							'Content-Type' => 'text/html',
 							'charset' => conf.mobile_encoding,
 							'Content-Length' => body.bytesize.to_s,
@@ -181,7 +180,6 @@ module TDiary
 					else
 						body = tdiary.eval_rhtml
 						head = {
-							'status' => '200 OK',
 							'Content-Type' => 'text/html',
 							'charset' => conf.encoding,
 							'Content-Length' => body.bytesize.to_s,
