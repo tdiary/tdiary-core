@@ -37,7 +37,7 @@ module TDiary
 			def self.run( request, cgi )
 				begin
 					@cgi = cgi
-					conf = TDiary::Config::new(@cgi)
+					conf = TDiary::Config::new( @cgi )
 					tdiary = nil
 					status = nil
 
@@ -138,7 +138,7 @@ module TDiary
 		class UpdateMain
 			def self.run( request, cgi )
 				@cgi = cgi
-				conf = TDiary::Config::new(@cgi)
+				conf = TDiary::Config::new( @cgi )
 				tdiary = nil
 				begin
 					if @cgi.valid?( 'append' )
