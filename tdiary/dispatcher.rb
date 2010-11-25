@@ -23,8 +23,9 @@ module TDiary
 			end
 
 			# FIXME temporary method during (scratch) refactoring
-			def extract_status_for_legacy_tdiary( status_str )
-				return 200 unless status_str
+			def extract_status_for_legacy_tdiary( head )
+				status_str = head.delete('status')
+				return 200 if !status_str || status_str.empty?
 				if m = status_str.match(/(\d+)\s(.+)\Z/)
 					m[1].to_i
 				else
@@ -107,7 +108,7 @@ module TDiary
 								head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							end
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( status ), head )
+							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
 						end
 					rescue TDiary::NotFound
 						body = %Q[
