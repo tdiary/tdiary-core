@@ -13,9 +13,10 @@ module TDiary
 				yield self if block_given?
 			end
 
-			def to_a
+			def finish
 				[status, headers, body]
 			end
+			alias to_a finish           # For *response
 		end
 	end
 end
