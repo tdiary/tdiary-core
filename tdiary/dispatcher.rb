@@ -39,50 +39,23 @@ module TDiary
 				new( request, cgi ).run
 			end
 
-			attr_reader :request, :cgi
+			attr_reader :request, :cgi, :conf, :tdiary
 
 			def initialize(request, cgi)
 				@request = request
 				@cgi = cgi
+				@conf = TDiary::Config::new( cgi )
 			end
 
 			def run
 				begin
-					conf = TDiary::Config::new( @cgi )
-					tdiary = nil
 					status = nil
-
 					if %r[/\d{4,8}(-\d+)?\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' ) then
 						@cgi.params['date'] = [@cgi.redirect_url.sub( /.*\/(\d+)(-\d+)?\.html$/, '\1\2' )]
 						status = CGI::HTTP_STATUS['OK']
 					end
 
-					begin
-						if @cgi.valid?( 'comment' ) then
-							tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
-						elsif @cgi.valid?( 'date' )
-							date = @cgi.params['date'][0]
-							if /^\d{8}-\d+$/ =~ date then
-								tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
-							elsif /^\d{8}$/ =~ date then
-								tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
-							elsif /^\d{6}$/ =~ date then
-								tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )
-							elsif /^\d{4}$/ =~ date then
-								tdiary = TDiary::TDiaryNYear::new( @cgi, "month.rhtml", conf )
-							end
-						elsif @cgi.valid?( 'category' )
-							tdiary = TDiary::TDiaryCategoryView::new( @cgi, "category.rhtml", conf )
-						elsif @cgi.valid?( 'q' )
-							tdiary = TDiary::TDiarySearch::new( @cgi, "search.rhtml", conf )
-						else
-							tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
-						end
-					rescue TDiary::PermissionError
-						raise
-					rescue TDiary::TDiaryError
-					end
-					tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf ) if not tdiary
+					@tdiary = create_tdiary
 
 					begin
 						head = {
@@ -144,6 +117,36 @@ module TDiary
 					TDiary::Response.new( body, 200, head )
 				end
 			end
+
+			def create_tdiary
+				begin
+					if @cgi.valid?( 'comment' ) then
+						tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
+					elsif @cgi.valid?( 'date' )
+						date = @cgi.params['date'][0]
+						if /^\d{8}-\d+$/ =~ date then
+							tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
+						elsif /^\d{8}$/ =~ date then
+							tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+						elsif /^\d{6}$/ =~ date then
+							tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )
+						elsif /^\d{4}$/ =~ date then
+							tdiary = TDiary::TDiaryNYear::new( @cgi, "month.rhtml", conf )
+						end
+					elsif @cgi.valid?( 'category' )
+						tdiary = TDiary::TDiaryCategoryView::new( @cgi, "category.rhtml", conf )
+					elsif @cgi.valid?( 'q' )
+						tdiary = TDiary::TDiarySearch::new( @cgi, "search.rhtml", conf )
+					else
+						tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
+					end
+				rescue TDiary::PermissionError
+					raise
+				rescue TDiary::TDiaryError
+				end
+				tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf ) if not tdiary
+				tdiary
+			end
 		end
 
 		class UpdateMain
@@ -151,44 +154,18 @@ module TDiary
 				new( request, cgi ).run
 			end
 
-			attr_reader :request, :cgi
+			attr_reader :request, :cgi, :conf, :tdiary
 
 			def initialize( request, cgi )
 				@request = request
 				@cgi = cgi
+				@conf = TDiary::Config::new( cgi )
 			end
 
 			def run
-				conf = TDiary::Config::new( @cgi )
-				tdiary = nil
+				@tdiary = create_tdiary
 				begin
-					if @cgi.valid?( 'append' )
-						tdiary = TDiary::TDiaryAppend::new( @cgi, 'show.rhtml', conf )
-					elsif @cgi.valid?( 'edit' )
-						tdiary = TDiary::TDiaryEdit::new( @cgi, 'update.rhtml', conf )
-					elsif @cgi.valid?( 'replace' )
-						tdiary = TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
-					elsif @cgi.valid?( 'appendpreview' ) or @cgi.valid?( 'replacepreview' )
-						tdiary = TDiary::TDiaryPreview::new( @cgi, 'preview.rhtml', conf )
-					elsif @cgi.valid?( 'plugin' )
-						tdiary = TDiary::TDiaryFormPlugin::new( @cgi, 'update.rhtml', conf )
-					elsif @cgi.valid?( 'comment' )
-						tdiary = TDiary::TDiaryShowComment::new( @cgi, 'update.rhtml', conf )
-					elsif @cgi.valid?( 'saveconf' )
-						tdiary = TDiary::TDiarySaveConf::new( @cgi, 'conf.rhtml', conf )
-					elsif @cgi.valid?( 'conf' )
-						tdiary = TDiary::TDiaryConf::new( @cgi, 'conf.rhtml', conf )
-					elsif @cgi.valid?( 'referer' )
-						tdiary = TDiary::TDiaryConf::new( @cgi, 'referer.rhtml', conf )
-					else
-						tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
-					end
-				rescue TDiary::TDiaryError
-					tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
-				end
-
-				begin
-					head = body = ''
+					head = {}; body = ''
 					if request.mobile_agent? then
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 						head = {
@@ -225,6 +202,36 @@ module TDiary
 					# TODO return code should be 302? (current behaviour returns 200)
 					TDiary::Response.new( body, 200, head )
 				end
+			end
+
+			private
+			def create_tdiary
+				begin
+					if @cgi.valid?( 'append' )
+						tdiary = TDiary::TDiaryAppend::new( @cgi, 'show.rhtml', conf )
+					elsif @cgi.valid?( 'edit' )
+						tdiary = TDiary::TDiaryEdit::new( @cgi, 'update.rhtml', conf )
+					elsif @cgi.valid?( 'replace' )
+						tdiary = TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+					elsif @cgi.valid?( 'appendpreview' ) or @cgi.valid?( 'replacepreview' )
+						tdiary = TDiary::TDiaryPreview::new( @cgi, 'preview.rhtml', conf )
+					elsif @cgi.valid?( 'plugin' )
+						tdiary = TDiary::TDiaryFormPlugin::new( @cgi, 'update.rhtml', conf )
+					elsif @cgi.valid?( 'comment' )
+						tdiary = TDiary::TDiaryShowComment::new( @cgi, 'update.rhtml', conf )
+					elsif @cgi.valid?( 'saveconf' )
+						tdiary = TDiary::TDiarySaveConf::new( @cgi, 'conf.rhtml', conf )
+					elsif @cgi.valid?( 'conf' )
+						tdiary = TDiary::TDiaryConf::new( @cgi, 'conf.rhtml', conf )
+					elsif @cgi.valid?( 'referer' )
+						tdiary = TDiary::TDiaryConf::new( @cgi, 'referer.rhtml', conf )
+					else
+						tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
+					end
+				rescue TDiary::TDiaryError
+					tdiary = TDiary::TDiaryForm::new( @cgi, 'update.rhtml', conf )
+				end
+				tdiary
 			end
 		end
 
