@@ -203,6 +203,10 @@ module TDiary
 				raise NameError, 'not implemented : url'
 			end
 
+			def user_agent
+				@cgi.user_agent
+			end
+
 			def values_at( *keys )
 				raise NameError, 'not implemented : values_at'
 			end
