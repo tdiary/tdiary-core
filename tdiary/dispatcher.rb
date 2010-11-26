@@ -256,17 +256,10 @@ module TDiary
 		end
 
 		# FIXME rename method name to more suitable one.
-		def dispatch_cgi( request, cgi = CGI.new, raw_result = StringIO.new, dummy_stderr = StringIO.new )
-			stdout_orig = $stdout; stderr_orig = $stderr
-			begin
-				$stdout = raw_result; $stderr = dummy_stderr
-				result = @target.run( request, cgi )
-				result.headers.reject!{|k,v| k.to_s.downcase == "status" }
-				result.to_a
-			ensure
-				$stdout = stdout_orig
-				$stderr = stderr_orig
-			end
+		def dispatch_cgi( request, cgi = CGI.new )
+			result = @target.run( request, cgi )
+			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
+			result.to_a
 		end
 	end
 end
