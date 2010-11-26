@@ -88,7 +88,7 @@ module TDiary
 							head['Cache-Control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
-							if @cgi.mobile_agent? then
+							if request.mobile_agent? then
 								body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 								head['charset'] = conf.mobile_encoding
 								head['Content-Length'] = body.bytesize.to_s
@@ -169,7 +169,7 @@ module TDiary
 
 				begin
 					head = body = ''
-					if @cgi.mobile_agent? then
+					if request.mobile_agent? then
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 						head = {
 							'Content-Type' => 'text/html',

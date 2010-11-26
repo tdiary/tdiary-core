@@ -1,15 +1,27 @@
 # -*- coding: utf-8 -*-
 # stolen from okkez http://github.com/hiki/hiki/blob/rack/hiki/request.rb
 module TDiary
+	module RequestExtension
+		def mobile_agent?
+			self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM|SoftBank|Semulator|Vemulator|J-EMULATOR|emobile|mixi-mobile-converter)]i
+		end
+
+		def smartphone?
+			self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
+		end
+	end
 	if Object.const_defined?( :Rack )
 		Request = ::Rack::Request
 		class ::Rack::Request
 			alias remote_addr ip
 		end
+		Request.class_eval { include RequestExtension }
 	else
 		raise RuntimeError, 'Do not use CGI class!' if Object.const_defined?( :Rack )
 		# CGI を Rack::Request っぽいインターフェイスに変換する
 		class Request
+			include RequestExtension
+
 			attr_reader :env, :cgi
 			def initialize( env, cgi = CGI.new )
 				@cgi = cgi
