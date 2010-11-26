@@ -36,8 +36,18 @@ module TDiary
 
 		class IndexMain
 			def self.run( request, cgi )
+				new( request, cgi ).run
+			end
+
+			attr_reader :request, :cgi
+
+			def initialize(request, cgi)
+				@request = request
+				@cgi = cgi
+			end
+
+			def run
 				begin
-					@cgi = cgi
 					conf = TDiary::Config::new( @cgi )
 					tdiary = nil
 					status = nil
@@ -138,7 +148,17 @@ module TDiary
 
 		class UpdateMain
 			def self.run( request, cgi )
+				new( request, cgi ).run
+			end
+
+			attr_reader :request, :cgi
+
+			def initialize( request, cgi )
+				@request = request
 				@cgi = cgi
+			end
+
+			def run
 				conf = TDiary::Config::new( @cgi )
 				tdiary = nil
 				begin
