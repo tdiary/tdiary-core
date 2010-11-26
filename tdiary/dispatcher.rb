@@ -144,8 +144,7 @@ module TDiary
 					raise
 				rescue TDiary::TDiaryError
 				end
-				tdiary = TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf ) if not tdiary
-				tdiary
+				( tdiary ? tdiary : TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf ) )
 			end
 		end
 
