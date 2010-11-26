@@ -1310,7 +1310,7 @@ module TDiary
 
 			# create log directory
 			log_path = @conf.options['log_path'] || "#{@conf.data_path}/log/"
-			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
+			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path )
 
 			log_file = log_path + "debug.log"
 			@logger = Logger::new( log_file, 'daily' )
