@@ -51,7 +51,7 @@ module TDiary
 			def run
 				begin
 					status = nil
-					if %r[/\d{4,8}(-\d+)?\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' ) then
+					if %r[/\d{4,8}(-\d+)?\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' )
 						@cgi.params['date'] = [@cgi.redirect_url.sub( /.*\/(\d+)(-\d+)?\.html$/, '\1\2' )]
 						status = CGI::HTTP_STATUS['OK']
 					end
@@ -67,12 +67,12 @@ module TDiary
 						body = ''
 						head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
-						if request.head? then
+						if request.head?
 							head['Pragma'] = 'no-cache'
 							head['Cache-Control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
-							if request.mobile_agent? then
+							if request.mobile_agent?
 								body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 								head['charset'] = conf.mobile_encoding
 								head['Content-Length'] = body.bytesize.to_s
@@ -80,7 +80,7 @@ module TDiary
 								require 'digest/md5'
 								body = tdiary.eval_rhtml
 								head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
-								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
+								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get?
 									head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 									body = ''
 								else
@@ -121,16 +121,16 @@ module TDiary
 
 			def create_tdiary
 				begin
-					if params['comment'] then
+					if params['comment']
 						tdiary = TDiary::TDiaryComment::new( cgi, "day.rhtml", conf )
 					elsif (date = params['date'])
-						if /^\d{8}-\d+$/ =~ date then
+						if /^\d{8}-\d+$/ =~ date
 							tdiary = TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf )
-						elsif /^\d{8}$/ =~ date then
+						elsif /^\d{8}$/ =~ date
 							tdiary = TDiary::TDiaryDay::new( cgi, "day.rhtml", conf )
-						elsif /^\d{6}$/ =~ date then
+						elsif /^\d{6}$/ =~ date
 							tdiary = TDiary::TDiaryMonth::new( cgi, "month.rhtml", conf )
-						elsif /^\d{4}$/ =~ date then
+						elsif /^\d{4}$/ =~ date
 							tdiary = TDiary::TDiaryNYear::new( cgi, "month.rhtml", conf )
 						end
 					elsif params['category']
@@ -166,7 +166,7 @@ module TDiary
 				@tdiary = create_tdiary
 				begin
 					head = {}; body = ''
-					if request.mobile_agent? then
+					if request.mobile_agent?
 						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
 						head = {
 							'Content-Type' => 'text/html',
