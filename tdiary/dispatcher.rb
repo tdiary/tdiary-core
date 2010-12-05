@@ -96,7 +96,7 @@ module TDiary
 								body = tdiary.eval_rhtml
 								head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
 								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and /^GET$/i =~ @cgi.request_method then
-									head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
+									status = CGI::HTTP_STATUS['NOT_MODIFIED']
 									body = ''
 								else
 									head['charset'] = conf.encoding
