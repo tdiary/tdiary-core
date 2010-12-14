@@ -1,8 +1,7 @@
 .bundle
-coverage.aggregate
-capybara-*.html
-data
 coverage
+coverage.aggregate
+data
 tmp
 rdoc
 index.rdf
