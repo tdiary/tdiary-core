@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
-$:.unshift(File.dirname(__FILE__))
-require 'plugin_helper'
+require File.expand_path('../plugin_helper', __FILE__)
 
 describe "bq plugin w/" do
 	def setup_bq_plugin( mode )

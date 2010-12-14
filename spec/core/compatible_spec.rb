@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require File.dirname(__FILE__) + "/../spec_helper"
 
 if RUBY_VERSION > '1.9'
 	require 'tempfile'

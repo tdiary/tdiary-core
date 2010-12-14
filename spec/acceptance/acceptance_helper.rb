@@ -1,13 +1,10 @@
 require File.dirname(__FILE__) + "/../spec_helper"
-
+require File.dirname(__FILE__) + '/../../tdiary/tdiary_application'
 require 'capybara/dsl'
-require 'rack'
 
 RSpec.configure do |config|
   config.include Capybara
 end
-
-require File.dirname(__FILE__) + '/../../tdiary/tdiary_application'
 
 Capybara.app = Rack::Builder.new do
 	map '/' do
