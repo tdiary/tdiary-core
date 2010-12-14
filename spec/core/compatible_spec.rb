@@ -49,3 +49,10 @@ if RUBY_VERSION > '1.9'
 		end
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
