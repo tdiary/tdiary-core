@@ -52,20 +52,13 @@ end
 enhanced CGI class
 =end
 class CGI
+	include TDiary::RequestExtension
 	def valid?( param, idx = 0 )
 		begin
 			self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
 		rescue NameError # for Tempfile class of ruby 1.6
 			self.params[param][idx].stat.size > 0
 		end
-	end
-
-	def mobile_agent?
-		self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM|SoftBank|Semulator|Vemulator|J-EMULATOR|emobile|mixi-mobile-converter)]i
-	end
-
-	def smartphone?
-		self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
 	end
 
 	def https?
@@ -1317,7 +1310,7 @@ module TDiary
 
 			# create log directory
 			log_path = @conf.options['log_path'] || "#{@conf.data_path}/log/"
-			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
+			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path )
 
 			log_file = log_path + "debug.log"
 			@logger = Logger::new( log_file, 'daily' )

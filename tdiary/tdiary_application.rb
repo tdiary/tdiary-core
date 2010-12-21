@@ -2,9 +2,8 @@
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/../' )
 
 require 'cgi'
-require 'rack/request'
-require 'rack/response'
 
+require 'tdiary/tdiary_request'
 require 'tdiary/dispatcher'
 
 # FIXME too dirty hack :-<
@@ -24,8 +23,8 @@ module TDiary
 		end
 
 		def call( env )
-			adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_request
+			req = adopt_rack_request_to_plain_old_tdiary_style( env )
+			dispatch_request( req )
 		end
 
 		private
@@ -40,15 +39,16 @@ module TDiary
 		end
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
-			req = Rack::Request.new( env )
+			req = TDiary::Request.new( env )
 			$RACK_ENV = req.env
 			env["rack.input"].rewind
 			fake_stdin_as_params
+			req
 		end
 
-		def dispatch_request
+		def dispatch_request( request )
 			dispatcher = TDiary::Dispatcher.__send__( @target )
-			dispatcher.dispatch_cgi( CGI.new )
+			dispatcher.dispatch_cgi( request )
 		end
 	end
 end
