@@ -11,7 +11,7 @@ GEM
       selenium-webdriver (>= 0.0.27)
       xpath (~> 0.1.2)
     celerity (0.8.6)
-    childprocess (0.1.4)
+    childprocess (0.1.6)
       ffi (~> 0.6.3)
     configuration (1.2.0)
     culerity (0.2.13)
@@ -38,8 +38,8 @@ GEM
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.3.0)
     rubyzip (0.9.4)
-    selenium-webdriver (0.1.1)
-      childprocess (= 0.1.4)
+    selenium-webdriver (0.1.2)
+      childprocess (~> 0.1.5)
       ffi (~> 0.6.3)
       json_pure
       rubyzip
