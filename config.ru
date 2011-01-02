@@ -19,7 +19,14 @@ end
 
 map "/update.rb" do
 	use Rack::Auth::Basic do |user, pass|
-		user == 'user' && pass == 'pass'
+		if File.exist?('.htpasswd')
+			require 'webrick/httpauth/htpasswd'
+			htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
+			crypted = htpasswd.get_passwd(nil, user, false)
+			crypted == pass.crypt(crypted) if crypted
+		else
+			user == 'user' && pass == 'pass'
+		end
 	end
 
 	run TDiary::Application.new(:update)
