@@ -67,7 +67,7 @@ def trackback_total( total ); "(總共有: #{total} 則)"; end
 def navi_index; '首頁'; end
 def navi_latest; '最新日誌'; end
 def navi_oldest; '最舊日誌'; end
-def navi_update; "新增"; end
+def navi_update; "新???"; end
 def navi_edit; "編輯"; end
 def navi_preference; "選項設定"; end
 def navi_prev_diary(date); "前一則日誌 (#{date.strftime(@date_format)})"; end
@@ -81,7 +81,7 @@ def navi_next_ndays; "#{@conf.latest_limit} days after"; end
 
 def submit_label
 	if @mode == 'form' or @cgi.valid?( 'appendpreview' ) then
-		'新增' #'Append'
+		'新???' #'Append'
 	else
 		'替換' #'Replace'
 	end
@@ -96,7 +96,7 @@ def nyear_diary_title(date, years); "過去的此時此刻"; end
 # labels (for mobile)
 #
 def mobile_navi_latest; '最新日誌'; end
-def mobile_navi_update; "新增"; end
+def mobile_navi_update; "新???"; end
 def mobile_navi_edit; "編輯"; end
 def mobile_navi_preference; "選項設定"; end
 def mobile_navi_prev_diary; "前一則日誌"; end
@@ -128,15 +128,15 @@ add_conf_proc( 'default', '基本設定', 'basic' ) do
 	@conf.banner ||= ''
 	<<-HTML
 	<h3 class="subtitle">大標題</h3>
-	#{"<p>這是您日誌的大標題，您填入的值會用在 HTML 的 &lt;title&gt; 項目當中。特別注意，本欄位請勿使用 HTML 標籤(tags)。 </p>" unless @conf.mobile_agent?}
+	#{"<p>這是您日誌的大標題，您填入的???會用在 HTML 的 &lt;title&gt; 項目當中。特別注意，本欄位請勿使用 HTML 標籤(tags)。 </p>" unless @conf.mobile_agent?}
 	<p><input name="html_title" value="#{h @conf.html_title}" size="50"></p>
 
 	<h3 class="subtitle">作者</h3>
-	#{"<p>填上您的大名吧！此欄位的值將會用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
+	#{"<p>填上您的大名吧！此欄位的???將會用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
 	<p><input name="author_name" value="#{h @conf.author_name}" size="40"></p>
 
 	<h3 class="subtitle">電子郵件</h3>
-	#{"<p>填入您的電子郵件位址，此欄位的值將用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
+	#{"<p>填入您的電子郵件位址，此欄位的???將用在 HTML 標頭(header)裡。</p>" unless @conf.mobile_agent?}
 	<p><input name="author_mail" value="#{h @conf.author_mail}" size="40"></p>
 
 	<h3 class="subtitle">您索引網頁(首頁)的 URL</h3>
@@ -163,14 +163,14 @@ add_conf_proc( 'default', '基本設定', 'basic' ) do
 end
 
 # header/footer (header)
-add_conf_proc( 'header', '頁眉與頁腳', 'basic' ) do
+add_conf_proc( 'header', '頁眉與頁???', 'basic' ) do
 	saveconf_header
 
 	<<-HTML
 	<h3 class="subtitle">頁眉</h3>
-	#{"<p>這段文字將會擺置在每個頁面的頂端，您可以使用 HTML 語法。但是請勿移除 \"&lt;%=navi%&gt;\"標籤，因為它代表包含\"更新\"(Update)功\能鈕在內的「導覽列」，而 \"&lt;%=calendar%&gt;\" 標籤代表日曆。此處您也可以自由搭配其它的 plugin。 </p>" unless @conf.mobile_agent?}
+	#{"<p>這段文字將會擺置在???個頁面的頂端，您可以使用 HTML 語法。但是請勿移除 \"&lt;%=navi%&gt;\"標籤，因為它代表包含\"更新\"(Update)功\能鈕在???的「導覽列」，而 \"&lt;%=calendar%&gt;\" 標籤代表日???。此處您也可以自由搭配其它的 plugin。 </p>" unless @conf.mobile_agent?}
 	<p><textarea name="header" cols="70" rows="10">#{h @conf.header}</textarea></p>
-	<h3 class="subtitle">頁腳</h3>
+	<h3 class="subtitle">頁???</h3>
 	#{"<p>這段文字除了它的位置是置於底端以外，其餘都如同頁眉。 </p>" unless @conf.mobile_agent?}
 	<p><textarea name="footer" cols="70" rows="10">#{h @conf.footer}</textarea></p>
 	HTML
@@ -182,13 +182,13 @@ add_conf_proc( 'display', '顯示', 'basic' ) do
 
 	<<-HTML
 	<h3 class="subtitle">段落的錨點(anchor)代表記號</h3>
-	#{"<p>\"錨點\" 的意義在於讓其它網站可以與您的日誌互相連結。段落錨點會被置於每個段落的開頭處，您可以指定 \"&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;\"，而圖形化錨點的有無，會由佈景主題的設計來決定。 </p>" unless @conf.mobile_agent?}
+	#{"<p>\"錨點\" 的意義在於讓其它網站可以與您的日誌互相連結。段落錨點會被置於???個段落的開頭處，您可以指定 \"&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;\"，而圖形化錨點的有無，會由佈景主題的設計來決定。 </p>" unless @conf.mobile_agent?}
 	<p><input name="section_anchor" value="#{h @conf.section_anchor}" size="40"></p>
 	<h3 class="subtitle">迴響的錨點(anchor)代表記號</h3>
-	#{"<p>迴響的錨點會置於每則迴響的開頭處，您可以指定 \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\"。</p>" unless @conf.mobile_agent?}
+	#{"<p>迴響的錨點會置於???則迴響的開頭處，您可以指定 \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\"。</p>" unless @conf.mobile_agent?}
 	<p><input name="comment_anchor" value="#{h @conf.comment_anchor}" size="40"></p>
 	<h3 class="subtitle">日期的格式</h3>
-	#{"<p>日期的格式，一旦您指定下列這些 % 符號之後搭配的字元，其組合就可代表日期格式，如 \"%Y\"(年), \"%m\"(月)﹜\"%b\"(月份的簡短表示法), \"%B\"(月份的長表示法), \"%d\"(日), \"%a\"(星期的簡短表示法), \"%A\"(星期的長表示法)。</p>" unless @conf.mobile_agent?}
+	#{"<p>日期的格式，一旦您指定下列這些 % 符號之後搭配的字元，其組合就可代表日期格式，如 \"%Y\"(年), \"%m\"(月)???\"%b\"(月份的簡短表示法), \"%B\"(月份的長表示法), \"%d\"(日), \"%a\"(星期的簡短表示法), \"%A\"(星期的長表示法)。</p>" unless @conf.mobile_agent?}
 	<p><input name="date_format" value="#{h @conf.date_format}" size="30"></p>
 	<h3 class="subtitle">「最新日誌」最多要秀出幾天份？</h3>
 	#{"<p>在「最新日誌」當中，您要顯示多少天份的日誌？ </p>" unless @conf.mobile_agent?}
@@ -207,7 +207,7 @@ add_conf_proc( 'timezone', '時間差的調整', 'update' ) do
 	saveconf_timezone
 	<<-HTML
 	<h3 class="subtitle">時間差的調整</h3>
-	#{"<p>若是您更新了日誌，您可以透過此欄位(單位為小時)來做自動調整時間差。例如說，您若想要指定在清晨兩點所發表的日誌被當成是昨天的日誌，您就可以在這裡填入 -2。tDiary 會參考此數值來判定這篇日誌的發表日期。 </p>" unless @conf.mobile_agent?}
+	#{"<p>若是您更新了日誌，您可以透過此欄位(單位為小時)來做自動調整時間差。例如???，您若想要指定在清晨兩點所發表的日誌被當成是昨天的日誌，您就可以在這裡填入 -2。tDiary 會參考此數???來判定這篇日誌的發表日期。 </p>" unless @conf.mobile_agent?}
 	<p><input name="hour_offset" value="#{h @conf.hour_offset}" size="5"></p>
 	HTML
 end
@@ -241,7 +241,7 @@ add_conf_proc( 'comment', '迴響', 'tsukkomi' ) do
 		<option value="false"#{" selected" unless @conf.show_comment}>不要</option>
 	</select></p>
 	<h3 class="subtitle">要秀出幾篇迴響？</h3>
-	#{"<p>在「最新日誌」或「某月日誌」模示下，您想要秀出多少篇可見的迴響？ 相對來說，在「單篇」模示下，所有的迴響都會秀出來。 </p>" unless @conf.mobile_agent?}
+	#{"<p>在「最新日誌」或「某月日誌」模示下，您想要秀出多少篇可見的迴響？ 相對來???，在「單篇」模示下，所有的迴響都會秀出來。 </p>" unless @conf.mobile_agent?}
 	<p>秀出 <input name="comment_limit" value="#{h @conf.comment_limit}" size="3"> 篇迴響</p>
 	<h3 class="subtitle">Limit of TSUKKOMI per a day</h3>
 	#{"<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>" unless @conf.mobile_agent?}
@@ -331,13 +331,8 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>Disabled (default)
 	</p>
 	#{"<p>TDiary can add a secret key for every post form to prevent CSRF. As long as attackers do not know the secret key,
-	forged requests will not be granted. To enable this feature, you must specify the secret key below.
+	forged requests will not be granted. To enable this feature, tDiary will generate a key automatically.
 	To allow Referer-disabled browsers, you must enable this setting.</p>" unless @conf.mobile_agent?}
-	<h4>CSRF protection key</h4>
-	<p><input type="text" name="key" value="#{h csrf_protection_key}" size="20"></p>
-	#{"<p>A secret key used for key-based CSRF protection. Specify a secret string which is not easy to guess.
-	If this key is leaked, CSRF attacks can be exploited.
-	Do not use any passwords used in other places. You need not to remember this phrase to type in.</p>" unless @conf.mobile_agent?}
 	#{"<p class=\"message\">Caution:
 	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
 	<a href=\"#{h @update}?conf=csrf_protection\">Please open this page again via this link</a>.

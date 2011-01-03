@@ -869,7 +869,11 @@ def saveconf_csrf_protection
 			err = :param
 		end
 		err = :param if check_method == 0
-		check_key = @cgi.params['key'][0]
+		check_key = ''
+		key_seed = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+		1.upto(30) do
+			check_key << key_seed[rand( key_seed.length )]
+		end
 
 		if check_method & 2 != 0 && (!check_key || check_key == '') then
 			err ||= :key
