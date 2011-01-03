@@ -1,5 +1,6 @@
 2011-01-03  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: generated CSRF protection key automatically.
+	* misc/plugin/kw.rb: specified UTF-8 to searching by google.
 
 2010-11-17  tamoot <tamoot@gmail.com>
 	* tdiary/dispatcher.rb: deleted an over CR/LF.
