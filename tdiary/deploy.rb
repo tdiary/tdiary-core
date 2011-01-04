@@ -5,7 +5,7 @@ set :user, "user"
 set(:home) { "/home/#{user}" }
 set(:deploy_to) { "#{home}/app/tdiary-core" }
 set :scm, :git
-set :branch, 'master'
+set :branch, 'deploy'
 set :deploy_via, :copy
 
 role :app, "server"
