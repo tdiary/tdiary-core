@@ -1,6 +1,12 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    capistrano (2.5.19)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.0.0)
     capybara (0.4.0)
       celerity (>= 0.7.9)
       culerity (>= 0.2.4)
@@ -18,11 +24,19 @@ GEM
     diff-lcs (1.1.2)
     ffi (0.6.3)
       rake (>= 0.8.7)
+    highline (1.6.1)
     json_pure (1.4.6)
     launchy (0.3.7)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
     mime-types (1.16)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.0.23)
+    net-ssh-gateway (1.0.1)
+      net-ssh (>= 1.99.1)
     nokogiri (1.4.4)
     rack (1.2.1)
     rack-test (0.5.7)
@@ -52,6 +66,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  capistrano
   capybara
   launchy
   rack
