@@ -10,7 +10,13 @@ module TDiary
 			# stolen from Rack::Handler::CGI.send_headers
 			def send_headers( status, headers )
 				$stdout.print "Status: #{status}\r\n"
-				$stdout.print CGI.new.header( headers )
+				begin
+					$stdout.print CGI.new.header( headers )
+				rescue EOFError
+					charset = headers.delete( 'charset' )
+					headers['Content-Type'] += "; charset=#{charset}" if charset
+					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
+				end
 				$stdout.flush
 			end
 
