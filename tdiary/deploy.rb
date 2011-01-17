@@ -1,9 +1,9 @@
-set :application, "tdiary-core"
+set :application, "tdiary"
 set :repository, File.expand_path('../..', __FILE__)
 
 set :user, "user"
 set(:home) { "/home/#{user}" }
-set(:deploy_to) { "#{home}/app/tdiary-core" }
+set(:deploy_to) { "#{home}/app/#{application}" }
 set :scm, :git
 set :branch, 'deploy'
 set :deploy_via, :copy
