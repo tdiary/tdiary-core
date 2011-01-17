@@ -16,4 +16,10 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
+
+  task :update_library, :roles => :app do
+    run "cp -r #{shared_path}/lib/* #{latest_release}/misc/lib"
+  end
 end
+
+after 'deploy:finalize_update', 'deploy:update_library'
