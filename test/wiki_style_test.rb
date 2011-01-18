@@ -175,6 +175,33 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
     checkConversion(source, html)
   end
 
+  def test_append_without_subtitle
+    # -------- wiki_style source
+    source = <<-'EOF'
+! subTitle
+body
+    EOF
+
+    opt = {}
+    opt[:preConvertHtml] = lambda{ |diary|
+      diary.append(<<-'EOF')
+appended body
+      EOF
+    }
+
+    # -------- HTML
+    html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<p>body</p>
+<p>appended body</p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
+</div>
+    EOF
+    checkConversion(source, html, opt)
+  end
+
   def checkConversion(source, htmlExpected, opt = nil)
     opt ||= {}
     diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
