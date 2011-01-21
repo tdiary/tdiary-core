@@ -40,7 +40,7 @@ feature '基本設定の利用' do
 		# page.should have_field("banner", :with => "http://sho.tdiary.net/images/banner.png")
 	end
 
-	scenario 'ヘッダ・フッタの設定' do
+	pending 'ヘッダ・フッタの設定' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
@@ -56,7 +56,6 @@ HEADER
 bravo
 </div>
 FOOTER
-
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
@@ -64,6 +63,7 @@ FOOTER
 		within('h1') { page.should have_content('alpha') }
 		within('div.sidebar') { page.should have_content('bravo')}
 
+		# TODO 設定画面で保存されていることを確認
 		click_link '追記'
 		click_link '設定'
 		click_link 'ヘッダ・フッタ'
@@ -80,7 +80,7 @@ bravo
 FOOTER
 	end
 
-	scenario '表示一版の設定' do
+	pending '表示一版の設定' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
@@ -100,9 +100,10 @@ DATE
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
+		# TODO 表示一般の確認
 	end
 
-	scenario 'ログレベルの選択の設定' do
+	pending 'ログレベルの選択の設定' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
@@ -123,7 +124,7 @@ DATE
 		}
 	end
 
-	scenario '時差調整が保存される' do
+	pending '時差調整が保存される' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
@@ -141,9 +142,10 @@ DATE
 			within('span.day') { page.should have_field('day', :with => d) }
 		}
 
+		# TODO 時差調整の分だけ追記がずれていることを確認
+
 		click_link '設定'
 		click_link '時差調整'
-
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
@@ -160,6 +162,7 @@ DATE
 		click_link '最新'
 		within('head') {
 			page.should have_css('link[href="theme/base.css"]')
+			page.should have_css('link[href="theme/tdiary1/tdiary1.css"]')
 		}
 
 		click_link '追記'
@@ -170,3 +173,11 @@ DATE
 		}
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3
