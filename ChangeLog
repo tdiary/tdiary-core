@@ -1,3 +1,15 @@
+2011-01-30  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* misc/lib/compatible.rb: move to tdiary/compatible.rb
+
+2011-01-18  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary/wiki_style.rb, test/wiki_style_test.rb: applied patch #168
+
+2011-01-17  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* Capfile, tdiary/deploy.rb: added deployment task with Capistrano
+
 2011-01-05  TADA Tadashi <t@tdtds.jp>
 	* tdiary/dispatch.rb: fixed error on image.rb uploading image files.
 

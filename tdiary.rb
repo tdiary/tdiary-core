@@ -3,11 +3,11 @@
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
 
-Copyright (C) 2001-2010, TADA Tadashi <t@tdtds.jp>
+Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.1.20110105'
+TDIARY_VERSION = '3.0.1.20110130'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
