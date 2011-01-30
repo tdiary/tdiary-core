@@ -2,21 +2,8 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
 if RUBY_VERSION > '1.9'
-	require 'tempfile'
 	require 'pstore'
 	require 'fileutils'
-
-	class String
-		def to_8bit
-			self.respond_to?(:force_encoding) ? self.force_encoding(Encoding::ASCII_8BIT) : self
-		end
-	end
-
-	describe String do
-		it "should return 8bit encoding string" do
-			"str".to_8bit.encoding.should == Encoding::ASCII_8BIT
-		end
-	end
 
 	describe PStore, "auto convert library" do
 		before(:all) do
