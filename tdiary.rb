@@ -22,7 +22,7 @@ begin
 rescue LoadError
 	require 'erb'
 end
-require 'compatible'
+require 'tdiary/compatible'
 
 =begin
 == String class
