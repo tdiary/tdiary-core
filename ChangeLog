@@ -1,3 +1,6 @@
+2011-02-18  TADA Tadashi <t@tdtds.jp>
+	* skel/preview*: removed westing </strong>.
+
 2011-01-30  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* misc/lib/compatible.rb: move to tdiary/compatible.rb

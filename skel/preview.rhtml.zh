@@ -26,7 +26,7 @@ param = {
 	<h2><span class="title">Plugin Error</span></h2>
 	<div class="body">
 	<div class="section">
-		<h3><%=h @exception.class.to_s %></strong></h3>
+		<h3><%=h @exception.class.to_s %></h3>
 		<pre><%=h @exception.to_s %></pre>
 	</div>
 	</div>
