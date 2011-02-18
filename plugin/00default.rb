@@ -350,7 +350,7 @@ def description_tag
 end
 
 def jquery_tag
-	%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
+	%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
 end
 
 def theme_url; 'theme'; end
