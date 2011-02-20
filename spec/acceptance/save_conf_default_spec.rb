@@ -40,7 +40,7 @@ feature '基本設定の利用' do
 		# page.should have_field("banner", :with => "http://sho.tdiary.net/images/banner.png")
 	end
 
-	pending 'ヘッダ・フッタの設定' do
+	scenario 'ヘッダ・フッタの設定' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
@@ -63,7 +63,6 @@ FOOTER
 		within('h1') { page.should have_content('alpha') }
 		within('div.sidebar') { page.should have_content('bravo')}
 
-		# TODO 設定画面で保存されていることを確認
 		click_link '追記'
 		click_link '設定'
 		click_link 'ヘッダ・フッタ'
@@ -80,19 +79,26 @@ bravo
 FOOTER
 	end
 
-	pending '表示一版の設定' do
+	scenario '表示一版の設定' do
+		today = Date.today
+		yestarday = Date.today - 1
+
+		append_default_diary(today.to_s)
+		append_default_diary(yestarday.to_s)
+		append_default_comment
+
 		visit '/'
 		click_link '追記'
 		click_link '設定'
 		click_link '表示一般'
 		fill_in 'section_anchor', :with => <<-SECTION
-<span class="sanchor">■</span>
+<span class="sanchor">★</span>
 SECTION
 		fill_in 'comment_anchor', :with => <<-COMMENT
-<span class="canchor">#</span>
+<span class="canchor">●</span>
 COMMENT
 		fill_in 'date_format', :with => <<-DATE
-%Y/%m/%d
+%Y:%m:%d
 DATE
 		fill_in 'latest_limit', :with => 1
 		select '非表示', :from => 'show_nyear'
@@ -100,7 +106,14 @@ DATE
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
-		# TODO 表示一般の確認
+		click_link '最新'
+		page.should have_content('★')
+		page.should have_content('●')
+		within('h2') do
+			page.should have_content("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
+			page.should_not have_content("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
+		end
+		page.should_not have_content("長年日記")
 	end
 
 	pending 'ログレベルの選択の設定' do
@@ -124,12 +137,12 @@ DATE
 		}
 	end
 
-	pending '時差調整が保存される' do
+	scenario '時差調整が保存される' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
 		click_link '時差調整'
-		fill_in 'hour_offset', :with => '-24'
+		fill_in 'hour_offset', :with => '-28'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
@@ -142,11 +155,9 @@ DATE
 			within('span.day') { page.should have_field('day', :with => d) }
 		}
 
-		# TODO 時差調整の分だけ追記がずれていることを確認
-
 		click_link '設定'
 		click_link '時差調整'
-		page.should have_field('hour_offset', :with => '-24.0')
+		page.should have_field('hour_offset', :with => '-28.0')
 	end
 
 	scenario 'テーマ選択が保存される' do
