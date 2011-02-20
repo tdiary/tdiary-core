@@ -162,7 +162,7 @@ end
 
 def referer_add_to_diary( diary, body )
 	return unless body
-	body.each do |r|
+	body.lines do |r|
 		count, ref = r.chomp.split( / /, 2 )
 		next unless ref
 		diary.add_referer( ref.chomp, count.to_i )
@@ -265,21 +265,21 @@ def saveconf_referer
 		@conf.show_referer = @cgi.params['show_referer'][0] == 'true' ? true : false
 
 		no_referer2 = []
-		@conf.to_native( @cgi.params['no_referer'][0] ).each do |ref|
+		@conf.to_native( @cgi.params['no_referer'][0] ).split( /\r?\n\.\r?\n/ ).each do |ref|
 			ref.strip!
 			no_referer2 << ref if ref.length > 0
 		end
 		@conf.no_referer2 = no_referer2
 
 		only_volatile2 = []
-		@conf.to_native( @cgi.params['only_volatile'][0] ).each do |ref|
+		@conf.to_native( @cgi.params['only_volatile'][0] ).split( /\r?\n\.\r?\n/ ).each do |ref|
 			ref.strip!
 			only_volatile2 << ref if ref.length > 0
 		end
 		@conf.only_volatile2 = only_volatile2
 
 		referer_table2 = []
-		@conf.to_native( @cgi.params['referer_table'][0] ).each do |pair|
+		@conf.to_native( @cgi.params['referer_table'][0] ).split( /\r?\n\.\r?\n/ ).each do |pair|
 			u, n = pair.sub( /[\r\n]+/, '' ).split( /[ \t]+/, 2 )
 			referer_table2 << [u,n] if u and n
 		end

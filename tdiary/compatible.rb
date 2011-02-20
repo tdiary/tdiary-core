@@ -20,13 +20,6 @@ Thread.start {
 	end
 }.join
 
-unless "".respond_to?('to_a') && "".respond_to?('each')
-	class String
-		alias each each_line
-		include Enumerable
-	end
-end
-
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
 if "".respond_to?('force_encoding')
 	require 'pstore'
