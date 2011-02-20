@@ -20,6 +20,6 @@ Capybara.app = Rack::Builder.new do
 	end
 end
 
-Capybara.save_and_open_page_path = File.dirname(__FILE__) + '../../tmp'
+Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../../tmp'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
