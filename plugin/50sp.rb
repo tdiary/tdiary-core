@@ -2,7 +2,7 @@
 # 50sp.rb - select-plugins plugin
 
 SP_PREFIX = 'sp'
-@sp_path = ( @conf["#{SP_PREFIX}.path"] || ["#{TDiary::PATH}/misc/plugin"] )
+@sp_path = [( @conf["#{SP_PREFIX}.path"] || "#{TDiary::PATH}/misc/plugin" )].flatten
 @sp_path = @sp_path.collect do |path|
 	/\/$/ =~ path ? path.chop : path
 end
