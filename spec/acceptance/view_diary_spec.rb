@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature '日記を読む' do
-	background do
-		setup_tdiary
-	end
-
 	scenario '最新の日記の表示' do
 		visit '/'
 		within('title') { page.should have_content('【日記のタイトル】') }

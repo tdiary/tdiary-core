@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'リンク元の表示' do
-	background do
-		setup_tdiary
-	end
-
 	scenario '日表示にリンク元が表示されている' do
 		append_default_diary
 		visit '/'

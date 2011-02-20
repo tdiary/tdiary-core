@@ -564,7 +564,7 @@ module TDiary
 		def load
 			@secure = true unless @secure
 			@options = {}
-			load_tdiary_config
+			eval( File::open( "tdiary.conf" ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
@@ -681,23 +681,6 @@ module TDiary
 		end
 
 		private
-		def load_tdiary_config
-			eval( File::open( tdiary_config_file_path ) {
-					|f| f.read }.untaint, b, "(#{tdiary_config_file_path})", 1 )
-		end
-
-		def tdiary_config_file_path
-			return @tdiary_config_file_path if @tdiary_config_file_path
-			@tdiary_config_file_path = default_tdiary_conf_path
-		end
-
-		def default_tdiary_conf_path
-			if defined?( ::Rack )
-				"tdiary.conf.rack"
-			else
-				"tdiary.conf"
-			end
-		end
 
 		def method_missing( *m )
 			if m.length == 1 then

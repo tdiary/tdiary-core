@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature '基本設定の利用' do
-	background do
-		setup_tdiary
-	end
-
 	scenario 'サイトの情報の設定' do
 		visit '/'
 		click_link '追記'

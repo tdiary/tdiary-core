@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'spamフィルタ設定の利用' do
-	background do
-		setup_tdiary
-	end
-
 	scenario 'おすすめフィルタの内容が保存される'
 
 	scenario 'CSRF情報が保存される'
