@@ -51,7 +51,19 @@ feature '日記を読む' do
 		}
 	end
 
-	scenario 'n年日記機能を表示'
+	scenario 'n年日記機能を表示' do
+		append_default_diary('2001-04-23')
+		append_default_diary('2002-04-23')
+		append_default_diary('2003-04-23')
+
+    visit '/'
+    click_link '長年日記'
+
+    titles = page.all('h2 span.date a').map(&:text)
+    titles.should include '2001年04月23日'
+    titles.should include '2002年04月23日'
+    titles.should include '2003年04月23日'
+  end
 
 	scenario '指定をした日を表示' do
 		append_default_diary('2001-04-23')
