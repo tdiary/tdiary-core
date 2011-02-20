@@ -7,7 +7,7 @@ RSpec.configure do |config|
 
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', File.dirname(__FILE__))
 	rack_conf = File.expand_path('../fixtures/tdiary.conf.rack', File.dirname(__FILE__))
-	work_data_dir = File.expand_path('../../data', File.dirname(__FILE__))
+	work_data_dir = File.expand_path('../../tmp/data', File.dirname(__FILE__))
 	work_conf = File.expand_path('../../tdiary.conf', File.dirname(__FILE__))
 
 	config.before(:all) do

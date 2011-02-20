@@ -8,7 +8,7 @@
 #-------------------------------------------
 # 下の@data_pathだけは必ず指定してください!!
 #-------------------------------------------
-@data_path = File.expand_path("data", File.dirname(__FILE__))
+@data_path = File.expand_path("tmp/data", File.dirname(__FILE__))
 
 #   @data_pathでは日記のデータを保存するディレクトリを指定します。
 #   このディレクトリは通常、WWW経由でアクセスできない(public_html配下で
