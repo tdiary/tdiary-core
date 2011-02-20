@@ -8,18 +8,6 @@
 
 # for Ruby1.9.1
 
-# temporally path for BUG of $SAFE == 1 on ruby 1.9.1p0
-# This problem was fixed on ruby 1.9.1p129.
-Thread.start {
-	begin
-		$SAFE = 1
-		require 'stringio'
-		TDIARY_SAFE_NORMAL = 1
-	rescue SecurityError
-		TDIARY_SAFE_NORMAL = 0
-	end
-}.join
-
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
 if "".respond_to?('force_encoding')
 	require 'pstore'

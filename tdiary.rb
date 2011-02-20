@@ -497,7 +497,7 @@ module TDiary
 		def save
 			result = ERB::new( File::open( "#{PATH}/skel/tdiary.rconf" ){|f| f.read }.untaint ).result( binding )
 			result.untaint unless @secure
-			Safe::safe( @secure ? 4 : TDIARY_SAFE_NORMAL ) do
+			Safe::safe( @secure ? 4 : 1 ) do
 				eval( result, binding, "(TDiary::Config#save)", 1 )
 			end
 			File::open( "#{@data_path}tdiary.conf", 'w' ) do |o|
@@ -659,7 +659,7 @@ module TDiary
 
 				b = binding.taint
 				eval( def_vars1, b )
-				Safe::safe( @secure ? 4 : TDIARY_SAFE_NORMAL ) do
+				Safe::safe( @secure ? 4 : 1 ) do
 					begin
 						eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
 					rescue SyntaxError
@@ -791,7 +791,7 @@ module TDiary
 			@section_enter_procs.taint
 			@subtitle_procs.taint
 			@section_leave_procs.taint
-			return Safe::safe( secure ? 4 : TDIARY_SAFE_NORMAL ) do
+			return Safe::safe( secure ? 4 : 1 ) do
 				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			end
 		end
@@ -996,7 +996,7 @@ module TDiary
 			r = str.dup
 			if @options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
-				Safe::safe( @conf.secure ? 4 : TDIARY_SAFE_NORMAL ) do
+				Safe::safe( @conf.secure ? 4 : 1 ) do
 					begin
 						r = ERB::new( r ).result( binding )
 					rescue Exception
