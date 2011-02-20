@@ -1,3 +1,8 @@
+2011-02-20  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary.rb, tdiary.conf.rack: removed tdiary.conf.rack, now used tdiary.conf only.
+	* spec/**/*_spec.rb, spec/spec_helper.rb: rewrite spec setup.
+
 2011-02-18  KADO Masanori  <kdmsnr@gmail.com>
 
 	* plugin/00default.rb: use jQuery in all mode: Closes #8
