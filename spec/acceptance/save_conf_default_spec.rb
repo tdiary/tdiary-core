@@ -19,6 +19,7 @@ feature '基本設定の利用' do
 		fill_in "icon", :with => "http://tdtds.jp/favicon.png"
 		# TODO banner の値が fill_in されない
 		#fill_in "banner", :with => "http://sho.tdiary.net/images/banner.png"
+		# TODO x_frame_open の設定
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
@@ -91,15 +92,9 @@ FOOTER
 		click_link '追記'
 		click_link '設定'
 		click_link '表示一般'
-		fill_in 'section_anchor', :with => <<-SECTION
-<span class="sanchor">★</span>
-SECTION
-		fill_in 'comment_anchor', :with => <<-COMMENT
-<span class="canchor">●</span>
-COMMENT
-		fill_in 'date_format', :with => <<-DATE
-%Y:%m:%d
-DATE
+		fill_in 'section_anchor', :with => '<span class="sanchor">★</span>'
+		fill_in 'comment_anchor', :with => '<span class="canchor">●</span>'
+		fill_in 'date_format', :with => '%Y:%m:%d'
 		fill_in 'latest_limit', :with => 1
 		select '非表示', :from => 'show_nyear'
 
@@ -109,10 +104,9 @@ DATE
 		click_link '最新'
 		page.should have_content('★')
 		page.should have_content('●')
-		within('h2') do
-			page.should have_content("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
-			page.should_not have_content("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
-		end
+		titles = page.all('h2 span.date a').map(&:text)
+		titles.should include("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
+		titles.should_not include("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
 		page.should_not have_content("長年日記")
 	end
 
