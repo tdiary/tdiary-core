@@ -1,10 +1,7 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 require File.dirname(__FILE__) + '/../../tdiary/tdiary_application'
-require 'capybara/dsl'
 
 RSpec.configure do |config|
-	config.include Capybara
-
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', File.dirname(__FILE__))
 	rack_conf = File.expand_path('../fixtures/tdiary.conf.rack', File.dirname(__FILE__))
 	work_data_dir = File.expand_path('../../tmp/data', File.dirname(__FILE__))
