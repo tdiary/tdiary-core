@@ -17,6 +17,8 @@ end
 
 require 'cgi'
 require 'uri'
+require 'logger'
+require 'pstore'
 begin
 	require 'erb_fast'
 rescue LoadError
@@ -1179,7 +1181,7 @@ module TDiary
 		end
 
 		def cache_path
-			@conf.cache_path || "#{@conf.data_path}cache"
+			(@conf.cache_path || "#{@conf.data_path}cache").untaint
 		end
 
 		def cache_file( prefix )
@@ -1214,7 +1216,6 @@ module TDiary
 		def parser_cache( date, key = nil, obj = nil )
 			return nil if @ignore_parser_cache
 
-			require 'pstore'
 			unless FileTest::directory?( cache_path ) then
 				begin
 					Dir::mkdir( cache_path )
@@ -1295,28 +1296,11 @@ module TDiary
 		def load_logger
 			return if @logger
 
-			require 'fileutils'
-			require 'logger'
+			log_path = (@conf.log_path || "#{@conf.data_path}log").untaint
+			Dir::mkdir( log_path ) unless FileTest::directory?( log_path )
 
-			# create log directory
-			log_path = @conf.options['log_path'] || "#{@conf.data_path}/log/"
-			FileUtils::mkdir_p( log_path ) unless FileTest::directory?( log_path ) 
-
-			log_file = log_path + "debug.log"
-			@logger = Logger::new( log_file, 'daily' )
-
-			case @conf.options['log_level']
-			when "FATAL"
-				@logger.level = Logger::FATAL
-			when "ERROR"
-				@logger.level = Logger::ERROR
-			when "WARN"
-				@logger.level = Logger::WARN
-			when "INFO"
-				@logger.level = Logger::INFO
-			else
-				@logger.level = Logger::DEBUG
-			end
+			@logger = Logger::new( File.join(log_path, "debug.log"), 'daily' )
+			@logger.level = Logger.const_get( @conf.log_level || 'DEBUG' )
 		end
 	end
 
