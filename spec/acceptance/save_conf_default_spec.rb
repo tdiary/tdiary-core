@@ -132,7 +132,7 @@ FOOTER
 		click_link '追記'
 		click_link '設定'
 		click_link '時差調整'
-		fill_in 'hour_offset', :with => '-28'
+		fill_in 'hour_offset', :with => '-24'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
@@ -147,7 +147,7 @@ FOOTER
 
 		click_link '設定'
 		click_link '時差調整'
-		page.should have_field('hour_offset', :with => '-28.0')
+		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
 	scenario 'テーマ選択が保存される' do
