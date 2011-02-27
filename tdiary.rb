@@ -7,7 +7,7 @@ Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.1.20110222'
+TDIARY_VERSION = '3.0.1.20110227'
 
 $:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
 
@@ -55,11 +55,7 @@ enhanced CGI class
 =end
 class CGI
 	def valid?( param, idx = 0 )
-		begin
-			self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
-		rescue NameError # for Tempfile class of ruby 1.6
-			self.params[param][idx].stat.size > 0
-		end
+		self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
 	end
 
 	def mobile_agent?
@@ -743,13 +739,6 @@ module TDiary
 			@date_format = @conf.date_format
 			@referer_table = @conf.referer_table
 			@options = @conf.options
-
-			# for ruby 1.6.x support
-			if @conf.secure then
-				@cgi.params.each_value do |p|
-					p.each {|v| v.taint}
-				end
-			end
 
 			# loading plugins
 			@plugin_files = []
