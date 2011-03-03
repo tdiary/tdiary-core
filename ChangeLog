@@ -1,3 +1,7 @@
+2011-03-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary.rb: remove old redirect action for apache ErrorDocutment.
+
 2011-02-27  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* tdiary.rb: remove ruby 1.6 backward compatibility.

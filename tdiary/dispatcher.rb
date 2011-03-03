@@ -47,11 +47,6 @@ module TDiary
 					tdiary = nil
 					status = nil
 
-					if %r[/\d{4,8}(-\d+)?\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' ) then
-						@cgi.params['date'] = [@cgi.redirect_url.sub( /.*\/(\d+)(-\d+)?\.html$/, '\1\2' )]
-						status = CGI::HTTP_STATUS['OK']
-					end
-
 					begin
 						if @cgi.valid?( 'comment' ) then
 							tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
