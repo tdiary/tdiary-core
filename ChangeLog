@@ -1,3 +1,7 @@
+2011-03-05  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary/tdiary_style.rb: fix 1.8 backward compatibility. thx tamoot.
+
 2011-03-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* tdiary.rb: remove old redirect action for apache ErrorDocutment.

@@ -79,7 +79,7 @@ module TDiary
 		def body_to_html
 			html = ""
 			tag = false
-			@body.each do |p|
+			@body.lines.each do |p|
 				if p[0] == ?< then
 					html = @body.dup
 					break
@@ -191,10 +191,10 @@ module TDiary
 				if /^</ =~ section.body then
 					r << %Q[#{section.body}]
 				elsif section.subtitle
-					r << %Q[<p>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/u, '')}.join( "</p>\n<p>" )}</p>\n]
+					r << %Q[<p>#{section.body.lines.collect{|l|l.chomp.sub( /^[　 ]/u, '')}.join( "</p>\n<p>" )}</p>\n]
 				else
 					r << %Q[<p><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</p>\n<p>" )}</p>]
+					r << %Q[#{section.body.lines.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</p>\n<p>" )}</p>]
 				end
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 				r << %Q[</div>]
@@ -212,10 +212,10 @@ module TDiary
 				if /^</ =~ section.body then
 					r << section.body
 				elsif section.subtitle
-					r << %Q[<P>#{section.body.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
+					r << %Q[<P>#{section.body.lines.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
 				else
 					r << %Q[<P><%= subtitle_proc( Time::at( #{date.to_i} ), nil ) %>]
-					r << %Q[#{section.body.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
+					r << %Q[#{section.body.lines.collect{|l|l.chomp.sub( /^[　 ]/u, '' )}.join( "</P>\n<P>" )}</P>\n]
 				end
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 			end
