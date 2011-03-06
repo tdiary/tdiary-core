@@ -1,14 +1,7 @@
 # -*- coding: utf-8; -*-
-#!/usr/bin/env ruby
-#-*-ruby-*-
-require "test/unit"
 
-thisdir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH << thisdir
-$LOAD_PATH << "#{thisdir}/../../.."
-
-require "tdiary"
-require "etdiary_style"
+require File.expand_path('../test_helper', __FILE__)
+require 'misc/style/etdiary/etdiary_style'
 
 class EtdiaryTest < Test::Unit::TestCase
   def test_etdiary
