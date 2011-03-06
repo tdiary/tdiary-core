@@ -1,0 +1,18 @@
+=begin
+= dot.rd2rc
+default dot file for "rd2".
+=end
+
+# define relation between types of part and Filter to set $RD["filter"]
+# RD::INCLUDE_FILTER is used if type doesn't set.
+#   $RC["filter"]["((|type|))"] = ((|Filter|))
+
+$RC["filter"]["include"] = RD::INCLUDE_FILTER
+$RC["filter"]["rd"] = RD::RD_FILTER
+$RC["filter"]["eval"] = RD::EVAL_FILTER
+
+=begin
+== script info.
+ default dot file for "rd2".
+ $Id: dot.rd2rc,v 1.2 2000/06/09 15:48:42 toshirok Exp $
+=end

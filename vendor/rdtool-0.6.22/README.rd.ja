@@ -1,0 +1,53 @@
+=begin
+= RDtool 0.6.21
+== RDってなに？
+
+RDはRubyにおけるPOD(Plain Old Documentation)のようなものです。
+RDtoolはRDのフォーマッタであり、RDをHTMLなどに変換できます。
+
+== 何が変わった？
+
+HISTORYを見てください。
+
+== インストールの方法
+
+ (1)必要なら、((%su%))
+ (2)((%ruby setup.rb%))
+ (3)utils/rd-mode.elを使いたいならば
+    それらを((*手で*))インストールします。
+
+== どうやって使うか。
+
+基本的には、こんな感じ。
+  % rd2 rdfile.rd > outputfile
+
+フォーマットライブラリを指定したい時は、こう。
+  % rd2 -r library rdfile.rd > outputfile
+
+((% rd2 --help %))でオプションの詳細がでます。
+
+フォーマットライブラリ依存のオプションは先にフォーマットライブラリの
+指定をしてから((%--help%))。例えば、
+
+  % rd2 -r rd/rd2html-lib.rb --help
+
+rd2はホームディレクトリにある".rd2rc"というファイルを読み込みます。
+これはRubyスクリプトです。
+
+== RDの書き方
+
+doc/rd-draft.rdを読んでください。
+
+== バグ報告
+
+バグを見付けた時は、次のアドレスまでメールしてください。
+((<URL:mailto:moonwolf@moonwolf.com>))
+
+== ライセンス
+
+RDtoolはRuby's LicenseかGPLの下で使用/配布/改造してください。
+RDtoolのパッケージにはTosh以外の人が著作権を持つファイルが含まれています。
+それらのファイルについての配布条件はファイル自体に書かれたライセンスの下で
+行ってください。
+
+=end

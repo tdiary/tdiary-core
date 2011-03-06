@@ -325,7 +325,7 @@ module TDiary
 	
 		def append( body, author = nil )
 			section = nil
-			body.each do |l|
+			body.lines.each do |l|
 				case l
 				when /^=(begin|end)\b/
 				  	# do nothing
