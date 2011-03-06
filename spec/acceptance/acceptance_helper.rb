@@ -1,11 +1,13 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 require File.dirname(__FILE__) + '/../../tdiary/tdiary_application'
 
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
+
 RSpec.configure do |config|
-	fixture_conf = File.expand_path('../fixtures/just_installed.conf', File.dirname(__FILE__))
-	rack_conf = File.expand_path('../fixtures/tdiary.conf.rack', File.dirname(__FILE__))
-	work_data_dir = File.expand_path('../../tmp/data', File.dirname(__FILE__))
-	work_conf = File.expand_path('../../tdiary.conf', File.dirname(__FILE__))
+	fixture_conf = File.expand_path('../fixtures/just_installed.conf', __FILE__)
+	rack_conf = File.expand_path('../fixtures/tdiary.conf.rack', __FILE__)
+	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
+	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
 	config.before(:all) do
 		FileUtils.cp_r rack_conf, work_conf, :verbose => false
@@ -40,8 +42,6 @@ Capybara.app = Rack::Builder.new do
 end
 
 Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../../tmp'
-
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 # Local Variables:
 # mode: ruby

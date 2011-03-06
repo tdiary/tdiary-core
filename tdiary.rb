@@ -9,11 +9,8 @@ You can redistribute it and/or modify it under GPL2.
 
 TDIARY_VERSION = '3.0.1.20110305'
 
-$:.insert( 1, File::dirname( __FILE__ ).untaint + '/misc/lib' )
-
-Dir.glob(File::dirname( __FILE__ ).untaint + '/vendor/*/lib') do |dir|
-	$:.insert( 1, dir )
-end
+$:.unshift File::dirname( __FILE__ ).untaint + '/misc/lib'
+Dir["#{File::dirname( __FILE__ ).untaint + '/vendor/*/lib'}"].each {|dir| $:.unshift dir }
 
 require 'cgi'
 require 'uri'
