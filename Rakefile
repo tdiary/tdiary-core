@@ -1,5 +1,6 @@
 require 'rake'
 require 'rake/clean'
+require 'rake/testtask'
 require 'rspec/core/rake_task'
 
 CLEAN.include(
@@ -14,7 +15,7 @@ CLOBBER.include(
 	"coverage"
 )
 
-task :default => :spec
+task :default => [:spec, :test]
 
 desc "Run specs"
 task :spec do |t|
@@ -50,6 +51,12 @@ namespace :coverage do
 		mkdir "coverage" unless File.exist? "coverage"
 		rm "coverage.aggregate" if File.exist? "coverage.aggregate"
 	}
+end
+
+Rake::TestTask.new do |t|
+	t.libs << "test"
+	t.test_files = FileList['test/*_test.rb']
+	t.verbose = true
 end
 
 desc "all coverage"
