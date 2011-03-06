@@ -1,5 +1,7 @@
-require File.dirname(__FILE__) + "/../spec_helper"
-require File.dirname(__FILE__) + '/../../tdiary/tdiary_application'
+require File.dirname(__FILE__) + '/../spec_helper'
+
+$:.unshift File.expand_path('../../..', __FILE__)
+require 'tdiary/tdiary_application'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 

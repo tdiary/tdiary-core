@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-$:.unshift File::dirname( __FILE__ ).untaint + '/..'
 
-require 'cgi'
+require File.expand_path('../environment', __FILE__)
+Bundler.require :default if defined?(Bundler)
 require 'rack/request'
 require 'rack/response'
 
