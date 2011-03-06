@@ -1,11 +1,6 @@
 # -*- coding: utf-8; -*-
-#!/usr/bin/env ruby
-#-*-ruby-*-
-require "test/unit"
 
-$:.unshift( "#{File.dirname(__FILE__)}/.." )
-require "tdiary"
-require "tdiary/wiki_style"
+require File.expand_path('../test_helper', __FILE__)
 
 class WikiStyleTest < Test::Unit::TestCase
   def test_wiki_style

@@ -1,10 +1,6 @@
 # -*- coding: utf-8; -*-
 
-require "test/unit"
-
-$:.unshift( "#{File.dirname(__FILE__)}/.." )
-require "tdiary"
-require "tdiary/tdiary_style"
+require File.expand_path('../test_helper', __FILE__)
 
 class TDiaryStyleTest < Test::Unit::TestCase
   def test_tdiary_style

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+require File.expand_path('../tdiary/environment', __FILE__)
 require 'rake'
 require 'rake/clean'
 require 'rake/testtask'
