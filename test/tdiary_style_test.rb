@@ -79,28 +79,12 @@ ge%><%= section_leave_proc( Time::at( 1041346800 ) ) %>
     checkConversion(source, html)
   end
 
-  def checkConversion(source, html, opt = nil)
+  def checkConversion(source, html)
     opt ||= {}
     diary = TDiary::TdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
     diary.append(source)
-    if opt[:preConvertHtml]
-      opt[:preConvertHtml].call(diary)
-    end
     htmlExpected = html.chomp
     htmlResult = diary.to_html({'anchor' => true})
-    if htmlExpected == htmlResult
-      assert(true)
-    else
-      $diffOutput ||= File.open("tdiary_style_test.diff", "w")
-      require "tempfile"
-      files = [htmlExpected, htmlResult].collect { |content|
-        tmpfile = Tempfile.new("tdiary_style")
-        tmpfile.write(content)
-        tmpfile.flush
-        tmpfile.path
-      }
-      $diffOutput.print(`diff -u #{files[0]} #{files[1]}`)
-      assert(false, "(See tdiary_style_test.diff)\n-- Expected\n#{htmlExpected}\n-- Result\n#{htmlResult}")
-    end
+    assert_diary(htmlExpected, htmlResult)
   end
 end #/TDiaryStyleTest

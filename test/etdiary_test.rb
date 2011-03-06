@@ -242,27 +242,15 @@ sect2-para0
     assert_equal(2, anchorNumber)
   end
 
-  def checkConversion(source, htmlExpected, opt = nil)
+  def checkConversion(source, html, opt = nil)
     opt ||= {}
     diary = TDiary::EtdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
     diary.append(source)
     if opt[:preConvertHtml]
       opt[:preConvertHtml].call(diary)
     end
+    htmlExpected = html
     htmlResult = diary.to_html({'anchor' => true, 'index' => ''})
-    if htmlExpected == htmlResult
-      assert(true)
-    else
-      $diffOutput ||= File.open("etdiary_test.diff", "w")
-      require "tempfile"
-      files = [htmlExpected, htmlResult].collect { |content|
-        tmpfile = Tempfile.new("etdiary")
-        tmpfile.write(content)
-        tmpfile.flush
-        tmpfile.path
-      }
-      $diffOutput.print(`diff -u #{files[0]} #{files[1]}`)
-      assert(false, "(See etdiary_test.diff)\n-- Expected\n#{htmlExpected}\n-- Result\n#{htmlResult}")
-    end
+    assert_diary(htmlExpected, htmlResult)
   end
 end #/EtdiaryTest

@@ -198,27 +198,15 @@ appended body
     checkConversion(source, html, opt)
   end
 
-  def checkConversion(source, htmlExpected, opt = nil)
+  def checkConversion(source, html, opt = nil)
     opt ||= {}
     diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
     diary.append(source)
     if opt[:preConvertHtml]
       opt[:preConvertHtml].call(diary)
     end
+    htmlExpected = html
     htmlResult = diary.to_html({'anchor' => true})
-    if htmlExpected == htmlResult
-      assert(true)
-    else
-      $diffOutput ||= File.open("wiki_style_test.diff", "w")
-      require "tempfile"
-      files = [htmlExpected, htmlResult].collect { |content|
-        tmpfile = Tempfile.new("wiki_style")
-        tmpfile.write(content)
-        tmpfile.flush
-        tmpfile.path
-      }
-      $diffOutput.print(`diff -u #{files[0]} #{files[1]}`)
-      assert(false, "(See wiki_style_test.diff)\n-- Expected\n#{htmlExpected}\n-- Result\n#{htmlResult}")
-    end
+    assert_diary(htmlExpected, htmlResult)
   end
 end #/WikiStyleTest
