@@ -1,6 +1,7 @@
 # -*- coding: utf-8; -*-
 
 require File.expand_path('../test_helper', __FILE__)
+require 'tdiary/tdiary_style'
 
 class TDiaryStyleTest < Test::Unit::TestCase
   def test_tdiary_style

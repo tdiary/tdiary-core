@@ -1,6 +1,7 @@
 # -*- coding: utf-8; -*-
 
 require File.expand_path('../test_helper', __FILE__)
+require 'tdiary/wiki_style'
 
 class WikiStyleTest < Test::Unit::TestCase
   def test_wiki_style
