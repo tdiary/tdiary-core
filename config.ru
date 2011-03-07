@@ -1,11 +1,7 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/tdiary_application'
 
-# use Rack::ShowExceptions
-# use Rack::CommonLogger
-# use Rack::Lint
 use Rack::Reloader
-
 use Rack::Static, :urls => ["/theme"], :root => "."
 use Rack::Static, :urls => ["/js"], :root => "."
 
