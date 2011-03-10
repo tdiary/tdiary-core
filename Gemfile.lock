@@ -67,7 +67,6 @@ GEM
       rubyzip
     steak (1.1.0)
       rspec (>= 1.3)
-    test-unit (2.2.0)
     thin (1.2.8)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -87,5 +86,4 @@ DEPENDENCIES
   rcov
   rspec
   steak
-  test-unit (~> 2.2.0)
   thin

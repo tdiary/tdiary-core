@@ -1,22 +1,26 @@
 # -*- coding: utf-8; -*-
+require File.dirname(__FILE__) + '/../../spec_helper'
 
-require File.expand_path('../test_helper', __FILE__)
+require 'tdiary'
 require 'misc/style/rd/rd_style'
 
-class RdStyleTest < Test::Unit::TestCase
-  def test_rd_style
-    # -------- wiki_style source
-    source = <<-'EOF'
+describe TDiary::RdDiary do
+	before do
+		@diary = TDiary::RdDiary.new(Time::at( 1041346800 ), "TITLE", "")
+	end
+
+	describe 'test_rd_style' do
+		before do
+			source = <<-'EOF'
 = subTitle
 honbun
 
 == subTitleH4
 honbun
 
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ))%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -25,13 +29,16 @@ honbun
 <p>honbun</p>
 <%=section_leave_proc( Time::at( 1041346800 ))%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
 
-  def test_rd_style_plugin
-    # -------- wiki_style source
-    source = <<-'EOF'
+		it { @diary.to_html({'anchor' => true}).should eq @html }
+	end
+
+	describe 'test_rd_style_plugin' do
+		before do
+			source = <<-'EOF'
 = subTitle
 ((%plugin%))
 ((%plugin%))
@@ -44,10 +51,9 @@ ge%))b
 
 ((%ho
 ge%))
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ))%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -59,15 +65,16 @@ aaa</p>
 <p><%=ho ge%></p>
 <%=section_leave_proc( Time::at( 1041346800 ))%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
-
-  def checkConversion(source, html)
-    diary = TDiary::RdDiary.new(Time::at( 1041346800 ), "TITLE", "")
-    diary.append(source)
-    htmlExpected = html
-    htmlResult = diary.to_html({'anchor' => true})
-    assert_diary(htmlExpected, htmlResult)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true}).should eq @html }
+	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

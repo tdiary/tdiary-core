@@ -8,7 +8,6 @@ group :development do
 end
 
 group :test do
-  gem 'test-unit', '~> 2.2.0', :require => 'test/unit'
   gem 'rspec'
   gem 'rcov'
   gem 'steak'

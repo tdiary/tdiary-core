@@ -1,12 +1,17 @@
 # -*- coding: utf-8; -*-
+require File.dirname(__FILE__) + '/../../spec_helper'
 
-require File.expand_path('../test_helper', __FILE__)
+require 'tdiary'
 require 'misc/style/etdiary/etdiary_style'
 
-class EtdiaryTest < Test::Unit::TestCase
-  def test_etdiary
-    # -------- etDiary source
-    source = <<-'EOF'
+describe TDiary::EtdiaryDiary do
+	before do
+		@diary = TDiary::EtdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
+	end
+
+	describe 'test_etdiary' do
+		before do
+			source = <<-'EOF'
 hogehoge
 fugafuga
 
@@ -41,10 +46,9 @@ Section without title and anchor.
 <<<>>>
 Section without title.
 
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>
@@ -90,21 +94,21 @@ Section without title.
 </p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  end
-
-  def test_etdiary_unterminated_tag
-    # -------- etDiary source
-    source = <<-'EOF'
+	describe 'test_etdiary_unterminated_tag' do
+		before do
+			source = <<-'EOF'
 <p>
 paragraph
 </q>
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>
@@ -114,36 +118,38 @@ paragraph
 </p>(tDiary warning: tag &lt;p&gt; is not terminated.)
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_etdiary_null
-    # -------- etDiary source
-    source = <<-'EOF'
-    EOF
+	describe 'test_etdiary_null' do
+		before do
+			source = <<-'EOF'
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>
 </p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_etdiary_sectionAtBeginning
-    # -------- etDiary source
-    source = <<-'EOF'
+	describe 'test_etdiary_sectionAtBeginning' do
+		before do
+			source = <<-'EOF'
 <<hoge>>
 fuga
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "hoge" ) %></h3>
@@ -152,51 +158,50 @@ fuga
 </p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-    checkConversion(source, html)
-  end
-
-  def test_etdiary_appending
-    # -------- etDiary source
-    source = <<-'EOF'
+	describe 'test_etdiary_appending' do
+		before do
+			source = <<-'EOF'
 <p>para1</p>
-    EOF
+			EOF
 
-    # -------- etDiary source (appended)
-    sourceAppended = <<-'EOF'
+			sourceAppended = <<-'EOF'
 <p>para2</p>
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p>para1</p>
 <p>para2</p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    preConvertHtml = proc { |diary|
-      diary.append(sourceAppended)
-    }
-    checkConversion(source, html, :preConvertHtml => preConvertHtml)
-  end
+			EOF
 
-  # 2004.08.12 Reported by Shun-ichi TAHARA, thanks!
-  def test_etdiary_subsequentPREtoSectionTitle
-    # -------- etDiary source
-    source = <<-'EOF'
+			@diary.append(source)
+			@diary.append(sourceAppended)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
+
+	# 2004.08.12 Reported by Shun-ichi TAHARA, thanks!
+	describe 'test_etdiary_subsequentPREtoSectionTitle' do
+		before do
+			source = <<-'EOF'
 <<hoge>>
 <pre>
 hoge
 
 fuga
 </pre>
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "hoge" ) %></h3>
@@ -207,14 +212,16 @@ fuga
 </pre>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-    checkConversion(source, html)
-  end
-
-  # 2004.08.19 Reported by Shun-ichi TAHARA, thanks!
-  def test_etdiary_badAnchorNumber
-    source = <<-'EOF'
+	# 2004.08.19 Reported by Shun-ichi TAHARA, thanks!
+	describe 'test_etdiary_badAnchorNumber' do
+		before do
+			source = <<-'EOF'
 sect0-para0
 
 <<sect1>>
@@ -226,31 +233,28 @@ sect1-para2
 
 <<sect2>>
 sect2-para0
-    EOF
-    diary = TDiary::EtdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
-    diary.append(source)
-    sections = []
-    diary.each_section { |sect|
-      sections << sect
-    }
+			EOF
 
-    anchorNumber = 0
-    sections.find { |sect|
-      anchorNumber += 1
-      (sect.subtitle == "sect2")
-    } or assert_fail("Section not found.")
-    assert_equal(2, anchorNumber)
-  end
+			@diary.append(source)
+			sections = []
+			@diary.each_section { |sect|
+				sections << sect
+			}
 
-  def checkConversion(source, html, opt = nil)
-    opt ||= {}
-    diary = TDiary::EtdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
-    diary.append(source)
-    if opt[:preConvertHtml]
-      opt[:preConvertHtml].call(diary)
-    end
-    htmlExpected = html
-    htmlResult = diary.to_html({'anchor' => true, 'index' => ''})
-    assert_diary(htmlExpected, htmlResult)
-  end
-end #/EtdiaryTest
+			@anchorNumber = 0
+			@section = sections.find do |sect|
+				@anchorNumber += 1
+				(sect.subtitle == "sect2")
+			end
+		end
+		it { @section.should_not be_nil }
+		it { @anchorNumber.should eq 2 }
+	end
+end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

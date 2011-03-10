@@ -1,21 +1,25 @@
 # -*- coding: utf-8; -*-
+require File.dirname(__FILE__) + '/../../spec_helper'
 
-require File.expand_path('../test_helper', __FILE__)
+require 'tdiary'
 require 'misc/style/emptdiary/emptdiary_style'
 
-class EmptdiaryStyleTest < Test::Unit::TestCase
-  def test_emptdiary_style
-    # -------- tdiary_style source
-    source = <<-'EOF'
+describe TDiary::EmptdiaryDiary do
+	before do
+		@diary = TDiary::EmptdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
+	end
+
+	describe 'test_emptdiary_style' do
+		before do
+			source = <<-'EOF'
 subTitle
 <p>honbun</p>
 
 subTitle2
 <p>honbun</p>
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -25,13 +29,15 @@ subTitle2
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
 <p>honbun</p><%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
+	end
 
-  def test_emptdiary_style_plugin
-    # -------- wiki_style source
-    source = <<-'EOF'
+	describe 'test_emptdiary_style_plugin' do
+		before do
+			source = <<-'EOF'
 sectionTitle
 <p>body</p>
 <%=pre <<'_PRE'
@@ -45,10 +51,9 @@ main (int argc, char *argv[])
 }
 _PRE
 %>
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "sectionTitle" ) %></h3>
@@ -65,15 +70,16 @@ main (int argc, char *argv[])
 _PRE
 %><%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
-
-  def checkConversion(source, html)
-    diary = TDiary::EmptdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
-    diary.append(source)
-    htmlExpected = html.chomp
-    htmlResult = diary.to_html({'anchor' => true})
-    assert_diary(htmlExpected, htmlResult)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
+	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

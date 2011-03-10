@@ -1,22 +1,26 @@
 # -*- coding: utf-8; -*-
+require File.dirname(__FILE__) + '/../../spec_helper'
 
-require File.expand_path('../test_helper', __FILE__)
+require 'tdiary'
 require 'tdiary/wiki_style'
 
-class WikiStyleTest < Test::Unit::TestCase
-  def test_wiki_style
-    # -------- wiki_style source
-    source = <<-'EOF'
+describe TDiary::WikiDiary do
+	before do
+		@diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
+	end
+
+	describe 'test_wiki_style' do
+		before do
+			source = <<-'EOF'
 ! subTitle
 honbun
 
 !! subTitleH4
 honbun
 
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -25,23 +29,24 @@ honbun
 <p>honbun</p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_wiki_style2
-    # -------- wiki_style source
-    source = <<-'EOF'
+	describe 'test_wiki_style2' do
+		before do
+			source = <<-'EOF'
 subTitle
 
 honbun
 
 honbun
 
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></p>
@@ -49,13 +54,15 @@ honbun
 <p>honbun</p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_wiki_style3
-    # -------- wiki_style source
-    source = <<-'EOF'
+	describe 'test_wiki_style3' do
+		before do
+			source = <<-'EOF'
 subTitle
 
 honbun
@@ -66,10 +73,9 @@ honbun
 
 honbun
 
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <p><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></p>
@@ -83,13 +89,15 @@ honbun
 <p>honbun</p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_wiki_style_plugin
-    # -------- wiki_style source
-    source = <<-'EOF'
+	describe 'test_wiki_style_plugin' do
+		before do
+			source = <<-'EOF'
 ! subTitle
 {{plugin}}
 {{plugin}}
@@ -102,10 +110,9 @@ ge}}b
 
 {{ho
 ge}}
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -124,13 +131,15 @@ ge
 %></p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_wiki_style_kw
-    # -------- wiki_style source
-    source = <<-'EOF'
+	describe 'test_wiki_style_kw' do
+		before do
+			source = <<-'EOF'
 ! subTitle
 [[aaa]]
 
@@ -149,10 +158,9 @@ ge
 [[鯖|http://ja.wikipedia.org/wiki/%E9%AF%96]]
 
 http://ja.wikipedia.org/wiki/%E9%AF%96
-    EOF
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -167,26 +175,24 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">http://ja.wikipedia.org/wiki/%E9%AF%96</a></p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html)
-  end
+			EOF
+			@diary.append(source)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
 
-  def test_append_without_subtitle
-    # -------- wiki_style source
-    source = <<-'EOF'
+	def test_append_without_subtitle
+		before do
+			source = <<-'EOF'
 ! subTitle
 body
-    EOF
+			EOF
 
-    opt = {}
-    opt[:preConvertHtml] = lambda{ |diary|
-      diary.append(<<-'EOF')
+			sourceappend 0 <<-'EOF'
 appended body
-      EOF
-    }
+			EOF
 
-    # -------- HTML
-    html = <<-'EOF'
+			@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -194,19 +200,17 @@ appended body
 <p>appended body</p>
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-    EOF
-    checkConversion(source, html, opt)
-  end
+			EOF
+			@diary.append(source)
+			@diary.append(sourceappend)
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
+end
 
-  def checkConversion(source, html, opt = nil)
-    opt ||= {}
-    diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
-    diary.append(source)
-    if opt[:preConvertHtml]
-      opt[:preConvertHtml].call(diary)
-    end
-    htmlExpected = html
-    htmlResult = diary.to_html({'anchor' => true})
-    assert_diary(htmlExpected, htmlResult)
-  end
-end #/WikiStyleTest
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
