@@ -19,8 +19,12 @@ honbun
 honbun
 
 			EOF
+			@diary.append(source)
+		end
 
-			@html = <<-'EOF'
+		context 'HTML' do
+			before do
+				@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ))%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -29,11 +33,24 @@ honbun
 <p>honbun</p>
 <%=section_leave_proc( Time::at( 1041346800 ))%>
 </div>
-			EOF
-			@diary.append(source)
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}).should eq @html }
 		end
 
-		it { @diary.to_html({'anchor' => true}).should eq @html }
+		context 'CHTML' do
+			before do
+				@html = <<-'EOF'
+<%=section_enter_proc( Time::at( 1041346800 ))%>
+<H3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></H3>
+<p>honbun</p>
+<H4>subTitleH4</H4>
+<p>honbun</p>
+<%=section_leave_proc( Time::at( 1041346800 ))%>
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
+		end
 	end
 
 	describe 'test_rd_style_plugin' do
@@ -52,8 +69,12 @@ ge%))b
 ((%ho
 ge%))
 			EOF
+			@diary.append(source)
+		end
 
-			@html = <<-'EOF'
+		context 'HTML' do
+			before do
+				@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ))%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -65,10 +86,27 @@ aaa</p>
 <p><%=ho ge%></p>
 <%=section_leave_proc( Time::at( 1041346800 ))%>
 </div>
-			EOF
-			@diary.append(source)
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}).should eq @html }
 		end
-		it { @diary.to_html({'anchor' => true}).should eq @html }
+
+		context 'CHTML' do
+			before do
+				@html = <<-'EOF'
+<%=section_enter_proc( Time::at( 1041346800 ))%>
+<H3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></H3>
+<p><%=plugin %>
+<%=plugin %>
+aaa</p>
+<p><%=plugin %></p>
+<p>a<%=ho ge%>b</p>
+<p><%=ho ge%></p>
+<%=section_leave_proc( Time::at( 1041346800 ))%>
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
+		end
 	end
 end
 

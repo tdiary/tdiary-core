@@ -18,8 +18,12 @@ subTitle
 subTitle2
 <p>honbun</p>
 			EOF
+			@diary.append(source)
+		end
 
-			@html = <<-'EOF'
+		context 'HTML' do
+			before do
+				@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
@@ -29,10 +33,24 @@ subTitle2
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
 <p>honbun</p><%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-			EOF
-			@diary.append(source)
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
 		end
-		it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
+
+		context 'CHTML' do
+			before do
+				@html = <<-'EOF'
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<H3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></H3>
+<p>honbun</p><%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<H3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></H3>
+<p>honbun</p><%=section_leave_proc( Time::at( 1041346800 ) )%>
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
+		end
 	end
 
 	describe 'test_emptdiary_style_plugin' do
@@ -52,8 +70,12 @@ main (int argc, char *argv[])
 _PRE
 %>
 			EOF
+			@diary.append(source)
+		end
 
-			@html = <<-'EOF'
+		context 'HTML' do
+			before do
+				@html = <<-'EOF'
 <div class="section">
 <%=section_enter_proc( Time::at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time::at( 1041346800 ), "sectionTitle" ) %></h3>
@@ -70,10 +92,32 @@ main (int argc, char *argv[])
 _PRE
 %><%=section_leave_proc( Time::at( 1041346800 ) )%>
 </div>
-			EOF
-			@diary.append(source)
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
 		end
-		it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
+
+		context 'CHTML' do
+			before do
+				@html = <<-'EOF'
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<H3><%= subtitle_proc( Time::at( 1041346800 ), "sectionTitle" ) %></H3>
+<p>body</p>
+<%=pre <<'_PRE'
+#include <stdio.h>
+
+/* comment */
+int
+main (int argc, char *argv[])
+{
+  puts ("Hello world.");
+}
+_PRE
+%><%=section_leave_proc( Time::at( 1041346800 ) )%>
+				EOF
+			end
+			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
+		end
 	end
 end
 
