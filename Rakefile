@@ -18,7 +18,7 @@ CLOBBER.include(
 	"coverage"
 )
 
-task :default => [:spec, :test]
+task :default => [:spec]
 
 desc 'Run the code in spec'
 RSpec::Core::RakeTask.new(:spec) do |t|
@@ -39,12 +39,6 @@ namespace :spec do
 		t.rcov = true
 		t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
 	end
-end
-
-Rake::TestTask.new do |t|
-	t.libs << "test"
-	t.test_files = FileList['test/*_test.rb']
-	t.verbose = true
 end
 
 desc "generate rdoc files"
