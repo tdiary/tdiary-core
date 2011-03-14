@@ -34,7 +34,7 @@ require "nkf"
 
 def kw_parse( str )
 	kw_list = []
-	str.each do |pair|
+	str.each_line do |pair|
 		k, u, s = pair.sub( /[\r\n]+/, '' ).split( /[ \t]+/, 3 )
 		k = nil if k == '' or k == 'nil'
 		s = nil if s != 'euc-jp' && s != 'sjis' && s != 'jis' && s != 'utf-8'
