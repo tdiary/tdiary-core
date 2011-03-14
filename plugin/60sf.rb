@@ -4,7 +4,7 @@
 # Modified by KURODA Hiraku.
 
 SF_PREFIX = 'sf'
-@sf_path = ( @conf["#{SF_PREFIX}.path"] || "#{TDiary::PATH}/misc/filter" ).to_a
+@sf_path = [( @conf["#{SF_PREFIX}.path"] || "#{TDiary::PATH}/misc/filter" )].flatten
 @sf_path = @sf_path.collect do |path|
 	/\/$/ =~ path ? path.chop : path
 end

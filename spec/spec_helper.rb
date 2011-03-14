@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-require 'rubygems'
-require 'bundler'
+$:.unshift File.expand_path('../..', __FILE__)
+require 'tdiary/environment'
+Bundler.require :test if defined?(Bundler)
 
-Bundler.setup
-Bundler.require :default, :test
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
+
+RSpec.configure do |config|
+  # config.mock_with :rr
+end

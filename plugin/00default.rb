@@ -349,20 +349,8 @@ def description_tag
 	end
 end
 
-def require_jquery
-	@require_jquery = true
-end
-
-if /^(form|edit|preview|showcomment|conf|saveconf)$/ =~ @mode then
-	require_jquery
-end
-
 def jquery_tag
-	if @require_jquery then
-		%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
-	else
-		''
-	end
+	%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
 end
 
 def theme_url; 'theme'; end
@@ -869,7 +857,11 @@ def saveconf_csrf_protection
 			err = :param
 		end
 		err = :param if check_method == 0
-		check_key = @cgi.params['key'][0]
+		check_key = ''
+		key_seed = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+		1.upto(30) do
+			check_key << key_seed[rand( key_seed.length )]
+		end
 
 		if check_method & 2 != 0 && (!check_key || check_key == '') then
 			err ||= :key

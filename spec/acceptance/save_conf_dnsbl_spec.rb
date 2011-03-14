@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'spamフィルタ設定の利用' do
-	background do
-		setup_tdiary
-	end
-
 	scenario 'IPベースのブラックリストが動作する'
 
 	scenario 'ドメインベースのブラックリストが動作する'

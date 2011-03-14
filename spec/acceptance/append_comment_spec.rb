@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'ツッコミの更新' do
-	background do
-		setup_tdiary
-	end
-
 	scenario 'ツッコミを入れてlatestとdayで表示する' do
 		append_default_diary
 		visit '/'

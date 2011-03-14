@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'ツッコミの表示' do
-	background do
-		setup_tdiary
-	end
-
 	scenario 'ツッコミを隠す' do
 		append_default_diary
 		append_default_comment

@@ -10,13 +10,19 @@ module TDiary
 			# stolen from Rack::Handler::CGI.send_headers
 			def send_headers( status, headers )
 				$stdout.print "Status: #{status}\r\n"
-				$stdout.print CGI.new.header( headers )
+				begin
+					$stdout.print CGI.new.header( headers )
+				rescue EOFError
+					charset = headers.delete( 'charset' )
+					headers['Content-Type'] += "; charset=#{charset}" if charset
+					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
+				end
 				$stdout.flush
 			end
 
 			# stolen from Rack::Handler::CGI.send_body
 			def send_body( body )
-				body.each { |part|
+				body.lines { |part|
 					$stdout.print part
 					$stdout.flush
 				}
@@ -51,12 +57,33 @@ module TDiary
 			def run
 				begin
 					status = nil
-					if %r[/\d{4,8}(-\d+)?\.html?$] =~ @cgi.redirect_url and not @cgi.valid?( 'date' )
-						@cgi.params['date'] = [@cgi.redirect_url.sub( /.*\/(\d+)(-\d+)?\.html$/, '\1\2' )]
-						status = CGI::HTTP_STATUS['OK']
-					end
 
-					@tdiary = create_tdiary
+					begin
+						if @cgi.valid?( 'comment' ) then
+							tdiary = TDiary::TDiaryComment::new( @cgi, "day.rhtml", conf )
+						elsif @cgi.valid?( 'date' )
+							date = @cgi.params['date'][0]
+							if /^\d{8}-\d+$/ =~ date then
+								tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
+							elsif /^\d{8}$/ =~ date then
+								tdiary = TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+							elsif /^\d{6}$/ =~ date then
+								tdiary = TDiary::TDiaryMonth::new( @cgi, "month.rhtml", conf )
+							elsif /^\d{4}$/ =~ date then
+								tdiary = TDiary::TDiaryNYear::new( @cgi, "month.rhtml", conf )
+							end
+						elsif @cgi.valid?( 'category' )
+							tdiary = TDiary::TDiaryCategoryView::new( @cgi, "category.rhtml", conf )
+						elsif @cgi.valid?( 'q' )
+							tdiary = TDiary::TDiarySearch::new( @cgi, "search.rhtml", conf )
+						else
+							tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf )
+						end
+					rescue TDiary::PermissionError
+						raise
+					rescue TDiary::TDiaryError
+					end
+					tdiary = TDiary::TDiaryLatest::new( @cgi, "latest.rhtml", conf ) if not tdiary
 
 					begin
 						head = {

@@ -312,7 +312,7 @@ module TDiary
 			section = nil
 			buffer = nil
 			tag_kind = nil
-			body.gsub(/\r/,'').sub(/\A\n*/,'').sub(/\n*\z/,"\n\n").each("") do |fragment|
+			body.gsub(/\r/,'').sub(/\A\n*/,'').sub(/\n*\z/,"\n\n").each_line('') do |fragment|
 				if buffer and TAG_END_REGEXP =~ fragment and $2.downcase == tag_kind then
 					section << buffer + fragment.sub(/\n*\z/,"\n\n")
 					tag_kind = nil

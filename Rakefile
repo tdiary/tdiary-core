@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+
+require File.expand_path('../tdiary/environment', __FILE__)
 require 'rake'
 require 'rake/clean'
+require 'rake/testtask'
 require 'rspec/core/rake_task'
 
 CLEAN.include(
@@ -14,19 +18,14 @@ CLOBBER.include(
 	"coverage"
 )
 
-task :default => :spec
+task :default => [:spec]
 
-desc "Run specs"
-task :spec do |t|
-	Rake::Task["spec:all"].invoke
+desc 'Run the code in spec'
+RSpec::Core::RakeTask.new(:spec) do |t|
+	t.pattern = "spec/**/*_spec.rb"
 end
 
 namespace :spec do
-	desc 'Run the code in spec'
-	RSpec::Core::RakeTask.new(:all) do |t|
-		t.pattern = "spec/**/*_spec.rb"
-	end
-
 	%w(core plugin acceptance).each do |dir|
 		desc "Rub the code examples in spec/#{dir}"
 		RSpec::Core::RakeTask.new(dir.to_sym) do |t|
@@ -34,29 +33,16 @@ namespace :spec do
 		end
 	end
 
-	desc 'Run specs w/ RCov'
+	desc 'Run the code in specs with RCov'
 	RSpec::Core::RakeTask.new(:rcov) do |t|
 		t.pattern = "spec/**/*_spec.rb"
 		t.rcov = true
 		t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
 	end
-	task :rcov => "coverage:clean"
 end
-
-namespace :coverage do
-	desc "delete aggregate coverage data"
-	task(:clean) {
-		rm_f "coverage/*"
-		mkdir "coverage" unless File.exist? "coverage"
-		rm "coverage.aggregate" if File.exist? "coverage.aggregate"
-	}
-end
-
-desc "all coverage"
-task :coverage => ["coverage:clean", "spec:rcov"]
 
 desc "generate rdoc files"
-task :docs do
+task :rdoc do
 	root_dir = File.dirname(__FILE__)
 
 	dirlist = Dir.glob(root_dir + "/rdoc/**/").sort {

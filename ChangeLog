@@ -1,3 +1,51 @@
+2011-03-05  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary/tdiary_style.rb: fix 1.8 backward compatibility. thx tamoot.
+
+2011-03-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary.rb: remove old redirect action for apache ErrorDocutment.
+
+2011-02-27  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary.rb: remove ruby 1.6 backward compatibility.
+
+2011-02-22  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary/{defaultio.rb, compatible.rb}, tdiary.rb, plugin/*.rb: remove 1.8 backward compatibility.
+
+2011-02-20  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary.rb, tdiary.conf.rack: removed tdiary.conf.rack, now used tdiary.conf only.
+	* spec/**/*_spec.rb, spec/spec_helper.rb: rewrite spec setup.
+
+2011-02-18  KADO Masanori  <kdmsnr@gmail.com>
+
+	* plugin/00default.rb: use jQuery in all mode: Closes #8
+	* plugin/00default.rb: update jQuery from 1.4 to 1.5
+
+2011-02-18  TADA Tadashi <t@tdtds.jp>
+	* skel/preview*: removed westing </strong>.
+
+2011-01-30  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* misc/lib/compatible.rb: move to tdiary/compatible.rb
+
+2011-01-18  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary/wiki_style.rb, test/wiki_style_test.rb: applied patch #168
+
+2011-01-17  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* Capfile, tdiary/deploy.rb: added deployment task with Capistrano
+
+2011-01-05  TADA Tadashi <t@tdtds.jp>
+	* tdiary/dispatch.rb: fixed error on image.rb uploading image files.
+
+2011-01-03  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: generated CSRF protection key automatically.
+	* misc/plugin/kw.rb: specified UTF-8 to searching by google.
+
 2010-11-17  tamoot <tamoot@gmail.com>
 	* tdiary/dispatcher.rb: deleted an over CR/LF.
 

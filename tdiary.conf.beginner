@@ -64,12 +64,8 @@ jdate.rb
 kw.rb
 makerss.rb
 my-ex.rb
-navi_user.rb
 recent_comment3.rb
 recent_list.rb
-recent_trackback3.rb
-tb-send.rb
-tb-show.rb
 "
 
 @options['dropdown_calendar.label'] = ''

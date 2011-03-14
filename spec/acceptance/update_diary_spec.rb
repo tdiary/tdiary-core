@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature '日記の更新' do
-	background do
-		setup_tdiary
-	end
-
 	scenario '特定の日記の内容を更新する' do
 		visit '/'
 		click_link '追記'

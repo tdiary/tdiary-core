@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature '日記を読む' do
-	background do
-		setup_tdiary
-	end
-
 	scenario '最新の日記の表示' do
 		visit '/'
 		within('title') { page.should have_content('【日記のタイトル】') }
@@ -51,7 +47,19 @@ feature '日記を読む' do
 		}
 	end
 
-	scenario 'n年日記機能を表示'
+	scenario 'n年日記機能を表示' do
+		append_default_diary('2001-04-23')
+		append_default_diary('2002-04-23')
+		append_default_diary('2003-04-23')
+
+    visit '/'
+    click_link '長年日記'
+
+    titles = page.all('h2 span.date a').map(&:text)
+    titles.should include '2001年04月23日'
+    titles.should include '2002年04月23日'
+    titles.should include '2003年04月23日'
+  end
 
 	scenario '指定をした日を表示' do
 		append_default_diary('2001-04-23')

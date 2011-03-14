@@ -223,7 +223,7 @@ module TDiary
 			unless body1.empty?
 				current_section = @sections.pop
 				if current_section then
-					body1 = "#{current_section.body.sub( /\n+\Z/, '' )}\n\n#{body1}"
+					body1 = "#{current_section.to_src.sub( /\n+\Z/, '' )}\n\n#{body1}"
 				end
 				@sections << WikiSection::new( body1, author )
 			end

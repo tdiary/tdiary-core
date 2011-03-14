@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'カテゴリ機能の動作' do
-	background do
-		setup_tdiary
-	end
-
   scenario 'カテゴリ機能が動く' do
     toggle_plugin('category')
 

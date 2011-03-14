@@ -6,3 +6,4 @@ tmp
 rdoc
 index.rdf
 tdiary.conf
+vendor/bundle/

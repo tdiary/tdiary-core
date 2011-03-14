@@ -1,0 +1,1 @@
+install_files ["dot.rd2rc"], "#{config('rbdir')}/rd", 0644

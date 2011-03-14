@@ -2,10 +2,6 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature '基本設定の利用' do
-	background do
-		setup_tdiary
-	end
-
 	scenario 'サイトの情報の設定' do
 		visit '/'
 		click_link '追記'
@@ -19,6 +15,7 @@ feature '基本設定の利用' do
 		fill_in "icon", :with => "http://tdtds.jp/favicon.png"
 		# TODO banner の値が fill_in されない
 		#fill_in "banner", :with => "http://sho.tdiary.net/images/banner.png"
+		# TODO x_frame_open の設定
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
@@ -56,7 +53,6 @@ HEADER
 bravo
 </div>
 FOOTER
-
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
@@ -81,28 +77,36 @@ FOOTER
 	end
 
 	scenario '表示一版の設定' do
+		today = Date.today
+		yestarday = Date.today - 1
+
+		append_default_diary(today.to_s)
+		append_default_diary(yestarday.to_s)
+		append_default_comment
+
 		visit '/'
 		click_link '追記'
 		click_link '設定'
 		click_link '表示一般'
-		fill_in 'section_anchor', :with => <<-SECTION
-<span class="sanchor">■</span>
-SECTION
-		fill_in 'comment_anchor', :with => <<-COMMENT
-<span class="canchor">#</span>
-COMMENT
-		fill_in 'date_format', :with => <<-DATE
-%Y/%m/%d
-DATE
+		fill_in 'section_anchor', :with => '<span class="sanchor">★</span>'
+		fill_in 'comment_anchor', :with => '<span class="canchor">●</span>'
+		fill_in 'date_format', :with => '%Y:%m:%d'
 		fill_in 'latest_limit', :with => 1
 		select '非表示', :from => 'show_nyear'
 
 		click_button "OK"
 		within('title') { page.should have_content('(設定完了)') }
 
+		click_link '最新'
+		page.should have_content('★')
+		page.should have_content('●')
+		titles = page.all('h2 span.date a').map(&:text)
+		titles.should include("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
+		titles.should_not include("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
+		page.should_not have_content("長年日記")
 	end
 
-	scenario 'ログレベルの選択の設定' do
+	pending 'ログレベルの選択の設定' do
 		visit '/'
 		click_link '追記'
 		click_link '設定'
@@ -143,7 +147,6 @@ DATE
 
 		click_link '設定'
 		click_link '時差調整'
-
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
@@ -160,6 +163,7 @@ DATE
 		click_link '最新'
 		within('head') {
 			page.should have_css('link[href="theme/base.css"]')
+			page.should have_css('link[href="theme/tdiary1/tdiary1.css"]')
 		}
 
 		click_link '追記'
@@ -170,3 +174,11 @@ DATE
 		}
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3
