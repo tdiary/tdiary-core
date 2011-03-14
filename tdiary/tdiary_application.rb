@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-require 'cgi'
+require File.expand_path('../environment', __FILE__)
+Bundler.require :default if defined?(Bundler)
+require 'rack/request'
+require 'rack/response'
 
-require 'tdiary/tdiary_request'
 require 'tdiary/dispatcher'
 
 # FIXME too dirty hack :-<
@@ -22,8 +24,8 @@ module TDiary
 		end
 
 		def call( env )
-			req = adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_request( req )
+			adopt_rack_request_to_plain_old_tdiary_style( env )
+			dispatch_request
 		end
 
 		private
@@ -38,16 +40,15 @@ module TDiary
 		end
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
-			req = TDiary::Request.new( env )
+			req = Rack::Request.new( env )
 			$RACK_ENV = req.env
 			env["rack.input"].rewind
 			fake_stdin_as_params
-			req
 		end
 
-		def dispatch_request( request )
+		def dispatch_request
 			dispatcher = TDiary::Dispatcher.__send__( @target )
-			dispatcher.dispatch_cgi( request )
+			dispatcher.dispatch_cgi( CGI.new )
 		end
 	end
 end
