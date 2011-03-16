@@ -9,9 +9,9 @@ describe TDiary::WikiDiary do
 		@diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
 	end
 
-	describe 'test_wiki_style' do
+	describe '#append' do
 		before do
-			@source = <<-'EOF'
+			source = <<-'EOF'
 ! subTitle
 honbun
 
@@ -19,7 +19,7 @@ honbun
 honbun
 
 			EOF
-			@diary.append(@source)
+			@diary.append(source)
 		end
 
 		context 'HTML' do
@@ -51,6 +51,42 @@ honbun
 			end
 			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
 		end
+	end
+
+	describe '#replace' do
+		before do
+			source = <<-'EOF'
+! subTitle
+honbun
+
+!! subTitleH4
+honbun
+
+			EOF
+			@diary.append(source)
+
+			replaced = <<-'EOF'
+! replaceTitle
+replace
+
+!! replaceTitleH4
+replace
+
+			EOF
+			@diary.replace(Time::at( 1041346800 ), "TITLE", replaced)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "replaceTitle" ) %></h3>
+<p>replace</p>
+<h4>replaceTitleH4</h4>
+<p>replace</p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
 	end
 
 	describe 'test_wiki_style2' do

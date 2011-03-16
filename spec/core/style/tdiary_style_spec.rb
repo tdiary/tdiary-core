@@ -9,7 +9,7 @@ describe TDiary::TdiaryDiary do
 		@diary = TDiary::TdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
 	end
 
-	describe 'test_tdiary_style' do
+	describe '#append' do
 		before do
 			source = <<-'EOF'
 subTitle
@@ -51,6 +51,42 @@ subTitle2
 			end
 			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
 		end
+	end
+
+	describe '#replace' do
+		before do
+			source = <<-'EOF'
+subTitle
+<p>honbun</p>
+
+subTitle2
+<p>honbun</p>
+			EOF
+			@diary.append(source)
+
+			replaced = <<-'EOF'
+replaceTitle
+<p>replace</p>
+
+replaceTitle2
+<p>replace</p>
+
+			EOF
+			@diary.replace(Time::at( 1041346800 ), "TITLE", replaced)
+
+			@html = <<-'EOF'
+<div class="section">
+<%= section_enter_proc( Time::at( 1041346800 ) ) %>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "replaceTitle" ) %></h3>
+<p>replace</p><%= section_leave_proc( Time::at( 1041346800 ) ) %>
+</div><div class="section">
+<%= section_enter_proc( Time::at( 1041346800 ) ) %>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "replaceTitle2" ) %></h3>
+<p>replace</p><%= section_leave_proc( Time::at( 1041346800 ) ) %>
+</div>
+			EOF
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html.chomp }
 	end
 
 	describe 'test_tdiary_style2' do
