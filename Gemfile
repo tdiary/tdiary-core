@@ -3,7 +3,7 @@ source :rubygems
 gem 'rack'
 
 group :development do
-  gem 'thin'
+  gem 'thin', :platforms => :ruby
   gem 'capistrano'
 end
 
