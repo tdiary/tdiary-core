@@ -17,7 +17,7 @@ module TDiary
 		attr_reader :subtitle, :author
 		attr_reader :categories, :stripped_subtitle
 		attr_reader :subtitle_to_html, :stripped_subtitle_to_html, :body_to_html
-	
+
 		def initialize( fragment, author = nil )
 			@author = author
 			if fragment[0] == ?! then
@@ -40,7 +40,7 @@ module TDiary
 			@body_to_html = strip_headings( @body_to_html )
 			@stripped_subtitle_to_html = @stripped_subtitle ? strip_headings( to_html( "!#{@stripped_subtitle}" ) ) : nil
 		end
-	
+
 		def subtitle=(subtitle)
 			cat_str = ""
 			@categories.each {|cat|
@@ -58,7 +58,7 @@ module TDiary
 		def body=(str)
 			@body = str
 		end
-	
+
 		def categories=(categories)
 			@categories = categories
 			cat_str = ""
@@ -96,7 +96,7 @@ module TDiary
 			end unless subtitle
 			r.gsub( /<(\/)?tdiary-section>/, '<\\1p>' )
 		end
-	
+
 		def chtml( date, idx, opt )
 			r = %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
 			r << do_html4( date, idx, opt )
@@ -188,24 +188,24 @@ module TDiary
 	class WikiDiary
 		include DiaryBase
 		include CategorizableDiary
-	
+
 		def initialize( date, title, body, modified = Time::now )
 			init_diary
 			replace( date, title, body )
 			@last_modified = modified
 		end
-	
+
 		def style
 			'Wiki'
 		end
-	
+
 		def replace( date, title, body )
 			set_date( date )
 			set_title( title )
 			@sections = []
 			append( body )
 		end
-	
+
 		def append( body, author = nil )
 			# body1 is a section starts without subtitle.
 			# body2 are sections starts with subtitle.
@@ -242,25 +242,23 @@ module TDiary
 			@last_modified = Time::now
 			self
 		end
-	
+
 		def each_section
 			@sections.each do |section|
 				yield section
 			end
 		end
-	
+
 		def add_section(subtitle, body)
-			sec = WikiSection::new("\n")
-			sec.subtitle = subtitle
-			sec.body     = body
+			sec = WikiSection::new("!#{subtitle}\n#{body}")
 			@sections << sec
 			@sections.size
 		end
-	
+
 		def delete_section(index)
 		  @sections.delete_at(index - 1)
 		end
-	
+
 		def to_src
 			r = ''
 			each_section do |section|
@@ -268,7 +266,7 @@ module TDiary
 			end
 			r
 		end
-	
+
 		def to_html( opt, mode = :HTML )
 			case mode
 			when :CHTML
@@ -277,7 +275,7 @@ module TDiary
 				to_html4( opt )
 			end
 		end
-	
+
 		def to_html4( opt )
 			r = ''
 			idx = 1
@@ -287,7 +285,7 @@ module TDiary
 			end
 			r
 		end
-	
+
 		def to_chtml( opt )
 			r = ''
 			idx = 1
@@ -297,7 +295,7 @@ module TDiary
 			end
 			r
 		end
-	
+
 		def to_s
 			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
 		end
