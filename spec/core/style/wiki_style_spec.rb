@@ -325,14 +325,14 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 		end
 	end
 
-	def test_append_without_subtitle
+	describe 'test_append_without_subtitle' do
 		before do
 			source = <<-'EOF'
 ! subTitle
 body
 			EOF
 
-			sourceappend 0 <<-'EOF'
+			sourceappend = <<-'EOF'
 appended body
 			EOF
 			@diary.append(source)
