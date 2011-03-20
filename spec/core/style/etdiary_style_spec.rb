@@ -192,6 +192,33 @@ honbun
 		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
 	end
 
+	describe '#delete_section' do
+		before do
+			source = <<-'EOF'
+<<subTitle>>
+honbun
+
+<<subTitle2>>
+honbun
+
+			EOF
+			@diary.append(source)
+			@diary.delete_section(1)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
+<p>
+honbun
+</p>
+<%=section_leave_proc( Time::at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
+
 	describe '#replace' do
 		before do
 			source = <<-'EOF'

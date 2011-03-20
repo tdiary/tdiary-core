@@ -113,6 +113,29 @@ subTitle
 		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html.chomp }
 	end
 
+	describe '#delete_section' do
+		before do
+			source = <<-'EOF'
+subTitle
+<p>honbun</p>
+
+subTitle2
+<p>honbun</p>
+			EOF
+			@diary.append(source)
+			@diary.delete_section(1)
+
+			@html = <<-'EOF'
+<div class="section">
+<%= section_enter_proc( Time::at( 1041346800 ) ) %>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
+<p>honbun</p><%= section_leave_proc( Time::at( 1041346800 ) ) %>
+</div>
+			EOF
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html.chomp }
+	end
+
 	describe 'test_tdiary_style2' do
 		before do
 			source = <<-'EOF'
