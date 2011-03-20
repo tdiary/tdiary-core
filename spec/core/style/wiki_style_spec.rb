@@ -11,7 +11,7 @@ describe TDiary::WikiDiary do
 
 	describe '#append' do
 		before do
-			source = <<-'EOF'
+			@source = <<-'EOF'
 ! subTitle
 honbun
 
@@ -19,7 +19,7 @@ honbun
 honbun
 
 			EOF
-			@diary.append(source)
+			@diary.append(@source)
 		end
 
 		context 'HTML' do
@@ -50,6 +50,10 @@ honbun
 				EOF
 			end
 			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+		end
+
+		context 'to_src' do
+			it { @diary.to_src.should eq @source }
 		end
 	end
 

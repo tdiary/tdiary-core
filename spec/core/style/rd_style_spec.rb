@@ -37,20 +37,6 @@ honbun
 			end
 			it { @diary.to_html({'anchor' => true}).should eq @html }
 		end
-
-		context 'CHTML' do
-			before do
-				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ))%>
-<H3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></H3>
-<p>honbun</p>
-<H4>subTitleH4</H4>
-<p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ))%>
-				EOF
-			end
-			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
-		end
 	end
 
 	describe '#replace' do
@@ -183,23 +169,6 @@ aaa</p>
 				EOF
 			end
 			it { @diary.to_html({'anchor' => true}).should eq @html }
-		end
-
-		context 'CHTML' do
-			before do
-				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ))%>
-<H3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></H3>
-<p><%=plugin %>
-<%=plugin %>
-aaa</p>
-<p><%=plugin %></p>
-<p>a<%=ho ge%>b</p>
-<p><%=ho ge%></p>
-<%=section_leave_proc( Time::at( 1041346800 ))%>
-				EOF
-			end
-			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
 		end
 	end
 end
