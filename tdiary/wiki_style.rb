@@ -250,8 +250,7 @@ module TDiary
 		end
 
 		def add_section(subtitle, body)
-			sec = WikiSection::new("!#{subtitle}\n#{body}")
-			@sections << sec
+			@sections << WikiSection::new("! #{subtitle}\n#{body}")
 			@sections.size
 		end
 
