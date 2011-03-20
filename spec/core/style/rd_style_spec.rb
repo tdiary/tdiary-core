@@ -35,7 +35,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 	end
 
@@ -72,7 +72,7 @@ replace
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+		it { @diary.to_html.should eq @html }
 	end
 
 	describe '#add_section' do
@@ -105,7 +105,7 @@ honbun
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+		it { @diary.to_html.should eq @html }
 	end
 
 	describe '#delete_section' do
@@ -130,7 +130,7 @@ honbun
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+		it { @diary.to_html.should eq @html }
 	end
 
 	describe 'test_rd_style_plugin' do
@@ -168,7 +168,7 @@ aaa</p>
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 	end
 end

@@ -35,7 +35,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 
 		context 'CHTML' do
@@ -49,7 +49,7 @@ honbun
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 
 		context 'to_src' do
@@ -90,7 +90,7 @@ replace
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+		it { @diary.to_html.should eq @html }
 	end
 
 	describe '#add_section' do
@@ -124,7 +124,7 @@ honbun
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+		it { @diary.to_html.should eq @html }
 	end
 
 	describe '#delete_section' do
@@ -150,7 +150,7 @@ honbun
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+		it { @diary.to_html.should eq @html }
 	end
 
 	describe 'test_wiki_style2' do
@@ -178,7 +178,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 
 		context 'CHTML' do
@@ -191,7 +191,7 @@ honbun
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 
@@ -230,7 +230,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 
 		context 'CHTML' do
@@ -247,7 +247,7 @@ honbun
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 
@@ -293,7 +293,7 @@ ge
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 
 		context 'CHTML' do
@@ -317,7 +317,7 @@ ge
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 
@@ -365,7 +365,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 
 		context 'CHTML' do
@@ -385,7 +385,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 
@@ -415,7 +415,7 @@ appended body
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+			it { @diary.to_html.should eq @html }
 		end
 
 		context 'CHTML' do
@@ -428,7 +428,7 @@ appended body
 <%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true, 'index' => ''}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 end

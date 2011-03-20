@@ -267,7 +267,7 @@ module TDiary
 			r
 		end
 
-		def to_html( opt, mode = :HTML )
+		def to_html( opt = {}, mode = :HTML )
 			case mode
 			when :CHTML
 				to_chtml( opt )

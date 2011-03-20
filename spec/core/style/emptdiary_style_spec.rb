@@ -35,7 +35,7 @@ subTitle2
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
+			it { @diary.to_html.should eq @html.chomp }
 		end
 
 		context 'CHTML' do
@@ -49,7 +49,7 @@ subTitle2
 <p>honbun</p><%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 
@@ -86,7 +86,7 @@ replaceTitle2
 </div>
 			EOF
 		end
-		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html.chomp }
+		it { @diary.to_html.should eq @html.chomp }
 	end
 
 	describe 'test_emptdiary_style_plugin' do
@@ -130,7 +130,7 @@ _PRE
 </div>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true}).should eq @html.chomp }
+			it { @diary.to_html.should eq @html.chomp }
 		end
 
 		context 'CHTML' do
@@ -152,7 +152,7 @@ _PRE
 %><%=section_leave_proc( Time::at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({'anchor' => true}, :CHTML).should eq @html }
+			it { @diary.to_html({}, :CHTML).should eq @html }
 		end
 	end
 end

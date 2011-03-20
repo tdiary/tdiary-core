@@ -414,7 +414,7 @@ module TDiary
 			r
 		end
 
-		def to_html( opt, mode = :HTML )
+		def to_html( opt = {'anchor' => true, 'index' => true}, mode = :HTML )
 			case mode
 			when :CHTML
 				f = EtCHtmlFactory::new(opt)
