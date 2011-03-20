@@ -23,11 +23,25 @@ module TDiary
 				@@server = TDiary::StandaloneCGIServer.new( option )
 				trap( "INT" ) { @@server.shutdown }
 				trap( "TERM" ) { @@server.shutdown }
+
+				unless File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
+					FileUtils.cp_r(TDIARY_CORE_DIR + '/spec/fixtures/tdiary.conf.rack',
+						TDIARY_CORE_DIR + '/tdiary.conf', :verbose => false)
+				end
+
+				unless File.directory?(TDIARY_CORE_DIR + '/tmp/data/log')
+					FileUtils.mkdir_p(TDIARY_CORE_DIR + '/tmp/data/log')
+				end
+
 				@@server.start
 			end
 
 			def stop
 				@@server.shutdown
+
+				if File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
+					FileUtils.rm TDIARY_CORE_DIR + '/tdiary.conf'
+				end
 			end
 		end
 
@@ -42,10 +56,12 @@ module TDiary
 				:AccessLog => webrick_access_log_to( opts[:access_log] )
 				)
 			@server.logger.level = WEBrick::Log::DEBUG
+			@server.mount( "/", WEBrick::HTTPServlet::CGIHandler,
+				File.expand_path( "index.rb", TDIARY_CORE_DIR ) )
 			@server.mount( "/index.rb", WEBrick::HTTPServlet::CGIHandler,
 				File.expand_path( "index.rb", TDIARY_CORE_DIR ) )
 			@server.mount( "/update.rb", WEBrick::HTTPServlet::CGIHandler,
-				File.expand_path("update.rb", TDIARY_CORE_DIR ) )
+				File.expand_path( "update.rb", TDIARY_CORE_DIR ) )
 		end
 
 		def start
