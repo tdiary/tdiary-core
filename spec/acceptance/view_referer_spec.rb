@@ -2,7 +2,7 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'リンク元の表示' do
-	scenario '日表示にリンク元が表示されている' do
+	pending '日表示にリンク元が表示されている' do
 		append_default_diary
 		visit '/'
 		click_link "#{Date.today.strftime("%Y年%m月%d日")}"
@@ -12,7 +12,7 @@ feature 'リンク元の表示' do
 		}
 	end
 
-	scenario '更新画面にリンク元が表示されている' do
+	pending '更新画面にリンク元が表示されている' do
 		append_default_diary
 		visit "/"
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"

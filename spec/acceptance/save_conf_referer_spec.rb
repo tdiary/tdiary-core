@@ -2,7 +2,7 @@
 require File.expand_path('../acceptance_helper', __FILE__)
 
 feature 'リンク元設定の利用' do
-	scenario 'リンク元の非表示設定' do
+	pending 'リンク元の非表示設定' do
 		append_default_diary
 		visit '/'
 		click_link '追記'
@@ -18,7 +18,7 @@ feature 'リンク元設定の利用' do
 		within('div.day') { page.should have_no_css('div[class="refererlist"]') }
 	end
 
-	scenario 'リンク元記録の除外設定が動いている' do
+	pending 'リンク元記録の除外設定が動いている' do
 		append_default_diary
 		visit '/'
 		click_link '追記'
@@ -34,7 +34,7 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { page.should have_no_link('http://www.example.com') }
 	end
 
-	scenario 'リンク元記録の除外に設定していないリファラは記録されている' do
+	pending 'リンク元記録の除外に設定していないリファラは記録されている' do
 		pending 'リファラを切り替えて記録する方法がわからない'
 
 		append_default_diary
@@ -53,7 +53,7 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { page.should have_link "http://www.hsbt.org/" }
 	end
 
-	scenario 'リンク元の置換が動いている' do
+	pending 'リンク元の置換が動いている' do
 		append_default_diary
 		visit '/'
 		click_link '追記'
