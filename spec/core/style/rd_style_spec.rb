@@ -89,6 +89,39 @@ replace
 		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
 	end
 
+	describe '#add_section' do
+		before do
+			source = <<-'EOF'
+= subTitle
+honbun
+
+== subTitleH4
+honbun
+
+			EOF
+			@diary.append(source)
+			@diary.add_section('subTitle2', 'honbun')
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ))%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<p>honbun</p>
+<h4>subTitleH4</h4>
+<p>honbun</p>
+<%=section_leave_proc( Time::at( 1041346800 ))%>
+</div>
+<div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ))%>
+<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
+<p>honbun</p>
+<%=section_leave_proc( Time::at( 1041346800 ))%>
+</div>
+			EOF
+		end
+		it { @diary.to_html({'anchor' => true, 'index' => ''}).should eq @html }
+	end
+
 	describe 'test_rd_style_plugin' do
 		before do
 			source = <<-'EOF'
