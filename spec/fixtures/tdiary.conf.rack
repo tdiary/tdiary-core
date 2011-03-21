@@ -26,8 +26,7 @@
 
 @style = 'Wiki'
 
-#@index = './' # sample setting
-@index = 'index.rb' # suitable for cgi standalone server
+@index = ENV['CGI_TEST'] ? 'index.rb' : './'
 @update = 'update.rb'
 
 @options['apply_plugin'] = true

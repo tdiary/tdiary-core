@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 require File.expand_path('../acceptance_helper', __FILE__)
 
-feature 'リンク元の表示' do
-	pending '日表示にリンク元が表示されている' do
+feature 'リンク元の表示', :mechanize => true do
+	scenario '日表示にリンク元が表示されている' do
 		append_default_diary
 		visit '/'
 		click_link "#{Date.today.strftime("%Y年%m月%d日")}"
@@ -12,7 +12,7 @@ feature 'リンク元の表示' do
 		}
 	end
 
-	pending '更新画面にリンク元が表示されている' do
+	scenario '更新画面にリンク元が表示されている' do
 		append_default_diary
 		visit "/"
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
