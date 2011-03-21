@@ -118,7 +118,6 @@ def trackbacks_of_today_short( diary, limit = @conf['trackback_limit'] || 3 )
 
 	r << %Q!\t\t<div class="caption">\n!
 	r << %Q!\t\t\t#{trackback_today}#{trackback_total( count )}\n! if count > 0 && (is_blog_style || @conf['trackback_shortview_mode'] == "shortlist")
-	r << %Q!\t\t\t[#{trackback_ping_url}]\n! if is_blog_style || @conf['trackback_disp_pingurl']
 	r << %Q!\t\t</div>\n!
 	return r << %Q!\t</div>\n! unless is_blog_style || @conf['trackback_shortview_mode'] == "shortlist"
 
@@ -152,7 +151,6 @@ def trackbacks_of_today_long( diary, limit = -1 )
 
 	r << %Q!\t\t<div class="caption">\n!
 	r << %Q!\t\t\t#{trackback_today}#{trackback_total( count )}\n! if count > 0
-	r << %Q!\t\t\t[#{trackback_ping_url(true)}]\n!
 	r << %Q!\t\t</div>\n!
 
 	r << %Q!\t\t<div class="commentbody trackbackbody">\n!
@@ -180,14 +178,6 @@ def trackbacks_of_today_long( diary, limit = -1 )
 	r << %Q!\t\t</div>\n!
 	r << %Q!\t</div>\n!
 	r
-end
-
-def trackback_ping_url(add_name = false)
-	if @tb_url and not bot?
-		%Q|TrackBack URL: <a href="#{h @tb_url}"#{add_name ? ' name="t"': ''}>#{h @tb_url}</a>|
-	else
-		''
-	end
 end
 
 # running on only non mobile mode

@@ -7,7 +7,7 @@ Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.1.20110320'
+TDIARY_VERSION = '3.0.1.20110321'
 
 $:.unshift File::dirname( __FILE__ ).untaint + '/misc/lib'
 Dir["#{File::dirname( __FILE__ ).untaint + '/vendor/*/lib'}"].each {|dir| $:.unshift dir }
@@ -2109,122 +2109,6 @@ EOS
 		def initialize(cgi, rhtml, conf)
 			super
 			@last_modified = Time.now
-		end
-	end
-
-	#
-	# exception class for TrackBack
-	#
-	class TDiaryTrackBackError < StandardError
-	end
-
-	#
-	# class TDiaryTrackBackBase
-	#
-	class TDiaryTrackBackBase < TDiaryBase
-		public :mode
-		def initialize( cgi, rhtml, conf )
-			super
-			date = @cgi.request_uri.scan(%r!/(\d{4})(\d\d)(\d\d)!)[0]
-			if date
-				@date = Time::local(*date)
-			else
-				@date = Time::now
-			end
-			@cgi.params['date'] = [@date.strftime( '%Y%m%d' )]
-		end
-
-		def diary_url
-			@conf.base_url + @conf.index.sub(%r|^\./|, '') + @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
-		end
-
-		def self.success_response
-			<<HERE
-<?xml version="1.0" encoding="iso-8859-1"?>
-<response>
-<error>0</error>
-</response>
-HERE
-		end
-
-		def self.fail_response(reason)
-			<<HERE
-<?xml version="1.0" encoding="iso-8859-1"?>
-<response>
-<error>1</error>
-<message>#{CGI::escapeHTML reason}</message>
-</response>
-HERE
-		end
-	end
-
-	#
-	# class TDiaryTrackBackReceive
-	#  receive TrackBack ping and store as comment
-	#
-	class TDiaryTrackBackReceive < TDiaryTrackBackBase
-		def initialize( cgi, rhtml, conf )
-			super
-			@error = nil
-
-			charset = nil
-			if @cgi.content_type =~ /charset=([^\s;]*)/i then
-				charset = $1
-			end
-
-			url = @cgi.params['url'][0]
-			blog_name = @conf.to_native( @cgi.params['blog_name'][0] || '', charset )
-			title = @conf.to_native( @cgi.params['title'][0] || '', charset )
-			excerpt = @conf.to_native( @cgi.params['excerpt'][0] || '', charset )
-			if excerpt.length > 255
-				excerpt = @conf.shorten( excerpt, 252 )
-			end
-
-			body = [url, blog_name, title, excerpt].join("\n")
-			@cgi.params['name'] = ['TrackBack']
-			@cgi.params['body'] = [body]
-
-			@comment = Comment::new('TrackBack', '', body)
-			begin
-				@io.transaction( @date ) do |diaries|
-					@diaries = diaries
-					@diary = @diaries[@date.strftime('%Y%m%d')]
-					if @diary and comment_filter( @diary, @comment ) then
-						@diary.add_comment(@comment)
-						unless @comment.visible?
-							@error = 'Your TrackBack has been filtered (maybe).'
-						end
-						DIRTY_COMMENT
-					else
-						@error = 'Your TrackBack has been filtered.'
-						@comment = nil
-						DIRTY_NONE
-					end
-				end
-			rescue
-				@error = $!.message
-			end
-		end
-
-		def eval_rhtml( prefix = '' )
-			raise TDiaryTrackBackError.new(@error) if @error
-			load_plugins
-			@plugin.instance_eval { update_proc }
-			TDiaryTrackBackBase::success_response
-		end
-	end
-
-	#
-	# class TDiaryTrackBackShow
-	#  show TrackBacks
-	#
-	class TDiaryTrackBackShow < TDiaryTrackBackBase
-		def eval_rhtml( prefix = '' )
-			load_plugins
-			anchor_str = @plugin.instance_eval(%Q|anchor "#{@date.strftime('%Y%m%d')}"|)
-			url = "#{@conf.index}#{anchor_str}#t"
-			url[0, 0] = '../' if %r|^https?://|i !~ @conf.index
-			raise ForceRedirect::new( url )
 		end
 	end
 end
