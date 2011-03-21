@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require File.expand_path('../acceptance_helper', __FILE__)
 
-feature 'リンク元設定の利用' do
+feature 'リンク元設定の利用', :mechanize => true do
 	scenario 'リンク元の非表示設定' do
 		append_default_diary
 		visit '/'
@@ -34,8 +34,7 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { page.should have_no_link('http://www.example.com') }
 	end
 
-	scenario 'リンク元記録の除外に設定していないリファラは記録されている' do
-		pending 'リファラを切り替えて記録する方法がわからない'
+	pending 'リンク元記録の除外に設定していないリファラは記録されている' do
 
 		append_default_diary
 		visit '/'

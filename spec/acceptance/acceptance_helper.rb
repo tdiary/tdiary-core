@@ -27,21 +27,28 @@ RSpec.configure do |config|
 	end
 end
 
-Capybara.app = Rack::Builder.new do
-	map '/' do
-		run TDiary::Application.new(:index)
-	end
+if ENV['CGI_TEST']
+	Capybara.default_driver = :mechanize
+	Capybara.app_host = 'http://localhost:19292'
+	RSpec.configuration.filter_run_excluding :mechanize => true
+else
+	Capybara.default_driver = :rack_test
+	Capybara.app = Rack::Builder.new do
+		map '/' do
+			run TDiary::Application.new(:index)
+		end
 
-	map '/index.rb' do
-		run TDiary::Application.new(:index)
-	end
+		map '/index.rb' do
+			run TDiary::Application.new(:index)
+		end
 
-	map '/update.rb' do
-		run TDiary::Application.new(:update)
+		map '/update.rb' do
+			run TDiary::Application.new(:update)
+		end
 	end
 end
 
-Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../../tmp'
+Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../../../tmp/capybara'
 
 # Local Variables:
 # mode: ruby
