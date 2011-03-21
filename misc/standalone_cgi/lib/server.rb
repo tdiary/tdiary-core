@@ -53,7 +53,8 @@ module TDiary
 				:DocumentRoot => TDIARY_CORE_DIR,
 				:MimeTypes => tdiary_mime_types,
 				:Logger => webrick_logger_to( opts[:logger] ),
-				:AccessLog => webrick_access_log_to( opts[:access_log] )
+				:AccessLog => webrick_access_log_to( opts[:access_log] ),
+				:CGIInterpreter => WEBrick::HTTPServlet::CGIHandler::Ruby
 				)
 			@server.logger.level = WEBrick::Log::DEBUG
 			@server.mount( "/", WEBrick::HTTPServlet::CGIHandler,
