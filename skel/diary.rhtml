@@ -50,6 +50,8 @@ end %>
 
 <%% if @mode == 'day' %><div id="comment-form-section"><%%=comment_form%></div><%% end %>
 
+<%%= comment_leave_proc( Time::at( <%=@date.to_i%> ) ) %>
+
 <%% unless @plugin_files.grep(/tb-show.rb\z/).empty? then %><%
 	if opt['long_mode'] then %><%%=
 		trackbacks_of_today_long( @diaries["<%= @date.strftime( '%Y%m%d' ) %>"] )

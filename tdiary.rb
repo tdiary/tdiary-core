@@ -711,6 +711,7 @@ module TDiary
 			@body_leave_procs = []
 			@section_index = {}
 			@section_enter_procs = []
+			@comment_leave_procs = []
 			@subtitle_procs = []
 			@section_leave_procs = []
 			@edit_procs = []
@@ -777,6 +778,7 @@ module TDiary
 			@body_leave_procs.taint
 			@section_index.taint
 			@section_enter_procs.taint
+			@comment_leave_procs.taint
 			@subtitle_procs.taint
 			@section_leave_procs.taint
 			return Safe::safe( secure ? 4 : 1 ) do
@@ -887,6 +889,18 @@ module TDiary
 			r = []
 			@section_leave_procs.each do |proc|
 				r << proc.call( date, @section_index[date] )
+			end
+			r.join
+		end
+
+		def add_comment_leave_proc( block = Proc::new )
+			@comment_leave_procs << block
+		end
+
+		def comment_leave_proc( date )
+			r = []
+			@comment_leave_procs.each do |proc|
+				r << proc.call( date )
 			end
 			r.join
 		end

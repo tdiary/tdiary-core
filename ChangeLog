@@ -1,3 +1,7 @@
+2011-03-22  KADO Masanori  <kdmsnr@gmail.com>
+
+	* tdiary.rb, skel/diary.rhtml: add comment_leave_proc.
+
 2011-03-21  TADA Tadashi <t@tdtds.jp>
 	* deleted TrackBack sending and receiving feature.
 
