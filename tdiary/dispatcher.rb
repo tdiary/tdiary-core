@@ -22,7 +22,7 @@ module TDiary
 
 			# stolen from Rack::Handler::CGI.send_body
 			def send_body( body )
-				body.lines { |part|
+				body.lines.each { |part|
 					$stdout.print part
 					$stdout.flush
 				}

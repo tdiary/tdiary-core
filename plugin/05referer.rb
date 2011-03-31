@@ -162,7 +162,7 @@ end
 
 def referer_add_to_diary( diary, body )
 	return unless body
-	body.lines do |r|
+	body.lines.each do |r|
 		count, ref = r.chomp.split( / /, 2 )
 		next unless ref
 		diary.add_referer( ref.chomp, count.to_i )

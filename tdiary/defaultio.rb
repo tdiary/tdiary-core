@@ -14,7 +14,7 @@ module TDiary
 		header, body = data.split( /\r?\n\r?\n/, 2 )
 		headers = {}
 		if header then
-			header.lines do |l|
+			header.lines.each do |l|
 				l.chomp!
 				key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
 				headers[key] = val ? val.chomp : nil

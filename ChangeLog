@@ -1,3 +1,7 @@
+2011-03-31  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* plugin/05referer.rb, tdiary/{tdiary.rb, defaultio.rb}: bug fix for 1.8.6 compatibility.
+
 2011-03-22  KADO Masanori  <kdmsnr@gmail.com>
 
 	* tdiary.rb, skel/diary.rhtml: add comment_leave_proc.
