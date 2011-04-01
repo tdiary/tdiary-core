@@ -60,22 +60,6 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			@conf['spamfilter.bad_uri_patts_for_mails'] = false
 		end
 
-		if @cgi.params['spamfilter.resolv_check'] &&
-				@cgi.params['spamfilter.resolv_check'][0] &&
-				@cgi.params['spamfilter.resolv_check'][0] == "true"
-			@conf['spamfilter.resolv_check'] = true
-		else
-			@conf['spamfilter.resolv_check'] = false
-		end
-
-		if @cgi.params['spamfilter.resolv_check_mode'] &&
-				@cgi.params['spamfilter.resolv_check_mode'][0] &&
-				@cgi.params['spamfilter.resolv_check_mode'][0] == "false"
-		  @conf['spamfilter.resolv_check_mode'] = false
-		else
-		  @conf['spamfilter.resolv_check_mode'] = true
-		end
-
 		if @cgi.params['spamfilter.filter_mode'] &&
 				@cgi.params['spamfilter.filter_mode'][0] &&
 				@cgi.params['spamfilter.filter_mode'][0] == "false"
@@ -131,7 +115,6 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 		end
 
 		@conf['comment_description'] = @cgi.params['comment_description'][0]
-		@conf['spamfilter.linkcheck'] = (@cgi.params['spamfilter.linkcheck'][0] || '1').to_i
 	end
 
 	# initialize IP based DNSBL list

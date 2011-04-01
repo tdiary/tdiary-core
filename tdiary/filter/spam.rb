@@ -17,8 +17,6 @@ module TDiary
 				@filter_mode = true
 				@max_uris = nil
 				@max_rate = nil
-				@resolv_check = true
-				@resolv_check_mode = true
 				@bad_uri_patts_for_mails = false
 
 				@bad_uri_patts = nil
@@ -58,12 +56,6 @@ module TDiary
 					@max_rate = nil
 				end
 
-				if @conf.options.include?('spamfilter.resolv_check')
-					@resolv_check = @conf.options['spamfilter.resolv_check']
-				else
-					@resolv_check = true
-				end
-
 				if @conf.options.include?('spamlookup.ip.list')
 					@spamlookup_ip_list = @conf.options['spamlookup.ip.list']
 				else
@@ -80,16 +72,6 @@ module TDiary
 					@spamlookup_safe_domain_list = @conf.options['spamlookup.safe_domain.list']
 				else
 					@spamlookup_safe_domain_list = "www.google.com\nwww.google.co.jp\nsearch.yahoo.co.jp\nwww.bing.com"
-				end
-
-				if @conf.options.include?('spamfilter.resolv_check_mode')
-					if @conf.options['spamfilter.resolv_check_mode']
-						@resolv_check_mode = true # invisible
-					else
-						@resolv_check_mode = false # drop
-					end
-				else
-					@resolv_check_mode = true # invisible
 				end
 
 				if @conf.options.include?('spamfilter.bad_uri_patts_for_mails')
@@ -262,70 +244,7 @@ module TDiary
 					return @filter_mode
 				end
 
-				if comment.name == 'TrackBack'
-					uri = comment.body.split(/[\r\n]/).first
-					if %r!\A[^:]+://[^/]+/?\z! =~ uri
-						debug( "trackback from top page: #{uri}" )
-						comment.show = false
-						return @filter_mode
-					end
-
-					begin
-						uri = URI.parse(uri)
-						unless /\A(?:https?)\z/i =~ uri.scheme
-							debug( "not http/https: #{uri}" )
-							comment.show = false
-							return @filter_mode
-						end
-					rescue URI::Error
-						debug( "invalid URI: #{uri.dump} (#{$!.message})" )
-						comment.show = false
-						return @filter_mode
-					end
-
-					if @resolv_check
-						chance = 2
-						begin
-							addrs = Resolv.getaddresses(uri.host)
-
-						rescue Resolv::ResolvTimeout, Resolv::ResolvError
-							if chance > 0
-								chance -= 1
-								retry
-							end
-							debug( "resolv error: #{uri.host.dump} (#{$!.message})" )
-							comment.show = false
-							return @resolv_check_mode
-						rescue Exception
-							debug( "unknown resolv error: #{uri.host.dump} (#{$!.message})" )
-							comment.show = false
-							return @resolv_check_mode
-						end
-
-						if addrs.empty?
-							debug( "couldn't get addresses: #{uri.host}" )
-							comment.show = false
-							return @resolv_check_mode
-						end
-
-						unless addrs.include?(@cgi.remote_addr)
-							unless /\A(.*[:.])/ =~ @cgi.remote_addr &&
-									addrs.detect {|a| a.index($1) == 0}
-								debug( "addresses don't match URI: #{uri.host}: #{addrs.join(', ')}" )
-								comment.show = false
-								return @resolv_check_mode
-							end
-						end
-					end
-				end
-
-				if comment.name == 'TrackBack'
-					comment_body = comment.body.sub(/\A[^\r\n]*/, '')
-				else
-					comment_body = comment.body
-				end
-
-				uris = URI.extract( comment_body, %w(http https ftp mailto) )
+				uris = URI.extract( comment.body, %w(http https ftp mailto) )
 				unless uris.empty?
 					if @max_uris && @max_uris >= 0 && uris.size > @max_uris
 						debug( "too many URIs" )
@@ -334,7 +253,7 @@ module TDiary
 					end
 
 					if @max_rate && @max_rate > 0 &&
-							uris.join('').size * 100 / comment_body.gsub(/\s+/, '').size > @max_rate
+							uris.join('').size * 100 / comment.body.gsub(/\s+/, '').size > @max_rate
 						debug( "too many URI-chars" )
 						comment.show = false
 						return @filter_mode

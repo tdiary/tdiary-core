@@ -30,10 +30,6 @@ def spamfilter_conf_html
 			<option value="true"#{" selected" if @conf['spamfilter.bad_uri_patts_for_mails']}>ON</option>
 			<option value="false"#{" selected" unless @conf['spamfilter.bad_uri_patts_for_mails']}>OFF</option>
 		</select></p>
-	<p><select name="spamfilter.linkcheck">
-		<option value="0"#{' selected' if @conf['spamfilter.linkcheck'] == 0}>Receiving all TrackBack without checking it's contents.</option>
-		<option value="1"#{' selected' if @conf['spamfilter.linkcheck'] == 1}>Checking which TrackBack sender has any links to my site.</option>
-	</select></p>
 
 	<h3>Date</h3>
 	<p>Javascript is used to display TSUKKOMI from into<br>
@@ -43,17 +39,6 @@ def spamfilter_conf_html
 	<h3>IP address filters</h3>
 	<p>It is spam when sender IP address matches these patterns. You have to specify complete IP address or part of IP address ends by '.'.<br>
 		<textarea name="spamfilter.bad_ip_addrs" cols="60" rows="8">#{h( @conf['spamfilter.bad_ip_addrs'] || '' )}</textarea></p>
-	</p>
-	<p>It is spam when IP address of TrackBack sender dose not match with IP address of the site.<br>
-		<select name="spamfilter.resolv_check">
-			<option value="true"#{" selected" if @conf['spamfilter.resolv_check']}>ON</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check']}>OFF</option>
-	</select></p>
-	<p>Which dou you want to do spam TrackBack finally?<br>
-		<select name="spamfilter.resolv_check_mode">
-			<option value="true"#{" selected" if @conf['spamfilter.resolv_check_mode']}>hide</option>
-			<option value="false"#{" selected" unless @conf['spamfilter.resolv_check_mode']}>dispose</option>
-		</select>
 	</p>
 	<h3>Description of TSUKKOMI</h3>
 	<p>Show messeges and spam conditions for your subscribers.<br><textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
