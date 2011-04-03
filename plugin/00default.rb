@@ -1,6 +1,6 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8 -*-
 #
-# 00default.rb: default plugins 
+# 00default.rb: default plugins
 #
 # Copyright (C) 2010, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -249,6 +249,8 @@ def calc_links
 		days.sort!
 		days.unshift(nil).push(nil)
 		@navi_user_days = days[days.index(today) - 1, 3]
+		@prev_day = @navi_user_days[0]
+		@next_day = @navi_user_days[2]
 	elsif @mode == 'nyear'
 		y = 2000 # specify leam year
 		m, d = @cgi.params['date'][0].scan(/^(\d\d)(\d\d)$/)[0]

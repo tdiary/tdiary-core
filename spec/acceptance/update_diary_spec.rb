@@ -90,4 +90,24 @@ BODY
 		visit '/'
 		page.should have_no_css('div[class="day"]')
 	end
+
+	scenario '編集画面に前の日記と次の日記のリンク表示される' do
+		append_default_diary('20010502')
+		append_default_diary('20010503')
+		append_default_diary('20010504')
+
+		visit '/'
+		click_link "#{Date.parse('20010503').strftime('%Y年%m月%d日')}"
+		click_link '編集'
+
+		page.should have_content('«前の日記(2001年05月02日)')
+		page.should have_content('次の日記(2001年05月04日)»')
+	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:

@@ -1,3 +1,7 @@
+2011-04-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* plugin/00default.rb: bug fix for navi_user_edit, unshown prev/next day anchor.
+
 2011-03-31  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* plugin/05referer.rb, tdiary/{tdiary.rb, defaultio.rb}: bug fix for 1.8.6 compatibility.
