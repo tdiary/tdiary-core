@@ -7,10 +7,10 @@ Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.1.20110403'
+TDIARY_VERSION = '3.0.1.20110406'
 
-$:.unshift File::dirname( __FILE__ ).untaint + '/misc/lib'
-Dir["#{File::dirname( __FILE__ ).untaint + '/vendor/*/lib'}"].each {|dir| $:.unshift dir }
+$:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
+Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.untaint }
 
 require 'cgi'
 require 'uri'

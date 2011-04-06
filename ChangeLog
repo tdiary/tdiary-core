@@ -1,3 +1,7 @@
+2011-04-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary.rb: untaint external load_path. thanks tamoot.
+
 2011-04-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* plugin/00default.rb: bug fix for navi_user_edit, unshown prev/next day anchor.

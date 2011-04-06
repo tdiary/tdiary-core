@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + "/../spec_helper"
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'misc/plugin')).untaint
 
-$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "misc/plugin")))
+require File.dirname(__FILE__) + "/../spec_helper"
 require 'erb'
 
 # FIXME PluginFake in under construction.
