@@ -24,6 +24,7 @@ begin
 
 	@cgi = CGI.new
 	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( @cgi )
+	headers['type'] = headers.delete('Content-Type')
 	TDiary::Dispatcher.send_headers( status, headers )
 	TDiary::Dispatcher.send_body( body )
 

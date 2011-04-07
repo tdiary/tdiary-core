@@ -33,6 +33,7 @@ begin
 		@cgi.params = cgi.params
 	end
 	status, headers, body = TDiary::Dispatcher.index.dispatch_cgi( @cgi )
+	headers['type'] = headers.delete('Content-Type')
 	TDiary::Dispatcher.send_headers( status, headers )
 	TDiary::Dispatcher.send_body( body )
 
