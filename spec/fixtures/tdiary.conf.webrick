@@ -1,7 +1,7 @@
 @data_path = File.expand_path("tmp/data", File.dirname(__FILE__))
 
 @style = 'Wiki'
-@index = './'
+@index = 'index.rb'
 @update = 'update.rb'
 
 @options['apply_plugin'] = true

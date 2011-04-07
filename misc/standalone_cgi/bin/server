@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2010, Kakutani Shintaro <shintaro@kakutani.com>
 # You can redistribute it and/or modify it under GPL2.
 
-$:.unshift( File.expand_path( "../lib", File.dirname(__FILE__) ) )
+$:.unshift( File.expand_path( "../lib", File.dirname(__FILE__) ).untaint )
 require 'server'
 
 TDiary::StandaloneCGIServer.run( :port => 19292 )
