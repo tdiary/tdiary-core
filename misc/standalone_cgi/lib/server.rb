@@ -25,7 +25,7 @@ module TDiary
 				trap( "TERM" ) { @@server.shutdown }
 
 				unless File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
-					FileUtils.cp_r(TDIARY_CORE_DIR + '/spec/fixtures/tdiary.conf.rack',
+					FileUtils.cp_r(TDIARY_CORE_DIR + '/spec/fixtures/tdiary.conf.webrick',
 						TDIARY_CORE_DIR + '/tdiary.conf', :verbose => false)
 				end
 
@@ -63,6 +63,8 @@ module TDiary
 				File.expand_path( "index.rb", TDIARY_CORE_DIR ) )
 			@server.mount( "/update.rb", WEBrick::HTTPServlet::CGIHandler,
 				File.expand_path( "update.rb", TDIARY_CORE_DIR ) )
+			@server.mount( "/theme", WEBrick::HTTPServlet::FileHandler,
+				File.expand_path( "theme", TDIARY_CORE_DIR ) )
 		end
 
 		def start
