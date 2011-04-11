@@ -9,6 +9,9 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 require 'fcgi'
+# workaround untaint LOAD_PATH for rubygems library path is always tainted.
+$:.each{|path| path.untaint if path.include?('fcgi') && path.tainted? }
+
 FCGI.each_cgi do |cgi|
   begin
     ENV.clear
