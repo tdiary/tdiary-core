@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1" />
+<title>tDiary -- How To Write Diary</title>
+<link href="doc.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<h1><a name="label-0" id="label-0">tDiary -- How to write diary</a></h1><!-- RDLabel: "tDiary &shy;&shy; How to write diary" -->
+<h2><a name="label-1" id="label-1">Index</a></h2><!-- RDLabel: "Index" -->
+<ul>
+<li>Format of the diary in tDiary</li>
+<li>Tips </li>
+</ul>
+<h2><a name="label-2" id="label-2">Format of the diary in tDiary</a></h2><!-- RDLabel: "Format of the diary in tDiary" -->
+<p>Basically, you write your diary in HTML. But, the format of the diary has extra rules in order to write your diary without knowledge of HTML. In this format, a linefeed and a character at the beginning of the line have special meanings. These rules are for the purpose of setting sub-title and paragraph easily.</p>
+<p>The rules are explained below. To distinguish a linefeed in appearance(HTML) from an actual linefeed(format), "$" stands for an actual linefeed in this manual.</p>
+<pre>sub-title(1)$
+Like the above, the first line becomes a sub-title. 
+With the tDiary's standard style sheet, the sub-title is displayed in bold face. 
+Lines from the sub-title to the next space line are called section, 
+and a section anchor is added in front of the sub-title. $
+Lines after the sub-title, like this line and the line just above, are 
+recognized as normal lines. If a paragraph begins with a sub-title, 
+a section anchor is not attached in front of normal lines.$
+$
+  If a space line exists, the line means the separation of the sections. 
+If space exists in front of the line like this line, 
+the section doesn't have a sub-title. In addition, only the first paragraph 
+has a section anchor. In this case, the line is not shown in bold face.$
+  If a section doesn't begin with a sub-title, the second and
+later paragraphs don't have an anchor.$
+$
+&lt;pre&gt;$
+If the paragraph begins with a line whose first character is "&lt;", $
+the whole section is not formatted. $
+The lines from the beginning of the section to the next space line, 
+in other words, to the next section, is shown as it is. $
+This feature is convenient if you want to use 
+HTML tags, for example, list or table. $
+This section doesn't have a section anchor. $
+&lt;/pre&gt;$
+$
+&lt;&lt;a href="foobar"&gt;sub-title(2)&lt;/a&gt;$
+As the result of it, you can't add a sub-title which begins with a HTML tag 
+to a section. But if a line begins with "&lt;&lt;" like the line above, 
+the line is also recognized as a sub-title.$
+$</pre>
+<p><em> This example is formatted below.</em> </p>
+<div class="sample">
+
+<div class="day">
+<h2><a href="./?date=20010803">2001-08-03</a> <span class="title">title</span></h2>
+<div class="body">
+<h3 class="subtitle"><a name="p01" href="./?date=20010803#p01">_</a>sub-title(1)</h3>
+<p> Like the above, the first line becomes a sub-title. With the tDiary's standard style sheet, the sub-title is displayed in bold face. Lines from the sub-title to the next space line are called section, and a section anchor is added in front of the sub-title. </p>
+<p> Lines after the sub-title, like this line and the line just above, are recognized as normal lines. If a paragraph begins with a sub-title, a section anchor is not attached in front of normal lines.</p>
+<p><a name="p02" href="./?date=20010803#p02">_</a> If a space line exists, the line means the separation of the sections. If space exists in front of the line like this line, the section doesn't have a sub-title. In addition, only the first paragraph has a section anchor. In this case, the line is not shown in bold face.</p>
+<p> If a section doesn't begin with a sub-title, the second or later paragraphs don't have an anchor.</p>
+<pre>
+If the paragraph begins with a line whose first character is "&lt;", $
+the whole section is not formatted. $
+The lines from the beginning of the section to the next space line, 
+in other words, to the next section, is shown as it is. $
+This feature is convenient if you want to use 
+HTML tags, for example, list or table. $
+This section doesn't have a section anchor. $
+</pre>
+<h3 class="subtitle"><a name="p01" href="./?date=20010803#p04">_</a><a href="foobar">sub-title(2)</a></h3>
+<p>As the result of it, you can't add a sub-title which begins with a HTML tag to a section. But if a line begins with "&lt;&lt;" like the line above, the line is also recognized as a sub-title.
+</div>
+</div>
+
+</div>
+
+<p>In tDiary, users can write their diary without HTML if they don't need to 
+decorate their diary. At the same time, users who are familiar to HTML can 
+write full functions of HTML in their diaries. But, If you use HTML tags in your 
+diary, it is better to read the next section, Tips, to avoid pitfalls of 
+tDiary.</p>
+<h2><a name="label-3" id="label-3">Tips</a></h2><!-- RDLabel: "Tips" -->
+<h3><a name="label-4" id="label-4">want a section to include a line which has a tag.</a></h3><!-- RDLabel: "want a section to include a line which has a tag." -->
+<p>For example, you want to use &lt;ul&gt; tag in your diary in order to use a list 
+and don't want to change a section. Like this case, if you want to decorate 
+the whole paragraph with html tags, you need to use a trick in tDiary. 
+For instance, you hope that your diary is formatted like the next example.</p>
+<div class="sample">
+
+<div class="day">
+<h2><a href="./?date=20010830">2001-08-29</a> <span class="title"></span></h2>
+<div class="body">
+<h3 class="subtitle"><a name="p01" href="./?date=20010829#p01">_</a>sub title</h3>
+<p>Like this, you write a list which has two items.</p>
+<ul>
+	<li>item1</li>
+	<li>item2</li>
+</ul>
+<p>Here is in the same section</p>
+</div>
+</div>
+
+</div>
+
+<p>One way is to merge a paragraph with the previous paragraph. Ordinarily, 
+a paragraph is enclosed by &lt;p&gt;-&lt;/p&gt; tag(you can confirm it if you read the HTML source
+created by tDiary.). You take advantage of this.</p>
+<pre>sub-title
+Like this, you write a list which has two items. &lt;/p&gt;&lt;ul&gt;&lt;li&gt;item1&lt;/li&gt;
+&lt;li&gt;item2&lt;/li&gt;&lt;/ul&gt;&lt;p&gt; Here is in the same section$</pre>
+<p>It is the point not to put a linefeed. This way is usable if  
+a paragraph enclosed by a tag is not composed of plural lines.
+But, this is a little difficult to read.</p>
+<p>In the way above, you take advantage of the fact that a paragraph is 
+enclosed by &lt;p&gt; in tDiary. On the contrary, another way is to take 
+advantage of the fact that &lt;p&gt; tag is not inserted to a section if 
+the section has a line which begin with a tag. In the next example,
+tDiary insert no tag into a section because the section has a line 
+which begins with "&lt;". And, normal lines are enclosed by &lt;p&gt;-&lt;/p&gt;, except a list.</p>
+<pre>sub title$
+&lt;p&gt;Like this, you write a list which has two items.&lt;/p&gt;$
+&lt;ul&gt;$
+&lt;li&gt;item1&lt;/li&gt;$
+&lt;li&gt;item2&lt;/li&gt;$
+&lt;/ul&gt;$
+&lt;p&gt; Here is in the same section.&lt;/p&gt;$</pre>
+<p>This way is suitable if a paragraph enclosed by tags is plural. For example, 
+you insert source code with &lt;pre&gt; tag.</p>
+<p>Of course, if you don't mind the fact that the sections are split, 
+you are not bothered with formatting.
+In this case, it may be better to write like the next example.</p>
+<pre>sub title$
+ Like this, you write a list which has two items.$
+$
+&lt;ul&gt;$
+&lt;li&gt;item1&lt;/li&gt;$
+&lt;li&gt;item2&lt;/li&gt;$
+&lt;/ul&gt;$
+$
+Here is in the same section.$</pre>
+<p>The last line, "Here ...", has a section anchor, but this is not a big problem.</p>
+<h3><a name="label-5" id="label-5">You want to insert an anchor per paragraph, not section</a></h3><!-- RDLabel: "You want to insert an anchor per paragraph, not section" -->
+<p>tDiary is developed under the policy that it is not necessary to insert an anchor to 
+a paragraph. So, basically, you can't insert an anchor to a paragraph. 
+But, you can insert an anchor to a section in appearance if you utilize the fact
+that we can make a section without a sub-title. Please read the next example.</p>
+<pre>sub-title(2)$
+$
+ Like this, you put a space line under the sub-title and make a section
+to begin with space. This makes two sections. The first section has 
+only the sub-title. The second section has only the paragraph. $
+$
+ If you insert a space line to every paragraph, every paragraph has an anchor.$
+$
+sub-title(2)$
+$
+ Please be careful that a line which doesn't begin with space becomes a sub-title.$</pre>
+<p>This example is displayed like this. It is the point that a line begins with space.</p>
+<div class="sample">
+
+<div class="day">
+<h2><a href="./?date=20010830">2001-08-30</a> <span class="title"></span></h2>
+<div class="body">
+<h3 class="subtitle"><a name="p01" href="./?date=20010830#p01">_</a>sub-title(1)</h3>
+<p><a name="p02" href="./?date=20010830#p02">_</a>Like this, you put a space line under the sub-title and make a section to begin with space. This makes two sections. The first section has only the sub-title. The second section has only the paragraph.</p>
+<p><a name="p03" href="./?date=20010830#p03">_</a>If you insert a space line to every paragraph, every paragraph has an anchor.</p>
+<h3 class="subtitle"><a name="p04" href="./?date=20010830#p04">_</a>sub-title(2)</h3>
+<p><a name="p04" href="./?date=20010830#p04">_</a>Please be careful that a line which doesn't begin with space becomes a sub-title.</p>
+</div>
+</div>
+
+</div>
+
+
+
+</body>
+</html>

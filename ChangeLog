@@ -1,3 +1,6 @@
+2011-04-19  TADA Tadashi <t@tdtds.jp>
+	* converted some en documents to HTML.
+
 2011-04-11  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 
 	* index.fcgi: workaround untaint LOAD_PATH for rubygems library path is always tainted.
