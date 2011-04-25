@@ -43,7 +43,7 @@ def comment_mail( text, to )
 end
 
 add_update_proc do
-	comment_mail_send if @mode =~ /^(comment|trackbackreceive|pingbackreceive)$/
+	comment_mail_send if @mode =~ /^(comment|pingbackreceive)$/
 end
 
 add_conf_proc( 'comment_mail', comment_mail_conf_label, 'tsukkomi' ) do
