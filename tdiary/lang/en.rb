@@ -63,7 +63,7 @@ end
 # 'shorten' method cuts string length.
 # 
 def shorten( str, length = 120 )
-	matched = str.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/ )[0]
+	matched = str.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/u )[0]
 	unless $'.empty?
 		matched + '..'
 	else
