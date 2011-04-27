@@ -1,3 +1,6 @@
+2011-04-27  TADA Tadashi <t@tdtds.jp>
+	* recent_rss.rb: fixed security error.
+
 2011-04-25  TADA Tadashi <t@tdtds.jp>
 	* deleted PingBack sending and receiving feature.
 

@@ -75,24 +75,24 @@ end
 class InvalidResourceError < StandardError; end
 class RSSNotModified < StandardError; end
 
+require 'time'
+require 'net/http'
+require 'uri/generic'
+require 'rss/parser'
+require 'rss/1.0'
+require 'rss/2.0'
+require 'rss/dublincore'
+begin
+	require 'rss/image'
+rescue LoadError
+end
+
 def recent_rss_cache_rss(url, cache_file, cache_time)
 
 	cached_time = nil
 	cached_time = File.mtime(cache_file) if File.exist?(cache_file)
 
 	if cached_time.nil? or Time.now > cached_time + cache_time
-		require 'time'
-		require 'open-uri'
-		require 'net/http'
-		require 'uri/generic'
-		require 'rss/parser'
-		require 'rss/1.0'
-		require 'rss/2.0'
-		require 'rss/dublincore'
-		begin
-			require 'rss/image'
-		rescue LoadError
-		end
 		
 		begin
 			uri = URI.parse(url)
@@ -146,26 +146,25 @@ end
 
 def recent_rss_fetch_rss(uri, cache_time)
 	rss = nil
+
+	px_host, px_port = (@conf['proxy'] || '').split( /:/ )
+	px_port = 80 if px_host and !px_port
 	begin
-		uri.open(recent_rss_http_header(cache_time)) do |f|
-			case f.status.first
-			when "200"
-				rss = f.read
-				# STDERR.puts "Got RSS of #{uri}"
+		timeout( 10 ) do
+			res = Net::HTTP::Proxy( px_host, px_port ).get_response( uri )
+			case res
+			when Net::HTTPSuccess
+				rss = res.body
+			when Net::HTTPRedirection
+				raise InvalidResourceError
+			when Net::HTTPNotModified
+				# not modified
+				raise RSSNotModified
 			else
 				raise InvalidResourceError
 			end
 		end
-	rescue OpenURI::HTTPError => e
-		if e.io.status.first == "304"
-			# not modified
-			# STDERR.puts "#{uri} does not modified"
-			raise RSSNotModified
-		else
-			raise InvalidResourceError
-		end
-	rescue TimeoutError, SocketError, StandardError,
-		SecurityError # occured in redirect
+	rescue TimeoutError, SocketError, StandardError
 		raise InvalidResourceError
 	end
 	rss
@@ -191,7 +190,6 @@ def recent_rss_write_to_cache(cache_file, rss_infos)
 end
 
 def recent_rss_read_from_cache(cache_file)
-	require 'time'
 	infos = []
 	File.open(cache_file) do |f|
 		while info = f.gets(RECENT_RSS_ENTRY_SEPARATOR)
