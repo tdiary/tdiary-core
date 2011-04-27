@@ -14,6 +14,7 @@ module TDiary
 					$stdout.print CGI.new.header( headers )
 				rescue EOFError
 					charset = headers.delete( 'charset' )
+					headers['Content-Type'] ||= headers.delete( 'type' )
 					headers['Content-Type'] += "; charset=#{charset}" if charset
 					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
 				end
