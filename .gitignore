@@ -2,6 +2,7 @@
 coverage
 coverage.aggregate
 data
+log
 tmp
 rdoc
 index.rdf
