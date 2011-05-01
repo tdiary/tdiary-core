@@ -409,48 +409,6 @@ module TDiary
 	class BadStyleError < TDiaryError; end
 	class NotFound < TDiaryError;	end
 
-	#
-	# class IOBase
-	#  base of IO class
-	#
-	class IOBase
-		def calendar
-			raise StandardError, 'not implemented'
-		end
-
-		def transaction( date )
-			raise StandardError, 'not implemented'
-		end
-
-		def diary_factory( date, title, body, style = nil )
-			raise StandardError, 'not implemented'
-		end
-
-		def styled_diary_factory( date, title, body, style_name = 'tDiary' )
-			return style( style_name.downcase )::new( date, title, body )
-		end
-
-		def load_styles
-			@styles = {}
-			Dir::glob( "#{TDiary::PATH}/tdiary/*_style.rb" ) do |style_file|
-				require style_file.untaint
-				style = File::basename( style_file ).sub( /_style\.rb$/, '' )
-				@styles[style] = TDiary::const_get( "#{style.capitalize}Diary" )
-			end
-		end
-
-		def style( s )
-			unless @styles
-				raise BadStyleError, "styles are not loaded"
-			end
-			r = @styles[s.downcase]
-			unless r
-				raise BadStyleError, "bad style: #{s}"
-			end
-			return r
-		end
-	end
-
 	# class ForceRedirect
 	#  force redirect to another page
 	#
@@ -1083,7 +1041,7 @@ module TDiary
 			@cookies = []
 
 			unless @conf.io_class then
-				require 'tdiary/defaultio'
+				require 'tdiary/io/default'
 				@conf.io_class = DefaultIO
 			end
 			@io = @conf.io_class.new( self )
