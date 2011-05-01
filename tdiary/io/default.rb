@@ -5,6 +5,8 @@
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
+require 'tdiary/io/base'
+
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
 	TDIARY_MAGIC_MINOR = '01.00'
@@ -132,7 +134,7 @@ module TDiary
 		end
 	end
 
-	class DefaultIO < IOBase
+	class DefaultIO < BaseIO
 		include CommentIO
 		include RefererIO
 
@@ -141,7 +143,7 @@ module TDiary
 			@data_path = @tdiary.conf.data_path
 			load_styles
 		end
-	
+
 		#
 		# block must be return boolean which dirty diaries.
 		#
@@ -160,7 +162,7 @@ module TDiary
 				end
 				fh.flock( File::LOCK_EX )
 
-				cache = @tdiary.restore_parser_cache( date, 'defaultio' )
+				cache = @tdiary.restore_parser_cache( date, 'default' )
 				force_save = TDiaryBase::DIRTY_NONE
 				unless cache then
 					force_save |= restore( fh, diaries )
@@ -174,7 +176,7 @@ module TDiary
 				store_comment( cfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_COMMENT) != 0
 				store_referer( rfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_REFERER) != 0
 				if dirty != TDiaryBase::DIRTY_NONE or not cache then
-					@tdiary.store_parser_cache( date, 'defaultio', diaries )
+					@tdiary.store_parser_cache( date, 'default', diaries )
 				end
 
 				if diaries.empty?
@@ -200,7 +202,7 @@ module TDiary
 				fh.close if fh
 			end
 		end
-	
+
 		def calendar
 			calendar = {}
 			Dir["#{@data_path}????"].sort.each do |dir|
@@ -221,7 +223,7 @@ module TDiary
 
 	private
 		def restore( fh, diaries )
-			
+
 			begin
 				fh.seek( 0 )
 				begin
