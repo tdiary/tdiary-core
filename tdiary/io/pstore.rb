@@ -12,7 +12,7 @@ module TDiary
 		def initialize( tdiary )
 			@data_path = tdiary.conf.data_path
 		end
-	
+
 		#
 		# block must be return boolean which dirty diaries.
 		#

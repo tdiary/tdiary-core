@@ -32,7 +32,7 @@ module TDiary
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
 		end
-	
+
 		def subtitle=(subtitle)
 			cat_str = ""
 			@categories.each {|cat|
@@ -42,11 +42,11 @@ module TDiary
 			@subtitle = subtitle ? (cat_str + subtitle) : nil
 			@stripped_subtitle = strip_subtitle
 		end
-	
+
 		def body=(str)
 			@body = str
 		end
-	
+
 		def categories=(categories)
 			@categories = categories
 			cat_str = ""
@@ -57,7 +57,7 @@ module TDiary
 			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
 			@stripped_subtitle = strip_subtitle
 		end
-	
+
 		def to_src
 			s = ''
 			if @stripped_subtitle then
@@ -118,24 +118,24 @@ module TDiary
 	class TdiaryDiary
 		include DiaryBase
 		include CategorizableDiary
-	
+
 		def initialize( date, title, body, modified = Time::now )
 			init_diary
 			replace( date, title, body )
 			@last_modified = modified
 		end
-	
+
 		def style
 			'tDiary'
 		end
-	
+
 		def replace( date, title, body )
 			set_date( date )
 			set_title( title )
 			@sections = []
 			append( body )
 		end
-	
+
 		def append( body, author = nil )
 			body.gsub( /\r/, '' ).split( /\n\n+/ ).each do |fragment|
 				section = TdiarySection::new( fragment, author )
@@ -144,13 +144,13 @@ module TDiary
 			@last_modified = Time::now
 			self
 		end
-	
+
 		def each_section
 			@sections.each do |section|
 				yield section
 			end
 		end
-	
+
 		def add_section(subtitle, body)
 			sec = TdiarySection::new("\n\n ")
 			sec.subtitle = subtitle
@@ -158,11 +158,11 @@ module TDiary
 			@sections << sec
 			@sections.size
 		end
-	
+
 		def delete_section(index)
 			@sections.delete_at(index - 1)
 		end
-	
+
 		def to_src
 			src = ''
 			each_section do |section|
@@ -170,7 +170,7 @@ module TDiary
 			end
 			src
 		end
-	
+
 		def to_html( opt = {}, mode = :HTML )
 			case mode
 			when :CHTML
@@ -179,7 +179,7 @@ module TDiary
 				to_html4( opt )
 			end
 		end
-	
+
 		def to_html4( opt )
 			r = ''
 			each_section do |section|
@@ -201,7 +201,7 @@ module TDiary
 			end
 			r
 		end
-	
+
 		def to_chtml( opt )
 			r = ''
 			each_section do |section|
@@ -221,7 +221,7 @@ module TDiary
 			end
 			r
 		end
-	
+
 		def to_s
 			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
 		end
