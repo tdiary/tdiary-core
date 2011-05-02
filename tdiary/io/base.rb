@@ -1,8 +1,8 @@
+# -*- coding: utf-8; -*-
 #
 # class IOBase
 #  base of IO class
 #
-
 module TDiary
 	class BaseIO
 		def calendar
@@ -42,3 +42,11 @@ module TDiary
 		end
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3
