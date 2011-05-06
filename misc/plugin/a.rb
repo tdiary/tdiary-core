@@ -26,15 +26,15 @@
 #
 # 2. Dictionary file
 # You can edit the dictionary file from "Preferences".
-# 
+#
 # 3. Documents
 # See URLs below for more details.
 #   http://ponx.s5.xrea.com/hiki/a.rb.html (English) 
 #   http://ponx.s5.xrea.com/hiki/ja/a.rb.html (Japanese) 
-# 
+#
 # Copyright (c) 2002-2004 MUTOH Masao <mutoh@highway.ne.jp>
 # You can redistribute it and/or modify it under GPL2.
-# 
+#
 require 'nkf'
 
 # Resources
@@ -45,7 +45,6 @@ end
 def a_conf_cols; '70%'; end
 def a_conf_rows; 20; end
 
-
 A_REG_PIPE = /\|/
 A_REG_COLON = /\:/
 A_REG_URL = /:\/\//
@@ -53,7 +52,7 @@ A_REG_CHARSET = /utf8|euc|sjis|jis/
 A_REG_CHARSET2 = /euc|sjis|jis/
 A_REG_MY = /^\d{8}/
 
-if @options and @options["a.path"] 
+if @options and @options["a.path"]
 	a_path = @options["a.path"]
 else
 	a_path = File.join(@cache_path, "a.dat")
@@ -120,7 +119,7 @@ def a(key, option_or_name = nil, name = nil, charset = nil)
 		option_or_name = option unless option_or_name;
 	end
 	charset = cset unless charset
-	
+
 	value = key if value == ""
 
 	if url.nil?
@@ -129,7 +128,7 @@ def a(key, option_or_name = nil, name = nil, charset = nil)
 			value = name
 			url += u(a_convert_charset(option_or_name, charset))
 		elsif option_or_name
-			value = option_or_name 
+			value = option_or_name
 		else
 			value = key
 		end
@@ -143,7 +142,7 @@ def a(key, option_or_name = nil, name = nil, charset = nil)
       return my(option_or_name, name)
    end
 
-	if @options["a.tlink"] 
+	if @options["a.tlink"]
 		if defined?(tlink)
 			url.untaint
  			result = tlink(url, value)
@@ -186,7 +185,7 @@ add_conf_proc( 'a_conf', a_conf_label ) do
       end
 
       open( a_path, 'w' ) do |o|
-        @cgi["anchor_plugin_data"].each do |v|
+        @cgi["anchor_plugin_data"].lines.each do |v|
           v.split(/\n/).each do |line|
             o.print line, "\n" if line =~ /\w/
           end
@@ -196,10 +195,9 @@ add_conf_proc( 'a_conf', a_conf_label ) do
 
     end
   end
- 
+
   a_conf_html(data)
 end
-
 
 # Local Variables:
 # mode: ruby

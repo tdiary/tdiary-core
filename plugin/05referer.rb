@@ -151,7 +151,7 @@ def referer_load( file, diary )
 		File::open( file, 'rb' ) do |fh|
 			fh.flock( File::LOCK_SH )
 			fh.gets # read magic
-			fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
+			fh.read.lines.each do |l|
 				headers, body = ::TDiary::parse_tdiary( l )
 				yield( headers, @conf.to_native( body ) )
 			end
@@ -265,21 +265,21 @@ def saveconf_referer
 		@conf.show_referer = @cgi.params['show_referer'][0] == 'true' ? true : false
 
 		no_referer2 = []
-		@conf.to_native( @cgi.params['no_referer'][0] ).split( /\r?\n\.\r?\n/ ).each do |ref|
+		@conf.to_native( @cgi.params['no_referer'][0] ).lines.each do |ref|
 			ref.strip!
 			no_referer2 << ref if ref.length > 0
 		end
 		@conf.no_referer2 = no_referer2
 
 		only_volatile2 = []
-		@conf.to_native( @cgi.params['only_volatile'][0] ).split( /\r?\n\.\r?\n/ ).each do |ref|
+		@conf.to_native( @cgi.params['only_volatile'][0] ).lines.each do |ref|
 			ref.strip!
 			only_volatile2 << ref if ref.length > 0
 		end
 		@conf.only_volatile2 = only_volatile2
 
 		referer_table2 = []
-		@conf.to_native( @cgi.params['referer_table'][0] ).split( /\r?\n\.\r?\n/ ).each do |pair|
+		@conf.to_native( @cgi.params['referer_table'][0] ).lines.each do |pair|
 			u, n = pair.sub( /[\r\n]+/, '' ).split( /[ \t]+/, 2 )
 			referer_table2 << [u,n] if u and n
 		end

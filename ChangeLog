@@ -1,3 +1,6 @@
+2011-05-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* plugin/05referer.rb, misc/plugin/a.rb: bugfix, backword compatibility.
+
 2011-04-29  TADA Tadashi <t@tdtds.jp>
 	* Release 3.0.2.
 
