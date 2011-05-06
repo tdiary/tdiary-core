@@ -151,7 +151,7 @@ def referer_load( file, diary )
 		File::open( file, 'rb' ) do |fh|
 			fh.flock( File::LOCK_SH )
 			fh.gets # read magic
-			fh.read.lines.each do |l|
+			fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 				headers, body = ::TDiary::parse_tdiary( l )
 				yield( headers, @conf.to_native( body ) )
 			end
