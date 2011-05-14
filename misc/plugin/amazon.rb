@@ -94,7 +94,7 @@ def amazon_image( item )
 	image = {}
 	begin
 		size = case @conf['amazon.imgsize']
-		when 0; 'Large' 
+		when 0; 'Large'
 		when 2; 'Small'
 		else;   'Medium'
 		end
@@ -123,7 +123,17 @@ def amazon_image( item )
 end
 
 def amazon_url( item )
-	item.elements.to_a( 'DetailPageURL' )[0].text
+	url = item.elements.to_a( 'DetailPageURL' )[0].text
+	begin
+		resp = @conf['amazon.bitly'] ? amazon_fetch("http://api.bit.ly/v3/shorten?login=#{@conf['bitly.login']}&apiKey=#{@conf['bitly.key']}&longUrl=#{URI.escape(url)}&format=xml".untaint) : nil
+		if resp =~ /<url>([^<]+)<\/url>/
+			$1
+		else
+			url
+		end
+	rescue
+		return url
+	end
 end
 
 def amazon_label( item )
@@ -285,6 +295,7 @@ def amazon_conf_proc
 		unless @conf.secure and not @conf['amazon.secure-cgi'] then
 			@conf['amazon.imgsize'] = @cgi.params['amazon.imgsize'][0].to_i
 			@conf['amazon.hidename'] = (@cgi.params['amazon.hidename'][0] == 'true')
+			@conf['amazon.bitly'] = (@cgi.params['amazon.bitly'][0] == 'true')
 			unless @conf.secure then
 				@conf['amazon.nodefault'] = (@cgi.params['amazon.nodefault'][0] == 'true')
 				if @cgi.params['amazon.clearcache'][0] == 'true' then
@@ -312,6 +323,11 @@ def amazon_conf_proc
 			<p><select name="amazon.hidename">
 				<option value="true"#{" selected" if @conf['amazon.hidename']}>#{@amazon_label_hide}</option>
 				<option value="false"#{" selected" unless @conf['amazon.hidename']}>#{@amazon_label_show}</option>
+			</select></p>
+			<h3>#{@amazon_label_bitly}</h3>
+			<p><select name="amazon.bitly">
+				<option value="true"#{" selected" if @conf['amazon.bitly']}>#{@amazon_label_bitly_enabled}</option>
+				<option value="false"#{" selected" unless @conf['amazon.bitly']}>#{@amazon_label_bitly_disabled}</option>
 			</select></p>
 		HTML
 		unless @conf.secure then
