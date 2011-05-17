@@ -360,7 +360,7 @@ enable_js( '00default.js' )
 
 def script_tag
 	html = @javascripts.map {|script|
-		%Q|<script src="#{script}" type="text/javascript"></script>|
+		%Q|<script src="js/#{script}" type="text/javascript"></script>|
 	}.join( "\n\t" )
 	html << "\n" << <<-HEAD
 		<script type="text/javascript"><!--
