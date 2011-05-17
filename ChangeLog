@@ -1,5 +1,5 @@
 2011-05-17  TADA Tadashi <t@tdtds.jp>
-	* added Plugin::enable_js method for inserting javascripts.
+	* added Plugin#enable_js and Plugin#add_js_setting method for inserting javascripts.
 	* added $tDiary and $tDiary.plugin object into javascript.
 
 2011-05-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>

@@ -359,9 +359,15 @@ end
 enable_js( '00default.js' )
 
 def script_tag
-	@javascripts.map {|script|
+	html = @javascripts.map {|script|
 		%Q|<script src="#{script}" type="text/javascript"></script>|
 	}.join( "\n\t" )
+	html << "\n" << <<-HEAD
+		<script type="text/javascript"><!--
+		#{@javascript_setting.map{|k,v| "#{k} = #{v};"}.join("\n\t\t")}
+		//-->
+		</script>
+	HEAD
 end
 
 def theme_url; 'theme'; end

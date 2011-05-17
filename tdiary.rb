@@ -721,6 +721,7 @@ module TDiary
 			@conf_genre_label = {}
 			@cookies = []
 			@javascripts = []
+			@javascript_setting = {}
 
 			params.each do |key, value|
 				instance_variable_set( "@#{key}", value )
@@ -992,6 +993,10 @@ module TDiary
 
 		def enable_js( script )
 			@javascripts << script
+		end
+
+		def add_js_setting( var, val = 'new Object()' )
+			@javascript_setting[var] = val
 		end
 
 		def remove_tag( str )
