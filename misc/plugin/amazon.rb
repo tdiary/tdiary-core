@@ -32,6 +32,13 @@ require 'rexml/document'
   'ca' => 'http://honnomemo.appspot.com/rpaproxy/ca/',
 }
 
+if @conf['amazon.bitly'] and @conf['bitly.login'] and @conf['bitly.key'] then
+	enable_js( 'amazon.js' )
+	add_js_setting( '$tDiary.plugin.bitly' )
+	add_js_setting( '$tDiary.plugin.bitly.login', "'#{@conf['bitly.login']}'" )
+	add_js_setting( '$tDiary.plugin.bitly.apiKey', "'#{@conf['bitly.key']}'" )
+end
+
 def amazon_fetch( url, limit = 10 )
 	raise ArgumentError, 'HTTP redirect too deep' if limit == 0
 
