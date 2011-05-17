@@ -124,23 +124,15 @@ end
 
 def amazon_url( item )
 	url = item.elements.to_a( 'DetailPageURL' )[0].text
-	return url unless @conf['amazon.bitly']
-
 	begin
-		file = "#{@cache_path}/amazon/#{item.elements.to_a('ASIN')[0].text}.url".untaint
-		begin
-			File::read(file)
-		rescue Errno::ENOENT
-			resp = amazon_fetch("http://api.bit.ly/v3/shorten?login=#{@conf['bitly.login']}&apiKey=#{@conf['bitly.key']}&longUrl=#{URI.escape(url)}&format=xml".untaint)
-			if resp =~ /<url>([^<]+)<\/url>/
-				File::open(file, 'wb') {|f| f.write($1) }
-				$1
-			else
-				url
-			end
+		resp = @conf['amazon.bitly'] ? amazon_fetch("http://api.bit.ly/v3/shorten?login=#{@conf['bitly.login']}&apiKey=#{@conf['bitly.key']}&longUrl=#{URI.escape(url)}&format=xml".untaint) : nil
+		if resp =~ /<url>([^<]+)<\/url>/
+			$1
+		else
+			url
 		end
 	rescue
-		url
+		return url
 	end
 end
 
