@@ -1,3 +1,6 @@
+2011-05-17  TADA Tadashi <t@tdtds.jp>
+	* added Plugin::enable_js method for inserting javascripts.
+
 2011-05-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* plugin/05referer.rb, misc/plugin/a.rb: bugfix, backword compatibility.
 

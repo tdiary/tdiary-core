@@ -215,6 +215,7 @@ add_header_proc do
 	#{icon_tag}
 	#{description_tag}
 	#{jquery_tag.chomp}
+	#{script_tag.chomp}
 	#{css_tag.chomp}
 	#{iphone_tag.chomp}
 	#{title_tag.chomp}
@@ -352,7 +353,15 @@ def description_tag
 end
 
 def jquery_tag
-	%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.js" type="text/javascript"></script>\n\t<script src="js/00default.js" type="text/javascript"></script>]
+	%Q[<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.js" type="text/javascript"></script>]
+end
+
+enable_js( '00default.js' )
+
+def script_tag
+	@javascripts.map {|script|
+		%Q|<script src="#{script}" type="text/javascript"></script>|
+	}.join( "\n\t" )
 end
 
 def theme_url; 'theme'; end
