@@ -146,21 +146,22 @@ def theme_url; 'theme'; end
 	<li><code>update_proc</code>: 日記更新時およびツッコミ追加時に呼び出される</li>
 	<li><code>header_proc</code>: HTMLヘッダ情報の生成時に呼び出される</li>
 	<li><code>body_enter_proc</code>: 日記本文開始の直前で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
+	<li><code>subtitle_proc</code>: セクションのサブタイトルを表示する局面で呼び出される。セクションアンカーを付与するなど、サブタイトルを装飾するためのプラグイン</li>
 	<li><code>body_leave_proc</code>: 日記本文終了の直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>footer_proc</code>: footer生成時に呼び出される</li>
+	<li><code>section_enter_proc</code>: セクションの開始(サブタイトルの直前)で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)とセクションの番号(1〜)が与えられる</li>
+	<li><code>section_leave_proc</code>: セクションの終了直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)とセクションの番号(1〜)が与えられる</li>
 	<li><code>edit_proc</code>: 更新フォームの内部で呼び出される。更新フォーム内に新たなアイテムを追加する時に使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。追加したアイテムのname属性は、必ず「plugin_プラグイン名_アイテム名」になっていなくてはならない</li>
+	<li><code>comment_leave_proc</code>: ツッコミの直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる</li>
 	<li><code>form_proc</code>: 更新フォームの次に呼び出される。更新フォームとは別のフォームなどを追加するときに使う。パラメタに処理中の日記の日付(Timeインスタンス)が与えられる。フォームを追加した場合、submitボタンには必ず「plugin」というname属性を付ける必要がある</li>
 	<li><code>conf_proc</code>: 設定画面で呼び出される。プラグインのオプション設定をWebから行うためのプラグイン</li>
 	<li><code>title_proc</code>: 日ごとのタイトルを表示する局面で呼び出される。日付をリンクにするなど、タイトルを装飾するためのプラグイン</li>
-	<li><code>subtitle_proc</code>: セクションのサブタイトルを表示する局面で呼び出される。セクションアンカーを付与するなど、サブタイトルを装飾するためのプラグイン</li>
-	<li><code>section_enter_proc</code>: セクションの開始(サブタイトルの直前)で呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)とセクションの番号(1〜)が与えられる</li>
-	<li><code>section_leave_proc</code>: セクションの終了直後に呼び出される。パラメタに処理中の日記の日付(Timeインスタンス)とセクションの番号(1〜)が与えられる</li>
 </ul>
 
 <p>いずれも通常のプラグインと同様にメソッドとして実装されていますが、上書き定義してはいけません。上書きすると、この機能を使っている他のプラグインが呼び出されなくなってしまうためです。</p>
 
 
-<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_update_proc</code>と<code>add_header_proc</code>、<code>add_body_enter_proc</code>、<code>add_body_leave_proc</code>、<code>add_footer_proc</code>、<code>add_edit_proc</code>、<code>add_form_proc</code>、<code>add_title_proc</code>、<code>add_subtitle_proc</code>、<code>section_enter_proc</code>および<code>section_leave_proc</code>が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
+<p>このため、これらのプラグインには機能を追加するためのメソッド、<code>add_XXX_proc</code>(XXXは各プラグインの名称が入る)が用意されています。これらはブロックを受けとります。ここで登録されたブロックが順番に呼び出されることで、複数のプラグインが実行されます。また、<code>conf_proc</code>に対応する<code>add_conf_proc</code>は後述するようにキーワードとラベル文字列を引数に取り、必要な時だけ呼び出されます。</p>
 
 <p>これらのプラグインは、一般的に以下のように定義して使います。ブロックの返り値が、プラグインの値になります。</p>
 
@@ -281,7 +282,9 @@ end
 <tr><th style="white-space: nowrap;">add_cookie( cookie )</th><td>Webブラウザに返すCookieを追加します。プラグインから何らかの情報をWebブラウザ側に保持しておいて欲しい時に使います。引数cookieはCGI::Cookieインスタンスです。なお、逆にCookieを受けとる時は、@cgiインスタンス変数から取得してください。</td></tr>
 <tr><th style="white-space: nowrap;">apply_plugin( str, remove_tag )</th><td>プラグイン内で生成した文字列の中に、さらにプラグイン呼出しの指定がある場合、もう一度プラグインの呼出しを行います。第二引数をtrueにすると(省略可能でデフォルトはfalse)、さらにHTMLタグを削除します。</td></tr>
 <tr><th style="white-space: nowrap;">shorten( str, limit )</th><td>文字列strをlimitで指定されたバイト数に切り詰めます。切り詰められた場合には末尾に「...」が付加されます。プラグイン内で生成した文字列の表示文字数を制限したい場合に使います。</td></tr>
-<tr><th style="white-space: nowrap;">add_XXX_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body_enter、body_leave、footerが入る。引数procにはProcインスタンス、もしくはブロックを与える。<a href="#callback">コールバック系プラグイン</a>を参照。</td></tr>
+<tr><th style="white-space: nowrap;">add_XXX_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body_enter、body_leave、footerなどが入る。引数procにはProcインスタンス、もしくはブロックを与える。<a href="#callback">コールバック系プラグイン</a>を参照。</td></tr>
+<tr><th style="white-space: nowrap;">enable_js( script_file_name )</th><td>jsディレクトリ配下にあるJavaScriptを有効にする(例: 'amazon.js')。このメソッドで有効にしたファイルは、HTMLヘッダ内に呼び出された順番に埋めこまれます。</td></tr>
+<tr><th style="white-space: nowrap;">add_js_setting( var, val )</th><td>enable_jsで埋めこまれたJavaScriptへのパラメタを受け渡す。「var」には変数名を与えます。標準では「$tDiary.plugin.プラグイン名.変数名」で、「$tDiary.plugin」までは名前空間としてtDiary側で確保済みです。「val」には変数に与える値をJavaScriptとして有効な形の文字列で指定します。例えば「abc」という文字列であれば「"'abc'"」のようにする必要があります。</td></tr>
 </table>
 
 <h2><a name="option">プラグインへのオプションの渡し方</a></h2>
