@@ -7,7 +7,7 @@ Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.0.2.20110517'
+TDIARY_VERSION = '3.0.2.20110519'
 
 $:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
 Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.untaint }
@@ -721,7 +721,7 @@ module TDiary
 			@conf_genre_label = {}
 			@cookies = []
 			@javascripts = []
-			@javascript_setting = {}
+			@javascript_setting = []
 
 			params.each do |key, value|
 				instance_variable_set( "@#{key}", value )
@@ -996,7 +996,7 @@ module TDiary
 		end
 
 		def add_js_setting( var, val = 'new Object()' )
-			@javascript_setting[var] = val
+			@javascript_setting << [var, val]
 		end
 
 		def remove_tag( str )

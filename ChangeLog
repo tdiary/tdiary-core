@@ -1,4 +1,7 @@
 2011-05-17  TADA Tadashi <t@tdtds.jp>
+	* changed Plugin#add_js_setting to Array because old ruby's hash is not hold order.
+
+2011-05-17  TADA Tadashi <t@tdtds.jp>
 	* added Plugin#enable_js and Plugin#add_js_setting method for inserting javascripts.
 	* added $tDiary and $tDiary.plugin object into javascript.
 	* added amazon.js for using amzn.to shoten service. Close #32.

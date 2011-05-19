@@ -364,7 +364,7 @@ def script_tag
 	}.join( "\n\t" )
 	html << "\n" << <<-HEAD
 		<script type="text/javascript"><!--
-		#{@javascript_setting.map{|k,v| "#{k} = #{v};"}.join("\n\t\t")}
+		#{@javascript_setting.map{|a| "#{a[0]} = #{a[1]};"}.join("\n\t\t")}
 		//-->
 		</script>
 	HEAD
