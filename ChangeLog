@@ -1,3 +1,6 @@
+2011-05-20  TADA Tadashi <t@tdtds.jp>
+	* supported ruby 1.9 on list.rb.
+
 2011-05-17  TADA Tadashi <t@tdtds.jp>
 	* changed Plugin#add_js_setting to Array because old ruby's hash is not hold order.
 	* added description of using js.
