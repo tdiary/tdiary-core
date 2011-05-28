@@ -94,11 +94,11 @@ module TDiary
 		end
 
 	private
-		# loading tdiary.conf in current directory
+		# loading tdiary.conf in current directory(index.rb or update.rb path)
 		def load
 			@secure = true unless @secure
 			@options = {}
-			eval( File::open( "#{TDiary::PATH}/tdiary.conf" ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
+			eval( File::open( "#{File.expand_path(File.dirname($PROGRAM_NAME))}/tdiary.conf" ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
