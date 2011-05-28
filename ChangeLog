@@ -1,3 +1,10 @@
+2011-05-28  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* added tdiary/io, moved to DefaultIO, PStoreIO.
+	* added core_ext.rb, extract core extension in tdiary.rb
+	* extract IOBase class in tdiary.rb, added tdiary/io/base.rb.
+	* partision a tdiary.rb, now tdiary/config.rb, tdiary/plugin.rb.
+
 2011-05-20  TADA Tadashi <t@tdtds.jp>
 	* supported ruby 1.9 on list.rb.
 
