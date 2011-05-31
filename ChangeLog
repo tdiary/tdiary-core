@@ -1,5 +1,6 @@
 2011-06-02  TADA Tadashi <t@tdtds.jp>
-	* replaced div elements into span for better HTML.
+	* replaced div elements into span for better HTML. #35
+	* inserted some ids into update form.
 
 2011-05-28  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 

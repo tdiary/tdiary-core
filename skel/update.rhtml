@@ -28,22 +28,22 @@ end
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<%=@csrf_protection%>
 		<span class="field year">
-			<input class="field" name="year" tabindex="1"<%= accesskeys['year'] %> size="4" value="<%= @date.year %>">年
+			<input class="field" id="year" name="year" tabindex="1"<%= accesskeys['year'] %> size="4" value="<%= @date.year %>">年
 		</span>
 		<span class="field month">
-			<input class="field" name="month" tabindex="2"<%= accesskeys['month'] %> size="2" value="<%= @date.mon %>">月
+			<input class="field" id="month" name="month" tabindex="2"<%= accesskeys['month'] %> size="2" value="<%= @date.mon %>">月
 		</span>
 		<span class="field day">
-			<input class="field" name="day" tabindex="3"<%= accesskeys['day'] %> size="2" value="<%= @date.day %>">日
+			<input class="field" id="day" name="day" tabindex="3"<%= accesskeys['day'] %> size="2" value="<%= @date.day %>">日
 		</span>
 		<span class="button edit">
 			<input type="submit" tabindex="4"<%= accesskeys['edit'] %> name="edit" value="この日付の日記を編集">
 		</span>
 		<div class="field title">
-			タイトル: <input class="field" name="title" tabindex="5"<%= accesskeys['title'] %> size="40" value="<%=h @diary.title %>">
+			タイトル: <input class="field" id="title" name="title" tabindex="5"<%= accesskeys['title'] %> size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			本文(<%=h @conf.style %>スタイル<%%= style_howto %>):<textarea name="body" tabindex="6"<%= accesskeys['body'] %> cols="70" rows="15"><%=h @diary.to_src %></textarea>
+			本文(<span id="style"><%=h @conf.style %></span>スタイル<%%= style_howto %>):<textarea id="body" name="body" tabindex="6"<%= accesskeys['body'] %> cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">

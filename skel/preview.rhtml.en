@@ -42,19 +42,19 @@ param = {
 		<%=@csrf_protection%>
 		<input type="hidden" name="old" value="<%=h @old_date %>">
 		<span class="field year">
-			<input type="hidden" name="year" value="<%= @date.year %>"><%= @date.year %>-
+			<input type="hidden" id="year" name="year" value="<%= @date.year %>"><%= @date.year %>-
 		</span>
 		<span class="field month">
-			<input type="hidden" name="month" value="<%= @date.mon %>"><%= @date.mon %>-
+			<input type="hidden" id="month" name="month" value="<%= @date.mon %>"><%= @date.mon %>-
 		</span>
 		<span class="field day">
-			<input type="hidden" name="day" value="<%= @date.day %>"><%= @date.day %>
+			<input type="hidden" id="day" name="day" value="<%= @date.day %>"><%= @date.day %>
 		</span>
 		<div class="field title">
-			Title: <input class="field" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
+			Title: <input class="field" id="title" name="title" tabindex="5" accesskey="T" size="40" value="<%=h @diary.title %>">
 		</div>
 		<div class="textarea">
-			Article(<%=h @conf.style %> style<%%= style_howto %>):<textarea name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
+			Article(<span id="style"><%=h @conf.style %></span> style<%%= style_howto %>):<textarea id="body" name="body" tabindex="6" accesskey="C" cols="70" rows="15"><%=h @diary.to_src %></textarea>
 		</div>
 		<%%=edit_proc( @date )%>
 		<span class="button preview">
