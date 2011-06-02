@@ -69,21 +69,6 @@ p.source{
 	font-style: italic;
 }
 
-/*
-amazon plugin
-*/
-img.left {
-	float: left;
-	margin: 0.5em;
-	margin-top: 0px;
-}
-
-img.right, img.amazon {
-	float: right;
-	margin: 0.5em;
-	margin-top: 0px;
-}
-
 div.section,
 div.comment,
 div.day div.tags,
@@ -91,13 +76,9 @@ div.day div.sequel {
 	clear: both;
 }
 
-div.amazon-detail {
-	margin: 0px;
-	padding: 4px;
-	background-color: #fff;
-	border: solid 1px #ddd;
-}
-
+/*
+amazon plugin
+*/
 a.amazon-detail,
 a.amazon-detail:visited,
 a.amazon-detail:hover {
@@ -105,11 +86,20 @@ a.amazon-detail:hover {
 	text-decoration: none;
 }
 
+span.amazon-detail {
+	display: block;
+	margin: 0px;
+	padding: 4px;
+	background-color: #fff;
+	border: solid 1px #ddd;
+}
+
 img.amazon-detail {
 	margin-top: 0px;
 }
 
-div.amazon-detail-desc {
+span.amazon-detail-desc {
+	display: block;
 	overflow: auto;
 	zoom: 1;
 }
@@ -129,6 +119,18 @@ span.amazon-label, span.amazon-price {
 /*
 image plugin
 */
+img.left {
+	float: left;
+	margin: 0.5em;
+	margin-top: 0px;
+}
+
+img.right, img.amazon {
+	float: right;
+	margin: 0.5em;
+	margin-top: 0px;
+}
+
 img.photo {
 	float: right;
 	margin: 0.5em;
