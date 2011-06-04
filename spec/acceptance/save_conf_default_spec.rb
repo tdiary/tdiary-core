@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.expand_path('../acceptance_helper', __FILE__)
+require 'acceptance_helper'
 
 feature '基本設定の利用' do
 	scenario 'サイトの情報の設定' do

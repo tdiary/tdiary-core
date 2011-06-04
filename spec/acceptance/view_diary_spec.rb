@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.expand_path('../acceptance_helper', __FILE__)
+require 'acceptance_helper'
 
 feature '日記を読む' do
 	scenario '最新の日記の表示' do

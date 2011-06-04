@@ -18,7 +18,6 @@ BODY
 			}
 		}
 		click_button "追記"
-		page.should have_content "Click here!"
 	end
 
 	def append_default_comment
@@ -29,7 +28,6 @@ BODY
 こんにちは!こんにちは!
 BODY
 		click_button '投稿'
-		page.should have_content "Click here!"
 	end
 
   def toggle_plugin(name)

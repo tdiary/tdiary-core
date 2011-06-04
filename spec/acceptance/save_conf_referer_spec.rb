@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.expand_path('../acceptance_helper', __FILE__)
+require 'acceptance_helper'
 
 feature 'リンク元設定の利用', :mechanize => true do
 	scenario 'リンク元の非表示設定' do

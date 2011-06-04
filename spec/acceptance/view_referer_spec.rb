@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.expand_path('../acceptance_helper', __FILE__)
+require 'acceptance_helper'
 
 feature 'リンク元の表示', :mechanize => true do
 	scenario '日表示にリンク元が表示されている' do

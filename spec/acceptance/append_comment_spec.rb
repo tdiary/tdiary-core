@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.expand_path('../acceptance_helper', __FILE__)
+require 'acceptance_helper'
 
 feature 'ツッコミの更新' do
 	scenario 'ツッコミを入れてlatestとdayで表示する' do
