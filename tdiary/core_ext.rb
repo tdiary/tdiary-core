@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 =begin
 == String class
 enhanced String class
@@ -61,16 +62,6 @@ class CGI
 	def redirect_url
 		env_table['REDIRECT_URL']
 	end
-
-	if RUBY_VERSION >= '1.8.0' && RUBY_VERSION < '1.8.2'
-		module QueryExtension
-			%w[ CONTENT_LENGTH SERVER_PORT ].each do |env|
-				define_method(env.sub(/^HTTP_/n, '').downcase) do
-					(val = env_table[env]) && Integer(val)
-				end
-			end
-		end
-	end
 end
 
 =begin
@@ -91,3 +82,11 @@ module Safe
 	end
 	module_function :safe
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3
