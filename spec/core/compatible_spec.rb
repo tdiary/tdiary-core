@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-require File.dirname(__FILE__) + "/../spec_helper"
+require 'spec_helper'
 
-if RUBY_VERSION > '1.9'
-	require 'pstore'
+if "".respond_to?(:force_encoding)
+	require 'tdiary/compatible'
 	require 'fileutils'
 
 	describe PStore, "auto convert library" do
@@ -19,32 +19,29 @@ if RUBY_VERSION > '1.9'
 			dbfile_orig = File.join(File.dirname(__FILE__), dbfilename)
 			@dbfile = File.join(File.dirname(__FILE__), "#{dbfilename}.work")
 			FileUtils.cp dbfile_orig, @dbfile
-			require File.dirname(__FILE__) + '/../../tdiary/compatible'
 		end
 
 		after(:all) do
 			FileUtils.rm @dbfile
 		end
 
-		if "".respond_to?(:force_encoding)
-			it "should convert an encoding to UTF-8 automatically" do
-				PStore.new(@dbfile).transaction do |db|
-					db["key1"].encoding.should == Encoding::UTF_8
-					db["key2"].should  == 2
-					db["key3"][2].encoding.should  == Encoding::UTF_8
-				end
+		it "should convert an encoding to UTF-8 automatically" do
+			PStore.new(@dbfile).transaction do |db|
+				db["key1"].encoding.should == Encoding::UTF_8
+				db["key2"].should  == 2
+				db["key3"][2].encoding.should  == Encoding::UTF_8
 			end
+		end
 
-			it "1回目のtransactionではMashal.loadが3回呼ばれる" do
-				Marshal.should_receive(:load).exactly(3).and_return({})
-				PStore.new(@dbfile).transaction {}
-			end
+		it "1回目のtransactionではMashal.loadが3回呼ばれる" do
+			Marshal.should_receive(:load).exactly(3).and_return({})
+			PStore.new(@dbfile).transaction {}
+		end
 
-			it "2回目のtransactionではMashal.loadが1回だけ呼ばれる" do
-				Marshal.should_receive(:load).exactly(4).and_return({})
-				PStore.new(@dbfile).transaction {}
-				PStore.new(@dbfile).transaction {}
-			end
+		it "2回目のtransactionではMashal.loadが1回だけ呼ばれる" do
+			Marshal.should_receive(:load).exactly(4).and_return({})
+			PStore.new(@dbfile).transaction {}
+			PStore.new(@dbfile).transaction {}
 		end
 	end
 end
