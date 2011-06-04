@@ -9,9 +9,9 @@ require 'rspec/core/rake_task'
 CLEAN.include(
 	"tmp",
 	"coverage.aggregate",
+	"coverage.data",
 	"data",
-	"index.rdf",
-	"*.html"
+	"index.rdf"
 )
 CLOBBER.include(
 	"rdoc",
@@ -27,17 +27,29 @@ end
 
 namespace :spec do
 	%w(core plugin acceptance).each do |dir|
-		desc "Rub the code examples in spec/#{dir}"
+		desc "Run the code examples in spec/#{dir}"
 		RSpec::Core::RakeTask.new(dir.to_sym) do |t|
 			t.pattern = "spec/#{dir}/**/*_spec.rb"
 		end
 	end
 
-	desc 'Run the code in specs with RCov'
-	RSpec::Core::RakeTask.new(:rcov) do |t|
-		t.pattern = "spec/**/*_spec.rb"
-		t.rcov = true
-		t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
+	if RUBY_VERSION < '1.9'
+		desc 'Run the code in specs with RCov'
+		RSpec::Core::RakeTask.new(:report) do |t|
+			t.pattern = "spec/**/*_spec.rb"
+			t.rcov = true
+			t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
+		end
+	else
+		desc 'Displayed code coverage with cover_me'
+		task :report do
+			require 'cover_me'
+			CoverMe.config do |c|
+				c.project.root = File.dirname(__FILE__)
+				c.file_pattern = /(#{CoverMe.config.project.root}\/tdiary\/.+\.rb|#{CoverMe.config.project.root}\/plugin\/.+\.rb|#{CoverMe.config.project.root}\/tdiary\.rb)/i
+			end
+			CoverMe.complete!
+		end
 	end
 end
 

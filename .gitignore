@@ -1,6 +1,6 @@
 .bundle
 coverage
-coverage.aggregate
+coverage.*
 data
 log
 tmp
