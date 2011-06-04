@@ -15,7 +15,7 @@ if "".respond_to?(:force_encoding)
 			# 	db["key2".to_8bit] = 2
 			# 	db["key3".to_8bit] = [1, :sym, "string".to_8bit]
 			# end
-			dbfilename = 'ascii8bit-pstore.db'
+			dbfilename = '../fixtures/ascii8bit-pstore.db'
 			dbfile_orig = File.join(File.dirname(__FILE__), dbfilename)
 			@dbfile = File.join(File.dirname(__FILE__), "#{dbfilename}.work")
 			FileUtils.cp dbfile_orig, @dbfile
