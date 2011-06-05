@@ -14,6 +14,6 @@ add_header_proc do
 				white-space: pre-wrap;
 				word-wrap: break-word;
 			}
-		//--></style>
+		--></style>
 	STYLE
 end
