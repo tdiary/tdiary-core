@@ -46,7 +46,7 @@ namespace :spec do
 			require 'cover_me'
 			CoverMe.config do |c|
 				c.project.root = File.dirname(__FILE__)
-				c.file_pattern = /(#{CoverMe.config.project.root}\/tdiary\/.+\.rb|#{CoverMe.config.project.root}\/plugin\/.+\.rb|#{CoverMe.config.project.root}\/tdiary\.rb)/i
+				c.file_pattern = /(#{CoverMe.config.project.root}\/tdiary.*\.rb)/i
 			end
 			CoverMe.complete!
 		end
