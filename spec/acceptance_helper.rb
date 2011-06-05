@@ -14,7 +14,7 @@ RSpec.configure do |config|
 	end
 
 	config.before(:each) do
-		FileUtils.mkdir work_data_dir unless FileTest.exist? work_data_dir
+		FileUtils.mkdir_p work_data_dir unless FileTest.exist? work_data_dir
 		FileUtils.cp_r fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false unless fixture_conf.empty?
 	end
 
