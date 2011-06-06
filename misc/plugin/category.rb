@@ -614,34 +614,14 @@ end # module Category
 # display categories you use on update form
 #
 if @conf['category.edit_support'] then
-	add_header_proc do
-		%Q[\t<script type="text/javascript"><!--
-		function inj_c(str) {
-			var textarea = window.document.forms[0].body;
-			textarea.focus();
-			if (document.selection) { // IE, Opera
-				var range = document.selection.createRange();
-				range.text = str;
-			} else if (textarea.selectionStart != undefined) { // mozilla
-				var start = textarea.selectionStart;
-				var end = textarea.selectionEnd;
-				textarea.value = textarea.value.substring(0, start) + str + textarea.value.substring(end);
-				textarea.setSelectionRange(start + str.length, start + str.length);
-			 } else {
-				textarea.value += str;
-			 }
-		}
-		//-->
-		</script>\n]
-	end
-
+	enable_js( 'category.js' )
 	add_edit_proc do |date|
 		ret = ''
 		unless @categories.size == 0 then
 			ret << '<div class="field title">'
 			ret << "#{@category_conf_label}:\n"
 			@categories.sort_by{|e| e.downcase}.each do |c|
-				ret << %Q!| <a href="javascript:inj_c(&quot;[#{h c}]&quot;)">#{h c}</a>\n!
+				ret << %Q!| <span class="category-item">#{h c}</span>\n!
 			end
 			ret << "|\n</div>\n<br>\n"
 		end
