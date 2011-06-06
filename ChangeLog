@@ -1,3 +1,6 @@
+2011-06-06  TADA Tadashi <t@tdtds.jp>
+	* avoid duplicate loading of javascript files.
+
 2011-06-06  OGAWA KenIchi <kenichi@ice.email.ne.jp>
 	* plugin/pre_wrap.rb: fixed error about invalid selector.
 

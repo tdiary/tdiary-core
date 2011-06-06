@@ -305,7 +305,7 @@ module TDiary
 		end
 
 		def enable_js( script )
-			@javascripts << script
+			@javascripts << script unless @javascripts.index( script )
 		end
 
 		def add_js_setting( var, val = 'new Object()' )
