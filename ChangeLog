@@ -1,5 +1,6 @@
 2011-06-11  TADA Tadashi <t@tdtds.jp>
 	* plugin/category.rb, js/category.js: dropdown list style on edit support.
+	* plugin/00default.rb: sorted javascripts by file name.
 
 2011-06-06  TADA Tadashi <t@tdtds.jp>
 	* avoid duplicate loading of javascript files.
