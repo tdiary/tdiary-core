@@ -20,7 +20,7 @@ $.fn.extend({
 		elem.focus();
 
 		if(jQuery.browser.msie){
-			var slection = document.selection.createRange();
+			var selection = document.selection.createRange();
 			selection.text = text;
 			selection.select();
 		}else{

@@ -1,3 +1,6 @@
+2011-06-12  TADA Tadashi <t@tdtds.jp>
+	* js/00default.js, js/category.js: fixed: running on MSIE(8) or Firefox(4).
+
 2011-06-11  TADA Tadashi <t@tdtds.jp>
 	* plugin/category.rb, js/category.js: dropdown list style on edit support.
 	* plugin/00default.rb: sorted javascripts by file name.
