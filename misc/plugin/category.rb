@@ -629,7 +629,7 @@ def category_edit_support_dropdown
 	ret << '<div class="field title">'
 	ret << %Q|#{@category_conf_label}: <select id="category-candidate" name="category-candidate">\n|
 	@categories.sort_by{|e| e.downcase}.each do |c|
-		ret << %Q!| <option class="category-item">#{h c}</option>\n!
+		ret << %Q!<option class="category-item">#{h c}</option>\n!
 	end
 	ret << "|\n</select>\n</div>\n<br>\n"
 	ret
