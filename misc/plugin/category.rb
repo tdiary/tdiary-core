@@ -635,7 +635,7 @@ def category_edit_support_dropdown
 	ret
 end
 
-if @conf['category.edit_support'] then
+if @conf['category.edit_support'] != 0 then
 	enable_js( 'category.js' )
 	add_edit_proc do |date|
 		ret = ''
