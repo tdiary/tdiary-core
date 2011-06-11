@@ -7,8 +7,17 @@
 
 $(function(){
 	// insert clicked category item into textarea of update form
-	$('.category-item').click(function(){
-		var item = $(this);
+	function insertCategoryItem(item) {
 		$('#body').insertAtCaret( '[' + item.text() + ']' );
+	}
+
+	$('.category-item').click(function(){
+		insertCategoryItem($(this));
+	});
+
+	$('#category-candidate').change(function(){
+		$('option:selected', this).each(function(){
+			insertCategoryItem($(this));
+		});
 	});
 });

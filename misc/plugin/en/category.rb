@@ -65,8 +65,9 @@ Category names can be shown under the 'Article' form.
 </p>
 <p>
 <select name="category.edit_support">
-<option value="true"#{" selected" if @conf['category.edit_support']}>Show</option>
-<option value="false"#{" selected" unless @conf['category.edit_support']}>Hide</option>
+<option value="1"#{" selected" if @conf['category.edit_support'] == 1}>Flat List</option>
+<option value="2"#{" selected" if @conf['category.edit_support'] == 2}>Dropdown List/option>
+<option value="0"#{" selected" if @conf['category.edit_support'] == 0}>Hide</option>
 </select>
 </p>
 

@@ -68,8 +68,9 @@ def category_conf_html
 </p>
 <p>
 <select name="category.edit_support">
-<option value="true"#{" selected" if @conf['category.edit_support']}>表示する</option>
-<option value="false"#{" selected" unless @conf['category.edit_support']}>表示しない</option>
+<option value="1"#{" selected" if @conf['category.edit_support'] == 1}>一覧表示</option>
+<option value="2"#{" selected" if @conf['category.edit_support'] == 2}>ドロップダウンリスト</option>
+<option value="0"#{" selected" if @conf['category.edit_support'] == 0}>表示しない</option>
 </select>
 </p>
 

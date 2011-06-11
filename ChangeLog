@@ -1,3 +1,6 @@
+2011-06-11  TADA Tadashi <t@tdtds.jp>
+	* plugin/category.rb, js/category.js: dropdown list style on edit support.
+
 2011-06-06  TADA Tadashi <t@tdtds.jp>
 	* avoid duplicate loading of javascript files.
 	* plugin/category.rb, js/category.js: splitted js file and rewrited on jQuery.
