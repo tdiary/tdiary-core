@@ -1,3 +1,6 @@
+2011-06-13  TADA Tadashi <t@tdtds.jp>
+	* plugin/js/disp_referrer.rb: maintained some search engines.
+
 2011-06-12  TADA Tadashi <t@tdtds.jp>
 	* js/00default.js, js/category.js: fixed: running on MSIE(8) or Firefox(4).
 

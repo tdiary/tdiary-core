@@ -461,12 +461,12 @@ DispReferrer2_Engines = {
 		[%r{\Ahttp://(?:[^bm/]+|blog-search)\.yahoo\.([^/]+)/}i, '".#{$1}のYahoo!検索"', ['p', 'va', 'vp'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://wrs\.search\.yahoo\.([^/]+)/(?:.*)\bK=([^/]+)}i, 'keyword=$2; "#{$1}のYahoo!検索"', [], nil],
 		[%r{\Ahttp://(?:image-search\.yahoo\.co\.jp/(?:search|detail)|images\.search\.yahoo\.co\.jp/bin/(?:search|query))}, '".co.jpのYahoo!画像検索"', ['p'], DispReferrer2_Google_cache],
-		[%r{\Ahttp://images\.search\.yahoo\.com/search/images(?:/view)?}, '".comのYahoo!画像検索"', ['p'], DispReferrer2_Google_cache],
+		[%r{\Ahttp://images\.search\.yahoo\.(:?com|co\.jp)/search/images(?:/view)?}, '".comのYahoo!画像検索"', ['p'], DispReferrer2_Google_cache],
 	],
 	'yahoofs' => [[%r{\Ahttp://cache\.yahoofs\.jp/}i, '"Yahoo!検索"', ['w'], DispReferrer2_Yahoofs]],
 	'netscape' => [[%r{\Ahttp://[^/]+\.netscape\.([^/]+)/}i, '".#{$1}のNetscape検索"', ['search', 'query'], DispReferrer2_Google_cache]],
 	'msn' => [[%r{\Ahttp://[^/]+\.MSN\.([^/]+)/}i, '".#{$1}のMSNサーチ"', ['q', 'MT'], nil ]],
-	'bing' => [[%r{\Ahttp://www\.bing\.com/}i, '"Bing検索"', ['q'], nil ]],
+	'bing' => [[%r{\Ahttp://(www|jp)\.bing\.com/}i, '"Bing検索"', ['q'], nil ]],
 	'auone' => [[%r{\Ahttp://search\.auone.jp/}i, '"auOne検索"', ['q'], nil ]],
 	'metacrawler' => [[%r{\Ahttp://[^/]+\.metacrawler.com/}i, '"MetaCrawler"', ['q'], nil ]],
 	'metabot' => [[%r{\Ahttp://[^/]+\.metabot\.ru/}i, '"MetaBot.ru"', ['st'], nil ]],
@@ -490,6 +490,7 @@ DispReferrer2_Engines = {
 	'nifty' => [
 		[%r{\Ahttp://search\.nifty\.com/}i, '"@nifty/@search"', ['q', 'Text', 'text'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://srchnavi\.nifty\.com/}i, '"@niftyのリダイレクタ"', ['title'], nil ],
+		[%r{\Ahttp://azby\.search\.nifty\.com/}i, '"AzbyClub"', ['Text'], nil ],
 	],
 	'eniro' => [[%r{\Ahttp://[^/]+\.eniro\.se/}i, '"Eniro"', ['q'], DispReferrer2_Google_cache]],
 	'excite' => [[%r{\Ahttp://[^/]+\.excite\.([^/]+)/}i, '".#{$1}のExcite"', ['search', 's', 'query', 'qkw'], nil ]],
@@ -521,7 +522,7 @@ DispReferrer2_Engines = {
 	't-online' => [[%r{\Ahttp://brisbane\.t-online\.de/}i, '"T-Online"', ['q'], DispReferrer2_Google_cache]],
 	'walla' => [[%r{\Ahttp://find\.walla\.co\.il/}i, '"Walla! Channels"', ['q'], nil ]],
 	'mysearch' => [[%r{\Ahttp://[^/]+\.mysearch\.com/}i, '"My Search"', ['searchfor'], nil ]],
-	'jword' => [[%r{\Ahttp://[^/]+\.jword\.jp/}i, '"JWord"', ['name'], nil ]],
+	'jword' => [[%r{\Ahttp://[^/]+\.jword\.jp/}i, '"JWord"', ['name', 'q'], nil ]],
 	'nytimes' => [[%r{\Ahttp://query\.nytimes\.com/search}i, '"New York Times: Search"', ['as_q', 'q', 'query'], DispReferrer2_Google_cache]],
 	'aaacafe' => [[%r{\Ahttp://search\.aaacafe\.ne\.jp/search}i, '"AAA!CAFE"', ['key'], nil]],
 	'virgilio' => [[%r{\Ahttp://search\.virgilio\.it/search}i, '"VIRGILIO Ricerca"', ['qs'], nil]],
@@ -548,7 +549,10 @@ DispReferrer2_Engines = {
 	'www' => [[%r{\Ahttp://www\.google/search}i, '"Google検索?"', [:prev, 'as_q', 'q'], DispReferrer2_Google_cache]],	# TLD missing
 	'planet' => [[%r{\Ahttp://www\.planet\.nl/planet/}i, '"Planet-Zoekpagina"', ['googleq', 'keyword'], DispReferrer2_Google_cache]], # googleq parameter has a strange prefix
 	'dcn' => [[%r{\Ahttp://www\.dcn\.to/~comment/cgi-bin/commenton\.cgi}i, '"メタサーチCOMMENTON"', ['q'], nil ]],
-	'ask' => [[%r{\Ahttp://ask\.jp/web.asp}i, '"ask.jp"', ['q'], nil ]],
+	'ask' => [
+		[%r{\Ahttp://ask\.jp/web.asp}i, '"ask.jp"', ['q'], nil ],
+		[%r{\Ahttp://jp\.ask\.com}i, '"ask.com"', ['q'], nil],
+	],
 	'searchscout' => [[%r{\Ahttp://results\.searchscout\.com/search}i, '"SearchSout"', ['k'], nil ]],
 	'inktomi' => [[%r{\Ahttp://rdrw1.inktomi.com/click}i, '"inktomi のリダイレクタ"', [], nil]],
 	'3721' => [[%r{\Ahttp://(?:seek|nmsearch)\.3721\.com/}i, '"3721网頁搜索"', ['p','name'], nil]],
@@ -627,6 +631,8 @@ DispReferrer2_Engines = {
 		[%r{\Ahttp://search\.live\.com/news/results\.aspx}i, '"Live Search(ニュース)"', ['q'], nil],
 
 	],
+	'rakuten' => [[%r{\Ahttp://websearch\.rakuten\.co\.jp}i, '"楽天ウェブ検索"', ['qt'], nil]],
+	'luna' => [[%r{\Ahttp://(:?s|ja\.msearch)\.luna\.tv/search\.aspx}i, '"luna"', ['q'], nil]],
 }
 
 # Test cases which are far from complete:
