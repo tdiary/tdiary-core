@@ -10,6 +10,7 @@
  */
 $tDiary = new Object();
 $tDiary.plugin = new Object();
+$tDiary.blogkit = false;
 
 /*
 	utility functions
