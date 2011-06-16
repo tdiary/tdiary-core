@@ -292,6 +292,7 @@ def amazon_conf_proc
 		unless @conf.secure and not @conf['amazon.secure-cgi'] then
 			@conf['amazon.imgsize'] = @cgi.params['amazon.imgsize'][0].to_i
 			@conf['amazon.hidename'] = (@cgi.params['amazon.hidename'][0] == 'true')
+			@conf['amazon.bitly'] = (@cgi.params['amazon.bitly'][0] == 'true')
 			unless @conf.secure then
 				@conf['amazon.nodefault'] = (@cgi.params['amazon.nodefault'][0] == 'true')
 				if @cgi.params['amazon.clearcache'][0] == 'true' then
@@ -321,6 +322,17 @@ def amazon_conf_proc
 				<option value="false"#{" selected" unless @conf['amazon.hidename']}>#{@amazon_label_show}</option>
 			</select></p>
 		HTML
+
+		if @options['bitly.login'] and @options['bitly.key'] then
+			result << <<-HTML
+				<h3>#{@amazon_label_bitly}</h3>
+				<p><select name="amazon.bitly">
+					<option value="true"#{" selected" if @conf['amazon.bitly']}>#{@amazon_label_bitly_enabled}</option>
+					<option value="false"#{" selected" unless @conf['amazon.bitly']}>#{@amazon_label_bitly_disabled}</option>
+				</select></p>
+			HTML
+		end
+
 		unless @conf.secure then
 			result << <<-HTML
 				<h3>#{@amazon_label_notfound}</h3>
