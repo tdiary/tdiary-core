@@ -1,4 +1,7 @@
-2011-05-17  TADA Tadashi <t@tdtds.jp>
+2011-06-18  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: added query string to javascripts for disable browser cache.
+
+2011-06-16  TADA Tadashi <t@tdtds.jp>
 	* plugin/amazon.rb: preferences for using bit.ly. #47
 	* js/00default.js: set $tDiary.blogkit to false in default. #48
 

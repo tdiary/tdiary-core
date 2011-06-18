@@ -359,8 +359,9 @@ end
 enable_js( '00default.js' )
 
 def script_tag
+	query = "?#{TDIARY_VERSION}#{Time::now.strftime('%Y%m%d')}"
 	html = @javascripts.sort.map {|script|
-		%Q|<script src="js/#{script}" type="text/javascript"></script>|
+		%Q|<script src="js/#{script}#{query}" type="text/javascript"></script>|
 	}.join( "\n\t" )
 	html << "\n" << <<-HEAD
 		<script type="text/javascript"><!--
