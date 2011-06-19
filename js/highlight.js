@@ -11,12 +11,7 @@ $(function() {
   function highlight(anchor) {
     // clear current highlight
     $(".highlight").removeClass("highlight");
-    var target = $(anchor).parent();
-    target.addClass("highlight");
-    // change document title
-    if (target.filter('h3').size() > 0) {
-      document.title = target.children("a").attr("title") + " - " + $tDiary.title;
-    }
+    $(anchor).parent().addClass("highlight");
   }
 
   // bind click event to anchors

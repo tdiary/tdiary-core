@@ -6,9 +6,6 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 
-title = (@conf.html_title.gsub(/\\/, '\\\\\\') || '').gsub(/"/, '\\"')
-add_js_setting('$tDiary.title', %Q|"#{title}(#{@date.strftime('%Y-%m-%d')})"|)
-
 if @mode == 'day' and not bot? then
 	enable_js('highlight.js')
 end
