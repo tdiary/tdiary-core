@@ -1,3 +1,6 @@
+2011-06-20  MATSUOKA Kohei <kohei@machu.jp>
+	* plugin/highlight.rb, js/highlight.js: rewrited on jQuery. #38, #53
+
 2011-05-17  TADA Tadashi <t@tdtds.jp>
 	* plugin/amazon.rb: preferences for using bit.ly. #47
 	* js/00default.js: set $tDiary.blogkit to false in default. #48

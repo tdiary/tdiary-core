@@ -3,6 +3,7 @@
 #
 # Copyright (C) 2003 by Ryuji SAKAI
 # Copyright (C) 2003 by Kazuhiro NISHIYAMA
+# Copyright (C) 2011 by MATSUOKA Kohei
 # You can redistribute it and/or modify it under GPL2.
 #
 
