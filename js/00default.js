@@ -33,3 +33,27 @@ $.fn.extend({
 		}
 	}
 });
+
+$.extend({
+	makePluginTag: function(name, params){
+		params = params || [];
+		var tag = [];
+		
+		switch($tDiary.style){
+			case 'wiki':
+			case 'markdown':
+				tag = ['{{', '}}'];
+				break;
+			case 'rd':
+				tag = ['((%', '%))'];
+				break;
+			default:
+				tag = ['&lt;%=', '%&gt;'];
+				break;
+		}
+		
+		return tag[0] + name + ' ' + ($.isFunction(params) ? params() : $.map(params, function(p){
+				return '"' + p + '"';
+			})).join(', ') + tag[1];
+	}
+});
