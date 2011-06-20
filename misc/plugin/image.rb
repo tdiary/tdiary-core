@@ -195,8 +195,9 @@ def image_list( date )
 	list
 end
 
-if @conf.secure and /^(form|edit|formplugin|showcomment)$/ =~ @mode then
-	@image_list = image_list( @date.strftime( '%Y%m%d' ) )
+if /^(form|edit|formplugin|showcomment)$/ =~ @mode then
+	enable_js( 'image.js' )
+	@image_list = image_list( @date.strftime( '%Y%m%d' ) ) if @conf.secure
 end
 
 if /^formplugin$/ =~ @mode then
@@ -239,30 +240,6 @@ if /^formplugin$/ =~ @mode then
 	rescue
 		@image_message = $!.to_s
 	end
-end
-
-add_header_proc do
-	%Q[\t<script type="text/javascript"><!--
-	var elem=null
-	function insertImage(val){
-		elem.value+=val
-	}
-	window.onload=function(){
-		for(var i=0;i<document.forms.length;i++){
-			for(var j=0;j<document.forms[i].elements.length;j++){
-				var e=document.forms[i].elements[j]
-				if(e.type&&e.type=="textarea"){
-					if(elem==null){
-						elem=e
-					}
-					e.onfocus=new Function("elem=this")
-				}
-			}
-		}
-	}
-	//-->
-	</script>
-	]
 end
 
 add_form_proc do |date|

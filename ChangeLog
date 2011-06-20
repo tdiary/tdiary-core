@@ -1,3 +1,6 @@
+2011-06-20  TADA Tadashi <t@tdtds.jp>
+	* plugin/image.rb, js/image.rb: ported to jQuery. #54
+
 2011-06-18  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: added query string to javascripts for disable browser cache.
 
