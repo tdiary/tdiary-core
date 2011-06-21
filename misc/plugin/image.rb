@@ -133,44 +133,9 @@ end
 #
 
 def image_info( f )
-	image_type = nil
-	image_height = nil
-	image_width = nil
-
-	sig = f.read( 24 )
-	if /\A\x89PNG\x0D\x0A\x1A\x0A(....)IHDR(........)/onm =~ sig
-		image_type = 'png'
-		image_width, image_height = $2.unpack( 'NN' )
-
-	elsif /\AGIF8[79]a(....)/onm =~ sig
-		image_type   = 'gif'
-		image_width, image_height = $1.unpack( 'vv' )
-
-	elsif /\A\xFF\xD8/onm =~ sig
-		image_type = 'jpg'
-		data = $'
-		until data.empty?
-			break if data[0] != 0xFF
-			break if data[1] == 0xD9
-
-			data_size = data[2,2].unpack( 'n' ).first + 2
-			case data[1]
-			when 0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf
-				image_height, image_width = data[5,4].unpack('nn')
-				break
-			else
-				if data.size < data_size
-					f.seek(data_size - data.size, IO::SEEK_CUR)
-					data = ''
-				else
-					data = data[data_size .. -1]
-				end
-				data << f.read( 128 ) if data.size <= 4
-			end
-		end
-	end
-
-	return image_type, image_width, image_height
+	require 'image_size'
+	info = ImageSize::new( f.read )
+	[info.get_type.downcase.sub( /jpeg/, 'jpg' ), info.get_size].flatten
 end
 
 def image_ext
