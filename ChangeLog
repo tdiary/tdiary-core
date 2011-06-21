@@ -1,3 +1,6 @@
+2011-06-21  TADA Tadashi <t@tdtds.jp>
+	* added vendor/imagesize.
+
 2011-06-20  MATSUOKA Kohei <kohei@machu.jp>
 	* plugin/highlight.rb, js/highlight.js: rewrited on jQuery. #38, #53
 
