@@ -23,6 +23,7 @@ namespace :deploy do
 
   task :update_library, :roles => :app do
     run "cp -r #{shared_path}/lib/* #{latest_release}/misc/lib"
+    run "cp -r #{shared_path}/js/* #{latest_release}/js"
   end
 end
 
