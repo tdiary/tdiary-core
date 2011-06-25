@@ -55,7 +55,7 @@
 unless @resource_loaded then
 	def image_error_num( max ); "画像は1日#{h max}枚までです。不要な画像を削除してから追加してください"; end
 	def image_error_size( max ); "画像の最大サイズは#{h max}バイトまでです"; end
-	def image_label_list_caption; '絵日記(一覧・削除)'; end
+	def image_label_list_caption; '絵日記(一覧・削除) - 画像をクリックすると本文に追加できます'; end
 	def image_label_add_caption; '絵日記(追加)'; end
 	def image_label_description; '画像の説明'; end
 	def image_label_add_plugin; '本文に追加'; end
@@ -162,6 +162,8 @@ end
 
 if /^(form|edit|formplugin|showcomment)$/ =~ @mode then
 	enable_js( 'image.js' )
+	add_js_setting( '$tDiary.plugin.image' )
+	add_js_setting( '$tDiary.plugin.image.alt', %Q|'#{image_label_description}'| )
 	@image_list = image_list( @date.strftime( '%Y%m%d' ) ) if @conf.secure
 end
 
@@ -212,24 +214,13 @@ add_form_proc do |date|
 	tabidx = 1200
 	images = image_list( date.strftime( '%Y%m%d' ) )
 	if images.length > 0 then
-		case @conf.style.sub( /^blog/i, '' )
-                when /^wiki|markdown$/i
-			ptag1 = "{{"
-			ptag2 = "}}"
-		when /^rd$/i
-			ptag1 = "((%"
-			ptag2 = "%))"
-		else
-			ptag1 = "&lt;%="
-			ptag2 = "%&gt;"
-		end
 	   r << %Q[<div class="form">
 		<div class="caption">
 		#{image_label_list_caption}
 		</div>
 		<form class="update" method="post" action="#{h @update}"><div>
 		#{csrf_protection}
-		<table>
+		<table id="image-table">
 		<tr>]
 		tmp = ''
 	   images.each_with_index do |img,id|
@@ -239,20 +230,18 @@ add_form_proc do |date|
 			else
 				img_type, img_w, img_h = open(File.join(@image_dir,img).untaint, 'r') {|f| image_info(f)}
 			end
-			r << %Q[<td><img class="form" src="#{h @image_url}/#{h img}" alt="#{h id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
-			ptag = "#{ptag1}image #{id}, '#{image_label_description}', nil, #{img_w && img_h ? '['+img_w.to_s+','+img_h.to_s+']' : 'nil'}#{ptag2}"
+			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			if @conf.secure then
 				img_info = ''
 			else
 				img_info = "#{File.size(File.join(@image_dir,img).untaint).to_s.reverse.gsub( /\d{3}/, '\0,' ).sub( /,$/, '' ).reverse} bytes"
 			end
-			if img_type && img_w && img_h
-				img_info << "<br>#{img_w} x #{img_h} (#{img_type})"
+			img_info = ''
+			if img_w && img_h
+				img_info << %Q|<span class="image-width">#{img_w}</span> x <span class="image-height">#{img_h}</span>|
 			end
-			tmp << %Q[<td>
-			#{img_info}<br>
-			<input type="checkbox" tabindex="#{tabidx+id*2}" name="plugin_image_id" value="#{h id}">#{id}
-			<input type="button" tabindex="#{tabidx+id*2+1}" onclick="insertImage(&quot;#{ptag}&quot;)" value="#{image_label_add_plugin}">
+			tmp << %Q[<td id="image-info-#{id}">
+			<input type="checkbox" tabindex="#{tabidx+id*2}" name="plugin_image_id" value="#{id}">&nbsp;#{img_info}
 			</td>]
 	   end
 		r << "</tr><tr>"

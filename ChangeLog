@@ -1,3 +1,6 @@
+2011-06-25  TADA Tadashi <t@tdtds.jp>
+	* plugin/image.rb, js/image.js: using jQuery to insert image tags. #54
+
 2011-06-25  MATSUOKA Kohei <kohei@machu.jp>
 	* js/highlight.js: fixed XSS vulnerability. #59
 

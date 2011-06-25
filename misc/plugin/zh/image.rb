@@ -6,15 +6,15 @@
 #
 # Image Diary -  Upload images and insert to diary.
 #
-# image( number, 'altword', thumbnail ) - show a image.
+# image( number, 'altword', thumbnail ) - show an image.
 #    number - image ID as 0, 1, 2...
 #    altword - alt strings of the img element.
 #    thumbnail - image ID of thumbnail (optional)
 #
-# image_left( number, 'altword', thumbnail ) - show a image with "class=left"
-# image_right( number, 'altword', thumbnail ) - show a image with "class=right"
+# image_left( number, 'altword', thumbnail ) - show an image with "class=left"
+# image_right( number, 'altword', thumbnail ) - show an image with "class=right"
 #
-# image_link( number, 'desc' ) - make link to a image.
+# image_link( number, 'desc' ) - make link to an image.
 #    number - image ID as 0, 1, 2...
 #    desc - description of the image.
 #
@@ -33,7 +33,7 @@
 #
 def image_error_num( max ); "每則日誌最多可貼 #{h max} 張圖片"; end
 def image_error_size( max ); "每張圖片最大限制為 #{h max} bytes"; end
-def image_label_list_caption; '列出或刪除圖片'; end
+def image_label_list_caption; '列出或刪除圖片 - Click an image to insert'; end
 def image_label_add_caption; '附加圖片'; end
 def image_label_description; '圖片的附註'; end
 def image_label_add_plugin; '附加到文章當中'; end
