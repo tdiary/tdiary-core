@@ -11,7 +11,13 @@ $(function(){
 		$('#body').insertAtCaret( '[' + item.text() + ']' );
 	}
 
-	$('.category-item').click(function(){
+	$('.category-item')
+	.hover(function(){
+		$(this).css('cursor', 'pointer');
+	}, function(){
+		$(this).css('cursor', 'default');
+	})
+	.click(function(){
 		insertCategoryItem($(this));
 	});
 

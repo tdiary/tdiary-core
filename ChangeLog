@@ -2,6 +2,7 @@
 	* plugin/image.rb, js/image.js: using jQuery to insert image tags. #54
 	* plugin/image.rb: fixed encoding error on ruby 1.9.
 	* skel/update.rhtml.zh: removed garbage tags.
+	* js/category.js: changed cursor when hover.
 
 2011-06-25  MATSUOKA Kohei <kohei@machu.jp>
 	* js/highlight.js: fixed XSS vulnerability. #59
