@@ -81,7 +81,7 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
 			size = %Q| width="#{size.to_i}"|
 		end
 	elsif @image_maxwidth and not @conf.secure then
-		File::open( "#{@image_dir}/#{image}".untaint ) do |f|
+		File::open( "#{@image_dir}/#{image}".untaint, 'rb' ) do |f|
 			t, w, h = image_info( f )
 			if w > @image_maxwidth then
 				size = %Q[ width="#{h @image_maxwidth}"]
@@ -228,7 +228,7 @@ add_form_proc do |date|
 			if @conf.secure then
 				img_type, img_w, img_h = 'jpg', nil, nil
 			else
-				img_type, img_w, img_h = open(File.join(@image_dir,img).untaint, 'r') {|f| image_info(f)}
+				img_type, img_w, img_h = open(File.join(@image_dir,img).untaint, 'rb') {|f| image_info(f)}
 			end
 			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			if @conf.secure then
