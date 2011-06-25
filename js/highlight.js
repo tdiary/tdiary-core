@@ -24,9 +24,6 @@ $(function() {
     })
 
   if (document.location.hash) {
-    var anchor_name = document.location.hash.substr(1);
-    if (anchor_name.match(/^[pc][0-9]{2}$/)) {
-      highlight($('[name=' + anchor_name + ']')[0]);
-    }
+    highlight($('[name=' + document.location.hash.replace(/[^\w]/g, "") + ']')[0]);
   }
 });
