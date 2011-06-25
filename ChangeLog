@@ -1,3 +1,6 @@
+2011-06-25  MATSUOKA Kohei <kohei@machu.jp>
+	* js/highlight.js: fixed XSS vulnerability. #59
+
 2011-06-21  TADA Tadashi <t@tdtds.jp>
 	* added vendor/imagesize.
 	* plugin/image.rb: using ImageSize class getting image type and size. #56

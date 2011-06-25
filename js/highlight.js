@@ -24,6 +24,6 @@ $(function() {
     })
 
   if (document.location.hash) {
-    highlight($('[name=' + document.location.hash.substr(1) + ']')[0]);
+    highlight($('[name=' + document.location.hash.replace(/[^\w]/g, "") + ']')[0]);
   }
 });
