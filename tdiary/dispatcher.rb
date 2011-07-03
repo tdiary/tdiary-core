@@ -1,8 +1,5 @@
 # -*- coding: utf-8; -*-
-
 require 'stringio'
-require 'tdiary'
-require 'tdiary/tdiary_response'
 
 module TDiary
 	class Dispatcher
@@ -19,17 +16,11 @@ module TDiary
 			@target = TARGET[target]
 		end
 
-		def dispatch_cgi( cgi = CGI.new, raw_result = StringIO.new, dummy_stderr = StringIO.new )
-			stdout_orig = $stdout; stderr_orig = $stderr
-			begin
-				$stdout = raw_result; $stderr = dummy_stderr
-				result = @target.run( cgi )
-				result.headers.reject!{|k,v| k.to_s.downcase == "status" }
-				result.to_a
-			ensure
-				$stdout = stdout_orig
-				$stderr = stderr_orig
-			end
+		# FIXME rename method name to more suitable one.
+		def dispatch_cgi( request, cgi = CGI.new )
+			result = @target.run( request, cgi )
+			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
+			result.to_a
 		end
 
 		class << self
@@ -56,8 +47,10 @@ module TDiary
 			end
 
 			# FIXME temporary method during (scratch) refactoring
-			def extract_status_for_legacy_tdiary( status_str )
-				return 200 unless status_str
+			def extract_status_for_legacy_tdiary( head )
+				status_str = head.delete('status')
+				return 200 if !status_str || status_str.empty?
+
 				if m = status_str.match(/(\d+)\s(.+)\Z/)
 					m[1].to_i
 				else

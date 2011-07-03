@@ -1,5 +1,5 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
-require 'tdiary/tdiary_application'
+require 'tdiary/application'
 
 use Rack::Reloader
 use Rack::Static, :urls => ["/theme"], :root => "."

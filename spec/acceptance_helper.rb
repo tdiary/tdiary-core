@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'tdiary/tdiary_application'
 
 Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
@@ -32,6 +31,7 @@ if ENV['CGI_TEST']
 	Capybara.app_host = 'http://localhost:19292'
 	RSpec.configuration.filter_run_excluding :mechanize => true
 else
+	require 'tdiary/application'
 	Capybara.default_driver = :rack_test
 	Capybara.app = Rack::Builder.new do
 		map '/' do

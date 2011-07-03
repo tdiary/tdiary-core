@@ -20,7 +20,7 @@ begin
 		org_path = File::dirname( __FILE__ ).untaint
 	end
 	$:.unshift( org_path ) unless $:.include?( org_path )
-	require 'tdiary/dispatcher'
+	require 'tdiary'
 
 	encoding_error = {}
 	cgi = CGI::new(:accept_charset => "UTF-8") do |name, value|
@@ -32,7 +32,8 @@ begin
 		@cgi = CGI::new(:accept_charset => 'shift_jis')
 		@cgi.params = cgi.params
 	end
-	status, headers, body = TDiary::Dispatcher.index.dispatch_cgi( @cgi )
+	request = TDiary::Request.new( ENV, @cgi )
+	status, headers, body = TDiary::Dispatcher.index.dispatch_cgi( request, @cgi )
 	headers['type'] = headers.delete('Content-Type')
 	TDiary::Dispatcher.send_headers( status, headers )
 	TDiary::Dispatcher.send_body( body )
