@@ -112,6 +112,7 @@ def category_anchor(c); "[#{c}]"; end
 #
 # preferences
 #
+@conf_saving = 'Saving...'
 
 # genre labels
 @conf_genre_label['basic'] = 'Basic'

@@ -146,6 +146,7 @@ def category_anchor(c); "[#{c}]"; end
 #
 # preferences (resources)
 #
+@conf_saving = '保存中……'
 
 # genre labels
 @conf_genre_label['basic'] = '基本'

@@ -15,8 +15,7 @@ body {
 h1 {
 	background-color: #fff;
 	color: #000;
-	margin: 2px 0px 2px 0px;
-	padding: 1em;
+	margin: 2px 0px 2px 16px;
 }
 
 a:link {
@@ -54,7 +53,6 @@ form.conf {
 	background-color: transparent;
 	color: #000;
 	margin: 0em 2em 2em 250px;
-	padding-bottom: 100em;
 }
 
 h2 {
@@ -154,10 +152,8 @@ div.sidebar {
 
 div.sidebar div.block {
 	background-color: #d0ffd0;
-	background-image: url(conf.block.png);
-	background-position: left top;
-	background-repeat: no-repeat;
-	margin: 0px 1em 1em 1em;
+	border-radius: 8px;
+	margin: 0px 1em 1em 16px;
 	padding: 0.5em 1em 0.5em 1em;
 }
 
@@ -187,11 +183,13 @@ div.sidebar ul {
 }
 
 div.sidebar li {
+	padding: 2px 4px;
 	margin-bottom: 0.2em;
 }
 
 div.sidebar li.selected {
 	background-color: #32c832;
+	border-radius: 4px;
 }
 
 div.sidebar li.other {
@@ -204,10 +202,8 @@ img#theme_thumbnail {
 	border-color: #000;
 }
 
-div.help-icon {
-	text-align: right;
-	margin-right: 2em;
-	margin-bottom: 1em;
+span.help-icon {
+	margin-left: 0.5em;
 }
 
 div.help-icon img {
