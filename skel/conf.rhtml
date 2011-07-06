@@ -14,7 +14,7 @@
 <div id="saving" style="display: none;">
 	<%%= @conf_saving %>
 </div>
-<form class="conf" method="post" action="<%=h @conf.update %>"><div>
+<form id="conf-form" class="conf" method="post" action="<%=h @conf.update %>"><div>
 	<input type="hidden" name="conf" value="<%=h @key%>">
 	<%=@csrf_protection%>
 	<div class="saveconf"><input class="saveconf" type="submit" name="saveconf" value="OK"></div>

@@ -11,7 +11,7 @@ $(function(){
 		.css('text-align', 'center')
 		.css('margin-top', '10em');
 
-	$('form.conf').submit(function(){
+	$('#conf-form').submit(function(){
 		var form = $(this);
 		$.ajax({
 			type: 'post',
@@ -23,7 +23,7 @@ $(function(){
 				$('#saving').show();
 			},
 			success: function(data){
-				var result = data.replace(/[\r\n]/g, '').match(/<form.*<\/form>/)[0];
+				var result = data.replace(/[\r\n]/g, '').match(/<form id="conf-form".*<\/form>/)[0];
 				$('#saving').hide();
 				form.empty().append($('div:first', result)).show();
 			},
