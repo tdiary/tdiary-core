@@ -172,7 +172,7 @@ module RD
 
 	class RDInlineParser
 		def on_error(et, ev, values)
-			lines_of_rest = @src.rest.to_a.length
+			lines_of_rest = @src.rest.lines.to_a.length
 			prev_words = prev_words_on_error(ev)
 			at = 4 + prev_words.length
 			message = <<-MSG
