@@ -21,7 +21,7 @@ FCGI.each_cgi do |cgi|
     end
     dir = File::dirname( cgi.env_table["SCRIPT_FILENAME"] )
     Dir.chdir(dir) do
-      load 'index.rb'
+      load './index.rb'
     end
   ensure
     class << CGI
