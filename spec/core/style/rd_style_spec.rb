@@ -171,6 +171,27 @@ aaa</p>
 			it { @diary.to_html.should eq @html }
 		end
 	end
+
+	describe 'test_rd_on_error' do
+		context 'link' do
+			before do
+				source = <<-'EOF'
+((<tdiary|http://www.tdiary.org/>))
+				EOF
+				@diary.append(source)
+				@exception_message = <<-'EOF'
+RD syntax error: line 1:
+...((<tdiary|http:/ / www.tdiary.org/>)) ...
+                    ^
+				EOF
+			end
+			it {
+				lambda{ @diary.to_html }.should raise_error(SyntaxError){ |e|
+					e.message.should eq @exception_message
+				}
+			}
+		end
+	end
 end
 
 # Local Variables:
