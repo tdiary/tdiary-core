@@ -72,7 +72,7 @@ GEM
     rspec-mocks (2.6.0)
     ruby-progressbar (0.0.10)
     rubyzip (0.9.4)
-    selenium-webdriver (0.2.2)
+    selenium-webdriver (2.0.0)
       childprocess (>= 0.1.9)
       ffi (>= 1.0.7)
       json_pure
