@@ -78,9 +78,6 @@ unless "".respond_to?('force_encoding')
 		def encode(encoding)
 			self
 		end
-
-		def encoding
-		end
 	end
 end
 

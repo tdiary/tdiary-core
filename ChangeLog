@@ -4,10 +4,6 @@
 2011-07-05  TADA Tadashi <t@tdtds.jp>
 	* saved preferences in ajax.
 
-2011-06-29  MATSUOKA Kohei <kohei@machu.jp>
-	* vendor/json_pure-1.5.3: added json_pure library to use to_json method. #58
-	* tdiary/compatible.rb: added String#encoding to avoid NoMethodError.
-
 2011-06-25  TADA Tadashi <t@tdtds.jp>
 	* plugin/image.rb, js/image.js: using jQuery to insert image tags. #54
 	* plugin/image.rb: fixed encoding error on ruby 1.9.
