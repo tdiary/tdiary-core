@@ -55,7 +55,7 @@ feature '日記を読む' do
     visit '/'
     click_link '長年日記'
 
-    titles = page.all('h2 span.date a').map(&:text)
+    titles = page.all('h2 span.date a').map{|t| t.text }
     titles.should include '2001年04月23日'
     titles.should include '2002年04月23日'
     titles.should include '2003年04月23日'

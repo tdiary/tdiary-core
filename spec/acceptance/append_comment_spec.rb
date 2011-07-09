@@ -23,9 +23,10 @@ BODY
 		}
 
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
-		within('div.day div.comment div.commentbody') { 
+		within('div.day div.comment div.commentbody') {
 			within('div.commentator'){
-				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
+				t = Time.now
+				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day] }
 				within('span.commentator'){ page.should have_content "alpha" }
 			}
 			page.should have_content "こんにちは!こんにちは!"
@@ -55,7 +56,8 @@ BODY
 
 		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
 		within('div.day div.comment div.commentbody') {
-			within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % Date.today.strftime.split('-').map(&:to_i) }
+			t = Time.now
+			within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day] }
 			page.should have_content "alpha"
 			page.should have_content "bravo"
 			page.should have_content "こんにちは!こんにちは!"
@@ -63,3 +65,11 @@ BODY
 		}
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3

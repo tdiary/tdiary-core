@@ -100,7 +100,7 @@ FOOTER
 		click_link '最新'
 		page.should have_content('★')
 		page.should have_content('●')
-		titles = page.all('h2 span.date a').map(&:text)
+		titles = page.all('h2 span.date a').map{|t| t.text }
 		titles.should include("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
 		titles.should_not include("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
 		page.should_not have_content("長年日記")
