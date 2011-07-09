@@ -99,6 +99,7 @@ DEPENDENCIES
   fuubar
   launchy
   rack
+  rake
   rcov
   rspec
   steak
