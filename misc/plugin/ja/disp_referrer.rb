@@ -311,6 +311,7 @@ class DispRef2SetupIF
 		unless @setup.secure then
 		r << <<-_HTML
 			<h3>キャッシュ</h3>
+			<p>キャッシュ機能は、tDiary2形式(DefaultIO)使用時は利用できません。</p>
 			<table>
 			<tr>
 				<td>キャッシュを
