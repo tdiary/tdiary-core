@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 =begin
 = A little bit more powerful display of referrers((-$Id: disp_referrer.rb,v 1.12 2008-03-02 09:01:47 kazuhiko Exp $-))
 English resource
@@ -166,6 +167,7 @@ class DispRef2SetupIF
 		unless @setup.secure then
 		r << <<-_HTML
 			<h3>Cache</h3>
+			<p>It isn't available to turn on this option with tDiary2 file format(DefaultIO).</p>
 			<table>
 			<tr>
 				<td><label for="dr2.no_cache.false"><input id="dr2.no_cache.false" name="dr2.no_cache" value="false" type="radio"#{' checked'if not @setup['no_cache']}>Use</label>
