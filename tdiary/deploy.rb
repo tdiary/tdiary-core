@@ -37,3 +37,4 @@ namespace :httpd do
 end
 
 after 'deploy:finalize_update', 'deploy:update_library'
+after 'deploy:update', 'deploy:cleanup'
