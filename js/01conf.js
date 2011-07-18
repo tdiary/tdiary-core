@@ -23,7 +23,7 @@ $(function(){
 				$('#saving').show();
 			},
 			success: function(data){
-				var result = data.replace(/[\r\n]/g, '').match(/<form id="conf-form".*<\/form>/)[0];
+				var result = data.match(/<form id="conf-form"[\s\S]*<\/form>/)[0];
 				$('#saving').hide();
 				form.empty().append($('div:first', result)).show();
 			},

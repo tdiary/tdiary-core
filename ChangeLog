@@ -1,5 +1,6 @@
 2011-07-18  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: replaced sub to lines.
+	* js/01conf.js: fixed: lost CR/LF in textarea.
 
 2011-07-06  TADA Tadashi <t@tdtds.jp>
 	* specified id attr for conf form element.
