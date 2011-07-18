@@ -775,8 +775,8 @@ end
 # header/footer (header)
 def saveconf_header
 	if @mode == 'saveconf' then
-		@conf.header = @conf.to_native( @cgi.params['header'][0] ).gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
-		@conf.footer = @conf.to_native( @cgi.params['footer'][0] ).gsub( /\r\n/, "\n" ).gsub( /\r/, '' ).sub( /\n+\z/, '' )
+		@conf.header = @conf.to_native( @cgi.params['header'][0] ).lines.map{|s| s.chomp}.join( "\n" ).sub( /\n+\z/, '' )
+		@conf.footer = @conf.to_native( @cgi.params['footer'][0] ).lines.map{|s| s.chomp}.join( "\n" ).sub( /\n+\z/, '' )
 	end
 end
 

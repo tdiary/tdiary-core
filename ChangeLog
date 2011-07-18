@@ -1,3 +1,6 @@
+2011-07-18  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: replaced sub to lines.
+
 2011-07-06  TADA Tadashi <t@tdtds.jp>
 	* specified id attr for conf form element.
 
