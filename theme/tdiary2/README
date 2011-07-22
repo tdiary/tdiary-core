@@ -1,0 +1,19 @@
+Title: tDiary2デフォルト
+Revision: $Revision: 2.0 $
+Author: ただただし
+Access: t@tdtds.jp
+License: GPL
+Comment: tDiary 2.0に付属するデフォルトテーマ
+
+ChangeLog
+2011-07-16 TADA Tadashi <t@tdtds.jp>
+	* renamed from default.
+
+2003-04-17 TADA Tadashi <sho@spc.gr.jp>
+	* add table settings.
+
+2003-03-12 TADA Tadashi <sho@spc.gr.jp>
+	* little modified.
+
+2003-02-03 TADA Tadashi <sho@spc.gr.jp>
+	* add h4.

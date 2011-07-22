@@ -1,3 +1,8 @@
+2011-07-22  TADA Tadashi <t@tdtds.jp>
+	* skel/header.rb, skel/footer.rb: added div.whole-content inside body.
+	* rename theme/default to theme/tdiary2.
+	* added new theme default for tDiary 3.1.
+
 2011-07-18  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: replaced sub to lines.
 	* js/01conf.js: fixed: lost CR/LF in textarea.
