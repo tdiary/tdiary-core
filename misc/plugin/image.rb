@@ -175,26 +175,29 @@ if /^formplugin$/ =~ @mode then
 	   date = @date.strftime( "%Y%m%d" )
 		images = image_list( date )
 	   if @cgi.params['plugin_image_addimage'][0]
-	      filename = @cgi.params['plugin_image_file'][0].original_filename
-			extension, = image_info( @cgi.params['plugin_image_file'][0] )
-			@cgi.params['plugin_image_file'][0].rewind
-			if extension =~ /\A(#{image_ext})\z/i
-				begin
-	         	size = @cgi.params['plugin_image_file'][0].size
-				rescue NameError
-	         	size = @cgi.params['plugin_image_file'][0].stat.size
+			@cgi.params['plugin_image_file'].each do |file|
+				filename = file.original_filename
+				extension, = image_info( file )
+				file.rewind
+				
+				if extension =~ /\A(#{image_ext})\z/i
+					begin
+						size = file.size
+					rescue NameError
+						size = file.stat.size
+					end
+					if @conf.secure then
+						raise image_error_num( maxnum ) if images.compact.length >= maxnum
+						raise image_error_size( maxsize ) if size > maxsize
+					end
+					output = "#{@image_dir}/#{date}_#{images.length}.#{extension}".untaint
+					File::umask( 022 )
+					File::open( output, "wb" ) do |f|
+						f.print file.read
+					end
+					images << File::basename( output ) # for secure mode
 				end
-				if @conf.secure then
-					raise image_error_num( maxnum ) if images.compact.length >= maxnum
-					raise image_error_size( maxsize ) if size > maxsize
-				end
-	         file = "#{@image_dir}/#{date}_#{images.length}.#{extension}".untaint
-		      File::umask( 022 )
-		      File::open( file, "wb" ) do |f|
-					f.print @cgi.params['plugin_image_file'][0].read
-		      end
-	         images << File::basename( file ) # for secure mode
-	      end
+			end
 	   elsif @cgi.params['plugin_image_delimage'][0]
 	      @cgi.params['plugin_image_id'].each do |id|
 	         file = "#{@image_dir}/#{images[id.to_i]}".untaint
@@ -267,7 +270,7 @@ add_form_proc do |date|
 	#{csrf_protection}
    <input type="hidden" name="plugin_image_addimage" value="true">
    <input type="hidden" name="date" value="#{date.strftime( '%Y%m%d' )}">
-   <input type="file" tabindex="#{tabidx+98}" name="plugin_image_file" size="50">
+   <input type="file" tabindex="#{tabidx+98}" name="plugin_image_file" size="50" multiple="multiple">
    <input type="submit" tabindex="#{tabidx+99}" name="plugin" value="#{h image_label_add_image}">
    </div></form>
 	</div>]
