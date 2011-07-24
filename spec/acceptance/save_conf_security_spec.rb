@@ -4,7 +4,15 @@ require 'acceptance_helper'
 feature 'spamフィルタ設定の利用' do
 	scenario 'おすすめフィルタの内容が保存される'
 
-	scenario 'CSRF情報が保存される'
+	scenario 'CSRF対策の設定が保存される' do
+		visit '/update.rb?conf=csrf_protection'
+
+		choose 'check_key'
+		click_button 'OK'
+
+		visit '/update.rb?conf=csrf_protection'
+		page.should have_selector 'input[name="check_key"][value="true"][checked]'
+	end
 
 	scenario 'spamと判定されたツッコミを捨てる'
 
@@ -13,9 +21,7 @@ feature 'spamフィルタ設定の利用' do
 
 		visit '/update.rb?conf=spamfilter'
 		fill_in "spamfilter.max_uris", :with => 1
-
 		click_button 'OK'
-		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -111,7 +117,6 @@ BODY
 example.com
 BODY
 		click_button 'OK'
-		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -147,7 +152,6 @@ BODY
 example
 BODY
 		click_button 'OK'
-		within('title') { page.should have_content('(設定完了)') }
 
 		visit "/"
 		click_link 'ツッコミを入れる'

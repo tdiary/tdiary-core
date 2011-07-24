@@ -6,10 +6,7 @@ feature 'ツッコミ設定の利用' do
 		append_default_diary
 		append_default_comment
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'ツッコミ'
+		visit '/update.rb?conf=comment'
 		select '非表示', :from => 'show_comment'
 
 		click_button "OK"
@@ -37,10 +34,7 @@ BODY
 		click_button '投稿'
 		page.should have_content "Click here!"
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'ツッコミ'
+		visit '/update.rb?conf=comment'
 		fill_in 'comment_limit', :with => '1'
 
 		click_button "OK"
@@ -67,10 +61,7 @@ BODY
 		append_default_diary
 		append_default_comment
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'ツッコミ'
+		visit '/update.rb?conf=comment'
 		fill_in 'comment_limit_per_day', :with => '1'
 
 		click_button "OK"
@@ -84,3 +75,11 @@ BODY
 		}
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3

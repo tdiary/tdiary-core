@@ -4,10 +4,7 @@ require 'acceptance_helper'
 feature 'リンク元設定の利用', :mechanize => true do
 	scenario 'リンク元の非表示設定' do
 		append_default_diary
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'リンク元'
+		visit '/update.rb?conf=referer'
 		select('非表示', :from => 'show_referer')
 
 		click_button "OK"
@@ -20,10 +17,7 @@ feature 'リンク元設定の利用', :mechanize => true do
 
 	scenario 'リンク元記録の除外設定が動いている' do
 		append_default_diary
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'リンク元'
+		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', :with => '^http://www\.example\.com/.*'
 
 		click_button('OK')
@@ -35,12 +29,8 @@ feature 'リンク元設定の利用', :mechanize => true do
 	end
 
 	pending 'リンク元記録の除外に設定していないリファラは記録されている' do
-
 		append_default_diary
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'リンク元'
+		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', :with => '^http://www\.example\.com/.*$'
 
 		click_button('OK')
@@ -54,10 +44,7 @@ feature 'リンク元設定の利用', :mechanize => true do
 
 	scenario 'リンク元の置換が動いている' do
 		append_default_diary
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'リンク元'
+		visit '/update.rb?conf=referer'
 		fill_in 'referer_table', :with => <<-REFERER
 ^http://www\.example\.com/.* alice
 ^http://www\.example\.net/.* bob
@@ -74,3 +61,11 @@ REFERER
 		}
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3

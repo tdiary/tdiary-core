@@ -3,10 +3,7 @@ require 'acceptance_helper'
 
 feature '基本設定の利用' do
 	scenario 'サイトの情報の設定' do
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'サイトの情報'
+		visit '/update.rb?conf=default'
 		fill_in "author_name", :with => "ただただし"
 		fill_in "html_title", :with => "ただの日記"
 		fill_in "author_mail", :with => "t@tdtds.jp"
@@ -24,9 +21,7 @@ feature '基本設定の利用' do
 		# TODO その他の項目の反映を確認
 		within('title') { page.should have_content('ただの日記') }
 
-		click_link '追記'
-		click_link '設定'
-		click_link 'サイトの情報'
+		visit '/update.rb?conf=default'
 		page.should have_field "author_name", :with => "ただただし"
 		page.should have_field "html_title", :with => "ただの日記"
 		page.should have_field "author_mail", :with => "t@tdtds.jp"
@@ -38,10 +33,7 @@ feature '基本設定の利用' do
 	end
 
 	scenario 'ヘッダ・フッタの設定' do
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'ヘッダ・フッタ'
+		visit '/update.rb?conf=header'
 		fill_in "header", :with => <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
@@ -60,9 +52,7 @@ FOOTER
 		within('h1') { page.should have_content('alpha') }
 		within('div.sidebar') { page.should have_content('bravo')}
 
-		click_link '追記'
-		click_link '設定'
-		click_link 'ヘッダ・フッタ'
+		visit '/update.rb?conf=header'
 		page.should have_field "header", :with => <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
@@ -84,10 +74,7 @@ FOOTER
 		append_default_diary(yestarday.to_s)
 		append_default_comment
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link '表示一般'
+		visit '/update.rb?conf=display'
 		fill_in 'section_anchor', :with => '<span class="sanchor">★</span>'
 		fill_in 'comment_anchor', :with => '<span class="canchor">●</span>'
 		fill_in 'date_format', :with => '%Y:%m:%d'
@@ -107,10 +94,7 @@ FOOTER
 	end
 
 	pending 'ログレベルの選択の設定' do
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'ログレベル選択'
+		visit '/update.rb?conf=logger'
 		select 'DEBUG', :from => 'log_level'
 
 		click_button "OK"
@@ -128,10 +112,7 @@ FOOTER
 	end
 
 	scenario '時差調整が保存される' do
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link '時差調整'
+		visit '/update.rb?conf=timezone'
 		fill_in 'hour_offset', :with => '-24'
 
 		click_button "OK"
@@ -151,10 +132,7 @@ FOOTER
 	end
 
 	scenario 'テーマ選択が保存される' do
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'テーマ選択'
+		visit '/update.rb?conf=theme'
 		select 'Tdiary1', :from => 'theme'
 
 		click_button "OK"
@@ -166,9 +144,7 @@ FOOTER
 			page.should have_css('link[href="theme/tdiary1/tdiary1.css"]')
 		}
 
-		click_link '追記'
-		click_link '設定'
-		click_link 'テーマ選択'
+		visit '/update.rb?conf=theme'
 		within('select option[selected]'){
 			page.should have_content 'Tdiary1'
 		}
