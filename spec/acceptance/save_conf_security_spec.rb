@@ -11,10 +11,7 @@ feature 'spamフィルタ設定の利用' do
 	scenario 'URLの数によるspam判定' do
 		append_default_diary
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'spamフィルタ'
+		visit '/update.rb?conf=spamfilter'
 		fill_in "spamfilter.max_uris", :with => 1
 
 		click_button 'OK'
@@ -49,10 +46,7 @@ BODY
 	scenario 'URLの割合によるspam判定' do
 		append_default_diary
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'spamフィルタ'
+		visit '/update.rb?conf=spamfilter'
 		fill_in "spamfilter.max_rate", :with => 50
 
 		click_button 'OK'
@@ -89,10 +83,7 @@ BODY
 	scenario 'キーワードでツッコミがはじかれる' do
 		append_default_diary
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'spamフィルタ'
+		visit '/update.rb?conf=spamfilter'
 		fill_in "spamfilter.bad_comment_patts", :with => <<-BODY
 こんにちは!
 BODY
@@ -115,10 +106,7 @@ BODY
 	scenario 'メールアドレスでツッコミがはじかれる' do
 		append_default_diary
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'spamフィルタ'
+		visit '/update.rb?conf=spamfilter'
 		fill_in "spamfilter.bad_mail_patts", :with => <<-BODY
 example.com
 BODY
@@ -154,10 +142,7 @@ BODY
 	scenario 'URLでツッコミがはじかれる' do
 		append_default_diary
 
-		visit '/'
-		click_link '追記'
-		click_link '設定'
-		click_link 'spamフィルタ'
+		visit '/update.rb?conf=spamfilter'
 		fill_in "spamfilter.bad_uri_patts", :with => <<-BODY
 example
 BODY
@@ -189,8 +174,36 @@ BODY
 
 	scenario 'IPアドレスでツッコミが弾かれる'
 
-	scenario 'ツッコミの注意文が保存されて表示される'
+	scenario 'ツッコミの注意文が保存されて表示される' do
+		append_default_diary
 
-	scenario 'スパムフィルター選択が保存される'
+		visit '/update.rb?conf=spamfilter'
+		fill_in 'comment_description', :with => 'これはツッコミの注意文です'
+		click_button 'OK'
 
+		visit "/"
+		click_link 'ツッコミを入れる'
+		page.should have_content 'これはツッコミの注意文です'
+	end
+
+	scenario 'スパムフィルターのログ記録の設定が保存される' do
+		append_default_diary
+
+		visit '/update.rb?conf=spamfilter'
+		select '記録しない', :from => 'filter.debug_mode'
+		click_button 'OK'
+
+		visit '/update.rb?conf=spamfilter'
+		within('select[name="filter.debug_mode"] option[selected]'){
+			page.should have_content '記録しない'
+		}
+	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3
