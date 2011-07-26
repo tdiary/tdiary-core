@@ -1,3 +1,6 @@
+2011-07-26  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: added js_url method lile theme_url.
+
 2011-07-22  TADA Tadashi <t@tdtds.jp>
 	* skel/header.rb, skel/footer.rb: added div.whole-content inside body.
 	* rename theme/default to theme/tdiary2.

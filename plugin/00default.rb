@@ -363,10 +363,12 @@ def script_tag_query_string
 	"?#{TDIARY_VERSION}#{Time::now.strftime('%Y%m%d')}"
 end
 
+def js_url; 'js'; end
+
 def script_tag
 	query = script_tag_query_string
 	html = @javascripts.sort.map {|script|
-		%Q|<script src="js/#{script}#{query}" type="text/javascript"></script>|
+		%Q|<script src="#{js_url}/#{script}#{query}" type="text/javascript"></script>|
 	}.join( "\n\t" )
 	html << "\n" << <<-HEAD
 		<script type="text/javascript"><!--
