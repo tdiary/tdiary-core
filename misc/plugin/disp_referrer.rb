@@ -1014,25 +1014,28 @@ class DispRef2Refs
 			end
 			result << '<ul>'
 			@refs[cat_key].each do |a|
-				if a[2].size == 1 then
-					result << %Q[<li><a rel="nofollow" href="#{DispRef2String::escapeHTML( a[2][0][1].url )}">#{DispRef2String::escapeHTML( a[2][0][1].title )}</a> &times;#{a[0]}</li>\n]
-				elsif not a[2][0][1].title_ignored then
-					result << %Q[<li><a rel="nofollow" href="#{DispRef2String::escapeHTML( a[2][0][1].url )}">#{DispRef2String::escapeHTML( a[1] )}</a> &times;#{a[0]} : #{a[2][0][0]}]
-					a[2][1..-1].each do |b|
-						title = (b[1].title != a[1]) ? %Q[ title="#{DispRef2String::escapeHTML( b[1].title )}"] : ''
-						result << %Q[, <a rel="nofollow" href="#{DispRef2String::escapeHTML( b[1].url )}"#{title}>#{b[0]}</a>]
+				begin
+					if a[2].size == 1 then
+						result << %Q[<li><a rel="nofollow" href="#{DispRef2String::escapeHTML( a[2][0][1].url )}">#{DispRef2String::escapeHTML( a[2][0][1].title )}</a> &times;#{a[0]}</li>\n]
+					elsif not a[2][0][1].title_ignored then
+						result << %Q[<li><a rel="nofollow" href="#{DispRef2String::escapeHTML( a[2][0][1].url )}">#{DispRef2String::escapeHTML( a[1] )}</a> &times;#{a[0]} : #{a[2][0][0]}]
+						a[2][1..-1].each do |b|
+							title = (b[1].title != a[1]) ? %Q[ title="#{DispRef2String::escapeHTML( b[1].title )}"] : ''
+							result << %Q[, <a rel="nofollow" href="#{DispRef2String::escapeHTML( b[1].url )}"#{title}>#{b[0]}</a>]
+						end
+						result << "</li>\n"
+					else
+						result << %Q[<li>#{DispRef2String::escapeHTML( a[1] )} &times;#{a[0]} : ]
+						comma = nil
+						a[2][0..-1].each do |b|
+							title = (b[1].title != a[1]) ? %Q[ title="#{DispRef2String::escapeHTML( b[1].title )}"] : ''
+							result << comma if comma
+							result << %Q[<a rel="nofollow" href="#{DispRef2String::escapeHTML( b[1].url )}"#{title}>#{b[0]}</a>]
+							comma = ', '
+						end
+						result << "</li>\n"
 					end
-					result << "</li>\n"
-				else
-					result << %Q[<li>#{DispRef2String::escapeHTML( a[1] )} &times;#{a[0]} : ]
-					comma = nil
-					a[2][0..-1].each do |b|
-						title = (b[1].title != a[1]) ? %Q[ title="#{DispRef2String::escapeHTML( b[1].title )}"] : ''
-						result << comma if comma
-						result << %Q[<a rel="nofollow" href="#{DispRef2String::escapeHTML( b[1].url )}"#{title}>#{b[0]}</a>]
-						comma = ', '
-					end
-					result << "</li>\n"
+				rescue Encoding::CompatibilityError => e
 				end
 			end
 			result << "</ul>\n"
