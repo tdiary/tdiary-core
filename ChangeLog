@@ -1,3 +1,6 @@
+2011-07-28  TADA Tadashi <t@tdtds.jp>
+	* js/01conf.js: reloaded after savng when sp plugin only. #76
+
 2011-07-26  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: added js_url method lile theme_url.
 	* misc/plugin/disp_referrer.rb: ignored encoding error (workaround). thanks arton. #74

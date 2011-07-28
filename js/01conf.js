@@ -23,9 +23,13 @@ $(function(){
 				$('#saving').show();
 			},
 			success: function(data){
-				var result = data.match(/<form id="conf-form"[\s\S]*<\/form>/)[0];
-				$('#saving').hide();
-				form.empty().append($('div:first', result)).show();
+				if(location.search.match(/conf=sp$/)){
+					location.reload();
+				} else {
+					var result = data.match(/<form id="conf-form"[\s\S]*<\/form>/)[0];
+					$('#saving').hide();
+					form.empty().append($('div:first', result)).show();
+				}
 			},
 			error: function(){
 				$('#saving').hide();
