@@ -48,7 +48,7 @@ $.extend({
 				tag = ['((%', '%))'];
 				break;
 			default:
-				tag = ['&lt;%=', '%&gt;'];
+				tag = ['<%=', '%>'];
 				break;
 		}
 		

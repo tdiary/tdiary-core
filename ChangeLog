@@ -1,3 +1,6 @@
+2011-07-29  TADA Tadashi <t@tdtds.jp>
+	* js/00default.js: fixed over escape in makePluginTag().
+
 2011-07-28  TADA Tadashi <t@tdtds.jp>
 	* js/01conf.js: reloaded after savng when sp plugin only. #76
 
