@@ -39,7 +39,7 @@ def my( a, str, title = nil )
 				title = h( "[#{com.name}] #{com.shorten( @conf.comment_length )}" )
 			end
 		when 't'
-			if @plugin_files.grep(/tb-show.rb\z/)
+			unless @plugin_files.grep(/tb-show.rb\z/).empty?
 				tb = nil
 				@diaries[date].each_visible_trackback( frag.to_i ) {|t, idx| tb = t}
 				if tb then

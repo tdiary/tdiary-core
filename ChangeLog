@@ -1,3 +1,6 @@
+2011-07-31  TADA Tadashi <t@tdtds.jp>
+	* misc/plugin/my-ex.rb: fixed error when tb-show.rb disabled.
+
 2011-07-29  TADA Tadashi <t@tdtds.jp>
 	* js/00default.js: fixed over escape in makePluginTag().
 	* Release 3.1.0.
