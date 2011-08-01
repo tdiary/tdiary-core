@@ -1,3 +1,6 @@
+2011-08-01 hb <smallstyle@gmail.com>
+	* misc/plugin/image.rb: supported multiple upload.
+
 2011-07-29  TADA Tadashi <t@tdtds.jp>
 	* js/00default.js: fixed over escape in makePluginTag().
 	* Release 3.1.0.
