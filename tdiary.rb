@@ -22,7 +22,6 @@ rescue LoadError
 	require 'erb'
 end
 require 'tdiary/compatible'
-require 'tdiary/request_extension'
 require 'tdiary/core_ext'
 
 #
