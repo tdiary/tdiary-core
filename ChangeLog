@@ -1,3 +1,6 @@
+2011-08-01 hb <smallstyle@gmail.com>
+	* misc/plugin/image.rb: supported multiple upload.
+
 2011-07-31  TADA Tadashi <t@tdtds.jp>
 	* misc/plugin/my-ex.rb: fixed error when tb-show.rb disabled.
 
