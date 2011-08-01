@@ -30,6 +30,9 @@
 2011-07-05  TADA Tadashi <t@tdtds.jp>
 	* saved preferences in ajax.
 
+2011-07-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* merge tdiary-request. use Rack like interface when cgi mode.
+
 2011-06-25  TADA Tadashi <t@tdtds.jp>
 	* plugin/image.rb, js/image.js: using jQuery to insert image tags. #54
 	* plugin/image.rb: fixed encoding error on ruby 1.9.

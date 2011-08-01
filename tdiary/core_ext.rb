@@ -1,4 +1,16 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8 -*-
+module TDiary
+	module RequestExtension
+		def mobile_agent?
+			self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM|SoftBank|Semulator|Vemulator|J-EMULATOR|emobile|mixi-mobile-converter)]i
+		end
+
+		def smartphone?
+			self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
+		end
+	end
+end
+
 =begin
 == String class
 enhanced String class
@@ -27,16 +39,10 @@ end
 enhanced CGI class
 =end
 class CGI
+	include TDiary::RequestExtension
+
 	def valid?( param, idx = 0 )
 		self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
-	end
-
-	def mobile_agent?
-		self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM|SoftBank|Semulator|Vemulator|J-EMULATOR|emobile|mixi-mobile-converter)]i
-	end
-
-	def smartphone?
-		self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
 	end
 
 	def https?

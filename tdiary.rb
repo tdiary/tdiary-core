@@ -30,12 +30,15 @@ require 'tdiary/core_ext'
 module TDiary
 	PATH = File::dirname( __FILE__ ).untaint
 
-	autoload :Config,         'tdiary/config'
-	autoload :Plugin,         'tdiary/plugin'
-	autoload :Comment,        'tdiary/comment'
-	autoload :CommentManager, 'tdiary/comment_manager'
-	autoload :RefererManager, 'tdiary/referer_manager'
-	autoload :Filter,         'tdiary/filter'
+	autoload :Config,           'tdiary/config'
+	autoload :Plugin,           'tdiary/plugin'
+	autoload :Comment,          'tdiary/comment'
+	autoload :CommentManager,   'tdiary/comment_manager'
+	autoload :RefererManager,   'tdiary/referer_manager'
+	autoload :Filter,           'tdiary/filter'
+	autoload :Dispatcher,       'tdiary/dispatcher'
+	autoload :Request,          'tdiary/request'
+	autoload :Response,         'tdiary/response'
 
 	#
 	# module DiaryBase

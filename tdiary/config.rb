@@ -5,26 +5,11 @@
 #
 module TDiary
 	class Config
-		def initialize(cgi)
-			@cgi = cgi
-			load
-
-			instance_variables.each do |v|
-				v = v.to_s.sub( /@/, '' )
-				instance_eval( <<-SRC
-					def #{v}
-						@#{v}
-					end
-					def #{v}=(p)
-						@#{v} = p
-					end
-					SRC
-				)
-			end
-
-			bot = ["bot", "spider", "antenna", "crawler", "moget", "slurp"]
-			bot += @options['bot'] || []
-			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
+		def initialize( cgi, request = nil )
+			@cgi, @request = cgi, request
+			configure_attrs
+			configure_bot_pattern
+			setup_attr_accessor_to_all_ivars
 		end
 
 		# saving to tdiary.conf in @data_path
@@ -94,8 +79,8 @@ module TDiary
 		end
 
 	private
-		# loading tdiary.conf in current directory(index.rb or update.rb path)
-		def load
+		# loading tdiary.conf in current directory
+		def configure_attrs
 			@secure = true unless @secure
 			@options = {}
 
@@ -219,6 +204,26 @@ module TDiary
 		end
 
 		private
+		def setup_attr_accessor_to_all_ivars
+			instance_variables.each do |ivar_sym|
+				v = ivar_sym.to_s.sub( /@/, '' )
+				instance_eval( <<-SRC
+					def #{v}
+						@#{v}
+					end
+					def #{v}=(p)
+						@#{v} = p
+					end
+					SRC
+				)
+			end
+		end
+
+		def configure_bot_pattern
+			bot = ["bot", "spider", "antenna", "crawler", "moget", "slurp"]
+			bot += @options['bot'] || []
+			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
+		end
 
 		def method_missing( *m )
 			if m.length == 1 then

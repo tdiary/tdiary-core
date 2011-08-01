@@ -2,10 +2,7 @@
 
 require File.expand_path('../environment', __FILE__)
 Bundler.require :default if defined?(Bundler)
-require 'rack/request'
-require 'rack/response'
-
-require 'tdiary/dispatcher'
+require 'tdiary'
 
 # FIXME too dirty hack :-<
 class CGI
@@ -24,11 +21,25 @@ module TDiary
 		end
 
 		def call( env )
-			adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_request
+			req = adopt_rack_request_to_plain_old_tdiary_style( env )
+			dispatch_request( req )
 		end
 
 		private
+		def adopt_rack_request_to_plain_old_tdiary_style( env )
+			req = TDiary::Request.new( env )
+			req.params # fill params to tdiary_request
+			$RACK_ENV = req.env
+			env["rack.input"].rewind
+			fake_stdin_as_params
+			req
+		end
+
+		def dispatch_request( request )
+			dispatcher = TDiary::Dispatcher.__send__( @target )
+			dispatcher.dispatch_cgi( request )
+		end
+
 		def fake_stdin_as_params
 			stdin_spy = StringIO.new( "" )
 			# FIXME dirty hack
@@ -37,18 +48,6 @@ module TDiary
 				stdin_spy.rewind
 			end
 			$stdin = stdin_spy
-		end
-
-		def adopt_rack_request_to_plain_old_tdiary_style( env )
-			req = Rack::Request.new( env )
-			$RACK_ENV = req.env
-			env["rack.input"].rewind
-			fake_stdin_as_params
-		end
-
-		def dispatch_request
-			dispatcher = TDiary::Dispatcher.__send__( @target )
-			dispatcher.dispatch_cgi( CGI.new )
 		end
 	end
 end
