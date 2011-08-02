@@ -6,6 +6,7 @@ gem 'rake'
 group :development do
   gem 'thin', :platforms => :ruby
   gem 'capistrano'
+  gem 'pit'
 end
 
 group :test do
@@ -14,7 +15,6 @@ group :test do
   gem 'rcov', :platforms => :ruby_18
   gem 'cover_me', :platforms => :ruby_19
   gem 'steak'
-  gem 'nokogiri', '~> 1.4.7'
   gem 'capybara', :require => 'capybara/rspec'
   gem 'capybara-mechanize', :require => 'capybara/mechanize'
   gem 'launchy'

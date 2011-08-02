@@ -1,18 +1,24 @@
-set :application, "tdiary"
-set :repository, File.expand_path('../..', __FILE__)
+# coding: utf-8
 
-set :user, "user"
-set(:home) { "/home/#{user}" }
-set(:deploy_to) { "#{home}/app/#{application}" }
+require 'pit'
+config = Pit.get('tdiary', :require => {
+    :username => 'your username',
+    :server => 'your server address'
+  })
 
-set(:password) { Capistrano::CLI.password_prompt("sudo password: ") }
-set :use_sudo, true
+set :application, 'tdiary'
 
 set :scm, :git
-set :branch, 'deploy'
-set :deploy_via, :copy
+set :repository, 'git://github.com/tdiary/tdiary-core.git'
+set :branch, 'master'
+set :deploy_via, :remote_cache
 
-role :app, "server"
+server config[:server], :app
+
+set :user, config[:username]
+set :deploy_to, defer { "/home/#{user}/app/#{application}" }
+set :password, defer { Capistrano::CLI.password_prompt('sudo password: ') }
+set :use_sudo, true
 
 namespace :deploy do
   task :start do ; end
@@ -21,10 +27,14 @@ namespace :deploy do
     run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
+  desc 'update shared library'
   task :update_library, :roles => :app do
     run "cp -r #{shared_path}/lib/* #{latest_release}/misc/lib"
     run "cp -r #{shared_path}/js/* #{latest_release}/js"
   end
+
+  after 'deploy:finalize_update', 'deploy:update_library'
+  after 'deploy:update', 'deploy:cleanup'
 end
 
 namespace :httpd do
@@ -35,6 +45,3 @@ namespace :httpd do
     end
   end
 end
-
-after 'deploy:finalize_update', 'deploy:update_library'
-after 'deploy:update', 'deploy:cleanup'
