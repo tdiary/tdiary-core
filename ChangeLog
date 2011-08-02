@@ -1,3 +1,6 @@
+2011-08-05 hb <smallstyle@gmail.com>
+	* misc/plugin/image.rb, js/image.js: upload/delete image in ajax.
+
 2011-08-01 hb <smallstyle@gmail.com>
 	* misc/plugin/image.rb: supported multiple upload.
 
