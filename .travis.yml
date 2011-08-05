@@ -6,6 +6,5 @@ rvm:
   - 1.9.2
   - ruby-head
   - ree
-  - jruby
 
 script: bundle exec rake spec
