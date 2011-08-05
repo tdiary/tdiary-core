@@ -87,7 +87,8 @@ $(function(){
 		var imagePlugin = new ImagePlugin($(this).attr('action'));
 		imagePlugin.upload(formData, function(result){
 			self.reset();
-			$('#image-table').empty().append($('#image-table', result).html());
+			$('#plugin-image-delimage').parents('div.form').remove();
+			$('#plugin-image-addimage').before($('#plugin-image-delimage', result).parents('div.form').html());
 		});
 		return false;
 	});
