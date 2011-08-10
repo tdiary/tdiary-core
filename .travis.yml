@@ -9,3 +9,6 @@ rvm:
   - ree
 
 script: bundle exec rake spec
+
+notifications:
+  irc: "irc.freenode.org#tdiary"
