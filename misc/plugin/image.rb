@@ -221,7 +221,7 @@ add_form_proc do |date|
 		<div class="caption">
 		#{image_label_list_caption}
 		</div>
-		<form class="update" method="post" action="#{h @update}"><div>
+		<form id="plugin-image-delimage" class="update" method="post" action="#{h @update}"><div>
 		#{csrf_protection}
 		<table id="image-table">
 		<tr>]
@@ -258,7 +258,7 @@ add_form_proc do |date|
 		</div>]
 	end
 
-   r << %Q[<div class="form">
+   r << %Q[<div id="plugin-image-addimage" class="form">
 	<div class="caption">
 	#{image_label_add_caption}
 	</div>]

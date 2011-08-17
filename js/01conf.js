@@ -23,7 +23,7 @@ $(function(){
 				$('#saving').show();
 			},
 			success: function(data){
-				if(location.search.match(/conf=sp$/)){
+				if(location.search.match(/conf=(sp|csrf_protection)$/)){
 					location.reload();
 				} else {
 					var result = data.match(/<form id="conf-form"[\s\S]*<\/form>/)[0];

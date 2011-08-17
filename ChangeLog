@@ -1,6 +1,12 @@
 2011-08-17 TADA Tadashi <t@tdtds.jp>
 	* misc/plugin/footnote.rb: initialized variables to fix error on category page. #89
 
+2011-08-09  TADA Tadashi <t@tdtds.jp>
+	* js/01conf.js: reloaded after savng when csrf_protection plugin only. #79
+
+2011-08-05 hb <smallstyle@gmail.com>
+	* misc/plugin/image.rb, js/image.js: upload/delete image in ajax.
+
 2011-08-01 hb <smallstyle@gmail.com>
 	* misc/plugin/image.rb: supported multiple upload.
 
