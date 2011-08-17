@@ -7,5 +7,9 @@ rvm:
   - 1.9.3
   - ruby-head
   - ree
+  - jruby
 
 script: bundle exec rake spec
+
+notifications:
+  irc: "irc.freenode.org#tdiary"
