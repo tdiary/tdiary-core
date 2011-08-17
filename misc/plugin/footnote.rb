@@ -10,6 +10,11 @@
 # Distributed under the GPL.
 
 # initialize variables
+@fn_fragment_fm = ''
+@fn_fragment_f = ''
+@fn_notes = []
+@fn_marks = []
+
 add_body_enter_proc do |date|
 	fn_initialize( date )
 	''

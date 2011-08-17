@@ -1,3 +1,6 @@
+2011-08-17 TADA Tadashi <t@tdtds.jp>
+	* misc/plugin/footnote.rb: initialized variables to fix error on category page. #89
+
 2011-08-01 hb <smallstyle@gmail.com>
 	* misc/plugin/image.rb: supported multiple upload.
 
