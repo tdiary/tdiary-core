@@ -1,3 +1,6 @@
+2011-08-19 TADA Tadashi <t@tdtds.jp>
+	* theme/default: fixed: deleted background image from gustav.
+
 2011-08-17 TADA Tadashi <t@tdtds.jp>
 	* misc/plugin/footnote.rb: initialized variables to fix error on category page. #89
 

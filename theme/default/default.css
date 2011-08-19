@@ -673,8 +673,6 @@ div.sidebar div.calendar {
  */
 @media screen and (max-device-width: 480px) {
 	body {
-		background-image: url(gustav_back_iphone.jpg);
-		background-position: left top;
 	}
 
 	div.adminmenu {
