@@ -26,9 +26,8 @@ module TDiary
 		class << self
 			# stolen from Rack::Handler::CGI.send_headers
 			def send_headers( status, headers )
-				$stdout.print "Status: #{status}\r\n"
 				begin
-					$stdout.print CGI.new.header( headers )
+					$stdout.print CGI.new.header( {'Status'=>status}.merge(headers) )
 				rescue EOFError
 					charset = headers.delete( 'charset' )
 					headers['Content-Type'] ||= headers.delete( 'type' )
