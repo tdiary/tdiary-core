@@ -220,9 +220,11 @@ module TDiary
 				}.join
 				begin
 					r = ERB::new( rhtml.untaint ).result( binding )
-				rescue Encoding::CompatibilityError
-					# migration error on ruby 1.9 only 1st time, reload.
-					raise ForceRedirect::new( @conf.base_url )
+				rescue => e
+					if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
+						# migration error on ruby 1.9 only 1st time, reload.
+						raise ForceRedirect::new( @conf.base_url )
+					end
 				end
 				r = ERB::new( r ).src
 				store_cache( r, prefix ) unless @diaries.empty?
