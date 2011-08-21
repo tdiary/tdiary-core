@@ -60,16 +60,7 @@ class CGI
 end
 
 # for Ruby1.8.X
-
 unless "".respond_to?('force_encoding')
-	class Encoding
-		class CompatibilityError < Exception; end
-
-		def Encoding.const_missing(id)
-			self
-		end
-	end
-
 	class String
 		def force_encoding(encoding)
 			self
@@ -102,7 +93,7 @@ unless "".respond_to?('ord')
 			self[0]
 		end
 	end
-	
+
 	class Integer
 		def ord
 			self
