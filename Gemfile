@@ -12,8 +12,8 @@ end
 group :test do
   gem 'rspec'
   gem 'fuubar'
-  gem 'rcov', :platforms => :ruby_18
-  gem 'cover_me', :platforms => :ruby_19
+  gem 'rcov', :platforms => :mri_18
+  gem 'cover_me', :platforms => :mri_19
   gem 'nokogiri', '~> 1.4.7' # for ruby-1.8.6
   gem 'steak'
   gem 'capybara', :require => 'capybara/rspec'
