@@ -13,3 +13,7 @@ script: bundle exec rake spec
 
 notifications:
   irc: "irc.freenode.org#tdiary"
+
+branches:
+  only:
+    - master
