@@ -9,7 +9,7 @@
 # for Ruby1.9.1
 
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
-if "".respond_to?('force_encoding')
+if ::String.method_defined?(:force_encoding)
 	require 'pstore'
 	class PStoreRuby18Exception < Exception; end
 
@@ -59,8 +59,8 @@ class CGI
 	ENV = ::ENV.to_hash
 end
 
-# for Ruby1.8.X
-unless "".respond_to?('force_encoding')
+# for Ruby 1.8.X
+unless ::String.method_defined?(:force_encoding)
 	class String
 		def force_encoding(encoding)
 			self
@@ -68,25 +68,28 @@ unless "".respond_to?('force_encoding')
 	end
 end
 
-unless "".respond_to?('lines')
+# for Ruby 1.8.6
+unless ::String.method_defined?(:lines)
 	class String
 		alias_method :lines, :to_a
 	end
 end
 
-unless "".respond_to?('bytesize')
+unless ::String.method_defined?(:bytesize)
 	class String
 		alias bytesize size
 	end
 end
 
-unless "".respond_to?('ord')
+unless ::String.method_defined?(:ord)
 	class String
 		def ord
 			self[0]
 		end
 	end
+end
 
+unless ::Integer.method_defined?(:ord)
 	class Integer
 		def ord
 			self
