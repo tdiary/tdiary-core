@@ -7,7 +7,7 @@ Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.1.0.20110829'
+TDIARY_VERSION = '3.1.0.20110830'
 
 $:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
 Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.untaint }
@@ -16,6 +16,7 @@ require 'cgi'
 require 'uri'
 require 'logger'
 require 'pstore'
+require 'json'
 begin
 	require 'erb_fast'
 rescue LoadError
