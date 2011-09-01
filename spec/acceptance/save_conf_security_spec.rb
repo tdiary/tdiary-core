@@ -190,10 +190,18 @@ BODY
 		page.should have_content 'これはツッコミの注意文です'
 	end
 
-	scenario 'スパムフィルターのログ記録の設定が保存される' do
+	scenario 'スパムフィルターのログ記録の設定ができない', :secure => true do
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
+		page.should_not have_field 'filter.debug_mode'
+	end
+
+	scenario 'スパムフィルターのログ記録の設定が保存される', :rack => true do
+		append_default_diary
+
+		visit '/update.rb?conf=spamfilter'
+		page.should have_field 'filter.debug_mode'
 		select '記録しない', :from => 'filter.debug_mode'
 		click_button 'OK'
 

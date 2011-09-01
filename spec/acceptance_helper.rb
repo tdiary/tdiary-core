@@ -2,9 +2,26 @@ require 'spec_helper'
 
 Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
+require 'tdiary/application'
+Capybara.app = Rack::Builder.new do
+	map '/' do
+		run TDiary::Application.new(:index)
+	end
+
+	map '/index.rb' do
+		run TDiary::Application.new(:index)
+	end
+
+	map '/update.rb' do
+		run TDiary::Application.new(:update)
+	end
+end
+
+Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../tmp/capybara'
+
 RSpec.configure do |config|
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', __FILE__)
-	tdiary_conf = File.expand_path("../fixtures/tdiary.conf.#{ENV['CGI_TEST'] ? 'webrick' : 'rack'}", __FILE__)
+	tdiary_conf = File.expand_path("../fixtures/tdiary.conf.#{ENV['TEST_MODE'] || 'rack'}", __FILE__)
 	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
 	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
@@ -24,31 +41,19 @@ RSpec.configure do |config|
 	config.after(:all) do
 		FileUtils.rm_r work_conf
 	end
-end
 
-if ENV['CGI_TEST']
-	Capybara.default_driver = :mechanize
-	Capybara.app_host = 'http://localhost:19292'
-	RSpec.configuration.filter_run_excluding :mechanize => true
-else
-	require 'tdiary/application'
-	Capybara.default_driver = :rack_test
-	Capybara.app = Rack::Builder.new do
-		map '/' do
-			run TDiary::Application.new(:index)
-		end
-
-		map '/index.rb' do
-			run TDiary::Application.new(:index)
-		end
-
-		map '/update.rb' do
-			run TDiary::Application.new(:update)
-		end
+	case ENV['TEST_MODE']
+	when 'webrick'
+		Capybara.default_driver = :mechanize
+		Capybara.app_host = 'http://localhost:19292'
+		config.filter_run_excluding :mechanize => true
+		config.filter_run_excluding :secure => true
+	when 'secure'
+		config.filter_run_excluding :rack => true
+	else
+		config.filter_run_excluding :secure => true
 	end
 end
-
-Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../tmp/capybara'
 
 # Local Variables:
 # mode: ruby

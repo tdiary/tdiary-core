@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
-feature 'リンク元設定の利用', :mechanize => true do
+feature 'リンク元設定の利用' do
 	scenario 'リンク元の非表示設定' do
 		append_default_diary
 		visit '/update.rb?conf=referer'
@@ -42,7 +42,7 @@ feature 'リンク元設定の利用', :mechanize => true do
 		within('div.day div.refererlist') { page.should have_link "http://www.hsbt.org/" }
 	end
 
-	scenario 'リンク元の置換が動いている' do
+	scenario 'リンク元の置換が動いている', :mechanize => true do
 		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'referer_table', :with => <<-REFERER
