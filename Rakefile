@@ -32,6 +32,20 @@ namespace :spec do
 		end
 	end
 
+	namespace :acceptance do
+		desc 'Run the code examples in spec/acceptance with cgi mode'
+		task :cgi do
+			ENV['TEST_MODE'] = 'webrick'
+			Rake::Task["spec:acceptance"].invoke
+		end
+
+		desc 'Run the code examples in spec/acceptance with secure mode'
+		task :secure do
+			ENV['TEST_MODE'] = 'secure'
+			Rake::Task["spec:acceptance"].invoke
+		end
+	end
+
 	if RUBY_VERSION < '1.9'
 		desc 'Run the code in specs with RCov'
 		RSpec::Core::RakeTask.new(:report) do |t|

@@ -4,7 +4,7 @@ Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', __FILE__)
-	tdiary_conf = File.expand_path("../fixtures/tdiary.conf.#{ENV['CGI_TEST'] ? 'webrick' : 'rack'}", __FILE__)
+	tdiary_conf = File.expand_path("../fixtures/tdiary.conf.#{ENV['TEST_MODE'] || 'rack'}", __FILE__)
 	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
 	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
@@ -26,7 +26,7 @@ RSpec.configure do |config|
 	end
 end
 
-if ENV['CGI_TEST']
+if ENV['TEST_MODE'] == 'webrick'
 	Capybara.default_driver = :mechanize
 	Capybara.app_host = 'http://localhost:19292'
 	RSpec.configuration.filter_run_excluding :mechanize => true
