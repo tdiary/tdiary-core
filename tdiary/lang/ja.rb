@@ -2,15 +2,11 @@
 #
 # tDiary language setup: Japanese(ja)
 #
-# Copyright (C) 2001-2007, TADA Tadashi <t@tdtds.jp>
+# Copyright (C) 2001-2011, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
 
 require 'nkf'
-begin
-	require "iconv"
-rescue LoadError
-end
 
 def html_lang
 	'ja-JP'
@@ -30,7 +26,12 @@ end
 
 def to_native( str, charset = nil )
 	begin
-		Iconv.conv('utf-8', charset || 'utf-8', str)
+		if String.method_defined?(:encode)
+			str.encode('utf-8')
+		else
+			require "iconv"
+			Iconv.conv('utf-8', charset || 'utf-8', str)
+		end
 	rescue
 		from = case charset
 			when /^utf-8$/i
@@ -56,7 +57,12 @@ end
 
 def to_mail( str )
 	begin
-		Iconv.conv('iso-2022-jp', 'utf-8', str)
+		if String.method_defined?(:encode)
+			str.encode('iso-2022-jp')
+		else
+			require "iconv"
+			Iconv.conv('iso-2022-jp', 'utf-8', str)
+		end
 	rescue
 		NKF::nkf('-m0 -W -j', str)
 	end
