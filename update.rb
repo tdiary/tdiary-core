@@ -22,7 +22,16 @@ begin
 	$:.unshift( org_path ) unless $:.include?( org_path )
 	require 'tdiary'
 
-	@cgi = CGI.new
+	encoding_error = {}
+	cgi = CGI::new(:accept_charset => "UTF-8") do |name, value|
+		encoding_error[name] = value
+	end
+	if encoding_error.empty?
+		@cgi = cgi
+	else
+		@cgi = CGI::new(:accept_charset => 'shift_jis')
+		@cgi.params = cgi.params.dup
+	end
 	request = TDiary::Request.new( ENV, @cgi )
 	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
 	headers['type'] = headers.delete('Content-Type')
