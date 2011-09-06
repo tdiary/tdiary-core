@@ -1,3 +1,6 @@
+2011-09-07  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/compatible.rb: mark tainted objects as untrusted too to prevent SecurityError in Ruby 1.9, patch by Kazuhiro NISHIYAMA <zn@mbf.nifty.com>.
+
 2011-09-06  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary.rb, update.rb: handle encoding properly in mobile mode.
 	* tdiary/lang/ja.rb (to_native): support ASCII-8BIT and broken UTF-8 input.
