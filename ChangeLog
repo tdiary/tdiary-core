@@ -1,12 +1,14 @@
+2011-09-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary.rb, update.rb: update is not working when mobile mode, thx to kazuhiko.
+	* tdiary/lang/ja.rb: force encode to invalid referer when least case.
+
 2011-09-04 TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: apply plugin for subtitle when generating subtitle elements.
 
 2011-08-28  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
-
 	* tdiary/compatible.rb: remove String#encode, affects json_pure gems.
 
 2011-08-25  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
-
 	* re-bundle json_pure
 	* tdiary/compatible.rb, tdiary/referer_manager.rb, tdiary.rb: check to Encoding class defined.
 
