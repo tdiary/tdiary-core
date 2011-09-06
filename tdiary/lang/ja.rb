@@ -7,6 +7,9 @@
 #
 
 require 'nkf'
+unless String.method_defined?(:encode)
+	require 'iconv'
+end
 
 # preload transcodes outside $SAFE=4 environment, that is a workaround
 # for the possible SecurityError. see the following uri for the detail.
@@ -42,7 +45,6 @@ def to_native( str, charset = nil )
 			end
 			str.encode('utf-8', {:invalid => :replace, :undef => :replace})
 		else
-			require "iconv"
 			Iconv.conv('utf-8', charset || 'utf-8', str)
 		end
 	rescue
