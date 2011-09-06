@@ -3,7 +3,7 @@ require 'acceptance_helper'
 
 feature 'カテゴリ機能の動作' do
   scenario 'カテゴリ機能が動く' do
-    toggle_plugin('category')
+    enable_plugin('category')
 
 		visit '/'
 		click_link '追記'
