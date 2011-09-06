@@ -8,7 +8,9 @@
 
 require 'nkf'
 
-# preload transcodes outside $SAFE=4 environment
+# preload transcodes outside $SAFE=4 environment, that is a workaround
+# for the possible SecurityError. see the following uri for the detail.
+# http://redmine.ruby-lang.org/issues/5279
 if Object.const_defined?(:Encoding)
 	Encoding::Converter.new('utf-16be', 'utf-8')
 end

@@ -1,6 +1,6 @@
-2011-09-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
-	* tdiary.rb, update.rb: update is not working when mobile mode, thx to kazuhiko.
-	* tdiary/lang/ja.rb: force encode to invalid referer when least case.
+2011-09-06  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary.rb, update.rb: handle encoding properly in mobile mode.
+	* tdiary/lang/ja.rb (to_native): support ASCII-8BIT and broken UTF-8 input.
 
 2011-09-04 TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: apply plugin for subtitle when generating subtitle elements.
