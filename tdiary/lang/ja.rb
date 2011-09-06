@@ -9,8 +9,8 @@
 require 'nkf'
 
 # preload transcodes outside $SAFE=4 environment
-if String.method_defined?(:encode)
-	Encoding::Converter.new('UTF-16', 'UTF-8')
+if Object.const_defined?(:Encoding)
+	Encoding::Converter.new('utf-16be', 'utf-8')
 end
 
 def html_lang
@@ -33,12 +33,12 @@ def to_native( str, charset = nil )
 	begin
 		if String.method_defined?(:encode)
 			if str.encoding == Encoding::ASCII_8BIT
-				str.force_encoding(charset || 'UTF-8')
+				str.force_encoding(charset || 'utf-8')
 			end
 			unless str.valid_encoding?
-				str.encode!('utf-16', {:invalid=>:replace, :undef=>:replace})
+				str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
 			end
-			str.encode('utf-8', {:invalid=>:replace, :undef=>:replace})
+			str.encode('utf-8', {:invalid => :replace, :undef => :replace})
 		else
 			require "iconv"
 			Iconv.conv('utf-8', charset || 'utf-8', str)
