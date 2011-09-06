@@ -49,15 +49,15 @@ def to_native( str, charset = nil )
 		end
 	rescue
 		from = case charset
-				 when /^utf-8$/i
-					 'W'
-				 when /^shift_jis/i
-					 'S'
-				 when /^EUC-JP/i
-					 'E'
-				 else
-					 ''
-				 end
+			when /^utf-8$/i
+				'W'
+			when /^shift_jis/i
+				'S'
+			when /^EUC-JP/i
+				'E'
+			else
+				''
+		end
 		NKF::nkf("-m0 -#{from}w", str)
 	end
 end
