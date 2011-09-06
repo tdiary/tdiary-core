@@ -8,6 +8,11 @@
 
 require 'nkf'
 
+# preload transcodes outside $SAFE=4 environment
+if String.method_defined?(:encode)
+	Encoding::Converter.new('UTF-16', 'UTF-8')
+end
+
 def html_lang
 	'ja-JP'
 end
@@ -27,22 +32,28 @@ end
 def to_native( str, charset = nil )
 	begin
 		if String.method_defined?(:encode)
-			str.encode('utf-8')
+			if str.encoding == Encoding::ASCII_8BIT
+				str.force_encoding(charset || 'UTF-8')
+			end
+			unless str.valid_encoding?
+				str.encode!('utf-16', {:invalid=>:replace, :undef=>:replace})
+			end
+			str.encode('utf-8', {:invalid=>:replace, :undef=>:replace})
 		else
 			require "iconv"
 			Iconv.conv('utf-8', charset || 'utf-8', str)
 		end
 	rescue
 		from = case charset
-			when /^utf-8$/i
-				'W'
-			when /^shift_jis/i
-				'S'
-			when /^EUC-JP/i
-				'E'
-			else
-				''
-		end
+				 when /^utf-8$/i
+					 'W'
+				 when /^shift_jis/i
+					 'S'
+				 when /^EUC-JP/i
+					 'E'
+				 else
+					 ''
+				 end
 		NKF::nkf("-m0 -#{from}w", str)
 	end
 end
