@@ -32,13 +32,6 @@ def encoding_old
 end
 
 #
-# 'to_native' method converts string automatically to native encoding.
-#
-def to_native( str, charset = nil )
-	str.dup
-end
-
-#
 # 'migrate_to_utf8' method converts string to UTF-8
 #
 def migrate_to_utf8( str )

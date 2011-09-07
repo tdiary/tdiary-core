@@ -78,6 +78,45 @@ module TDiary
 			end
 		end
 
+		if String.method_defined?(:encode)
+			# preload transcodes outside $SAFE=4 environment, that is a workaround
+			# for the possible SecurityError. see the following uri for the detail.
+			# http://redmine.ruby-lang.org/issues/5279
+			''.encode('utf-16be')
+
+			def to_native( str, charset = nil )
+				str = str.dup
+				if str.encoding == Encoding::ASCII_8BIT
+					str.force_encoding(charset || 'utf-8')
+				end
+				unless str.valid_encoding?
+					str str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
+				end
+				str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
+			end
+		else
+			require 'nkf'
+			require 'iconv'
+
+			def to_native( str, charset = nil )
+				begin
+					Iconv.conv('utf-8', charset || 'utf-8', str)
+				rescue
+					from = case charset
+						when /^utf-8$/i
+							'W'
+						when /^shift_jis/i
+							'S'
+						when /^EUC-JP/i
+							'E'
+						else
+							''
+					end
+				end
+				NKF::nkf("-m0 -#{from}w", str)
+			end
+		end
+
 	private
 		# loading tdiary.conf in current directory
 		def configure_attrs
