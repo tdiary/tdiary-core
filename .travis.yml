@@ -7,7 +7,7 @@ rvm:
   - 1.9.3
   - ruby-head
   - ree
-  - jruby
+#  - jruby
 
 script: bundle exec rake spec
 
@@ -17,3 +17,7 @@ notifications:
 branches:
   only:
     - master
+
+env:
+  - TEST_MODE=rack
+  - TEST_MODE=secure
