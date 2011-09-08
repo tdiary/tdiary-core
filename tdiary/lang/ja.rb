@@ -24,11 +24,11 @@ end
 
 if String.method_defined?(:encode)
 	def to_mobile( str )
-		str.encode(mobile_encoding)
+		str.encode(mobile_encoding, {:invalid => :replace, :undef => :replace})
 	end
 
 	def to_mail( str )
-		str.encode('iso-2022-jp')
+		str.encode('iso-2022-jp', {:invalid => :replace, :undef => :replace})
 	end
 else
 	require 'nkf'

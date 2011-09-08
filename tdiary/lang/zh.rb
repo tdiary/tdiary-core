@@ -36,7 +36,7 @@ end
 #
 def migrate_to_utf8( str )
 	if String.method_defined?(:encode)
-		str.encode(encoding)
+		str.encode(encoding, {:invalid => :replace, :undef => :replace})
 	else
 		require 'iconv'
 		Iconv::iconv( encoding, encoding_old, str )
