@@ -228,8 +228,6 @@ module TDiary
 						enc = case @lang
 							when 'en'
 								'UTF-8'
-							when 'zh'
-								'Big5'
 							else
 								'EUC-JP'
 							end
