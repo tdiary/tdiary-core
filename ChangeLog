@@ -1,3 +1,6 @@
+2011-09-12  Kazuhiko  <kazuhiko@fdiary.net>
+	* tdiary/config.rb (to_native): fix a mistake in 631e228 that may cause nil return value.
+
 2011-09-08  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/lang/ja.rb, tdiary/lang/zh.rb: replace invalid or undefined characters in String#encode to avoid exceptions.
 

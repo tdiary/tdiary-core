@@ -112,8 +112,8 @@ module TDiary
 						else
 							''
 					end
+					NKF::nkf("-m0 -#{from}w", str)
 				end
-				NKF::nkf("-m0 -#{from}w", str)
 			end
 		end
 
