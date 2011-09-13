@@ -90,7 +90,7 @@ module TDiary
 					str.force_encoding(charset || 'utf-8')
 				end
 				unless str.valid_encoding?
-					str str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
+					str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
 				end
 				str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
 			end
