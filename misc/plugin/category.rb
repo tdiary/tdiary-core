@@ -4,7 +4,6 @@
 # Distributed under the GPL
 #
 require 'pstore'
-autoload :Kconv, 'kconv'
 
 #
 # initialize
@@ -237,9 +236,9 @@ class Info
 		@cgi = cgi
 		@years = years
 		@conf = conf
-		@category = args[:category] || @cgi.params['category'].map {|c|
-			Kconv.isutf8(c) ? c : @conf.to_native(c, @conf.encoding_old)
-		}
+		@category = args[:category] || @cgi.params['category'].map do |c|
+			@conf.to_native(c, @conf.encoding_old)
+		end
 		@year = args[:year] || @cgi.params['year'][0]
 		@month = args[:month] || @cgi.params['month'][0]
 		@mode = :all
