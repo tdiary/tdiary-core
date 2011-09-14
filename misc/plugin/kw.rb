@@ -30,8 +30,6 @@
 # You can distribute this under GPL.
 #
 
-require "nkf"
-
 def kw_parse( str )
 	kw_list = []
 	str.each_line do |pair|
@@ -72,18 +70,7 @@ def kw( keyword, name = nil, title = nil )
 	name = keyword unless name
 	title = title ? %Q[ title="#{h title}"] : ''
 	begin
-		key = u( case @kw_dic[inter][1]
-			when 'euc-jp'
-				NKF::nkf( '-m0 -W -e', key )
-			when 'sjis'
-				NKF::nkf( '-m0 -W -s', key )
-			when 'jis'
-				NKF::nkf( '-m0 -W -j', key )
-			when 'utf-8'
-				key
-			else # none
-				key
-		end )
+		key = u(@conf.to_native(key, @kw_dic[inter][1]))
 	rescue NameError
 		inter = nil
 		retry

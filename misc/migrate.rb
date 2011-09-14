@@ -10,7 +10,6 @@
 BEGIN { $stdout.binmode }
 $KCODE = 'n'
 
-require "nkf"
 require "fileutils"
 require "pstore"
 
@@ -92,7 +91,7 @@ begin
 				end
 			end
 		end
-			
+
 		def convert_element(data)
 			case data
 			when Hash, Array
@@ -123,13 +122,13 @@ begin
 		end
 
 		def convert(str)
-			str.class.new(NKF::nkf( "-E -w", str ))
+			str.class.new(to_native(str, 'EUC-JP'))
 		end
 	end
 
 	@cgi = CGI::new
 	conf = TDiary::MigrateConfig::new(@cgi)
-	
+
 	print @cgi.header( 'status' => '200 OK', 'type' => 'text/html' )
 	puts "<h1>Migration completed.</h1>"
 	puts "<p>Do not forget to remove migrate.rb.</p>"

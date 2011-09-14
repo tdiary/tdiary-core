@@ -35,7 +35,6 @@
 # Copyright (c) 2002-2004 MUTOH Masao <mutoh@highway.ne.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
-require 'nkf'
 
 # Resources
 unless @resource_loaded then
@@ -95,7 +94,7 @@ def a_convert_charset(option, charset)
 	return "" unless option
 	return option unless charset
 	if charset =~ A_REG_CHARSET2
-		ret = NKF::nkf("-#{charset[0].chr}", option)
+		ret = @conf.to_native(option, charset)
 	else
 		ret = option
 	end

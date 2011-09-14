@@ -67,7 +67,6 @@ of GPL version 2 or later.
 
 require 'net/http'
 Net::HTTP.version_1_1
-require 'nkf'
 require 'cgi'
 require 'timeout'
 
@@ -264,7 +263,7 @@ class Weather
 					d = ''
 					Net::HTTP.start( host, 80 ) do |http|
 						response , = http.get( path, header)
-						d = NKF::nkf( '-m0 -w', response.body )
+						d = @conf.to_native( response.body )
 					end
 					parse_html( d, items )
 				rescue Net::ProtoRetriableError => err
@@ -281,7 +280,7 @@ class Weather
 		rescue TimeoutError
 			@error = 'Timeout'
 		rescue
-			@error = NKF::nkf( '-m0 -w', $!.message.gsub( /[\t\n]/, ' ' ) )
+			@error = @conf.to_native( $!.message.gsub( /[\t\n]/, ' ' ) )
 		end
 		self
 	end
