@@ -69,11 +69,28 @@ def kw( keyword, name = nil, title = nil )
 	keyword = key unless show_inter
 	name = keyword unless name
 	title = title ? %Q[ title="#{h title}"] : ''
-	begin
-		key = u(@conf.to_native(key, @kw_dic[inter][1]))
-	rescue NameError
-		inter = nil
-		retry
+
+	if String.method_defind?(:encode)
+		key = u( key.encode(@kw_dic[inter][1] == 'jis' ? 'ISO-2022-JP' : @kw_dic[inter][1]) )
+	else
+		begin
+			require 'nkf'
+			key = u( case @kw_dic[inter][1]
+						when 'euc-jp'
+							NKF::nkf( '-m0 -W -e', key )
+						when 'sjis'
+							NKF::nkf( '-m0 -W -s', key )
+						when 'jis'
+							NKF::nkf( '-m0 -W -j', key )
+						when 'utf-8'
+							key
+						else # none
+							key
+						end )
+		rescue NameError
+			inter = nil
+			retry
+		end
 	end
 	%Q[<a href="#{h @kw_dic[inter][0].sub( /\$1/, key )}"#{title}>#{h name}</a>]
 end
@@ -120,7 +137,6 @@ add_conf_proc( 'kw', kw_label ) do
 	<p><textarea name="kw.dic" cols="60" rows="10">#{h dic.collect{|a|a.flatten.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end
-
 
 # Local Variables:
 # mode: ruby
