@@ -92,13 +92,18 @@ module TDiary
 				unless str.valid_encoding?
 					str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
 				end
-				str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
+				unless str.encoding == Encoding::UTF_8
+					str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
+				end
+				str
 			end
 		else
-			require 'nkf'
+			require 'kconv'
 			require 'iconv'
+			require 'nkf'
 
 			def to_native( str, charset = nil )
+				return str if Kconv.isutf8(str)
 				begin
 					Iconv.conv('utf-8', charset || 'utf-8', str)
 				rescue
