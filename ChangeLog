@@ -1,3 +1,6 @@
+2011-09-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* index.fcgi, misc/lib/fcgi_patch.rb: monkey patching FCGI::each_cgi so that we can accept both UTF-8 input and Shift_JIS input.
+
 2011-09-13  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/config.rb (to_native): fix a typo that may cause NoMethodError, pointed out by hsbt.
 
