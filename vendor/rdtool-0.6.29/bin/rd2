@@ -52,7 +52,7 @@ end
 include RD
 
 SYSTEM_NAME = "RDtool -- rd2"
-SYSTEM_VERSION = "$Version: 0.6.21$" #"
+SYSTEM_VERSION = "$Version: 0.6.23$" #"
 RD2_VERSION = Version.new_from_version_string(SYSTEM_NAME, SYSTEM_VERSION)
 
 # global vars
@@ -128,8 +128,10 @@ ARGV.options do |q|
   end
 
   # accept "PART:FILTER" and "PART"
+  class PART ; end
+  q.accept(PART, /(\w+)(?:\s*:\s*(\w+))?/) {|s, p, f| [s, p, f] }
   q.on("--with-part=PART",
-       /(\w+)(?:\s*:\s*(\w+))?/,
+       PART,
        "include PART with Filter") do |src, part, filter|
     with_part.push([part, filter || part])
     unless include_path.index(RD::RDTree.tmp_dir)

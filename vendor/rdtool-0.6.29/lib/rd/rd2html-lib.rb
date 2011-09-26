@@ -11,7 +11,7 @@ module RD
     include MethodParse
 
     SYSTEM_NAME = "RDtool -- RD2HTMLVisitor"
-    SYSTEM_VERSION = "$Version: 0.6.21$" #"
+    SYSTEM_VERSION = "$Version: 0.6.23$" #"
     VERSION = Version.new_from_version_string(SYSTEM_NAME, SYSTEM_VERSION)
 
     def self.version

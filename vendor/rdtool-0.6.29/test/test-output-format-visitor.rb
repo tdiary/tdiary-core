@@ -1,6 +1,6 @@
 require 'test/unit'
 
-require 'test/temp-dir'
+require 'temp-dir'
 
 require 'rd/output-format-visitor'
 require 'rd/tree'

@@ -8,7 +8,7 @@ require 'rd/methodlist'
 require 'rd/inline-element'
 require 'rd/tree'
 require 'rd/rd-struct'
-require 'test/dummy'
+require 'dummy'
 
 include RD
 

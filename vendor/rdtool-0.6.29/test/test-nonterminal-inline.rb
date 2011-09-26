@@ -2,7 +2,7 @@ require 'test/unit'
 
 require 'rd/inline-element'
 require 'rd/document-struct'
-require 'test/dummy'
+require 'dummy'
 
 include RD
 

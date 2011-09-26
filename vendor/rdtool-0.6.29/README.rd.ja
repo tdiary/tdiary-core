@@ -1,5 +1,6 @@
+# -*- mode: rd; coding: utf-8; indent-tabs-mode: nil -*-
 =begin
-= RDtool 0.6.21
+= RDtool 0.6.23
 == RDってなに？
 
 RDはRubyにおけるPOD(Plain Old Documentation)のようなものです。
@@ -41,7 +42,7 @@ doc/rd-draft.rdを読んでください。
 == バグ報告
 
 バグを見付けた時は、次のアドレスまでメールしてください。
-((<URL:mailto:moonwolf@moonwolf.com>))
+((<URL:mailto:uwabami@gfd-dennou.org>))
 
 == ライセンス
 

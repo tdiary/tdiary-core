@@ -1,4 +1,9 @@
 #!/usr/bin/env ruby
+
+$VERBOSE = true
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "test"))
+
 load 'test/test-block-parser.rb'
 load 'test/test-desclist-item.rb'
 load 'test/test-document-element.rb'

@@ -6,7 +6,7 @@ require 'rd/rd-struct'
 include RD
 
 class TestListItem < Test::Unit::TestCase
-    def setup
+  def setup
     @a = ItemListItem.new
     @c1 = TextBlock.new
     @c2 = TextBlock.new

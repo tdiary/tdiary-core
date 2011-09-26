@@ -8,7 +8,7 @@ require 'find'
 bindir     = Config::CONFIG['bindir']
 sitelibdir = Config::CONFIG['sitelibdir']
 racc       = nil
-version    = ARGV.shift || "0.6.21"
+version    = ARGV.shift || File.read("VERSION")
 $dryrun    = false
 $force     = false
 $quiet     = false

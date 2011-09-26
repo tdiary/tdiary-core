@@ -1,6 +1,6 @@
 require 'test/unit'
 
-require 'test/temp-dir'
+require 'temp-dir'
 
 require 'rd/rbl-file'
 require 'rd/block-element'

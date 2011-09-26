@@ -174,7 +174,7 @@ def next_token
       if @in_verbatim
 	[:STRINGLINE, line]
       else
-	@indent_stack.push("\s" <<$2)
+	@indent_stack.push("\s" << $2)
 	[:DESCLISTLINE, rest]
       end
     end
