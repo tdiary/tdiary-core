@@ -70,7 +70,7 @@ def kw( keyword, name = nil, title = nil )
 	name = keyword unless name
 	title = title ? %Q[ title="#{h title}"] : ''
 
-	if String.method_defind?(:encode)
+	if String.method_defined?(:encode)
 		key = u( key.encode(@kw_dic[inter][1] == 'jis' ? 'ISO-2022-JP' : @kw_dic[inter][1]) )
 	else
 		begin
