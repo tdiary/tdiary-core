@@ -1,4 +1,5 @@
 2011-09-26  Kazuhiko  <kazuhiko@fdiary.net>
+	* update.fcgi: initial commit.
 	* index.fcgi, misc/lib/fcgi_patch.rb: monkey patching FCGI::each_cgi so that we can accept both UTF-8 input and Shift_JIS input.
 
 2011-09-14  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
