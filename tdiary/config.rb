@@ -128,10 +128,7 @@ module TDiary
 			@secure = true unless @secure
 			@options = {}
 
-			conf_path = "#{File.expand_path(File.dirname($PROGRAM_NAME))}/tdiary.conf"
-			conf_path = "#{TDiary::PATH}/tdiary.conf" unless File.exists?(conf_path)
-
-			eval( File::open( conf_path ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
+			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
