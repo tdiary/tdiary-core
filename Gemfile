@@ -5,7 +5,8 @@ gem 'rake'
 
 group :development do
   gem 'thin', :platforms => :ruby
-  gem 'capistrano'
+  gem 'capistrano', :require => false
+  gem 'capistrano_colors', :require => false
   gem 'pit'
 end
 
