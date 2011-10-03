@@ -18,6 +18,7 @@ module TDiary
 			:logger => $stderr,
 			:access_log => $stderr,
 		}
+
 		class << self
 			def run( option )
 				@@server = TDiary::StandaloneCGIServer.new( option )
@@ -54,8 +55,9 @@ module TDiary
 				:MimeTypes => tdiary_mime_types,
 				:Logger => webrick_logger_to( opts[:logger] ),
 				:AccessLog => webrick_access_log_to( opts[:access_log] ),
+				:ServerType => opts[:daemon] ? WEBrick::Daemon : nil,
 				:CGIInterpreter => WEBrick::HTTPServlet::CGIHandler::Ruby
-				)
+			)
 			@server.logger.level = WEBrick::Log::DEBUG
 			@server.mount( "/", WEBrick::HTTPServlet::CGIHandler,
 				File.expand_path( "index.rb", TDIARY_CORE_DIR ) )

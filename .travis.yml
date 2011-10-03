@@ -9,6 +9,9 @@ rvm:
   - ree
 #  - jruby
 
+before_script:
+  - ruby misc/standalone_cgi/bin/server -d
+
 script: bundle exec rake spec
 
 notifications:
@@ -21,3 +24,4 @@ branches:
 env:
   - TEST_MODE=rack
   - TEST_MODE=secure
+  - TEST_MODE=webrick
