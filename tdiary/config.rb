@@ -82,7 +82,9 @@ module TDiary
 			# preload transcodes outside $SAFE=4 environment, that is a workaround
 			# for the possible SecurityError. see the following uri for the detail.
 			# http://redmine.ruby-lang.org/issues/5279
-			''.encode('utf-16be')
+			%w(utf-16be euc-jp iso-2022-jp Shift_JIS).each do |enc|
+				"\uFEFF".encode(enc) rescue nil
+			end
 
 			def to_native( str, charset = nil )
 				str = str.dup
