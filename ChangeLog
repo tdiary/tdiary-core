@@ -1,3 +1,6 @@
+2011-10-04  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/plugin/kw.rb: use the default key if the key is missing. use Shift_JIS instead of sjis as the encoding name. load NKF library out of method definitions.
+
 2011-09-26  Kazuhiko  <kazuhiko@fdiary.net>
 	* update.fcgi: initial commit.
 	* index.fcgi, misc/lib/fcgi_patch.rb: monkey patching FCGI::each_cgi so that we can accept both UTF-8 input and Shift_JIS input.

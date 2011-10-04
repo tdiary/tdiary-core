@@ -30,6 +30,10 @@
 # You can distribute this under GPL.
 #
 
+unless String.method_defined?(:encode)
+	require 'nkf'
+end
+
 def kw_parse( str )
 	kw_list = []
 	str.each_line do |pair|
@@ -70,29 +74,29 @@ def kw( keyword, name = nil, title = nil )
 	name = keyword unless name
 	title = title ? %Q[ title="#{h title}"] : ''
 
+	unless @kw_dic.has_key?(inter)
+		inter = nil
+	end
+	style = @kw_dic[inter][1]
 	if String.method_defined?(:encode)
-		key = u( key.encode(@kw_dic[inter][1] == 'jis' ? 'ISO-2022-JP' : @kw_dic[inter][1]) )
+		if style
+			key = key.encode({'jis'=>'ISO-2022-JP', 'sjis'=>'Shift_JIS'}[style] || style)
+		end
 	else
-		begin
-			require 'nkf'
-			key = u( case @kw_dic[inter][1]
-						when 'euc-jp'
-							NKF::nkf( '-m0 -W -e', key )
-						when 'sjis'
-							NKF::nkf( '-m0 -W -s', key )
-						when 'jis'
-							NKF::nkf( '-m0 -W -j', key )
-						when 'utf-8'
-							key
-						else # none
-							key
-						end )
-		rescue NameError
-			inter = nil
-			retry
+		key = case style
+			when 'euc-jp'
+				NKF::nkf( '-m0 -W -e', key )
+			when 'sjis'
+				NKF::nkf( '-m0 -W -s', key )
+			when 'jis'
+				NKF::nkf( '-m0 -W -j', key )
+			when 'utf-8'
+				key
+			else # none
+				key
 		end
 	end
-	%Q[<a href="#{h @kw_dic[inter][0].sub( /\$1/, key )}"#{title}>#{h name}</a>]
+	%Q[<a href="#{h @kw_dic[inter][0].sub( /\$1/, u( key ))}"#{title}>#{h name}</a>]
 end
 
 #
