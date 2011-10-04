@@ -24,12 +24,12 @@ require 'rexml/document'
 }
 
 @amazon_ecs_url_hash = {
-  'us' => 'http://honnomemo.appspot.com/rpaproxy/us/',
-  'jp' => 'http://honnomemo.appspot.com/rpaproxy/jp/',
-  'fr' => 'http://honnomemo.appspot.com/rpaproxy/fr/',
-  'uk' => 'http://honnomemo.appspot.com/rpaproxy/uk/',
-  'de' => 'http://honnomemo.appspot.com/rpaproxy/de/',
-  'ca' => 'http://honnomemo.appspot.com/rpaproxy/ca/',
+  'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
+  'jp' => 'http://rpaproxy.tdiary.org/rpaproxy/jp/',
+  'fr' => 'http://rpaproxy.tdiary.org/rpaproxy/fr/',
+  'uk' => 'http://rpaproxy.tdiary.org/rpaproxy/uk/',
+  'de' => 'http://rpaproxy.tdiary.org/rpaproxy/de/',
+  'ca' => 'http://rpaproxy.tdiary.org/rpaproxy/ca/',
 }
 
 if @conf['amazon.bitly'] and @conf['bitly.login'] and @conf['bitly.key'] then
@@ -101,7 +101,7 @@ def amazon_image( item )
 	image = {}
 	begin
 		size = case @conf['amazon.imgsize']
-		when 0; 'Large' 
+		when 0; 'Large'
 		when 2; 'Small'
 		else;   'Medium'
 		end
