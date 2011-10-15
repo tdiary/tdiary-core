@@ -362,7 +362,7 @@ add_conf_proc( 'logger', 'Log Level', 'basic' ) do
 	r << conf_logger_list
 end
 
-add_conf_proc( 'suggestfilter', 'Recommend filter', 'basic' ) do
+add_conf_proc( 'recommendfilter', 'Recommend filter', 'basic' ) do
 	saveconf_recommendfilter
 
 	<<-HTML

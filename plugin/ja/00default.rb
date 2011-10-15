@@ -380,7 +380,7 @@ add_conf_proc( 'logger', 'ログレベル選択', 'basic' ) do
 	r << conf_logger_list
 end
 
-add_conf_proc( 'suggestfilter', 'おすすめフィルタ', 'basic' ) do
+add_conf_proc( 'recommendfilter', 'おすすめフィルタ', 'basic' ) do
 	saveconf_recommendfilter
 
 	<<-HTML
