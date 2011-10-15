@@ -93,7 +93,7 @@ FOOTER
 		page.should_not have_content("長年日記")
 	end
 
-	pending 'ログレベルの選択の設定' do
+	scenario 'ログレベルの選択の設定' do
 		visit '/update.rb?conf=logger'
 		select 'DEBUG', :from => 'log_level'
 
@@ -103,12 +103,8 @@ FOOTER
 		click_link '最新'
 		# TODO ログレベルの確認
 
-		click_link '追記'
-		click_link '設定'
-		click_link 'ログレベル選択'
-		within('select option[selected]'){
-			page.should have_content 'DEBUG'
-		}
+		visit '/update.rb?conf=logger'
+		within('select option[selected]'){ page.should have_content 'DEBUG' }
 	end
 
 	scenario '時差調整が保存される' do

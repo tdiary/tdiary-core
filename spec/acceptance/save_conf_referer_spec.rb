@@ -28,20 +28,6 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { page.should have_no_link('http://www.example.com') }
 	end
 
-	pending 'リンク元記録の除外に設定していないリファラは記録されている' do
-		append_default_diary
-		visit '/update.rb?conf=referer'
-		fill_in 'no_referer', :with => '^http://www\.example\.com/.*$'
-
-		click_button('OK')
-		within('title') { page.should have_content('(設定完了)') }
-
-		page.driver.request.env['HTTP_REFERER'] = 'http://www.hsbt.org/'
-		click_link '最新'
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
-		within('div.day div.refererlist') { page.should have_link "http://www.hsbt.org/" }
-	end
-
 	scenario 'リンク元の置換が動いている', :exclude_mechanize => true do
 		append_default_diary
 		visit '/update.rb?conf=referer'

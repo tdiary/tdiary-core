@@ -14,7 +14,33 @@ feature 'spamフィルタ設定の利用' do
 		page.should have_selector 'input[name="check_key"][value="true"][checked]'
 	end
 
-	scenario 'spamと判定されたツッコミを捨てる'
+	scenario 'spamと判定されたツッコミを捨てる' do
+		append_default_diary
+
+		visit '/update.rb?conf=spamfilter'
+		select '捨てる', :from => 'spamfilter.filter_mode'
+		fill_in "spamfilter.max_uris", :with => 1
+		click_button 'OK'
+
+		visit "/"
+		click_link 'ツッコミを入れる'
+		fill_in "name", :with => "alpha"
+		fill_in "body", :with => <<-BODY
+こんにちは!こんにちは!
+http://www.example.org
+http://www.example.org
+BODY
+		click_button '投稿'
+
+		visit '/update.rb'
+		fill_in "year", :with => Date.today.year
+		fill_in "month", :with => Date.today.month
+		fill_in "day", :with => Date.today.day
+		click_button 'この日付の日記を編集'
+
+		page.should have_no_content "alpha"
+		page.should have_no_content "こんにちは!こんにちは!"
+	end
 
 	scenario 'URLの数によるspam判定' do
 		append_default_diary
@@ -171,12 +197,32 @@ BODY
 
 		visit "/"
 		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		page.should have_no_content "こんにちは! http://www.example.com"
 		page.should have_content "bravo"
 		page.should have_content "example こんにちは!"
 	end
 
-	scenario 'IPアドレスでツッコミが弾かれる'
+	scenario 'IPアドレスでツッコミが弾かれる' do
+		append_default_diary
+
+		visit '/update.rb?conf=spamfilter'
+		fill_in "spamfilter.bad_ip_addrs", :with => <<-BODY
+127.0.0.1
+BODY
+		click_button 'OK'
+
+		visit "/"
+		click_link 'ツッコミを入れる'
+		fill_in "name", :with => "alpha"
+		fill_in "body", :with => <<-BODY
+こんにちは!こんにちは!
+BODY
+		click_button '投稿'
+
+		visit "/"
+		page.should have_no_content "alpha"
+		page.should have_no_content "こんにちは!こんにちは!"
+	end
 
 	scenario 'ツッコミの注意文が保存されて表示される' do
 		append_default_diary
