@@ -223,7 +223,6 @@ module TDiary
 
 	private
 		def restore( fh, diaries )
-
 			begin
 				fh.seek( 0 )
 				begin
@@ -243,7 +242,6 @@ module TDiary
 						diary.show( headers['Visible'] == 'true' ? true : false )
 						diaries[headers['Date']] = diary
 					end
-
 				rescue NameError
 					# no magic number when it is new file.
 				end

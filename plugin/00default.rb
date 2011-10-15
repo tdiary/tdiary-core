@@ -753,7 +753,6 @@ def brl; '<br clear="left">';  end
 #
 # preferences (saving methods)
 #
-
 if @mode =~ /conf|saveconf/
 	enable_js( '01conf.js' )
 end
