@@ -3,26 +3,20 @@ require 'acceptance_helper'
 
 feature '日記の更新' do
 	scenario '特定の日記の内容を更新する' do
-		visit '/'
-		click_link '追記'
-		within('div.day div.form') {
-			within('span.year') { fill_in "year", :with => '2001' }
-			within('span.month') { fill_in "month", :with => '4' }
-			within('span.day') { fill_in "day", :with => '23' }
-			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
+		visit '/update.rb'
+		fill_in "year", :with => '2001'
+		fill_in "month", :with => '4'
+		fill_in "day", :with => '23'
+		fill_in "title", :with => "tDiaryのテスト"
+		fill_in "body", :with => <<-BODY
 !さて、テストである。
 とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
 
 !もう一度テストである。
 本当に動くかな?
 BODY
-			}
-		}
 
 		click_button "追記"
-		page.should have_content "Click here!"
 
 		visit '/'
 		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
@@ -35,18 +29,18 @@ BODY
 			page.should have_content "本当に動くかな?"
 		}
 
-		click_link '編集'
-		within('div.day div.form') {
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
+		visit '/update.rb'
+		fill_in "year", :with => '2001'
+		fill_in "month", :with => '4'
+		fill_in "day", :with => '23'
+		click_button 'この日付の日記を編集'
+
+		fill_in "body", :with => <<-BODY
 !もう一度テストである。
 本当に動くかな?
 BODY
-			}
-		}
 
 		click_button "登録"
-		page.should have_content "Click here!"
 
 		visit '/'
 		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
@@ -62,9 +56,12 @@ BODY
 
 	scenario '日記の削除' do
 		append_default_diary
-		visit '/'
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
-		click_link '編集'
+
+		visit '/update.rb'
+		fill_in "year", :with => Date.today.year
+		fill_in "month", :with => Date.today.month
+		fill_in "day", :with => Date.today.day
+		click_button 'この日付の日記を編集'
 
 		within('div.day div.form') {
 			within('div.textarea') { fill_in "body", :with => '' }
@@ -79,9 +76,12 @@ BODY
 
 	scenario '日記を隠す' do
 		append_default_diary
-		visit '/'
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
-		click_link '編集'
+
+		visit '/update.rb'
+		fill_in "year", :with => Date.today.year
+		fill_in "month", :with => Date.today.month
+		fill_in "day", :with => Date.today.day
+		click_button 'この日付の日記を編集'
 		check 'hide'
 
 		click_button "登録"
@@ -96,9 +96,11 @@ BODY
 		append_default_diary('20010503')
 		append_default_diary('20010504')
 
-		visit '/'
-		click_link "#{Date.parse('20010503').strftime('%Y年%m月%d日')}"
-		click_link '編集'
+		visit '/update.rb'
+		fill_in "year", :with => '2001'
+		fill_in "month", :with => '5'
+		fill_in "day", :with => '3'
+		click_button 'この日付の日記を編集'
 
 		page.should have_content('«前の日記(2001年05月02日)')
 		page.should have_content('次の日記(2001年05月04日)»')
