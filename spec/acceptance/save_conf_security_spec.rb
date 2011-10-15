@@ -2,7 +2,17 @@
 require 'acceptance_helper'
 
 feature 'spamフィルタ設定の利用' do
-	scenario 'おすすめフィルタの内容が保存される'
+	scenario 'おすすめフィルタの内容が保存される' do
+		visit '/update.rb?conf=sp'
+		click_button 'OK'
+
+		visit '/update.rb?conf=recommendfilter'
+		check 'recommend.filter'
+		click_button 'OK'
+
+		visit '/update.rb?conf=sp'
+		page.should have_checked_field 'sp.hide-mail-field.rb'
+	end
 
 	scenario 'CSRF対策の設定が保存される' do
 		visit '/update.rb?conf=csrf_protection'
