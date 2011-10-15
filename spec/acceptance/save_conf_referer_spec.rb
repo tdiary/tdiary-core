@@ -42,7 +42,7 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { page.should have_link "http://www.hsbt.org/" }
 	end
 
-	scenario 'リンク元の置換が動いている', :mechanize => true do
+	scenario 'リンク元の置換が動いている', :exclude_mechanize => true do
 		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'referer_table', :with => <<-REFERER

@@ -2,11 +2,11 @@
 
 module HelperMethods
 	def append_default_diary(ymd = Date.today.to_s)
-		y, m, d = Date.parse(ymd).to_s.split('-').map {|t| t.sub(/^0+/, "") }
+		date = Date.parse(ymd)
 		visit '/update.rb'
-		fill_in "year", :with => y
-		fill_in "month", :with => m
-		fill_in "day", :with => d
+		fill_in "year", :with => date.year
+		fill_in "month", :with => date.month
+		fill_in "day", :with => date.day
 		fill_in "title", :with => "tDiaryのテスト"
 		fill_in "body", :with => <<-BODY
 !さて、テストである。
