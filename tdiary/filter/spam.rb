@@ -152,15 +152,15 @@ module TDiary
 				nil
 			end
 
-			def black_domain?( domain )
+			def name_base_black_domain?( domain )
 				@spamlookup_domain_list.split(/[\n\r]+/).inject(false) do |r, dnsbl|
 					r || lookup(domain, dnsbl)
 				end
 			end
 
-			def black_ip?( ip )
+			def ip_base_black_domain?( domain )
 				@spamlookup_ip_list.split(/[\n\r]+/).inject(false) do |r, dnsbl|
-					r || lookup(ip, dnsbl, true)
+					r || lookup(domain, dnsbl, true)
 				end
 			end
 
@@ -185,7 +185,7 @@ module TDiary
 						debug("#{s[0]} is safe host.", DEBUG_FULL)
 						next
 					end
-					return true if black_domain?( s[0] ) || black_ip?( s[0] )
+					return true if name_base_black_domain?( s[0] ) || ip_base_black_domain?( s[0] )
 				end
 				return false
 			end
