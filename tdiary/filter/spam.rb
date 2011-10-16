@@ -153,38 +153,29 @@ module TDiary
 			end
 
 			def black_domain?( domain )
-				@spamlookup_ip_list.split(/[\n\r]+/).each do |dnsbl|
-					begin
-						timeout(5) do
-							ip = IPSocket::getaddress( domain ).split(/\./).reverse.join(".")
-							address = Resolv.getaddress( "#{ip}.#{dnsbl}" )
-							debug("lookup:#{ip}.#{dnsbl} address:#{address}")
-							return true
-						end
-					rescue Resolv::ResolvTimeout, Resolv::ResolvError
-					rescue TimeoutError
-						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
-					rescue Exception
-						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
-					end
+				@spamlookup_domain_list.split(/[\n\r]+/).inject(false) do |r, dnsbl|
+					r || lookup(domain, dnsbl)
 				end
+			end
 
-				@spamlookup_domain_list.split(/[\n\r]+/).each do |dnsbl|
-					begin
-						timeout(5) do
-							address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
-							debug("lookup:#{domain}.#{dnsbl} address:#{address}")
-							return true
-						end
-					rescue Resolv::ResolvTimeout, Resolv::ResolvError
-					rescue TimeoutError
-						debug("timeout error:#{domain}.#{dnsbl}", DEBUG_FULL)
-					rescue Exception
-						debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
-					end
+			def black_ip?( ip )
+				@spamlookup_ip_list.split(/[\n\r]+/).inject(false) do |r, dnsbl|
+					r || lookup(ip, dnsbl, true)
 				end
+			end
 
-				debug("#{domain} is safe host.", DEBUG_FULL)
+			def lookup(domain, dnsbl, iplookup = false)
+				timeout(5) do
+					domain = IPSocket::getaddress( domain ).split(/\./).reverse.join(".") if iplookup
+					address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
+					debug("lookup:#{domain}.#{dnsbl} address:#{address}: spam host.")
+					return true
+				end
+			rescue TimeoutError, Resolv::ResolvTimeout
+				debug("lookup:#{domain}.#{dnsbl}: safe host.")
+				return false
+			rescue Resolv::ResolvError, Exception
+				debug("unknown error:#{domain}.#{dnsbl}", DEBUG_FULL)
 				return false
 			end
 
@@ -194,7 +185,7 @@ module TDiary
 						debug("#{s[0]} is safe host.", DEBUG_FULL)
 						next
 					end
-					return true if black_domain?( s[0] )
+					return true if black_domain?( s[0] ) || black_ip?( s[0] )
 				end
 				return false
 			end
