@@ -8,7 +8,3 @@ require 'yaml' unless defined?(YAML)
 YAML::ENGINE.yamler = 'syck' if RUBY_VERSION > '1.9'
 
 Bundler.require :test if defined?(Bundler)
-
-RSpec.configure do |config|
-  config.mock_with :rr
-end

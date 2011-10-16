@@ -2,10 +2,10 @@
 require 'acceptance_helper'
 require 'resolv'
 
-feature 'spamフィルタ設定の利用' do
+feature 'spamフィルタ設定の利用', :exclude_mechanize => true do
 	scenario 'IPベースのブラックリストが動作する' do
-		stub(IPSocket).getaddress.with_any_args { '127.0.0.1' }
-		stub(Resolv).getaddress.with_any_args { '127.0.0.1' }
+		IPSocket.stub(:getaddress) { '127.0.0.1' }
+		Resolv.stub(:getaddress) { '127.0.0.1' }
 
 		append_default_diary
 
@@ -30,7 +30,7 @@ BODY
 	end
 
 	scenario 'IPベースのブラックリストでセーフの場合' do
-		stub(IPSocket).getaddress.with_any_args { raise TimeoutError }
+		IPSocket.stub(:getaddress) { raise TimeoutError }
 
 		append_default_diary
 
@@ -55,8 +55,7 @@ BODY
 	end
 
 	scenario 'ドメインベースのブラックリストが動作する' do
-		stub(IPSocket).getaddress.with_any_args { '127.0.0.1' }
-		stub(Resolv).getaddress.with_any_args { '127.0.0.1' }
+		Resolv.stub(:getaddress) { '127.0.0.1' }
 
 		append_default_diary
 
@@ -81,7 +80,7 @@ BODY
 	end
 
 	scenario 'ドメインベースのブラックリストでセーフの場合' do
-		stub(Resolv).getaddress.with_any_args { raise TimeoutError }
+		Resolv.stub(:getaddress) { raise TimeoutError }
 
 		append_default_diary
 
@@ -106,8 +105,8 @@ BODY
 	end
 
 	scenario 'ブラックリストに問い合わせないリストが動作する' do
-		mock(IPSocket).getaddress.with_any_args.times(0) { '127.0.0.1' }
-		mock(Resolv).getaddress.with_any_args.times(0) { '127.0.0.1' }
+		IPSocket.should_receive(:getaddress).exactly(0)
+		Resolv.should_receive(:getaddress).exactly(0)
 
 		append_default_diary
 

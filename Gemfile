@@ -11,7 +11,6 @@ group :development do
 
   group :test do
     gem 'rspec'
-    gem 'rr'
     gem 'fuubar'
     gem 'tapp'
 
