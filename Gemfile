@@ -11,6 +11,7 @@ group :development do
 
   group :test do
     gem 'rspec'
+    gem 'rr'
     gem 'fuubar'
     gem 'tapp'
 
@@ -18,7 +19,6 @@ group :development do
     gem 'cover_me', :platforms => :mri_19
 
     gem 'nokogiri', '~> 1.4.7' # for ruby-1.8.6
-
     gem 'capybara', :require => 'capybara/rspec'
     gem 'capybara-mechanize', '~> 0.3.0.rc3', :require => 'capybara/mechanize'
     gem 'launchy'
