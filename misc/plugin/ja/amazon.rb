@@ -64,7 +64,7 @@
 @amazon_item_image = %r|(<img src="(http://images-jp\.amazon\.com/images/P/(.*MZZZZZZZ_?.jpg))".*?>)|i
 @amazon_label_conf ='Amazon'
 @amazon_label_aid = 'AmazonアソシエイトIDの指定'
-@amazon_label_aid_desc = '指定しない場合には、tDiary作者の所有するIDが指定されたことになりますのでご注意ください。'
+@amazon_label_aid_desc = '日本のAmazonが扱う商品にのみ適用されます。他の国のアソシエイトIDを利用する場合はtdiary.confで指定して下さい。なお指定しない場合には、Amazon認証Proxyサービスの指定するIDが使われますのでご注意下さい。'
 @amazon_label_imgsize = '表示するイメージのサイズ'
 @amazon_label_large = '大きい'
 @amazon_label_regular = '普通'

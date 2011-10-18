@@ -55,14 +55,14 @@ def amazon_fetch( url, limit = 10 )
 	end
 end
 
-def amazon_call_ecs( asin, id_type, country = nil )
-	aid =  @conf['amazon.aid'] || ''
-	aid = 'cshs-22' if aid.empty?
+def amazon_call_ecs( asin, id_type, country )
+	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].empty?
+	aid = @conf["amazon.aid.#{country}"] || ''
 
 	url = (@conf['amazon.endpoints'] || @amazon_ecs_url_hash)[country].dup
 	url << "?Service=AWSECommerceService"
 	url << "&SubscriptionId=#{@amazon_subscription_id}"
-	url << "&AssociateTag=#{aid}"
+	url << "&AssociateTag=#{aid}" unless aid.empty?
 	url << "&Operation=ItemLookup"
 	url << "&ItemId=#{asin}"
 	url << "&IdType=#{id_type}"
@@ -208,7 +208,7 @@ def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
-def amazon_secure_html( asin, with_image, label, pos = 'amazon', country = nil )
+def amazon_secure_html( asin, with_image, label, pos, country )
 	with_image = false if @mode == 'categoryview'
 	label = asin unless label
 
@@ -226,9 +226,11 @@ def amazon_secure_html( asin, with_image, label, pos = 'amazon', country = nil )
 		label = ''
 	end
 
+	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].empty?
+	aid = @conf["amazon.aid.#{country}"] || ''
 	amazon_url = @amazon_url_hash[country]
 	url =  "#{amazon_url}/#{u asin}"
-	url << "/#{u @conf['amazon.aid']}" if @conf['amazon.aid'] and @conf['amazon.aid'].length > 0
+	url << "/#{u aid}" unless aid.empty?
 	url << "/ref=nosim/"
 	%Q|<a href="#{h url}">#{image}#{h label}</a>|
 end

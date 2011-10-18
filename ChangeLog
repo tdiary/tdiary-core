@@ -1,3 +1,6 @@
+2011-10-18 TADA Tadashi <t@tdtds.jp>
+	* plugin/amazon.rb: supported AssociateTags for each country. #104
+
 2011-10-04  Kazuhiko  <kazuhiko@fdiary.net>
 	* tdiary/config.rb: preload more transcodes that can be used in kw.rb plugin or sending a notification email.
 

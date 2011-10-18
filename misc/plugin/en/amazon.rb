@@ -46,7 +46,7 @@
 @amazon_item_image = %r|(<img src="(http://images\.amazon\.com/images/P/(.*MZZZZZZZ_?.jpg))".*?>)|i
 @amazon_label_conf = 'Amazon'
 @amazon_label_aid = 'Amazon Assosiate ID'
-@amazon_label_aid_desc = "If you don't specified it, this plugin call amazon with ID of tDiary developer."
+@amazon_label_aid_desc = "This ID will be used for US Amazon only. If you want to use other country's Amazon, specify in tdiary.conf."
 @amazon_label_imgsize = 'Image size of the book'
 @amazon_label_large = 'Large'
 @amazon_label_regular = 'Regular'
