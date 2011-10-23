@@ -1,3 +1,6 @@
+2011-10-23  Kazuhiko  <kazuhiko@fdiary.net>
+	* misc/plugin/amazon.rb: support more contries - China, Italy and Spain.
+
 2011-10-18 TADA Tadashi <t@tdtds.jp>
 	* plugin/amazon.rb: supported AssociateTags for each country. #104
 

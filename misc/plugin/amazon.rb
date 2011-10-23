@@ -15,21 +15,27 @@ require 'rexml/document'
 @amazon_require_version = '2007-01-17'
 
 @amazon_url_hash = {
-  'us' => 'http://www.amazon.com/exec/obidos/ASIN',
-  'jp' => 'http://www.amazon.co.jp/exec/obidos/ASIN',
-  'fr' => 'http://www.amazon.fr/exec/obidos/ASIN',
-  'uk' => 'http://www.amazon.co.uk/exec/obidos/ASIN',
-  'de' => 'http://www.amazon.de/exec/obidos/ASIN',
   'ca' => 'http://www.amazon.ca/exec/obidos/ASIN',
+  'cn' => 'http://www.amazon.cn/exec/obidos/ASIN',
+  'de' => 'http://www.amazon.de/exec/obidos/ASIN',
+  'es' => 'http://www.amazon.es/exec/obidos/ASIN',
+  'fr' => 'http://www.amazon.fr/exec/obidos/ASIN',
+  'it' => 'http://www.amazon.it/exec/obidos/ASIN',
+  'jp' => 'http://www.amazon.co.jp/exec/obidos/ASIN',
+  'uk' => 'http://www.amazon.co.uk/exec/obidos/ASIN',
+  'us' => 'http://www.amazon.com/exec/obidos/ASIN',
 }
 
 @amazon_ecs_url_hash = {
-  'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
-  'jp' => 'http://rpaproxy.tdiary.org/rpaproxy/jp/',
-  'fr' => 'http://rpaproxy.tdiary.org/rpaproxy/fr/',
-  'uk' => 'http://rpaproxy.tdiary.org/rpaproxy/uk/',
-  'de' => 'http://rpaproxy.tdiary.org/rpaproxy/de/',
   'ca' => 'http://rpaproxy.tdiary.org/rpaproxy/ca/',
+  'cn' => 'http://rpaproxy.tdiary.org/rpaproxy/cn/',
+  'de' => 'http://rpaproxy.tdiary.org/rpaproxy/de/',
+  'es' => 'http://rpaproxy.tdiary.org/rpaproxy/es/',
+  'fr' => 'http://rpaproxy.tdiary.org/rpaproxy/fr/',
+  'it' => 'http://rpaproxy.tdiary.org/rpaproxy/it/',
+  'jp' => 'http://rpaproxy.tdiary.org/rpaproxy/jp/',
+  'uk' => 'http://rpaproxy.tdiary.org/rpaproxy/uk/',
+  'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
 }
 
 if @conf['amazon.bitly'] and @conf['bitly.login'] and @conf['bitly.key'] then
