@@ -1,7 +1,7 @@
 source :rubygems
 
 gem 'rack'
-gem 'rake', '0.9.2'
+gem 'rake'
 
 group :development do
   gem 'thin', :platforms => :ruby
