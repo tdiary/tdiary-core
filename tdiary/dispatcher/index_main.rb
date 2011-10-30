@@ -43,7 +43,7 @@ module TDiary
 								body = tdiary.eval_rhtml
 								head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
 								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
-									status = CGI::HTTP_STATUS['NOT_MODIFIED']
+									head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 								else
 									head['charset'] = conf.encoding
 									head['Content-Length'] = body.bytesize.to_s

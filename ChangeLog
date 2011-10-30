@@ -1,3 +1,7 @@
+2011-10-30  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+
+	* tdiary/dispatcher/index_main.rb: bugfix http header when status is NOT_MODIFIED.
+
 2011-10-29 TADA Tadashi <t@tdtds.jp>
 	* theme/conf.css: fixed invalid element: div.help-icon to span.help.icon.
 	* Release 3.1.1.
