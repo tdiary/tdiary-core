@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-if RUBY_VERSION > '1.9'
+if defined?(Encoding)
 	require 'tdiary/compatible'
 	require 'fileutils'
 
