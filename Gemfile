@@ -15,7 +15,7 @@ group :development do
     gem 'tapp'
 
     gem 'rcov', :platforms => :mri_18
-    gem 'cover_me', :platforms => :mri_19
+    gem 'simplecov', :require => false, :platforms => :mri_19
 
     gem 'nokogiri', '~> 1.4.7' # for ruby-1.8.6
     gem 'capybara', :require => 'capybara/rspec'

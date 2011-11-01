@@ -7,8 +7,6 @@ require 'rspec/core/rake_task'
 
 CLEAN.include(
 	"tmp",
-	"coverage.aggregate",
-	"coverage.data",
 	"data",
 	"index.rdf"
 )
@@ -46,7 +44,7 @@ namespace :spec do
 		end
 	end
 
-	if RUBY_VERSION < '1.9'
+	if defined?(RCov)
 		desc 'Run the code in specs with RCov'
 		RSpec::Core::RakeTask.new(:report) do |t|
 			t.pattern = "spec/**/*_spec.rb"
@@ -54,14 +52,10 @@ namespace :spec do
 			t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
 		end
 	else
-		desc 'Displayed code coverage with cover_me'
+		desc 'Displayed code coverage with SimpleCov'
 		task :report do
-			require 'cover_me'
-			CoverMe.config do |c|
-				c.project.root = File.dirname(__FILE__)
-				c.file_pattern = /(#{CoverMe.config.project.root}\/tdiary.*\.rb)/i
-			end
-			CoverMe.complete!
+			ENV['COVERAGE'] = 'simplecov'
+			Rake::Task["spec"].invoke
 		end
 	end
 end
