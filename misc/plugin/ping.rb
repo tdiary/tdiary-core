@@ -34,22 +34,18 @@ def ping( list )
 
 	require 'net/http'
 	require 'timeout'
-	Net::HTTP.version_1_1
 	threads = []
 	list.each do |url|
-		threads << Thread.start( url, xml ) do |url, xml|
-			if %r|^http://([^/]+)(.*)$| =~ url then
-				begin
-					request = $2.empty? ? '/' : $2
-					host, port = $1.split( /:/, 2 )
-					port = '80' unless port
-					timeout(@conf['ping.timeout'].to_i) do
-						Net::HTTP.start( host.untaint, port.to_i ) do |http|
-							response, = http.post( request, xml, 'Content-Type' => 'text/xml' )
-						end
+		u = URI::parse( url.untaint )
+		next unless u.host
+		threads << Thread.start( u, xml ) do |u, xml|
+			begin
+				timeout( @conf['ping.timeout'].to_i ) do
+					Net::HTTP.start( u.host, u.port ) do |http|
+						http.post( u.path, xml, 'Content-Type' => 'text/xml' )
 					end
-				rescue Exception,Timeout::Error
 				end
+			rescue Exception,Timeout::Error
 			end
 		end
 	end
