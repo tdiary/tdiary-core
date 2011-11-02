@@ -66,7 +66,6 @@ of GPL version 2 or later.
 =end
 
 require 'net/http'
-Net::HTTP.version_1_1
 require 'cgi'
 require 'timeout'
 
@@ -236,7 +235,8 @@ class Weather
 		end
 	end
 
-	def initialize( date = nil, tz = nil )
+	def initialize( date = nil, tz = nil, conf = nil )
+		@conf = conf
 		@date = date or Time.now
 		@data = Hash.new
 		@error = nil
@@ -250,32 +250,32 @@ class Weather
 		end
 	end
 
+	def fetch( url, limit, header )
+		raise ArgumentError, 'HTTP redirect too deep' if limit == 0
+
+		px_host, px_port = (@conf['proxy'] || '').split( /:/ )
+		px_port = 80 if px_host and !px_port
+		u = URI::parse( url )
+		Net::HTTP::Proxy( px_host, px_port ).start( u.host, u.port ) do |http|
+			case res = http.get( u.path, header )
+			when Net::HTTPSuccess
+				res.body
+			when Net::HTTPRedirection
+				fetch( res['location'].untaint, limit - 1 )
+			else
+				raise ArgumentError, res.error!
+			end
+		end
+	end
+
 	def get( url, header = {}, items = {} )
 		@url = url.gsub(/[\t\n]/, '')
 		@error = nil
-		@url =~ %r<http://([^/]+)(.*)>
-		host = $1
-		path = $2
-		redirect = 0
+
 		begin
 			timeout( WAITTIME ) do
-				begin
-					d = ''
-					Net::HTTP.start( host, 80 ) do |http|
-						response , = http.get( path, header)
-						d = @conf.to_native( response.body )
-					end
-					parse_html( d, items )
-				rescue Net::ProtoRetriableError => err
-					if m = %r<http://([^/]+)>.match( err.response['location'] ) then
-						host = m[1].strip
-						path = m.post_match
-						redirect += 1
-						retry if redirect < MAXREDIRECT
-						raise StandardError, 'Too many redirections'
-					end
-					raise StandardError, 'Error in redirection'
-				end
+				d = @conf.to_native( fetch( url, MAXREDIRECT, header ) )
+				parse_html( d, items )
 			end
 		rescue TimeoutError
 			@error = 'Timeout'
@@ -436,7 +436,7 @@ def get_weather
 	w = Weather::restore( path, @date )
 	if not w or w.error then
 		items = @options['weather.items'] || Weather_default_items
-		w = Weather.new( @date, @options['weather.tz'] )
+		w = Weather.new( @date, @options['weather.tz'], @conf )
 		w.get( @options['weather.url'], @options['weather.header'] || {}, items )
 		if @options.has_key?( 'weather.oldest' ) then
 			oldest = @options['weather.oldest']
