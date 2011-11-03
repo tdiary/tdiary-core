@@ -342,8 +342,12 @@ class DispRef2String
 		def self::unescape( str )
 			if str then
 				# escape ruby 1.6 bug.
-				str.gsub( /\+/, ' ').gsub(/((?:%[0-9a-fA-F]{2})+)/n) do
-					[$1.delete('%')].pack('H*')
+				begin
+					str.gsub( /\+/, ' ').gsub(/((?:%[0-9a-fA-F]{2})+)/n) do
+						[$1.delete('%')].pack('H*')
+					end
+				rescue Encoding::CompatibilityError
+					''
 				end
 			else
 				''

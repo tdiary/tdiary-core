@@ -1,3 +1,6 @@
+2011-11-03 TADA Tadashi <t@tdtds.jp>
+	* plugin/disp_referrer.rb: suppressed Encoding::CompatibilityError error.
+
 2011-11-02 TADA Tadashi <t@tdtds.jp>
 	* plugin/ping.rb: discontinued using Net::HTTP.version_1_1.
 	* plugin/weather.rb: discontinued using Net::HTTP.version_1_1.
