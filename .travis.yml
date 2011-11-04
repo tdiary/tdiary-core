@@ -6,7 +6,6 @@ rvm:
   - 1.9.3
   - ruby-head
   - ree
-  - jruby
 
 before_script:
   - ruby misc/standalone_cgi/bin/server -d
