@@ -10,6 +10,8 @@ group :development do
   gem 'pit', :require => false
 
   group :test do
+    gem 'test-unit', :require => 'test/unit'
+    gem 'turn'
     gem 'rspec'
     gem 'fuubar'
     gem 'tapp'
