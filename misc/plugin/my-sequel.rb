@@ -392,419 +392,141 @@ _END
 
 end
 
-unless __FILE__ == $0 then
-	# register this plguin to tDiary
+# register this plguin to tDiary
 
-	# language resource and configuration
-	@my_sequel_plugin_name ||= 'Link to follow ups'
-	@my_sequel_description ||= <<_END
+# language resource and configuration
+@my_sequel_plugin_name ||= 'Link to follow ups'
+@my_sequel_description ||= <<_END
 <p>Shows links to follow-up entries,
 which have `my' link to the entry in the past.</p>
 <p>Do not forget to push the OK button to store the changes.</p>
 _END
-	@my_sequel_label_conf ||= 'Link label'
-	@my_sequel_label ||= 'Follow up: '
-	@my_sequel_restore_default_label ||= 'Restore default'
-	@my_sequel_default_hash ||= {
-		:label => {
-			:title => 'Link label',
-			:default => 'Follow up: ',
-			:description => 'Prefix for links to the follow-ups',
-			:index => 1,
-		},
-		:date_format => {
-			:title => 'Link format',
-			:default => @date_format,
-			:description => 'Time format of links to the follow-ups. Sequences of % and a charactor are converted as follows: "%Y" to year, "%m" to month in number, "%b" to short name of month, "%B" to full name of month, "%d" to day of month, "%a" to short name of day of week, and "%A" to full name of day of week, for the follow-up.',
-			:index => 2,
-		},
-		:inner_css => {
-			:title => 'CSS',
-			:default => <<'_END',
+@my_sequel_label_conf ||= 'Link label'
+@my_sequel_label ||= 'Follow up: '
+@my_sequel_restore_default_label ||= 'Restore default'
+@my_sequel_default_hash ||= {
+	:label => {
+		:title => 'Link label',
+		:default => 'Follow up: ',
+		:description => 'Prefix for links to the follow-ups',
+		:index => 1,
+	},
+	:date_format => {
+		:title => 'Link format',
+		:default => @date_format,
+		:description => 'Time format of links to the follow-ups. Sequences of % and a charactor are converted as follows: "%Y" to year, "%m" to month in number, "%b" to short name of month, "%B" to full name of month, "%d" to day of month, "%a" to short name of day of week, and "%A" to full name of day of week, for the follow-up.',
+		:index => 2,
+	},
+	:inner_css => {
+		:title => 'CSS',
+		:default => <<'_END',
 font-size: 75%;
 text-align: right;
 margin: 0px;
 _END
-			:description => 'CSS for the links. The followoing is applied to <code>div.sequel</code>.',
-			:index => 3,
-			:textarea => {:rows => 5},
-		},
-	}
+		:description => 'CSS for the links. The followoing is applied to <code>div.sequel</code>.',
+		:index => 3,
+		:textarea => {:rows => 5},
+	},
+}
 
-	@my_sequel_conf = MySequel::Conf.new(@my_sequel_default_hash)
-	@my_sequel_conf.merge_hash(@options)
+@my_sequel_conf = MySequel::Conf.new(@my_sequel_default_hash)
+@my_sequel_conf.merge_hash(@options)
 
-	# configuration interface
-	add_conf_proc( 'my-sequel', @my_sequel_plugin_name ) do
-		if @mode == 'saveconf' then
-			@my_sequel_conf.merge_params(@cgi.params)
-			@my_sequel_conf.to_conf_hash(@conf)
-		end
-		<<"_HTML"
+# configuration interface
+add_conf_proc( 'my-sequel', @my_sequel_plugin_name ) do
+	if @mode == 'saveconf' then
+		@my_sequel_conf.merge_params(@cgi.params)
+		@my_sequel_conf.to_conf_hash(@conf)
+	end
+	<<"_HTML"
 #{@my_sequel_conf.handler_block}
 <h3>#{@my_sequel_plugin_name}</h3>
 #{@my_sequel_description}
 #{@my_sequel_conf.html(@my_sequel_restore_default_label, @conf.mobile_agent?).chomp}
 _HTML
+end
+
+@my_sequel = MySequel.new(@cache_path)
+@my_sequel_active = false
+
+# activate this plugin if header procs are called
+# - This avoids being called from makerss.rb
+add_header_proc do
+	if not @conf.bot? and not @conf.mobile_agent? then
+		@my_sequel_active = true
+		@my_sequel.restore(@diaries.keys)
+		MySequel.css(@my_sequel_conf[:inner_css])
 	end
+end
 
-	@my_sequel = MySequel.new(@cache_path)
-	@my_sequel_active = false
+# preparation for a day
+add_body_enter_proc do |date|
+	if @my_sequel_active then
+		if date then
+			@my_sequel_date = MySequel.date(date)
+			@my_sequel.clean_dsts(@my_sequel_date)
+		else
+			@my_sequel_date = nil
+		end
+	end
+	''
+end
 
-	# activate this plugin if header procs are called
-	# - This avoids being called from makerss.rb
-	add_header_proc do
+# preparation for a section
+add_section_enter_proc do |date, index|
+	if @my_sequel_active and @my_sequel_date then
+		@my_sequel_anchor = "#{@my_sequel_date}#p#{'%02d' % index}"
+	end
+	''
+end
+
+# plugin function to be called from within sections
+alias :my_sequel_orig_my :my unless defined?(my_sequel_orig_my)
+def my(*args)
+	if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and @mode != 'preview' then
+		dst_date, frag = args[0].scan(/(\d{8,8})(?:[^\d]*)(?:#?p(\d+))?$/)[0]
+		if dst_date and dst_date < @my_sequel_date then
+			dst_anchor = "#{dst_date}#{frag ? "#p%02d" % frag.to_i : ''}"
+			@my_sequel.add(@my_sequel_anchor, dst_anchor)
+		end
+	end
+	my_sequel_orig_my(*args)
+end
+
+# show sequels when leaving a section
+add_section_leave_proc do
+	r = ''
+	if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not @conf.bot? and not @conf.mobile_agent? then
+		r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
+			my_sequel_orig_my(src_anchor, anchor_str)
+		}
+	end
+	@my_sequel_anchor = nil
+	r
+end
+
+# show sequels when leaving a day
+add_body_leave_proc do
+	r = ''
+	if @my_sequel_active and @my_sequel_date then
 		if not @conf.bot? and not @conf.mobile_agent? then
-			@my_sequel_active = true
-			@my_sequel.restore(@diaries.keys)
-			MySequel.css(@my_sequel_conf[:inner_css])
-		end
-	end
-
-	# preparation for a day
-	add_body_enter_proc do |date|
-		if @my_sequel_active then
-			if date then
-				@my_sequel_date = MySequel.date(date)
-				@my_sequel.clean_dsts(@my_sequel_date)
-			else
-				@my_sequel_date = nil
-			end
-		end
-		''
-	end
-
-	# preparation for a section
-	add_section_enter_proc do |date, index|
-		if @my_sequel_active and @my_sequel_date then
-			@my_sequel_anchor = "#{@my_sequel_date}#p#{'%02d' % index}"
-		end
-		''
-	end
-
-	# plugin function to be called from within sections
-	alias :my_sequel_orig_my :my unless defined?(my_sequel_orig_my)
-	def my(*args)
-		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and @mode != 'preview' then
-			dst_date, frag = args[0].scan(/(\d{8,8})(?:[^\d]*)(?:#?p(\d+))?$/)[0]
-			if dst_date and dst_date < @my_sequel_date then
-				dst_anchor = "#{dst_date}#{frag ? "#p%02d" % frag.to_i : ''}"
-				@my_sequel.add(@my_sequel_anchor, dst_anchor)
-			end
-		end
-		my_sequel_orig_my(*args)
-	end
-
-	# show sequels when leaving a section
-	add_section_leave_proc do
-		r = ''
-		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not @conf.bot? and not @conf.mobile_agent? then
 			r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
 				my_sequel_orig_my(src_anchor, anchor_str)
 			}
 		end
-		@my_sequel_anchor = nil
-		r
 	end
+	@my_sequel_date = nil
+	r
+end
 
-	# show sequels when leaving a day
-	add_body_leave_proc do
-		r = ''
-		if @my_sequel_active and @my_sequel_date then
-			if not @conf.bot? and not @conf.mobile_agent? then
-				r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
-					my_sequel_orig_my(src_anchor, anchor_str)
-				}
-			end
-		end
-		@my_sequel_date = nil
-		r
+# commit changes
+add_footer_proc do
+	if @my_sequel_active then
+		@my_sequel.clean_srcs
+		@my_sequel.commit
 	end
-
-	# commit changes
-	add_footer_proc do
-		if @my_sequel_active then
-			@my_sequel.clean_srcs
-			@my_sequel.commit
-		end
-		''
-	end
-
-else
-	# test cases for updates of links: run this file as a Ruby script
-	require 'test/unit'
-	require 'tmpdir'
-
-	class TestMySequel < Test::Unit::TestCase
-		OrigLinks = {
-			'20061231#p01' => '20061101#p01',
-			'20061231#p02' => '20061001#p01',
-			'20061130#p01' => '20061001#p01',
-		}
-		def setup
-			@cache_path = File.join(Dir.tmpdir, "#{__FILE__}-#{$$}")
-			Dir.mkdir(@cache_path)
-
-			@orig_src_dates = OrigLinks.keys.map{|a| MySequel.date(a)}
-			@orig_dst_dates = OrigLinks.values.map{|a| MySequel.date(a)}
-			orig = MySequel.new(@cache_path)
-			orig.restore(@orig_src_dates)
-			@orig_src_dates.each do |date|
-				orig.clean_dsts(Time.local(*(date.scan(/(\d{4,4})(\d\d)(\d\d)/)[0])))
-			end
-			OrigLinks.each_pair do |src, dst|
-				orig.add(src, dst)
-			end
-			orig.clean_srcs
-			orig.commit
-		end
-
-		def testsrcs	# confirms setup really cached the OrigLinks
-			cached = MySequel.new(@cache_path)
-			cached.restore(@orig_dst_dates)
-			OrigLinks.values.uniq.each do |dst|
-				srcs = OrigLinks.find_all{|e| dst == e[1]}.map{|e| e[0]}
-				assert_equal(srcs.sort, cached.srcs(dst).sort)
-			end
-		end
-
-		def testadd	# confirms addition of a day
-			# write the diary for 2007-01-01
-			cached = MySequel.new(@cache_path)
-			cached.restore(@orig_dst_dates)
-			cached.clean_dsts(Time.local(2007,1,1))
-			cached.add('20070101#p01', '20060101#p01')
-			assert_equal(['20070101#p01'], cached.srcs('20060101#p01'))
-			cached.clean_srcs
-			cached.commit
-			# display the diary for 2006-01-01
-			cached = MySequel.new(@cache_path)
-			cached.restore(['20060101'])
-			assert_equal(['20070101#p01'], cached.srcs('20060101#p01'))
-			# confirmation of other links
-			testsrcs
-		end
-
-		def testadd_two_months	# http://zunda.freeshell.org/d/20070122.html#c01
-			# write the diary for 2007-02-15
-			cached = MySequel.new(@cache_path)
-			cached.restore('20070215')
-			cached.clean_dsts(Time.local(2007,2,15))
-			cached.add('20070215#p01', '20070115#p01')
-			cached.clean_srcs
-			cached.commit
-			# write the diary for 2007-03-10
-			cached = MySequel.new(@cache_path)
-			cached.restore('20070310')
-			cached.clean_dsts(Time.local(2007,3,10))
-			cached.add('20070310#p01', '20070115#p01')
-			cached.clean_srcs
-			cached.commit
-			# display the diary on 2007-01-15
-			cached = MySequel.new(@cache_path)
-			cached.restore('20070115')
-			assert_equal(['20070215#p01', '20070310#p01'], cached.srcs('20070115#p01'))
-
-		end
-
-		def testedit	# confirms edition of a link
-			# edit the diary for 2006-11-31
-			cached = MySequel.new(@cache_path)
-			cached.restore(@orig_dst_dates)
-			cached.clean_dsts(Time.local(2006,11,30))
-			cached.add('20061130#p01', '20060901#p01')
-			cached.clean_srcs
-			cached.commit
-			# display the diary on 2006-09-01
-			cached = MySequel.new(@cache_path)
-			cached.restore(['20060901'])
-			assert_equal(['20061130#p01'], cached.srcs('20060901#p01'))
-			# display the diary on 2006-10-01
-			cached.restore(['20061001'])
-			assert_equal(['20061231#p02'], cached.srcs('20061001#p01'))
-		end
-
-		def testdelete	# confirms deletion of a link
-			# edit the diary for 2006-11-31
-			cached = MySequel.new(@cache_path)
-			cached.restore(@orig_dst_dates)
-			cached.clean_dsts(Time.local(2006,11,30))
-			cached.clean_srcs
-			cached.commit
-			# display the diary on 2006-10-01
-			cached.restore(['20061001'])
-			assert_equal(['20061231#p02'], cached.srcs('20061001#p01'))
-		end
-
-		def teardown
-			FileUtils.rmtree(@cache_path)
-		end
-	end
-
-	class TestMySequelCss < Test::Unit::TestCase
-		def test_usual
-			assert_equal(<<"_TARGET", MySequel::css(<<'_INNER'))
-\t<style type="text/css" media="all"><!--
-\tdiv.sequel {
-\t\thogehoge: &lt;mogemoge&gt;
-\t}
-\t--></style>
-_TARGET
-hogehoge: <mogemoge>
-_INNER
-		end
-
-		def test_empty
-			assert_equal('', MySequel::css(''))
-		end
-
-		def test_space
-			assert_equal('', MySequel::css(' '))
-		end
-
-		def test_crlf
-			assert_equal('', MySequel::css("\r\n"))
-		end
-
-	end
-
-	class TestMySequelConf < Test::Unit::TestCase
-		include ERB::Util
-
-		def setup
-			@defaults = {
-				:label => {
-					:title => 'Link label',
-					:default => 'default label',
-					:index => 1,
-				},
-				:format => {
-					:title => 'Date format<sup>*</sup>',
-					:description => 'Format of the dates of the link',
-					:default => '<date>',
-					:index => 2,
-				},
-				:textarea => {
-					:title => 'Test to show text area',
-					:default => "a\nb\ncc",
-					:index => 3,
-					:textarea => true,
-				},
-				:textarea_with_size => {
-					:title => 'Test to show text area',
-					:default => "a\nb\ncc",
-					:index => 4,
-					:textarea => {:rows => 2},
-				}
-			}
-			@my_sequel_conf = MySequel::Conf.new(@defaults)
-		end
-
-		def testdefaults	# retrieve default configuration
-			assert_equal('default label', @my_sequel_conf[:label])
-		end
-
-		def testmerge
-			options = {'my_sequel.label' => 'configured label'}
-			@my_sequel_conf.merge_hash(options)
-			assert_equal('configured label', @my_sequel_conf[:label])
-		end
-
-		def testparams
-			options = {'label' => ['configured label']}
-			@my_sequel_conf.merge_params(options)
-			assert_equal('configured label', @my_sequel_conf[:label])
-		end
-
-		def testparams_with_empty_array
-			options = {'label' => ['configured label'], 'label.reset' => []}
-			@my_sequel_conf.merge_params(options)
-			assert_equal('configured label', @my_sequel_conf[:label])
-		end
-
-		def testtohash
-			testmerge
-			conf_hash = {'dummy' => 'dummy'}
-			@my_sequel_conf.to_conf_hash(conf_hash)
-			assert_equal({'my_sequel.label' => 'configured label', 'dummy' => 'dummy'}, conf_hash)
-		end
-
-		def testparams_with_empty
-			testmerge
-			options = {'label' => ['']}
-			@my_sequel_conf.merge_params(options)
-			assert_equal('', @my_sequel_conf[:label])
-		end
-
-		def testparams_with_reset
-			testmerge
-			options = {'label' => ['any value'], 'label.reset' => 't'}
-			@my_sequel_conf.merge_params(options)
-			assert_equal('default label', @my_sequel_conf[:label])
-		end
-
-		def test_delete_confhash
-			options = {'my_sequel.label' => 'configured label'}
-			@my_sequel_conf.merge_hash(options)
-			params = {'label' => ['any value'],'label.reset' => 't'}
-			@my_sequel_conf.merge_params(params)
-			@my_sequel_conf.to_conf_hash(options)
-			assert(!options.has_key?('my_sequel.label'))
-		end
-
-		def testparams_with_nil
-			testmerge
-			options = {'label' => nil}
-			@my_sequel_conf.merge_params(options)
-			assert_equal('configured label', @my_sequel_conf[:label])
-		end
-
-		def testparams_with_nokey
-			testmerge
-			options = {}
-			@my_sequel_conf.merge_params(options)
-			assert_equal('configured label', @my_sequel_conf[:label])
-		end
-
-		def testconfhtml
-			target = <<_HTML
-	<h3 class="subtitle">#{h @defaults[:label][:title]}</h3>
-	<p><input name="label" id="label" type="text" value="#{h(@defaults[:label][:default])}" onfocus="uncheck(this)"> - Restore default:<input name="label.reset" id="label.reset" type="checkbox" value="t" onchange="restore(this)" onclick="restore(this)"></p>
-	<h3 class="subtitle">#{h @defaults[:format][:title]}</h3>
-	<p>#{h @defaults[:format][:description]}</p>
-	<p><input name="format" id="format" type="text" value="#{h(@defaults[:format][:default])}" onfocus="uncheck(this)"> - Restore default:<input name="format.reset" id="format.reset" type="checkbox" value="t" onchange="restore(this)" onclick="restore(this)"></p>
-	<h3 class="subtitle">#{h @defaults[:textarea][:title]}</h3>
-	<p><textarea name="textarea" id="textarea" cols="70" rows="10" onfocus="uncheck(this)">a
-b
-cc</textarea> - Restore default:<input name="textarea.reset" id="textarea.reset" type="checkbox" value="t" onchange="restore(this)" onclick="restore(this)"></p>
-	<h3 class="subtitle">#{h @defaults[:textarea_with_size][:title]}</h3>
-	<p><textarea name="textarea_with_size" id="textarea_with_size" cols="70" rows="2" onfocus="uncheck(this)">a
-b
-cc</textarea> - Restore default:<input name="textarea_with_size.reset" id="textarea_with_size.reset" type="checkbox" value="t" onchange="restore(this)" onclick="restore(this)"></p>
-_HTML
-			assert_equal(target, @my_sequel_conf.html(' - Restore default:'))
-		end
-
-		def testconfhtml_mobile
-			target = <<_HTML
-	<h3 class="subtitle">#{h @defaults[:label][:title]}</h3>
-	<p><input name="label" type="text" value="#{h(@defaults[:label][:default])}"> - Restore default:<input name="label.reset" type="checkbox" value="t"></p>
-	<h3 class="subtitle">#{h @defaults[:format][:title]}</h3>
-	<p><input name="format" type="text" value="#{h(@defaults[:format][:default])}"> - Restore default:<input name="format.reset" type="checkbox" value="t"></p>
-	<h3 class="subtitle">#{h @defaults[:textarea][:title]}</h3>
-	<p><textarea name="textarea" cols="70" rows="10">a
-b
-cc</textarea> - Restore default:<input name="textarea.reset" type="checkbox" value="t"></p>
-	<h3 class="subtitle">#{@defaults[:textarea_with_size][:title]}</h3>
-	<p><textarea name="textarea_with_size" cols="70" rows="2">a
-b
-cc</textarea> - Restore default:<input name="textarea_with_size.reset" type="checkbox" value="t"></p>
-_HTML
-			assert_equal(target, @my_sequel_conf.html(' - Restore default:', true))
-		end
-
-	end
-
+	''
 end
 
 # Local Variables:
