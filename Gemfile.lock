@@ -30,7 +30,7 @@ GEM
       rspec (~> 2.0)
       rspec-instafail (~> 0.1.8)
       ruby-progressbar (~> 0.0.10)
-    highline (1.6.2)
+    highline (1.6.5)
     json_pure (1.6.1)
     launchy (2.0.5)
       addressable (~> 2.2.6)
