@@ -1,5 +1,6 @@
 require File.expand_path('../test_helper', __FILE__)
 require 'my-sequel'
+require 'fileutils'
 require 'tmpdir'
 
 # test cases for updates of links: run this file as a Ruby script
@@ -9,9 +10,10 @@ class TestMySequel < Test::Unit::TestCase
 		'20061231#p02' => '20061001#p01',
 		'20061130#p01' => '20061001#p01',
 	}
+
 	def setup
 		@cache_path = File.join(Dir.tmpdir, "#{__FILE__}-#{$$}")
-		Dir.mkdir(@cache_path)
+		FileUtils.mkdir_p(@cache_path)
 
 		@orig_src_dates = OrigLinks.keys.map{|a| MySequel.date(a)}
 		@orig_dst_dates = OrigLinks.values.map{|a| MySequel.date(a)}

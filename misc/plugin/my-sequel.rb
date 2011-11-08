@@ -393,140 +393,141 @@ _END
 end
 
 # register this plguin to tDiary
-
-# language resource and configuration
-@my_sequel_plugin_name ||= 'Link to follow ups'
-@my_sequel_description ||= <<_END
+unless defined?(Test::Unit)
+	# language resource and configuration
+	@my_sequel_plugin_name ||= 'Link to follow ups'
+	@my_sequel_description ||= <<_END
 <p>Shows links to follow-up entries,
 which have `my' link to the entry in the past.</p>
 <p>Do not forget to push the OK button to store the changes.</p>
 _END
-@my_sequel_label_conf ||= 'Link label'
-@my_sequel_label ||= 'Follow up: '
-@my_sequel_restore_default_label ||= 'Restore default'
-@my_sequel_default_hash ||= {
-	:label => {
-		:title => 'Link label',
-		:default => 'Follow up: ',
-		:description => 'Prefix for links to the follow-ups',
-		:index => 1,
-	},
-	:date_format => {
-		:title => 'Link format',
-		:default => @date_format,
-		:description => 'Time format of links to the follow-ups. Sequences of % and a charactor are converted as follows: "%Y" to year, "%m" to month in number, "%b" to short name of month, "%B" to full name of month, "%d" to day of month, "%a" to short name of day of week, and "%A" to full name of day of week, for the follow-up.',
-		:index => 2,
-	},
-	:inner_css => {
-		:title => 'CSS',
-		:default => <<'_END',
+	@my_sequel_label_conf ||= 'Link label'
+	@my_sequel_label ||= 'Follow up: '
+	@my_sequel_restore_default_label ||= 'Restore default'
+	@my_sequel_default_hash ||= {
+		:label => {
+			:title => 'Link label',
+			:default => 'Follow up: ',
+			:description => 'Prefix for links to the follow-ups',
+			:index => 1,
+		},
+		:date_format => {
+			:title => 'Link format',
+			:default => @date_format,
+			:description => 'Time format of links to the follow-ups. Sequences of % and a charactor are converted as follows: "%Y" to year, "%m" to month in number, "%b" to short name of month, "%B" to full name of month, "%d" to day of month, "%a" to short name of day of week, and "%A" to full name of day of week, for the follow-up.',
+			:index => 2,
+		},
+		:inner_css => {
+			:title => 'CSS',
+			:default => <<'_END',
 font-size: 75%;
 text-align: right;
 margin: 0px;
 _END
-		:description => 'CSS for the links. The followoing is applied to <code>div.sequel</code>.',
-		:index => 3,
-		:textarea => {:rows => 5},
-	},
-}
+			:description => 'CSS for the links. The followoing is applied to <code>div.sequel</code>.',
+			:index => 3,
+			:textarea => {:rows => 5},
+		},
+	}
 
-@my_sequel_conf = MySequel::Conf.new(@my_sequel_default_hash)
-@my_sequel_conf.merge_hash(@options)
+	@my_sequel_conf = MySequel::Conf.new(@my_sequel_default_hash)
+	@my_sequel_conf.merge_hash(@options || {})
 
-# configuration interface
-add_conf_proc( 'my-sequel', @my_sequel_plugin_name ) do
-	if @mode == 'saveconf' then
-		@my_sequel_conf.merge_params(@cgi.params)
-		@my_sequel_conf.to_conf_hash(@conf)
-	end
-	<<"_HTML"
+	# configuration interface
+	add_conf_proc( 'my-sequel', @my_sequel_plugin_name ) do
+		if @mode == 'saveconf' then
+			@my_sequel_conf.merge_params(@cgi.params)
+			@my_sequel_conf.to_conf_hash(@conf)
+		end
+		<<"_HTML"
 #{@my_sequel_conf.handler_block}
 <h3>#{@my_sequel_plugin_name}</h3>
 #{@my_sequel_description}
 #{@my_sequel_conf.html(@my_sequel_restore_default_label, @conf.mobile_agent?).chomp}
 _HTML
-end
-
-@my_sequel = MySequel.new(@cache_path)
-@my_sequel_active = false
-
-# activate this plugin if header procs are called
-# - This avoids being called from makerss.rb
-add_header_proc do
-	if not @conf.bot? and not @conf.mobile_agent? then
-		@my_sequel_active = true
-		@my_sequel.restore(@diaries.keys)
-		MySequel.css(@my_sequel_conf[:inner_css])
 	end
-end
 
-# preparation for a day
-add_body_enter_proc do |date|
-	if @my_sequel_active then
-		if date then
-			@my_sequel_date = MySequel.date(date)
-			@my_sequel.clean_dsts(@my_sequel_date)
-		else
-			@my_sequel_date = nil
-		end
-	end
-	''
-end
+	@my_sequel = MySequel.new(@cache_path)
+	@my_sequel_active = false
 
-# preparation for a section
-add_section_enter_proc do |date, index|
-	if @my_sequel_active and @my_sequel_date then
-		@my_sequel_anchor = "#{@my_sequel_date}#p#{'%02d' % index}"
-	end
-	''
-end
-
-# plugin function to be called from within sections
-alias :my_sequel_orig_my :my unless defined?(my_sequel_orig_my)
-def my(*args)
-	if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and @mode != 'preview' then
-		dst_date, frag = args[0].scan(/(\d{8,8})(?:[^\d]*)(?:#?p(\d+))?$/)[0]
-		if dst_date and dst_date < @my_sequel_date then
-			dst_anchor = "#{dst_date}#{frag ? "#p%02d" % frag.to_i : ''}"
-			@my_sequel.add(@my_sequel_anchor, dst_anchor)
-		end
-	end
-	my_sequel_orig_my(*args)
-end
-
-# show sequels when leaving a section
-add_section_leave_proc do
-	r = ''
-	if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not @conf.bot? and not @conf.mobile_agent? then
-		r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
-			my_sequel_orig_my(src_anchor, anchor_str)
-		}
-	end
-	@my_sequel_anchor = nil
-	r
-end
-
-# show sequels when leaving a day
-add_body_leave_proc do
-	r = ''
-	if @my_sequel_active and @my_sequel_date then
+	# activate this plugin if header procs are called
+	# - This avoids being called from makerss.rb
+	add_header_proc do
 		if not @conf.bot? and not @conf.mobile_agent? then
+			@my_sequel_active = true
+			@my_sequel.restore(@diaries.keys)
+			MySequel.css(@my_sequel_conf[:inner_css])
+		end
+	end
+
+	# preparation for a day
+	add_body_enter_proc do |date|
+		if @my_sequel_active then
+			if date then
+				@my_sequel_date = MySequel.date(date)
+				@my_sequel.clean_dsts(@my_sequel_date)
+			else
+				@my_sequel_date = nil
+			end
+		end
+		''
+	end
+
+	# preparation for a section
+	add_section_enter_proc do |date, index|
+		if @my_sequel_active and @my_sequel_date then
+			@my_sequel_anchor = "#{@my_sequel_date}#p#{'%02d' % index}"
+		end
+		''
+	end
+
+	# plugin function to be called from within sections
+	alias :my_sequel_orig_my :my unless defined?(my_sequel_orig_my)
+	def my(*args)
+		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and @mode != 'preview' then
+			dst_date, frag = args[0].scan(/(\d{8,8})(?:[^\d]*)(?:#?p(\d+))?$/)[0]
+			if dst_date and dst_date < @my_sequel_date then
+				dst_anchor = "#{dst_date}#{frag ? "#p%02d" % frag.to_i : ''}"
+				@my_sequel.add(@my_sequel_anchor, dst_anchor)
+			end
+		end
+		my_sequel_orig_my(*args)
+	end
+
+	# show sequels when leaving a section
+	add_section_leave_proc do
+		r = ''
+		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not @conf.bot? and not @conf.mobile_agent? then
 			r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
 				my_sequel_orig_my(src_anchor, anchor_str)
 			}
 		end
+		@my_sequel_anchor = nil
+		r
 	end
-	@my_sequel_date = nil
-	r
-end
 
-# commit changes
-add_footer_proc do
-	if @my_sequel_active then
-		@my_sequel.clean_srcs
-		@my_sequel.commit
+	# show sequels when leaving a day
+	add_body_leave_proc do
+		r = ''
+		if @my_sequel_active and @my_sequel_date then
+			if not @conf.bot? and not @conf.mobile_agent? then
+				r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
+					my_sequel_orig_my(src_anchor, anchor_str)
+				}
+			end
+		end
+		@my_sequel_date = nil
+		r
 	end
-	''
+
+	# commit changes
+	add_footer_proc do
+		if @my_sequel_active then
+			@my_sequel.clean_srcs
+			@my_sequel.commit
+		end
+		''
+	end
 end
 
 # Local Variables:
