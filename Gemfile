@@ -2,6 +2,7 @@ source :rubygems
 
 gem 'rack'
 gem 'rake'
+gem 'sprockets'
 
 group :development do
   gem 'thin', :platforms => :ruby

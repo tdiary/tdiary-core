@@ -2,8 +2,13 @@ $:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/application'
 
 use Rack::Reloader
-use Rack::Static, :urls => ["/theme"], :root => "."
-use Rack::Static, :urls => ["/js"], :root => "."
+
+map '/assets' do
+  environment = Sprockets::Environment.new
+  environment.append_path 'js'
+  environment.append_path 'theme'
+  run environment
+end
 
 map "/" do
 	run TDiary::Application.new(:index)
