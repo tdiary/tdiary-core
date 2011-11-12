@@ -4,6 +4,7 @@ require File.expand_path('../tdiary/environment', __FILE__)
 require 'rake'
 require 'rake/clean'
 require 'rspec/core/rake_task'
+require 'rake/testtask'
 
 CLEAN.include(
 	"tmp",
@@ -15,7 +16,7 @@ CLOBBER.include(
 	"coverage"
 )
 
-task :default => [:spec]
+task :default => [:spec, :test]
 
 desc 'Run the code in spec'
 RSpec::Core::RakeTask.new(:spec) do |t|
@@ -58,6 +59,12 @@ namespace :spec do
 			Rake::Task["spec"].invoke
 		end
 	end
+end
+
+Rake::TestTask.new do |t|
+	t.libs << "test"
+	t.test_files = FileList['test/**/*_test.rb']
+	t.verbose = true
 end
 
 desc "generate rdoc files"
