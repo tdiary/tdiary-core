@@ -431,7 +431,7 @@ _END
 	}
 
 	@my_sequel_conf = MySequel::Conf.new(@my_sequel_default_hash)
-	@my_sequel_conf.merge_hash(@options || {})
+	@my_sequel_conf.merge_hash(@options)
 
 	# configuration interface
 	add_conf_proc( 'my-sequel', @my_sequel_plugin_name ) do
