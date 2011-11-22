@@ -4,10 +4,11 @@ require 'tdiary/application'
 use Rack::Reloader
 
 map '/assets' do
-  environment = Sprockets::Environment.new
-  environment.append_path 'js'
-  environment.append_path 'theme'
-  run environment
+	environment = Sprockets::Environment.new
+	['js', 'theme', '../tdiary-contrib/js', '../tdiary-theme'].each do |path|
+		environment.append_path path
+	end
+	run environment
 end
 
 map "/" do
