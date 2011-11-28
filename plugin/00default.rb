@@ -363,7 +363,9 @@ def script_tag_query_string
 	"?#{TDIARY_VERSION}#{Time::now.strftime('%Y%m%d')}"
 end
 
-def js_url; 'js'; end
+def js_url
+	defined?(Rack) ? 'assets' : 'js'
+end
 
 def script_tag
 	query = script_tag_query_string
@@ -378,7 +380,9 @@ def script_tag
 	HEAD
 end
 
-def theme_url; 'theme'; end
+def theme_url
+	defined?(Rack) ? 'assets' : 'theme'
+end
 
 def css_tag
 	if @mode =~ /conf$/ then
