@@ -32,7 +32,6 @@ GEM
       ruby-progressbar (~> 0.0.10)
     highline (1.6.8)
     hike (1.2.1)
-    json_pure (1.6.2)
     launchy (2.0.5)
       addressable (~> 2.2.6)
     launchy (2.0.5-java)
@@ -74,10 +73,10 @@ GEM
     rspec-mocks (2.7.0)
     ruby-progressbar (0.0.10)
     rubyzip (0.9.5)
-    selenium-webdriver (2.13.0)
+    selenium-webdriver (2.14.0)
       childprocess (>= 0.2.1)
       ffi (~> 1.0.9)
-      json_pure
+      multi_json (~> 1.0.4)
       rubyzip
     simplecov (0.5.4)
       multi_json (~> 1.0.3)

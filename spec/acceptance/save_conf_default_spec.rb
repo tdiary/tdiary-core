@@ -127,7 +127,26 @@ FOOTER
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
-	scenario 'テーマ選択が保存される' do
+	scenario 'Rack 環境でテーマ選択が保存される', :exclude_mechanize => true do
+		visit '/update.rb?conf=theme'
+		select 'Tdiary1', :from => 'theme'
+
+		click_button "OK"
+		within('title') { page.should have_content('(設定完了)') }
+
+		click_link '最新'
+		within('head') {
+			page.should have_css('link[href="assets/base.css"]')
+			page.should have_css('link[href="assets/tdiary1/tdiary1.css"]')
+		}
+
+		visit '/update.rb?conf=theme'
+		within('select option[selected]'){
+			page.should have_content 'Tdiary1'
+		}
+	end
+
+	scenario 'Webrick 環境でテーマ選択が保存される', :exclude_rack => true do
 		visit '/update.rb?conf=theme'
 		select 'Tdiary1', :from => 'theme'
 

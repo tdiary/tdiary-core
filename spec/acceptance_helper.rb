@@ -51,6 +51,7 @@ RSpec.configure do |config|
 	when 'secure'
 		config.filter_run_excluding :exclude_secure => true
 	else
+		config.filter_run_excluding :exclude_rack => true
 		config.filter_run_excluding :exclude_no_secure => true
 	end
 end
