@@ -76,7 +76,11 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
 		size = ''
 	elsif size
 		if size.kind_of?(Array)
-			size = %Q| width="#{h size[0]}" height="#{h size[1]}"|
+			if size.length > 1
+				size = %Q| width="#{h size[0]}" height="#{h size[1]}"|
+			elsif size.length > 0
+				size = %Q| width="#{h size[0]}"|
+			end
 		else
 			size = %Q| width="#{size.to_i}"|
 		end
