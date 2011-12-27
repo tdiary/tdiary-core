@@ -5,7 +5,8 @@ gem 'rake'
 gem 'sprockets'
 
 group :development do
-  gem 'thin', :platforms => :ruby
+  gem 'thin', :require => false, :platforms => :ruby
+  gem 'racksh'
 
   gem 'capistrano', :require => false
   gem 'capistrano_colors', :require => false
