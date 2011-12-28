@@ -88,7 +88,7 @@ desc "compile coffeescript"
 task :compile do
 	require 'coffee-script'
 	FileList['js/**/*.coffee'].each do |coffee|
-		File.open(Pathname(coffee).sub_ext('.js'), 'w') do |js|
+		File.open(coffee.gsub(Pathname(coffee).extname, '.js'), 'w') do |js|
 			js.write CoffeeScript.compile(File.read(coffee))
 		end
 	end
