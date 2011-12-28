@@ -84,6 +84,16 @@ task :rdoc do
 	`cd #{root_dir} && rdoc --all --charset=UTF8 --op=rdoc --inline-source README ChangeLog index.rb update.rb tdiary.rb tdiary/* misc/* plugin/*`
 end
 
+desc "compile coffeescript"
+task :compile do
+	require 'coffee-script'
+	FileList['js/**/*.coffee'].each do |coffee|
+		File.open(Pathname(coffee).sub_ext('.js'), 'w') do |js|
+			js.write CoffeeScript.compile(File.read(coffee))
+		end
+	end
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t
