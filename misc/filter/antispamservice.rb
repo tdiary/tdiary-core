@@ -77,14 +77,13 @@ module TDiary::Filter
 				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Antispam filter/$Revision: 1.4 $",
 				'Content-Type' => 'application/x-www-form-urlencoded'
 			}
-			body = nil
 			debug( "antispam request: #{data}", DEBUG_FULL )
 			proxy_h, proxy_p = (@conf['proxy'] || '').split( /:/ )
-			::Net::HTTP::Proxy( proxy_h, proxy_p ).start( uri.host, uri.port ) do |http|
-				res, body = http.post( uri.path, data, header )
+			res = ::Net::HTTP::Proxy( proxy_h, proxy_p ).start( uri.host, uri.port ) do |http|
+				http.post( uri.path, data, header )
 			end
-			debug( "antispam result: #{body}", DEBUG_FULL )
-			return (body != 'true')
+			debug( "antispam result: #{res.body}", DEBUG_FULL )
+			return (res.body != 'true')
 		end
 
 		def u( str )

@@ -67,12 +67,11 @@ def antispam_verify_key?( host, key )
 		'User-Agent' => "tDiary/#{TDIARY_VERSION} | Antispam filter",
 		'Content-Type' => 'application/x-www-form-urlencoded'
 	}
-	body = nil
 	proxy_h, proxy_p = (@conf['proxy'] || '').split( /:/ )
-	::Net::HTTP::Proxy( proxy_h, proxy_p ).start( uri.host, uri.port ) do |http|
-		res, body = http.post( uri.path, data, header )
+	res = ::Net::HTTP::Proxy( proxy_h, proxy_p ).start( uri.host, uri.port ) do |http|
+		http.post( uri.path, data, header )
 	end
-	return (body == 'valid')
+	return (res.body == 'valid')
 end
 
 # Local Variables:

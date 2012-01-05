@@ -1,3 +1,6 @@
+2012-01-05 TADA Tadashi <t@tdtds.jp>
+	* filter/antispamservice.rb: discontinued using Net::HTTP.version_1_1.
+
 2011-12-13 TADA Tadashi <t@tdtds.jp>
 	* plugin/image.rb: set correct image size when size parameter has under 2 items. #119
 
