@@ -1,3 +1,6 @@
+2012-01-06 TADA Tadashi <t@tdtds.jp>
+	* plugin/amazon.rb: show an error message when API timeouted.
+
 2012-01-05 TADA Tadashi <t@tdtds.jp>
 	* filter/antispamservice.rb: discontinued using Net::HTTP.version_1_1.
 

@@ -273,7 +273,12 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 				amazon_to_html( item, with_image, label, pos )
 			end
 		rescue Timeout::Error
-			asin
+			@logger.error "amazon.rb: Amazon API Timeouted."
+			message = asin
+			if @mode == 'preview' then
+				message << %Q|<span class="message">(Amazon API Timeouted))</span>|
+			end
+			message
 		rescue NoMethodError
 			message = label || asin
 			if @mode == 'preview' then
