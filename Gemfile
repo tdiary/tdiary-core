@@ -3,11 +3,11 @@ source :rubygems
 gem 'rack'
 gem 'rake'
 gem 'sprockets'
+gem 'coffee-script'
 
 group :development do
   gem 'thin', :require => false, :platforms => :ruby
   gem 'racksh', :require => false
-  gem 'coffee-script'
 
   gem 'capistrano', :require => false
   gem 'capistrano_colors', :require => false
