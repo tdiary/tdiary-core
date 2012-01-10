@@ -1,3 +1,6 @@
+2012-01-10 TADA Tadashi <t@tdtds.jp>
+	* fixed incorrect version number (2011->2012).
+
 2012-01-08  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* tdiary/plugin.rb, Rakefile: support CoffeeScript, enabled dynamic compile when running on Rack mode.
 
