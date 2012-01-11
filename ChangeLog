@@ -1,3 +1,6 @@
+2012-01-11 TADA Tadashi <t@tdtds.jp>
+	* plugin/title_tag.rb: fixed over escape in title element. #127
+
 2012-01-10 TADA Tadashi <t@tdtds.jp>
 	* fixed incorrect version number (2011->2012).
 

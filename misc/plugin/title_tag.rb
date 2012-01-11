@@ -59,7 +59,7 @@ def title_tag
 		else
 			t2 << diary.all_stripped_subtitles_to_html.join(', ')
 		end
-		return "<title>#{h day_title}#{h( @conf.shorten(apply_plugin(t2, true)) )}#{h( site_title )}</title>"
+		return "<title>#{h day_title}#{@conf.shorten(apply_plugin(t2, true))}#{h( site_title )}</title>"
 	elsif @mode == 'categoryview' then
 		return @conf.shorten("<title>#{h( @html_title )}#{h( category_title() )}</title>")
 	else
