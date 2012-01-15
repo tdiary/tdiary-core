@@ -51,7 +51,7 @@
 require 'cgi'
 require 'open-uri'
 require 'timeout'
-require 'rexml/document'
+autoload :REXML, 'rexml/document'
 
 def amazon_call_ecs( asin, country = nil )
 	aid = @amazon_aid || 'cshs-22'
