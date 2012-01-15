@@ -246,15 +246,18 @@ module TDiary
 			@plugin ||= Plugin::new(
 				'conf' => @conf,
 				'mode' => mode,
-				'diaries' => @diaries,
 				'cgi' => @cgi,
 				'years' => @years,
 				'cache_path' => cache_path,
-				'date' => @date,
-				'comment' => @comment,
 				'last_modified' => last_modified,
 				'logger' => @logger
 			)
+			# initialize no memoize valiable.
+			@plugin.diaries = @diaries
+			@plugin.date = @date
+			@plugin.comment = @comment
+
+			@plugin
 		end
 
 		def <<( diary )
