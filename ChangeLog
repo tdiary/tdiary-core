@@ -1,5 +1,6 @@
 2012-01-14  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* misc/plugins/amazon.rb, misc/plugins/amazon/amazonimg.rb: use autoload when require REXML, because REXML loading was so heavy.
+	* tdiary.rb: using memoization for load_plugins.
 
 2012-01-11 TADA Tadashi <t@tdtds.jp>
 	* plugin/title_tag.rb: fixed over escape in title element. #127
