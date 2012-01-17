@@ -246,18 +246,8 @@ module TDiary
 
 		private
 		def setup_attr_accessor_to_all_ivars
-			instance_variables.each do |ivar_sym|
-				v = ivar_sym.to_s.sub( /@/, '' )
-				instance_eval( <<-SRC
-					def #{v}
-						@#{v}
-					end
-					def #{v}=(p)
-						@#{v} = p
-					end
-					SRC
-				)
-			end
+			names = instance_variables().collect {|ivar| ivar.to_s.sub(/@/, '') }
+			(class << self; self; end).class_eval { attr_accessor *names }
 		end
 
 		def configure_bot_pattern
@@ -267,17 +257,7 @@ module TDiary
 		end
 
 		def method_missing( *m )
-			if m.length == 1 then
-				instance_eval( <<-SRC
-					def #{m[0]}
-						@#{m[0]}
-					end
-					def #{m[0]}=( p )
-						@#{m[0]} = p
-					end
-					SRC
-				)
-			end
+			(class << self; self; end).class_eval { attr_accessor m[0] } if m.length == 1
 			nil
 		end
 	end
