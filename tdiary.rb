@@ -255,6 +255,7 @@ module TDiary
 			# initialize no memoize valiable.
 			@plugin.diaries = @diaries
 			@plugin.date = @date
+			@plugin.last_modified = last_modified
 			@plugin.comment = @comment
 
 			@plugin
