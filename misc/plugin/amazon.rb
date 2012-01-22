@@ -5,10 +5,11 @@
 # Copyright (C) 2005-2007 TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
-require 'net/http'
-require 'uri'
-require 'timeout'
-autoload :REXML, 'rexml/document'
+
+autoload :Net,     'net/http'
+autoload :URI,     'uri'
+autoload :Timeout, 'timeout'
+autoload :REXML,   'rexml/document'
 
 # do not change these variables
 @amazon_subscription_id = '1CVA98NEF1G753PFESR2'
@@ -78,7 +79,7 @@ def amazon_call_ecs( asin, id_type, country )
 	url << "&Version=#{@amazon_require_version}"
 
 	begin
-		timeout( 10 ) do
+		Timeout.timeout( 10 ) do
 			amazon_fetch( url )
 		end
 	rescue ArgumentError
