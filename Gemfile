@@ -18,7 +18,6 @@ group :development do
 
     gem 'test-unit', :require => 'test/unit'
     gem 'rspec'
-    gem 'fuubar'
 
     gem 'capybara', :require => 'capybara/rspec'
     gem 'capybara-mechanize', '~> 0.3.0.rc3', :require => 'capybara/mechanize'
