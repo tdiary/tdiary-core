@@ -33,7 +33,6 @@ def title_list( rev = false )
 	apply_plugin( result << "</ul>\n" )
 end
 
-
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t
