@@ -41,9 +41,8 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 	recent_comment3_init
 
 	cache = @conf['recent_comment3.cache'].untaint
-	max = @conf['recent_comment3.max']
 	date_format = @conf['recent_comment3.date_format'] 
-	except = @conf['recent_comment3.except_list'].split(/,/)
+	excepts = @conf['recent_comment3.except_list'].split(/,/)
 	format = @conf['recent_comment3.format']
 	titlelen = @conf['recent_comment3.titlelen']
 	notfound_msg = @conf['recent_comment.notfound_msg']
@@ -56,10 +55,10 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 	PStore.new(cache).transaction do |db|
 		break unless db.root?('comments')
 		db['comments'].each do |c|
-			break if idx >= max or c.nil?
+			break if c.nil? || idx >= @conf['recent_comment3.max']
+
 			comment, date, serial = c
-			next unless comment.visible?
-			next if except.include?(comment.name)
+			next if excepts.include?(comment.name) || !comment.visible?
 
 			a = h( @index ) + anchor("#{date.strftime('%Y%m%d')}#c#{'%02d' % serial}")
 			# XXX handling Encoding::CompatibilityError
@@ -72,7 +71,7 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 			entry_date = "#{date.strftime('%Y%m%d')}"
 			comment_str = entries[entry_date]
 
-			if comment_str == nil then
+			if comment_str.nil?
 				comment_str = []
 				tree_order << entry_date
 			end
@@ -86,30 +85,27 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 
 	result = []
 
-	if @conf['recent_comment3.tree'] == "t" then
+	if @conf['recent_comment3.tree'] == "t"
 		if entries.size == 0
 			notfound_msg
 		else
 			cgi = CGI::new
 			def cgi.referer; nil; end
 
-			tree_order.each do | entry_date |
+			tree_order.each do |entry_date|
 				a_entry = @index + anchor(entry_date)
 				cgi.params['date'] = [entry_date]
 				diary = TDiaryDay::new(cgi, '', @conf)
+				title = diary.diaries[entry_date].title.gsub( /<[^>]*>/, '' ) if diary
 
-				if diary != nil then
-					title = diary.diaries[entry_date].title.gsub( /<[^>]*>/, '' )
-				end
-
-				if title == nil || title.length == 0 || title.strip.delete('　').delete(' ').length == 0 then
+				if title.nil? || title.length == 0 || title.strip.delete('　').delete(' ').length == 0 then
 					date = Time.parse(entry_date)
 					title = "#{date.strftime @date_format}"
 				end
 
 				result << "<li>"
 				result << %Q|<a href="#{h( a_entry )}">#{h( @conf.shorten( title, titlelen ) )}</a><br>|
-				entries[entry_date].sort.each do | comment_str |
+				entries[entry_date].sort.each do |comment_str|
 					result << comment_str + "<br>"
 				end
 				result << "</li>\n"
@@ -137,14 +133,12 @@ add_update_proc do
 	cache = @conf['recent_comment3.cache'].untaint
 	size = @conf['recent_comment3.cache_size']
 
-	if @mode == 'comment' and @comment and @comment.visible? then
-		PStore.new( cache ).transaction do |db|
+	if @mode == 'comment' && @comment && @comment.visible?
+		PStore.new(cache).transaction do |db|
 			comment = @comment
 			serial = 0
-			@diaries[date].each_comment do
-				serial += 1
-			end
-			db['comments'] = Array.new( size ) unless db.root?( 'comments' )
+			@diaries[date].each_comment { serial += 1 }
+			db['comments'] = Array.new( size ) unless db.root?('comments')
 			if db['comments'][0].nil? or comment != db['comments'][0][0]
 				db['comments'].unshift([comment, @date, serial]).pop
 			end
@@ -152,13 +146,15 @@ add_update_proc do
 	elsif @mode == 'showcomment'
 		PStore.new( cache ).transaction do |db|
 			break unless db.root?('comments')
-			
+
 			@diaries[date].each_comment do |dcomment|
 				db['comments'].each do |c|
 					break if c.nil?
+
 					comment, cdate, serial = c
 					next if cdate.strftime('%Y%m%d') != date
-					if comment == dcomment and comment.date.to_s == dcomment.date.to_s
+
+					if comment == dcomment && comment.date.to_s == dcomment.date.to_s
 						comment.show = dcomment.visible?
 						next
 					end
