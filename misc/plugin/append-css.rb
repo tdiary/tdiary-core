@@ -7,7 +7,7 @@
 # Distributed under the GPL
 #
 add_header_proc do
-	if @mode !~ /conf$/ and @conf['append-css.css'] and @conf['append-css.css'].length > 0 and not bot? then
+	if @mode !~ /conf$/ && @conf['append-css.css'] && @conf['append-css.css'].length > 0 && !bot?
 		<<-HTML if @conf['append-css.css']
 		<style type="text/css"><!--
 		#{@conf['append-css.css']}
@@ -18,7 +18,7 @@ add_header_proc do
 	end
 end
 
-unless @resource_loaded then
+unless @resource_loaded
 	def append_css_label
 		'CSSの追加'
 	end
@@ -33,7 +33,7 @@ unless @resource_loaded then
 end
 
 add_conf_proc( 'append-css', append_css_label, 'theme' ) do
-	if @mode == 'saveconf' then
+	if @mode == 'saveconf'
 		@conf['append-css.css'] = @cgi.params['append-css.css'][0]
 	end
 
@@ -42,7 +42,6 @@ add_conf_proc( 'append-css', append_css_label, 'theme' ) do
 	<p><textarea name="append-css.css" cols="60" rows="15">#{h @conf['append-css.css']}</textarea></p>
 	HTML
 end
-
 
 # Local Variables:
 # mode: ruby

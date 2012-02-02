@@ -20,7 +20,7 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 def bq( src, title = nil, url = nil )
-	if url then
+	if url
 		result = %Q[<blockquote cite="#{h url}" title="#{h title}">\n]
 	elsif title
 		result = %Q[<blockquote title="#{h title}">\n]
@@ -29,16 +29,16 @@ def bq( src, title = nil, url = nil )
 	end
 	result << %Q[<p>#{src.gsub( /\n/, "</p>\n<p>" )}</p>\n].sub( %r[<p></p>], '' )
 	result << %Q[</blockquote>\n]
-	if url then
+	if url
 		cite = %Q[<cite><a href="#{h url}" title="#{h bq_cite_from( title )}">#{title}</a></cite>]
 		result << %Q[<p class="source">[#{bq_cite_from cite}]</p>\n]
 	elsif title
 		cite = %Q[<cite>#{title}</cite>]
-		result << %Q[<p class="source">[#{bq_cite_from( cite )}]</p>\n]
+		result << %Q[<p class="source">[#{bq_cite_from cite}]</p>\n]
 	end
+
 	result
 end
-
 
 # Local Variables:
 # mode: ruby
