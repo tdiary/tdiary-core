@@ -47,12 +47,12 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 	format = @conf['recent_comment3.format']
 	titlelen = @conf['recent_comment3.titlelen']
 	notfound_msg = @conf['recent_comment.notfound_msg']
-	
+
 	entries = {}
 	tree_order =[]
 	order = []
 	idx = 0
-	
+
 	PStore.new(cache).transaction do |db|
 		break unless db.root?('comments')
 		db['comments'].each do |c|
@@ -60,31 +60,31 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 			comment, date, serial = c
 			next unless comment.visible?
 			next if except.include?(comment.name)
-			
+
 			a = h( @index ) + anchor("#{date.strftime('%Y%m%d')}#c#{'%02d' % serial}") 
 			popup = h(comment.shorten( @conf.comment_length ))
 			str = h(comment.name)
 			date_str = h( comment.date.strftime(date_format) )
-			
+
 			idx += 1
-			
+
 			entry_date = "#{date.strftime('%Y%m%d')}"
 			comment_str = entries[entry_date]
-			
+
 			if comment_str == nil then
 				comment_str = []
 				tree_order << entry_date
 			end
-			
+
 			comment_str << recent_comment3_format(format, idx, a, popup, str, date_str)
 			entries[entry_date] = comment_str
-			order << entry_date			
+			order << entry_date
 		end
 		db.abort
 	end
-	
+
 	result = []
-	
+
 	if @conf['recent_comment3.tree'] == "t" then
 		if entries.size == 0
 			notfound_msg
@@ -100,11 +100,12 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 				if diary != nil then
 					title = diary.diaries[entry_date].title.gsub( /<[^>]*>/, '' )
 				end
+
 				if title == nil || title.length == 0 || title.strip.delete('　').delete(' ').length == 0 then
 					date = Time.parse(entry_date)
 					title = "#{date.strftime @date_format}"
 				end
-				
+
 				result << "<li>"
 				result << %Q|<a href="#{h( a_entry )}">#{h( @conf.shorten( title, titlelen ) )}</a><br>|
 				entries[entry_date].sort.each do | comment_str |
@@ -112,7 +113,7 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 				end
 				result << "</li>\n"
 			end
-			
+
 			%Q|<ul class="recent-comment">\n| + result.join( '' ) + "</ul>\n"
 		end
 	else
@@ -130,11 +131,11 @@ end
 
 add_update_proc do
 	recent_comment3_init
-	
+
 	date = @date.strftime( '%Y%m%d' )
 	cache = @conf['recent_comment3.cache'].untaint
 	size = @conf['recent_comment3.cache_size']
-	
+
 	if @mode == 'comment' and @comment and @comment.visible? then
 		PStore.new( cache ).transaction do |db|
 			comment = @comment

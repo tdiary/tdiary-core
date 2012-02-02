@@ -14,6 +14,7 @@ module TDiary
 
 		def shorten( length = 120 )
 			matched = body.gsub( /\n/, ' ' ).scan( /^.{0,#{length - 2}}/u )[0]
+
 			unless $'.empty? then
 				matched + '..'
 			else
