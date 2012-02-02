@@ -37,9 +37,9 @@ end
 
 def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSOLUTE',*ob_except )
 	return 'DO NOT USE IN SECURE MODE' if @conf.secure
-	
+
 	recent_comment3_init
-	
+
 	cache = @conf['recent_comment3.cache'].untaint
 	max = @conf['recent_comment3.max']
 	date_format = @conf['recent_comment3.date_format'] 
@@ -61,8 +61,9 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 			next unless comment.visible?
 			next if except.include?(comment.name)
 
-			a = h( @index ) + anchor("#{date.strftime('%Y%m%d')}#c#{'%02d' % serial}") 
-			popup = h(comment.shorten( @conf.comment_length ))
+			a = h( @index ) + anchor("#{date.strftime('%Y%m%d')}#c#{'%02d' % serial}")
+			# XXX handling Encoding::CompatibilityError
+			popup = h(comment.shorten(@conf.comment_length)) rescue nil
 			str = h(comment.name)
 			date_str = h( comment.date.strftime(date_format) )
 
@@ -91,12 +92,12 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 		else
 			cgi = CGI::new
 			def cgi.referer; nil; end
-			
+
 			tree_order.each do | entry_date |
 				a_entry = @index + anchor(entry_date)
 				cgi.params['date'] = [entry_date]
 				diary = TDiaryDay::new(cgi, '', @conf)
-				
+
 				if diary != nil then
 					title = diary.diaries[entry_date].title.gsub( /<[^>]*>/, '' )
 				end
