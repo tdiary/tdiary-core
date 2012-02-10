@@ -13,7 +13,7 @@ autoload :REXML,   'rexml/document'
 
 # do not change these variables
 @amazon_subscription_id = '1CVA98NEF1G753PFESR2'
-@amazon_require_version = '2007-01-17'
+@amazon_require_version = '2011-08-01'
 
 @amazon_url_hash = {
   'ca' => 'http://www.amazon.ca/exec/obidos/ASIN',
