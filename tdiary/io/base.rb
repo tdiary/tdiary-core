@@ -9,28 +9,28 @@ module TDiary
 			raise StandardError, 'not implemented'
 		end
 
-		def transaction( date )
+		def transaction(date)
 			raise StandardError, 'not implemented'
 		end
 
-		def diary_factory( date, title, body, style = nil )
+		def diary_factory(date, title, body, style = nil)
 			raise StandardError, 'not implemented'
 		end
 
-		def styled_diary_factory( date, title, body, style_name = 'tDiary' )
-			return style( style_name.downcase )::new( date, title, body )
+		def styled_diary_factory(date, title, body, style_name = 'tDiary')
+			return style(style_name.downcase).new(date, title, body)
 		end
 
 		def load_styles
 			@styles = {}
-			Dir::glob( "#{TDiary::PATH}/tdiary/{style/,}*_style.rb" ) do |style_file|
+			Dir.glob("#{TDiary::PATH}/tdiary/{style/,}*_style.rb") do |style_file|
 				require style_file.untaint
 				style = File::basename( style_file ).sub( /_style\.rb$/, '' )
-				@styles[style] = TDiary::const_get( "#{style.capitalize}Diary" )
+				@styles[style] = TDiary.const_get("#{style.capitalize}Diary")
 			end
 		end
 
-		def style( s )
+		def style(s)
 			unless @styles
 				raise BadStyleError, "styles are not loaded"
 			end
