@@ -23,7 +23,7 @@ module TDiary
 
 		def load_styles
 			@styles = {}
-			Dir::glob( "#{TDiary::PATH}/tdiary/*_style.rb" ) do |style_file|
+			Dir::glob( "#{TDiary::PATH}/tdiary/style/*_style.rb" ) do |style_file|
 				require style_file.untaint
 				style = File::basename( style_file ).sub( /_style\.rb$/, '' )
 				@styles[style] = TDiary::const_get( "#{style.capitalize}Diary" )

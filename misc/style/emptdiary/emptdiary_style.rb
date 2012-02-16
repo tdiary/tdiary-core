@@ -43,7 +43,7 @@ of GPL version 2 or later.
 - override body_to_html
 =end
  
-require 'tdiary/tdiary_style'
+require 'tdiary/style/tdiary_style'
 
 =begin
 == Classes and methods defined in this style
