@@ -24,9 +24,9 @@ module TDiary
     attr_reader :categories, :stripped_subtitle
     attr_reader :subtitle_to_html, :stripped_subtitle_to_html, :body_to_html
 
-    def initialize( fragment, author = nil )
+    def initialize(fragment, author = nil)
       @author = author
-      @subtitle, @body = fragment.split( /\n/, 2 )
+      @subtitle, @body = fragment.split(/\n/, 2)
       @subtitle.sub!(/^\#\s*/,'')
       @body ||= ''
 
@@ -41,9 +41,7 @@ module TDiary
     def subtitle=(subtitle)
       @categories = categories
       cat_str = ""
-      categories.each {|cat|
-        cat_str << "[#{cat}]"
-      }
+      categories.each {|cat| cat_str << "[#{cat}]"}
       cat_str << " " unless cat_str.empty?
       @subtitle = (subtitle || '').sub(/^# /,"\##{cat_str} ")
       @strip_subtitle = strip_subtitle
@@ -60,9 +58,8 @@ module TDiary
     def categories=(categories)
       @categories = categories
       cat_str = ""
-      categories.each {|cat|
-        cat_str << "[#{cat}]"
-      }
+      categories.each {|cat| cat_str << "[#{cat}]"}
+      cat_str << " " unless cat_str.empty?
       @subtitle = "#{cat_str} " + (strip_subtitle || '')
       @strip_subtitle = strip_subtitle
     end
@@ -73,31 +70,30 @@ module TDiary
       r << @body
     end
 
-    def html4( date, idx, opt )
+    def html4(date, idx, opt)
       r = %Q[<div class="section">\n]
-      r << %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
+      r << %Q[<%=section_enter_proc( Time.at( #{date.to_i} ) )%>\n]
       r << do_html4( date, idx, opt )
-      r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
+      r << %Q[<%=section_leave_proc( Time.at( #{date.to_i} ) )%>\n]
       r << "</div>\n"
     end
 
-    def do_html4( date, idx, opt )
-      r = ''
+    def do_html4(date, idx, opt)
       subtitle = to_html('# ' + @subtitle)
       subtitle.sub!( %r!<h3>(.+?)</h3>!m ) do
-        "<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
+        "<h3><%= subtitle_proc( Time.at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
       end
       if opt['multi_user'] and @author then
         subtitle.sub!(/<\/h3>/,%Q|[#{@author}]</h3>|)
       end
-      r << subtitle
+      r = subtitle
       r << @body_to_html
     end
 
-    def chtml( date, idx, opt )
-      r = %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
+    def chtml(date, idx, opt)
+      r = %Q[<%=section_enter_proc( Time.at( #{date.to_i} ) )%>\n]
       r << do_html4( date, idx, opt )
-      r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
+      r << %Q[<%=section_leave_proc( Time.at( #{date.to_i} ) )%>\n]
     end
 
     def to_s
@@ -142,7 +138,7 @@ module TDiary
     include DiaryBase
     include CategorizableDiary
 
-    def initialize( date, title, body, modified = Time::now )
+    def initialize(date, title, body, modified = Time.now)
       init_diary
       replace( date, title, body )
       @last_modified = modified
@@ -152,19 +148,19 @@ module TDiary
       'GFM'
     end
 
-    def replace( date, title, body )
+    def replace(date, title, body)
       set_date( date )
       set_title( title )
       @sections = []
       append( body )
     end
 
-    def append( body, author = nil )
+    def append(body, author = nil)
       section = nil
       body.each_line do |l|
         case l
         when /^\#[^\#]/
-          @sections << GfmSection::new( section, author ) if section
+          @sections << GfmSection.new(section, author) if section
           section = l
         else
           section = '' unless section
@@ -173,9 +169,9 @@ module TDiary
       end
       if section
         section << "\n" unless section=~/\n\n\z/
-        @sections << GfmSection::new( section, author )
+        @sections << GfmSection.new(section, author)
       end
-      @last_modified = Time::now
+      @last_modified = Time.now
       self
     end
 
@@ -186,7 +182,7 @@ module TDiary
     end
 
     def add_section(subtitle, body)
-      sec = GfmSection::new("\n")
+      sec = GfmSection.new("\n")
       sec.subtitle = subtitle
       sec.body     = body
       @sections << sec
@@ -205,16 +201,16 @@ module TDiary
       r
     end
 
-    def to_html( opt = {}, mode = :HTML )
+    def to_html(opt = {}, mode = :HTML)
       case mode
       when :CHTML
-        to_chtml( opt )
+        to_chtml(opt)
       else
-        to_html4( opt )
+        to_html4(opt)
       end
     end
 
-    def to_html4( opt )
+    def to_html4(opt)
       r = ''
       idx = 1
       each_section do |section|
@@ -224,11 +220,11 @@ module TDiary
       r
     end
 
-    def to_chtml( opt )
+    def to_chtml(opt)
       r = ''
       idx = 1
       each_section do |section|
-        r << section.chtml( date, idx, opt )
+        r << section.chtml(date, idx, opt)
         idx += 1
       end
       r
