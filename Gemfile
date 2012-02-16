@@ -5,6 +5,8 @@ gem 'rake'
 gem 'sprockets'
 gem 'coffee-script'
 
+gem 'redcarpet'
+
 group :development do
   gem 'thin', :require => false, :platforms => :ruby
   gem 'racksh', :require => false

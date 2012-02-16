@@ -69,7 +69,7 @@ module TDiary
 
     def to_src
       r = ''
-      r << "\##{@subtitle}\n" if @subtitle
+      r << "\# #{@subtitle}\n" if @subtitle
       r << @body
     end
 
@@ -92,14 +92,12 @@ module TDiary
       end
       r << subtitle
       r << @body_to_html
-      r
     end
 
     def chtml( date, idx, opt )
-      r = ''
-      r << to_html(@subtitle)
-      r << @body_to_html
-      r
+      r = %Q[<%=section_enter_proc( Time::at( #{date.to_i} ) )%>\n]
+      r << do_html4( date, idx, opt )
+      r << %Q[<%=section_leave_proc( Time::at( #{date.to_i} ) )%>\n]
     end
 
     def to_s
