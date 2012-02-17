@@ -31,6 +31,10 @@ namespace :deploy do
   task :update_library, :roles => :app do
     run "cp -r #{shared_path}/lib/* #{latest_release}/misc/lib"
     run "cp -r #{shared_path}/js/* #{latest_release}/js"
+    config[:styles].each do |style|
+      src = "#{latest_release}/misc/style/#{style}/#{style}_style.rb"
+      dest = "#{latest_release}/tdiary/style"
+      run "cp -r #{src} #{dest}"
   end
 
   after 'deploy:finalize_update', 'deploy:update_library'
