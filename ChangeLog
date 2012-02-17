@@ -1,3 +1,7 @@
+2012-02-17  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary/io/base.rb, tdiary/*_style.rb: restructured style file path.
+	* misc/style/gfm/gfm_style.rb: added Github Flavored Markdown style.
+
 2012-01-10 TADA Tadashi <t@tdtds.jp>
 	* amazon.rb: changed required API version to 2011-08-01. #134
 
