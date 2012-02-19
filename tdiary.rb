@@ -17,11 +17,7 @@ require 'uri'
 require 'logger'
 require 'pstore'
 require 'json'
-begin
-	require 'erb_fast'
-rescue LoadError
-	require 'erb'
-end
+require 'erb'
 require 'tdiary/compatible'
 require 'tdiary/core_ext'
 
