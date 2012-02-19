@@ -109,7 +109,7 @@ module TDiary
       r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
       r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
       r.gsub!(/\{\{(.+?)\}\}/) {
-        "<%=#{$1}%>"
+        "<%=#{CGI.unescapeHTML($1)}%>"
       }
       r
     end

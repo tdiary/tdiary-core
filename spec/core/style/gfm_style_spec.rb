@@ -98,6 +98,31 @@ replace
 		end
 		it { @diary.to_html.should eq @html }
 	end
+
+	describe 'plugin syntax' do
+		before do
+			source = <<-'EOF'
+# subTitle
+{{plugin 'val'}}
+
+{{plugin "val", 'val'}}
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><%=plugin 'val'%></p>
+
+<p><%=plugin "val", 'val'%></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
 end
 
 # Local Variables:
