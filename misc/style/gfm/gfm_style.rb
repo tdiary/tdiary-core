@@ -103,7 +103,8 @@ module TDiary
 		private
 
 		def to_html(string)
-			r = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(:hard_wrap => true),
+			r = Redcarpet::Markdown.new(
+				Redcarpet::Render::HTML.new(:hard_wrap => true),
 				{:fenced_code_blocks => true, :autolink => true, :tables => true}).
 				render( string )
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
@@ -111,6 +112,14 @@ module TDiary
 			r.gsub!(/\{\{(.+?)\}\}/) {
 				"<%=#{CGI.unescapeHTML($1)}%>"
 			}
+			r.gsub!(/\((.*?)\)\[(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?\]/) {
+				unless $1.empty?
+					%Q|<%=my "#{$2}#{$3}", "#{$1}" %>|
+				else
+					%Q|<%=my "#{$2}#{$3}", "#{$2}#{$3}" %>|
+				end
+			}
+
 			r
 		end
 

@@ -123,6 +123,32 @@ replace
 		end
 		it { @diary.to_html.should eq @html }
 	end
+
+	describe 'link to my plugin' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+()[20120101p01]
+
+(Link)[20120101p01]
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><%=my "20120101p01", "20120101p01" %></p>
+
+<p><%=my "20120101p01", "Link" %></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
 end
 
 # Local Variables:
