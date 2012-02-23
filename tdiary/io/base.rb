@@ -23,10 +23,14 @@ module TDiary
 
 		def load_styles
 			@styles = {}
-			Dir.glob("#{TDiary::PATH}/tdiary/{style/,}*_style.rb") do |style_file|
-				require style_file.untaint
-				style = File.basename(style_file, '_style.rb')
-				@styles[style] = TDiary.const_get("#{style.capitalize}Diary")
+			paths = [@tdiary.conf.options['style.path']].flatten || ["#{TDiary::PATH}/tdiary/style", "#{TDiary::PATH}/tdiary"]
+			paths.each do |path|
+				path = path.sub( /\/+$/, '' )
+				Dir::glob( "#{path}/*_style.rb" ) do |style_file|
+					require style_file.untaint
+					style = File::basename( style_file ).sub( /_style\.rb$/, '' )
+					@styles[style] = TDiary::const_get( "#{style.capitalize}Diary" )
+				end
 			end
 		end
 
