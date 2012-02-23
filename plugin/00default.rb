@@ -359,6 +359,8 @@ end
 enable_js( '00default.js' )
 add_js_setting( '$tDiary.style', "'#{@conf.style.downcase.sub( /\Ablog/, '' )}'" )
 
+	enable_js( '02edit.js' )
+
 def script_tag_query_string
 	"?#{TDIARY_VERSION}#{Time::now.strftime('%Y%m%d')}"
 end

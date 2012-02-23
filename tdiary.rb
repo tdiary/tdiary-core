@@ -377,8 +377,9 @@ module TDiary
 		def load_logger
 			return if @logger
 
+			require 'fileutils'
 			log_path = (@conf.log_path || "#{@conf.data_path}log").untaint
-			Dir::mkdir( log_path ) unless FileTest::directory?( log_path )
+			FileUtils.mkdir_p( log_path ) unless FileTest::directory?( log_path )
 
 			@logger = Logger::new( File.join(log_path, "debug.log"), 'daily' )
 			@logger.level = Logger.const_get( @conf.log_level || 'DEBUG' )
