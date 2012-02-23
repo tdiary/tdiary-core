@@ -23,8 +23,8 @@ module TDiary
 
 		def load_styles
 			@styles = {}
-			paths = ["#{TDiary::PATH}/tdiary/style", "#{TDiary::PATH}/tdiary", @tdiary.conf.options['style.path']]
-			paths.flatten.each do |path|
+			paths = [@tdiary.conf.options['style.path']].flatten || ["#{TDiary::PATH}/tdiary/style", "#{TDiary::PATH}/tdiary"]
+			paths.each do |path|
 				path = path.sub( /\/+$/, '' )
 				Dir::glob( "#{path}/*_style.rb" ) do |style_file|
 					require style_file.untaint
