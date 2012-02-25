@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 require File.expand_path('../tdiary/environment', __FILE__)
+Bundler.require :test
+
 require 'rake'
 require 'rake/clean'
 require 'rspec/core/rake_task'
@@ -47,7 +49,7 @@ namespace :spec do
 		end
 	end
 
-	if defined?(RCov)
+	if defined?(Rcov)
 		desc 'Run the code in specs with RCov'
 		RSpec::Core::RakeTask.new(:report) do |t|
 			t.pattern = "spec/**/*_spec.rb"
