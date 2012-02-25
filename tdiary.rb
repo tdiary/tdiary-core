@@ -15,6 +15,7 @@ Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.u
 require 'cgi'
 require 'uri'
 require 'logger'
+require 'fileutils'
 require 'pstore'
 require 'json'
 require 'erb'
@@ -377,7 +378,6 @@ module TDiary
 		def load_logger
 			return if @logger
 
-			require 'fileutils'
 			log_path = (@conf.log_path || "#{@conf.data_path}log").untaint
 			FileUtils.mkdir_p( log_path ) unless FileTest::directory?( log_path )
 
