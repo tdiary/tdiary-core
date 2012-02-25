@@ -24,6 +24,7 @@ group :development do
     gem 'capybara', :require => 'capybara/rspec'
     gem 'capybara-mechanize', '~> 0.3.0.rc3', :require => 'capybara/mechanize'
     gem 'launchy'
+    gem 'multi_json', '~> 1.0.4'
 
     gem 'rcov', :platforms => :mri_18
     gem 'simplecov', :require => false, :platforms => :mri_19

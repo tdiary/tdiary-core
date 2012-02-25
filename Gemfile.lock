@@ -2,7 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.7)
-    capistrano (2.9.0)
+    capistrano (2.11.2)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -76,8 +76,8 @@ GEM
       ffi (~> 1.0.9)
       multi_json (~> 1.0.4)
       rubyzip
-    simplecov (0.5.4)
-      multi_json (~> 1.0.3)
+    simplecov (0.6.1)
+      multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     sprockets (2.3.1)
@@ -108,6 +108,7 @@ DEPENDENCIES
   capybara-mechanize (~> 0.3.0.rc3)
   coffee-script
   launchy
+  multi_json (~> 1.0.4)
   pit
   rack
   racksh
