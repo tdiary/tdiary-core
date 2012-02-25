@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.7)
+    builder (3.0.0)
     capistrano (2.11.2)
       highline
       net-scp (>= 1.0.0)
@@ -21,6 +22,8 @@ GEM
       mechanize (~> 2.0.0)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
+    ci_reporter (1.7.0)
+      builder (>= 2.1.2)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -80,6 +83,8 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
+    simplecov-rcov (0.2.3)
+      simplecov (>= 0.4.1)
     sprockets (2.3.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -106,6 +111,7 @@ DEPENDENCIES
   capistrano_colors
   capybara
   capybara-mechanize (~> 0.3.0.rc3)
+  ci_reporter
   coffee-script
   launchy
   multi_json (~> 1.0.4)
@@ -117,6 +123,7 @@ DEPENDENCIES
   redcarpet
   rspec
   simplecov
+  simplecov-rcov
   sprockets
   tapp
   test-unit

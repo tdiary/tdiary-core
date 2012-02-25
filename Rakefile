@@ -5,6 +5,8 @@ require 'rake'
 require 'rake/clean'
 require 'rspec/core/rake_task'
 require 'rake/testtask'
+require 'ci/reporter/rake/rspec'
+require 'ci/reporter/rake/test_unit'
 
 CLEAN.include(
 	"tmp",

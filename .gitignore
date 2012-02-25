@@ -8,3 +8,4 @@ rdoc
 index.rdf
 tdiary.conf
 vendor/bundle/
+spec/reports

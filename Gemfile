@@ -27,6 +27,10 @@ group :development do
     gem 'multi_json', '~> 1.0.4'
 
     gem 'rcov', :platforms => :mri_18
-    gem 'simplecov', :require => false, :platforms => :mri_19
+    platforms :mri_19 do
+      gem 'simplecov', :require => false
+      gem 'simplecov-rcov', :require => false
+    end
+    gem 'ci_reporter'
   end
 end
