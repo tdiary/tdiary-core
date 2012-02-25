@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 require File.expand_path('../environment', __FILE__)
-Bundler.require :default if defined?(Bundler)
 require 'tdiary'
 
 # FIXME too dirty hack :-<
