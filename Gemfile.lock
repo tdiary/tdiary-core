@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.7)
+    blankslate (2.1.2.4)
     builder (3.0.0)
     capistrano (2.11.2)
       highline
@@ -56,6 +57,8 @@ GEM
       net-ssh (>= 1.99.1)
     nokogiri (1.5.0)
     pit (0.0.6)
+    pygments.rb (0.2.4)
+      rubypython (~> 0.5.3)
     rack (1.4.1)
     rack-test (0.6.1)
       rack (>= 1.0)
@@ -73,6 +76,9 @@ GEM
     rspec-expectations (2.8.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.8.0)
+    rubypython (0.5.3)
+      blankslate (>= 2.1.2.3)
+      ffi (~> 1.0.7)
     rubyzip (0.9.6.1)
     selenium-webdriver (2.19.0)
       childprocess (>= 0.2.5)
@@ -116,6 +122,7 @@ DEPENDENCIES
   launchy
   multi_json (~> 1.0.4)
   pit
+  pygments.rb
   rack
   racksh
   rake

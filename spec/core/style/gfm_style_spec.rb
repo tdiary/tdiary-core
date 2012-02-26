@@ -149,6 +149,35 @@ replace
 		end
 		it { @diary.to_html.should eq @html }
 	end
+
+	describe 'code highlighting' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+```ruby
+ def class
+   @foo = 'bar'
+ end
+```
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<div class="highlight"><pre> <span class="k">def</span> <span class="nf">class</span> 
+   <span class="vi">@foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+ <span class="k">end</span>
+</pre>
+</div>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
 end
 
 # Local Variables:

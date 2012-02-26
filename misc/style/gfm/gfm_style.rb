@@ -18,6 +18,15 @@ ensure
 	require 'redcarpet'
 end
 
+class HTMLwithPygments < Redcarpet::Render::HTML
+	def block_code(code, language)
+		require 'pygments'
+		Pygments.highlight(code, {:lexer => language})
+	rescue
+		code
+	end
+end
+
 module TDiary
 	class GfmSection
 		attr_reader :subtitle, :author
@@ -103,10 +112,9 @@ module TDiary
 		private
 
 		def to_html(string)
-			r = Redcarpet::Markdown.new(
-				Redcarpet::Render::HTML.new(:hard_wrap => true),
-				{:fenced_code_blocks => true, :autolink => true, :tables => true}).
-				render( string )
+			renderer = HTMLwithPygments.new(:hard_wrap => true)
+			extensions = {:fenced_code_blocks => true, :autolink => true, :tables => true}
+			r = Redcarpet::Markdown.new(renderer, extensions).render(string)
 
 			# diary anchor
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
