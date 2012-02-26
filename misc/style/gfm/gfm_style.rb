@@ -107,11 +107,15 @@ module TDiary
 				Redcarpet::Render::HTML.new(:hard_wrap => true),
 				{:fenced_code_blocks => true, :autolink => true, :tables => true}).
 				render( string )
+
+			# diary anchor
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
 			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
-			r.gsub!(/\{\{(.+?)\}\}/) {
-				"<%=#{CGI.unescapeHTML($1)}%>"
-			}
+
+			# plugin
+			r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
+
+			# my syntax
 			r.gsub!(/\((.*?)\)\[(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?\]/) {
 				unless $1.empty?
 					%Q|<%=my "#{$2}#{$3}", "#{$1}" %>|
