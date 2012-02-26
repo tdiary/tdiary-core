@@ -6,7 +6,7 @@ gem 'sprockets'
 gem 'coffee-script'
 
 gem 'redcarpet'
-gem 'pygments.rb'
+gem 'albino'
 
 group :development do
   gem 'thin', :require => false, :platforms => :ruby
