@@ -23,7 +23,9 @@ class HTMLwithPygments < Redcarpet::Render::HTML
 		require 'albino'
 		Albino.colorize(code, language)
 	rescue
-		code
+		<<-HTML
+<div class="highlight"><pre>#{code}</pre></div>
+		HTML
 	end
 end
 

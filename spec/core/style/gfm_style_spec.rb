@@ -150,16 +150,17 @@ replace
 		it { @diary.to_html.should eq @html }
 	end
 
-	describe 'code highlighting' do
-		before do
-			source = <<-'EOF'
+	if RUBY_VERSION >= "1.9."
+		describe 'code highlighting' do
+			before do
+				source = <<-'EOF'
 # subTitle
 
 ```ruby
  def class
    @foo = 'bar'
  end
-```
+ ```
 			EOF
 			@diary.append(source)
 
@@ -175,8 +176,9 @@ replace
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
+			end
+			it { @diary.to_html.should eq @html }
 		end
-		it { @diary.to_html.should eq @html }
 	end
 end
 
