@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
-feature 'リンク元の表示', :exclude_mechanize => true do
+feature 'リンク元の表示', :exclude_selenium => true do
 	scenario '日表示にリンク元が表示されている' do
 		append_default_diary
 		visit '/'

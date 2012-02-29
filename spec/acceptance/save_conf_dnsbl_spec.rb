@@ -2,7 +2,7 @@
 require 'acceptance_helper'
 require 'resolv'
 
-feature 'spamフィルタ設定の利用', :exclude_mechanize => true do
+feature 'spamフィルタ設定の利用', :exclude_selenium => true do
 	scenario 'IPベースのブラックリストが動作する' do
 		IPSocket.stub(:getaddress) { '127.0.0.1' }
 		Resolv.stub(:getaddress) { '127.0.0.1' }
