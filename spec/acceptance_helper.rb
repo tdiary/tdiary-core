@@ -45,7 +45,7 @@ RSpec.configure do |config|
 	case ENV['TEST_MODE']
 	when 'webrick'
 		Capybara.default_driver = :selenium
-		Capybara.app_host = 'http://localhost:19292'
+		Capybara.app_host = 'http://localhost:' + (ENV['PORT'] || '19292')
 		config.filter_run_excluding :exclude_selenium => true
 		config.filter_run_excluding :exclude_no_secure => true
 	when 'secure'
