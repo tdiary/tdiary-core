@@ -37,7 +37,7 @@ GEM
     launchy (2.0.5)
       addressable (~> 2.2.6)
     mime-types (1.17.2)
-    multi_json (1.0.4)
+    multi_json (1.1.0)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -70,10 +70,10 @@ GEM
       blankslate (>= 2.1.2.3)
       ffi (~> 1.0.7)
     rubyzip (0.9.6.1)
-    selenium-webdriver (2.19.0)
+    selenium-webdriver (2.20.0)
       childprocess (>= 0.2.5)
-      ffi (~> 1.0.9)
-      multi_json (~> 1.0.4)
+      ffi (~> 1.0)
+      multi_json (~> 1.0)
       rubyzip
     simplecov (0.6.1)
       multi_json (~> 1.0)
@@ -108,7 +108,6 @@ DEPENDENCIES
   ci_reporter
   coffee-script
   launchy
-  multi_json (~> 1.0.4)
   pit
   pygments.rb
   rack

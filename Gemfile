@@ -25,7 +25,6 @@ group :development do
 
     gem 'capybara', :require => 'capybara/rspec'
     gem 'launchy'
-    gem 'multi_json', '~> 1.0.4'
 
     gem 'rcov', :platforms => :mri_18
     platforms :mri_19 do
