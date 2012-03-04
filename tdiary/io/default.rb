@@ -12,24 +12,6 @@ module TDiary
 	TDIARY_MAGIC_MINOR = '01.00'
 	TDIARY_MAGIC = "#{TDIARY_MAGIC_MAJOR}.#{TDIARY_MAGIC_MINOR}"
 
-	def TDiary::parse_tdiary( data )
-		header, body = data.split( /\r?\n\r?\n/, 2 )
-		headers = {}
-		if header then
-			header.lines.each do |l|
-				l.chomp!
-				key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
-				headers[key] = val ? val.chomp : nil
-			end
-		end
-		if body then
-			body.gsub!( /^\./, '' )
-		else
-			body = ''
-		end
-		[headers, body]
-	end
-
 	module CommentIO
 		def comment_file( data_path, date )
 			date.strftime( "#{data_path}%Y/%Y%m.tdc" )
@@ -49,7 +31,7 @@ module TDiary
 					s = fh.read
 					s = migrate_to_01( s ) if minor == '00.00' and !@tdiary.conf['stop_migrate_01']
 					s.split( /\r?\n\.\r?\n/ ).each do |l|
-						headers, body = TDiary::parse_tdiary( l )
+						headers, body = DefaultIO.parse_tdiary( l )
 						next unless body
 						comment = Comment::new(
 								headers['Name'],
@@ -97,7 +79,7 @@ module TDiary
 				File::open( file ) do |fh|
 					fh.flock( File::LOCK_SH )
 					fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
-						headers, body = TDiary::parse_tdiary( l )
+						headers, body = DefaultIO.parse_tdiary( l )
 						next unless body
 						body.each do |r|
 							count, ref = r.chomp.split( / /, 2 )
@@ -142,6 +124,24 @@ module TDiary
 			@tdiary = tdiary
 			@data_path = @tdiary.conf.data_path
 			load_styles
+		end
+
+		def self.parse_tdiary( data )
+			header, body = data.split( /\r?\n\r?\n/, 2 )
+			headers = {}
+			if header then
+				header.lines.each do |l|
+					l.chomp!
+					key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
+					headers[key] = val ? val.chomp : nil
+				end
+			end
+			if body then
+				body.gsub!( /^\./, '' )
+			else
+				body = ''
+			end
+			[headers, body]
 		end
 
 		#
@@ -236,7 +236,7 @@ module TDiary
 					s = fh.read
 					s = migrate_to_01( s ) if minor == '00.00' and !@tdiary.conf['stop_migrate_01']
 					s.split( /\r?\n\.\r?\n/ ).each do |l|
-						headers, body = TDiary::parse_tdiary( l )
+						headers, body = DefaultIO.parse_tdiary( l )
 						style_name = headers['Format'] || 'tDiary'
 						diary = style( style_name )::new( headers['Date'], headers['Title'], body, Time::at( headers['Last-Modified'].to_i ) )
 						diary.show( headers['Visible'] == 'true' ? true : false )
