@@ -359,7 +359,7 @@ end
 enable_js( '00default.js' )
 add_js_setting( '$tDiary.style', "'#{@conf.style.downcase.sub( /\Ablog/, '' )}'" )
 
-if /^form|edit/ =~ @mode
+if /^form|edit|preview|showcomment/ =~ @mode
 	enable_js( '02edit.js' )
 end
 
