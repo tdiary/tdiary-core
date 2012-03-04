@@ -151,11 +151,6 @@ module TDiary
 			@cgi, @rhtml, @conf = cgi, rhtml, conf
 			@diaries = {}
 			@cookies = []
-
-			unless @conf.io_class then
-				require 'tdiary/io/default'
-				@conf.io_class = DefaultIO
-			end
 			@io = @conf.io_class.new( self )
 
 			# load logger

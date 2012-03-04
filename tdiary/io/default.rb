@@ -144,6 +144,16 @@ module TDiary
 			[headers, body]
 		end
 
+		def self.load_cgi_conf(conf)
+			File::open( "#{conf.data_path.untaint}tdiary.conf" ){|f| f.read }
+		rescue IOError, Errno::ENOENT
+		end
+
+		def self.save_cgi_conf(conf, result)
+			File::open( "#{conf.data_path.untaint}tdiary.conf", 'w' ) {|o| o.print result }
+		rescue IOError, Errno::ENOENT
+		end
+
 		#
 		# block must be return boolean which dirty diaries.
 		#
