@@ -194,11 +194,6 @@ module TDiary
 
 		# loading tdiary.conf in @data_path.
 		def load_cgi_conf
-			raise TDiaryError, 'No @data_path variable.' unless @data_path
-
-			@data_path += '/' if /\/$/ !~ @data_path
-			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if @data_path == "#{TDiary::PATH}/"
-
 			def_vars1 = ''
 			def_vars2 = ''
 			[

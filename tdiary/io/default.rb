@@ -145,6 +145,12 @@ module TDiary
 		end
 
 		def self.load_cgi_conf(conf)
+			conf.class.class_eval { attr_accessor :data_path }
+			raise TDiaryError, 'No @data_path variable.' unless conf.data_path
+
+			conf.data_path += '/' if /\/$/ !~ conf.data_path
+			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if conf.data_path == "#{TDiary::PATH}/"
+
 			File::open( "#{conf.data_path.untaint}tdiary.conf" ){|f| f.read }
 		rescue IOError, Errno::ENOENT
 		end
