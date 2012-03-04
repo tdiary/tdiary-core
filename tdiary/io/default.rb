@@ -126,38 +126,40 @@ module TDiary
 			load_styles
 		end
 
-		def self.parse_tdiary( data )
-			header, body = data.split( /\r?\n\r?\n/, 2 )
-			headers = {}
-			if header then
-				header.lines.each do |l|
-					l.chomp!
-					key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
-					headers[key] = val ? val.chomp : nil
+		class << self
+			def parse_tdiary( data )
+				header, body = data.split( /\r?\n\r?\n/, 2 )
+				headers = {}
+				if header then
+					header.lines.each do |l|
+						l.chomp!
+						key, val = l.scan( /([^:]*):\s*(.*)/ )[0]
+						headers[key] = val ? val.chomp : nil
+					end
 				end
+				if body then
+					body.gsub!( /^\./, '' )
+				else
+					body = ''
+				end
+				[headers, body]
 			end
-			if body then
-				body.gsub!( /^\./, '' )
-			else
-				body = ''
+
+			def load_cgi_conf(conf)
+				conf.class.class_eval { attr_accessor :data_path }
+				raise TDiaryError, 'No @data_path variable.' unless conf.data_path
+
+				conf.data_path += '/' if /\/$/ !~ conf.data_path
+				raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if conf.data_path == "#{TDiary::PATH}/"
+
+				File::open( "#{conf.data_path.untaint}tdiary.conf" ){|f| f.read }
+			rescue IOError, Errno::ENOENT
 			end
-			[headers, body]
-		end
 
-		def self.load_cgi_conf(conf)
-			conf.class.class_eval { attr_accessor :data_path }
-			raise TDiaryError, 'No @data_path variable.' unless conf.data_path
-
-			conf.data_path += '/' if /\/$/ !~ conf.data_path
-			raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if conf.data_path == "#{TDiary::PATH}/"
-
-			File::open( "#{conf.data_path.untaint}tdiary.conf" ){|f| f.read }
-		rescue IOError, Errno::ENOENT
-		end
-
-		def self.save_cgi_conf(conf, result)
-			File::open( "#{conf.data_path.untaint}tdiary.conf", 'w' ) {|o| o.print result }
-		rescue IOError, Errno::ENOENT
+			def save_cgi_conf(conf, result)
+				File::open( "#{conf.data_path.untaint}tdiary.conf", 'w' ) {|o| o.print result }
+			rescue IOError, Errno::ENOENT
+			end
 		end
 
 		#
