@@ -152,9 +152,7 @@ module TDiary
 			@diaries = {}
 			@cookies = []
 			@io = @conf.io_class.new( self )
-
-			# load logger
-			load_logger
+			@logger = @conf.logger || load_logger
 		end
 
 		def eval_rhtml( prefix = '' )
@@ -374,10 +372,11 @@ module TDiary
 			return if @logger
 
 			log_path = (@conf.log_path || "#{@conf.data_path}log").untaint
-			FileUtils.mkdir_p( log_path ) unless FileTest::directory?( log_path )
+			FileUtils.mkdir_p(log_path) unless FileTest.directory?(log_path)
 
-			@logger = Logger::new( File.join(log_path, "debug.log"), 'daily' )
-			@logger.level = Logger.const_get( @conf.log_level || 'DEBUG' )
+			@logger = Logger.new(File.join(log_path, "debug.log"), 'daily')
+			@logger.level = Logger.const_get(@conf.log_level || 'DEBUG')
+			@logger
 		end
 	end
 
