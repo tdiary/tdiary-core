@@ -196,7 +196,7 @@ module TDiary
 			load_plugins
 
 			# load and apply rhtmls
-			if cache_enable?( prefix ) then
+			if cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
 				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 			if r.nil?
@@ -274,7 +274,7 @@ module TDiary
 				rescue Errno::EEXIST
 				end
 			end
-			if cache_file( prefix ) then
+			if cache_file( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
 				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
 					f.flock(File::LOCK_EX)
 					f.write( cache )
