@@ -9,6 +9,7 @@ gem 'redcarpet'
 gem 'pygments.rb'
 gem 'rubypython', '0.5.1'
 gem 'sequel'
+gem 'pg'
 
 group :development do
   gem 'thin', :require => false, :platforms => :ruby
