@@ -75,6 +75,7 @@ GEM
       ffi (~> 1.0)
       multi_json (~> 1.0)
       rubyzip
+    sequel (3.33.0)
     simplecov (0.6.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
@@ -117,6 +118,7 @@ DEPENDENCIES
   redcarpet
   rspec
   rubypython (= 0.5.1)
+  sequel
   simplecov
   simplecov-rcov
   sprockets

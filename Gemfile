@@ -8,6 +8,7 @@ gem 'coffee-script'
 gem 'redcarpet'
 gem 'pygments.rb'
 gem 'rubypython', '0.5.1'
+gem 'sequel'
 
 group :development do
   gem 'thin', :require => false, :platforms => :ruby
