@@ -3,7 +3,7 @@
 # 90migrate.rb: tDiary plugin for migration 2.2 to 2.3.
 #
 
-unless @conf.tdiary_version
+if !@conf.tdiary_version && @conf.io_class.to_s == 'TDiary::DefaultIO'
 	def convert_pstore( file )
 		require "pstore"
 	
