@@ -127,10 +127,16 @@ namespace :db do
 			TrueClass :visible
 			primary_key [:author, :diary_id, :no]
 		end
+
+		db.create_table :confdata do
+			String :author, :text => true
+			String :body, :text => true
+			Fixnum :last_modified
+		end
 	end
 
 	task :drop do
-		db.drop_table :diarydata, :commentdata
+		db.drop_table :diarydata, :commentdata, :confdata
 	end
 end
 
