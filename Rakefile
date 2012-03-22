@@ -100,8 +100,8 @@ end
 
 desc "create database"
 namespace :db do
+	db = Sequel.connect(ENV['DATABASE_URL'])
 	task :create do
-		db = Sequel.connect(ENV['DATABASE_URL'])
 		db.create_table :diarydata do
 			String :author, :text => true
 			String :diary_id, :size => 8
@@ -112,8 +112,8 @@ namespace :db do
 			String :body, :text => true
 			String :style, :text => true
 			Fixnum :last_modified
-			TrueClass :visible,
-			primary_key [author, diary_id]
+			TrueClass :visible
+			primary_key [:author, :diary_id]
 		end
 
 		db.create_table :commentdata do
@@ -124,9 +124,13 @@ namespace :db do
 			String :mail, :text => true
 			String :comment, :text => true
 			Fixnum :last_modified
-			TrueClass :visible,
-			primary_key [author, diary_id, no]
+			TrueClass :visible
+			primary_key [:author, :diary_id, :no]
 		end
+	end
+
+	task :drop do
+		db.drop_table :diarydata, :commentdata
 	end
 end
 
