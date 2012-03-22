@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rack'
+gem 'thin', :require => false, :platforms => :ruby
 gem 'rake'
 gem 'sprockets'
 gem 'coffee-script'
@@ -12,19 +12,15 @@ gem 'sequel'
 gem 'pg'
 
 group :development do
-  gem 'thin', :require => false, :platforms => :ruby
-  gem 'racksh', :require => false
-
   gem 'capistrano', :require => false
   gem 'capistrano_colors', :require => false
   gem 'pit', :require => false
+  gem 'racksh', :require => false
 
   group :test do
     gem 'tapp'
-
     gem 'test-unit', :require => 'test/unit'
     gem 'rspec'
-
     gem 'capybara', :require => 'capybara/rspec'
     gem 'launchy'
 
