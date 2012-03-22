@@ -98,6 +98,38 @@ task :compile do
 	end
 end
 
+desc "create database"
+namespace :db do
+	task :create do
+		db = Sequel.connect(ENV['DATABASE_URL'])
+		db.create_table :diarydata do
+			String :author, :text => true
+			String :diary_id, :size => 8
+			String :year, :size => 4
+			String :month, :size => 2
+			String :day, :size => 2
+			String :title, :text => true
+			String :body, :text => true
+			String :style, :text => true
+			Fixnum :last_modified
+			TrueClass :visible,
+			primary_key [author, diary_id]
+		end
+
+		db.create_table :commentdata do
+			String :author, :text => true
+			String :diary_id, :size => 8
+			Fixnum :no
+			String :name, :text => true
+			String :mail, :text => true
+			String :comment, :text => true
+			Fixnum :last_modified
+			TrueClass :visible,
+			primary_key [author, diary_id, no]
+		end
+	end
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t
