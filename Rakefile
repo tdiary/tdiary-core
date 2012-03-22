@@ -134,7 +134,6 @@ namespace :db do
 		db.create_table :confdata do
 			String :author, :text => true
 			String :body, :text => true
-			Fixnum :last_modified
 		end
 	end
 

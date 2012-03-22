@@ -69,7 +69,7 @@ module TDiary
     class << self
       def load_cgi_conf(conf)
         db = Sequel.connect(conf.database_url || ENV['DATABASE_URL'])
-        if cgi_conf = db[:confdata].select(:body).filter(:author => @author).order_by(:last_modified).first
+        if cgi_conf = db[:confdata].filter(:author => @author).select(:body).first
           cgi_conf[:body]
         else
           ""
@@ -78,7 +78,11 @@ module TDiary
 
       def save_cgi_conf(conf, result)
         db = Sequel.connect(conf.database_url || ENV['DATABASE_URL'])
-        db[:confdata].insert(:author => @author, :body => result, :last_modified => Time.now.to_i)
+        if db[:confdata].count > 0
+          db[:confdata].filter(:author => @author).update(:body => result)
+        else
+          db[:confdata].insert(:body => result, :author => @author)
+        end
       end
     end
 
