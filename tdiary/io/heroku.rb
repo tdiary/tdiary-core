@@ -34,7 +34,8 @@ module TDiary
         no = 0
         diary.each_comment(diary.count_comments(true)) do |com|
           no += 1
-          if comment = @db[:commentdata].filter(author: @author, diary_id: date, no: no).first
+          comment = @db[:commentdata].filter(author: @author, diary_id: date, no: no)
+          if comment.count > 0
             comment.update(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body)
           else
             @db[:commentdata].insert(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body, author: @author, diary_id: date, no: no)
@@ -147,7 +148,8 @@ module TDiary
           month = $2
           day   = $3
         end
-        if entry = @db[:diarydata].filter(year: year, month: month, day: day, author: @author, diary_id: date).first
+        entry = @db[:diarydata].filter(year: year, month: month, day: day, author: @author, diary_id: date)
+        if entry.count > 0
           entry.update(title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, style: diary.style)
         else
           @db[:diarydata].insert(year: year, month: month, day: day, title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, author: @author, diary_id: date)
