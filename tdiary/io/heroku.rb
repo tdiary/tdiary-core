@@ -91,19 +91,16 @@ module TDiary
     # block must be return boolean which dirty diaries.
     #
     def transaction(date)
-      File.open("#{Dir.tmpdir}/dbi_io.lock", 'w') do |file|
-        file.flock(File::LOCK_EX)
-        @db.transaction do
-          diaries = {}
+      @db.transaction do
+        diaries = {}
 
-          restore(date.strftime("%Y%m%d"), diaries)
-          restore_comment(diaries)
+        restore(date.strftime("%Y%m%d"), diaries)
+        restore_comment(diaries)
 
-          dirty = yield(diaries) if iterator?
+        dirty = yield(diaries) if iterator?
 
-          store(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
-          store_comment(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
-        end
+        store(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
+        store_comment(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
       end
     end
 
