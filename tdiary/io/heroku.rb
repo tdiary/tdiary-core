@@ -19,7 +19,7 @@ require 'sequel'
 module TDiary
   module CommentIO
     def restore_comment(diaries)
-      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+      Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         diaries.each do |date, diary_object|
           db[:comments].filter(author: @author, diary_id: date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
             comment = Comment.new(row[:name], row[:mail], row[:comment], Time.at(row[:last_modified].to_i))
@@ -31,7 +31,7 @@ module TDiary
     end
 
     def store_comment(diaries)
-      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+      Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         diaries.each do |date, diary|
           no = 0
           diary.each_comment(diary.count_comments(true)) do |com|
@@ -95,7 +95,7 @@ module TDiary
     # block must be return boolean which dirty diaries.
     #
     def transaction(date)
-      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+      Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         db.transaction do
           diaries = {}
 
@@ -112,7 +112,7 @@ module TDiary
 
     def calendar
       calendar = Hash.new{|hash, key| hash[key] = []}
-      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+      Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         db[:diaries].select(:year, :month).group_by(:year, :month).order_by(:year, :month).each do |row|
           calendar[row[:year]] << row[:month]
         end
@@ -127,7 +127,7 @@ module TDiary
   private
 
     def restore(date, diaries, month = true)
-      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+      Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         query = db[:diaries].select(:diary_id, :title, :last_modified, :visible, :body, :style)
         query = if month && /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
                   query.filter(author: @author, year: $1, month: $2)
@@ -148,7 +148,7 @@ module TDiary
     end
 
     def store(diaries)
-      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+      Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         diaries.each do |date, diary|
           if /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
             year  = $1
