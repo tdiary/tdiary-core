@@ -116,7 +116,7 @@ if ENV['DATABASE_URL']
 				String :style, :text => true
 				Fixnum :last_modified
 				TrueClass :visible
-				primary_key [:author, :diary_id]
+				primary_key :diary_id
 			end
 
 			db.create_table :comments do
@@ -127,7 +127,7 @@ if ENV['DATABASE_URL']
 				String :comment, :text => true
 				Fixnum :last_modified
 				TrueClass :visible
-				primary_key [:author, :diary_id, :no]
+				primary_key [:diary_id, :no]
 			end
 
 			db.create_table :conf do
