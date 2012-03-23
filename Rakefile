@@ -107,7 +107,6 @@ if ENV['DATABASE_URL']
 		db = Sequel.connect(ENV['DATABASE_URL'])
 		task :create do
 			db.create_table :diaries do
-				String :author, :text => true
 				String :diary_id, :size => 8
 				String :year, :size => 4
 				String :month, :size => 2
@@ -121,7 +120,6 @@ if ENV['DATABASE_URL']
 			end
 
 			db.create_table :comments do
-				String :author, :text => true
 				String :diary_id, :size => 8
 				Fixnum :no
 				String :name, :text => true
@@ -133,7 +131,6 @@ if ENV['DATABASE_URL']
 			end
 
 			db.create_table :conf do
-				String :author, :text => true
 				String :body, :text => true
 			end
 		end

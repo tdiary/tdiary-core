@@ -21,7 +21,7 @@ module TDiary
     def restore_comment(diaries)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         diaries.each do |date, diary_object|
-          db[:comments].filter(author: @author, diary_id: date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
+          db[:comments].filter(diary_id: date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
             comment = Comment.new(row[:name], row[:mail], row[:comment], Time.at(row[:last_modified].to_i))
             comment.show = row[:visible]
             diary_object.add_comment(comment)
@@ -36,11 +36,11 @@ module TDiary
           no = 0
           diary.each_comment(diary.count_comments(true)) do |com|
             no += 1
-            comment = db[:comments].filter(author: @author, diary_id: date, no: no)
+            comment = db[:comments].filter(diary_id: date, no: no)
             if comment.count > 0
               comment.update(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body)
             else
-              db[:comments].insert(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body, author: @author, diary_id: date, no: no)
+              db[:comments].insert(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body, diary_id: date, no: no)
             end
           end
         end
@@ -65,14 +65,13 @@ module TDiary
 
     def initialize(tdiary)
       @tdiary = tdiary
-      @author = tdiary.conf.author || 'default'
       load_styles
     end
 
     class << self
       def load_cgi_conf(conf)
         Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
-          if cgi_conf = db[:conf].filter(:author => @author).select(:body).first
+          if cgi_conf = db[:conf].select(:body).first
             cgi_conf[:body]
           else
             ""
@@ -83,9 +82,9 @@ module TDiary
       def save_cgi_conf(conf, result)
         Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
           if db[:conf].count > 0
-            db[:conf].filter(:author => @author).update(:body => result)
+            db[:conf].update(:body => result)
           else
-            db[:conf].insert(:body => result, :author => @author)
+            db[:conf].insert(:body => result)
           end
         end
       end
@@ -130,9 +129,9 @@ module TDiary
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         query = db[:diaries].select(:diary_id, :title, :last_modified, :visible, :body, :style)
         query = if month && /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
-                  query.filter(author: @author, year: $1, month: $2)
+                  query.filter(year: $1, month: $2)
                 else
-                  query.filter(author: @author, diary_id: date)
+                  query.filter(diary_id: date)
                 end
         query.each do |row|
           style = if row[:style].nil? || row[:style].empty?
@@ -155,11 +154,11 @@ module TDiary
             month = $2
             day   = $3
           end
-          entry = db[:diaries].filter(year: year, month: month, day: day, author: @author, diary_id: date)
+          entry = db[:diaries].filter(year: year, month: month, day: day, diary_id: date)
           if entry.count > 0
             entry.update(title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, style: diary.style)
           else
-            db[:diaries].insert(year: year, month: month, day: day, title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, author: @author, diary_id: date)
+            db[:diaries].insert(year: year, month: month, day: day, title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, diary_id: date)
           end
         end
       end
