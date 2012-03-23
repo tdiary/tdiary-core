@@ -101,44 +101,46 @@ task :compile do
 	end
 end
 
-desc "create database"
-namespace :db do
-	db = Sequel.connect(ENV['DATABASE_URL'])
-	task :create do
-		db.create_table :diaries do
-			String :author, :text => true
-			String :diary_id, :size => 8
-			String :year, :size => 4
-			String :month, :size => 2
-			String :day, :size => 2
-			String :title, :text => true
-			String :body, :text => true
-			String :style, :text => true
-			Fixnum :last_modified
-			TrueClass :visible
-			primary_key [:author, :diary_id]
+if ENV['DATABASE_URL']
+	desc "create database"
+	namespace :db do
+		db = Sequel.connect(ENV['DATABASE_URL'])
+		task :create do
+			db.create_table :diaries do
+				String :author, :text => true
+				String :diary_id, :size => 8
+				String :year, :size => 4
+				String :month, :size => 2
+				String :day, :size => 2
+				String :title, :text => true
+				String :body, :text => true
+				String :style, :text => true
+				Fixnum :last_modified
+				TrueClass :visible
+				primary_key [:author, :diary_id]
+			end
+
+			db.create_table :comments do
+				String :author, :text => true
+				String :diary_id, :size => 8
+				Fixnum :no
+				String :name, :text => true
+				String :mail, :text => true
+				String :comment, :text => true
+				Fixnum :last_modified
+				TrueClass :visible
+				primary_key [:author, :diary_id, :no]
+			end
+
+			db.create_table :conf do
+				String :author, :text => true
+				String :body, :text => true
+			end
 		end
 
-		db.create_table :comments do
-			String :author, :text => true
-			String :diary_id, :size => 8
-			Fixnum :no
-			String :name, :text => true
-			String :mail, :text => true
-			String :comment, :text => true
-			Fixnum :last_modified
-			TrueClass :visible
-			primary_key [:author, :diary_id, :no]
+		task :drop do
+			db.drop_table :diary, :comment, :conf
 		end
-
-		db.create_table :conf do
-			String :author, :text => true
-			String :body, :text => true
-		end
-	end
-
-	task :drop do
-		db.drop_table :diary, :comment, :conf
 	end
 end
 

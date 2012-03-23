@@ -14,7 +14,6 @@
 #
 # You can distribute this under GPL.
 require 'tdiary/io/base'
-require 'tempfile'
 require 'sequel'
 
 module TDiary

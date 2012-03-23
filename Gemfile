@@ -1,6 +1,7 @@
 source :rubygems
 
 gem 'thin', :require => false, :platforms => :ruby
+gem 'rack'
 gem 'rake'
 gem 'sprockets'
 gem 'coffee-script'
