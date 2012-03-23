@@ -151,15 +151,8 @@ module TDiary
 			@cgi, @rhtml, @conf = cgi, rhtml, conf
 			@diaries = {}
 			@cookies = []
-
-			unless @conf.io_class then
-				require 'tdiary/io/default'
-				@conf.io_class = DefaultIO
-			end
 			@io = @conf.io_class.new( self )
-
-			# load logger
-			load_logger
+			@logger = @conf.logger || load_logger
 		end
 
 		def eval_rhtml( prefix = '' )
@@ -203,7 +196,7 @@ module TDiary
 			load_plugins
 
 			# load and apply rhtmls
-			if cache_enable?( prefix ) then
+			if cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
 				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 			if r.nil?
@@ -281,7 +274,7 @@ module TDiary
 				rescue Errno::EEXIST
 				end
 			end
-			if cache_file( prefix ) then
+			if cache_file( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
 				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
 					f.flock(File::LOCK_EX)
 					f.write( cache )
@@ -379,10 +372,11 @@ module TDiary
 			return if @logger
 
 			log_path = (@conf.log_path || "#{@conf.data_path}log").untaint
-			FileUtils.mkdir_p( log_path ) unless FileTest::directory?( log_path )
+			FileUtils.mkdir_p(log_path) unless FileTest.directory?(log_path)
 
-			@logger = Logger::new( File.join(log_path, "debug.log"), 'daily' )
-			@logger.level = Logger.const_get( @conf.log_level || 'DEBUG' )
+			@logger = Logger.new(File.join(log_path, "debug.log"), 'daily')
+			@logger.level = Logger.const_get(@conf.log_level || 'DEBUG')
+			@logger
 		end
 	end
 
