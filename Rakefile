@@ -105,7 +105,7 @@ desc "create database"
 namespace :db do
 	db = Sequel.connect(ENV['DATABASE_URL'])
 	task :create do
-		db.create_table :diarydata do
+		db.create_table :diaries do
 			String :author, :text => true
 			String :diary_id, :size => 8
 			String :year, :size => 4
@@ -119,7 +119,7 @@ namespace :db do
 			primary_key [:author, :diary_id]
 		end
 
-		db.create_table :commentdata do
+		db.create_table :comments do
 			String :author, :text => true
 			String :diary_id, :size => 8
 			Fixnum :no
@@ -131,14 +131,14 @@ namespace :db do
 			primary_key [:author, :diary_id, :no]
 		end
 
-		db.create_table :confdata do
+		db.create_table :conf do
 			String :author, :text => true
 			String :body, :text => true
 		end
 	end
 
 	task :drop do
-		db.drop_table :diarydata, :commentdata, :confdata
+		db.drop_table :diary, :comment, :conf
 	end
 end
 
