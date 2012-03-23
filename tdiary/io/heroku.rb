@@ -19,25 +19,29 @@ require 'sequel'
 module TDiary
   module CommentIO
     def restore_comment(diaries)
-      diaries.each do |date, diary_object|
-        @db[:comments].filter(author: @author, diary_id: date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
-          comment = Comment.new(row[:name], row[:mail], row[:comment], Time.at(row[:last_modified].to_i))
-          comment.show = row[:visible]
-          diary_object.add_comment(comment)
+      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        diaries.each do |date, diary_object|
+          db[:comments].filter(author: @author, diary_id: date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
+            comment = Comment.new(row[:name], row[:mail], row[:comment], Time.at(row[:last_modified].to_i))
+            comment.show = row[:visible]
+            diary_object.add_comment(comment)
+          end
         end
       end
     end
 
     def store_comment(diaries)
-      diaries.each do |date, diary|
-        no = 0
-        diary.each_comment(diary.count_comments(true)) do |com|
-          no += 1
-          comment = @db[:comments].filter(author: @author, diary_id: date, no: no)
-          if comment.count > 0
-            comment.update(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body)
-          else
-            @db[:comments].insert(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body, author: @author, diary_id: date, no: no)
+      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        diaries.each do |date, diary|
+          no = 0
+          diary.each_comment(diary.count_comments(true)) do |com|
+            no += 1
+            comment = db[:comments].filter(author: @author, diary_id: date, no: no)
+            if comment.count > 0
+              comment.update(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body)
+            else
+              db[:comments].insert(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body, author: @author, diary_id: date, no: no)
+            end
           end
         end
       end
@@ -61,27 +65,28 @@ module TDiary
 
     def initialize(tdiary)
       @tdiary = tdiary
-      @db     = Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL'])
       @author = tdiary.conf.author || 'default'
       load_styles
     end
 
     class << self
       def load_cgi_conf(conf)
-        db = Sequel.connect(conf.database_url || ENV['DATABASE_URL'])
-        if cgi_conf = db[:conf].filter(:author => @author).select(:body).first
-          cgi_conf[:body]
-        else
-          ""
+        Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
+          if cgi_conf = db[:conf].filter(:author => @author).select(:body).first
+            cgi_conf[:body]
+          else
+            ""
+          end
         end
       end
 
       def save_cgi_conf(conf, result)
-        db = Sequel.connect(conf.database_url || ENV['DATABASE_URL'])
-        if db[:conf].count > 0
-          db[:conf].filter(:author => @author).update(:body => result)
-        else
-          db[:conf].insert(:body => result, :author => @author)
+        Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
+          if db[:conf].count > 0
+            db[:conf].filter(:author => @author).update(:body => result)
+          else
+            db[:conf].insert(:body => result, :author => @author)
+          end
         end
       end
     end
@@ -90,23 +95,27 @@ module TDiary
     # block must be return boolean which dirty diaries.
     #
     def transaction(date)
-      @db.transaction do
-        diaries = {}
+      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db.transaction do
+          diaries = {}
 
-        restore(date.strftime("%Y%m%d"), diaries)
-        restore_comment(diaries)
+          restore(date.strftime("%Y%m%d"), diaries)
+          restore_comment(diaries)
 
-        dirty = yield(diaries) if iterator?
+          dirty = yield(diaries) if iterator?
 
-        store(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
-        store_comment(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
+          store(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
+          store_comment(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
+        end
       end
     end
 
     def calendar
       calendar = Hash.new{|hash, key| hash[key] = []}
-      @db[:diaries].select(:year, :month).group_by(:year, :month).order_by(:year, :month).each do |row|
-        calendar[row[:year]] << row[:month]
+      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db[:diaries].select(:year, :month).group_by(:year, :month).order_by(:year, :month).each do |row|
+          calendar[row[:year]] << row[:month]
+        end
       end
       calendar
     end
@@ -118,37 +127,40 @@ module TDiary
   private
 
     def restore(date, diaries, month = true)
-      query = @db[:diaries].select(:diary_id, :title, :last_modified, :visible, :body, :style)
-      query = if month && /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
-        query.filter(author: @author, year: $1, month: $2)
-      else
-        query.filter(author: @author, diary_id: date)
-      end
-      query.each do |row|
-        style = if row[:style].nil? || row[:style].empty?
-                  'wiki'
+      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        query = db[:diaries].select(:diary_id, :title, :last_modified, :visible, :body, :style)
+        query = if month && /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
+                  query.filter(author: @author, year: $1, month: $2)
                 else
-                  row[:style].downcase
+                  query.filter(author: @author, diary_id: date)
                 end
-        diary = eval("#{style(style)}::new(row[:diary_id], row[:title], row[:body], Time::at(row[:last_modified].to_i))")
-        diary.show(row[:visible])
-        diaries[row[:diary_id]] = diary
+        query.each do |row|
+          style = if row[:style].nil? || row[:style].empty?
+                    'wiki'
+                  else
+                    row[:style].downcase
+                  end
+          diary = eval("#{style(style)}::new(row[:diary_id], row[:title], row[:body], Time::at(row[:last_modified].to_i))")
+          diary.show(row[:visible])
+          diaries[row[:diary_id]] = diary
+        end
       end
     end
 
     def store(diaries)
-      diaries.each do |date, diary|
-        # save diaries
-        if /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
-          year  = $1
-          month = $2
-          day   = $3
-        end
-        entry = @db[:diaries].filter(year: year, month: month, day: day, author: @author, diary_id: date)
-        if entry.count > 0
-          entry.update(title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, style: diary.style)
-        else
-          @db[:diaries].insert(year: year, month: month, day: day, title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, author: @author, diary_id: date)
+      Sequel.connect(tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        diaries.each do |date, diary|
+          if /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
+            year  = $1
+            month = $2
+            day   = $3
+          end
+          entry = db[:diaries].filter(year: year, month: month, day: day, author: @author, diary_id: date)
+          if entry.count > 0
+            entry.update(title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, style: diary.style)
+          else
+            db[:diaries].insert(year: year, month: month, day: day, title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, author: @author, diary_id: date)
+          end
         end
       end
     end
