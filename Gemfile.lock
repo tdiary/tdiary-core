@@ -46,6 +46,7 @@ GEM
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
     nokogiri (1.5.0)
+    pg (0.13.2)
     pit (0.0.6)
     pygments.rb (0.2.3)
       rubypython (>= 0.5.1)
@@ -75,6 +76,7 @@ GEM
       ffi (~> 1.0)
       multi_json (~> 1.0)
       rubyzip
+    sequel (3.33.0)
     simplecov (0.6.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
@@ -108,6 +110,7 @@ DEPENDENCIES
   ci_reporter
   coffee-script
   launchy
+  pg
   pit
   pygments.rb
   rack
@@ -117,6 +120,7 @@ DEPENDENCIES
   redcarpet
   rspec
   rubypython (= 0.5.1)
+  sequel
   simplecov
   simplecov-rcov
   sprockets
