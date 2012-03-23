@@ -139,7 +139,7 @@ if ENV['DATABASE_URL']
 		end
 
 		task :drop do
-			db.drop_table :diary, :comment, :conf
+			db.drop_table :diaries, :comments, :conf
 		end
 	end
 end
