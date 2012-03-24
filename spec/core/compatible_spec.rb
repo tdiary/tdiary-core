@@ -6,7 +6,7 @@ if defined?(Encoding)
 	require 'fileutils'
 
 	describe PStore, "auto convert library" do
-		before(:all) do
+		before do
 			# rake specで動かすと、comppatible.rb が既に読み込まれてしまっているため、
 			# このPStoreがASCII-8BITではなくUTF-8になってしまう。
 			# そのため、下記と同様の ascii8bit-pstore.db をテストフィクスチャとしている。
@@ -21,7 +21,7 @@ if defined?(Encoding)
 			FileUtils.cp dbfile_orig, @dbfile
 		end
 
-		after(:all) do
+		after do
 			FileUtils.rm @dbfile
 		end
 
