@@ -243,13 +243,27 @@ module TDiary
 			(@tdiary.conf.cache_path || "#{@tdiary.conf.data_path}cache").untaint
 		end
 
+		def cache_file( prefix )
+			if @tdiary.is_a?(TDiaryMonth)
+				"#{prefix}#{@tdiary.rhtml.sub( /month/, @tdiary.date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
+			elsif @tdiary.is_a?(TDiaryLatest)
+				if @tdiary.cgi.params['date'][0] then
+					nil
+				else
+					"#{prefix}#{@tdiary.rhtml.sub( /\.rhtml$/, '.rb' )}"
+				end
+			else
+				nil
+			end
+		end
+
 		def cache_exists?( prefix )
-			@tdiary.cache_file( prefix ) && FileTest::file?( "#{cache_path}/#{@tdiary.cache_file( prefix )}" )
+			cache_file( prefix ) && FileTest::file?( "#{cache_path}/#{cache_file( prefix )}" )
 		end
 
 		def cache_enable?( prefix )
 			if @tdiary.is_a?(TDiaryView)
-				cache_exists?( prefix ) && (File::mtime( "#{cache_path}/#{@tdiary.cache_file( prefix )}" ) > @tdiary.last_modified)
+				cache_exists?( prefix ) && (File::mtime( "#{cache_path}/#{cache_file( prefix )}" ) > @tdiary.last_modified)
 			else
 				cache_exists?( prefix )
 			end
@@ -268,8 +282,8 @@ module TDiary
 				rescue Errno::EEXIST
 				end
 			end
-			if @tdiary.cache_file( prefix ) && @tdiary.conf.io_class.to_s == 'TDiary::DefaultIO'
-				File::open( "#{cache_path}/#{@tdiary.cache_file( prefix )}", 'w' ) do |f|
+			if cache_file( prefix ) && @tdiary.conf.io_class.to_s == 'TDiary::DefaultIO'
+				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
 					f.flock(File::LOCK_EX)
 					f.write( cache )
 				end

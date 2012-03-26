@@ -143,9 +143,9 @@ module TDiary
 		DIRTY_REFERER = 4
 
 		attr_reader :cookies
-		attr_reader :conf
 		attr_reader :date
 		attr_reader :diaries
+		attr_reader :cgi, :rhtml, :conf
 
 		def initialize( cgi, rhtml, conf )
 			@cgi, @rhtml, @conf = cgi, rhtml, conf
@@ -178,10 +178,6 @@ module TDiary
 			@years = @io.calendar unless @years
 		end
 
-		def cache_file( prefix )
-			nil
-		end
-
 	protected
 		def do_eval_rhtml( prefix )
 			# load plugin files
@@ -189,7 +185,7 @@ module TDiary
 
 			# load and apply rhtmls
 			if @io.cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
-				r = File::open( "#{@io.cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
+				r = File::open( "#{@io.cache_path}/#{@io.cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 			if r.nil?
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
@@ -901,10 +897,6 @@ EOS
 				raise TDiaryError, 'bad date'
 			end
 		end
-
-		def cache_file( prefix )
-			"#{prefix}#{@rhtml.sub( /month/, @date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
-		end
 	end
 
 	#
@@ -1037,14 +1029,6 @@ EOS
 				yield diary
 				idx += 1
 				break if idx >= limit
-			end
-		end
-
-		def cache_file( prefix )
-			if @cgi.params['date'][0] then
-				nil
-			else
-				"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
 			end
 		end
 
