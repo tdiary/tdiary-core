@@ -178,6 +178,10 @@ module TDiary
 			@years = @io.calendar unless @years
 		end
 
+		def cache_file( prefix )
+			nil
+		end
+
 	protected
 		def do_eval_rhtml( prefix )
 			# load plugin files
@@ -206,7 +210,7 @@ module TDiary
 					end
 				end
 				r = ERB::new( r ).src
-				store_cache( r, prefix ) unless @diaries.empty?
+				@io.store_cache( r, prefix ) unless @diaries.empty?
 			end
 
 			# apply plugins
@@ -243,33 +247,8 @@ module TDiary
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
 		end
 
-		def cache_file( prefix )
-			nil
-		end
-
 		def cache_enable?( prefix )
 			cache_file( prefix ) and FileTest::file?( "#{@io.cache_path}/#{cache_file( prefix )}" )
-		end
-
-		def store_cache( cache, prefix )
-			unless FileTest::directory?( @io.cache_path ) then
-				begin
-					Dir::mkdir( @io.cache_path )
-				rescue Errno::EEXIST
-				end
-			end
-			if cache_file( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
-				File::open( "#{@io.cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
-					f.flock(File::LOCK_EX)
-					f.write( cache )
-				end
-			end
-		end
-
-		def clear_cache( target = /.*/ )
-			Dir::glob( "#{@io.cache_path}/*.r[bh]*" ).each do |c|
-				File::delete( c.untaint ) if target =~ c
-			end
 		end
 
 		def load_filters
@@ -536,7 +515,7 @@ EOS
 			super
 			@plugin.instance_eval { update_proc }
 			anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
-			clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
+			@io.clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 			raise ForceRedirect::new( "#{@conf.index}#{anchor_str}" )
 		end
 	end
@@ -617,7 +596,7 @@ EOS
 						com.show = @cgi.params[(idx += 1).to_s][0] == 'true' ? true : false;
 					end
 					self << @diary
-					clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
+					@io.clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 					dirty = DIRTY_COMMENT
 				end
 				dirty
@@ -693,7 +672,7 @@ EOS
 
 			begin
 				@conf.save
-				clear_cache
+				@io.clear_cache
 			rescue
 				@error = [$!.dup, $@.dup]
 			end
@@ -931,7 +910,6 @@ EOS
 			end
 		end
 
-	protected
 		def cache_file( prefix )
 			"#{prefix}#{@rhtml.sub( /month/, @date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
 		end
@@ -1070,6 +1048,14 @@ EOS
 			end
 		end
 
+		def cache_file( prefix )
+			if @cgi.params['date'][0] then
+				nil
+			else
+				"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
+			end
+		end
+
 	protected
 		def count_diaries_after( diaries )
 			start = start_date
@@ -1101,14 +1087,6 @@ EOS
 			end
 			@conf['ndays.prev'] = nil unless continue_exist
 			diaries_size
-		end
-
-		def cache_file( prefix )
-			if @cgi.params['date'][0] then
-				nil
-			else
-				"#{prefix}#{@rhtml.sub( /\.rhtml$/, '.rb' )}"
-			end
 		end
 
 		def start_date

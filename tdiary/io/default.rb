@@ -243,6 +243,27 @@ module TDiary
 			(@tdiary.conf.cache_path || "#{@tdiary.conf.data_path}cache").untaint
 		end
 
+		def clear_cache( target = /.*/ )
+			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
+				File::delete( c.untaint ) if target =~ c
+			end
+		end
+
+		def store_cache( cache, prefix )
+			unless FileTest::directory?( cache_path ) then
+				begin
+					Dir::mkdir( cache_path )
+				rescue Errno::EEXIST
+				end
+			end
+			if @tdiary.cache_file( prefix ) && @tdiary.conf.io_class.to_s == 'TDiary::DefaultIO'
+				File::open( "#{cache_path}/#{@tdiary.cache_file( prefix )}", 'w' ) do |f|
+					f.flock(File::LOCK_EX)
+					f.write( cache )
+				end
+			end
+		end
+
 	private
 		def parser_cache( date, key = nil, obj = nil )
 			return nil if @ignore_parser_cache
@@ -272,7 +293,7 @@ module TDiary
 							if ver == TDIARY_VERSION and cache.root?(key)
 								obj = cache[key]
 							else
-								@tdiary.clear_cache
+								clear_cache
 							end
 							cache.abort
 						else # store
