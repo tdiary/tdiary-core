@@ -243,40 +243,8 @@ module TDiary
 			(@tdiary.conf.cache_path || "#{@tdiary.conf.data_path}cache").untaint
 		end
 
-		def cache_file( prefix )
-			if @tdiary.is_a?(TDiaryMonth)
-				"#{prefix}#{@tdiary.rhtml.sub( /month/, @tdiary.date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
-			elsif @tdiary.is_a?(TDiaryLatest)
-				if @tdiary.cgi.params['date'][0] then
-					nil
-				else
-					"#{prefix}#{@tdiary.rhtml.sub( /\.rhtml$/, '.rb' )}"
-				end
-			else
-				nil
-			end
-		end
-
-		def cache_exists?( prefix )
-			cache_file( prefix ) && FileTest::file?( "#{cache_path}/#{cache_file( prefix )}" )
-		end
-
-		def cache_enable?( prefix )
-			if @tdiary.is_a?(TDiaryView)
-				cache_exists?( prefix ) && (File::mtime( "#{cache_path}/#{cache_file( prefix )}" ) > @tdiary.last_modified)
-			else
-				cache_exists?( prefix )
-			end
-		end
-
-		def clear_cache( target = /.*/ )
-			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
-				File::delete( c.untaint ) if target =~ c
-			end
-		end
-
 		def restore_cache( prefix )
-			if cache_enable?( prefix ) && @tdiary.conf.io_class.to_s == 'TDiary::DefaultIO'
+			if cache_enable?( prefix )
 				File::open( "#{@io.cache_path}/#{@io.cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 		end
@@ -288,7 +256,7 @@ module TDiary
 				rescue Errno::EEXIST
 				end
 			end
-			if cache_file( prefix ) && @tdiary.conf.io_class.to_s == 'TDiary::DefaultIO'
+			if cache_file( prefix )
 				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
 					f.flock(File::LOCK_EX)
 					f.write( cache )
@@ -296,7 +264,25 @@ module TDiary
 			end
 		end
 
+		def clear_cache( target = /.*/ )
+			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
+				File::delete( c.untaint ) if target =~ c
+			end
+		end
+
 	private
+		def restore_parser_cache( date, key )
+			parser_cache( date, key )
+		end
+
+		def store_parser_cache( date, key, obj )
+			parser_cache( date, key, obj )
+		end
+
+		def clear_parser_cache( date )
+			parser_cache( date )
+		end
+
 		def parser_cache( date, key = nil, obj = nil )
 			return nil if @ignore_parser_cache
 
@@ -346,16 +332,30 @@ module TDiary
 			obj
 		end
 
-		def restore_parser_cache( date, key )
-			parser_cache( date, key )
+		def cache_file( prefix )
+			if @tdiary.is_a?(TDiaryMonth)
+				"#{prefix}#{@tdiary.rhtml.sub( /month/, @tdiary.date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
+			elsif @tdiary.is_a?(TDiaryLatest)
+				if @tdiary.cgi.params['date'][0] then
+					nil
+				else
+					"#{prefix}#{@tdiary.rhtml.sub( /\.rhtml$/, '.rb' )}"
+				end
+			else
+				nil
+			end
 		end
 
-		def store_parser_cache( date, key, obj )
-			parser_cache( date, key, obj )
+		def cache_exists?( prefix )
+			cache_file( prefix ) && FileTest::file?( "#{cache_path}/#{cache_file( prefix )}" )
 		end
 
-		def clear_parser_cache( date )
-			parser_cache( date )
+		def cache_enable?( prefix )
+			if @tdiary.is_a?(TDiaryView)
+				cache_exists?( prefix ) && (File::mtime( "#{cache_path}/#{cache_file( prefix )}" ) > @tdiary.last_modified)
+			else
+				cache_exists?( prefix )
+			end
 		end
 
 		def restore( fh, diaries )
