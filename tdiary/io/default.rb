@@ -275,6 +275,12 @@ module TDiary
 			end
 		end
 
+		def restore_cache( prefix )
+			if cache_enable?( prefix ) && @tdiary.conf.io_class.to_s == 'TDiary::DefaultIO'
+				File::open( "#{@io.cache_path}/#{@io.cache_file( prefix )}" ) {|f| f.read } rescue nil
+			end
+		end
+
 		def store_cache( cache, prefix )
 			unless FileTest::directory?( cache_path ) then
 				begin

@@ -184,9 +184,8 @@ module TDiary
 			load_plugins
 
 			# load and apply rhtmls
-			if @io.cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
-				r = File::open( "#{@io.cache_path}/#{@io.cache_file( prefix )}" ) {|f| f.read } rescue nil
-			end
+			r = @io.restore_cache( prefix )
+
 			if r.nil?
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
 				rhtml = files.collect {|file|
