@@ -180,7 +180,7 @@ module TDiary
 				end
 				fh.flock( File::LOCK_EX )
 
-				cache = @tdiary.restore_parser_cache( date, 'default' )
+				cache = restore_parser_cache( date, 'default' )
 				force_save = TDiaryBase::DIRTY_NONE
 				unless cache then
 					force_save |= restore( fh, diaries )
@@ -194,7 +194,7 @@ module TDiary
 				store_comment( cfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_COMMENT) != 0
 				store_referer( rfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_REFERER) != 0
 				if dirty != TDiaryBase::DIRTY_NONE or not cache then
-					@tdiary.store_parser_cache( date, 'default', diaries )
+					store_parser_cache( date, 'default', diaries )
 				end
 
 				if diaries.empty?
@@ -207,7 +207,7 @@ module TDiary
 					rescue Errno::ENOENT
 					end
 					begin
-						@tdiary.store_parser_cache( date, nil, nil)
+						store_parser_cache( date, nil, nil)
 					rescue Errno::ENOENT
 					end
 				end
@@ -240,6 +240,18 @@ module TDiary
 		end
 
 	private
+		def restore_parser_cache( date, key )
+			@tdiary.parser_cache( date, key )
+		end
+
+		def store_parser_cache( date, key, obj )
+			@tdiary.parser_cache( date, key, obj )
+		end
+
+		def clear_parser_cache( date )
+			@tdiary.parser_cache( date )
+		end
+
 		def restore( fh, diaries )
 			begin
 				fh.seek( 0 )
