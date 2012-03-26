@@ -243,6 +243,18 @@ module TDiary
 			(@tdiary.conf.cache_path || "#{@tdiary.conf.data_path}cache").untaint
 		end
 
+		def cache_exists?( prefix )
+			@tdiary.cache_file( prefix ) && FileTest::file?( "#{cache_path}/#{@tdiary.cache_file( prefix )}" )
+		end
+
+		def cache_enable?( prefix )
+			if @tdiary.is_a?(TDiaryView)
+				cache_exists?( prefix ) && (File::mtime( "#{cache_path}/#{@tdiary.cache_file( prefix )}" ) > @tdiary.last_modified)
+			else
+				cache_exists?( prefix )
+			end
+		end
+
 		def clear_cache( target = /.*/ )
 			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
 				File::delete( c.untaint ) if target =~ c

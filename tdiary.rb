@@ -188,7 +188,7 @@ module TDiary
 			load_plugins
 
 			# load and apply rhtmls
-			if cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
+			if @io.cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
 				r = File::open( "#{@io.cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 			if r.nil?
@@ -245,10 +245,6 @@ module TDiary
 
 		def delete( date )
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
-		end
-
-		def cache_enable?( prefix )
-			cache_file( prefix ) and FileTest::file?( "#{@io.cache_path}/#{cache_file( prefix )}" )
 		end
 
 		def load_filters
@@ -755,10 +751,6 @@ EOS
 				break
 			end
 			result
-		end
-
-		def cache_enable?( prefix )
-			super and (File::mtime( "#{@io.cache_path}/#{cache_file( prefix )}" ) > last_modified )
 		end
 	end
 
