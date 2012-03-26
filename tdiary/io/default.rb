@@ -239,17 +239,70 @@ module TDiary
 			styled_diary_factory( date, title, body, style )
 		end
 
+		def cache_path
+			(@tdiary.conf.cache_path || "#{@tdiary.conf.data_path}cache").untaint
+		end
+
 	private
+		def parser_cache( date, key = nil, obj = nil )
+			return nil if @ignore_parser_cache
+
+			unless FileTest::directory?( cache_path ) then
+				begin
+					Dir::mkdir( cache_path )
+				rescue Errno::EEXIST
+				end
+			end
+			file = date.strftime( "#{cache_path}/%Y%m.parser" )
+
+			unless key then
+				begin
+					File::delete( file )
+					File::delete( file + '~' )
+				rescue
+				end
+				return nil
+			end
+
+			begin
+				PStore::new( file ).transaction do |cache|
+					begin
+						unless obj then # restore
+							ver = cache.root?('version') ? cache['version'] : nil
+							if ver == TDIARY_VERSION and cache.root?(key)
+								obj = cache[key]
+							else
+								@tdiary.clear_cache
+							end
+							cache.abort
+						else # store
+							cache[key] = obj
+							cache['version'] = TDIARY_VERSION
+						end
+					rescue PStore::Error
+					end
+				end
+			rescue
+				begin
+					File::delete( file )
+					File::delete( file + '~' )
+				rescue
+				end
+				return nil
+			end
+			obj
+		end
+
 		def restore_parser_cache( date, key )
-			@tdiary.parser_cache( date, key )
+			parser_cache( date, key )
 		end
 
 		def store_parser_cache( date, key, obj )
-			@tdiary.parser_cache( date, key, obj )
+			parser_cache( date, key, obj )
 		end
 
 		def clear_parser_cache( date )
-			@tdiary.parser_cache( date )
+			parser_cache( date )
 		end
 
 		def restore( fh, diaries )

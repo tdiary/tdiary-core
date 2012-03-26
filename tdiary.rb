@@ -178,55 +178,6 @@ module TDiary
 			@years = @io.calendar unless @years
 		end
 
-		def parser_cache( date, key = nil, obj = nil )
-			return nil if @ignore_parser_cache
-
-			unless FileTest::directory?( cache_path ) then
-				begin
-					Dir::mkdir( cache_path )
-				rescue Errno::EEXIST
-				end
-			end
-			file = date.strftime( "#{cache_path}/%Y%m.parser" )
-
-			unless key then
-				begin
-					File::delete( file )
-					File::delete( file + '~' )
-				rescue
-				end
-				return nil
-			end
-
-			begin
-				PStore::new( file ).transaction do |cache|
-					begin
-						unless obj then # restore
-							ver = cache.root?('version') ? cache['version'] : nil
-							if ver == TDIARY_VERSION and cache.root?(key)
-								obj = cache[key]
-							else
-								clear_cache
-							end
-							cache.abort
-						else # store
-							cache[key] = obj
-							cache['version'] = TDIARY_VERSION
-						end
-					rescue PStore::Error
-					end
-				end
-			rescue
-				begin
-					File::delete( file )
-					File::delete( file + '~' )
-				rescue
-				end
-				return nil
-			end
-			obj
-		end
-
 	protected
 		def do_eval_rhtml( prefix )
 			# load plugin files
@@ -234,7 +185,7 @@ module TDiary
 
 			# load and apply rhtmls
 			if cache_enable?( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
-				r = File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
+				r = File::open( "#{@io.cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 			if r.nil?
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
@@ -276,7 +227,7 @@ module TDiary
 				'diaries' => @diaries,
 				'cgi' => @cgi,
 				'years' => @years,
-				'cache_path' => cache_path,
+				'cache_path' => @io.cache_path,
 				'date' => @date,
 				'comment' => @comment,
 				'last_modified' => last_modified,
@@ -292,27 +243,23 @@ module TDiary
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
 		end
 
-		def cache_path
-			(@conf.cache_path || "#{@conf.data_path}cache").untaint
-		end
-
 		def cache_file( prefix )
 			nil
 		end
 
 		def cache_enable?( prefix )
-			cache_file( prefix ) and FileTest::file?( "#{cache_path}/#{cache_file( prefix )}" )
+			cache_file( prefix ) and FileTest::file?( "#{@io.cache_path}/#{cache_file( prefix )}" )
 		end
 
 		def store_cache( cache, prefix )
-			unless FileTest::directory?( cache_path ) then
+			unless FileTest::directory?( @io.cache_path ) then
 				begin
-					Dir::mkdir( cache_path )
+					Dir::mkdir( @io.cache_path )
 				rescue Errno::EEXIST
 				end
 			end
 			if cache_file( prefix ) && @conf.io_class.to_s == 'TDiary::DefaultIO'
-				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
+				File::open( "#{@io.cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
 					f.flock(File::LOCK_EX)
 					f.write( cache )
 				end
@@ -320,7 +267,7 @@ module TDiary
 		end
 
 		def clear_cache( target = /.*/ )
-			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
+			Dir::glob( "#{@io.cache_path}/*.r[bh]*" ).each do |c|
 				File::delete( c.untaint ) if target =~ c
 			end
 		end
@@ -832,7 +779,7 @@ EOS
 		end
 
 		def cache_enable?( prefix )
-			super and (File::mtime( "#{cache_path}/#{cache_file( prefix )}" ) > last_modified )
+			super and (File::mtime( "#{@io.cache_path}/#{cache_file( prefix )}" ) > last_modified )
 		end
 	end
 
