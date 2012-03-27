@@ -99,13 +99,12 @@ module TDiary
         db.transaction do
           diaries = {}
 
-          ymd = date.strftime("%Y%m%d")
-
-          if cache = restore_parser_cache(ymd)
+          if cache = restore_parser_cache(date)
             diaries.update(cache)
           else
-            restore(ymd, diaries)
+            restore(date.strftime("%Y%m%d"), diaries)
             restore_comment(diaries)
+            clear_cache
           end
 
           dirty = yield(diaries) if iterator?
@@ -113,7 +112,7 @@ module TDiary
           store(diaries) if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
           store_comment(diaries) if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
 
-          store_parser_cache(ymd, diaries) if dirty || !cache
+          store_parser_cache(date, diaries) if dirty || !cache
         end
       end
     end
@@ -123,19 +122,33 @@ module TDiary
     end
 
     def restore_cache(prefix)
-      nil
+      if key = cache_key(prefix)
+        memcache.get(key)
+      end
     end
 
     def store_cache(cache, prefix)
-      nil
+      if key = cache_key(prefix)
+        memcache.set(key, cache)
+      end
     end
 
-    def clear_cache(target = :all)
-      if target == :all
-        Dalli::Client.new.flush
+    def cache_key(prefix)
+      if @tdiary.is_a?(TDiaryMonth)
+        "#{prefix}#{@tdiary.rhtml.sub( /month/, @tdiary.date.strftime( '%Y%m' ) ).sub( /\.rhtml$/, '.rb' )}"
+      elsif @tdiary.is_a?(TDiaryLatest)
+        if @tdiary.cgi.params['date'][0]
+          nil
+        else
+          "#{prefix}#{@tdiary.rhtml.sub( /\.rhtml$/, '.rb' )}"
+        end
       else
-        Dalli::Client.new.delete(target)
+        nil
       end
+    end
+
+    def clear_cache(*args)
+      memcache.flush
     end
 
     def calendar
@@ -154,12 +167,12 @@ module TDiary
 
   private
 
-    def restore_parser_cache(ymd)
-      Dalli::Client.new.get(ymd)
+    def restore_parser_cache(date)
+      memcache.get(date.strftime("%Y%m.parser"))
     end
 
-    def store_parser_cache(ymd, obj)
-      Dalli::Client.new.set(ymd, obj)
+    def store_parser_cache(date, obj)
+      memcache.set(date.strftime("%Y%m.parser"), obj)
     end
 
     def restore(date, diaries, month = true)
@@ -199,6 +212,10 @@ module TDiary
           end
         end
       end
+    end
+
+    def memcache
+      @_client ||= Dalli::Client.new
     end
   end
 end
