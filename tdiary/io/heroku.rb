@@ -109,7 +109,6 @@ module TDiary
       if dirty
         store(diaries) if TDiary::TDiaryBase::DIRTY_DIARY != 0
         store_comment(diaries) if TDiary::TDiaryBase::DIRTY_COMMENT != 0
-        clear_cache
       end
 
       store_parser_cache(date, diaries) if dirty || !cache
@@ -131,8 +130,13 @@ module TDiary
       end
     end
 
-    def clear_cache(*args)
-      memcache.flush
+    def clear_cache(target)
+      if target
+        memcache.delete('latest.rb')
+        memcache.delete(target.to_s.scan(/\d{4}\d{2}/)[0])
+      else
+        memcache.flush
+      end
     end
 
     def calendar
