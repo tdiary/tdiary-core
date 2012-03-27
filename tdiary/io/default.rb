@@ -240,7 +240,16 @@ module TDiary
 		end
 
 		def cache_path
-			(@tdiary.conf.cache_path || "#{@data_path}cache").untaint
+			path = (@tdiary.conf.cache_path || "#{@data_path}cache").untaint
+
+			unless FileTest.directory?(path) then
+				begin
+					Dir.mkdir(path)
+				rescue Errno::EEXIST
+				end
+			end
+
+			path
 		end
 
 		def restore_cache( prefix )
@@ -250,12 +259,6 @@ module TDiary
 		end
 
 		def store_cache( cache, prefix )
-			unless FileTest::directory?( cache_path ) then
-				begin
-					Dir::mkdir( cache_path )
-				rescue Errno::EEXIST
-				end
-			end
 			if cache_file( prefix )
 				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
 					f.flock(File::LOCK_EX)
@@ -296,13 +299,6 @@ module TDiary
 
 		def store_parser_cache(date, key, obj)
 			return nil if @tdiary.ignore_parser_cache
-
-			unless FileTest.directory?(cache_path) then
-				begin
-					Dir.mkdir(cache_path)
-				rescue Errno::EEXIST
-				end
-			end
 
 			file = date.strftime("#{cache_path}/%Y%m.parser")
 			begin
