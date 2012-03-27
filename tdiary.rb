@@ -146,6 +146,7 @@ module TDiary
 		attr_reader :date
 		attr_reader :diaries
 		attr_reader :cgi, :rhtml, :conf
+		attr_reader :ignore_parser_cache
 
 		def initialize( cgi, rhtml, conf )
 			@cgi, @rhtml, @conf = cgi, rhtml, conf
@@ -153,6 +154,7 @@ module TDiary
 			@cookies = []
 			@io = @conf.io_class.new( self )
 			@logger = @conf.logger || load_logger
+			@ignore_parser_cache = false
 		end
 
 		def eval_rhtml( prefix = '' )

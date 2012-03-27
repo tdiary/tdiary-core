@@ -240,12 +240,12 @@ module TDiary
 		end
 
 		def cache_path
-			(@tdiary.conf.cache_path || "#{@tdiary.conf.data_path}cache").untaint
+			(@tdiary.conf.cache_path || "#{@data_path}cache").untaint
 		end
 
 		def restore_cache( prefix )
 			if cache_enable?( prefix )
-				File::open( "#{@io.cache_path}/#{@io.cache_file( prefix )}" ) {|f| f.read } rescue nil
+				File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
 			end
 		end
 
@@ -270,7 +270,6 @@ module TDiary
 			end
 		end
 
-	private
 		def restore_parser_cache( date, key )
 			parser_cache( date, key )
 		end
@@ -283,8 +282,10 @@ module TDiary
 			parser_cache( date )
 		end
 
+	private
+
 		def parser_cache( date, key = nil, obj = nil )
-			return nil if @ignore_parser_cache
+			return nil if @tdiary.ignore_parser_cache
 
 			unless FileTest::directory?( cache_path ) then
 				begin
