@@ -270,54 +270,21 @@ module TDiary
 			end
 		end
 
-		def restore_parser_cache( date, key )
-			parser_cache( date, key )
-		end
-
-		def store_parser_cache( date, key, obj )
-			parser_cache( date, key, obj )
-		end
-
-		def clear_parser_cache( date )
-			file = date.strftime( "#{cache_path}/%Y%m.parser" )
-
-			begin
-				File::delete( file )
-				File::delete( file + '~' )
-			rescue
-			end
-
-			nil
-		end
-
-	private
-
-		def parser_cache( date, key = nil, obj = nil )
+		def restore_parser_cache(date, key)
 			return nil if @tdiary.ignore_parser_cache
 
-			unless FileTest::directory?( cache_path ) then
-				begin
-					Dir::mkdir( cache_path )
-				rescue Errno::EEXIST
-				end
-			end
-			file = date.strftime( "#{cache_path}/%Y%m.parser" )
-
+			file = date.strftime("#{cache_path}/%Y%m.parser")
+			obj = nil
 			begin
-				PStore::new( file ).transaction do |cache|
+				PStore.new(file).transaction do |cache|
 					begin
-						unless obj then # restore
-							ver = cache.root?('version') ? cache['version'] : nil
-							if ver == TDIARY_VERSION and cache.root?(key)
-								obj = cache[key]
-							else
-								clear_cache
-							end
-							cache.abort
-						else # store
-							cache[key] = obj
-							cache['version'] = TDIARY_VERSION
+						ver = cache.root?('version') ? cache['version'] : nil
+						if ver == TDIARY_VERSION and cache.root?(key)
+							obj = cache[key]
+						else
+							clear_cache
 						end
+						cache.abort
 					rescue PStore::Error
 					end
 				end
@@ -326,6 +293,44 @@ module TDiary
 			end
 			obj
 		end
+
+		def store_parser_cache(date, key, obj)
+			return nil if @tdiary.ignore_parser_cache
+
+			unless FileTest.directory?(cache_path) then
+				begin
+					Dir.mkdir(cache_path)
+				rescue Errno::EEXIST
+				end
+			end
+
+			file = date.strftime("#{cache_path}/%Y%m.parser")
+			begin
+				PStore::new(file).transaction do |cache|
+					begin
+						cache[key] = obj
+						cache['version'] = TDIARY_VERSION
+					rescue PStore::Error
+					end
+				end
+			rescue
+				clear_parser_cache(date)
+			end
+		end
+
+		def clear_parser_cache(date)
+			file = date.strftime("#{cache_path}/%Y%m.parser")
+
+			begin
+				File.delete(file)
+				File.delete(file + '~')
+			rescue
+			end
+
+			nil
+		end
+
+	private
 
 		def cache_file( prefix )
 			if @tdiary.is_a?(TDiaryMonth)
