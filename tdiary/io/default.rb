@@ -279,7 +279,15 @@ module TDiary
 		end
 
 		def clear_parser_cache( date )
-			parser_cache( date )
+			file = date.strftime( "#{cache_path}/%Y%m.parser" )
+
+			begin
+				File::delete( file )
+				File::delete( file + '~' )
+			rescue
+			end
+
+			nil
 		end
 
 	private
@@ -294,15 +302,6 @@ module TDiary
 				end
 			end
 			file = date.strftime( "#{cache_path}/%Y%m.parser" )
-
-			unless key then
-				begin
-					File::delete( file )
-					File::delete( file + '~' )
-				rescue
-				end
-				return nil
-			end
 
 			begin
 				PStore::new( file ).transaction do |cache|
@@ -323,12 +322,7 @@ module TDiary
 					end
 				end
 			rescue
-				begin
-					File::delete( file )
-					File::delete( file + '~' )
-				rescue
-				end
-				return nil
+				clear_parser_cache( date )
 			end
 			obj
 		end
