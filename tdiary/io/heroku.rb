@@ -15,6 +15,7 @@
 # You can distribute this under GPL.
 require 'tdiary/io/base'
 require 'sequel'
+require 'dalli'
 
 module TDiary
   module CommentIO
@@ -98,14 +99,42 @@ module TDiary
         db.transaction do
           diaries = {}
 
-          restore(date.strftime("%Y%m%d"), diaries)
-          restore_comment(diaries)
+          ymd = date.strftime("%Y%m%d")
+
+          if cache = restore_parser_cache(ymd)
+            diaries.update(cache)
+          else
+            restore(ymd, diaries)
+            restore_comment(diaries)
+          end
 
           dirty = yield(diaries) if iterator?
 
-          store(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
-          store_comment(diaries)  if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
+          store(diaries) if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
+          store_comment(diaries) if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
+
+          store_parser_cache(ymd, diaries) if dirty || !cache
         end
+      end
+    end
+
+    def cache_path
+      Dir.tmpdir
+    end
+
+    def restore_cache(prefix)
+      nil
+    end
+
+    def store_cache(cache, prefix)
+      nil
+    end
+
+    def clear_cache(target = :all)
+      if target == :all
+        Dalli::Client.new.flush
+      else
+        Dalli::Client.new.delete(target)
       end
     end
 
@@ -124,6 +153,14 @@ module TDiary
     end
 
   private
+
+    def restore_parser_cache(ymd)
+      Dalli::Client.new.get(ymd)
+    end
+
+    def store_parser_cache(ymd, obj)
+      Dalli::Client.new.set(ymd, obj)
+    end
 
     def restore(date, diaries, month = true)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
