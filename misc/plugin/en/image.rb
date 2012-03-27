@@ -44,6 +44,7 @@ def image_label_add_plugin; 'Add to the article'; end
 def image_label_delete; 'Delete checked images'; end
 def image_label_only_jpeg; 'Only JPEG'; end
 def image_label_add_image; 'Upload the image'; end
+def image_label_drop_here; 'Drop files here'; end
 
 # Local Variables:
 # mode: ruby

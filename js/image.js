@@ -74,25 +74,38 @@ $(function(){
 		}
 		e.preventDefault();
 		
-		var self = this;
+		uploadFiles(this.plugin_image_file.files);
+		this.reset();
+		return false;
+	});
+	
+	var uploadFiles = function(files) {
 		var formData = new FormData();
 		formData.append('plugin', 'image');
 		$.each($('#plugin-image-addimage input[type="hidden"]'), function(){
 			formData.append($(this).attr('name'), $(this).val());
 		});
-		$.each(this.plugin_image_file.files, function(i, file){
+		$.each(files, function(i, file){
 			formData.append('plugin_image_file', file);
 		});
-		
+
 		var imagePlugin = new ImagePlugin($(this).attr('action'));
 		imagePlugin.upload(formData, function(result){
-			self.reset();
 			$('#plugin-image-delimage').parents('div.form').remove();
-			$('#plugin-image-addimage').before($('#plugin-image-delimage', result).parents('div.form').html());
+			$('<div>')
+				.attr({
+					'class': 'form'
+				})
+				.append($('#plugin-image-delimage', result).parents('div.form').html())
+				.insertBefore('#plugin-image-addimage');
+			var timestamp = new Date().getTime();
+			$.each($('#plugin-image-delimage img'), function(){
+				$(this).attr('src', $(this).attr('src') + '?' + timestamp);
+			});
 		});
 		return false;
-	});
-	
+	};
+
 	$('#plugin-image-delimage')
 	.live('submit', function(e){
 		e.preventDefault();
@@ -109,4 +122,60 @@ $(function(){
 		});
 		return false;
 	});
+
+	if(window.File) {
+		$('<div>')
+			.attr({
+				id: 'plugin_image_dnd'
+			})
+			.css({
+				'height': '5em',
+				'text-align': 'center',
+				'line-height': '5em',
+				'background': '#ddd',
+				'border': 'dashed 3px #AAA'
+			})
+			.bind('dragenter', function(){
+				$(this).css('border', 'solid 3px #AAA');
+				return false;
+			})
+			.bind('dragleave', function(){
+				$(this).css('border', 'dashed 3px #CCC');
+				return false;
+			})
+			.bind('drop', function(e){
+				$('#plugin_image_dnd').hide();
+				$(this).css('border', 'dashed 3px #CCC');
+				$('#plugin-image-addimage form').show();
+				var files = e.originalEvent.dataTransfer.files;
+				uploadFiles(files);
+				return false;
+			})
+			.text($tDiary.plugin.image.drop_here)
+			.hide()
+			.appendTo('#plugin-image-addimage');
+
+		var dnd_timer = false;
+		$('body')
+			.bind('dragenter', function() {
+				if (dnd_timer) {
+					clearTimeout( dnd_timer );
+				}
+				$('#plugin-image-addimage form').hide();
+				$('#plugin_image_dnd').show();
+			})
+			.bind('dragover', function(){
+				if (dnd_timer) {
+					clearTimeout( dnd_timer );
+				}
+				return false;
+			})
+			.bind('dragleave', function(){
+				dnd_timer = setTimeout(function(){
+					$('#plugin_image_dnd').hide();
+					$('#plugin-image-addimage form').show();
+				}, 500);
+				return false;
+			});
+	}
 });
