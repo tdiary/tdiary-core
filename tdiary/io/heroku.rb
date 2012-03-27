@@ -132,8 +132,10 @@ module TDiary
 
     def clear_cache(target)
       if target
-        memcache.delete('latest.rb')
-        memcache.delete(target.to_s.scan(/\d{4}\d{2}/)[0])
+        ym = target.to_s.scan(/\d{4}\d{2}/)[0]
+        ['latest.rb', 'i.latest.rb', "#{ym}.rb", "i.#{ym}.rb"].each do |key|
+          memcache.delete(key)
+        end
       else
         memcache.flush
       end
