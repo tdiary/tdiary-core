@@ -1,5 +1,15 @@
+2012-03-28  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary.rb, tdiary/io/default.rb: separate cache methods, now File cache is implerement to DefaultIO class.
+	* tdiary/io/heroku.rb: implements to diary's cache using memcached.
+
 2012-03-27  hb <smallstyle@gmail.com>
 	* misc/plugin/image.rb, misc/plugin/en/image.rb, js/image.js: added Drag and Drop upload field. #40
+
+2012-03-23  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary.rb, tdiary/config.rb, tdiary/io/default.rb, plugin/*.rb:
+	move restore/store methods depending File I/O to DefaultIO.
+
+	* tdiary/io/heroku.rb, spec/fixtures/tdiary.conf.heroku: added HerokuIO. support running to www.heroku.com.
 
 2012-02-28  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* tdiary.rb: handled security error when tmp directory is nothing.
