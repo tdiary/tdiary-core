@@ -11,6 +11,7 @@ gem 'pygments.rb'
 gem 'rubypython', '0.5.1'
 gem 'sequel'
 gem 'pg'
+gem 'dalli'
 
 group :development do
   gem 'capistrano', :require => false

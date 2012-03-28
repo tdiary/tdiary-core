@@ -175,7 +175,7 @@ module ::TDiary
 	class YATDiarySqueezeMain < TDiaryBase
 		def initialize(dest, all_data, overwrite, compat, conf, suffix)
 			@ignore_parser_cache = true
-	
+
 			cgi = CGI::new
 			def cgi.referer; nil; end
 			super( cgi, 'day.rhtml', conf )
