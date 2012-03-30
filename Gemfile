@@ -1,17 +1,25 @@
 source :rubygems
 
-gem 'thin', :require => false, :platforms => :ruby
 gem 'rack'
 gem 'rake'
 gem 'sprockets'
 gem 'coffee-script'
 
-gem 'redcarpet'
 gem 'pygments.rb'
 gem 'rubypython', '0.5.1'
 gem 'sequel'
-gem 'pg'
 gem 'dalli'
+
+platforms :mri do
+  gem 'thin', :require => false
+  gem 'pg'
+  gem 'redcarpet'
+end
+
+platforms :jruby do
+  gem 'trinidad', :require => false
+  gem 'jdbc-postgres', :require => 'jdbc/postgres'
+end
 
 group :development do
   gem 'capistrano', :require => false
