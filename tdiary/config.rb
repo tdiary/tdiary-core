@@ -235,7 +235,7 @@ module TDiary
 					cgi_conf.force_encoding( enc )
 					retry
 				end
-			end
+			end if cgi_conf
 			eval( def_vars2, b )
 		end
 
