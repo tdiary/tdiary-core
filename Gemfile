@@ -4,9 +4,6 @@ gem 'rack'
 gem 'rake'
 gem 'sprockets'
 gem 'coffee-script'
-
-gem 'pygments.rb'
-gem 'rubypython', '0.5.1'
 gem 'sequel'
 gem 'dalli'
 
@@ -14,6 +11,8 @@ platforms :mri do
   gem 'thin', :require => false
   gem 'pg'
   gem 'redcarpet'
+  gem 'pygments.rb'
+  gem 'rubypython', '0.5.1'
 end
 
 platforms :jruby do
