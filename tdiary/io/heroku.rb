@@ -106,10 +106,8 @@ module TDiary
 
       dirty = yield(diaries) if iterator?
 
-      if dirty
-        store(diaries) if TDiary::TDiaryBase::DIRTY_DIARY != 0
-        store_comment(diaries) if TDiary::TDiaryBase::DIRTY_COMMENT != 0
-      end
+      store(diaries) if (dirty & TDiary::TDiaryBase::DIRTY_DIARY) != 0
+      store_comment(diaries) if (dirty & TDiary::TDiaryBase::DIRTY_COMMENT) != 0
 
       store_parser_cache(date, diaries) if dirty || !cache
     end
