@@ -845,6 +845,7 @@ EOS
 						'path' => cookie_path,
 						'expires' => Time::now.gmtime + 90*24*60*60 # 90days
 					} )
+					@io.clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 				else
 					@comment = nil
 				end
