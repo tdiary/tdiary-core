@@ -185,9 +185,9 @@ module TDiary
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         query = db[:diaries].select(:diary_id, :title, :last_modified, :visible, :body, :style)
         query = if month && /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
-                  query.filter(year: $1, month: $2)
+                  query.filter(:year => $1, :month => $2)
                 else
-                  query.filter(diary_id: date)
+                  query.filter(:diary_id => date)
                 end
         query.each do |row|
           style = if row[:style].nil? || row[:style].empty?
@@ -210,11 +210,11 @@ module TDiary
             month = $2
             day   = $3
           end
-          entry = db[:diaries].filter(year: year, month: month, day: day, diary_id: date)
+          entry = db[:diaries].filter(:year => year, :month => month, :day => day, :diary_id => date)
           if entry.count > 0
-            entry.update(title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, style: diary.style)
+            entry.update(:title => diary.title, :last_modified => diary.last_modified.to_i, :visible => diary.visible?, :body => diary.to_src, :style => diary.style)
           else
-            db[:diaries].insert(year: year, month: month, day: day, title: diary.title, last_modified: diary.last_modified.to_i, visible: diary.visible?, body: diary.to_src, diary_id: date)
+            db[:diaries].insert(:year => year, :month => month, :day => day, :title => diary.title, :last_modified => diary.last_modified.to_i, :visible => diary.visible?, :body => diary.to_src, :diary_id => date)
           end
         end
       end
