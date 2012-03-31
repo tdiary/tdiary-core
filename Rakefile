@@ -91,6 +91,29 @@ task :rdoc do
 	`cd #{root_dir} && rdoc --all --charset=UTF8 --op=rdoc --inline-source README ChangeLog index.rb update.rb tdiary.rb tdiary/* misc/* plugin/*`
 end
 
+desc "generate document files"
+task :doc do
+	require 'redcarpet'
+	require 'pathname'
+	Dir.glob(File.dirname(__FILE__) + "/doc/*.md") do |md|
+		target = Pathname.new(md)
+		header = <<-HEADER
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ja-JP">
+<head>
+<title>#{target.basename('.md')}</title>
+</head>
+<body>
+HEADER
+		footer = <<-FOOTER
+</body>
+</html>
+FOOTER
+		html = Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(File.open(md).read)
+		open(target.sub(/\.md\z/, ''), 'w') {|f| f.write(header + html + footer)}
+	end
+end
+
 desc "compile coffeescript"
 task :compile do
 	require 'coffee-script'
