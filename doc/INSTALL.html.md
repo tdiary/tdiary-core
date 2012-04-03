@@ -1,6 +1,5 @@
-tDiary README
-tDiary
-   
+HOWTO install tDiary
+ 
 インストールマニュアル
 ===========
 
@@ -28,8 +27,26 @@ tDiaryのインストールと設定
 続いて、CGIの実行環境を整えます。dot.htaccessを.htaccessにリネームして、環境に合わせて書き換えます。添付のサンプルは以下のようになっています。
 
 ```
- Options +ExecCGI AddHandler cgi-script .rb DirectoryIndex index.rb  deny from all  deny from all  AuthName tDiary AuthType Basic AuthUserFile /home/foo/.htpasswd Require user foo
+Options +ExecCGI
+AddHandler cgi-script .rb
+DirectoryIndex index.rb
+
+<Files "*.rhtml">
+   deny from all
+</Files>
+
+<Files "tdiary.*">
+   deny from all
+</Files>
+
+<Files update.rb>
+AuthName      tDiary
+AuthType      Basic
+AuthUserFile  /home/foo/.htpasswd
+Require user  foo
+</Files>
 ```
+
 ここでは、
 
   - CGIの実行を可能にし、
@@ -51,8 +68,9 @@ tDiaryのインストールと設定
 tdiary.conf.beginnerをtdiary.confにリネームして、内容を書き換えます。tDiaryの設定はほとんどWebブラウザ経由で行えるので、最低限書き換えるべきなのは最初に出てくる@data\_pathだけです。
 
 ```
- @data_path = '/home/foo/diary'
+@data_path = '/home/foo/diary'
 ```
+
 @data\_pathは、日記のデータを保存するディレクトリです。このディレクトリは通常、WWW経由でアクセスできない(public\_html配下でない)ディレクトリを指定します。このディレクトリは、WWWサーバの権限で書き込めるパーミッションにしておく必要があります。
 
 tdiary.confには、他にもいろいろな設定項目を記述できます。これらの項目には以下の3つの種類があります。
@@ -76,8 +94,10 @@ tdiary.confには、tDiaryの設定をCGIから行う場合のセキュリティ
 そこで、tdiary.conf中でセキュリティの設定を行います。通常、tdiary.confの末尾には以下の2行が書かれています。
 
 ```
- @secure = false load_cgi_conf
+@secure = false
+load_cgi_conf
 ```
+
 @secureは、セキュリティ設定を指定する変数です。この値がfalseの場合、セキュリティチェックはいっさいかかりません。ユーザはCGI設定で好き放題ができます。それでは危険という状況下でtDiaryを運営する場合には、@secureの値をtrueにします。そうすると、CGI設定中における危険な変数操作やファイル操作が禁止されます。
 
 また、@secureの値は、日記の表示時に後述するプラグインを実行する場合にも影響を及ぼします。これにより、@secureがtrueの場合には、いくつかのプラグインが利用できなくなります。
@@ -132,5 +152,5 @@ tDiary本体は、原作者であるただただし(t@tdtds.jp)が、GPL2の元�
 
 また、tDiaryフルセットに付属するテーマ、プラグインはすべて、それぞれの原作者が著作権を有します。ライセンス等に関しては個々のファイルを参照してください。
 
-tDiaryは[http://www.tdiary.org/](http://www.tdiary.org/)でサポートを行っています。ご意見・ご要望はこちらへどうぞ。パッチ歓迎です。
+tDiaryは[tDiary.org](http://www.tdiary.org/)でサポートを行っています。ご意見・ご要望はこちらへどうぞ。パッチ歓迎です。
 

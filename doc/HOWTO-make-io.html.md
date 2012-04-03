@@ -17,27 +17,41 @@ IOクラス
 tdiary.rbにはTDiary::IOBaseというクラスが定義されており、これを継承 して独自のIOクラスを作成します。下記の例は、HogeIOを定義しています。
 
 ```
-class HogeIO
+class HogeIO < TDiary::IOBase
+   def calendar
+      .....
+   end
+
+   .....
+end
+```
+
 ### 最低限実装すべきもの
 
 IOBaseクラスにはIOクラスに共通ないくつかのメソッドがすでに実装してあ ります。これを継承したIOクラスでは、さらに以下のようなメソッドを実装 しなくてはいけません。
 
-calendartDiaryに、日記が存在する年月を通知するためのメソッドです。実行時にtDiary から呼び出されます。
+#### calendar
+tDiaryに、日記が存在する年月を通知するためのメソッドです。実行時にtDiary から呼び出されます。
 
 返り値には、現在利用できる日記が含まれている年・月を、Hashオブジェク トで返します。Hashに含まれている各値は、キーに西暦年(Stringで4文字)、 対応する値にはArrayで月(Stringで2桁)を設定します。以下に例を示します。
 
 ```
-def calendar return { '2001' => ['12'], '2002' => ['01', '02', '03', '04', '05', '08'] } end
+def calendar
+   return {
+      '2001' => ['12'],
+      '2002' => ['01', '02', '03', '04', '05', '08']
+   }
+end
 ```
-transaction( date )指定された月の日記データを読み込み、tDiaryに理解できる形で渡します。
+
+#### transaction( date )
+指定された月の日記データを読み込み、tDiaryに理解できる形で渡します。
 
 引数dateはTimeオブジェクトで、年と月のみがlocaltimeで与えられます。
 
 transactionメソッドはdateで指定された月の日記データをファイル(または その他の媒体)から読み出して、ブロックパラメタとしてtDiaryに返します。 このブロックパラメタはHashで、キーに年月日(Stringで8桁)、値に日記デー タ(後述するDiaryBaseをincludeしたクラスのインスタンス)を持ちます。
 
 ブロックパラメタを受けとったtDiaryは、それを使って日記を表示または更 新するので、transactionメソッドはその返り値に従って日記を保存する等 の処理を行えます。以下にtDiaryからの返り値を示します。実際にはこれら の論理和が返ります。
-
-```
 
   - TDiary::TDiaryBase::DIRTY\_NONE: 日記データに変更はありませんでした
   - TDiary::TDiaryBase::DIRTY\_DIARY: 日記本文に変更がありました
@@ -47,9 +61,22 @@ transactionメソッドはdateで指定された月の日記データをファ�
 以下にtransactionの例を示します。
 
 ```
-def trasaction( date ) diaries = { ... } # restore data dirty = yield( diaries ) if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0 then ... # saving diary data if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0 then ... # saving comment data if dirty & TDiary::TDiaryBase::DIRTY_REFERER != 0 then ... # saving referer data end end
+def trasaction( date )
+   diaries = { ... }
+   # restore data
+   dirty = yield( diaries )
+   if dirty & TDiary::TDiaryBase::DIRTY_DIARY != 0
+      ...  # saving diary data
+   if dirty & TDiary::TDiaryBase::DIRTY_COMMENT != 0
+      ...  # saving comment data
+   if dirty & TDiary::TDiaryBase::DIRTY_REFERER != 0
+      ...  # saving referer data
+   end
+end
 ```
-diary\_factory( date, title, body, style = 'tDiary' )diary\_factoryは、指定されたフォーマットの日記オブジェクトを生成して 返します。
+
+#### diary\_factory( date, title, body, style = 'tDiary' )
+diary\_factoryは、指定されたフォーマットの日記オブジェクトを生成して 返します。
 
 引数dateは日付(Stringで8桁)を指定します。title、bodyはそれぞれ生成す る日記のタイトルと本文です(String)。styleは日記の記述形式を指定する 文字列で、diary\_factoryに依存します。
 
@@ -58,12 +85,20 @@ diary\_factory( date, title, body, style = 'tDiary' )diary\_factoryは、指定�
 以下にdiary\_factoryの例を示します。
 
 ```
-def diary_factory( date, title, body, style = 'tDiary' ) case style when 'tDiary' DefaultDiary::new( date, title, body ) default raise StandardError, 'bad style' end end
+def diary_factory( date, title, body, style = 'tDiary' )
+   case style
+      when 'tDiary' DefaultDiary::new( date, title, body )
+      default raise StandardError, 'bad style'
+   end
+end
 ```
+
 もし、スタイルに対応したIOクラスを作るなら、initializeでload\_styleを 呼んだ上で、以下のようにstyled\_diary\_factoryを呼ぶだけで良いです。
 
 ```
-def diary_factory( date, title, body, style = 'tDiary' ) styled_diary_factory( date, title, body, style ) end
+def diary_factory( date, title, body, style = 'tDiary' )
+   styled_diary_factory( date, title, body, style )
+end
 ```
 
 日記データ
@@ -98,6 +133,7 @@ def diary_factory( date, title, body, style = 'tDiary' ) styled_diary_factory( d
 ```
 [カテゴリ] サブタイトル
 ```
+
 のようにカテゴリを指定することにしていますが、 IOクラス/スタイル作者が各IOクラス/スタイルに適した カテゴリ指定の文法を定義して下さい。
 
 カテゴリ機能の実装は必須ではありません。 日記データをカテゴリ機能に対応させるかどうかはIOクラスの作者が判断して下さい。
@@ -120,7 +156,10 @@ tdiary.rbにはDiaryBaseというモジュールが定義されており、 日�
 下記の例はHogeDiaryにDiaryBaseをincludeしています。
 
 ```
-class HogeDiary include DiaryBase ..... end
+class HogeDiary
+   include DiaryBase
+   .....
+end
 ```
 
 ### CategorizableDiary/UncategorizableDiaryモジュール
@@ -130,7 +169,10 @@ tdiary.rbにはCategorizableDiaryとUncategorizableDiaryというモジュール
 下記の例はHogeDiaryにCategoriabeleDiaryをincludeしています。
 
 ```
-class HogeDiary include CategorizableDiary ..... end
+class HogeDiary
+   include CategorizableDiary
+   .....
+end
 ```
 
 ### 最低限実装すべきもの
@@ -149,14 +191,25 @@ DiaryBaseモジュールには日記データのクラスに必要な幾つか�
 
   - @last\_modified
 
-initialize日記データを初期化します。引数はIOクラスによって違うものになります。 このメソッドでは DiaryBase#init\_diary を呼ばなくてはなりません。
+#### initialize
+日記データを初期化します。引数はIOクラスによって違うものになります。 このメソッドでは DiaryBase#init\_diary を呼ばなくてはなりません。
 
 例
 
 ```
-class HogeDiary include DiaryBase ..... def initialize(date, title, body, modified = Time::now) init_diary ..... end ..... end
+class HogeDiary
+   include DiaryBase
+   .....
+   def initialize(date, title, body, modified = Time::now)
+      init_diary
+      .....
+   end
+   .....
+end
 ```
-replace(date, title, body)日記データの日付をdateに、日記本文のソースをbodyに、タイトルをtitleに変更します。 dateはTimeオブジェクト、もしくは、日付をあらわす文字列('YYYYMMDD')です。 日付を表す文字列は具体的には下のようになります。
+
+#### replace(date, title, body)
+日記データの日付をdateに、日記本文のソースをbodyに、タイトルをtitleに変更します。 dateはTimeオブジェクト、もしくは、日付をあらわす文字列('YYYYMMDD')です。 日付を表す文字列は具体的には下のようになります。
 
   - '20020831'
   - '20010101'
@@ -165,18 +218,30 @@ body, titleは文字列です。
 
 日記本文が変更された場合、日記本文を解釈し直す必要があります。 解釈し直す時には日記データを構成するセクションも変更されます。
 
-append(body, author = nil)日記本文を追加します。bodyは追加される日記本文です。 authorは日記を記述した人の名前で、文字列です。 authorの引数はデフォルトでnilにしなければなりません。
+#### append(body, author = nil)
+日記本文を追加します。bodyは追加される日記本文です。 authorは日記を記述した人の名前で、文字列です。 authorの引数はデフォルトでnilにしなければなりません。
 
 日記本文が変更された場合、日記本文を解釈し直す必要があります。 解釈し直す時には日記データを構成するセクションも変更されます。
 
-each\_sectioneach\_section は各セクションをブロックパラメータとして返します。
+#### each\_section
+each\_section は各セクションをブロックパラメータとして返します。
 
 下に一例を示します。ここで@sectionsはセクションを保持するArrayのオブジェクトです。
 
 ```
-class HogeDiary ..... def each_section @sections.each |section| yield(section) end end ..... end
+class HogeDiary
+   .....
+   def each_section
+      @sections.each |section|
+         yield(section)
+      end
+   end
+   .....
+end
 ```
-to\_html(opt, mode = :HTML)日記データをHTMLに変換します。引数optは設定ファイル(tdiary.conf)の内容の一部を 保持するHashオブジェクトです。引数modeはSymbolオブジェクトで、 現在は下記のいずれかです。
+
+#### to\_html(opt, mode = :HTML)
+日記データをHTMLに変換します。引数optは設定ファイル(tdiary.conf)の内容の一部を 保持するHashオブジェクトです。引数modeはSymbolオブジェクトで、 現在は下記のいずれかです。
 
   - :HTML
   - :CHTML
@@ -187,9 +252,11 @@ optの内容によって、日記のリンク先を変更しなければなら�
 
 カテゴリ機能に対応した日記データのクラスでは、 各セクションのサブタイトル中のカテゴリ指定をcategory\_anchorプラグインの呼出しに変換して下さい。
 
-to\_src日記の本文を返します。
+#### to\_src
+日記の本文を返します。
 
-style日記データを記述するスタイル名を返します。 tDiary標準の記述形式の場合は「tDiary」です。 この文字列は、システム上は大小文字を区別しません。
+#### style
+日記データを記述するスタイル名を返します。 tDiary標準の記述形式の場合は「tDiary」です。 この文字列は、システム上は大小文字を区別しません。
 
 セクションのクラス
 ---------
@@ -213,21 +280,27 @@ style日記データを記述するスタイル名を返します。 tDiary標�
   - stripped\_subtitle\_to\_html
   - categories
 
-subtitleとsubtitle\_to\_htmlセクションのタイトルを文字列として返します。 タイトルがない場合はnilを返します。
+#### subtitleとsubtitle\_to\_html
+セクションのタイトルを文字列として返します。 タイトルがない場合はnilを返します。
 
 subtitleはスタイルの文法で記述された本文を、subtitle\_to\_htmlはHTMLに変換後の本文を返します。
 
-bodyとbody\_to\_htmlセクションに対応する本文を返します。返り値の文字列にはタイトルも著者も含まれません。 本文がない場合は空文字("")を返します。
+#### bodyとbody\_to\_html
+セクションに対応する本文を返します。返り値の文字列にはタイトルも著者も含まれません。 本文がない場合は空文字("")を返します。
 
 bodyはスタイルの文法で記述された本文を、body\_to\_htmlはHTMLに変換後の本文を返します。
 
-to\_srcセクションに対応する本文を返します。返り値の文字列にはタイトルと著者が含まれます。 本文がない場合は空文字("")を返します。
+#### to\_src
+セクションに対応する本文を返します。返り値の文字列にはタイトルと著者が含まれます。 本文がない場合は空文字("")を返します。
 
-authorセクションを書いた人の名前を文字列として返します。 書いた人の名前がない場合は nil を返します。
+#### author
+セクションを書いた人の名前を文字列として返します。 書いた人の名前がない場合は nil を返します。
 
-stripped\_subtitleとstripped\_subtitle\_to\_htmlセクションのタイトルからカテゴリ指定部分を取り除いた文字列を返します。 タイトルがない場合や、カテゴリ指定部分を取り除いた文字列が空文字("")の場合は nilを返します。
+#### stripped\_subtitleとstripped\_subtitle\_to\_html
+セクションのタイトルからカテゴリ指定部分を取り除いた文字列を返します。 タイトルがない場合や、カテゴリ指定部分を取り除いた文字列が空文字("")の場合は nilを返します。
 
 stripped\_subtitleはスタイルの文法で記述された本文を、stripped\_subtitle\_to\_htmlはHTMLに変換後の本文を返します。
 
-categoriesセクションのカテゴリを文字列の配列として返します。 タイトル中にカテゴリ指定がない場合は[]を返します。
+#### categories
+セクションのカテゴリを文字列の配列として返します。 タイトル中にカテゴリ指定がない場合は[]を返します。
 

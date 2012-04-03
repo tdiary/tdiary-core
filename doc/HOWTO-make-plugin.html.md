@@ -1,6 +1,5 @@
 tDiary: How to make plugin
-tDiary
-   
+ 
 プラグインの作り方
 =========
 
@@ -17,11 +16,11 @@ tDiary
 
 プラグインは、Rubyのメソッドになっています。これらのメソッドはプラグインを実装するPluginクラスのメソッドとして読み込まれ、日記ファイル生成時の最後の段階で呼び出されます。プラグインメソッドは文字列を返し、それがそのまま日記に埋め込まれることになります。
 
-制作側から見たプラグインは、3種類あるように見えます。ひとつはです。これらは日記の特定の場所にすでに埋め込まれていて、日記生成時に強制的に呼び出されます。デフォルトプラグインにおいてすでに定義されていて、同名のプラグインを再定義することで動作を変更することができるものです。各種メッセージや、日付・段落アンカー、HTMLヘッダを生成するプラグインがこれにあたります。
+制作側から見たプラグインは、3種類あるように見えます。ひとつはカスタマイズ系プラグインです。これらは日記の特定の場所にすでに埋め込まれていて、日記生成時に強制的に呼び出されます。デフォルトプラグインにおいてすでに定義されていて、同名のプラグインを再定義することで動作を変更することができるものです。各種メッセージや、日付・段落アンカー、HTMLヘッダを生成するプラグインがこれにあたります。
 
-2種類目のプラグインは、完全にです。ヘッダやフッタ、日記本文に日記著者が意図的に記述することで呼び出されます。これらはデフォルトでは未定義で、既存のプラグインと名前がだぶらない限り好きな名称にできます。プラグイン集に収録されているプラグインは、たいていこれです。
+2種類目のプラグインは、完全にオリジナルのプラグインです。ヘッダやフッタ、日記本文に日記著者が意図的に記述することで呼び出されます。これらはデフォルトでは未定義で、既存のプラグインと名前がだぶらない限り好きな名称にできます。プラグイン集に収録されているプラグインは、たいていこれです。
 
-3種類目のプラグインはです。これは呼び出される場所が決まっている点でカスタマイズ系プラグインに似ていますが、メソッドにはなっておらず、文字列を返すブロックを追加していく形で定義します。更新時だけに呼び出されるプラグインや、日記本文の前後に呼び出されるプラグイン、HTMLヘッダを追加するプラグインが定義できます。
+3種類目のプラグインはコールバック系プラグインです。これは呼び出される場所が決まっている点でカスタマイズ系プラグインに似ていますが、メソッドにはなっておらず、文字列を返すブロックを追加していく形で定義します。更新時だけに呼び出されるプラグインや、日記本文の前後に呼び出されるプラグイン、HTMLヘッダを追加するプラグインが定義できます。
 
 以降で、これらそれぞれのプラグインの作り方について説明します。
 
@@ -33,22 +32,49 @@ tDiary
 カスタマイズ可能な文字列は、デフォルトプラグインとしてあらかじめ以下のように定義されています。
 
 ```
- def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end def comment_today; '本日のツッコミ'; end def comment_total( total ); "(全#{total}件)"; end def comment_new; 'ツッコミを入れる'; end def comment_description; 'ツッコミ・コメントがあればどうぞ! E-mailアドレスは公開されません。'; end def comment_description_short; 'ツッコミ!!'; end def comment_name_label; 'お名前'; end def comment_name_label_short; '名前'; end def comment_mail_label; 'E-mail'; end def comment_mail_label_short; 'Mail'; end def comment_body_label; 'コメント'; end def comment_body_label_short; '本文'; end def comment_submit_label; '投稿'; end def comment_submit_label_short; '投稿'; end def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end def referer_today; '本日のリンク元'; end def navi_index; 'トップ'; end def navi_latest; '最新'; end def navi_update; "更新"; end def navi_preference; "設定"; end def navi_prev_diary(date); "前の日記(#{date})"; end def navi_next_diary(date); "次の日記(#{date})"; end
+def no_diary; "#{@date.strftime( @conf.date_format )}の日記はありません。"; end
+def comment_today; '本日のツッコミ'; end
+def comment_total( total ); "(全#{total}件)"; end
+def comment_new; 'ツッコミを入れる'; end
+def comment_description; 'ツッコミ・コメントがあればどうぞ! E-mailアドレスは公開されません。'; end
+def comment_description_short; 'ツッコミ!!'; end
+def comment_name_label; 'お名前'; end
+def comment_name_label_short; '名前'; end
+def comment_mail_label; 'E-mail'; end
+def comment_mail_label_short; 'Mail'; end
+def comment_body_label; 'コメント'; end
+def comment_body_label_short; '本文'; end
+def comment_submit_label; '投稿'; end
+def comment_submit_label_short; '投稿'; end
+def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
+def referer_today; '本日のリンク元'; end
+def navi_index; 'トップ'; end
+def navi_latest; '最新'; end
+def navi_update; "更新"; end
+def navi_preference; "設定"; end
+def navi_prev_diary(date); "前の日記(#{date})"; end
+def navi_next_diary(date); "次の日記(#{date})"; end
 ```
+
 これらのメソッドを再定義することで、別の文字列を埋め込むことが可能です。モバイルモード向けにも用意されています。詳しくは00default.rbを参照してください。
 
 まず、自分のカスタマイズ用プラグインファイルを用意します。pluginディレクトリに、例えば「custom.rb」という名前でファイルを作ります。自分の日記の雰囲気には「ツッコミ」という言葉がしっくり来ないという場合を想定して、これらを書き換えることにしましょう。ツッコミという言葉を使っている4つのメソッドをcustom.rbにコピーして、「コメント」という言葉に置き換えます。
 
 ```
- def comment_today; '本日のコメント'; end def comment_new; 'コメントを入れる'; end def comment_description; 'コメントがあればどうぞ! E-mailアドレスは公開されません。'; end def comment_description_short; 'コメント'; end
+def comment_today; '本日のコメント'; end
+def comment_new; 'コメントを入れる'; end
+def comment_description; 'コメントがあればどうぞ! E-mailアドレスは公開されません。'; end
+def comment_description_short; 'コメント'; end
 ```
+
 これだけでOKです。日記を表示して、変化していることを確認しましょう(スーパーリロードしないと変化しないかも知れません)。
 
 他にも、カスタマイズ用プラグインとして「theme\_url」が用意されています。
 
 ```
- def theme_url; 'theme'; end
+def theme_url; 'theme'; end
 ```
+
 このプラグインは、テーマファイルが置かれているURLを指定するものです。通常はインストール先のthemeディレクトリなのでこのままで大丈夫ですが、同一サーバで複数の日記を運用している場合など、テーマファイルを一か所に集めたい場合には、これを使わないとテーマが読み込まれません。
 
 カスタマイズするときは、「'theme'」の代わりにテーマファイルのあるディレクトリのURLを指定します。URLの最後を「/」で終わってはいけません。
@@ -100,8 +126,12 @@ Pluginクラスのインスタンス変数には以下のものがあります�
 これらのプラグインは、一般的に以下のように定義して使います。ブロックの返り値が、プラグインの値になります。
 
 ```
- # 検索キーワードをheadに挿入する add_header_proc do '' end
+# 検索キーワードをheadに挿入する
+add_header_proc do
+   '<meta name="keyword" content="foo,bar,baz">'
+end
 ```
+
 デフォルトプラグインファイルである00default.rbには、標準のHTMLヘッダを生成するheader\_proc用ブロックが定義されています。
 
 なお、コールバック系プラグインはそれぞれのブロックが返した文字列をすべて連結してHTMLに埋め込みますが(ただし後述するtitle\_procとsubtitle\_procは連結しません)、update\_procは何も埋め込みません(意味がないので)。このため、update用に追加するブロックは何も返す必要はありません。
@@ -109,34 +139,73 @@ Pluginクラスのインスタンス変数には以下のものがあります�
 body\_enter\_procとbody\_leave\_proc、edit\_proc、form\_procは、現在対象にしている日記の日付がブロックパラメタとして受け取れるようになっているので、以下のように指定する必要があります。
 
 ```
- # 最終更新日を表示する add_body_enter_proc do |date| diary = @diaries[date.strftime( '%Y%m%d' )] "#{diary.last_modified( "%Y-%m%-d" )}" end
+# 最終更新日を表示する
+add_body_enter_proc do |date|
+   diary = @diaries[date.strftime( '%Y%m%d' )]
+   "#{diary.last_modified( "%Y-%m%-d" )}"
+end
 ```
+
 section\_enter\_procとsection\_leave\_procはbody\_enter\_procによく似ていますが、ブロックパラメタにセクションの通し番号(1〜)が加わっています。
 
 ```
- # Permalinkを表示する add_section_enter_proc do |date, index| "#{@index}#{anchor( date.strftime( '%Y%m%d' ) + '#p' + sprintf( '%02d', index )}" end
+# Permalinkを表示する
+add_section_enter_proc do |date, index|
+   "#{@index}#{anchor( date.strftime( '%Y%m%d' ) + '#p' + sprintf( '%02d', index )}"
+end
 ```
+
 また、title\_procとsubtitle\_procはそれぞれ、日付・タイトル、日付・インデックス・サブタイトルがブロックパラメタとして渡されます。また、渡されたタイトルやサブタイトル文字列は、直前に登録されていた同じプラグインによってすでに装飾されているため、それに情報を付加して返さなくてはなりません。
 
 ```
- # タイトルの末尾にリンクを付加する add_title_proc do |date, title| return title + '[link](hoge)' end # サブタイトルの末尾にリンクを付加する add_subtitle_proc do |date, index, subtitle| return subtitle + '[link](hoge)' end
+# タイトルの末尾にリンクを付加する
+add_title_proc do |date, title|
+   return title + '<a href="hoge">link</a>'
+end
+
+# サブタイトルの末尾にリンクを付加する
+add_subtitle_proc do |date, index, subtitle|
+   return subtitle + '<a href="hoge">link</a>'
+end
 ```
+
 title\_procやsubtitle\_procも、00default.rb内にいくつかの標準的なプラグインが定義されています。メソッドとして独立しているので、メソッドを丸ごと上書きすることで、標準の挙動を変更することも可能です。
 
 また、単独では意味のないコールバック系プラグインがあります。edit\_procです。edit\_procは更新フォーム内に文字列を埋め込むためのプラグインですが、これによって更新フォームに任意のアイテムを追加できます。このアイテムに入力された値は、別途update\_proc内で受けとる必要があるでしょう。
 
 ```
- # name属性には「plugin_プラグイン名_アイテム名」を付けなければならない add_edit_proc do |date| 'Hoge: ' end # 更新時に値を受け取れる add_update_proc do if /^(append|replace)$/ =~ @mode then hoge = @cgi.params['plugin_hoge_item1'][0] end end
+# name属性には「plugin_プラグイン名_アイテム名」を付けなければならない
+add_edit_proc do |date|
+   'Hoge: <input name="plugin_hoge_item1">'
+end
+
+# 更新時に値を受け取れる
+add_update_proc do
+   if /^(append|replace)$/ =~ @mode
+      hoge = @cgi.params['plugin_hoge_item1'][0]
+   end
+end
 ```
+
 一方、同じフォーム追加を目的としたform\_procではこのようにする必要はなく、同じform\_proc内で入力を受けとることができます。
 
 他のコールバック系プラグインとは少しおもむきが異なるのが、add\_conf\_procです。以下のように呼び出します。
 
 ```
- add_conf_proc( 'hoge', 'hogeの設定', 'etc' ) do # 設定の保存 if @mode == 'saveconf' then @conf['hoge.fuga'] = @cgi.params['hoge.fuga'][0] end # 設定画面の出力 fugaの指定
+add_conf_proc( 'hoge', 'hogeの設定', 'etc' ) do
+   # 設定の保存
+   if @mode == 'saveconf'
+      @conf['hoge.fuga'] = @cgi.params['hoge.fuga'][0]
+   end
 
- HTML end
+   # 設定画面の出力 fugaの指定
+   <<-HTML
+   <h3>fugaの指定<h3>
+   <p><input name="hoge.fuga"></p>
+   HTML
+end
 ```
+
 1つ目の引数は、複数のconf\_procの中からどれを表示するか選ぶために、全プラグイン内で一意になるようにつけるキーワードです。一般的にはプラグインの名称をつけます。2番目の引数は設定画面の一覧を表示するときに使うラベル文字列です。言語によって変更させます。3番目の引数は、プラグインのジャンルで、無指定の場合は'etc'になります。ジャンルには現在、以下が定義されています。
 
   - basic: 基本的な設定項目
@@ -167,7 +236,7 @@ Pluginクラスのメソッド
 
 この他に、Pluginクラスには以下のようなメソッドが用意されています。通常はPluginクラス外へ影響を及ぼせないプラグインですが、これらのメソッドを使うことでそれが一部可能になっています。
 
-<table><tr><th>メソッド名</th><th>説明</th></tr><tr><th>add\_cookie( cookie )</th><td>Webブラウザに返すCookieを追加します。プラグインから何らかの情報をWebブラウザ側に保持しておいて欲しい時に使います。引数cookieはCGI::Cookieインスタンスです。なお、逆にCookieを受けとる時は、@cgiインスタンス変数から取得してください。</td></tr><tr><th>apply\_plugin( str, remove\_tag )</th><td>プラグイン内で生成した文字列の中に、さらにプラグイン呼出しの指定がある場合、もう一度プラグインの呼出しを行います。第二引数をtrueにすると(省略可能でデフォルトはfalse)、さらにHTMLタグを削除します。</td></tr><tr><th>shorten( str, limit )</th><td>文字列strをlimitで指定されたバイト数に切り詰めます。切り詰められた場合には末尾に「...」が付加されます。プラグイン内で生成した文字列の表示文字数を制限したい場合に使います。</td></tr><tr><th>add\_XXX\_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body\_enter、body\_leave、footerなどが入る。引数procにはProcインスタンス、もしくはブロックを与える。</th><td>enable\_jsで埋めこまれたJavaScriptへのパラメタを受け渡す。「var」には変数名を与えます。標準では「$tDiary.plugin.プラグイン名.変数名」で、「$tDiary.plugin」までは名前空間としてtDiary側で確保済みです。「val」には変数に与える値をJavaScriptとして有効な形の文字列で指定します。例えば「abc」という文字列であれば「"'abc'"」のようにする必要があります。</td></tr></table>
+<table><tr><th>メソッド名</th><th>説明</th></tr><tr><th>add\_cookie( cookie )</th><td>Webブラウザに返すCookieを追加します。プラグインから何らかの情報をWebブラウザ側に保持しておいて欲しい時に使います。引数cookieはCGI::Cookieインスタンスです。なお、逆にCookieを受けとる時は、@cgiインスタンス変数から取得してください。</td></tr><tr><th>apply\_plugin( str, remove\_tag )</th><td>プラグイン内で生成した文字列の中に、さらにプラグイン呼出しの指定がある場合、もう一度プラグインの呼出しを行います。第二引数をtrueにすると(省略可能でデフォルトはfalse)、さらにHTMLタグを削除します。</td></tr><tr><th>shorten( str, limit )</th><td>文字列strをlimitで指定されたバイト数に切り詰めます。切り詰められた場合には末尾に「...」が付加されます。プラグイン内で生成した文字列の表示文字数を制限したい場合に使います。</td></tr><tr><th>add\_XXX\_proc( proc )</th><td>コールバック系プラグインを追加するメソッド。「XXX」にはheader、update、body\_enter、body\_leave、footerなどが入る。引数procにはProcインスタンス、もしくはブロックを与える。</td></tr><tr><th>enable\_js( script\_file\_name )</th><td>jsディレクトリ配下にあるJavaScriptを有効にする(例: 'amazon.js')。このメソッドで有効にしたファイルは、HTMLヘッダ内に呼び出された順番に埋めこまれます。</td></tr><tr><th>add\_js\_setting( var, val )</th><td>enable\_jsで埋めこまれたJavaScriptへのパラメタを受け渡す。「var」には変数名を与えます。標準では「$tDiary.plugin.プラグイン名.変数名」で、「$tDiary.plugin」までは名前空間としてtDiary側で確保済みです。「val」には変数に与える値をJavaScriptとして有効な形の文字列で指定します。例えば「abc」という文字列であれば「"'abc'"」のようにする必要があります。</td></tr></table>
 プラグインへのオプションの渡し方
 ----------------
 
@@ -176,12 +245,15 @@ Pluginクラスのメソッド
 @option変数は、プラグインから@conf[]を経由して見ることができるで、tdiary.confで任意の文字列をキーとして定義すれば、それをプラグイン内で利用することが可能です。@optionsのキーに指定する文字列はなんでもかまいませんが、名前の重複を避けるためにプラグイン名とオプション名を「.」で区切ったものを推奨します。
 
 ```
- # sampleプラグインにhogeオプションを指定する(tdiary.conf内) @options['sample.hoge'] = 'foobar'
+# sampleプラグインにhogeオプションを指定する(tdiary.conf内)
+@options['sample.hoge'] = 'foobar'
 ```
 
 ```
- # sampleプラグイン内でオプションを取得する(sample.rb内) hoge = @conf['sample.hoge']
+# sampleプラグイン内でオプションを取得する(sample.rb内)
+hoge = @conf['sample.hoge']
 ```
+
 またconf\_procプラグインを使うことで、この変数の値をWeb上から対話的に設定できるようにもできます。詳しくはコールバック系プラグインの説明を参照してください。
 
 なお、この仕組みはプラグイン制作者側には便利ですが、ファイルを設置するだけで使えるようになるプラグインの簡便さを削いでしまう可能性もあります。できるだけ@optionsが設定されていなくても動作するように、適切なデフォルトを用意するようにして下さい。
@@ -203,7 +275,7 @@ tDiary 2.0.2、2.1.2 以降、クロスサイトリクエストフォージェ�
 
  なお、この鍵を埋め込まれたフォームは、必ず POST メソッドで送信される必要 があります (Referer ヘッダ経由で外部に漏出することを防ぐため)。 プラグインの誤実装による CSRF 鍵の漏洩を防ぐため、 tDiary は、update.rb に GET メソッドで CSRF 対策鍵が送られてきた場合、 すべての要求を拒否するようになっています。
 
- edit\_proc と conf\_proc で動作する機能に関しては、 フォームに既に対策鍵が埋め込まれていますので、 本項の対策は必要ありません。目安としては、  のような文字列を自分で出力している場合が該当すると思ってください。
+ edit\_proc と conf\_proc で動作する機能に関しては、 フォームに既に対策鍵が埋め込まれていますので、 本項の対策は必要ありません。目安としては、 <form method="post" action="#{@conf.update}"> のような文字列を自分で出力している場合が該当すると思ってください。
 
 3. 実動作を伴うページへの送信は必ず POST で plugin, saveconf, preview系, 更新系 の各ページは、 CSRF 鍵を必要とする場合があるため、POST 以外でのリクエストを 拒絶するようになっています。もし plugin ページを GET で呼び出している場合は POST メソッドを利用するよう (そして 2. の対策をするよう) 変更して下さい。 場合によっては、リンクをフォームに変更するなどの書き換えが必要かもしれません。
 

@@ -1,6 +1,5 @@
 HOWTO write tDiary
-tDiary
-   
+
 日記の書き方
 ======
 
