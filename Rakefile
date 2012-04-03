@@ -109,7 +109,7 @@ HEADER
 </body>
 </html>
 FOOTER
-		html = Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(File.open(md).read)
+		html = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :fenced_code_blocks => true).render(File.open(md).read)
 		open(target.sub(/\.md\z/, ''), 'w') {|f| f.write(header + html + footer)}
 	end
 end
