@@ -1,4 +1,3 @@
-HOWTO-make-io.rd
 IOクラスの作り方
 =========
 

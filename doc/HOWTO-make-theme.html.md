@@ -1,5 +1,3 @@
-tDiary: How to make theme
- 
 テーマの作り方
 =======
 

@@ -1,5 +1,3 @@
-tDiary README
-
 tDiary -- a TSUKKOMI-able Web-log
 =================================
 

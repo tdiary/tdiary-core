@@ -1,5 +1,3 @@
-HOWTO install tDiary
- 
 インストールマニュアル
 ===========
 

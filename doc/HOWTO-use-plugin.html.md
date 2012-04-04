@@ -1,5 +1,3 @@
-tDiary: How to use plugin
-
 プラグインの使い方
 =========
 

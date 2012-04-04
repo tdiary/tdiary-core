@@ -1,6 +1,4 @@
 How to testing tDiary
-
-How to testing tDiary
 =====================
 
 概要

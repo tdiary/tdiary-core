@@ -1,5 +1,3 @@
-tDiary: How to make plugin
- 
 プラグインの作り方
 =========
 
