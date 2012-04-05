@@ -1,24 +1,34 @@
 source :rubygems
 
-gem 'rack'
 gem 'rake'
-gem 'sprockets'
 gem 'coffee-script'
-gem 'sequel'
-gem 'dalli'
 
+# Use rack environment
+gem 'rack'
+gem 'sprockets'
+
+# To use GFM style
 platforms :mri do
-  gem 'thin', :require => false
-  gem 'pg'
   gem 'redcarpet'
   gem 'pygments.rb'
   gem 'rubypython', '0.5.1'
 end
 
-platforms :jruby do
-  gem 'trinidad', :require => false
-  gem 'jdbc-postgres', :require => 'jdbc/postgres'
-end
+# Use tDiary in Heroku
+# gem 'sequel'
+# gem 'dalli'
+#
+# To use CRuby
+# platforms :mri do
+#   gem 'thin', :require => false
+#   gem 'pg'
+# end
+#
+# To use JRuby
+# platforms :jruby do
+#   gem 'trinidad', :require => false
+#   gem 'jdbc-postgres', :require => 'jdbc/postgres'
+# end
 
 group :development do
   gem 'capistrano', :require => false
