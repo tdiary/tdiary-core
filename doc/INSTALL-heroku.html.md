@@ -32,7 +32,7 @@ heroku コマンドを用いて heroku でアプリケーションを作成し�
 ```
 cd tdiary-core
 heroku create mydiary -s cedar
-heroku addon:add memcache
+heroku addons:add memcache
 ```
 
 heroku 専用の作業ブランチを作成します。
