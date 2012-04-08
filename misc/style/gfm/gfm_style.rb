@@ -20,8 +20,8 @@ end
 
 class HTMLwithPygments < Redcarpet::Render::HTML
 	def block_code(code, language)
-		require 'pygments'
-		Pygments.highlight(code, :lexer => language)
+		require 'albino'
+		Albino.colorize(code, language)
 	rescue
 		<<-HTML
 <div class="highlight"><pre>#{code}</pre></div>
