@@ -52,14 +52,14 @@ feature '日記を読む' do
 		append_default_diary('2002-04-23')
 		append_default_diary('2003-04-23')
 
-    visit '/'
-    click_link '長年日記'
+		visit '/'
+		click_link '長年日記'
 
-    titles = page.all('h2 span.date a').map{|t| t.text }
-    titles.should include '2001年04月23日'
-    titles.should include '2002年04月23日'
-    titles.should include '2003年04月23日'
-  end
+		titles = page.all('h2 span.date a').map{|t| t.text }
+		titles.should include '2001年04月23日'
+		titles.should include '2002年04月23日'
+		titles.should include '2003年04月23日'
+	end
 
 	scenario '指定をした日を表示' do
 		append_default_diary('2001-04-23')
@@ -118,3 +118,11 @@ BODY
 		}
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3

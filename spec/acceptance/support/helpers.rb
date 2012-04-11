@@ -23,17 +23,17 @@ BODY
 		click_button '投稿'
 	end
 
-  def enable_plugin(name)
-	visit '/update.rb?conf=sp'
-	check "sp.#{name}.rb"
-	click_button 'OK'
-  end
+	def enable_plugin(name)
+		visit '/update.rb?conf=sp'
+		check "sp.#{name}.rb"
+		click_button 'OK'
+	end
 
-  def disable_plugin(name)
-	visit '/update.rb?conf=sp'
-	uncheck "sp.#{name}.rb"
-	click_button 'OK'
-  end
+	def disable_plugin(name)
+		visit '/update.rb?conf=sp'
+		uncheck "sp.#{name}.rb"
+		click_button 'OK'
+	end
 end
 
 RSpec.configuration.include(HelperMethods)
