@@ -3,11 +3,7 @@
 # class Plugin
 #  plugin management class
 #
-begin
-	require 'erb_fast'
-rescue LoadError
-	require 'erb'
-end
+require 'erb'
 
 module TDiary
 	class Plugin
