@@ -15,8 +15,6 @@ end
 
 # Use tDiary in Heroku
 # gem 'sequel'
-#
-# Use memcached addon
 # gem 'dalli'
 #
 # To use CRuby
