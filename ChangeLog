@@ -1,3 +1,7 @@
+2012-04-14  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* vendor/{json_pure-1.6.6,rdtool-0.6.33}: update latest gem version.
+	* tdiary/io/{default,heroku}.rb, tdiary/io/cache/*: split cache mecanism from IO files.
+
 2012-03-28  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* tdiary.rb, tdiary/io/default.rb: separate cache methods, now File cache is implerement to DefaultIO class.
 	* tdiary/io/heroku.rb: implements to diary's cache using memcached.
