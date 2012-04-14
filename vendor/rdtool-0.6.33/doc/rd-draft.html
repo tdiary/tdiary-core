@@ -1,0 +1,456 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>doc/rd-draft.rd</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">RD working draft</a></h1><!-- RDLabel: "RD working draft" -->
+<p>Japanese version is <a href="http://www.ruby-lang.org/~rubikitch/RDP.cgi?cmd=view&amp;name=RD">here</a>.</p>
+<h2><a name="label-1" id="label-1">What is RD?</a></h2><!-- RDLabel: "What is RD?" -->
+<p>RD is Ruby's POD, embeddable documentation format in script file. </p>
+<p>RD is influenced mainly from plain2, a program to translate from plain text to
+some mark-up language. So, RD looks like plain text, and its simpleness and
+neatness make it easy to read and write.</p>
+<h2><a name="label-2" id="label-2">How does the interpreter work for RD?</a></h2><!-- RDLabel: "How does the interpreter work for RD?" -->
+<p>Ruby's interpreter, <code>ruby</code>, simply ignores text between a line beginning
+with "<code>=begin</code>" and one beginning with "<code>=end</code>". So, RD is not only 
+embeddable. You can write anything between <code>=begin</code> and <code>=end</code>. RD is
+one of them, but RD will be a standard one.<a name="footmark-1" id="footmark-1" href="#foottext-1"><sup><small>*1</small></sup></a></p>
+<h2><a name="label-3" id="label-3">Concepts and Syntax</a></h2><!-- RDLabel: "Concepts and Syntax" -->
+<h3><a name="label-4" id="label-4">Element, Block and Inline</a></h3><!-- RDLabel: "Element, Block and Inline" -->
+<p>We will use the term "Element" for features of RD which add information
+of document structure to text. In addition, we use a term
+"<a href="#label-5">Block</a>" for Elements for large and global structures, and a term
+"<a href="#label-35">Inline</a>" for ones for small and local decorations.</p>
+<p>Paragraph, headline or list is a kind of Block. RD uses indentation and
+special characters to describe Blocks. You can also write complicated
+structure to nested Blocks. And this style of Block looks naturally like
+plain text format.  See <a href="#label-5">Block</a> for details.</p>
+<p>Emphasis, code or reference is a kind of Inline. Parentheses and special
+characters, like ((? ... ?)), are used for Inline. Almost all
+Inline may be nested inside each other. See <a href="#label-35">Inline</a> for more details.</p>
+<h3><a name="label-5" id="label-5">Block</a></h3><!-- RDLabel: "Block" -->
+<h4><a name="label-6" id="label-6">Basic Syntax</a></h4><!-- RDLabel: "Basic Syntax" -->
+<p>Block has line oriented syntax. i.e. each character on the same line belongs to the
+same Block. And the indentation of the line represents nesting level and type of Block.
+The first character of the line represents the type of Block.</p>
+<h5><a name="label-7" id="label-7">Concepts and Terms</a></h5><!-- RDLabel: "Concepts and Terms" -->
+<dl>
+<dt><a name="label-8" id="label-8">Baseline</a></dt><!-- RDLabel: "Baseline" -->
+<dd>
+Baseline is standard depth of indent. Relative depth between indent of one
+line and Baseline affects its Block-type.
+</dd>
+<dt><a name="label-9" id="label-9">Head Char</a></dt><!-- RDLabel: "Head Char" -->
+<dd>
+Head Char is the first character of line, except whitespace.
+</dd>
+<dt><a name="label-10" id="label-10">STRINGLINE</a></dt><!-- RDLabel: "STRINGLINE" -->
+<dd>
+STRINGLINE is line which consists of strings.
+STRINGLINE doesn't have "<code>*</code>", "<code>(<var>num</var>)</code>", "<code>:</code>", "<code>=</code>"
+nor "<code>+</code>" as Head Char. But if the line is indented, "<code>=</code>" and "<code>+</code>"
+can be Head Char.
+</dd>
+<dt><a name="label-11" id="label-11">WHITELINE</a></dt><!-- RDLabel: "WHITELINE" -->
+<dd>
+WHITELINE is a line which consists of whitespace, "<code>\s</code>", "<code>\t</code>" and
+"<code>\n</code>".
+</dd>
+<dt><a name="label-12" id="label-12">Comment</a></dt><!-- RDLabel: "Comment" -->
+<dd>
+A line which is matched with <code>/^#/</code> is regarded as a comment.
+</dd>
+</dl>
+<h5><a name="label-13" id="label-13">How Baseline is defined and how it works</a></h5><!-- RDLabel: "How Baseline is defined and how it works" -->
+<p>At the top level, Baseline is at left end, i.e., indent is 0. In List,
+Baseline is defined by first Block of ListItem. For example,</p>
+<pre>Example: "|" means Baseline
+  |Regard this line as one of TextBlock's in top level.
+  |&lt;- So this Baseline is at the left-most position.
+    *|it is in List. (1)
+     |&lt;- this Baseline is defined by the marked with a (1).
+    *    |Different Item of List can have different Baseline inside.
+         |&lt;- So this Baseline differs from one of this list's first item.</pre>
+<p>|Regard this line as one of TextBlock's in top level.
+|&lt;- So this Baseline is at the left-most position.</p>
+<ul>
+<li>|it is in List. (1)
+   |&lt;- this Baseline is defined by the marked with a (1).</li>
+<li>|Different Items in Lists can have different Baselines inside.
+       |&lt;- So this Baseline differs from the one of this list's first item.</li>
+</ul>
+<p>If one Block is nested in another Block, the Baseline of the inside Blocks is deeper
+than the Baseline of outside Blocks.</p>
+<p>The relative position between Baseline and indent affects the type of Block.
+If a <a href="#label-10">STRINGLINE</a> has same indent with Baseline, it belongs to
+<a href="#label-20">TextBlock</a>, otherwise, i.e. it has deeper indent than Baseline,
+it belongs to <a href="#label-21">Verbatim</a>.</p>
+<h4><a name="label-14" id="label-14">Types of Block</a></h4><!-- RDLabel: "Types of Block" -->
+<h5><a name="label-15" id="label-15">Headline</a></h5><!-- RDLabel: "Headline" -->
+<p>Headline consists of a line which <a href="#label-9">Head Char</a> is "<code>=</code>" or
+"<code>+</code>". And Headline can't include more than one line. Headline can
+be on only top level.</p>
+<pre>Example:
+|&lt;- Regard this as top level Baseline.
+= Headline 1.
+=== Headline 1.1.1.
++ Headline 1.1.1.1.1.</pre>
+<h1><a name="label-16" id="label-16">Headline 1.</a></h1><!-- RDLabel: "Headline 1." -->
+<h3><a name="label-17" id="label-17">Headline 1.1.1.</a></h3><!-- RDLabel: "Headline 1.1.1." -->
+<h5><a name="label-18" id="label-18">Headline 1.1.1.1.1.</a></h5><!-- RDLabel: "Headline 1.1.1.1.1." -->
+<p>Headline Mark represents level of Headline. See following figure. first
+Mark is biggest one, and last Mark has two parts.</p>
+<pre>Fig: Headline Marks
+=
+==
+===
+====
++
+++</pre>
+<p>Text which follows Mark is title of Headline. It is also used as Label of
+<a href="#label-46">Reference</a>.</p>
+<p>Title of Headline can contain <a href="#label-35">Inline</a>s except for <a href="#label-46">Reference</a> and
+Footnote.</p>
+<h5><a name="label-19" id="label-19">Include</a></h5><!-- RDLabel: "Include" -->
+<p>Include is a line that line head  "<code>&lt;&lt;&lt;</code>" and included file name. 
+You can input from other file text, both RD and target format, with Include.</p>
+<p>When you include RD file, included file name have to have ".rd" or ".rb" as
+suffix, like "foo.rd", and write full name (not full path) of file after
+"<code>&lt;&lt;&lt;</code>". For example,</p>
+<pre>&lt;&lt;&lt; foo.rd</pre>
+<p>When you include target format file, include file name have to have suffix
+of target format standard one, for example ".html" in the case of outputting
+HTML, ".texi" in the case of outputting Texinfo, and write base name of file
+after "<code>&lt;&lt;&lt;</code>". For example,</p>
+<pre>&lt;&lt;&lt; foo</pre>
+<p>RD formatter include "foo.html" to output HTML, and include "foo.texi" to
+output Texinfo. If you want to use Include for target format, you should
+prepare plural type of included file. </p>
+<h5><a name="label-20" id="label-20">TextBlock</a></h5><!-- RDLabel: "TextBlock" -->
+<p>TextBlock is composed of <a href="#label-10">STRINGLINE</a>s, but the <a href="#label-10">STRINGLINE</a>s
+must have same indent with <a href="#label-8">Baseline</a>. If its indent is deeper
+than <a href="#label-8">Baseline</a>, the <a href="#label-10">STRINGLINE</a> belongs to <a href="#label-21">Verbatim</a>.</p>
+<p>TextBlock can include <a href="#label-35">Inline</a> inside.</p>
+<pre>Example:
+|
+This is TextBlock. 
+Second line of same TextBlock.
+  This line is not TextBlock, but Verbatim.
+* And this line is List. (But this line is exactly TextBlock in ListItem.)</pre>
+<p>And this example is formatted such like:</p>
+<p>This is TextBlock. 
+Second line of same TextBlock.</p>
+<pre>This line is not TextBlock, but Verbatim.</pre>
+<ul>
+<li>And this line is List. (But this line is exactly TextBlock in ListItem.)</li>
+</ul>
+<h5><a name="label-21" id="label-21">Verbatim</a></h5><!-- RDLabel: "Verbatim" -->
+<p>You can use Verbatim to cite Ruby script. Verbatim is composed of
+<a href="#label-10">STRINGLINE</a>s, and they must be indented deeper than
+<a href="#label-8">Baseline</a>. Verbatim can also include a line whose <a href="#label-9">Head Char</a> is
+"<code>*</code>", "<code>(1)</code>" and "<code>:</code>", But it can't be first line of
+Verbatim, it is regarded as <a href="#label-22">List</a>.  Verbatim can't include a line
+which is indented shallower than first line.  Verbatim can include
+<a href="#label-11">WHITELINE</a>.</p>
+<p>You can't use <a href="#label-35">Inline</a> in Verbatim.</p>
+<pre>Example:
+ This is Verbatim.
+   Even if a line is indented deeper than first line, it is also in same
+   Verbatim.
+ * A line seems like list is also included in Verbatim.
+But if the line is indented shallower, it is not in same Verbatim.
+It is in other Verbatim.</pre>
+<p>And this example is formatted such like:</p>
+<pre>This is Verbatim.
+  Even if a line is indented deeper than first line, it is also in same
+  Verbatim.
+* A line seems like list is also included in Verbatim.</pre>
+<pre>But if the line is indented shallower, it is not in same Verbatim.
+It is in other Verbatim.</pre>
+<h5><a name="label-22" id="label-22">List</a></h5><!-- RDLabel: "List" -->
+<p>List is special <a href="#label-5">Block</a>. List is composed of ListItems, and
+ListItem is composed of Blocks. So List can include Blocks inside,
+even also List itself.<a name="footmark-2" id="footmark-2" href="#foottext-2"><sup><small>*2</small></sup></a></p>
+<p>ListItem can include <a href="#label-11">WHITELINE</a>, and <a href="#label-20">TextBlock</a> can't
+include WHITELINE, so when you want to write 2 TextBlock inside
+ListItem, put a WHITELINE between TextBlocks.</p>
+<p>There is 3 type of List, "<a href="#label-23">ItemList</a>", "<a href="#label-24">EnumList</a>",
+"<a href="#label-25">DescList</a>" and "<a href="#label-28">MethodList</a>.</p>
+<h6><a name="label-23" id="label-23">ItemList</a></h6><!-- RDLabel: "ItemList" -->
+<p>ItemList is simple and not numbered List. ItemListItem begins by a line
+whose <a href="#label-9">Head Char</a> is "<code>*</code>", and first Block of ItemListItem must be
+<a href="#label-20">TextBlock</a>.</p>
+<pre>Example:
+* first item of parent list
+    * first item of sub list
+    * second item of sub list
+  text block ( line of first item of parent list)</pre>
+<p>And this example is formatted such like:</p>
+<ul>
+<li><p>first item of parent list</p>
+<ul>
+<li>first item of sub list</li>
+<li>second item of sub list</li>
+</ul>
+<p>text block ( line of first item of parent list)</p></li>
+</ul>
+<h6><a name="label-24" id="label-24">EnumList</a></h6><!-- RDLabel: "EnumList" -->
+<p>EnumList is numbered List. EnumListItem starts with a line whose
+<a href="#label-9">Head Char</a> is "<code>(<var>num</var>)</code>"(<var>num</var> is integer). EnumList
+is same as <a href="#label-23">ItemList</a> on other points.</p>
+<pre>Example:
+(1) first line of parent list
+      * first line of sub list(ItemList)
+(2) second list of parent list
+(10) number is ignored...</pre>
+<p>And this example is formatted such like:</p>
+<ol>
+<li>first line of parent list
+<ul>
+<li>first line of sub list(ItemList)</li>
+</ul></li>
+<li>second list of parent list</li>
+<li>number is ignored...</li>
+</ol>
+<h6><a name="label-25" id="label-25">DescList</a></h6><!-- RDLabel: "DescList" -->
+<p>DescList is List for descriptions. DescListItem has 2 part. One is Term part,
+the other is Description part. Term of DescListItem is also used as Label 
+for <a href="#label-46">Reference</a>.</p>
+<p>Term part is composed of a line whose <a href="#label-9">Head Char</a> is "<code>:</code>",
+and Term part is same as <a href="#label-15">Headline</a>, except that a line of Term
+part can be indented.</p>
+<p>Description part is starts with next line of Term part. <a href="#label-8">Baseline</a> of
+Description part must be same or deeper than term of Term part of its pair.
+For example, following style is illegal.</p>
+<pre>Example:
+:   |Term
+  |Description.</pre>
+<p>Description part can include <a href="#label-5">Block</a>s. <a href="#label-22">List</a> can be first
+Block of Description part. Term part can contain <a href="#label-35">Inline</a>s except
+for <a href="#label-46">Reference</a> and <!-- Reference, RDLabel "Footnote" doesn't exist --><em class="label-not-found">Footnote</em><!-- Reference end -->.</p>
+<pre>Example:
+:Term
+   first line of Description
+   second line of Description
+:Term2
+   * also include List
+   * ...</pre>
+<p>And this example is formatted such like:</p>
+<dl>
+<dt><a name="label-26" id="label-26">Term</a></dt><!-- RDLabel: "Term" -->
+<dd>
+first line of definition.
+second line of definition
+</dd>
+<dt><a name="label-27" id="label-27">Term2</a></dt><!-- RDLabel: "Term2" -->
+<dd>
+<ul>
+<li>also include list</li>
+<li>...</li>
+</ul>
+</dd>
+</dl>
+<h6><a name="label-28" id="label-28">MethodList</a></h6><!-- RDLabel: "MethodList" -->
+<p>MethodList is the special type of <a href="#label-25">DescList</a> for explanation
+methods of your classes. MethodList is similar with <a href="#label-25">DescList</a> in
+almost all part, but it is labeled differently. RD formatters know it
+is some kind of program code, e.g. method or constants of class in
+Ruby or function prototype in C..., which is on Term part of
+MethodList.  So, MethodList is labeled without the part which seems to
+be parameters of methods. See <a href="#label-44">Label and Reference</a> for more
+detail.</p>
+<p>Each item of MethodList has Term part and Description part like
+<a href="#label-25">DescList</a>. And its Term part start with its <a href="#label-9">Head Char</a>,
+"<code>---</code>". Its Description part can contain <a href="#label-20">TextBlock</a>,
+<a href="#label-21">Verbatim</a> and <a href="#label-22">List</a>. But you shouldn't write MethodList
+in any kind of <a href="#label-22">List</a>. RD will come to deny it possibly in
+future.</p>
+<pre>Example:
+--- Array#each {|i| ... } # =&gt; labeled as "Array#each"
+      yield block for each item.
+--- Array#index(val) # =&gt; labeled as "Array#index"
+      return index of first item which equals with ((|val|)). if it hasn't
+      same item, return (({nil})).</pre>
+<p>And this example is formatted such like:</p>
+<dl>
+<dt><a name="label-29" id="label-29"><code>Array#each {|<var>i</var>| ... }</code></a></dt><!-- RDLabel: "Array#each" -->
+<dd>
+yield block for each item.</dd>
+<dt><a name="label-30" id="label-30"><code>Array#index(<var>val</var>)</code></a></dt><!-- RDLabel: "Array#index" -->
+<dd>
+return index of first item which equals with <var>val</var>. if it hasn't
+same item, return <code>nil</code>.</dd>
+</dl>
+<p>Some formatter assumes it is Ruby's methods, constants or etc. which
+is in Term part of MethodList. it can format term part of MethodList
+intelligently, but you have to write according as specific formula
+to make the best of its feature. </p>
+<p>Standard Ruby class reference formula is suggested such like: </p>
+<dl>
+<dt><a name="label-31" id="label-31">instance method</a></dt><!-- RDLabel: "instance method" -->
+<dd>
+<p>instance method <var>method</var> of class <var>Class</var></p>
+<pre>Class#method(its params  ...) { parameter block }</pre>
+</dd>
+<dt><a name="label-32" id="label-32">class method (class singleton method)</a></dt><!-- RDLabel: "class method (class singleton method)" -->
+<dd>
+<p>class method <var>method</var> of class <var>Class</var></p>
+<pre>Class.method(its params ...) { parameter block }</pre>
+</dd>
+<dt><a name="label-33" id="label-33">class constants</a></dt><!-- RDLabel: "class constants" -->
+<dd>
+<p>constant <var>Const</var> of class <var>Class</var></p>
+<pre>Class::Const</pre>
+</dd>
+<dt><a name="label-34" id="label-34">functions (private methods on top level)</a></dt><!-- RDLabel: "functions (private methods on top level)" -->
+<dd>
+<p>function <var>func</var></p>
+<pre>function#func(its params ...) { parameter block }</pre>
+</dd>
+</dl>
+<p>Ruby use some symbol characters (e.g. [], []=, +, - or &lt;&lt;) for the names
+of methods. ruby, Ruby interpreter, parses them with different manner from
+normal methods, but write them as same as others in this formula.</p>
+<pre>Example:
+  --- Array#[](key)
+        return value which in at index ((|key|)).
+  --- Array#[]=(key, value)
+        put ((|value|)) into cell of index ((|key|)).
+  --- Array#+(other)
+        return concatenated (({Array})).</pre>
+<h3><a name="label-35" id="label-35">Inline</a></h3><!-- RDLabel: "Inline" -->
+<p>You can use Inline in <a href="#label-20">TextBlock</a>, <a href="#label-15">Headline</a> and Term part of
+<a href="#label-25">DescList</a>. Common style of parentheses is used for Inline. Inline
+can nest each other.</p>
+<p>in following list of Inlines, preformatted text is on left hand side
+and postformatted text is on right hand side.</p>
+<dl>
+<dt><a name="label-36" id="label-36">((*Em*)) =&gt; <em>Em</em></a></dt><!-- RDLabel: "((*Em*)) => Em" -->
+<dd>
+Emphasis.
+</dd>
+<dt><a name="label-37" id="label-37">(({while gets...})) =&gt; <code>while gets...</code></a></dt><!-- RDLabel: "(({while gets...})) => while gets..." -->
+<dd>
+Code.
+</dd>
+<dt><a name="label-38" id="label-38">((|var|)) =&gt; <var>var</var></a></dt><!-- RDLabel: "((|var|)) => var" -->
+<dd>
+Var.<a name="footmark-3" id="footmark-3" href="#foottext-3"><sup><small>*3</small></sup></a>
+</dd>
+<dt><a name="label-39" id="label-39">((%ruby -v%)) =&gt; <kbd>ruby -v</kbd></a></dt><!-- RDLabel: "((%ruby -v%)) => ruby -v" -->
+<dd>
+Keyboard.
+</dd>
+<dt><a name="label-40" id="label-40">((:Term:))</a></dt><!-- RDLabel: "((:Term:))" -->
+<dd>
+<p>=&gt; <a name="index-0" id="index-0">Term</a></p>
+<p>Term of Index.</p>
+</dd>
+<dt><a name="label-41" id="label-41">((&lt;Identity or URL&gt;))</a></dt><!-- RDLabel: "((<Identity or URL>))" -->
+<dd>
+<p>=&gt; <!-- Reference, RDLabel "Identity or URL" doesn't exist --><em class="label-not-found">Identity or URL</em><!-- Reference end --></p>
+<p>Link, Reference. See <a href="RD">Label and Reference</a> for more detail.</p>
+</dd>
+<dt><a name="label-42" id="label-42">((-Footnote-))</a></dt><!-- RDLabel: "((-Footnote-))" -->
+<dd>
+<p>=&gt; <a name="footmark-4" id="footmark-4" href="#foottext-4"><sup><small>*4</small></sup></a></p>
+<p>Footnote.</p>
+</dd>
+<dt><a name="label-43" id="label-43">(('verb')) =&gt; verb</a></dt><!-- RDLabel: "(('verb')) => verb" -->
+<dd>
+Inline Verbatim.
+</dd>
+</dl>
+<h4><a name="label-44" id="label-44">Label and Reference</a></h4><!-- RDLabel: "Label and Reference" -->
+<p>Reference needs Label. In RD, only title of <a href="#label-15">Headline</a> and Term of
+<a href="#label-25">DescList</a> and <a href="#label-28">MethodList</a> is regarded as Label. So, you must
+choose different titles for different <a href="#label-15">Headline</a>s. This problem
+has not resolved yet.</p>
+<h5><a name="label-45" id="label-45">How to RD generates Label from Headline, DescList or MethodList</a></h5><!-- RDLabel: "How to RD generates Label from Headline, DescList or MethodList" -->
+<p>Title of <a href="#label-15">Headline</a> and Term part of <a href="#label-25">DescList</a> and <a href="#label-28">MethodList</a>
+are regarded as Label. But they can contain <a href="#label-35">Inline</a>s, so the situation
+isn't so simple.</p>
+<p>First, <a href="#label-28">MethodList</a> is special in the part of Labeling. Term part of
+<a href="#label-28">MethodList</a> can't contain <a href="#label-35">Inline</a>s, and RD assumes it is method
+reference or such thing which is in Term part of <a href="#label-28">MethodList</a>. So 
+it is Labeled under following rules.</p>
+<ol>
+<li>It is regarded as Label which is before a character of "<code>(</code>" or
+      "<code>{</code>".<a name="footmark-5" id="footmark-5" href="#foottext-5"><sup><small>*5</small></sup></a></li>
+</ol>
+<p>Following example will help you to understand how this rule works. the Label
+which is generated from the term part of <a href="#label-28">MethodList</a> is after mark of
+"<code># =&gt;</code>".</p>
+<pre>Example:
+  --- Array.new([size[, val]]) # =&gt; Array.new
+  --- Array#[]=(key, val) # =&gt; Array#[]=
+  --- Array#each { ... } # =&gt; Array#each
+  --- void rb_define_method(VALUE class, ...) # =&gt; void rb_define_method</pre>
+<p>Second, in the case of title of <a href="#label-15">Headline</a> or term part of <a href="#label-25">DescList</a>,
+there is not such a special rule. But you can use <a href="#label-35">Inline</a>s for text on
+them, so there are rules to strip <a href="#label-35">Inline</a> mark-ups from text.</p>
+<ol>
+<li><p>Any <a href="#label-35">Inline</a> mark-ups makes any difference to Label. So, both</p>
+<pre>= ((*Headline*))</pre>
+<p>and</p>
+<pre>= Headline</pre>
+<p>are Labeled as "Headline".</p></li>
+<li><p>But white spaces which is after open parenthesis and before close
+      parenthesis of <a href="#label-35">Inline</a> are striped when RD generates Label from
+      it. So, both</p>
+<pre>= ((* Headline  *))</pre>
+<p>and</p>
+<pre>= ((*Headline*))</pre>
+<p>are Labeled as "Headline".</p></li>
+</ol>
+<h5><a name="label-46" id="label-46">Reference</a></h5><!-- RDLabel: "Reference" -->
+<p>You can refer Labeled element with Reference which is a kind of <a href="#label-35">Inline</a>
+marked up with ((&lt;...&gt;)).</p>
+<p>Most simple use of Reference is to write Label inside parenthesis.</p>
+<pre>((&lt;Label&gt;))</pre>
+<p>This works as reference to Label of "Label" and text "Label" is used
+also for display such like: <!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found">Label</em><!-- Reference end -->.<a name="footmark-6" id="footmark-6" href="#foottext-6"><sup><small>*6</small></sup></a></p>
+<p>When you want to refer a resource pointed with URL, write such like:</p>
+<pre>((&lt;URL:http://www.ruby-lang.org/en/raa.html&gt;))</pre>
+<p>RD formatter will format it as hyper-link to its URL if possible
+such like:<a href="http://www.ruby-lang.org/en/raa.html">&lt;URL:http://www.ruby-lang.org/en/raa.html&gt;</a>.</p>
+<p>When you want to use other text than Label for display, write such like:</p>
+<pre>((&lt;Text for display|Label&gt;))</pre>
+<p>"Text for display" is used for display and "Label" is used as Label to
+refer such like: <!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found">Text for display</em><!-- Reference end --></p>
+<p>Text for display can contain some <a href="#label-35">Inline</a>, except for Footnotes and
+Reference.</p>
+<p>In Reference, "|" and "/" are syntax keywords. So if you will write them
+inside Reference, you have to double-quote the part it's inside, such like:</p>
+<pre>((&lt;"Bar | inside display text"|Label&gt;))</pre>
+<p><!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found">Bar | inside display text</em><!-- Reference end --></p>
+<p>The situations are same whether you will write them inside Substitution
+part, Filename part and Label part.</p>
+<p>Of course, you can use the text for the display for Reference to URL resource.</p>
+<pre>((&lt;Ruby Application Archive|URL:http://www.ruby-lang.org/en/raa.html&gt;))</pre>
+<p><a href="http://www.ruby-lang.org/en/raa.html">Ruby Application Archive</a></p>
+<p>When the text for the display is omitted, you can use <a href="#label-35">Inline</a> for Label.</p>
+<pre>((&lt;((*Label*))&gt;))</pre>
+<p><!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found"><em>Label</em></em><!-- Reference end --></p>
+<hr />
+<p class="foottext">
+<a name="foottext-1" id="foottext-1" href="#footmark-1"><sup><small>*1</small></sup></a><small> If you are interested in others,
+see rubyapi2
+<a href="http://www.ueda.info.waseda.ac.jp/~igarashi/ruby/xml.html#rubyapi2">&lt;URL:http://www.ueda.info.waseda.ac.jp/~igarashi/ruby/xml.html#rubyapi2&gt;</a>
+for example. </small><br />
+<a name="foottext-2" id="foottext-2" href="#footmark-2"><sup><small>*2</small></sup></a><small> But List can't include <a href="#label-15">Headline</a>
+nor <a href="#label-19">Include</a>. </small><br />
+<a name="foottext-3" id="foottext-3" href="#footmark-3"><sup><small>*3</small></sup></a><small> You can read very good explanation about Var in texinfo.info. </small><br />
+<a name="foottext-4" id="foottext-4" href="#footmark-4"><sup><small>*4</small></sup></a><small>Footnote</small><br />
+<a name="foottext-5" id="foottext-5" href="#footmark-5"><sup><small>*5</small></sup></a><small> text inside "<code>(...)</code>" is regarded as parameters
+      of method, and text inside "<code>{...}</code>" is regarded as parameter
+      block of methods.</small><br />
+<a name="foottext-6" id="foottext-6" href="#footmark-6"><sup><small>*6</small></sup></a><small> There is no element Labeled
+"Label", so it doesn't seems to be Reference probably. </small><br />
+</p>
+</body>
+</html>
