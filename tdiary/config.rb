@@ -213,6 +213,7 @@ module TDiary
 			end
 
 			unless @io_class
+				require 'tdiary/io/cache/file'
 				require 'tdiary/io/default'
 				@io_class = DefaultIO
 			end
