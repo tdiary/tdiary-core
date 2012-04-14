@@ -2,8 +2,13 @@ require 'tempfile'
 @data_path = Dir.tmpdir
 
 @style = 'GFM'
+
+require 'tdiary/io/cache/file'
+# To use memcache addon
+# require 'tdiary/io/cache/memcached'
 require 'tdiary/io/heroku'
 @io_class = TDiary::HerokuIO
+
 @index = './'
 @update = 'update.rb'
 @logger = Logger.new($stderr)
