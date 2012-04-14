@@ -46,7 +46,7 @@ class CGI
 	end
 
 	def https?
-		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS']
+		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS'] or env_table['HTTPS'] == ''
 		true
 	end
 
