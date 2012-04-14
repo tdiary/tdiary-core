@@ -3,7 +3,9 @@ require 'tempfile'
 
 @style = 'GFM'
 
-require 'tdiary/io/cache/memcached'
+require 'tdiary/io/cache/file'
+# To use memcache addon
+# require 'tdiary/io/cache/memcached'
 require 'tdiary/io/heroku'
 @io_class = TDiary::HerokuIO
 
