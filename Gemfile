@@ -10,7 +10,8 @@ gem 'sprockets'
 # To use GFM style
 platforms :mri do
   gem 'redcarpet'
-  gem 'albino'
+  gem 'pygments.rb'
+  gem 'rubypython', '0.5.1'
 end
 
 # Use tDiary in Heroku
