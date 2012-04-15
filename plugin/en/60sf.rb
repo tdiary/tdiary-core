@@ -18,16 +18,16 @@ filter/selectable directory.
 
 Finally, edit the tdiary.conf file in the same directory as tdiary.rb
 and add the following line:
-  @options['sf.path'] = 'misc/filter'
+  @conf.options['sf.path'] = 'misc/filter'
 to indicate the directory you have put the optional filters. It can be
 an absolute path.
 
 == Options
-:@options['sf.path']
+:@conf.options['sf.path']
 	Directory name where the optional filters are, relative from the
   directory where tdiary.rb is or absolute.
 
-:@options['sf.usenew']
+:@conf.options['sf.usenew']
   Define true if you want to the users to try a newly installed filter.
 	Newly installed filters are detected next time when the user configures
 	this plugin.

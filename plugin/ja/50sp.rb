@@ -21,18 +21,18 @@ httpサーバーから見られる別のディレクトリに移してくださ�
 pluginディレクトリの下にselectableというディレクトリを作っています。
 
 最後に、tdiary.rbと同じ場所にあるtdiary.confに、
-  @options['sp.path'] = 'misc/plugin'
+  @conf.options['sp.path'] = 'misc/plugin'
 などと、選択できるプラグインのあるディレクトリをtdiary.rbのあるディレク
 トリからの相対パスか絶対パスで指定してください。
 
 secure==trueな日記でも使えます。
 
 == オプション
-:@options['sp.path']
+:@conf.options['sp.path']
   'plugin/selectable'などと、選択できるプラグインのあるディレクトリを、
   tdiary.rbのあるディレクトリからの相対パスか絶対パスで指定してください。
 
-:@options['sp.usenew']
+:@conf.options['sp.usenew']
   新しくインストールされたプラグインをデフォルトで使うようにする場合は
   trueに設定してください。新しくインストールされたプラグインを検出するの
   は、次にプラグインが選択される時です。

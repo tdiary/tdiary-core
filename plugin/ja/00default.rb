@@ -10,7 +10,7 @@
 # header
 #
 def title_tag
-	r = "<title>#{h @html_title}"
+	r = "<title>#{h @conf.html_title}"
 	case @mode
 	when 'day', 'comment'
 		r << "(#{@date.strftime( '%Y-%m-%d' )})" if @date
@@ -96,7 +96,7 @@ def comment_body_label; 'コメント'; end
 def comment_body_label_short; '本文'; end
 def comment_submit_label; '投稿'; end
 def comment_submit_label_short; '投稿'; end
-def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
+def comment_date( time ); time.strftime( "(#{@conf.date_format} %H:%M)" ); end
 def trackback_today; '本日のTrackBacks'; end
 def trackback_total( total ); "(全#{total}件)"; end
 
@@ -106,8 +106,8 @@ def navi_oldest; '最古'; end
 def navi_update; "追記"; end
 def navi_edit; "編集"; end
 def navi_preference; "設定"; end
-def navi_prev_diary(date); "前の日記(#{date.strftime(@date_format)})"; end
-def navi_next_diary(date); "次の日記(#{date.strftime(@date_format)})"; end
+def navi_prev_diary(date); "前の日記(#{date.strftime(@conf.date_format)})"; end
+def navi_next_diary(date); "次の日記(#{date.strftime(@conf.date_format)})"; end
 def navi_prev_month; "前月"; end
 def navi_next_month; "翌月"; end
 def navi_prev_nyear(date); "前の日(#{date.strftime('%m-%d')})"; end
@@ -359,7 +359,7 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 	" unless @conf.mobile_agent?}
 	#{"<p class=\"message\">注意:
 	あなたのブラウザは現在Refererを送出していないようです。
-	<a href=\"#{h @update}?conf=csrf_protection\">このリンクからもう一回
+	<a href=\"#{h @conf.update}?conf=csrf_protection\">このリンクからもう一回
 	このページを開いてみて下さい</a>。
 	それでもこのメッセージが出る状況では、この設定を変える場合、
 	一時的にRefererを送出する設定にするか、

@@ -36,19 +36,6 @@ module TDiary
 				instance_variable_set( "@#{key}", value )
 			end
 
-			# for 1.4 compatibility
-			@index = @conf.index
-			@update = @conf.update
-			@author_name = @conf.author_name || ''
-			@author_mail = @conf.author_mail || ''
-			@index_page = @conf.index_page || ''
-			@html_title = @conf.html_title || ''
-			@theme = @conf.theme
-			@css = @conf.css
-			@date_format = @conf.date_format
-			@referer_table = @conf.referer_table
-			@options = @conf.options
-
 			# loading plugins
 			@plugin_files = []
 			plugin_path = @conf.plugin_path || "#{PATH}/plugin"
@@ -331,7 +318,7 @@ module TDiary
 		def apply_plugin( str, remove_tag = false )
 			return '' unless str
 			r = str.dup
-			if @options['apply_plugin'] and str.index( '<%' ) then
+			if @conf.options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
 				Safe::safe( @conf.secure ? 4 : 1 ) do
 					begin

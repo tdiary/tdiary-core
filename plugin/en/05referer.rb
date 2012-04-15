@@ -28,15 +28,15 @@ add_conf_proc( 'referer', "Today's Link", 'referer' ) do
 	</select></p>
 	<h3 class="subtitle">#{label_no_referer}</h3>
 	#{"<p>List of excluding URL that is not recorded to Today's Link. Specify it in regular expression, and a URL into a line.</p>" unless @conf.mobile_agent?}
-	<p>See <a href="#{h @update}?referer=no" target="referer">Default configuration is here</a>.</p>
+	<p>See <a href="#{h @conf.update}?referer=no" target="referer">Default configuration is here</a>.</p>
 	<p><textarea name="no_referer" cols="60" rows="10">#{h @conf.no_referer2.join( "\n" )}</textarea></p>
 	<h3 class="subtitle">#{label_only_volatile}</h3>
 	#{"<p>List of URLs recorded to only volatile lists. This list will be clear when update diary in new day. Specify it in regular expression, and a URL into a line.</p>" unless @conf.mobile_agent?}
-	<p>See <a href="#{h @update}?referer=volatile" target="referer">Default configuration is here</a>.</p>
+	<p>See <a href="#{h @conf.update}?referer=volatile" target="referer">Default configuration is here</a>.</p>
 	<p><textarea name="only_volatile" cols="60" rows="10">#{h @conf.only_volatile2.join( "\n" )}</textarea></p>
 	<h3 class="subtitle">#{label_referer_table}</h3>
 	#{"<p>A table to convert URL to words in Today's Link. Specify it in regular expression, and a URL into a line.<p>" unless @conf.mobile_agent?}
-	<p>See <a href="#{h @update}?referer=table" target="referer">Default configurations</a>.</p>
+	<p>See <a href="#{h @conf.update}?referer=table" target="referer">Default configurations</a>.</p>
 	<p><textarea name="referer_table" cols="60" rows="10">#{h @conf.referer_table2.collect{|a|a.join( " " )}.join( "\n" )}</textarea></p>
 	HTML
 end

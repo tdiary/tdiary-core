@@ -61,7 +61,7 @@ recent_list.rb
 
 @header = <<HEADER
 <%= navi %>
-<h1><%= @html_title %></h1>
+<h1><%= @conf.html_title %></h1>
 <div class="main">
 HEADER
 
