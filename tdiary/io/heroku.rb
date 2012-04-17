@@ -123,7 +123,7 @@ module TDiary
     end
 
     def cache_path
-      Dir.tmpdir
+      @_cache_path ||= Dir.tmpdir
     end
 
     def diary_factory(date, title, body, style = 'tDiary')
