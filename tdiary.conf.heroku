@@ -6,8 +6,8 @@ require 'tempfile'
 require 'tdiary/io/cache/file'
 # To use memcache addon
 # require 'tdiary/io/cache/memcached'
-require 'tdiary/io/heroku'
-@io_class = TDiary::HerokuIO
+require 'tdiary/io/rdb'
+@io_class = TDiary::RdbIO
 
 @index = './'
 @update = 'update.rb'

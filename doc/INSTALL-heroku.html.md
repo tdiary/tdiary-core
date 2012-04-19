@@ -46,7 +46,7 @@ git checkout -b deploy
 cp tdiary.conf.heroku tdiary.conf
 ```
 
-Gemfile のコメントアウトされている箇所のうち、以下を有効にします。JRuby 用の設定は試験的なものなので、よくわからない場合はコメントアウトのままとしてください。
+Gemfile のコメントアウトされている箇所のうち、以下を有効にします。JRuby 用の設定は試験的なものなので、よくわからない場合はコメントアウトのままにしてください。
 
 ```
 # Use tDiary in Heroku

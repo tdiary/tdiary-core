@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 #
-# heroku_io.rb: Heroku IO for tDiary 3.x
+# rdb.rb: RDB IO for tDiary 3.x
 #
-# NAME             heroku_io
+# NAME             rdb
 #
-# DESCRIPTION      Heroku 向け tDiary IO クラス
-#                  日記データは PostgreSQL に保存、キャッシュ、リンク元の記録には未対応
+# DESCRIPTION      RDB 向け tDiary IO クラス
+#                  日記データは RDB に保存、リンク元の記録には未対応
 #
 # Copyright        (C) 2003 ma2tak <ma2tak@ma2tak.dyndns.org>
 #                  (C) 2004 moonwolf <moonwolf@mooonwolf.com>
@@ -59,7 +59,7 @@ module TDiary
   end
 
 
-  class HerokuIO < BaseIO
+  class RdbIO < BaseIO
     include CommentIO
     include RefererIO
     include CacheIO
