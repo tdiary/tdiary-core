@@ -86,6 +86,33 @@ heroku run rake db:create
 
 これで http://mydiary.herokuapp.com で日記を書くことができます。
 
+独自のテーマファイルを使う方法
+----
+
+Heroku で自作や tdiary-theme に含まれるテーマファイルを用いるには、deploy 対象としてテーマファイルを登録し、Heroku に転送する必要があります。
+
+tdiary-core の deploy ブランチに切り替えます。
+
+```
+git checkout deploy
+```
+
+テーマファイルをコピーし、deploy 対象として登録します。
+
+```
+cp -rf ~/tdiary-theme/gustav theme
+git add .
+git commit -m "add theme file"
+```
+
+Heroku にファイルを転送します。
+
+```
+git push heroku deploy:master
+```
+
+これで tDiary on Heroku の設定画面より
+
 memcache アドオンを使う方法
 ----
 
