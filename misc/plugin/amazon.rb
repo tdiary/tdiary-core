@@ -63,7 +63,7 @@ def amazon_fetch( url, limit = 10 )
 end
 
 def amazon_call_ecs( asin, id_type, country )
-	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].empty?
+	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].to_s.empty?
 	aid = @conf["amazon.aid.#{country}"] || ''
 
 	url = (@conf['amazon.endpoints'] || @amazon_ecs_url_hash)[country].dup
@@ -233,7 +233,7 @@ def amazon_secure_html( asin, with_image, label, pos, country )
 		label = ''
 	end
 
-	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].empty?
+	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].to_s.empty?
 	aid = @conf["amazon.aid.#{country}"] || ''
 	amazon_url = @amazon_url_hash[country]
 	url =  "#{amazon_url}/#{u asin}"
