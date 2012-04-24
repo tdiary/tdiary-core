@@ -28,7 +28,7 @@ module ::TDiary
 		def all_subtitles_to_html
 			titles = Array.new
 			each_section do |section|
-				titles << section.subtitle_to_html
+				titles << section.subtitle_to_html.strip
 			end
 			return titles
 		end
@@ -36,7 +36,7 @@ module ::TDiary
 			return all_subtitles_to_html unless categorizable?
 			titles = Array.new
 			each_section do |section|
-				titles << section.stripped_subtitle_to_html
+				titles << section.stripped_subtitle_to_html.strip
 			end
 			return titles
 		end
@@ -48,7 +48,7 @@ def title_tag
 		if !diary.visible? then
 			return title_tag2
 		end
-		site_title = " - #{title_tag2.gsub( /<.*?>/, '')}"
+		site_title = title_tag2.gsub( /<.*?>/, '')
 		day_title = ''
 		if  !diary.title.empty? then
 			day_title << apply_plugin(diary.title, true) << ':'
@@ -59,7 +59,7 @@ def title_tag
 		else
 			t2 << diary.all_stripped_subtitles_to_html.join(', ')
 		end
-		return "<title>#{h day_title}#{@conf.shorten(apply_plugin(t2, true))}#{h( site_title )}</title>"
+		return "<title>#{h day_title} #{@conf.shorten(apply_plugin(t2, true))} - #{h( site_title )}</title>"
 	elsif @mode == 'categoryview' then
 		return @conf.shorten("<title>#{h( @html_title )}#{h( category_title() )}</title>")
 	else
