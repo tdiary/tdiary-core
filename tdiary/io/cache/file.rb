@@ -25,7 +25,7 @@ module TDiary
 
 	private
 
-		def restore_parser_cache(date, key)
+		def restore_parser_cache(date, key = nil)
 			return nil if @tdiary.ignore_parser_cache
 
 			file = date.strftime("#{cache_path}/%Y%m.parser")
@@ -49,7 +49,7 @@ module TDiary
 			obj
 		end
 
-		def store_parser_cache(date, obj, key)
+		def store_parser_cache(date, obj, key = nil)
 			return nil if @tdiary.ignore_parser_cache
 
 			file = date.strftime("#{cache_path}/%Y%m.parser")
