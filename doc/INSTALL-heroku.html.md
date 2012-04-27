@@ -51,6 +51,8 @@ Gemfile のコメントアウトされている箇所のうち、以下を有効
 ```
 # Use tDiary in Heroku
 gem 'sequel'
+# Use memcached addon
+gem 'dalli' 
 (省略)
 #
 # To use CRuby
@@ -111,7 +113,7 @@ Heroku にファイルを転送します。
 git push heroku deploy:master
 ```
 
-これで tDiary on Heroku の設定画面より
+これで tDiary on Heroku の設定画面よりコピーしたテーマファイルを選択できるようになります。
 
 memcache アドオンを使う方法
 ----
