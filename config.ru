@@ -3,7 +3,9 @@ require 'tdiary/application'
 
 use Rack::Reloader
 
-map '/assets' do
+base_dir = ''
+
+map "#{base_dir}/assets" do
 	environment = Sprockets::Environment.new
 	['js', 'theme', '../tdiary-contrib/js', '../tdiary-theme'].each do |path|
 		environment.append_path path
@@ -11,15 +13,15 @@ map '/assets' do
 	run environment
 end
 
-map "/" do
+map "#{base_dir}/" do
 	run TDiary::Application.new(:index)
 end
 
-map "/index.rb" do
+map "#{base_dir}/index.rb" do
 	run TDiary::Application.new(:index)
 end
 
-map "/update.rb" do
+map "#{base_dir}/update.rb" do
 	use Rack::Auth::Basic do |user, pass|
 		if File.exist?('.htpasswd')
 			require 'webrick/httpauth/htpasswd'
