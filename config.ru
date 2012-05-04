@@ -14,11 +14,10 @@ map "#{base_dir}/assets" do
 end
 
 map "#{base_dir}/" do
-	run TDiary::Application.new(:index)
-end
-
-map "#{base_dir}/index.rb" do
-	run TDiary::Application.new(:index)
+	run Rack::Cascade.new([
+		Rack::File.new("./public/"),
+		TDiary::Application.new(:index)
+	])
 end
 
 map "#{base_dir}/update.rb" do
