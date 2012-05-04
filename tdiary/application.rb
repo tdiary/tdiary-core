@@ -49,6 +49,21 @@ module TDiary
 			$stdin = stdin_spy
 		end
 	end
+
+	class HtmlAnchor
+		def initialize( app )
+			@app = app
+		end
+
+		def call( env )
+			req = Rack::Request.new( env )
+			if env['PATH_INFO'].match(/([0-9\-]+)\.html$/)
+				env["QUERY_STRING"] += "&" unless env["QUERY_STRING"].empty?
+				env["QUERY_STRING"] += "date=#{$1}"
+			end
+			@app.call( env )
+		end
+	end
 end
 
 # Local Variables:

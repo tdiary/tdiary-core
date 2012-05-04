@@ -14,6 +14,7 @@ map "#{base_dir}/assets" do
 end
 
 map "#{base_dir}/" do
+	use TDiary::HtmlAnchor
 	run Rack::Cascade.new([
 		Rack::File.new("./public/"),
 		TDiary::Application.new(:index)
