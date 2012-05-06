@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 require File.expand_path('../test_helper', __FILE__)
+require File.expand_path('../test_plugin_helper', __FILE__)
 require 'ja/disp_referrer'
 require 'nkf'
 require 'uri'
@@ -34,20 +35,6 @@ end
 # Methods that shuold have been defined in Plugin
 class Object
 	def referer_today; '本日のリンク元'; end
-	def add_conf_proc(*args); end
-	def to_native( str, charset = nil )
-		from = case charset
-			when /^utf-8$/i
-				'W'
-			when /^shift_jis/i
-				'S'
-			when /^EUC-JP/i
-				'E'
-			else
-				''
-		end
-		NKF::nkf( "-m0 -#{from}e", str )
-	end
 end
 
 # load the main plugin file
