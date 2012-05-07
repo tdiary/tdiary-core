@@ -1,5 +1,6 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/application'
+require 'tdiary/rack/html_anchor'
 
 use Rack::Reloader
 
@@ -14,6 +15,7 @@ map "#{base_dir}/assets" do
 end
 
 map "#{base_dir}/" do
+	use TDiary::Rack::HtmlAnchor
 	run Rack::Cascade.new([
 		Rack::File.new("./public/"),
 		TDiary::Application.new(:index)
