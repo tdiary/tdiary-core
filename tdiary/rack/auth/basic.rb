@@ -7,21 +7,20 @@ module TDiary
 			class PasswordFileNotFound < StandardError; end
 
 			class Basic
-				def initialize( app )
-					@authenticator = ::Rack::Auth::Basic.new( app ) do |user, pass|
-						file = '.htpasswd'
-						unless File.exist?( file )
-							raise PasswordFileNotFound.new("#{file} is not found")
+				def initialize(app, file = '.htpasswd')
+					@authenticator = ::Rack::Auth::Basic.new(app) do |user, pass|
+						unless File.exist?(file)
+							raise PasswordFileNotFound.new("#{file} is not found. Please create it by htpasswd program.")
 						end
-						htpasswd = WEBrick::HTTPAuth::Htpasswd.new( file )
+						htpasswd = WEBrick::HTTPAuth::Htpasswd.new(file)
 						crypted = htpasswd.get_passwd(nil, user, false)
-						crypted == pass.crypt( crypted ) if crypted
+						crypted == pass.crypt(crypted) if crypted
 					end
 				end
 
-				def call( env )
+				def call(env)
 					begin
-						@authenticator.call( env )
+						@authenticator.call(env)
 					rescue PasswordFileNotFound => e
 						[403, {"Content-Type" => "text/plain"}, [e.message]]
 					end

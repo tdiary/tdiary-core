@@ -24,7 +24,7 @@ map "#{base_dir}/" do
 end
 
 map "#{base_dir}/update.rb" do
-	use TDiary::Rack::Auth::Basic
+	use TDiary::Rack::Auth::Basic, '.htpasswd'
 	run TDiary::Application.new(:update)
 end
 
