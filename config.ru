@@ -1,6 +1,7 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/application'
 require 'tdiary/rack/html_anchor'
+require 'tdiary/rack/auth/basic'
 
 use Rack::Reloader
 
@@ -23,17 +24,7 @@ map "#{base_dir}/" do
 end
 
 map "#{base_dir}/update.rb" do
-	use Rack::Auth::Basic do |user, pass|
-		if File.exist?('.htpasswd')
-			require 'webrick/httpauth/htpasswd'
-			htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
-			crypted = htpasswd.get_passwd(nil, user, false)
-			crypted == pass.crypt(crypted) if crypted
-		else
-			user == 'user' && pass == 'pass'
-		end
-	end
-
+	use TDiary::Rack::Auth::Basic
 	run TDiary::Application.new(:update)
 end
 
