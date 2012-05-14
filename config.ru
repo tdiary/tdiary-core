@@ -13,7 +13,7 @@ base_dir = ''
 use Rack::Session::Pool, :expire_after => 2592000
 use OmniAuth::Builder do
 	configure {|conf| conf.path_prefix = "#{base_dir}/auth" }
-	provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+	# provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
 	# provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
 end
 map "#{base_dir}/auth" do
@@ -37,10 +37,13 @@ map "#{base_dir}/" do
 end
 
 map "#{base_dir}/update.rb" do
-	#use TDiary::Rack::Auth::Basic, '.htpasswd'
-	use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
-		auth.info.nickname == 'your_twitter_screen_name'
+	use Rack::Auth::Basic do |user, pass|
+		user == 'user' && pass == 'pass'
 	end
+	# use TDiary::Rack::Auth::Basic, '.htpasswd'
+	# use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
+	#		auth.info.nickname == 'your_twitter_screen_name'
+	# end
 	run TDiary::Application.new(:update)
 end
 

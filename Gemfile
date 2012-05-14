@@ -8,7 +8,7 @@ gem 'rack'
 gem 'sprockets'
 gem 'omniauth'
 gem 'omniauth-twitter'
-#gem 'omniauth-github'
+gem 'omniauth-github'
 
 # To use GFM style
 platforms :mri do
