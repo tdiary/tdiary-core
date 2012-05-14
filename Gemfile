@@ -14,23 +14,25 @@ platforms :mri do
   gem 'rubypython', '0.5.1'
 end
 
-# Use tDiary in Heroku
-# gem 'sequel'
-#
-# Use memcached addon
-# gem 'dalli'
-#
-# To use CRuby
-# platforms :mri do
-#   gem 'thin', :require => false
-#   gem 'pg'
-# end
-#
-# To use JRuby
-# platforms :jruby do
-#   gem 'trinidad', :require => false
-#   gem 'jdbc-postgres', :require => 'jdbc/postgres'
-# end
+group :production do
+  # Use tDiary in Heroku
+  gem 'sequel'
+
+  # Use memcached addon
+  gem 'dalli'
+
+  # To use CRuby
+  platforms :mri do
+    gem 'thin', :require => false
+    gem 'pg'
+  end
+
+  # To use JRuby
+  # platforms :jruby do
+  #   gem 'trinidad', :require => false
+  #   gem 'jdbc-postgres', :require => 'jdbc/postgres'
+  # end
+end
 
 group :development do
   gem 'capistrano', :require => false
