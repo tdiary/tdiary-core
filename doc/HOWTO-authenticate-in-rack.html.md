@@ -4,8 +4,7 @@ How to authenticate in rack
 概要
 ----
 
-tDiaryの編集画面へのアクセス。tDiaryをCGI/FastCGI環境で動かす場合はWebサーバのBasic認証機能を使って認証を実現しています。一方、Rack環境で動かす場合には、Rackミドルウェアにて認証を実現します。
-
+tDiaryをCGI/FastCGI環境で動かす場合は、WebサーバのBasic認証機能を使って認証を実現しています。一方、Rack環境で動かす場合には、Rackミドルウェアにて認証を実現します。ここでは、Rack環境での認証の導入方法を説明します。
 
 認証方法
 ----
