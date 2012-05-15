@@ -37,10 +37,10 @@ map "#{base_dir}/" do
 end
 
 map "#{base_dir}/update.rb" do
-	use Rack::Auth::Basic do |user, pass|
-		user == 'user' && pass == 'pass'
-	end
-	# use TDiary::Rack::Auth::Basic, '.htpasswd'
+	use TDiary::Rack::Auth::Basic, '.htpasswd'
+	# use Rack::Auth::Basic do |user, pass|
+	#	user == 'user' && pass == 'pass'
+	# end
 	# use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
 	#		auth.info.nickname == 'your_twitter_screen_name'
 	# end
