@@ -24,7 +24,7 @@ end
 
 def recent_list( days = 30, date_format = nil, title_with_body = nil, show_size = nil, show_title = nil )
 	days = days.to_i
-	date_format ||= @date_format
+	date_format ||= @conf.date_format
 
 	result = %Q|<ul class="recent-list">\n|
 

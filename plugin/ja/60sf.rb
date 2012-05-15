@@ -16,7 +16,7 @@ Please see below for an English description.
 このプラグインをplugin/ディレクトリに配置してください。
 
 次に、tdiary.rbと同じ場所にあるtdiary.confに、
-  @options['sf.path'] = 'misc/filter'
+  @conf.options['sf.path'] = 'misc/filter'
 などと、選択できるフィルターのあるディレクトリをtdiary.rbのあるディレク
 トリからの相対パスか絶対パスで指定してください。
 
@@ -35,11 +35,11 @@ misc/filter/
         `-- spambayes.rb
 
 == オプション
-:@options['sf.path']
+:@conf.options['sf.path']
   'filter/selectable'などと、選択できるフィルターのあるディレクトリを、
   tdiary.rbのあるディレクトリからの相対パスか絶対パスで指定してください。
 
-:@options['sf.usenew']
+:@conf.options['sf.usenew']
   新しくインストールされたフィルターをデフォルトで使うようにする場合は
   trueに設定してください。新しくインストールされたフィルターを検出するの
   は、次にフィルターが選択される時です。

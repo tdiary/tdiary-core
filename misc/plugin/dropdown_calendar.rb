@@ -12,7 +12,7 @@
 
 def calendar
 	result = %Q[<form method="get" action="#{h @index}">\n]
-	result << %Q[<div class="calendar">#{@options['dropdown_calendar.label'] || @dropdown_calendar_label}\n]
+	result << %Q[<div class="calendar">#{@conf.options['dropdown_calendar.label'] || @dropdown_calendar_label}\n]
 	result << %Q[<select name="date">\n]
 	@years.keys.sort.reverse_each do |year|
 		@years[year.to_s].sort.reverse_each do |month|
