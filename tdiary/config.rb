@@ -5,6 +5,8 @@
 #
 module TDiary
 	class Config
+		attr_reader :database_url
+
 		def initialize( cgi, request = nil )
 			@cgi, @request = cgi, request
 			configure_attrs
