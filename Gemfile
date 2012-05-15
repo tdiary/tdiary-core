@@ -6,6 +6,9 @@ gem 'coffee-script'
 # Use rack environment
 gem 'rack'
 gem 'sprockets'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
 
 # To use GFM style
 platforms :mri do
