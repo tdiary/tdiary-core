@@ -5,4 +5,11 @@ require 'rubygems'
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
 require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
-Bundler.require :default if defined?(Bundler)
+
+if defined?(Bundler)
+  if ENV['RACK_ENV'] == 'production'
+    Bundler.require :default, :production
+  else
+    Bundler.require :default
+  end
+end
