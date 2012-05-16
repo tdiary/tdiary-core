@@ -27,7 +27,11 @@ group :production do
   # To use CRuby
   platforms :mri do
     gem 'thin', :require => false
+    # gem 'unicorn', :require => false
+
     gem 'pg'
+    # gem 'mysql'
+    # gem 'sqlite3'
   end
 
   # To use JRuby
