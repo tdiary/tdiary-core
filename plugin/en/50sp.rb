@@ -16,18 +16,18 @@ plugin/selectable directory.
 
 Finally, edit the tdiary.conf file in the same directory as tdiary.rb
 and add the following line:
-  @options['sp.path'] = 'misc/plugin'
+  @conf.options['sp.path'] = 'misc/plugin'
 to indicate the directory you have put the optional plugins. It can be
 an absolute path.
 
 You can use this plugin in a secure diary.
 
 == Options
-:@options['sp.path']
+:@conf.options['sp.path']
 	Directory name where the optional plugins are, relative from the
   directory where tdiary.rb is or absolute.
 
-:@options['sp.usenew']
+:@conf.options['sp.usenew']
   Define true if you want to the users to try a newly installed plugin.
 	Newly installed plugins are detected next time when the user configures
 	this plugin.

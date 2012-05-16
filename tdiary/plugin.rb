@@ -331,7 +331,7 @@ module TDiary
 		def apply_plugin( str, remove_tag = false )
 			return '' unless str
 			r = str.dup
-			if @options['apply_plugin'] and str.index( '<%' ) then
+			if @conf.options['apply_plugin'] and str.index( '<%' ) then
 				r = str.untaint if $SAFE < 3
 				Safe::safe( @conf.secure ? 4 : 1 ) do
 					begin

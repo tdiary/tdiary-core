@@ -241,7 +241,7 @@ def referer_of_today_long( diary, limit )
 		result << %Q[<div class="caption">#{referer_today}</div>\n]
 		result << %Q[<ul>\n]
 		diary.each_referer( limit ) do |count,ref|
-			result << %Q[<li>#{count} <a rel="nofollow" href="#{h ref}">#{h disp_referer( @referer_table, ref )}</a></li>\n]
+			result << %Q[<li>#{count} <a rel="nofollow" href="#{h ref}">#{h disp_referer( @conf.referer_table, ref )}</a></li>\n]
 		end
 		result << '</ul>'
 	end
@@ -250,7 +250,7 @@ def referer_of_today_long( diary, limit )
 		result << %Q[<div class="caption">#{volatile_referer}</div>\n]
 		result << %Q[<ul>\n]
 		@referer_volatile.each_referer( limit ) do |count,ref|
-			result << %Q[<li>#{count} <a rel="nofollow" href="#{h ref}">#{h disp_referer( @referer_table, ref )}</a></li>\n]
+			result << %Q[<li>#{count} <a rel="nofollow" href="#{h ref}">#{h disp_referer( @conf.referer_table, ref )}</a></li>\n]
 		end
 		result << '</ul>'
 	end

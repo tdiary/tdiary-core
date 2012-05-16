@@ -10,7 +10,7 @@
 # header
 #
 def title_tag
-	r = "<title>#{h @html_title}"
+	r = "<title>#{h @conf.html_title}"
 	case @mode
 	when 'day', 'comment'
 		r << "(#{@date.strftime( '%Y-%m-%d' )})" if @date
@@ -61,7 +61,7 @@ def comment_body_label; 'Comment'; end
 def comment_body_label_short; 'Comment'; end
 def comment_submit_label; 'Submit'; end
 def comment_submit_label_short; 'Submit'; end
-def comment_date( time ); time.strftime( "(#{@date_format} %H:%M)" ); end
+def comment_date( time ); time.strftime( "(#{@conf.date_format} %H:%M)" ); end
 def trackback_today; "Today's TrackBacks"; end
 def trackback_total( total ); "(Total: #{total})"; end
 
@@ -71,8 +71,8 @@ def navi_oldest; 'Oldest'; end
 def navi_update; "Append"; end
 def navi_edit; "Edit"; end
 def navi_preference; "Preference"; end
-def navi_prev_diary(date); "Prev(#{date.strftime(@date_format)})"; end
-def navi_next_diary(date); "Next(#{date.strftime(@date_format)})"; end
+def navi_prev_diary(date); "Prev(#{date.strftime(@conf.date_format)})"; end
+def navi_next_diary(date); "Next(#{date.strftime(@conf.date_format)})"; end
 def navi_prev_month; "Prev month"; end
 def navi_next_month; "Next month"; end
 def navi_prev_nyear(date); "Prev(#{date.strftime('%m-%d')})"; end
@@ -344,7 +344,7 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	To allow Referer-disabled browsers, you must enable this setting.</p>" unless @conf.mobile_agent?}
 	#{"<p class=\"message\">Caution:
 	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
-	<a href=\"#{h @update}?conf=csrf_protection\">Please open this page again via this link</a>.
+	<a href=\"#{h @conf.update}?conf=csrf_protection\">Please open this page again via this link</a>.
 	If you see this message again, you must either change your browser setting (temporarily to change these settings, at least),
 	or edit \"tdiary.conf\" directly.</p>" if [1,3].include?(csrf_protection_method) && ! @cgi.referer && !@cgi.valid?('referer_exists')}
 	</div>
