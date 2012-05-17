@@ -137,6 +137,34 @@ namespace :assets do
 	end
 end
 
+namespace :auth do
+	desc "create password"
+	namespace :password do
+		task :create do
+			require 'webrick/httpauth/htpasswd'
+			print 'Username: '
+			ARGV.replace([])
+			username = gets().chop
+			print 'New password: '
+			system "stty -echo"
+			password = $stdin.gets.chop
+			puts
+			print 'Re-type new password: '
+			password2 = $stdin.gets.chop
+			puts
+			system "stty echo"
+			if password != password2
+				puts 'password verification error'
+			else
+				htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
+				htpasswd.set_passwd(nil, username, password)
+				htpasswd.flush
+				puts "Adding password for user #{username}"
+			end
+		end
+	end
+end
+
 if ENV['DATABASE_URL']
 	desc "create database"
 	namespace :db do
