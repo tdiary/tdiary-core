@@ -137,11 +137,42 @@ namespace :assets do
 	end
 end
 
+namespace :heroku do
+	file 'tdiary.conf' => ['tdiary.conf.heroku'] do |t|
+		FileUtils.cp(t.prerequisites.first, t.name)
+	end
+
+	file '.htpasswd' do
+		Rake::Task["auth:password:create"].invoke
+	end
+
+	task :install => ['.htpasswd', 'tdiary.conf'] do |t|
+		sh "git checkout -b deploy"
+		sh "git add -f #{t.prerequisites.join(' ')}"
+		sh "git commit -m 'deploy'"
+		sh "git push heroku deploy:master"
+		# FIXME: heroku command does not work in rake env
+		# sh "heroku run rake db:create"
+	end
+
+	task :update do
+		# sh "git pull origin master:deploy"
+		# sh "git push heroku deploy:master"
+		raise NotImplementedError
+	end
+
+	task :clean do
+		sh "git checkout master"
+		sh "git branch -D deploy"
+	end
+end
+
 namespace :auth do
-	desc "create password"
 	namespace :password do
+		desc "create password"
 		task :create do
 			require 'webrick/httpauth/htpasswd'
+			puts 'create .htpasswd file'
 			print 'Username: '
 			ARGV.replace([])
 			username = gets().chop
@@ -154,7 +185,7 @@ namespace :auth do
 			puts
 			system "stty echo"
 			if password != password2
-				puts 'password verification error'
+				raise StandardError, 'password verification error'
 			else
 				htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
 				htpasswd.set_passwd(nil, username, password)
