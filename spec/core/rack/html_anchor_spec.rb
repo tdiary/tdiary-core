@@ -22,6 +22,14 @@ describe TDiary::Rack::HtmlAnchor do
 			last_request.params['date'].should == "201205"
 			get '/20120501.html'
 			last_request.params['date'].should == "20120501"
+		end
+
+		it 'should replace date query' do
+			get '/20120501.html?date=20120101'
+			last_request.params['date'].should == "20120501"
+		end
+
+		it 'should not break original query' do
 			get '/?date=20120501'
 			last_request.params['date'].should == "20120501"
 			get '/index.rb?date=20120501'
