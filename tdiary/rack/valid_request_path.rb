@@ -10,6 +10,7 @@ module TDiary
 			def call( env )
 				valid_paths = [
 					%r{/$},
+					%r{/index\.(rb|cgi)$},
 					%r{/([0-9\-]+)\.html$}
 				]
 				valid_paths.each do |path|

@@ -18,6 +18,10 @@ describe TDiary::Rack::ValidRequestPath do
 			last_response.should be_ok
 			get '/20120501.html'
 			last_response.should be_ok
+			get '/?date=20120501'
+			last_response.should be_ok
+			get '/index.rb?date=20120501'
+			last_response.should be_ok
 		end
 
 		it 'should return 404 for invalid path' do
