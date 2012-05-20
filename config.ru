@@ -1,6 +1,7 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/application'
 require 'tdiary/rack/html_anchor'
+require 'tdiary/rack/valid_request_path'
 require 'tdiary/rack/auth/basic'
 require 'omniauth'
 require 'tdiary/rack/auth/omniauth'
@@ -30,6 +31,7 @@ end
 
 map "#{base_dir}/" do
 	use TDiary::Rack::HtmlAnchor
+	use TDiary::Rack::ValidRequestPath
 	run Rack::Cascade.new([
 		Rack::File.new("./public/"),
 		TDiary::Application.new(:index)
