@@ -177,6 +177,7 @@ _END
 
 	# for each cache key for dates
 	def self::each_cache_key(dates)
+		dates = dates.is_a?(String) ? [dates] : dates
 		dates.map{|ymd| MySequel.cache_key(ymd)}.uniq.each do |cache_file|
 			yield(cache_file)
 		end
