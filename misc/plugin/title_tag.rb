@@ -36,7 +36,7 @@ module ::TDiary
 			return all_subtitles_to_html unless categorizable?
 			titles = Array.new
 			each_section do |section|
-				titles << section.stripped_subtitle_to_html.strip
+				titles << (section.stripped_subtitle_to_html || '').strip
 			end
 			return titles
 		end
