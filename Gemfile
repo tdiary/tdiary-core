@@ -1,7 +1,6 @@
 source :rubygems
 
 gem 'rake'
-gem 'coffee-script'
 
 # Use rack environment
 gem 'rack'
@@ -10,8 +9,12 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 
-# To use GFM style
 platforms :mri do
+  # coffee script
+  gem 'coffee-script'
+  gem 'therubyracer'
+
+  # To use GFM style
   gem 'redcarpet'
   gem 'pygments.rb'
   gem 'rubypython', '0.5.1'
