@@ -450,7 +450,7 @@ DispReferrer2_Engines = {
 		[%r{\Ahttp://.*?\bgoogle\.([^/]+)/.*url}i, '".#{$1}のGoogleのURL検索?"', ['as_q', 'q'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://.*?\bgoogle/search}i, '"たぶんGoogle検索"', ['as_q', 'q'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://eval.google\.([^/]+)}i, '".#{$1}のGoogle Accounts"', [], nil],
-		[%r{\Ahttp://(?:images|www)\.google\.([^/]+)/(?:images|imglanding)}i, '".#{$1}のGoogleイメージ検索"', ['q'], DispReferrer2_Google_cache],
+		[%r{\Ahttp://(?:images|www)\.google\.([^/]+)/(?:images|imgres|imglanding)}i, '".#{$1}のGoogleイメージ検索"', ['q'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://images\.google\.([^/]+)/imgres}i, '".#{$1}のGoogleイメージ検索"', [:prev], DispReferrer2_Google_cache],
 		[%r{\Ahttp://translate\.google\.([^/]+)/translate}i, '".#{$1}のGoogle検索"', [:prev], DispReferrer2_Google_cache],
 	],

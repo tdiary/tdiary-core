@@ -1,3 +1,6 @@
+2012-06-12 TADA Tadashi <t@tdtds.jp>
+	* ja/disp_referer.rb: maintained about google image search.
+
 2012-06-09 TADA Tadashi <t@tdtds.jp>
 	* title_tag.rb: fixed error on empty subtitle.
 
