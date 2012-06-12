@@ -30,12 +30,12 @@ RSpec.configure do |config|
 	end
 
 	config.before(:each) do
-		FileUtils.mkdir_p work_data_dir unless FileTest.exist? work_data_dir
+		FileUtils.mkdir_p work_data_dir
 		FileUtils.cp_r fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false unless fixture_conf.empty?
 	end
 
 	config.after(:each) do
-		FileUtils.rm_r work_data_dir if FileTest.exist? work_data_dir
+		FileUtils.rm_r work_data_dir
 	end
 
 	config.after(:all) do

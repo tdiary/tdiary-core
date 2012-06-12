@@ -13,8 +13,8 @@ namespace :assets do
 	task :copy do
 		require 'fileutils'
 		assets_path = File.dirname(__FILE__) + '/public/assets'
-		FileUtils.mkdir_p assets_path unless FileTest.exist? assets_path
 
+		FileUtils.mkdir_p assets_path
 		FileList['{js,theme}/*'].each do |file|
 			FileUtils.cp_r(file, "#{assets_path}/#{Pathname.new(file).basename}")
 		end
