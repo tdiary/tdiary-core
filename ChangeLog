@@ -1,3 +1,6 @@
+2012-06-14  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary/io/rdb.rb: fixed unsaved style when using RdbIO.
+
 2012-06-12 TADA Tadashi <t@tdtds.jp>
 	* ja/disp_referer.rb: maintained about google image search.
 
