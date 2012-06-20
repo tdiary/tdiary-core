@@ -64,7 +64,7 @@ module TDiary
 		end
 
 		def base_url_auto
-			return '' unless @cgi.script_name
+			return '' if @cgi.script_name.nil? || @cgi.script_name.empty?
 			begin
 				if @cgi.https?
 					port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
