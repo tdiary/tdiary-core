@@ -3,7 +3,6 @@
 @style = 'Wiki'
 @index = './'
 @update = 'update.rb'
-
 @options['apply_plugin'] = true
 @options['sp.path'] = [
 	'misc/plugin'
@@ -104,7 +103,8 @@ FOOTER
 @show_nyear = true
 
 @no_referer = [
-	'^' + Regexp.quote( base_url ),  # 自分の日記
+	# Capybara の Referer を変更できないので、リンク元確認のテストのために除外する
+	# '^' + Regexp.quote( base_url ),  # 自分の日記
 	'^http://localhost[:/]',
 	'^http://192\.168\.',
 	'^http://172\.1[6789]',
