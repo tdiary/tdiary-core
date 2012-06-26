@@ -21,7 +21,7 @@ module TDiary
     def restore_comment(diaries)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
         diaries.each do |date, diary_object|
-          db[:comments].filter(diary_id: date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
+          db[:comments].filter(:diary_id => date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
             comment = Comment.new(row[:name], row[:mail], row[:comment], Time.at(row[:last_modified].to_i))
             comment.show = row[:visible]
             diary_object.add_comment(comment)
@@ -36,11 +36,11 @@ module TDiary
           no = 0
           diary.each_comment(diary.count_comments(true)) do |com|
             no += 1
-            comment = db[:comments].filter(diary_id: date, no: no)
+            comment = db[:comments].filter(:diary_id => date, :no => no)
             if comment.count > 0
-              comment.update(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body)
+              comment.update(:name => com.name, :mail => com.mail, :last_modified => com.date.to_i, :visible => com.visible?, :comment => com.body)
             else
-              db[:comments].insert(name: com.name, mail: com.mail, last_modified: com.date.to_i, visible: com.visible?, comment: com.body, diary_id: date, no: no)
+              db[:comments].insert(:name => com.name, :mail => com.mail, :last_modified => com.date.to_i, :visible => com.visible?, :comment => com.body, :diary_id => date, :no => no)
             end
           end
         end
