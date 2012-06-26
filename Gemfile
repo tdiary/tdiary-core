@@ -34,7 +34,7 @@ group :production do
 
     gem 'pg'
     # gem 'mysql'
-    # gem 'sqlite3'
+    gem 'sqlite3'
   end
 
   # To use JRuby
