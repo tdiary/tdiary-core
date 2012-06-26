@@ -25,6 +25,8 @@ RSpec.configure do |config|
 	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
 	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
+	config.treat_symbols_as_metadata_keys_with_true_values = true
+
 	config.before(:all) do
 		FileUtils.cp_r tdiary_conf, work_conf, :verbose => false
 	end
@@ -46,14 +48,14 @@ RSpec.configure do |config|
 	when 'webrick'
 		Capybara.default_driver = :selenium
 		Capybara.app_host = 'http://localhost:' + (ENV['PORT'] || '19292')
-		config.filter_run_excluding :exclude_selenium => true
-		config.filter_run_excluding :exclude_no_secure => true
+		config.filter_run_excluding :exclude_selenium
+		config.filter_run_excluding :exclude_no_secure
 	when 'secure'
-		config.filter_run_excluding :exclude_rack => true
-		config.filter_run_excluding :exclude_secure => true
+		config.filter_run_excluding :exclude_rack
+		config.filter_run_excluding :exclude_secure
 	else
-		config.filter_run_excluding :exclude_rack => true
-		config.filter_run_excluding :exclude_no_secure => true
+		config.filter_run_excluding :exclude_rack
+		config.filter_run_excluding :exclude_no_secure
 	end
 end
 

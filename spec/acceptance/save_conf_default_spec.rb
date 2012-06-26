@@ -127,7 +127,7 @@ FOOTER
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
-	scenario 'Rack 環境でテーマ選択が保存される', :exclude_selenium => true do
+	scenario 'Rack 環境でテーマ選択が保存される', :exclude_selenium do
 		visit '/update.rb?conf=theme'
 		select 'Tdiary1', :from => 'theme'
 
@@ -146,7 +146,7 @@ FOOTER
 		}
 	end
 
-	scenario 'Webrick 環境でテーマ選択が保存される', :exclude_rack => true do
+	scenario 'Webrick 環境でテーマ選択が保存される', :exclude_rack do
 		visit '/update.rb?conf=theme'
 		select 'Tdiary1', :from => 'theme'
 
