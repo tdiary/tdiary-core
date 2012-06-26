@@ -42,18 +42,20 @@ RSpec.configure do |config|
 		FileUtils.rm_r work_conf
 	end
 
+	config.treat_symbols_as_metadata_keys_with_true_values = true
+
 	case ENV['TEST_MODE']
 	when 'webrick'
 		Capybara.default_driver = :selenium
 		Capybara.app_host = 'http://localhost:' + (ENV['PORT'] || '19292')
-		config.filter_run_excluding :exclude_selenium => true
-		config.filter_run_excluding :exclude_no_secure => true
+		config.filter_run_excluding :exclude_selenium
+		config.filter_run_excluding :exclude_no_secure
 	when 'secure'
-		config.filter_run_excluding :exclude_rack => true
-		config.filter_run_excluding :exclude_secure => true
+		config.filter_run_excluding :exclude_rack
+		config.filter_run_excluding :exclude_secure
 	else
-		config.filter_run_excluding :exclude_rack => true
-		config.filter_run_excluding :exclude_no_secure => true
+		config.filter_run_excluding :exclude_rack
+		config.filter_run_excluding :exclude_no_secure
 	end
 end
 
