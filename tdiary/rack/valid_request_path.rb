@@ -16,7 +16,13 @@ module TDiary
 				valid_paths.each do |path|
 					return @app.call(env) if env['PATH_INFO'].match(path)
 				end
-				[404, {'Content-Type' => 'text-plain'}, ["Not Found: #{env['PATH_INFO']}"]]
+
+				body = "Not Found: #{env['PATH_INFO']}"
+				if env["REQUEST_METHOD"] == "HEAD"
+					[404, {'Content-Type' => 'text/plain', 'Content-Length' => body.length.to_s}, []]
+				else
+					[404, {'Content-Type' => 'text/plain'}, [body]]
+				end
 			end
 		end
 	end

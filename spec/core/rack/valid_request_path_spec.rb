@@ -44,6 +44,9 @@ describe TDiary::Rack::ValidRequestPath do
 			last_response.status.should be 404
 			get '/invalid'
 			last_response.status.should be 404
+			head '/invalid'
+			last_response.status.should be 404
+			last_response.body.length.should be 0
 		end
 
 		it 'should return 404 for access to the invalid directory' do
