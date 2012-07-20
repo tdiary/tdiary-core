@@ -1,3 +1,6 @@
+2012-07-03 hb <smallstyle@gmail.com>
+	* tdiary/rack/valid_request_path.rb: response body is empty for HEAD request.
+
 2012-06-20 hb <smallstyle@gmail.com>
 	* tdiary/config.rb: fixed base_url_auto when script_name is empty.
 
@@ -9,6 +12,18 @@
 
 2012-06-09 TADA Tadashi <t@tdtds.jp>
 	* title_tag.rb: fixed error on empty subtitle.
+
+2012-05-20 MATSUOKA Kohei <kohei@machu.jp>
+	* tdiary/rack/valid_request_path.rb: validate PATH_INFO in rack
+
+2012-05-18 MATSUOKA Kohei <kohei@machu.jp>
+  * Rakefile: add task heroku:install
+
+2012-05-17 MATSUOKA Kohei <kohei@machu.jp>
+  * Rakefile: add task auth:password:create
+
+2012-05-12 MATSUOKA Kohei <kohei@machu.jp>
+	* config.ru, tdiary/rack/auth/omniauth.rb: integrate omniauth for authentication
 
 2012-04-29 TADA Tadashi <t@tdtds.jp>
 	* Release 3.1.3.
