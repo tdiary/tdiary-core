@@ -1,3 +1,6 @@
+2012-07-29 TADA Tadashi <t@tdtds.jp>
+	* Release 3.1.4.
+
 2012-07-03 hb <smallstyle@gmail.com>
 	* tdiary/rack/valid_request_path.rb: response body is empty for HEAD request.
 
