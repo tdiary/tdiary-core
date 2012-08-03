@@ -244,7 +244,7 @@ JAVASCRIPT
 	end
 end
 if @calendar3_show_popup
-	enable_js('calendar3')
+	enable_js('calendar3.js')
 end
 
 # Local Variables:

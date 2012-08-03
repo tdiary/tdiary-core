@@ -1,3 +1,6 @@
+2012-08-03 TADA Tadashi <t@tdtds.jp>
+	* plugin/calendar3.rb: fix typo of js file name #187
+
 2012-07-29 TADA Tadashi <t@tdtds.jp>
 	* Release 3.1.4.
 
