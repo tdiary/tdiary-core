@@ -7,9 +7,5 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
 if defined?(Bundler)
-  if ENV['RACK_ENV'] == 'production'
-    Bundler.require :default, :production
-  else
-    Bundler.require :default
-  end
+  Bundler.require :default, ENV['RACK_ENV']
 end
