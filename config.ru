@@ -23,9 +23,7 @@ end
 
 map "#{base_dir}/assets" do
 	environment = Sprockets::Environment.new
-	['js', 'theme', '../tdiary-contrib/js', '../tdiary-theme'].each do |path|
-		environment.append_path path
-	end
+	%w(js theme).each {|path| environment.append_path path }
 	run environment
 end
 
