@@ -7,5 +7,5 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
 if defined?(Bundler)
-  Bundler.require :default, ENV['RACK_ENV']
+  Bundler.require :default, ENV['RACK_ENV'] || ''
 end
