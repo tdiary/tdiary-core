@@ -5,6 +5,7 @@ require 'tdiary/rack/valid_request_path'
 require 'tdiary/rack/auth/basic'
 require 'omniauth'
 require 'tdiary/rack/auth/omniauth'
+require 'tdiary/rack/assets/precompile'
 
 use Rack::Reloader
 
@@ -23,9 +24,11 @@ end
 
 map "#{base_dir}/assets" do
 	environment = Sprockets::Environment.new
-	['js', 'theme', '../tdiary-contrib/js', '../tdiary-theme'].each do |path|
-		environment.append_path path
-	end
+	%w(js theme).each {|path| environment.append_path path }
+
+	# if you need to auto compilation for CoffeeScript
+	# use TDiary::Rack::Assets::Precompile, environment
+
 	run environment
 end
 
