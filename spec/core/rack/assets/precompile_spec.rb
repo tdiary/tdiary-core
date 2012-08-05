@@ -39,15 +39,13 @@ describe TDiary::Rack::Assets::Precompile do
 				FileUtils.touch "#{assets_path}/foo.js"
 				sleep 1
 				FileUtils.touch "#{assets_path}/foo.coffee"
+				@jstime = File.mtime("#{assets_path}/foo.js").to_i
 
 				get '/'
-
-				@jstime = File.mtime("#{assets_path}/foo.js")
-				@cstime = File.mtime("#{assets_path}/foo.coffee")
 			end
 
 			it "JavaScript が更新される" do
-				@jstime.should > @cstime
+				@jstime.should < File.mtime("#{assets_path}/foo.js").to_i
 			end
 		end
 
@@ -56,15 +54,13 @@ describe TDiary::Rack::Assets::Precompile do
 				FileUtils.touch "#{assets_path}/foo.coffee"
 				sleep 1
 				FileUtils.touch "#{assets_path}/foo.js"
+				@jstime = File.mtime("#{assets_path}/foo.js").to_i
 
 				get '/'
-
-				@jstime = File.mtime("#{assets_path}/foo.js")
-				@cstime = File.mtime("#{assets_path}/foo.coffee")
 			end
 
 			it "JavaScript は更新されない" do
-				@jstime.should < @cstime
+				@jstime.should == File.mtime("#{assets_path}/foo.js").to_i
 			end
 		end
 	end
