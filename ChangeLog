@@ -1,3 +1,6 @@
+2012-08-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary/rack/assets/precompile.rb: CoffeeScript auto compile in rack middleware.
+
 2012-08-03 TADA Tadashi <t@tdtds.jp>
 	* plugin/calendar3.rb: fix typo of js file name #187
 
