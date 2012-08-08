@@ -2,6 +2,7 @@ if ENV['DATABASE_URL']
 	desc "create database"
 	namespace :db do
 		task :create do
+			require 'sequel'
 			Sequel.connect(ENV['DATABASE_URL']) do |db|
 				db.create_table :diaries do
 					String :diary_id, :size => 8
@@ -34,6 +35,7 @@ if ENV['DATABASE_URL']
 		end
 
 		task :drop do
+			require 'sequel'
 			Sequel.connect(ENV['DATABASE_URL']) do |db|
 				db.drop_table :diaries, :comments, :conf
 			end
