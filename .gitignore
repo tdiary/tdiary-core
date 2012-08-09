@@ -1,4 +1,5 @@
 .bundle
+.htpasswd
 coverage
 coverage.*
 data
