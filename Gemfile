@@ -10,9 +10,11 @@ gem 'omniauth-twitter'
 gem 'omniauth-github'
 
 platforms :mri do
-  # coffee script
+  # To use CoffeeScript
   gem 'coffee-script'
-  gem 'therubyracer'
+
+  # If you need javascript engine
+  # gem 'therubyracer'
 
   # To use GFM style
   gem 'redcarpet'
@@ -20,14 +22,13 @@ platforms :mri do
   gem 'rubypython', '0.5.1'
 end
 
+# Use tDiary in PaaS
 group :production do
-  # Use tDiary in Heroku
   gem 'sequel'
 
   # Use memcached addon
-  gem 'dalli'
+  # gem 'dalli'
 
-  # To use CRuby
   platforms :mri do
     gem 'thin', :require => false
     # gem 'unicorn', :require => false
@@ -37,7 +38,6 @@ group :production do
     # gem 'sqlite3'
   end
 
-  # To use JRuby
   # platforms :jruby do
   #   gem 'trinidad', :require => false
   #   gem 'jdbc-postgres', :require => 'jdbc/postgres'
