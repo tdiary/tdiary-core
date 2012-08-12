@@ -14,8 +14,8 @@ gem 'omniauth-github'
 
 platforms :mri do
   # To use CoffeeScript
-  # gem 'coffee-script'
-  # gem 'therubyracer'
+  gem 'coffee-script'
+  gem 'therubyracer'
 
   # To use GFM style or To covert tDiary document.
   gem 'redcarpet'
