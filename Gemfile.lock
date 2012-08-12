@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.8)
+    addressable (2.3.2)
     blankslate (2.1.2.4)
     builder (3.0.0)
     capistrano (2.12.0)
@@ -22,31 +22,20 @@ GEM
       ffi (~> 1.0, >= 1.0.6)
     ci_reporter (1.7.0)
       builder (>= 2.1.2)
-    coffee-script (2.2.0)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.3.3)
     daemons (1.1.9)
     diff-lcs (1.1.3)
     eventmachine (0.12.10)
-    execjs (1.4.0)
-      multi_json (~> 1.0)
     faraday (0.8.1)
       multipart-post (~> 1.1)
     ffi (1.0.11)
-    ffi (1.0.11-java)
     hashie (1.2.0)
     highline (1.6.13)
     hike (1.2.1)
     httpauth (0.1)
     jwt (0.1.5)
       multi_json (>= 1.0)
-    launchy (2.1.0)
-      addressable (~> 2.2.6)
-    launchy (2.1.0-java)
-      addressable (~> 2.2.6)
-      ffi (~> 1.0.9)
-      spoon (~> 0.0.1)
+    launchy (2.1.2)
+      addressable (~> 2.3)
     libwebsocket (0.1.5)
       addressable
     mime-types (1.19)
@@ -60,7 +49,6 @@ GEM
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
     nokogiri (1.5.5)
-    nokogiri (1.5.5-java)
     oauth (0.4.6)
     oauth2 (0.8.0)
       faraday (~> 0.8)
@@ -83,7 +71,6 @@ GEM
     omniauth-twitter (0.0.12)
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
-    pg (0.14.0)
     pit (0.0.6)
     pygments.rb (0.2.3)
       rubypython (>= 0.5.1)
@@ -103,7 +90,7 @@ GEM
     rspec-core (2.11.1)
     rspec-expectations (2.11.2)
       diff-lcs (~> 1.1.3)
-    rspec-mocks (2.11.1)
+    rspec-mocks (2.11.2)
     rubypython (0.5.1)
       blankslate (>= 2.1.2.3)
       ffi (~> 1.0.7)
@@ -113,14 +100,12 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
-    sequel (3.38.0)
     simplecov (0.6.4)
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
-    spoon (0.0.1)
     sprockets (2.4.5)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -139,7 +124,6 @@ GEM
       nokogiri (~> 1.3)
 
 PLATFORMS
-  java
   ruby
 
 DEPENDENCIES
@@ -147,12 +131,10 @@ DEPENDENCIES
   capistrano_colors
   capybara
   ci_reporter
-  coffee-script
   launchy
   omniauth
   omniauth-github
   omniauth-twitter
-  pg
   pit
   pygments.rb
   rack
@@ -162,7 +144,6 @@ DEPENDENCIES
   redcarpet
   rspec
   rubypython (= 0.5.1)
-  sequel
   simplecov
   simplecov-rcov
   sprockets

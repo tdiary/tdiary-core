@@ -5,11 +5,30 @@ require 'tdiary/rack/valid_request_path'
 require 'tdiary/rack/auth/basic'
 require 'omniauth'
 require 'tdiary/rack/auth/omniauth'
-require 'tdiary/rack/assets/precompile'
 
 use Rack::Reloader
 
 base_dir = ''
+
+map "#{base_dir}/" do
+	use TDiary::Rack::HtmlAnchor
+	use TDiary::Rack::ValidRequestPath
+	run Rack::Cascade.new([
+		Rack::File.new("./public/"),
+		TDiary::Application.new(:index)
+	])
+end
+
+map "#{base_dir}/assets" do
+	environment = Sprockets::Environment.new
+	%w(js theme).each {|path| environment.append_path path }
+
+	# if you need to auto compilation for CoffeeScript
+	# require 'tdiary/rack/assets/precompile'
+	# use TDiary::Rack::Assets::Precompile, environment
+
+	run environment
+end
 
 # OmniAuth settings
 use Rack::Session::Pool, :expire_after => 2592000
@@ -22,33 +41,15 @@ map "#{base_dir}/auth" do
 	run TDiary::Rack::Auth::OmniAuth::CallbackHandler.new
 end
 
-map "#{base_dir}/assets" do
-	environment = Sprockets::Environment.new
-	%w(js theme).each {|path| environment.append_path path }
-
-	# if you need to auto compilation for CoffeeScript
-	# use TDiary::Rack::Assets::Precompile, environment
-
-	run environment
-end
-
-map "#{base_dir}/" do
-	use TDiary::Rack::HtmlAnchor
-	use TDiary::Rack::ValidRequestPath
-	run Rack::Cascade.new([
-		Rack::File.new("./public/"),
-		TDiary::Application.new(:index)
-	])
-end
-
 map "#{base_dir}/update.rb" do
+	# Basic Auth
 	use TDiary::Rack::Auth::Basic, '.htpasswd'
-	# use Rack::Auth::Basic do |user, pass|
-	#	user == 'user' && pass == 'pass'
-	# end
+
+	# OAuth
 	# use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
 	#		auth.info.nickname == 'your_twitter_screen_name'
 	# end
+
 	run TDiary::Application.new(:update)
 end
 
