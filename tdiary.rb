@@ -160,10 +160,8 @@ module TDiary
 		def eval_rhtml( prefix = '' )
 			begin
 				r = do_eval_rhtml( prefix )
-			rescue PluginError, SyntaxError, ArgumentError
+			rescue PluginError, SyntaxError, ArgumentError, Exception
 				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
-			rescue Exception
-				raise
 			end
 			return r
 		end
