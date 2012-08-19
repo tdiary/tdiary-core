@@ -1,3 +1,7 @@
+2012-08-19  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb: upgrade jQuery-1.8
+	* vendor/*: upgrade json_pure-1.7.4, rdtool-0.6.37
+
 2012-08-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* tdiary/rack/assets/precompile.rb: CoffeeScript auto compile in rack middleware.
 
