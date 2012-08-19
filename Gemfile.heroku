@@ -25,10 +25,19 @@ platforms :mri do
   # To use rack based application server
   gem 'thin', :require => false
   # gem 'unicorn', :require => false
+
+  # To use RdbIO
+  gem 'sequel'
+  gem 'pg'
+
+  # If you use other database adapter
+  # gem 'mysql'
+  # gem 'sqlite3'
 end
 
 # platforms :jruby do
 #   gem 'trinidad', :require => false
+#   gem 'jdbc-postgres', :require => 'jdbc/postgres'
 # end
 
 group :development do

@@ -4,7 +4,7 @@ Install to Heroku
 概要
 --
 
-tDiary-3.1.3 以降のバージョンでは tDiary を PasS である [heroku](http://www.heroku.com) で動かすことが可能です。Heroku を利用することで以前のバージョンで必要とされていてサーバーの用意や CGI として動作させるための環境構築を行う事なく、 tDiary を動かして日記を書くことが可能となります。
+tDiary-3.1.3 以降のバージョンでは tDiary を PasS である [heroku](http://www.heroku.com) で動かすことが可能です。Heroku を利用することで、3.1.3 以前のバージョンで必要とされていた Apache のような http サーバーの用意や CGI として動作させるための環境設定を行う事なく、 tDiary を動かして日記を書くことが可能となります。
 
 必要なもの
 -----
@@ -30,49 +30,33 @@ git clone git://github.com/tdiary/tdiary-core.git
 heroku コマンドを用いて Heroku でアプリケーションを作成します。なお、Heroku のアカウント作成方法は本ドキュメントでは省略します。tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
 
 ```
-cd tdiary-core
-heroku create mydiary -s cedar
+% cd tdiary-core
+% heroku apps:create [アプリケーション名]
 ```
 
-Heroku 専用の作業ブランチを作成します。
+アプリケーション名には mydiary など任意の名前を英数字で入力します。続いて、Heroku 専用の作業ブランチを作成します。
 
 ```
-git checkout -b deploy
+% git checkout -b deploy
 ```
 
 作業ブランチで Heroku で動かすために必要な設定ファイルを変更、または新規作成します。
 
 ```
-cp tdiary.conf.heroku tdiary.conf
+% cp tdiary.conf.heroku tdiary.conf
+% cp Gemfile.heroku Gemfile
+% cp Gemfile.heroku.lock Gemfile.lock
 ```
 
-Gemfile のコメントアウトされている箇所のうち、以下を有効にします。JRuby 用の設定は試験的なものなので、よくわからない場合はコメントアウトのままにしてください。
+続いて .gitignore の 2 行目の .htpasswd と 9 行目の tdiary.conf を削除します。
+
+日記更新時に必要となるユーザー名とパスワードを保存する .htpasswd ファイルを作成します。この情報は重要なので、外部には公開しないでください。
 
 ```
-# Use tDiary in Heroku
-gem 'sequel'
-# Use memcached addon
-gem 'dalli' 
-(省略)
-#
-# To use CRuby
-platforms :mri do
-  gem 'thin', :require => false
-  gem 'pg'
-end
-(省略)
+% rake auth:password:create
 ```
 
-.gitignore の 9 行目の tdiary.conf を削除します。
-
-config.ru の 30 行目に記載されているユーザー名とパスワードを変更します。この情報は重要なので、外部には公開しないでください。
-
-```
-# ユーザ名を bob, パスワードを manhattan にする場合
-user == 'bob' && pass == 'manhattan'
-```
-
-上記の変更を deploy ブランチにコミットし、Heroku にアプリケーションを転送します。
+ここまでの変更内容を deploy ブランチにコミットし、Heroku にアプリケーションを転送します。
 
 ```
 git add .
@@ -80,13 +64,13 @@ git commit -m "deploy"
 git push heroku deploy:master
 ```
 
-最後に日記データを保存するデータベースのテーブルを作成します。
+Heroku にアプリケーションの転送が完了した後に、日記データを保存するデータベースのテーブルを作成します。
 
 ```
 heroku run rake db:create
 ```
 
-これで http://mydiary.herokuapp.com で日記を書くことができます。
+これで http://mydiary.herokuapp.com にアクセスして日記を書くことができます。
 
 独自のテーマファイルを使う方法
 ----
