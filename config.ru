@@ -10,26 +10,6 @@ use Rack::Reloader
 
 base_dir = ''
 
-map "#{base_dir}/" do
-	use TDiary::Rack::HtmlAnchor
-	use TDiary::Rack::ValidRequestPath
-	run Rack::Cascade.new([
-		Rack::File.new("./public/"),
-		TDiary::Application.new(:index)
-	])
-end
-
-map "#{base_dir}/assets" do
-	environment = Sprockets::Environment.new
-	%w(js theme).each {|path| environment.append_path path }
-
-	# if you need to auto compilation for CoffeeScript
-	# require 'tdiary/rack/assets/precompile'
-	# use TDiary::Rack::Assets::Precompile, environment
-
-	run environment
-end
-
 # OmniAuth settings
 use Rack::Session::Pool, :expire_after => 2592000
 use OmniAuth::Builder do
@@ -51,6 +31,26 @@ map "#{base_dir}/update.rb" do
 	# end
 
 	run TDiary::Application.new(:update)
+end
+
+map "#{base_dir}/assets" do
+	environment = Sprockets::Environment.new
+	%w(js theme).each {|path| environment.append_path path }
+
+	# if you need to auto compilation for CoffeeScript
+	# require 'tdiary/rack/assets/precompile'
+	# use TDiary::Rack::Assets::Precompile, environment
+
+	run environment
+end
+
+map "#{base_dir}/" do
+	use TDiary::Rack::HtmlAnchor
+	use TDiary::Rack::ValidRequestPath
+	run Rack::Cascade.new([
+		Rack::File.new("./public/"),
+		TDiary::Application.new(:index)
+	])
 end
 
 # Local Variables:
