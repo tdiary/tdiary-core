@@ -92,7 +92,7 @@ You copy "misc/i18n/tdiary.conf.sample-en" as "tdiary.conf" and edit "tdiary.con
 ```
 @data_path = "data"
 ```
-In "@data\_path", you specify the directory where your diary data are stored. In addition to it, you must set permission of this directory so that the WWW server can access it.
+In "@data\_path", you specify the directory where your diary data are stored. This item is usually set to the directory which can not be accessed through WWW. In addition to it, you must set permission of this directory so that the WWW server can access it.
 
 In "tdiary.conf", you can configure many items. They are divided into three categories.
 
