@@ -87,10 +87,10 @@ If your WWW server doesn't allow you to change the suffix of CGI scripts, you ne
 
 You copy "misc/i18n/tdiary.conf.sample-en" as "tdiary.conf" and edit "tdiary.conf". _Notice! "tdiary.conf.sample" in INSTALLDIR is Japanese version_. "tdiary.conf.sample" only supports Japanese.
 
-"tdiary.conf" is loaded as Ruby script by the CGI scripts, for example, "index.rb" and "update.rb". With tDiary, you can do configuration with browser, so an item that you must change is "@data\_path". "@data\_path" is appeared at the beginning of "tdiary.conf".
+"tdiary.conf" is loaded as Ruby script by the CGI scripts, for example, "index.rb" and "update.rb". With tDiary, you can do configuration with browser. If necessary, you may change "@data\_path" parameter at first. "@data\_path" is appeared at the beginning of "tdiary.conf".
 
 ```
-@data_path = "/home/foo/diary"
+@data_path = "data"
 ```
 In "@data\_path", you specify the directory where your diary data are stored. This item is usually set to the directory which can not be accessed through WWW. In addition to it, you must set permission of this directory so that the WWW server can access it.
 

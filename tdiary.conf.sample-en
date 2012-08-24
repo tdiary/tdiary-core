@@ -17,7 +17,7 @@
 #   assign this item to the directory which can't be accessed through WWW. 
 #   This directory's permission is set so that WWW server can 
 #   write files in it.
-@data_path = '/home/foo/diary'
+@data_path = 'data'
 
 # The format of the diary(optional)
 #   If you change the format of the diary from the default, 
