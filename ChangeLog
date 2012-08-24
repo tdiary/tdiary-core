@@ -1,3 +1,6 @@
+2012-08-24 MATSUOKA Kohei <kohei@machu.jp>
+	* tdiary.conf.sample: set default @data_path
+
 2012-08-19  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* plugin/00default.rb: upgrade jQuery-1.8
 	* vendor/*: upgrade json_pure-1.7.4, rdtool-0.6.37
