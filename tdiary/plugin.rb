@@ -28,6 +28,7 @@ module TDiary
 			@conf_keys = []
 			@conf_procs = {}
 			@conf_genre_label = {}
+			@content_procs = {}
 			@cookies = []
 			@javascripts = []
 			@javascript_setting = []
@@ -306,6 +307,17 @@ module TDiary
 
 		def add_js_setting( var, val = 'new Object()' )
 			@javascript_setting << [var, val]
+		end
+
+		def add_content_proc( key, block = Proc::new )
+			@content_procs[key] = block
+		end
+
+		def content_proc( key, date )
+			unless @content_procs.key?( key )
+				raise PluginError::new( "Plugin error: #{key} is not found." )
+			end
+			@content_procs[key].call( date )
 		end
 
 		def remove_tag( str )

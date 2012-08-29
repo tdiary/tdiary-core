@@ -84,6 +84,8 @@ module TDiary
 				begin
 					if params['comment']
 						tdiary = TDiary::TDiaryComment::new( cgi, "day.rhtml", conf )
+					elsif params['plugin']
+						tdiary = TDiary::TDiaryPluginView::new( cgi, '', conf )
 					elsif (date = params['date'])
 						if /^\d{8}-\d+$/ =~ date
 							tdiary = TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf )

@@ -142,6 +142,55 @@ module TDiary
 			@last_modified = Time.now
 		end
 	end
+
+	# class TDiaryPluginView
+	#  base of plugin view mode classes
+	#
+	class TDiaryPluginView < TDiaryBase
+		attr_reader :last_modified
+
+		def initialize(cgi, rhtml = '', conf)
+			super
+
+			tdiary = tdiary_class(cgi.params['date'][0] || '').new(cgi, '', conf)
+			@date = tdiary.date
+			@diaries = tdiary.diaries
+			@last_modified = Time.now
+		end
+
+		def eval_rhtml( prefix = '' )
+			load_plugins
+			# TODO: prefixでモバイルモードかどうかを判定
+			# TODO: rhtml rendering
+			@rhtml = "#{plugin_name}.rhtml"
+			@plugin.__send__(:content_proc, plugin_name, @date.strftime('%Y%m%d'))
+		end
+
+		protected
+
+		def plugin_name
+			# plugin name MUST contain only words ([a-zA-Z0-9_])
+			@plugin_name ||= (@cgi.params['plugin'][0] || '').match(/^(\w+)$/).to_a[1]
+			raise TDiary::PermissionError.new('invalid plugin name') unless @plugin_name
+			@plugin_name
+		end
+
+		def tdiary_class(date)
+			# YYYYMMDD-N, YYYYMMDD, YYYYMM, MMDD, or nil
+			case date
+			when /^\d{8}-\d+$/
+				TDiaryLatest
+			when /^\d{8}$/
+				TDiaryDay
+			when /^\d{6}$/
+				TDiaryMonth
+			when /^\d{4}$/
+				TDiaryNYear
+			else
+				TDiaryLatest
+			end
+		end
+	end
 end
 
 # Local Variables:
