@@ -57,6 +57,7 @@ module TDiary
 	autoload :TDiaryBase,               'tdiary/base'
 	autoload :TDiaryCategoryView,       'tdiary/base'
 	autoload :TDiarySearch,             'tdiary/base'
+	autoload :TDiaryPluginView,         'tdiary/base'
 	autoload :TDiaryAuthorOnlyBase,     'tdiary/author_only_base'
 	autoload :TDiaryFormPlugin,         'tdiary/author_only_base'
 	autoload :TDiaryConf,               'tdiary/author_only_base'

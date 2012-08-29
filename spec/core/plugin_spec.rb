@@ -359,6 +359,26 @@ describe TDiary::Plugin do
 			end
 		end
 	end
+
+	describe '#content_proc' do
+		let (:proc1) { lambda {|date| "contents1" } }
+		let (:proc2) { lambda {|date| "contents2" } }
+		let (:date) { Time.local(2012, 1, 2) }
+		before do
+			@plugin.__send__(:add_content_proc, 'key1', proc1)
+			@plugin.__send__(:add_content_proc, 'key2', proc2)
+		end
+		subject { @plugin.__send__(:content_proc, 'key1', date) }
+
+		it 'add_content_procで登録したブロックのうち、keyに相当するものを実行すること' do
+			should eq 'contents1'
+		end
+
+		context 'keyに相当するブロックが存在しない場合' do
+			subject { @plugin.__send__(:content_proc, 'unregistered_key', date) }
+			it { expect { subject }.to raise_error }
+		end
+	end
 end
 
 # Local Variables:
