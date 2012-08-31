@@ -50,5 +50,7 @@ group :development do
       gem 'simplecov-rcov', :require => false
     end
     gem 'ci_reporter'
+
+    gem 'jasmine'
   end
 end
