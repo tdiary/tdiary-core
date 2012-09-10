@@ -18,9 +18,18 @@ describe("$", function() {
       it('should create wiki style plugin tag', function() {
         var tag = $.makePluginTag("plugin_name", ["param1", "param2"]);
         expect(tag).toEqual('{{plugin_name "param1", "param2"}}');
+        loadFixtures('00default.html');
       });
     });
   });
+
   describe("#insertAtCaret", function() {
+    beforeEach(function() {
+      loadFixtures('00default.html');
+    });
+    it('should insert text to the textarea', function() {
+      $('#body').insertAtCaret('[category] ');
+      expect($('#body').val()).toEqual('[category] sample diary');
+    });
   });
 });
