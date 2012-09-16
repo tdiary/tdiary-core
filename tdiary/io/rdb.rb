@@ -20,6 +20,17 @@ module TDiary
   module CommentIO
     def restore_comment(diaries)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db.create_table :comments do
+          String :diary_id, :size => 8
+          Fixnum :no
+          String :name, :text => true
+          String :mail, :text => true
+          String :comment, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key [:diary_id, :no]
+        end unless db.table_exists?(:comments)
+
         diaries.each do |date, diary_object|
           db[:comments].filter(:diary_id => date).order_by(:no).select(:name, :mail, :last_modified, :visible, :comment).each do |row|
             comment = Comment.new(row[:name], row[:mail], row[:comment], Time.at(row[:last_modified].to_i))
@@ -32,6 +43,17 @@ module TDiary
 
     def store_comment(diaries)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db.create_table :comments do
+          String :diary_id, :size => 8
+          Fixnum :no
+          String :name, :text => true
+          String :mail, :text => true
+          String :comment, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key [:diary_id, :no]
+        end unless db.table_exists?(:comments)
+
         diaries.each do |date, diary|
           no = 0
           diary.each_comment(diary.count_comments(true)) do |com|
@@ -72,6 +94,10 @@ module TDiary
     class << self
       def load_cgi_conf(conf)
         Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
+          db.create_table :conf do
+            String :body, :text => true
+          end unless db.table_exists?(:conf)
+
           if cgi_conf = db[:conf].select(:body).first
             cgi_conf[:body]
           else
@@ -82,6 +108,10 @@ module TDiary
 
       def save_cgi_conf(conf, result)
         Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
+          db.create_table :conf do
+            String :body, :text => true
+          end unless db.table_exists?(:conf)
+
           if db[:conf].count > 0
             db[:conf].update(:body => result)
           else
@@ -115,6 +145,19 @@ module TDiary
     def calendar
       calendar = Hash.new{|hash, key| hash[key] = []}
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db.create_table :diaries do
+          String :diary_id, :size => 8
+          String :year, :size => 4
+          String :month, :size => 2
+          String :day, :size => 2
+          String :title, :text => true
+          String :body, :text => true
+          String :style, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key :diary_id
+        end unless db.table_exists?(:diaries)
+
         db[:diaries].select(:year, :month).group_by(:year, :month).order_by(:year, :month).each do |row|
           calendar[row[:year]] << row[:month]
         end
@@ -130,10 +173,23 @@ module TDiary
       styled_diary_factory(date, title, body, style)
     end
 
-  private
+    private
 
     def restore(date, diaries, month = true)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db.create_table :diaries do
+          String :diary_id, :size => 8
+          String :year, :size => 4
+          String :month, :size => 2
+          String :day, :size => 2
+          String :title, :text => true
+          String :body, :text => true
+          String :style, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key :diary_id
+        end unless db.table_exists?(:diaries)
+
         query = db[:diaries].select(:diary_id, :title, :last_modified, :visible, :body, :style)
         query = if month && /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
                   query.filter(:year => $1, :month => $2)
@@ -155,6 +211,19 @@ module TDiary
 
     def store(diaries)
       Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL']) do |db|
+        db.create_table :diaries do
+          String :diary_id, :size => 8
+          String :year, :size => 4
+          String :month, :size => 2
+          String :day, :size => 2
+          String :title, :text => true
+          String :body, :text => true
+          String :style, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key :diary_id
+        end unless db.table_exists?(:diaries)
+
         diaries.each do |date, diary|
           if /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
             year  = $1
@@ -162,28 +231,29 @@ module TDiary
             day   = $3
           end
           entry = db[:diaries].filter(:year => year,
-                                      :month => month,
-                                      :day => day,
-                                      :diary_id => date)
+            :month => month,
+            :day => day,
+            :diary_id => date)
           if entry.count > 0
             entry.update(:title => diary.title,
-                         :last_modified => diary.last_modified.to_i,
-                         :style => diary.style,
-                         :visible => diary.visible?,
-                         :body => diary.to_src)
+              :last_modified => diary.last_modified.to_i,
+              :style => diary.style,
+              :visible => diary.visible?,
+              :body => diary.to_src)
           else
             db[:diaries].insert(:year => year,
-                                :month => month,
-                                :day => day,
-                                :diary_id => date,
-                                :title => diary.title,
-                                :last_modified => diary.last_modified.to_i,
-                                :style => diary.style,
-                                :visible => diary.visible?,
-                                :body => diary.to_src)
+              :month => month,
+              :day => day,
+              :diary_id => date,
+              :title => diary.title,
+              :last_modified => diary.last_modified.to_i,
+              :style => diary.style,
+              :visible => diary.visible?,
+              :body => diary.to_src)
           end
         end
       end
     end
   end
 end
+
