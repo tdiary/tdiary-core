@@ -231,29 +231,28 @@ module TDiary
             day   = $3
           end
           entry = db[:diaries].filter(:year => year,
-            :month => month,
-            :day => day,
-            :diary_id => date)
+                                      :month => month,
+                                      :day => day,
+                                      :diary_id => date)
           if entry.count > 0
             entry.update(:title => diary.title,
-              :last_modified => diary.last_modified.to_i,
-              :style => diary.style,
-              :visible => diary.visible?,
-              :body => diary.to_src)
+                         :last_modified => diary.last_modified.to_i,
+                         :style => diary.style,
+                         :visible => diary.visible?,
+                         :body => diary.to_src)
           else
             db[:diaries].insert(:year => year,
-              :month => month,
-              :day => day,
-              :diary_id => date,
-              :title => diary.title,
-              :last_modified => diary.last_modified.to_i,
-              :style => diary.style,
-              :visible => diary.visible?,
-              :body => diary.to_src)
+                                :month => month,
+                                :day => day,
+                                :diary_id => date,
+                                :title => diary.title,
+                                :last_modified => diary.last_modified.to_i,
+                                :style => diary.style,
+                                :visible => diary.visible?,
+                                :body => diary.to_src)
           end
         end
       end
     end
   end
 end
-
