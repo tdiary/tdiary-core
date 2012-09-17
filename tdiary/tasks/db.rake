@@ -10,6 +10,13 @@ namespace :db do
     io = conf.io_class.new(base)
     io.load_styles
 
+    Sequel.connect(conf.database_url) do |db|
+      db.create_table :conf do
+        String :body, :text => true
+      end unless db.table_exists?(:conf)
+      db[:conf].insert(:body => File.read(conf.data_path + 'tdiary.conf'))
+    end
+
     yms = base.calendar
     yms.keys.sort.reverse_each do |year|
       yms[year.to_s].sort.reverse_each do |month|
