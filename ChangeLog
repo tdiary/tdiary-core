@@ -1,3 +1,22 @@
+2012-08-24 MATSUOKA Kohei <kohei@machu.jp>
+	* tdiary.conf.sample: set default @data_path
+
+2012-08-19  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* plugin/00default.rb: upgrade jQuery-1.8
+	* vendor/*: upgrade json_pure-1.7.4, rdtool-0.6.37
+
+2012-08-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* tdiary/rack/assets/precompile.rb: CoffeeScript auto compile in rack middleware.
+
+2012-08-03 TADA Tadashi <t@tdtds.jp>
+	* plugin/calendar3.rb: fix typo of js file name #187
+
+2012-07-29 TADA Tadashi <t@tdtds.jp>
+	* Release 3.1.4.
+
+2012-07-03 hb <smallstyle@gmail.com>
+	* tdiary/rack/valid_request_path.rb: response body is empty for HEAD request.
+
 2012-06-20 hb <smallstyle@gmail.com>
 	* tdiary/config.rb: fixed base_url_auto when script_name is empty.
 
@@ -9,6 +28,18 @@
 
 2012-06-09 TADA Tadashi <t@tdtds.jp>
 	* title_tag.rb: fixed error on empty subtitle.
+
+2012-05-20 MATSUOKA Kohei <kohei@machu.jp>
+	* tdiary/rack/valid_request_path.rb: validate PATH_INFO in rack
+
+2012-05-18 MATSUOKA Kohei <kohei@machu.jp>
+  * Rakefile: add task heroku:install
+
+2012-05-17 MATSUOKA Kohei <kohei@machu.jp>
+  * Rakefile: add task auth:password:create
+
+2012-05-12 MATSUOKA Kohei <kohei@machu.jp>
+	* config.ru, tdiary/rack/auth/omniauth.rb: integrate omniauth for authentication
 
 2012-04-29 TADA Tadashi <t@tdtds.jp>
 	* Release 3.1.3.

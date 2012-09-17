@@ -1,10 +1,10 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.8)
-    blankslate (2.1.2.4)
-    builder (3.0.0)
-    capistrano (2.12.0)
+    addressable (2.3.2)
+    blankslate (3.1.2)
+    builder (3.1.2)
+    capistrano (2.13.3)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -18,36 +18,38 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    childprocess (0.3.2)
-      ffi (~> 1.0.6)
-    ci_reporter (1.7.0)
+    childprocess (0.3.5)
+      ffi (~> 1.0, >= 1.0.6)
+    ci_reporter (1.7.1)
       builder (>= 2.1.2)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
     coffee-script-source (1.3.3)
-    daemons (1.1.8)
-    dalli (2.1.0)
+    daemons (1.1.9)
     diff-lcs (1.1.3)
-    eventmachine (0.12.10)
+    eventmachine (1.0.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    faraday (0.8.1)
+    faraday (0.8.4)
       multipart-post (~> 1.1)
     ffi (1.0.11)
-    ffi (1.0.11-java)
     hashie (1.2.0)
-    highline (1.6.13)
+    highline (1.6.14)
     hike (1.2.1)
     httpauth (0.1)
-    launchy (2.1.0)
-      addressable (~> 2.2.6)
-    launchy (2.1.0-java)
-      addressable (~> 2.2.6)
-      ffi (~> 1.0.9)
-      spoon (~> 0.0.1)
+    jasmine (1.2.1)
+      jasmine-core (>= 1.2.0)
+      rack (~> 1.0)
+      rspec (>= 1.3.1)
+      selenium-webdriver (>= 0.1.3)
+    jasmine-core (1.2.0)
+    jwt (0.1.5)
+      multi_json (>= 1.0)
+    launchy (2.1.2)
+      addressable (~> 2.3)
     libv8 (3.3.10.4)
-    libwebsocket (0.1.3)
+    libwebsocket (0.1.5)
       addressable
     mime-types (1.19)
     multi_json (1.3.6)
@@ -60,28 +62,28 @@ GEM
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
     nokogiri (1.5.5)
-    nokogiri (1.5.5-java)
-    oauth (0.4.6)
-    oauth2 (0.6.1)
-      faraday (~> 0.7)
+    oauth (0.4.7)
+    oauth2 (0.8.0)
+      faraday (~> 0.8)
       httpauth (~> 0.1)
-      multi_json (~> 1.3)
-    omniauth (1.1.0)
+      jwt (~> 0.1.4)
+      multi_json (~> 1.0)
+      rack (~> 1.2)
+    omniauth (1.1.1)
       hashie (~> 1.2)
       rack
-    omniauth-github (1.0.1)
+    omniauth-github (1.0.3)
       omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
-    omniauth-oauth2 (1.0.2)
-      oauth2 (~> 0.6.0)
+    omniauth-oauth2 (1.1.0)
+      oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
-    omniauth-twitter (0.0.12)
+    omniauth-twitter (0.0.13)
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
-    pg (0.14.0)
     pit (0.0.6)
     pygments.rb (0.2.3)
       rubypython (>= 0.5.1)
@@ -94,53 +96,50 @@ GEM
     rake (0.9.2.2)
     rcov (1.0.0)
     redcarpet (2.1.1)
-    rspec (2.10.0)
-      rspec-core (~> 2.10.0)
-      rspec-expectations (~> 2.10.0)
-      rspec-mocks (~> 2.10.0)
-    rspec-core (2.10.1)
-    rspec-expectations (2.10.0)
+    rspec (2.11.0)
+      rspec-core (~> 2.11.0)
+      rspec-expectations (~> 2.11.0)
+      rspec-mocks (~> 2.11.0)
+    rspec-core (2.11.1)
+    rspec-expectations (2.11.3)
       diff-lcs (~> 1.1.3)
-    rspec-mocks (2.10.1)
+    rspec-mocks (2.11.2)
     rubypython (0.5.1)
       blankslate (>= 2.1.2.3)
       ffi (~> 1.0.7)
     rubyzip (0.9.9)
-    selenium-webdriver (2.24.0)
+    selenium-webdriver (2.25.0)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
-    sequel (3.36.1)
     simplecov (0.6.4)
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
-    spoon (0.0.1)
-    sprockets (2.4.3)
+    sprockets (2.5.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.6)
-    tapp (1.3.1)
+    tapp (1.4.0)
       thor
-    test-unit (2.5.0)
-    therubyracer (0.10.1)
+    test-unit (2.5.2)
+    therubyracer (0.10.2)
       libv8 (~> 3.3.10)
-    thin (1.3.1)
+    thin (1.4.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    thor (0.15.3)
+    thor (0.16.0)
     tilt (1.3.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
 
 PLATFORMS
-  java
   ruby
 
 DEPENDENCIES
@@ -149,12 +148,11 @@ DEPENDENCIES
   capybara
   ci_reporter
   coffee-script
-  dalli
+  jasmine
   launchy
   omniauth
   omniauth-github
   omniauth-twitter
-  pg
   pit
   pygments.rb
   rack
@@ -164,7 +162,6 @@ DEPENDENCIES
   redcarpet
   rspec
   rubypython (= 0.5.1)
-  sequel
   simplecov
   simplecov-rcov
   sprockets

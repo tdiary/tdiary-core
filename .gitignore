@@ -1,7 +1,9 @@
 .bundle
+.htpasswd
 coverage
 coverage.*
-data
+data/*
+!data/.htaccess
 log
 tmp
 rdoc

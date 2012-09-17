@@ -25,6 +25,8 @@ RSpec.configure do |config|
 	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
 	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
+	config.treat_symbols_as_metadata_keys_with_true_values = true
+
 	config.before(:all) do
 		FileUtils.cp_r tdiary_conf, work_conf, :verbose => false
 	end
@@ -41,8 +43,6 @@ RSpec.configure do |config|
 	config.after(:all) do
 		FileUtils.rm_r work_conf
 	end
-
-	config.treat_symbols_as_metadata_keys_with_true_values = true
 
 	case ENV['TEST_MODE']
 	when 'webrick'
