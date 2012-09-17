@@ -94,7 +94,8 @@ namespace :db do
 
   desc "drop database"
 	task :drop do
-		Sequel.connect(ENV['DATABASE_URL']) do |db|
+		conf = TDiary::Config.new(CGI.new)
+		Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
 			db.drop_table :diaries, :comments, :conf
 		end
 	end
