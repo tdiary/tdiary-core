@@ -34,10 +34,21 @@ RSpec.configure do |config|
 	config.before(:each) do
 		FileUtils.mkdir_p work_data_dir
 		FileUtils.cp_r fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false unless fixture_conf.empty?
+		Sequel.connect('sqlite://tmp/tdiary_test.db') do |db|
+			db.create_table :conf do
+				String :body, :text => true
+			end
+			db[:conf].insert(:body => File.read(fixture_conf))
+		end
 	end
 
 	config.after(:each) do
 		FileUtils.rm_r work_data_dir
+		Sequel.connect('sqlite://tmp/tdiary_test.db') do |db|
+			[:diaries, :comments, :conf].each do |table|
+				db.drop_table(table) if db.table_exists? table
+			end
+		end
 	end
 
 	config.after(:all) do

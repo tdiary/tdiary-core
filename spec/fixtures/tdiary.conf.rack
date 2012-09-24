@@ -1,11 +1,24 @@
+# -*- coding: utf-8 -*-
+
 @data_path = File.expand_path("tmp/data", File.dirname(__FILE__))
+@database_url = 'sqlite://tmp/tdiary_test.db'
+
+require 'tdiary/io/cache/file'
+require 'tdiary/io/rdb'
+@io_class = TDiary::RdbIO
 
 @style = 'Wiki'
+
 @index = './'
 @update = 'update.rb'
+
 @options['apply_plugin'] = true
 @options['sp.path'] = [
 	'misc/plugin'
+]
+@options['style.path'] = [
+  'misc/style/gfm',
+  'tdiary/style'
 ]
 
 @accesskey_enabled = false
