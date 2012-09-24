@@ -149,7 +149,7 @@ unless @conf and @conf.secure then
 		def cache( date )
 			return File.join( @setup['cache_dir'], 'volatile.tdr2.cache' ) unless date
 			begin
-				Dir.mkdir( @setup['cache_dir'] )
+				Dir.mkdir( @setup['cache_dir'].untaint )
 			rescue Errno::EEXIST
 			end
 			File.join( @setup['cache_dir'], date.strftime( '%Y%m.tdr2.cache' ) )
