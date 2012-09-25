@@ -23,6 +23,8 @@ RSpec.configure do |config|
 	config.treat_symbols_as_metadata_keys_with_true_values = true
 
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', __FILE__)
+	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
+
 	tdiary_conf = File.expand_path("../fixtures/tdiary.conf.#{ENV['TEST_MODE'] || 'rack'}", __FILE__)
 	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
@@ -34,10 +36,18 @@ RSpec.configure do |config|
 		FileUtils.rm_r work_conf
 	end
 
+	config.before(:each) do
+		FileUtils.mkdir_p work_data_dir
+	end
+
+	config.after(:each) do
+		FileUtils.rm_r work_data_dir
+	end
+
 	if ENV['TEST_MODE'] == 'rdb'
-		work_data_dir = 'sqlite://tmp/tdiary_test.db'
+		work_db = 'sqlite://tmp/tdiary_test.db'
 		config.before(:each) do
-			Sequel.connect(work_data_dir) do |db|
+			Sequel.connect(work_db) do |db|
 				db.create_table :conf do
 					String :body, :text => true
 				end
@@ -46,20 +56,19 @@ RSpec.configure do |config|
 		end
 
 		config.after(:each) do
-			Sequel.connect(work_data_dir) do |db|
+			Sequel.connect(work_db) do |db|
 				[:diaries, :comments, :conf].each do |table|
 					db.drop_table(table) if db.table_exists? table
 				end
 			end
 		end
 	else
-		work_data_dir = File.expand_path('../../tmp/data', __FILE__)
 		config.before(:each) do
-			FileUtils.mkdir_p work_data_dir
-			FileUtils.cp_r fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false unless fixture_conf.empty?
+			FileUtils.cp_r(fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false) unless fixture_conf.empty?
 		end
+
 		config.after(:each) do
-			FileUtils.rm_r work_data_dir
+			FileUtils.rm_r File.join(work_data_dir, "tdiary.conf")
 		end
 	end
 
