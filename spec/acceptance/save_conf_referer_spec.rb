@@ -2,7 +2,7 @@
 require 'acceptance_helper'
 
 feature 'リンク元設定の利用' do
-	scenario 'リンク元の非表示設定' do
+	scenario 'リンク元の非表示設定', :exclude_rdb do
 		append_default_diary
 		visit '/update.rb?conf=referer'
 		select('非表示', :from => 'show_referer')
@@ -15,7 +15,7 @@ feature 'リンク元設定の利用' do
 		within('div.day') { page.should have_no_css('div[class="refererlist"]') }
 	end
 
-	scenario 'リンク元記録の除外設定が動いている' do
+	scenario 'リンク元記録の除外設定が動いている', :exclude_rdb do
 		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', :with => '^http://www\.example\.com/.*'
@@ -28,7 +28,7 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { page.should have_no_link('http://www.example.com') }
 	end
 
-	scenario 'リンク元の置換が動いている', :exclude_selenium do
+	scenario 'リンク元の置換が動いている', :exclude_selenium, :exclude_rdb do
 		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'referer_table', :with => <<-REFERER

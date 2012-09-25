@@ -149,7 +149,7 @@ unless @conf and @conf.secure then
 		def cache( date )
 			return File.join( @setup['cache_dir'], 'volatile.tdr2.cache' ) unless date
 			begin
-				Dir.mkdir( @setup['cache_dir'] )
+				Dir.mkdir( @setup['cache_dir'].untaint )
 			rescue Errno::EEXIST
 			end
 			File.join( @setup['cache_dir'], date.strftime( '%Y%m.tdr2.cache' ) )
@@ -564,7 +564,7 @@ class DispRef2Setup < Hash
 			options_key = "disp_referrer2.#{key}"
 			self[key] = @options[options_key] if @options.has_key?( options_key )
 		end
-		self['no_cache'] = true if @conf.io_class == ::TDiary::DefaultIO
+		self['no_cache'] = true if defined?(::TDiary::DefaultIO) && @conf.io_class == ::TDiary::DefaultIO
 
 		# additions
 		self['labels'] = {
