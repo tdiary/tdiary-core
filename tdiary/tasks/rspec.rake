@@ -28,6 +28,12 @@ unless ENV['RACK_ENV'] == 'production'
 				ENV['TEST_MODE'] = 'secure'
 				Rake::Task["spec:acceptance"].invoke
 			end
+
+			desc 'Run the code examples in spec/acceptance with RdbIO mode'
+			task :rdb do
+				ENV['TEST_MODE'] = 'rdb'
+				Rake::Task["spec:acceptance"].invoke
+			end
 		end
 
 		if defined?(Rcov)

@@ -166,7 +166,15 @@ module TDiary
     end
 
     def cache_path
-      @_cache_path ||= Dir.tmpdir
+      @_cache_path ||= (@tdiary.conf.cache_path || Dir.tmpdir).untaint
+
+      unless FileTest.directory?(@_cache_path) then
+        begin
+          Dir.mkdir(@_cache_path)
+        rescue Errno::EEXIST
+        end
+      end
+      @_cache_path
     end
 
     def diary_factory(date, title, body, style = 'tDiary')
