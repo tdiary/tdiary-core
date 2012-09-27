@@ -170,9 +170,7 @@ replace
 <div class="highlight"><pre> <span class="k">def</span> <span class="nf">class</span>
    <span class="vi">@foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
  <span class="k">end</span>
-</pre>
-</div>
-<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</pre></div><%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
 		end
