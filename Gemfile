@@ -20,7 +20,6 @@ platforms :mri do
   # To use GFM style or To covert tDiary document.
   gem 'redcarpet'
   gem 'pygments.rb'
-  gem 'rubypython', '0.5.1'
 
   # To use rack based application server
   gem 'thin', :require => false
