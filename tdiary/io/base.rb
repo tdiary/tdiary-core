@@ -18,18 +18,18 @@ module TDiary
 		end
 
 		def styled_diary_factory(date, title, body, style_name = 'tDiary')
-			return style(style_name.downcase).new(date, title, body)
+			style(style_name.downcase).new(date, title, body)
 		end
 
 		def load_styles
 			@styles = {}
 			paths = @tdiary.conf.options['style.path'] || ["#{TDiary::PATH}/tdiary/style", "#{TDiary::PATH}/tdiary"]
 			[paths].flatten.each do |path|
-				path = path.sub( /\/+$/, '' )
-				Dir::glob( "#{path}/*_style.rb" ) do |style_file|
+				path = path.sub(/\/+$/, '')
+				Dir.glob("#{path}/*_style.rb") do |style_file|
 					require style_file.untaint
-					style = File::basename( style_file ).sub( /_style\.rb$/, '' )
-					@styles[style] = TDiary::const_get( "#{style.capitalize}Diary" )
+					style = File.basename(style_file).sub(/_style\.rb$/, '')
+					@styles[style] = TDiary.const_get("#{style.capitalize}Diary")
 				end
 			end
 		end
@@ -42,7 +42,7 @@ module TDiary
 			unless r
 				raise BadStyleError, "bad style: #{s}"
 			end
-			return r
+			r
 		end
 	end
 end
