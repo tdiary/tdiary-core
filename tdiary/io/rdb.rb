@@ -29,15 +29,26 @@ module TDiary
     end
 
     def store_comment(diaries)
-      diaries.each do |date, diary|
+      diaries.each do |diary_id, diary|
         no = 0
         diary.each_comment(diary.count_comments(true)) do |com|
           no += 1
-          comment = db[:comments].filter(:diary_id => date, :no => no)
+          date = {
+            :diary_id => diary_id,
+            :no => no
+          }
+          body = {
+            :name => com.name,
+            :mail => com.mail,
+            :last_modified => com.date.to_i,
+            :visible => com.visible?,
+            :comment => com.body
+          }
+          comment = db[:comments].filter(date)
           if comment.count > 0
-            comment.update(:name => com.name, :mail => com.mail, :last_modified => com.date.to_i, :visible => com.visible?, :comment => com.body)
+            comment.update(body)
           else
-            db[:comments].insert(:name => com.name, :mail => com.mail, :last_modified => com.date.to_i, :visible => com.visible?, :comment => com.body, :diary_id => date, :no => no)
+            db[:comments].insert(date.merge(body))
           end
         end
       end
@@ -159,32 +170,28 @@ module TDiary
     end
 
     def store(diaries)
-      diaries.each do |date, diary|
-        if /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
-          year  = $1
-          month = $2
-          day   = $3
-        end
-        entry = db[:diaries].filter(:year => year,
-          :month => month,
-          :day => day,
-          :diary_id => date)
+      diaries.each do |diary_id, diary|
+        date = if /(\d\d\d\d)(\d\d)(\d\d)/ =~ diary_id
+                 {
+                   :year => $1,
+                   :month => $2,
+                   :day => $3,
+                   :diary_id => diary_id
+                 }
+               end
+        body = {
+          :title => diary.title,
+          :last_modified => diary.last_modified.to_i,
+          :style => diary.style,
+          :visible => diary.visible?,
+          :body => diary.to_src
+        }
+
+        entry = db[:diaries].filter(date)
         if entry.count > 0
-          entry.update(:title => diary.title,
-            :last_modified => diary.last_modified.to_i,
-            :style => diary.style,
-            :visible => diary.visible?,
-            :body => diary.to_src)
+          entry.update(body)
         else
-          db[:diaries].insert(:year => year,
-            :month => month,
-            :day => day,
-            :diary_id => date,
-            :title => diary.title,
-            :last_modified => diary.last_modified.to_i,
-            :style => diary.style,
-            :visible => diary.visible?,
-            :body => diary.to_src)
+          db[:diaries].insert(date.merge(body))
         end
       end
     end
