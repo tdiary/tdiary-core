@@ -144,10 +144,6 @@ module TDiary
       @_cache_path
     end
 
-    def diary_factory(date, title, body, style = 'tDiary')
-      styled_diary_factory(date, title, body, style)
-    end
-
     private
 
     def restore(date, diaries, month = true)
