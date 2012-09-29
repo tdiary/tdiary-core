@@ -121,12 +121,6 @@ module TDiary
 		include RefererIO
 		include CacheIO
 
-		def initialize( tdiary )
-			@tdiary = tdiary
-			@data_path = @tdiary.conf.data_path
-			load_styles
-		end
-
 		class << self
 			def parse_tdiary( data )
 				header, body = data.split( /\r?\n\r?\n/, 2 )

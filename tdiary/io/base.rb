@@ -5,6 +5,12 @@
 #
 module TDiary
 	class BaseIO
+		def initialize( tdiary )
+			@tdiary = tdiary
+			@data_path = @tdiary.conf.data_path if @tdiary.conf.data_path
+			load_styles
+		end
+
 		def calendar
 			raise StandardError, 'not implemented'
 		end

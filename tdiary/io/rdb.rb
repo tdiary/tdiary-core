@@ -72,11 +72,6 @@ module TDiary
     include RefererIO
     include CacheIO
 
-    def initialize(tdiary)
-      @tdiary = tdiary
-      load_styles
-    end
-
     class << self
       def load_cgi_conf(conf)
         if cgi_conf = db(conf)[:conf].select(:body).first
