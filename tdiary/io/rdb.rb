@@ -127,16 +127,8 @@ module TDiary
       calendar
     end
 
-    def cache_path
-      @_cache_path ||= (@tdiary.conf.cache_path || Dir.tmpdir).untaint
-
-      unless FileTest.directory?(@_cache_path) then
-        begin
-          Dir.mkdir(@_cache_path)
-        rescue Errno::EEXIST
-        end
-      end
-      @_cache_path
+    def cache_dir
+      @tdiary.conf.cache_path || Dir.tmpdir
     end
 
     private

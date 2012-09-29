@@ -23,6 +23,21 @@ module TDiary
 			style(style.downcase).new(date, title, body)
 		end
 
+		def cache_dir
+			raise StandardError, 'not implemented'
+		end
+
+		def cache_path
+			@_cache_path ||= cache_dir.untaint
+			unless FileTest.directory?(@_cache_path) then
+				begin
+					Dir.mkdir(@_cache_path)
+				rescue Errno::EEXIST
+				end
+			end
+			@_cache_path
+		end
+
 		def load_styles
 			@styles = {}
 			paths = @tdiary.conf.options['style.path'] || ["#{TDiary::PATH}/tdiary/style", "#{TDiary::PATH}/tdiary"]
