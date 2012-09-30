@@ -142,7 +142,7 @@ module TDiary
 				retry
 			end
 
-			@data_path += '/' if /\/$/ !~ @data_path
+			@data_path += '/' if @data_path && /\/$/ !~ @data_path
 			@style = 'tDiary' unless @style
 			@index = './' unless @index
 			@update = 'update.rb' unless @update

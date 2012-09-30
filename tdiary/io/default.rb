@@ -232,7 +232,7 @@ module TDiary
 		end
 
 		def cache_dir
-			@tdiary.conf.cache_path || "#{@data_path}cache"
+			@tdiary.conf.cache_path || "#{@data_path}/cache"
 		end
 
 	private

@@ -14,6 +14,7 @@
 #
 # You can distribute this under GPL.
 require 'tdiary/io/base'
+require 'tempfile'
 require 'sequel'
 
 module TDiary
@@ -128,7 +129,7 @@ module TDiary
     end
 
     def cache_dir
-      @tdiary.conf.cache_path || Dir.tmpdir
+      @tdiary.conf.cache_path || "#{Dir.tmpdir}/cache"
     end
 
     private
