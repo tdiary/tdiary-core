@@ -1,25 +1,12 @@
 bundler_args: --without development
 
 rvm:
-#  - 1.8.7
+  - ree
   - 1.9.2
   - 1.9.3
   - ruby-head
-#  - ree
 
-before_script:
-  - ruby misc/standalone_cgi/bin/server -d
-
-script: bundle exec rake spec
+script: bundle exec rake spec spec:acceptance:rdb
 
 notifications:
   irc: "irc.freenode.org#tdiary"
-
-branches:
-  only:
-    - master
-
-env:
-  - TEST_MODE=rack
-  - TEST_MODE=secure
-  - TEST_MODE=webrick
