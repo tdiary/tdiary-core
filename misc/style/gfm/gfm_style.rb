@@ -1,3 +1,4 @@
+# -*- coding: utf-8; -*-
 #
 # gfm_style.rb: "GitHub Flavored Markdown" (GFM) style for tDiary 2.x format.
 #
@@ -124,6 +125,12 @@ module TDiary
 
 			# plugin
 			r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
+
+			# emoji
+			r.gsub!(/:([a-z0-9_+-]+):/) do |emoji|
+				emoji.gsub!(":", "")
+				"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji}.png' width='20' height='20' title='#{emoji}' alt='#{emoji}' class='emoji' />"
+			end
 
 			# my syntax
 			r.gsub!(/\((.*?)\)\[(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?\]/) {
