@@ -21,11 +21,7 @@ module TDiary
 			raise StandardError, 'not implemented'
 		end
 
-		def diary_factory(date, title, body, style = nil)
-			raise StandardError, 'not implemented'
-		end
-
-		def styled_diary_factory(date, title, body, style_name = 'tDiary')
+		def diary_factory(date, title, body, style_name = 'tDiary')
 			style(style_name.downcase).new(date, title, body)
 		end
 
