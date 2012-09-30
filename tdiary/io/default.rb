@@ -5,6 +5,7 @@
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
+require 'fileutils'
 require 'tdiary/io/base'
 
 module TDiary
@@ -167,7 +168,7 @@ module TDiary
 			cfile = comment_file( @data_path, date )
 			rfile = referer_file( @data_path, date )
 			begin
-				Dir::mkdir( dir ) unless FileTest::directory?( dir )
+				FileUtils.mkdir_p(dir)
 				begin
 					fh = File::open( @dfile, 'r+' )
 				rescue

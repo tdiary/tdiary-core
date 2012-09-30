@@ -3,6 +3,8 @@
 # class IOBase
 #  base of IO class
 #
+require 'fileutils'
+
 module TDiary
 	class BaseIO
 		def initialize( tdiary )
@@ -29,12 +31,7 @@ module TDiary
 
 		def cache_path
 			@_cache_path ||= cache_dir.untaint
-			unless FileTest.directory?(@_cache_path) then
-				begin
-					Dir.mkdir(@_cache_path)
-				rescue Errno::EEXIST
-				end
-			end
+			FileUtils.mkdir_p(@_cache_path)
 			@_cache_path
 		end
 
