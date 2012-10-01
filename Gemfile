@@ -37,6 +37,7 @@ group :development do
   gem 'racksh', :require => false
 
   group :test do
+    gem 'pry'
     gem 'tapp'
     gem 'test-unit', :require => 'test/unit'
     gem 'rspec'

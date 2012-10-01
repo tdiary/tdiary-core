@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-@data_path = File.expand_path("tmp/data", File.dirname(__FILE__))
-@cache_path = @data_path + "/cache"
+@data_path = File.expand_path("../tmp/data", __FILE__)
+@cache_path = "#{@data_path}/cache"
 @database_url = 'sqlite://tmp/tdiary_test.db'
 
 require 'tdiary/io/cache/file'

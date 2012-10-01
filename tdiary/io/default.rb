@@ -5,6 +5,7 @@
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
+require 'fileutils'
 require 'tdiary/io/base'
 
 module TDiary
@@ -121,12 +122,6 @@ module TDiary
 		include RefererIO
 		include CacheIO
 
-		def initialize( tdiary )
-			@tdiary = tdiary
-			@data_path = @tdiary.conf.data_path
-			load_styles
-		end
-
 		class << self
 			def parse_tdiary( data )
 				header, body = data.split( /\r?\n\r?\n/, 2 )
@@ -173,7 +168,7 @@ module TDiary
 			cfile = comment_file( @data_path, date )
 			rfile = referer_file( @data_path, date )
 			begin
-				Dir::mkdir( dir ) unless FileTest::directory?( dir )
+				FileUtils.mkdir_p(dir)
 				begin
 					fh = File::open( @dfile, 'r+' )
 				rescue
@@ -236,24 +231,12 @@ module TDiary
 			calendar
 		end
 
-		def cache_path
-			path = (@tdiary.conf.cache_path || "#{@data_path}cache").untaint
-
-			unless FileTest.directory?(path) then
-				begin
-					Dir.mkdir(path)
-				rescue Errno::EEXIST
-				end
-			end
-
-			path
-		end
-
-		def diary_factory( date, title, body, style = 'tDiary' )
-			styled_diary_factory( date, title, body, style )
+		def cache_dir
+			@tdiary.conf.cache_path || "#{@data_path}/cache"
 		end
 
 	private
+
 		def restore( fh, diaries )
 			begin
 				fh.seek( 0 )
