@@ -181,7 +181,7 @@ module TDiary
     end
 
     def db
-      @_db = Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL'])
+      @_db ||= Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL'])
 
       @_db.create_table :diaries do
         String :diary_id, :size => 8
