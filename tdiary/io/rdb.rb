@@ -92,9 +92,35 @@ module TDiary
 
       def db(conf)
         @@_db ||= Sequel.connect(conf.database_url || ENV['DATABASE_URL'])
+
         @@_db.create_table :conf do
           String :body, :text => true
         end unless @@_db.table_exists?(:conf)
+
+        @@_db.create_table :diaries do
+          String :diary_id, :size => 8
+          String :year, :size => 4
+          String :month, :size => 2
+          String :day, :size => 2
+          String :title, :text => true
+          String :body, :text => true
+          String :style, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key :diary_id
+        end unless @@_db.table_exists?(:diaries)
+
+        @@_db.create_table :comments do
+          String :diary_id, :size => 8
+          Fixnum :no
+          String :name, :text => true
+          String :mail, :text => true
+          String :comment, :text => true
+          Fixnum :last_modified
+          TrueClass :visible
+          primary_key [:diary_id, :no]
+        end unless @@_db.table_exists?(:comments)
+
         @@_db
       end
     end
@@ -181,33 +207,7 @@ module TDiary
     end
 
     def db
-      @_db ||= Sequel.connect(@tdiary.conf.database_url || ENV['DATABASE_URL'])
-
-      @_db.create_table :diaries do
-        String :diary_id, :size => 8
-        String :year, :size => 4
-        String :month, :size => 2
-        String :day, :size => 2
-        String :title, :text => true
-        String :body, :text => true
-        String :style, :text => true
-        Fixnum :last_modified
-        TrueClass :visible
-        primary_key :diary_id
-      end unless @_db.table_exists?(:diaries)
-
-      @_db.create_table :comments do
-        String :diary_id, :size => 8
-        Fixnum :no
-        String :name, :text => true
-        String :mail, :text => true
-        String :comment, :text => true
-        Fixnum :last_modified
-        TrueClass :visible
-        primary_key [:diary_id, :no]
-      end unless @_db.table_exists?(:comments)
-
-      @_db
+      self.class.db(@tdiary.conf)
     end
   end
 end
