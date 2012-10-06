@@ -1,0 +1,26 @@
+source :rubygems
+
+gem 'rake'
+
+# Use rack environment
+gem 'rack'
+gem 'sprockets'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
+
+gem 'dalli'
+
+gem 'coffee-script'
+gem 'therubyracer'
+
+# To use GFM style or To covert tDiary document.
+gem 'redcarpet'
+gem 'pygments.rb'
+
+# To use rack based application server
+gem 'thin', :require => false
+
+gem 'sequel'
+gem 'cf-runtime', :require => 'cfruntime'
+gem 'pg'
