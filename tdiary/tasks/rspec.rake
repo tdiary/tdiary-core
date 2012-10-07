@@ -1,5 +1,4 @@
-unless ENV['RACK_ENV'] == 'production'
-	Bundler.require :test
+if defined? RSpec
 	require 'rspec/core/rake_task'
 	require 'ci/reporter/rake/rspec'
 

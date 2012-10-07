@@ -1,0 +1,24 @@
+source :rubygems
+
+gem 'rake'
+
+# Use rack environment
+gem 'rack'
+gem 'sprockets'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
+
+# To use memcached for CacheIO
+# gem 'dalli'
+
+gem 'coffee-script'
+gem 'execjs'
+
+# To use GFM style or To covert tDiary document.
+gem 'redcarpet'
+gem 'pygments.rb'
+
+gem 'thin', :require => false
+gem 'sequel'
+gem 'pg'

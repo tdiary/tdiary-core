@@ -48,6 +48,7 @@ RSpec.configure do |config|
 		work_db = 'sqlite://tmp/tdiary_test.db'
 		config.before(:each) do
 			Sequel.connect(work_db) do |db|
+				db.drop_table(:conf) if db.table_exists?(:conf)
 				db.create_table :conf do
 					String :body, :text => true
 				end
