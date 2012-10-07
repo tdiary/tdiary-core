@@ -7,9 +7,9 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
 if defined?(Bundler)
-  # workaround: ruby-1.8 is not accept to ''.intern
   env = [:default]
-  env << ENV['RACK_ENV'].intern if ENV['RACK_ENV']
-
+  unless ENV['RACK_ENV']
+    env << :development << :test
+  end
   Bundler.require *env
 end
