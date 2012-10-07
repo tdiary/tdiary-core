@@ -8,8 +8,7 @@ require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
 if defined?(Bundler)
   env = [:default]
-  unless ENV['RACK_ENV']
-    env << :development << :test
-  end
+  env << :development if ENV['RACK_ENV'].nil? || ENV['RACK_ENV'].empty?
+  env << ENV['RACK_ENV'].intern if ENV['RACK_ENV']
   Bundler.require *env
 end
