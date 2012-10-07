@@ -7,22 +7,21 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 
-return if     @conf.mobile_agent?
-return unless /\A(?:form|preview|append|edit|update)\z/ =~ @mode
+if !@conf.mobile_agent? && /\A(?:form|preview|append|edit|update)\z/ =~ @mode
+	add_header_proc do
+		%Q|<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
+	end
 
-enable_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
-enable_js('caretposition.js')
-enable_js('category_autocomplete.js')
+	enable_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
+	enable_js('caretposition.js')
+	enable_js('category_autocomplete.js')
 
-if @categories.size > 0
-   categories_json = @categories.map{ |c| "\"#{c}\"" }
-   add_js_setting('$tDiary.plugin.category_autocomplete')
-   add_js_setting('$tDiary.plugin.category_autocomplete.candidates',
-                  "[#{categories_json.join(",")}]")
-end
-
-add_header_proc do
-  %Q|<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
+	if @categories.size > 0
+		categories_json = @categories.map{ |c| "\"#{c}\"" }
+		add_js_setting('$tDiary.plugin.category_autocomplete')
+		add_js_setting('$tDiary.plugin.category_autocomplete.candidates',
+			"[#{categories_json.join(",")}]")
+	end
 end
 
 # Local Variables:
