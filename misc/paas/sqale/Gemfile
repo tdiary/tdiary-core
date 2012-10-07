@@ -17,4 +17,4 @@ gem 'pygments.rb'
 
 # To use RdbIO
 gem 'sequel'
-gem 'mysql'
+gem 'mysql2'
