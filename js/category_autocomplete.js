@@ -13,12 +13,13 @@ $(function() {
   
   if ( $tDiary.style == "tdiary" ){
     support = true;
-    regrep  = "^\\[.*";
-    
+    regrep  = "^ *\\[.*";
+  } else if ( $tDiary.style == 'gfm' ) {
+    support = true;
+    regrep  = "^# *\\[.*";
   } else if ( $tDiary.style == "wiki" ){
     support = true;
     regrep  = "^! *\\[.*";
-    
   }
   
   function widgetPosition(){
