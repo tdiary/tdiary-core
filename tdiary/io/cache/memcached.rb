@@ -2,16 +2,24 @@ require 'dalli'
 
 module TDiary
   module CacheIO
+    def restore_data(key)
+      memcache.get(key)
+    end
+
+    def store_data(data, key)
+      memcache.set(key, data)
+    end
+
+    def delete_data(key)
+      memcache.delete(key)
+    end
+
     def restore_cache(prefix)
-      if key = cache_key(prefix)
-        memcache.get(key)
-      end
+      restore_data(prefix) if key = cache_key(prefix)
     end
 
     def store_cache(cache, prefix)
-      if key = cache_key(prefix)
-        memcache.set(key, cache)
-      end
+      store_data(cache, prefix) if key = cache_key(prefix)
     end
 
     def clear_cache(target = :all)
@@ -20,7 +28,7 @@ module TDiary
       else
         ym = target.to_s.scan(/\d{4}\d{2}/)[0]
         ['latest.rb', 'i.latest.rb', "#{ym}.rb", "i.#{ym}.rb"].each do |key|
-          memcache.delete(key)
+          delete_data(key)
         end
       end
     end
