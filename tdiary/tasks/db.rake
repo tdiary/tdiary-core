@@ -107,3 +107,4 @@ end if defined?(Sequel)
 # tab-width: 3
 # ruby-indent-level: 3
 # End:
+# vim: ts=3
