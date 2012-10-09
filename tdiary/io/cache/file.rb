@@ -2,28 +2,36 @@
 
 module TDiary
 	module CacheIO
-		def restore_cache( prefix )
-			if cache_enable?( prefix )
-				File::open( "#{cache_path}/#{cache_file( prefix )}" ) {|f| f.read } rescue nil
+		def restore_data(path)
+			File.read(path) rescue nil
+		end
+
+		def store_data(data, path)
+			File.open(path, 'w') do |f|
+				f.flock(File::LOCK_EX)
+				f.write(data)
 			end
 		end
 
-		def store_cache( cache, prefix )
-			if cache_file( prefix )
-				File::open( "#{cache_path}/#{cache_file( prefix )}", 'w' ) do |f|
-					f.flock(File::LOCK_EX)
-					f.write( cache )
-				end
-			end
+		def delete_data(path)
+			File.delete(path.untaint)
+		end
+
+		def restore_cache( prefix )
+			restore_data("#{cache_path}/#{cache_file( prefix )}") if cache_enable?( prefix )
+		end
+
+		def store_cache(cache, prefix)
+			store_data(cache, "#{cache_path}/#{cache_file( prefix )}") if cache_file( prefix )
 		end
 
 		def clear_cache( target = /.*/ )
 			Dir::glob( "#{cache_path}/*.r[bh]*" ).each do |c|
-				File::delete( c.untaint ) if target =~ c
+				delete_data(c) if target =~ c
 			end
 		end
 
-	private
+		private
 
 		def restore_parser_cache(date, key = nil)
 			return nil if @tdiary.ignore_parser_cache
@@ -105,3 +113,11 @@ module TDiary
 		end
 	end
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3

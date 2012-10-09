@@ -64,6 +64,24 @@ BODY
 			page.should have_content "こんばんは!こんばんは!"
 		}
 	end
+
+	scenario 'recent_comment3.rb' do
+		append_default_diary
+		visit '/'
+		click_link 'ツッコミを入れる'
+		fill_in "name", :with => "alpha"
+		fill_in "body", :with => <<-BODY
+こんにちは!こんにちは!
+BODY
+
+		click_button '投稿'
+		page.should have_content "Click here!"
+
+		visit "/"
+		within('ol.recent-comment > li') do
+			page.should have_content "alpha"
+		end
+	end
 end
 
 # Local Variables:
