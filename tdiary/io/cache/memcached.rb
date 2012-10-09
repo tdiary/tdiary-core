@@ -15,11 +15,15 @@ module TDiary
 		end
 
 		def restore_cache(prefix)
-			restore_data(key) if key = cache_key(prefix)
+			if key = cache_key(prefix)
+				restore_data(key)
+			end
 		end
 
 		def store_cache(cache, prefix)
-			store_data(cache, key) if key = cache_key(prefix)
+			if key = cache_key(prefix)
+				store_data(cache, key)
+			end
 		end
 
 		def clear_cache(target = :all)
