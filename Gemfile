@@ -45,6 +45,7 @@ group :development do
     gem 'launchy'
     gem 'sequel'
     gem 'sqlite3'
+    gem 'dalli'
 
     gem 'rcov', :platforms => :mri_18
     platforms :mri_19 do
