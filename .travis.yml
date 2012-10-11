@@ -1,4 +1,5 @@
-services: memcache
+services:
+  - memcached
 
 before_install:
   - gem install nokogiri ffi yajl-ruby redcarpet -- --with-cflags='--std=gnu99'
