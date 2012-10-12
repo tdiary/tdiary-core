@@ -62,7 +62,6 @@ RSpec.configure do |config|
 					db.drop_table(table) if db.table_exists? table
 				end
 			end
-			Dalli::Client.new.flush
 		end
 	else
 		config.before(:each) do
