@@ -18,7 +18,7 @@ platforms :mri do
   gem 'therubyracer'
 
   # To use GFM style or To covert tDiary document.
-  gem 'redcarpet'
+  gem 'redcarpet', '2.2.0'
   gem 'pygments.rb'
 
   # To use rack based application server
