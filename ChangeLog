@@ -1,3 +1,7 @@
+2012-10-11  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* .travis.yml, spec/acceptance_helper.rb: tweak RDB and memcached specs.
+	* tdiary/io/cache/{file, memcached}.rb: added store/restore interface for plugin.
+
 2012-10-06  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* tdiary/00default.rb: support to embedded external javascripts.
 	* misc/plugin/category_autocomplete.rb, js/category_autocomplete.js: added category_autocomplete.js, thanks for tamoot
