@@ -1,3 +1,4 @@
+# travis's ruby-head doesn't compatible for some native extension.
 before_install:
   - gem install nokogiri ffi yajl-ruby -- --with-cflags='--std=gnu99'
   - gem install redcarpet -v 2.2.0 -- --with-cflags='--std=gnu99'
@@ -10,7 +11,23 @@ rvm:
   - 1.9.3
   - ruby-head
 
-script: bundle exec rake test spec spec:acceptance:rdb
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - bundle exec misc/standalone_cgi/bin/server -d
+
+script: bundle exec rake test spec
+
+env:
+  - TEST_MODE=rack
+  - TEST_MODE=rdb
+  - TEST_MODE=webrick
 
 notifications:
   irc: "irc.freenode.org#tdiary"
+
+# travis's ruby-head doesn't supported to selenium-webdriver.
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+      env: TEST_MODE=webrick
