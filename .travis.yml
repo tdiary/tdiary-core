@@ -10,7 +10,12 @@ rvm:
   - 1.9.3
   - ruby-head
 
-script: bundle exec rake test spec spec:acceptance:rdb
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - bundle exec misc/standalone_cgi/bin/server
+
+script: bundle exec rake test spec spec:acceptance:rdb sepc:acceptance:cgi
 
 notifications:
   irc: "irc.freenode.org#tdiary"
