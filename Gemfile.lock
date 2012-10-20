@@ -102,7 +102,7 @@ GEM
       rack-test (>= 0.5)
     rake (0.9.2.2)
     rcov (1.0.0)
-    redcarpet (2.2.0)
+    redcarpet (2.2.2)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -167,7 +167,7 @@ DEPENDENCIES
   racksh
   rake
   rcov
-  redcarpet (= 2.2.0)
+  redcarpet
   rspec
   sequel
   simplecov
