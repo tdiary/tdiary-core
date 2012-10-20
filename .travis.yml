@@ -24,3 +24,8 @@ env:
 
 notifications:
   irc: "irc.freenode.org#tdiary"
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+      env: TEST_MODE=webrick
