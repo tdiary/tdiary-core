@@ -719,7 +719,7 @@ def absolutify(html, baseurl)
 					uri = URI.parse(location)
 					if uri.relative?
 						location = (baseuri + location).to_s
-					elsif not uri.host
+					elsif not uri.host and uri.path
 						path = uri.path
 						path += '?' + uri.query if uri.query
 						path += '#' + uri.fragment if uri.fragment
