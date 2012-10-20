@@ -15,7 +15,12 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - bundle exec misc/standalone_cgi/bin/server -d
 
-script: bundle exec rake test spec spec:acceptance:rdb spec:acceptance:cgi
+script: bundle exec rake test spec
+
+env:
+  - TEST_MODE=rack
+  - TEST_MODE=rdb
+  - TEST_MODE=webrick
 
 notifications:
   irc: "irc.freenode.org#tdiary"
