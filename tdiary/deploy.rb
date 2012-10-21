@@ -1,5 +1,14 @@
 # coding: utf-8
 
+require 'capistrano_colors'
+
+require 'bundler/capistrano'
+set :bundle_dir, nil
+set :bundle_flags, "--quiet"
+
+require 'rvm/capistrano'
+set :rvm_type, :system
+
 require 'pit'
 config = Pit.get('tdiary', :require => {
     :username => 'your username',
