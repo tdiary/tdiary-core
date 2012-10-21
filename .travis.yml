@@ -22,14 +22,16 @@ env:
   - TEST_MODE=rack
   - TEST_MODE=rdb
   - TEST_MODE=webrick
+  - TEST_MODE=secure
 
 notifications:
   irc: "irc.freenode.org#tdiary"
 
 matrix:
   allow_failures:
-    # webrick mode is unstable results...
+    # webrick and secure mode is unstable results...
     - env: TEST_MODE=webrick
+    - env: TEST_MODE=secure
     # travis's ruby-head doesn't supported to selenium-webdriver.
     - rvm: ruby-head
       env: TEST_MODE=webrick
