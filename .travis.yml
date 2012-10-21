@@ -1,6 +1,7 @@
 # travis's ruby-head doesn't compatible for some native extension.
 before_install:
   - gem install nokogiri ffi yajl-ruby redcarpet -- --with-cflags='--std=gnu99'
+  - gem update bundler
 
 bundler_args: --without development
 
