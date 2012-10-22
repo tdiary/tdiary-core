@@ -284,6 +284,7 @@ class Weather
 
 	# edit this method to define how you show the weather
 	def html_string
+		has_data = false
 		r = '<span class="weather">'
 
 		# time stamp
@@ -305,16 +306,20 @@ class Weather
 		r << %Q|<a href="#{h(@url)}">|
 		if @data['weather'] then
 			r << %Q|<span class="weather">#{h( WeatherTranslator::S.new( @data['weather']).translate( Words_ja ).compact )}</span>|
+			has_data = true
 		elsif @data['condition'] then
 			r << %Q|<span class="condition">#{h( WeatherTranslator::S.new( @data['condition']).translate( Words_ja ).compact )}</span>|
+			has_data = true
 		end
 
 		# temperature
 		if @data['temperature(C)'] and t = @data['temperature(C)'].scan(/-?[\d.]+/)[-1] then
 			r << %Q| <span class="temperature">#{sprintf( '%.0f', t )}℃</span>|
+			has_data = true
 		end
 
 		r << "</a></span>"
+		return has_data ? r : ''
 	end
 
 	# edit this method to define how you show the weather for a mobile agent
@@ -332,6 +337,7 @@ class Weather
 			r << "</A>"
 		end
 
+		return r
 	end
 end
 
