@@ -1,6 +1,7 @@
+# travis's ruby-head doesn't compatible for some native extension.
 before_install:
-  - gem install nokogiri ffi yajl-ruby -- --with-cflags='--std=gnu99'
-  - gem install redcarpet -v 2.2.0 -- --with-cflags='--std=gnu99'
+  - gem install nokogiri ffi yajl-ruby redcarpet -- --with-cflags='--std=gnu99'
+  - gem update bundler
 
 bundler_args: --without development
 
@@ -10,7 +11,27 @@ rvm:
   - 1.9.3
   - ruby-head
 
-script: bundle exec rake test spec spec:acceptance:rdb
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - bundle exec misc/standalone_cgi/bin/server -d
+
+script: bundle exec rake test spec
+
+env:
+  - TEST_MODE=rack
+  - TEST_MODE=rdb
+  - TEST_MODE=webrick
+  - TEST_MODE=secure
 
 notifications:
   irc: "irc.freenode.org#tdiary"
+
+matrix:
+  allow_failures:
+    # webrick and secure mode is unstable results...
+    - env: TEST_MODE=webrick
+    - env: TEST_MODE=secure
+    # travis's ruby-head doesn't supported to selenium-webdriver.
+    - rvm: ruby-head
+      env: TEST_MODE=webrick
