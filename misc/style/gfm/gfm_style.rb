@@ -20,6 +20,8 @@ ensure
 	require 'twitter-text'
 end
 
+$KCODE = 'u' if RUBY_VERSION < 1.9
+
 class HTMLwithPygments < Redcarpet::Render::HTML
 	def block_code(code, language)
 		require 'pygments'
