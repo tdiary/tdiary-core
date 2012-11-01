@@ -133,8 +133,10 @@ module TDiary
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
 			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
 
-			# plugin
-			r.gsub!(/({{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?}})/) { "#{$1}#{$3}#{$4}" } if RUBY_VERSION > '1.8'
+			# except url autolink in plugin block
+			if RUBY_VERSION > '1.8'
+				r.gsub!(/({{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?}})/) { "#{$1}#{$3}#{$4}" }
+			end
 			r.gsub!(/{{(.+?)}}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
 
 			# emoji
