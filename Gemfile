@@ -19,7 +19,7 @@ platforms :mri do
 
   # To use GFM style or To covert tDiary document.
   gem 'redcarpet'
-  gem 'twitter-text'
+  gem 'twitter-text', :require => false
   gem 'pygments.rb'
 
   # To use rack based application server
