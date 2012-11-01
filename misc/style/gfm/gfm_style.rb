@@ -134,7 +134,7 @@ module TDiary
 			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
 
 			# plugin
-			r.gsub!(/({{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?}})/) { "#{$1}#{$3}#{$4}" }
+			r.gsub!(/({{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?}})/) { "#{$1}#{$3}#{$4}" } if RUBY_VERSION > '1.8'
 			r.gsub!(/{{(.+?)}}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
 
 			# emoji
