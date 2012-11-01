@@ -12,6 +12,8 @@
 # You can distribute this under GPL.
 #
 
+$KCODE = 'u' if RUBY_VERSION < '1.9'
+
 begin
 	require 'rubygems'
 rescue LoadError
@@ -19,8 +21,6 @@ ensure
 	require 'redcarpet'
 	require 'twitter-text'
 end
-
-$KCODE = 'u' if RUBY_VERSION < 1.9
 
 class HTMLwithPygments < Redcarpet::Render::HTML
 	def block_code(code, language)
