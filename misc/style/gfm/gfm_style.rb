@@ -134,10 +134,8 @@ module TDiary
 			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
 
 			# except url autolink in plugin block
-			if RUBY_VERSION > '1.8'
-				r.gsub!(/({{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?}})/) { "#{$1}#{$3}#{$4}" }
-			end
-			r.gsub!(/{{(.+?)}}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
+			r.gsub!(/(\{\{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?\}\})/) { "#{$1}#{$3}#{$4}" }
+			r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
 
 			# emoji
 			r.gsub!(/:([a-z0-9_+-]+):/) do |emoji|

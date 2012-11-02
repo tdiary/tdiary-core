@@ -143,7 +143,7 @@ replace
 			EOF
 		end
 		it { @diary.to_html.should eq @html }
-	end if RUBY_VERSION > '1.8'
+	end
 
 	describe 'link to my plugin' do
 		before do
