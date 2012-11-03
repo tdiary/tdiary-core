@@ -1,3 +1,6 @@
+2012-11-03  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* misc/style/gfm/gfm_style.rb: ignored to expand url strings in plugin syntax.
+
 2012-10-29  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* Release 3.2.0
 
