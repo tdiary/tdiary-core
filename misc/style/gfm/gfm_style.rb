@@ -125,17 +125,17 @@ module TDiary
 			r = Redcarpet::Markdown.new(renderer, extensions).render(string)
 
 			# Twitter Autolink
-			unless r.scan(/<span.*>.*<\/span>/).size > 0
-				r = auto_link(r)
-			end
+			r = auto_link(r) unless r =~ /<span.*>.*<\/span>/
 
 			# diary anchor
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
 			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
 
 			# except url autolink in plugin block
-			r.gsub!(/(\{\{.*?)(<a href=".*" rel="nofollow">(.*)<\/a>)(.*?\}\})/) { "#{$1}#{$3}#{$4}" }
-			r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
+			if r =~ /\{\{.+?\}\}/
+				r.gsub!(/<a href=\"(.*?)\" rel=\"nofollow\">.*?<\/a>/){ $1 }
+				r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
+			end
 
 			# emoji
 			r.gsub!(/:([a-z0-9_+-]+):/) do |emoji|

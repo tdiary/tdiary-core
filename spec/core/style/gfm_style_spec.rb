@@ -128,7 +128,7 @@ replace
 		before do
 			source = <<-'EOF'
 # subTitle
-{{plugin 'http://www.example.com'}}
+{{plugin 'http://www.example.com', 'https://www.example.com'}}
 
 			EOF
 			@diary.append(source)
@@ -137,7 +137,7 @@ replace
 <div class="section">
 <%=section_enter_proc( Time.at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
-<p><%=plugin 'http://www.example.com'%></p>
+<p><%=plugin 'http://www.example.com', 'https://www.example.com'%></p>
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
