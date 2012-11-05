@@ -58,41 +58,47 @@ task :fetch => REPOS
 
 desc 'making packages of snapshot.'
 task :snapshot => REPOS do
-	TARBALLS.clear
-	REPOS.each do |repo|
-		make_tarball( repo )
+	Dir.chdir("tmp") do
+		TARBALLS.clear
+		REPOS.each do |repo|
+			make_tarball( repo )
+		end
+		Dir["theme/*"].each do |d|
+			mv d, "core/theme/"
+		end
+		mv "core", "tdiary"
+		sh "tar zcf tdiary-full.tar.gz tdiary"
+		mv "tdiary", "core"
+		TARBALLS << "tdiary-full.tar.gz"
 	end
-	Dir["theme/*"].each do |d|
-		mv d, "core/theme/"
-	end
-	mv "core", "tdiary"
-	sh "tar zcf tdiary-full.tar.gz tdiary"
-	mv "tdiary", "core"
-	TARBALLS << "tdiary-full.tar.gz"
 end
 
 desc 'making packages of stable.'
 task :stable => REPOS do
-	TARBALLS.clear
-	REPOS.each do |repo|
-		make_tarball( repo, STABLE )
+	Dir.chdir("tmp") do
+		TARBALLS.clear
+		REPOS.each do |repo|
+			make_tarball( repo, STABLE )
+		end
+		Dir["theme/*"].each do |d|
+			mv d, "core/theme/" rescue true
+		end
+		rmdir "theme"
+		mv "core", "tdiary-#{STABLE}"
+		sh "tar zcf tdiary-full-#{STABLE}.tar.gz tdiary-#{STABLE}"
+		mv "tdiary-#{STABLE}", "core"
+		TARBALLS << "tdiary-full-#{STABLE}.tar.gz"
 	end
-	Dir["theme/*"].each do |d|
-		mv d, "core/theme/" rescue true
-	end
-	rmdir "theme"
-	mv "core", "tdiary-#{STABLE}"
-	sh "tar zcf tdiary-full-#{STABLE}.tar.gz tdiary-#{STABLE}"
-	mv "tdiary-#{STABLE}", "core"
-	TARBALLS << "tdiary-full-#{STABLE}.tar.gz"
 end
 
 desc 'cleanup all files.'
 task :clean do
-	REPOS.each do |repo|
-		rm_rf repo rescue true
+	Dir.chdir("tmp") do
+		REPOS.each do |repo|
+			rm_rf repo rescue true
+		end
+		sh "rm *.tar.gz" rescue true
 	end
-	sh "rm *.tar.gz" rescue true
 end
 
 # Local Variables:
