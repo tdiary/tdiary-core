@@ -2,7 +2,7 @@
 # Ralefile for releasing tDiary.
 #
 
-STABLE = '3.1.4'
+STABLE = `git tag | sort -r | head -1`.chomp
 REPOS = %w(core theme blogkit contrib)
 
 DEST_DIR = "/var/www/tdiary.org/htdocs/download"
