@@ -56,6 +56,15 @@ task :default => :snapshot
 desc 'fetching all files from GitHub.'
 task :fetch => REPOS
 
+desc 'releasing all files'
+task :release do
+	Dir.chdir("tmp") do
+		TARBALLS.each do |tgz|
+			sh "scp #{tgz} -P 443 www.tdiar.org:#{DIST_DIR}"
+		end
+	end
+end
+
 desc 'making packages of snapshot.'
 task :snapshot => REPOS do
 	Dir.chdir("tmp") do
