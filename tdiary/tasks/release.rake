@@ -45,6 +45,7 @@ def make_tarball( repo, version = nil )
 	mv repo, dest
 	sh "tar zcf #{dest}.tar.gz #{dest}"
 	mv dest, repo
+	TARBALLS << "#{dest}.tar.gz"
 end
 
 #
@@ -54,9 +55,6 @@ task :default => :snapshot
 
 desc 'fetching all files from GitHub.'
 task :fetch => REPOS
-
-desc 'making packages of stable.'
-task :stable
 
 desc 'making packages of snapshot.'
 task :snapshot => REPOS do
@@ -70,6 +68,7 @@ task :snapshot => REPOS do
 	mv "core", "tdiary"
 	sh "tar zcf tdiary-full.tar.gz tdiary"
 	mv "tdiary", "core"
+	TARBALLS << "tdiary-full.tar.gz"
 end
 
 desc 'making packages of stable.'
@@ -85,6 +84,7 @@ task :stable => REPOS do
 	mv "core", "tdiary-#{STABLE}"
 	sh "tar zcf tdiary-full-#{STABLE}.tar.gz tdiary-#{STABLE}"
 	mv "tdiary-#{STABLE}", "core"
+	TARBALLS << "tdiary-full-#{STABLE}.tar.gz"
 end
 
 desc 'cleanup all files.'
@@ -94,3 +94,11 @@ task :clean do
 	end
 	sh "rm *.tar.gz" rescue true
 end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
+# vim: ts=3
