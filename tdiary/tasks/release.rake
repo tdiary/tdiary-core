@@ -13,7 +13,7 @@ TARBALLS = []
 #
 def fetch_files( repo )
 	rm_rf repo rescue true
-	sh "git clone git://github.com/tdiary/tdiary-#{repo}.git #{repo}"
+	sh "git clone --depth 1 git://github.com/tdiary/tdiary-#{repo}.git #{repo}"
 end
 
 REPOS.each_with_index do |repo, i|
