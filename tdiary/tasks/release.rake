@@ -19,7 +19,9 @@ def fetch_files( repo )
 end
 
 REPOS.each_with_index do |repo, i|
-	file REPOS[i] {|t| fetch_files( t.name )}
+	file REPOS[i] do |t|
+		fetch_files(t.name)
+	end
 end
 
 def make_tarball( repo, version = nil )
