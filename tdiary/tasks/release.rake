@@ -3,7 +3,7 @@
 #
 
 STABLE = `git tag | sort -r | head -1`.chomp
-REPOS = %w(core theme blogkit contrib)
+REPOS = %w(tdiary-core tdiary-theme tdiary-blogkit tdiary-contrib)
 
 DEST_DIR = "/var/www/tdiary.org/htdocs/download"
 TARBALLS = []
@@ -12,8 +12,10 @@ TARBALLS = []
 # utilities
 #
 def fetch_files( repo )
-	rm_rf repo rescue true
-	sh "git clone --depth 1 git://github.com/tdiary/tdiary-#{repo}.git #{repo}"
+	Dir.chdir("tmp") do
+		rm_rf repo rescue true
+		sh "git clone git://github.com/tdiary/#{repo}.git #{repo}"
+	end
 end
 
 REPOS.each_with_index do |repo, i|
@@ -22,7 +24,7 @@ end
 
 def make_tarball( repo, version = nil )
 	suffix = version ? "-#{version}" : ''
-	dest = "tdiary#{repo == 'core' ? '' : "-#{repo}"}#{suffix}"
+	dest = "#{repo == 'tdiary-core' ? 'tdiary' : repo}#{suffix}"
 
 	if version then
 		Dir.chdir repo do
@@ -34,10 +36,9 @@ def make_tarball( repo, version = nil )
 	sh "find #{repo} -type f | xargs chmod 644"
 	sh "find #{repo} -type d | xargs chmod 755"
 
-	if repo == 'core' then
-		Dir.chdir 'core' do
-			sh "chmod +x index.rb update.rb"
-			sh 'bundle install --path ../bundle'
+	if repo == 'tdiary-core' then
+		Dir.chdir 'tdiary-core' do
+			sh "chmod +x index.rb index.fcgi update.rb update.fcgi"
 			sh 'rake doc'
 		end
 	end
@@ -59,6 +60,7 @@ task :fetch => REPOS
 desc 'releasing all files'
 task :release do
 	Dir.chdir("tmp") do
+		TARBALLS = Dir["*.tar.gz"] if TARBALLS.empty?
 		TARBALLS.each do |tgz|
 			sh "scp #{tgz} -P 443 www.tdiar.org:#{DIST_DIR}"
 		end
@@ -72,13 +74,14 @@ task :snapshot => REPOS do
 		REPOS.each do |repo|
 			make_tarball( repo )
 		end
-		Dir["theme/*"].each do |d|
-			mv d, "core/theme/"
+		Dir["tdiary-theme/*"].each do |d|
+			mv d, "tdiary-core/theme/"
 		end
-		mv "core", "tdiary"
+		mv "tdiary-core", "tdiary"
 		sh "tar zcf tdiary-full.tar.gz tdiary"
-		mv "tdiary", "core"
 		TARBALLS << "tdiary-full.tar.gz"
+		rm_rf "tdiary"
+		REPOS.each {|repo| rm_rf repo rescue true }
 	end
 end
 
@@ -89,23 +92,21 @@ task :stable => REPOS do
 		REPOS.each do |repo|
 			make_tarball( repo, STABLE )
 		end
-		Dir["theme/*"].each do |d|
-			mv d, "core/theme/" rescue true
+		Dir["tdiary-theme/*"].each do |d|
+			mv d, "tdiary-core/theme/" rescue true
 		end
-		rmdir "theme"
-		mv "core", "tdiary-#{STABLE}"
+		mv "tdiary-core", "tdiary-#{STABLE}"
 		sh "tar zcf tdiary-full-#{STABLE}.tar.gz tdiary-#{STABLE}"
-		mv "tdiary-#{STABLE}", "core"
 		TARBALLS << "tdiary-full-#{STABLE}.tar.gz"
+		rm_rf "tdiary-#{STABLE}"
+		REPOS.each {|repo| rm_rf repo rescue true }
 	end
 end
 
 desc 'cleanup all files.'
 task :clean do
 	Dir.chdir("tmp") do
-		REPOS.each do |repo|
-			rm_rf repo rescue true
-		end
+		REPOS.each {|repo| rm_rf repo rescue true }
 		sh "rm *.tar.gz" rescue true
 	end
 end
