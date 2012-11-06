@@ -124,6 +124,27 @@ replace
 		it { @diary.to_html.should eq @html }
 	end
 
+	describe 'plugin syntax with url args' do
+		before do
+			source = <<-'EOF'
+# subTitle
+{{plugin 'http://www.example.com', 'https://www.example.com'}}
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><%=plugin 'http://www.example.com', 'https://www.example.com'%></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
+
 	describe 'link to my plugin' do
 		before do
 			source = <<-'EOF'
