@@ -156,7 +156,7 @@ http://example.com is example.com
 		before do
 			source = <<-'EOF'
 # subTitle
-{{plugin 'http://www.example.com', 'https://www.example.com'}}
+{{plugin 'http://www.example.com/foo.html', "https://www.example.com/bar.html"}}
 
 			EOF
 			@diary.append(source)
@@ -165,7 +165,7 @@ http://example.com is example.com
 <div class="section">
 <%=section_enter_proc( Time.at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
-<p><%=plugin 'http://www.example.com', 'https://www.example.com'%></p>
+<p><%=plugin 'http://www.example.com/foo.html', "https://www.example.com/bar.html"%></p>
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF

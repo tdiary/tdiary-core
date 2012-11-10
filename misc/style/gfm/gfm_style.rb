@@ -138,7 +138,7 @@ module TDiary
 			# except url autolink in plugin block
 			if r =~ /\{\{.+?\}\}/
 				r.gsub!(/<a href=\"(.*?)\" rel=\"nofollow\">.*?<\/a>/){ $1 }
-				r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1)}%>" }
+				r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1).gsub(/&#39;/, "'").gsub(/&quot;/, '"')}%>" }
 			end
 
 			# emoji
