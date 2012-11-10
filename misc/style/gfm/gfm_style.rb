@@ -125,7 +125,11 @@ module TDiary
 			r = Redcarpet::Markdown.new(renderer, extensions).render(string)
 
 			# Twitter Autolink
-			r = auto_link(r) unless r =~ /<span.*>.*<\/span>/
+			r = auto_link(r)
+
+			if r =~ /(<pre>|<code>)/
+				r.gsub!(/<a class=\"tweet-url username\" href=\".*?\">(.*?)<\/a>/){ $1 }
+			end
 
 			# diary anchor
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }

@@ -99,6 +99,34 @@ replace
 		it { @diary.to_html.should eq @html }
 	end
 
+	describe 'url syntax with code blocks' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+```ruby
+@foo
+```
+
+http://example.com is example.com
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<div class="highlight"><pre><span class="vi">@foo</span>
+</pre></div>
+<p><a href="http://example.com" rel="nofollow">http://example.com</a> is example.com</p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
+
 	describe 'plugin syntax' do
 		before do
 			source = <<-'EOF'
