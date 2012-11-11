@@ -131,14 +131,15 @@ module TDiary
 				r.gsub!(/<a class=\"tweet-url username\" href=\".*?\">(.*?)<\/a>/){ $1 }
 			end
 
-			# diary anchor
-			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
-			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
-
 			# except url autolink in plugin block
 			if r =~ /\{\{.+?\}\}/
 				r.gsub!(/<a href=\"(.*?)\" rel=\"nofollow\">.*?<\/a>/){ $1 }
 				r.gsub!(/\{\{(.+?)\}\}/) { "<%=#{CGI.unescapeHTML($1).gsub(/&#39;/, "'").gsub(/&quot;/, '"')}%>" }
+			end
+
+			# ignore duplicate autolink
+			if r =~ /<a href="<a href="/
+				r.gsub!(/<a href="(.*?)" rel="nofollow">.*?<\/a>/){ $1 }
 			end
 
 			# emoji
@@ -146,6 +147,10 @@ module TDiary
 				emoji.gsub!(":", "")
 				"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji}.png' width='20' height='20' title='#{emoji}' alt='#{emoji}' class='emoji' />"
 			end
+
+			# diary anchor
+			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
+			r.gsub!(/<\/h(\d)/) { "</h#{$1.to_i + 2}" }
 
 			# my syntax
 			r.gsub!(/\((.*?)\)\[(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?\]/) {

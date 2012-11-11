@@ -127,6 +127,28 @@ http://example.com is example.com
 		it { @diary.to_html.should eq @html }
 	end
 
+	describe 'ignored url syntax with markdown anchor' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+[example](http://example.com) is example.com
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><a href="http://example.com">example</a> is example.com</p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
+
 	describe 'plugin syntax' do
 		before do
 			source = <<-'EOF'
