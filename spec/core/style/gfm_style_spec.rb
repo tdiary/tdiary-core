@@ -99,6 +99,56 @@ replace
 		it { @diary.to_html.should eq @html }
 	end
 
+	describe 'url syntax with code blocks' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+```ruby
+@foo
+```
+
+http://example.com is example.com
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<div class="highlight"><pre><span class="vi">@foo</span>
+</pre></div>
+<p><a href="http://example.com" rel="nofollow">http://example.com</a> is example.com</p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
+
+	describe 'ignored url syntax with markdown anchor' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+[example](http://example.com) is example.com
+
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><a href="http://example.com">example</a> is example.com</p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
+
 	describe 'plugin syntax' do
 		before do
 			source = <<-'EOF'
@@ -128,7 +178,7 @@ replace
 		before do
 			source = <<-'EOF'
 # subTitle
-{{plugin 'http://www.example.com', 'https://www.example.com'}}
+{{plugin 'http://www.example.com/foo.html', "https://www.example.com/bar.html"}}
 
 			EOF
 			@diary.append(source)
@@ -137,7 +187,7 @@ replace
 <div class="section">
 <%=section_enter_proc( Time.at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
-<p><%=plugin 'http://www.example.com', 'https://www.example.com'%></p>
+<p><%=plugin 'http://www.example.com/foo.html', "https://www.example.com/bar.html"%></p>
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
