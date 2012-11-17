@@ -13,7 +13,7 @@ feature 'spamフィルタ設定の利用', :exclude_selenium do
 		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
 		fill_in 'spamlookup.domain.list', :with => ""
 		fill_in 'spamlookup.safe_domain.list', :with => ""
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -38,7 +38,7 @@ BODY
 		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
 		fill_in 'spamlookup.domain.list', :with => ""
 		fill_in 'spamlookup.safe_domain.list', :with => ""
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -63,7 +63,7 @@ BODY
 		fill_in 'spamlookup.ip.list', :with => ""
 		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.safe_domain.list', :with => ""
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -88,7 +88,7 @@ BODY
 		fill_in 'spamlookup.ip.list', :with => ""
 		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.safe_domain.list', :with => ""
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
@@ -114,7 +114,7 @@ BODY
 		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
 		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.safe_domain.list', :with => "www.example.com"
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'

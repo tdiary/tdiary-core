@@ -7,11 +7,12 @@ feature 'リンク元設定の利用' do
 		visit '/update.rb?conf=referer'
 		select('非表示', :from => 'show_referer')
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
-		click_link "#{Date.today.strftime("%Y年%m月%d日")}"
+		today = Date.today.strftime("%Y年%m月%d日")
+		page.find('h2', :text => today).click_link today
 		within('div.day') { page.should have_no_css('div[class="refererlist"]') }
 	end
 
@@ -20,11 +21,12 @@ feature 'リンク元設定の利用' do
 		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', :with => '^http://www\.example\.com/.*'
 
-		click_button('OK')
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button('OK')
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
+		today = Date.today.strftime('%Y年%m月%d日')
+		page.find('h2', :text => today).click_link today
 		within('div.day div.refererlist') { page.should have_no_link('http://www.example.com') }
 	end
 
@@ -36,11 +38,12 @@ feature 'リンク元設定の利用' do
 ^http://www\.example\.net/.* bob
 REFERER
 
-		click_button('OK')
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button('OK')
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
+		today = Date.today.strftime('%Y年%m月%d日')
+		page.find('h2', :text => today).click_link today
 		within('div.day div.refererlist') {
 			page.should have_link "alice"
 			page.should have_no_link "http://www.example.com"

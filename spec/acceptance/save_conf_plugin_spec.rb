@@ -7,7 +7,7 @@ feature 'プラグイン選択設定の利用' do
 		FileUtils.rm plugin_path if File.exists? plugin_path
 
 		visit '/update.rb?conf=sp'
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 		page.should_not have_content '新入荷'
 
 		FileUtils.touch plugin_path
@@ -26,7 +26,7 @@ feature 'プラグイン選択設定の利用' do
 		visit '/update.rb?conf=sp'
 
 		check "sp.rspec.rb"
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		page.should have_checked_field "sp.rspec.rb"
 
@@ -49,7 +49,7 @@ feature 'プラグイン選択設定の利用' do
 		visit '/update.rb?conf=sp'
 
 		check "sp.category_autocomplete.rb"
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb'
 

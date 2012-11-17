@@ -21,8 +21,8 @@ BODY
 			}
 			page.should have_content "こんにちは!こんにちは!"
 		}
-
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
+		today = Date.today.strftime('%Y年%m月%d日')
+		page.find('h2', :text => today).click_link today
 		within('div.day div.comment div.commentbody') {
 			within('div.commentator'){
 				t = Time.now
@@ -54,10 +54,11 @@ BODY
 			page.should have_content "こんばんは!こんばんは!"
 		}
 
-		click_link "#{Date.today.strftime('%Y年%m月%d日')}"
+		today = Date.today.strftime('%Y年%m月%d日')
+		page.find('h2', :text => today).click_link today
 		within('div.day div.comment div.commentbody') {
 			t = Time.now
-			within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day] }
+			page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day]
 			page.should have_content "alpha"
 			page.should have_content "bravo"
 			page.should have_content "こんにちは!こんにちは!"

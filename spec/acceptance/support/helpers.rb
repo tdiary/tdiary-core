@@ -15,8 +15,10 @@ BODY
 		click_button "追記"
 	end
 
-	def append_default_comment
+	def append_default_comment(ymd = Date.today.to_s)
 		visit "/"
+		date = Date.parse(ymd).strftime('%Y年%m月%d日')
+		page.find('h2', :text => date).click_link date
 		click_link 'ツッコミを入れる'
 		fill_in "name", :with => "alpha"
 		fill_in "body", :with => 'こんにちは!こんにちは!'
@@ -26,13 +28,13 @@ BODY
 	def enable_plugin(name)
 		visit '/update.rb?conf=sp'
 		check "sp.#{name}.rb"
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 	end
 
 	def disable_plugin(name)
 		visit '/update.rb?conf=sp'
 		uncheck "sp.#{name}.rb"
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 	end
 end
 
