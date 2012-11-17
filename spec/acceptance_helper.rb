@@ -20,8 +20,6 @@ end
 Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../tmp/capybara'
 
 RSpec.configure do |config|
-	config.treat_symbols_as_metadata_keys_with_true_values = true
-
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', __FILE__)
 	work_data_dir = File.expand_path('../../tmp/data', __FILE__)
 
