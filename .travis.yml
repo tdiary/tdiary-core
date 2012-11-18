@@ -24,10 +24,23 @@ env:
   - TEST_MODE=webrick
   - TEST_MODE=secure
 
+gemfile:
+  - Gemfile
+  - misc/gemfiles/ruby18.gemfile
+
 notifications:
   irc: "irc.freenode.org#tdiary"
 
 matrix:
+  exclude:
+    - rvm: ree
+      gemfile: Gemfile
+    - rvm: 1.9.2
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.3
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: ruby-head
+      gemfile: misc/gemfiles/ruby18.gemfile
   allow_failures:
     # webrick and secure mode is unstable results...
     - env: TEST_MODE=webrick
