@@ -34,12 +34,16 @@ notifications:
 matrix:
   exclude:
     - rvm: ree
+      env: *
       gemfile: Gemfile
     - rvm: 1.9.2
+      env: *
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: 1.9.3
+      env: *
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: ruby-head
+      env: *
       gemfile: misc/gemfiles/ruby18.gemfile
   allow_failures:
     # webrick and secure mode is unstable results...
