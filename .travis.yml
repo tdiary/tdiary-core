@@ -34,21 +34,30 @@ notifications:
 matrix:
   exclude:
     - rvm: ree
-      env: *
+      env: TEST_MODE=rack
+      gemfile: Gemfile
+    - rvm: ree
+      env: TEST_MODE=rdb
       gemfile: Gemfile
     - rvm: 1.9.2
-      env: *
+      env: TEST_MODE=rack
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.2
+      env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: 1.9.3
-      env: *
+      env: TEST_MODE=rack
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.3
+      env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: ruby-head
-      env: *
+      env: TEST_MODE=rack
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: ruby-head
+      env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
   allow_failures:
     # webrick and secure mode is unstable results...
     - env: TEST_MODE=webrick
     - env: TEST_MODE=secure
-    # travis's ruby-head doesn't supported to selenium-webdriver.
-    - rvm: ruby-head
-      env: TEST_MODE=webrick
