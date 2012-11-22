@@ -18,6 +18,7 @@ group :development, :test do
   gem 'tapp'
   gem 'test-unit', :require => 'test/unit'
   gem 'rspec'
+  gem 'ffi', '< 1.2'
   gem 'capybara', '< 2', :require => 'capybara/rspec'
   gem 'launchy'
   gem 'sequel', '3.40.0'
