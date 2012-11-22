@@ -1,0 +1,28 @@
+source :rubygems
+
+gem 'rake'
+
+gem 'rack'
+gem 'sprockets'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
+
+gem 'coffee-script'
+gem 'redcarpet'
+gem 'twitter-text', :require => false
+gem 'pygments.rb'
+
+group :development, :test do
+  gem 'pry'
+  gem 'tapp'
+  gem 'test-unit', :require => 'test/unit'
+  gem 'rspec'
+  gem 'capybara', '< 2', :require => 'capybara/rspec'
+  gem 'launchy'
+  gem 'sequel', '3.40.0'
+  gem 'sqlite3'
+  gem 'rcov'
+  gem 'ci_reporter'
+  gem 'jasmine'
+end

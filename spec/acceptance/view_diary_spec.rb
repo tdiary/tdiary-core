@@ -4,7 +4,8 @@ require 'acceptance_helper'
 feature '日記を読む' do
 	scenario '最新の日記の表示' do
 		visit '/'
-		within('title') { page.should have_content('【日記のタイトル】') }
+		# capybara-2.0 can't find header content.
+		# within('title') { page.should have_content('【日記のタイトル】') }
 		within('h1') { page.should have_content('【日記のタイトル】') }
 		page.should have_css('a[href="update.rb"]')
 		page.should have_css('a[href="update.rb?conf=default"]')
@@ -14,11 +15,11 @@ feature '日記を読む' do
 		append_default_diary('20100430')
 		append_default_diary('20100501')
 
-		before_day = Date.parse('20100430').strftime('%Y年%m月%d日')
-		after_day = Date.parse('20100501').strftime('%Y年%m月%d日')
+		before_day = '2010年04月30日'
+		after_day = '2010年05月01日'
 
 		visit '/'
-		click_link "#{before_day}"
+		page.find('h2', :text => before_day).click_link "#{before_day}"
 		within('div.adminmenu'){ page.should have_content "次の日記(#{after_day})"}
 
 		click_link "次の日記(#{after_day})"
@@ -48,12 +49,12 @@ feature '日記を読む' do
 	end
 
 	scenario 'n年日記機能を表示' do
-		append_default_diary('2001-04-23')
-		append_default_diary('2002-04-23')
-		append_default_diary('2003-04-23')
+		append_default_diary('20010423')
+		append_default_diary('20020423')
+		append_default_diary('20030423')
 
 		visit '/'
-		click_link Date.parse('20010423').strftime('%Y年%m月%d日')
+		page.find('h2', :text => "2001年04月23日").click_link '2001年04月23日'
 		click_link '長年日記'
 
 		titles = page.all('h2 span.date a').map{|t| t.text }
@@ -74,37 +75,33 @@ feature '日記を読む' do
 	end
 
 	scenario '1ヶ月を表示' do
-		append_default_diary('2001-01-01')
+		append_default_diary('20010101')
 
 		visit '/'
 		click_link '追記'
-		within('div.day div.form') {
-			within('span.year') { fill_in "year", :with => 2001 }
-			within('span.month') { fill_in "month", :with => 01 }
-			within('span.day') { fill_in "day", :with => 31 }
-			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
+		within('span.year') { fill_in "year", :with => 2001 }
+		within('span.month') { fill_in "month", :with => 01 }
+		within('span.day') { fill_in "day", :with => 31 }
+		within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+		within('div.textarea') {
+			fill_in "body", :with => <<-BODY
 !さて、月末である。
 今月も終わる
 BODY
-			}
 		}
 		click_button "追記"
 
 		visit '/'
 		click_link '追記'
-		within('div.day div.form') {
-			within('span.year') { fill_in "year", :with => 2001 }
-			within('span.month') { fill_in "month", :with => 02 }
-			within('span.day') { fill_in "day", :with => 01 }
-			within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
-			within('div.textarea') {
-				fill_in "body", :with => <<-BODY
+		within('span.year') { fill_in "year", :with => 2001 }
+		within('span.month') { fill_in "month", :with => 02 }
+		within('span.day') { fill_in "day", :with => 01 }
+		within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+		within('div.textarea') {
+			fill_in "body", :with => <<-BODY
 !さて、月始めである。
 今月も始まる
 BODY
-			}
 		}
 		click_button "追記"
 

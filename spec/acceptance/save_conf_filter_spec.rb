@@ -5,7 +5,7 @@ feature 'spamフィルタ設定の利用' do
 	scenario '新入荷のプラグインが表示される' do
 		visit '/update.rb?conf=sf'
 
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 		page.should_not have_content '新入荷'
 
 		FileUtils.cp_r "#{TDiary::PATH}/spec/fixtures/sample.rb", "#{TDiary::PATH}/misc/filter/"
@@ -22,7 +22,7 @@ feature 'spamフィルタ設定の利用' do
 
 		visit '/update.rb?conf=sf'
 		check "sf.sample.rb"
-		click_button 'OK'
+		page.all('div.saveconf').first.click_button 'OK'
 
 		page.should have_checked_field "sf.sample.rb"
 

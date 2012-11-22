@@ -14,12 +14,12 @@ feature '基本設定の利用' do
 		#fill_in "banner", :with => "http://sho.tdiary.net/images/banner.png"
 		# TODO x_frame_open の設定
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		# TODO その他の項目の反映を確認
-		within('title') { page.should have_content('ただの日記') }
+		# within('title') { page.should have_content('ただの日記') }
 
 		visit '/update.rb?conf=default'
 		page.should have_field "author_name", :with => "ただただし"
@@ -45,8 +45,8 @@ HEADER
 bravo
 </div>
 FOOTER
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		#within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		within('h1') { page.should have_content('alpha') }
@@ -81,8 +81,8 @@ FOOTER
 		fill_in 'latest_limit', :with => 1
 		select '非表示', :from => 'show_nyear'
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		page.should have_content('★')
@@ -97,8 +97,8 @@ FOOTER
 		visit '/update.rb?conf=logger'
 		select 'DEBUG', :from => 'log_level'
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		# TODO ログレベルの確認
@@ -111,16 +111,14 @@ FOOTER
 		visit '/update.rb?conf=timezone'
 		fill_in 'hour_offset', :with => '-24'
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '追記'
 		y, m, d = (Date.today - 1).to_s.split('-').map {|t| t.sub(/^0+/, "") }
-		within('div.day div.form') {
-			within('span.year') { page.should have_field('year', :with => y) }
-			within('span.month') { page.should have_field('month', :with => m) }
-			within('span.day') { page.should have_field('day', :with => d) }
-		}
+		within('span.year') { page.should have_field('year', :with => y) }
+		within('span.month') { page.should have_field('month', :with => m) }
+		within('span.day') { page.should have_field('day', :with => d) }
 
 		click_link '設定'
 		click_link '時差調整'
@@ -131,8 +129,8 @@ FOOTER
 		visit '/update.rb?conf=theme'
 		select 'Tdiary1', :from => 'theme'
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		within('head') {
@@ -150,8 +148,8 @@ FOOTER
 		visit '/update.rb?conf=theme'
 		select 'Tdiary1', :from => 'theme'
 
-		click_button "OK"
-		within('title') { page.should have_content('(設定完了)') }
+		page.all('div.saveconf').first.click_button "OK"
+		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		within('head') {

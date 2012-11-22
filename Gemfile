@@ -15,7 +15,9 @@ gem 'omniauth-github'
 platforms :mri do
   # To use CoffeeScript
   gem 'coffee-script'
-  gem 'therubyracer'
+
+  # if you don't have JavaScript processor, uncomment this line.
+  # gem 'therubyracer'
 
   # To use GFM style or To covert tDiary document.
   gem 'redcarpet'

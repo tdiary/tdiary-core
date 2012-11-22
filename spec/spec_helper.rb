@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..')).untaint
+
+ENV['RACK_ENV'] = "test"
+
 require 'tdiary/environment'
-Bundler.require :test if defined?(Bundler)
 require 'tdiary'
 
 if ENV['COVERAGE'] == 'simplecov'
@@ -18,6 +20,10 @@ if ENV['COVERAGE'] == 'simplecov'
 		add_filter '/spec/'
 		add_filter '/vendor/'
 	end
+end
+
+RSpec.configure do |config|
+	config.treat_symbols_as_metadata_keys_with_true_values = true
 end
 
 # Local Variables:

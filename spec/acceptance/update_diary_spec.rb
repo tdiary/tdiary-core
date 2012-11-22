@@ -19,7 +19,7 @@ BODY
 		click_button "追記"
 
 		visit '/'
-		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
+		page.find('h2', :text => '2001年04月23日').click_link '2001年04月23日'
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.body'){
 			page.should have_content "さて、テストである。"
@@ -43,7 +43,7 @@ BODY
 		click_button "登録"
 
 		visit '/'
-		click_link "#{Date.parse('20010423').strftime('%Y年%m月%d日')}"
+		page.find('h2', :text => '2001年04月23日').click_link '2001年04月23日'
 		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
 		within('div.body'){
 			page.should have_no_content "さて、テストである。"
@@ -63,9 +63,7 @@ BODY
 		fill_in "day", :with => Date.today.day
 		click_button 'この日付の日記を編集'
 
-		within('div.day div.form') {
-			within('div.textarea') { fill_in "body", :with => '' }
-		}
+		within('div.textarea') { fill_in "body", :with => '' }
 
 		click_button "登録"
 		page.should have_content "Click here!"
