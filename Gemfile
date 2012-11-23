@@ -47,7 +47,7 @@ group :development do
     gem 'rspec'
     gem 'capybara', :require => 'capybara/rspec'
     gem 'launchy'
-    gem 'sequel', '3.40.0'
+    gem 'sequel'
     gem 'sqlite3'
 
     gem 'rcov', :platforms => :mri_18
