@@ -63,7 +63,7 @@ matrix:
       env: TEST_MODE=webrick
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: 1.9.3
-      env: TEST_MODE=wecure
+      env: TEST_MODE=secure
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: ruby-head
       env: TEST_MODE=rack
