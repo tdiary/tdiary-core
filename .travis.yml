@@ -1,8 +1,3 @@
-# travis's ruby-head doesn't compatible for some native extension.
-before_install:
-  - gem install nokogiri ffi yajl-ruby redcarpet -- --with-cflags='--std=gnu99'
-  - gem update bundler
-
 bundler_args: --without development
 
 rvm:
@@ -33,11 +28,18 @@ notifications:
 
 matrix:
   exclude:
+    # too bad exclude otpions.
     - rvm: ree
       env: TEST_MODE=rack
       gemfile: Gemfile
     - rvm: ree
       env: TEST_MODE=rdb
+      gemfile: Gemfile
+    - rvm: ree
+      env: TEST_MODE=webrick
+      gemfile: Gemfile
+    - rvm: ree
+      env: TEST_MODE=secure
       gemfile: Gemfile
     - rvm: 1.9.2
       env: TEST_MODE=rack
@@ -45,17 +47,35 @@ matrix:
     - rvm: 1.9.2
       env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.2
+      env: TEST_MODE=webrick
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.2
+      env: TEST_MODE=secure
+      gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: 1.9.3
       env: TEST_MODE=rack
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: 1.9.3
       env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.3
+      env: TEST_MODE=webrick
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: 1.9.3
+      env: TEST_MODE=secure
+      gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: ruby-head
       env: TEST_MODE=rack
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: ruby-head
       env: TEST_MODE=rdb
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: ruby-head
+      env: TEST_MODE=webrick
+      gemfile: misc/gemfiles/ruby18.gemfile
+    - rvm: ruby-head
+      env: TEST_MODE=secure
       gemfile: misc/gemfiles/ruby18.gemfile
   allow_failures:
     # webrick and secure mode is unstable results...
