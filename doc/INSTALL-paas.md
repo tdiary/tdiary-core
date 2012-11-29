@@ -89,7 +89,7 @@ username と application の値は別途読み替えてください。続いて�
 作業ブランチで Heroku で動かすために必要な設定ファイルをコピーします。
 
 ```
-% cp misc/paas/heroku/* .
+% cp misc/paas/sqale/* .
 ```
 
 続いて .gitignore の 2 行目の .htpasswd と 9 行目の tdiary.conf を削除します。
