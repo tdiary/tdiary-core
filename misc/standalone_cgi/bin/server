@@ -10,7 +10,11 @@ $:.unshift( File.expand_path( "../lib", File.dirname(__FILE__) ).untaint )
 require 'server'
 require 'optparse'
 
-params = ARGV.getopts('d', 'p:')
-opts = {:daemon => params['d'], :port => params['p'] || 19292 }
+params = ARGV.getopts('d', 'b:', 'p:')
+opts = {
+	:daemon => params['d'],
+	:bind   => params['b'] || '0.0.0.0',
+	:port   => params['p'] || 19292
+}
 
 TDiary::StandaloneCGIServer.run( opts )

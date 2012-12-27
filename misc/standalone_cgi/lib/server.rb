@@ -50,7 +50,7 @@ module TDiary
 			opts = DEFAULT_OPTIONS.merge( options )
 
 			@server = WEBrick::HTTPServer.new(
-				:Port => opts[:port], :BindAddress => '127.0.0.1',
+				:Port => opts[:port], :BindAddress => opts[:bind],
 				:DocumentRoot => TDIARY_CORE_DIR,
 				:MimeTypes => tdiary_mime_types,
 				:Logger => webrick_logger_to( opts[:logger] ),
