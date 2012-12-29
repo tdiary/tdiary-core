@@ -28,10 +28,11 @@ module ::TDiary
 		def all_subtitles_to_html
 			titles = Array.new
 			each_section do |section|
-				titles << section.subtitle_to_html.strip
+				titles << (section.subtitle_to_html || '').strip
 			end
 			return titles
 		end
+
 		def all_stripped_subtitles_to_html
 			return all_subtitles_to_html unless categorizable?
 			titles = Array.new
