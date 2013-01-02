@@ -26,7 +26,7 @@ class HTMLwithPygments < Redcarpet::Render::HTML
 	def block_code(code, language)
 		require 'pygments'
 		Pygments.highlight(code, :lexer => language)
-	rescue Exception, LoadError
+	rescue Exception
 		<<-HTML
 <div class="highlight"><pre>#{code}</pre></div>
 		HTML
