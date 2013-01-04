@@ -86,7 +86,7 @@ username と application の値は別途読み替えてください。続いて�
 % git checkout -b deploy
 ```
 
-作業ブランチで Heroku で動かすために必要な設定ファイルをコピーします。
+作業ブランチで Sqale で動かすために必要な設定ファイルをコピーします。
 
 ```
 % cp misc/paas/sqale/* .
@@ -120,7 +120,7 @@ git commit -m "deploy"
 git push sqale deploy:master
 ```
 
-これで http://mydiary.herokuapp.com にアクセスして日記を書くことができます。
+これで http://application-username.sqale.jp にアクセスして日記を書くことができます。
 
 独自のテーマファイルを使う方法
 ----
