@@ -120,7 +120,7 @@ git commit -m "deploy"
 git push sqale deploy:master
 ```
 
-これで http://mydiary.herokuapp.com にアクセスして日記を書くことができます。
+これで http://application-username.sqale.jp にアクセスして日記を書くことができます。
 
 独自のテーマファイルを使う方法
 ----
