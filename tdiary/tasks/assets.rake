@@ -13,7 +13,7 @@ namespace :assets do
 	desc "copy assets files"
 	task :copy do
 		require 'fileutils'
-		assets_path = File.dirname(__FILE__) + '/public/assets'
+		assets_path = File.dirname(__FILE__) + '/../../public/assets'
 
 		FileUtils.mkdir_p assets_path
 		FileList['{js,theme}/*'].each do |file|
