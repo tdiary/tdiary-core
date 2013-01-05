@@ -6,7 +6,7 @@ require 'tdiary/style/wiki_style'
 
 describe TDiary::WikiDiary do
 	before do
-		@diary = TDiary::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
+		@diary = TDiary::WikiDiary.new(Time.at( 1041346800 ), "TITLE", "")
 	end
 
 	describe '#append' do
@@ -26,12 +26,12 @@ honbun
 			before do
 				@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>honbun</p>
 <h4>subTitleH4</h4>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
 			end
@@ -41,12 +41,12 @@ honbun
 		context 'CHTML' do
 			before do
 				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>honbun</p>
 <h4>subTitleH4</h4>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
 			it { @diary.to_html({}, :CHTML).should eq @html }
@@ -77,16 +77,16 @@ replace
 replace
 
 			EOF
-			@diary.replace(Time::at( 1041346800 ), "TITLE", replaced)
+			@diary.replace(Time.at( 1041346800 ), "TITLE", replaced)
 
 			@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "replaceTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "replaceTitle" ) %></h3>
 <p>replace</p>
 <h4>replaceTitleH4</h4>
 <p>replace</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
 		end
@@ -109,18 +109,18 @@ honbun
 
 			@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>honbun</p>
 <h4>subTitleH4</h4>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle2" ) %></h3>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
 		end
@@ -143,10 +143,10 @@ honbun
 
 			@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle2" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle2" ) %></h3>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
 		end
@@ -170,11 +170,11 @@ honbun
 			before do
 				@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<p><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></p>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<p><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></p>
 <p>honbun</p>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
 			end
@@ -184,11 +184,11 @@ honbun
 		context 'CHTML' do
 			before do
 				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<p><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></p>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<p><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></p>
 <p>honbun</p>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
 			it { @diary.to_html({}, :CHTML).should eq @html }
@@ -216,17 +216,17 @@ honbun
 			before do
 				@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<p><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></p>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<p><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></p>
 <p>honbun</p>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
 			end
@@ -236,15 +236,15 @@ honbun
 		context 'CHTML' do
 			before do
 				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<p><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></p>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<p><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></p>
 <p>honbun</p>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>honbun</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
 			it { @diary.to_html({}, :CHTML).should eq @html }
@@ -274,8 +274,8 @@ ge}}
 			before do
 				@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p><%=plugin
 %>
 <%=plugin
@@ -289,7 +289,7 @@ ge
 <p><%=ho
 ge
 %></p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
 			end
@@ -299,8 +299,8 @@ ge
 		context 'CHTML' do
 			before do
 				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p><%=plugin
 %>
 <%=plugin
@@ -314,7 +314,7 @@ ge
 <p><%=ho
 ge
 %></p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
 			it { @diary.to_html({}, :CHTML).should eq @html }
@@ -350,8 +350,8 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 			before do
 				@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p><%=kw 'aaa', 'aaa'%></p>
 <p><a href="bbb">aaa</a></p>
 <p><a href="ccc">aaa'bbb</a></p>
@@ -361,7 +361,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <p><%=kw 'bbb:ccc', 'aaa\'bbb'%></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">鯖</a></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">http://ja.wikipedia.org/wiki/%E9%AF%96</a></p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
 			end
@@ -371,8 +371,8 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 		context 'CHTML' do
 			before do
 				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p><%=kw 'aaa', 'aaa'%></p>
 <p><a href="bbb">aaa</a></p>
 <p><a href="ccc">aaa'bbb</a></p>
@@ -382,7 +382,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <p><%=kw 'bbb:ccc', 'aaa\'bbb'%></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">鯖</a></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">http://ja.wikipedia.org/wiki/%E9%AF%96</a></p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
 			it { @diary.to_html({}, :CHTML).should eq @html }
@@ -407,11 +407,11 @@ appended body
 			before do
 				@html = <<-'EOF'
 <div class="section">
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>body</p>
 <p>appended body</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
 			end
@@ -421,11 +421,11 @@ appended body
 		context 'CHTML' do
 			before do
 				@html = <<-'EOF'
-<%=section_enter_proc( Time::at( 1041346800 ) )%>
-<h3><%= subtitle_proc( Time::at( 1041346800 ), "subTitle" ) %></h3>
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
 <p>body</p>
 <p>appended body</p>
-<%=section_leave_proc( Time::at( 1041346800 ) )%>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
 			it { @diary.to_html({}, :CHTML).should eq @html }

@@ -64,10 +64,10 @@ module TDiary
 			r = @html.lstrip
 			r.sub!( %r!<h3>(.+?)</h3>!m ) do
 				subtitle = true
-				"<h3><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
+				"<h3><%= subtitle_proc( Time.at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></h3>"
 			end
 			r.sub!( %r!^<p>(.+?)</p>$!m ) do
-				"<p><%= subtitle_proc( Time::at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
+				"<p><%= subtitle_proc( Time.at( #{date.to_i} ), #{$1.dump.gsub( /%/, '\\\\045' )} ) %></p>"
 			end unless subtitle
 			r.gsub( /<(\/)?tdiary-section>/, '<\\1p>' )
 		end
@@ -155,7 +155,7 @@ module TDiary
 		include DiaryBase
 		include CategorizableDiary
 
-		def initialize( date, title, body, modified = Time::now )
+		def initialize( date, title, body, modified = Time.now )
 			init_diary
 			replace( date, title, body )
 			@last_modified = modified
@@ -198,7 +198,7 @@ module TDiary
 				end
 			end
 			@sections << WikiSection::new( section, author ) if section
-			@last_modified = Time::now
+			@last_modified = Time.now
 			self
 		end
 
