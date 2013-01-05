@@ -3,6 +3,34 @@
 #  Base module of Diary.
 #
 module TDiary
+	module SectionBase
+		def body
+			@body.dup
+		end
+
+		def body=(str)
+			@body = str
+		end
+
+		def html4(date, idx, opt)
+			r = %Q[<div class="section">\n]
+			r << %Q[<%=section_enter_proc( Time.at( #{date.to_i} ) )%>\n]
+			r << do_html4( date, idx, opt )
+			r << %Q[<%=section_leave_proc( Time.at( #{date.to_i} ) )%>\n]
+			r << "</div>\n"
+		end
+
+		def chtml(date, idx, opt)
+			r = %Q[<%=section_enter_proc( Time.at( #{date.to_i} ) )%>\n]
+			r << do_html4( date, idx, opt )
+			r << %Q[<%=section_leave_proc( Time.at( #{date.to_i} ) )%>\n]
+		end
+
+		def to_s
+			to_src
+		end
+	end
+
 	module DiaryBase
 		include ERB::Util
 		include CommentManager

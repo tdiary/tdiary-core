@@ -35,6 +35,7 @@ end
 
 module TDiary
 	class GfmSection
+		include SectionBase
 		include Twitter::Autolink
 
 		attr_reader :subtitle, :author
@@ -64,14 +65,6 @@ module TDiary
 			@strip_subtitle = strip_subtitle
 		end
 
-		def body
-			@body.dup
-		end
-
-		def body=(str)
-			@body = str
-		end
-
 		def categories=(categories)
 			@categories = categories
 			cat_str = ""
@@ -87,14 +80,6 @@ module TDiary
 			r << @body
 		end
 
-		def html4(date, idx, opt)
-			r = %Q[<div class="section">\n]
-			r << %Q[<%=section_enter_proc( Time.at( #{date.to_i} ) )%>\n]
-			r << do_html4( date, idx, opt )
-			r << %Q[<%=section_leave_proc( Time.at( #{date.to_i} ) )%>\n]
-			r << "</div>\n"
-		end
-
 		def do_html4(date, idx, opt)
 			subtitle = to_html('# ' + @subtitle)
 			subtitle.sub!( %r!<h3>(.+?)</h3>!m ) do
@@ -105,16 +90,6 @@ module TDiary
 			end
 			r = subtitle
 			r << @body_to_html
-		end
-
-		def chtml(date, idx, opt)
-			r = %Q[<%=section_enter_proc( Time.at( #{date.to_i} ) )%>\n]
-			r << do_html4( date, idx, opt )
-			r << %Q[<%=section_leave_proc( Time.at( #{date.to_i} ) )%>\n]
-		end
-
-		def to_s
-			to_src
 		end
 
 		private
