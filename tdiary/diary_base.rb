@@ -4,6 +4,11 @@
 #
 module TDiary
 	module SectionBase
+
+		attr_reader :subtitle, :author
+		attr_reader :categories, :stripped_subtitle
+		attr_reader :subtitle_to_html, :stripped_subtitle_to_html, :body_to_html
+
 		def body
 			@body.dup
 		end

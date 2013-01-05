@@ -38,10 +38,6 @@ module TDiary
 		include SectionBase
 		include Twitter::Autolink
 
-		attr_reader :subtitle, :author
-		attr_reader :categories, :stripped_subtitle
-		attr_reader :subtitle_to_html, :stripped_subtitle_to_html, :body_to_html
-
 		def initialize(fragment, author = nil)
 			@author = author
 			@subtitle, @body = fragment.split(/\n/, 2)
