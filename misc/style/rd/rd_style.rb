@@ -316,13 +316,6 @@ module TDiary
 			'RD'
 		end
 	
-		def replace( date, title, body )
-			set_date( date )
-			set_title( title )
-			@sections = []
-			append( body )
-		end
-	
 		def append( body, author = nil )
 			section = nil
 			body.lines.each do |l|
@@ -342,30 +335,12 @@ module TDiary
 			self
 		end
 	
-		def each_section
-			@sections.each do |section|
-				yield section
-			end
-		end
-	
 		def add_section(subtitle, body)
 			sec = RDSection::new("\n")
 			sec.subtitle = subtitle
 			sec.body     = body
 			@sections << sec
 			@sections.size
-		end
-	
-		def delete_section(index)
-			@sections.delete_at(index - 1)
-		end
-	
-		def to_src
-			r = ''
-			each_section do |section|
-				r << section.to_src
-			end
-			r
 		end
 	
 		def to_html( opt = {}, mode = :HTML )
@@ -377,10 +352,8 @@ module TDiary
 			end
 			return r
 		end
-	
-		def to_s
-			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
-		end
+
+		undef :to_html4, :to_chtml
 	end
 end
 
@@ -390,3 +363,4 @@ end
 # tab-width: 3
 # ruby-indent-level: 3
 # End:
+
