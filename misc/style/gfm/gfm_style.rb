@@ -178,7 +178,7 @@ module TDiary
 				end
 			end
 			if section
-				section << "\n" unless section=~/\n\n\z/
+				section << "\n" unless section =~ /\n\n\z/
 				@sections << GfmSection.new(section, author)
 			end
 			@last_modified = Time.now
@@ -186,10 +186,7 @@ module TDiary
 		end
 
 		def add_section(subtitle, body)
-			sec = GfmSection.new("\n")
-			sec.subtitle = subtitle
-			sec.body     = body
-			@sections << sec
+			@sections = GfmSection.new("\# #{subtitle}\n\n#{body}")
 			@sections.size
 		end
 	end
