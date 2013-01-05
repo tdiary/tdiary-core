@@ -28,74 +28,18 @@ require 'tdiary/core_ext'
 module TDiary
 	PATH = File::dirname( __FILE__ ).untaint
 
-	autoload :Config,           'tdiary/config'
-	autoload :Plugin,           'tdiary/plugin'
-	autoload :Comment,          'tdiary/comment'
-	autoload :CommentManager,   'tdiary/comment_manager'
-	autoload :RefererManager,   'tdiary/referer_manager'
-	autoload :Filter,           'tdiary/filter'
-	autoload :Dispatcher,       'tdiary/dispatcher'
-	autoload :Request,          'tdiary/request'
-	autoload :Response,         'tdiary/response'
-
-	#
-	# module DiaryBase
-	#  Base module of Diary.
-	#
-	module DiaryBase
-		include ERB::Util
-		include CommentManager
-		include RefererManager
-
-		def init_diary
-			init_comments
-			init_referers
-			@show = true
-		end
-
-		def date
-			@date
-		end
-
-		def set_date( date )
-			if date.class == String then
-				y, m, d = date.scan( /^(\d{4})(\d\d)(\d\d)$/ )[0]
-				raise ArgumentError::new( 'date string needs YYYYMMDD format.' ) unless y
-				@date = Time::local( y, m, d )
-			else
-				@date = date
-			end
-		end
-
-		def title
-			@title || ''
-		end
-
-		def set_title( title )
-			@title = title
-			@last_modified = Time::now
-		end
-
-		def show( s )
-			@show = s
-		end
-
-		def visible?
-			@show != false;
-		end
-
-		def last_modified
-			@last_modified ? @last_modified : Time::at( 0 )
-		end
-
-		def last_modified=( lm )
-			@last_modified  = lm
-		end
-
-		def eval_rhtml( opt, path = '.' )
-			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
-		end
-	end
+	autoload :Config,               'tdiary/config'
+	autoload :Plugin,               'tdiary/plugin'
+	autoload :DiaryBase,            'tdiary/diary_base'
+	autoload :CategorizableDiary,   'tdiary/diary_base'
+	autoload :UncategorizableDiary, 'tdiary/diary_base'
+	autoload :Comment,              'tdiary/comment'
+	autoload :Filter,               'tdiary/filter'
+	autoload :CommentManager,       'tdiary/comment_manager'
+	autoload :RefererManager,       'tdiary/referer_manager'
+	autoload :Dispatcher,           'tdiary/dispatcher'
+	autoload :Request,              'tdiary/request'
+	autoload :Response,             'tdiary/response'
 
 	#
 	# exception classes
@@ -114,20 +58,6 @@ module TDiary
 		def initialize( path )
 			@path = path
 		end
-	end
-
-	#
-	# module CategorizableDiary
-	#
-	module CategorizableDiary
-		def categorizable?; true; end
-	end
-
-	#
-	# module UncategorizableDiary
-	#
-	module UncategorizableDiary
-		def categorizable?; false; end
 	end
 
 	#
