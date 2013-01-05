@@ -29,6 +29,13 @@ module TDiary
 		def to_s
 			to_src
 		end
+
+		def categories_to_string
+			@categories = categories
+			cat_str = ""
+			categories.each {|cat| cat_str << "[#{cat}]"}
+			cat_str << " " unless cat_str.empty?
+		end
 	end
 
 	module DiaryBase

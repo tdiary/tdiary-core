@@ -57,20 +57,12 @@ module TDiary
 		end
 
 		def subtitle=(subtitle)
-			@categories = categories
-			cat_str = ""
-			categories.each {|cat| cat_str << "[#{cat}]"}
-			cat_str << " " unless cat_str.empty?
-			@subtitle = (subtitle || '').sub(/^# /,"\##{cat_str} ")
+			@subtitle = (subtitle || '').sub(/^# /,"\##{categories_to_string} ")
 			@strip_subtitle = strip_subtitle
 		end
 
 		def categories=(categories)
-			@categories = categories
-			cat_str = ""
-			categories.each {|cat| cat_str << "[#{cat}]"}
-			cat_str << " " unless cat_str.empty?
-			@subtitle = "#{cat_str} " + (strip_subtitle || '')
+			@subtitle = "#{categories_to_string} " + (strip_subtitle || '')
 			@strip_subtitle = strip_subtitle
 		end
 
@@ -92,7 +84,7 @@ module TDiary
 			r << @body_to_html
 		end
 
-		private
+	private
 
 		def to_html(string)
 			renderer = HTMLwithPygments.new(:hard_wrap => true)

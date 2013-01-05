@@ -44,23 +44,12 @@ module TDiary
 		end
 
 		def subtitle=(subtitle)
-			cat_str = ""
-			@categories.each {|cat|
-				cat_str << "[#{cat}]"
-			}
-			cat_str << " " unless cat_str.empty?
-			@subtitle = subtitle ? (cat_str + subtitle) : nil
+			@subtitle = subtitle ? (categories_to_string + subtitle) : nil
 			@stripped_subtitle = strip_subtitle
 		end
 
 		def categories=(categories)
-			@categories = categories
-			cat_str = ""
-			categories.each {|cat|
-				cat_str << "[#{cat}]"
-			}
-			cat_str << " " unless cat_str.empty?
-			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
+			@subtitle = @subtitle ? (categories_to_string + @stripped_subtitle) : nil
 			@stripped_subtitle = strip_subtitle
 		end
 
@@ -84,6 +73,7 @@ module TDiary
 		end
 
 	private
+
 		def valid_plugin_syntax?(code)
 			lambda {
 				$SAFE = 4
