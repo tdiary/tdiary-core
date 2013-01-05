@@ -30,9 +30,9 @@ module TDiary
 
 	autoload :Config,               'tdiary/config'
 	autoload :Plugin,               'tdiary/plugin'
-	autoload :DiaryBase,            'tdiary/diary_base'
-	autoload :CategorizableDiary,   'tdiary/diary_base'
-	autoload :UncategorizableDiary, 'tdiary/diary_base'
+	autoload :DiaryBase,            'tdiary/style'
+	autoload :CategorizableDiary,   'tdiary/style'
+	autoload :UncategorizableDiary, 'tdiary/style'
 	autoload :Comment,              'tdiary/comment'
 	autoload :Filter,               'tdiary/filter'
 	autoload :CommentManager,       'tdiary/comment_manager'

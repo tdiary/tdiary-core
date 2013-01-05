@@ -1,8 +1,8 @@
-#
-# module DiaryBase
-#  Base module of Diary.
-#
 module TDiary
+	#
+	# module SectionBase
+	#  Base module of Section.
+	#
 	module SectionBase
 
 		attr_reader :subtitle, :author
@@ -43,6 +43,10 @@ module TDiary
 		end
 	end
 
+	#
+	# module DiaryBase
+	#  Base module of Diary.
+	#
 	module DiaryBase
 		include ERB::Util
 		include CommentManager
