@@ -165,13 +165,6 @@ module TDiary
 			'GFM'
 		end
 
-		def replace(date, title, body)
-			set_date( date )
-			set_title( title )
-			@sections = []
-			append( body )
-		end
-
 		def append(body, author = nil)
 			section = nil
 			body.each_line do |l|
@@ -192,63 +185,12 @@ module TDiary
 			self
 		end
 
-		def each_section
-			@sections.each do |section|
-				yield section
-			end
-		end
-
 		def add_section(subtitle, body)
 			sec = GfmSection.new("\n")
 			sec.subtitle = subtitle
 			sec.body     = body
 			@sections << sec
 			@sections.size
-		end
-
-		def delete_section(index)
-			@sections.delete_at(index - 1)
-		end
-
-		def to_src
-			r = ''
-			each_section do |section|
-				r << section.to_src
-			end
-			r
-		end
-
-		def to_html(opt = {}, mode = :HTML)
-			case mode
-			when :CHTML
-				to_chtml(opt)
-			else
-				to_html4(opt)
-			end
-		end
-
-		def to_html4(opt)
-			r = ''
-			idx = 1
-			each_section do |section|
-				r << section.html4( date, idx, opt )
-				idx += 1
-			end
-			r
-		end
-
-		def to_chtml(opt)
-			r = ''
-			idx = 1
-			each_section do |section|
-				r << section.chtml(date, idx, opt)
-				idx += 1
-			end
-			r
-		end
-
-		def to_s
-			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
 		end
 	end
 end

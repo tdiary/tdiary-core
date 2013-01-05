@@ -72,14 +72,6 @@ module TDiary
 			@last_modified = Time::now
 		end
 
-		def show( s )
-			@show = s
-		end
-
-		def visible?
-			@show != false;
-		end
-
 		def last_modified
 			@last_modified ? @last_modified : Time::at( 0 )
 		end
@@ -88,8 +80,74 @@ module TDiary
 			@last_modified  = lm
 		end
 
+		def visible?
+			@show != false;
+		end
+
+		def show( s )
+			@show = s
+		end
+
+		def replace(date, title, body)
+			set_date( date )
+			set_title( title )
+			@sections = []
+			append( body )
+		end
+
+		def each_section
+			@sections.each do |section|
+				yield section
+			end
+		end
+
+		def delete_section(index)
+			@sections.delete_at(index - 1)
+		end
+
 		def eval_rhtml( opt, path = '.' )
 			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
+		end
+
+		def to_src
+			r = ''
+			each_section do |section|
+				r << section.to_src
+			end
+			r
+		end
+
+		def to_html( opt = {}, mode = :HTML )
+			case mode
+			when :CHTML
+				to_chtml( opt )
+			else
+				to_html4( opt )
+			end
+		end
+
+		def to_html4(opt)
+			r = ''
+			idx = 1
+			each_section do |section|
+				r << section.html4( date, idx, opt )
+				idx += 1
+			end
+			r
+		end
+
+		def to_chtml( opt )
+			r = ''
+			idx = 1
+			each_section do |section|
+				r << section.chtml( date, idx, opt )
+				idx += 1
+			end
+			r
+		end
+
+		def to_s
+			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
 		end
 	end
 

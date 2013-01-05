@@ -129,13 +129,6 @@ module TDiary
 			'tDiary'
 		end
 
-		def replace( date, title, body )
-			set_date( date )
-			set_title( title )
-			@sections = []
-			append( body )
-		end
-
 		def append( body, author = nil )
 			body.gsub( /\r/, '' ).split( /\n\n+/ ).each do |fragment|
 				section = TdiarySection::new( fragment, author )
@@ -145,39 +138,12 @@ module TDiary
 			self
 		end
 
-		def each_section
-			@sections.each do |section|
-				yield section
-			end
-		end
-
 		def add_section(subtitle, body)
 			sec = TdiarySection::new("\n\n ")
 			sec.subtitle = subtitle
 			sec.body     = body
 			@sections << sec
 			@sections.size
-		end
-
-		def delete_section(index)
-			@sections.delete_at(index - 1)
-		end
-
-		def to_src
-			src = ''
-			each_section do |section|
-				src << section.to_src
-			end
-			src
-		end
-
-		def to_html( opt = {}, mode = :HTML )
-			case mode
-			when :CHTML
-				to_chtml( opt )
-			else
-				to_html4( opt )
-			end
 		end
 
 		def to_html4( opt )
@@ -220,10 +186,6 @@ module TDiary
 				r << %Q[<%= section_leave_proc( Time::at( #{date.to_i} ) ) %>\n]
 			end
 			r
-		end
-
-		def to_s
-			"date=#{date.strftime('%Y%m%d')}, title=#{title}, body=[#{@sections.join('][')}]"
 		end
 	end
 end
