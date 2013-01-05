@@ -121,7 +121,7 @@ module TDiary
 
 		def to_html(string)
 			renderer = HTMLwithPygments.new(:hard_wrap => true)
-			extensions = {:fenced_code_blocks => true, :tables => true}
+			extensions = {:fenced_code_blocks => true, :tables => true, :no_intra_emphasis => true}
 			r = Redcarpet::Markdown.new(renderer, extensions).render(string)
 
 			# Twitter Autolink

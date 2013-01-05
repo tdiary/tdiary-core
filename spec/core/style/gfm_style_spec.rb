@@ -248,6 +248,31 @@ http://example.com is example.com
 		it { @diary.to_html.should eq @html }
 	end
 
+	describe 'ignore emphasis' do
+		before do
+			source = <<-'EOF'
+# subTitle
+
+@a_matsuda is amatsuda
+
+{{isbn_left_image ''}}
+			EOF
+			@diary.append(source)
+
+			@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p>@<a class="tweet-url username" href="https://twitter.com/a_matsuda" rel="nofollow">a_matsuda</a> is amatsuda</p>
+
+<p><%=isbn_left_image ''%></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+			EOF
+		end
+		it { @diary.to_html.should eq @html }
+	end
+
 	describe 'emoji' do
 		before do
 			source = <<-'EOF'
