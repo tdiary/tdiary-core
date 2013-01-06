@@ -116,7 +116,7 @@ module TDiary
 	#  show day mode view
 	#
 	class TDiaryDay < TDiaryView
-		def initialize( cgi, rhtm, conf )
+		def initialize( cgi, rhtml, conf )
 			super
 
 			begin
