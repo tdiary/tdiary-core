@@ -32,6 +32,7 @@ module TDiary
 	autoload :Plugin,                   'tdiary/plugin'
 
 	autoload :DiaryBase,                'tdiary/style'
+	autoload :SectionBase,              'tdiary/style'
 	autoload :CategorizableDiary,       'tdiary/style'
 	autoload :UncategorizableDiary,     'tdiary/style'
 	autoload :Comment,                  'tdiary/comment'
