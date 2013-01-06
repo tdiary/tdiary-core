@@ -50,37 +50,15 @@ module TDiary
 	protected
 
 		def do_eval_rhtml( prefix )
-			# load plugin files
 			load_plugins
 
-			# load and apply rhtmls
 			r = @io.restore_cache( prefix )
 
 			if r.nil?
-				files = ["header.rhtml", @rhtml, "footer.rhtml"]
-
-				rhtml = files.collect {|file|
-					path = "#{PATH}/skel/#{prefix}#{file}"
-					begin
-						File.read("#{path}.#{@conf.lang}")
-					rescue
-						File.read(path)
-					end
-				}.join
-
-				begin
-					r = ERB.new(rhtml.untaint).result(binding)
-				rescue => e
-					# migration error on ruby 1.9 only 1st time, reload.
-					if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
-						raise ForceRedirect.new(@conf.base_url)
-					end
-				end
-				r = ERB::new( r ).src
+				r = erb_src(prefix)
 				@io.store_cache( r, prefix ) unless @diaries.empty?
 			end
 
-			# apply plugins
 			r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
 
 			@cookies += @plugin.cookies
@@ -125,6 +103,29 @@ module TDiary
 			@logger = Logger.new(File.join(log_path, "debug.log"), 'daily')
 			@logger.level = Logger.const_get(@conf.log_level || 'DEBUG')
 			@logger
+		end
+
+	private
+
+		def erb_src(prefix)
+			rhtml = ["header.rhtml", @rhtml, "footer.rhtml"].map do |file|
+				path = "#{PATH}/skel/#{prefix}#{file}"
+				begin
+					File.read("#{path}.#{@conf.lang}")
+				rescue
+					File.read(path)
+				end
+			end.join
+
+			begin
+				r = ERB.new(rhtml.untaint).result(binding)
+			rescue => e
+				# migration error on ruby 1.9 only 1st time, reload.
+				if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
+					raise ForceRedirect.new(@conf.base_url)
+				end
+			end
+			ERB.new(r).src
 		end
 	end
 
