@@ -116,37 +116,6 @@ module TDiary
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
 		end
 
-		def load_filters
-			return if @filters
-
-			@filters = []
-			filter_path = @conf.filter_path || "#{PATH}/tdiary/filter"
-			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
-				require file.untaint
-				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf, @logger )
-			end
-		end
-
-		def all_filters
-			load_filters
-			@filters + (load_plugins.sf_filters || [])
-		end
-
-		def comment_filter( diary, comment )
-			all_filters.each do |filter|
-				return false unless filter.comment_filter( diary, comment )
-				break unless comment.visible?
-			end
-			true
-		end
-
-		def referer_filter( referer )
-			all_filters.each do |filter|
-				return false unless filter.referer_filter( referer )
-			end
-			true
-		end
-
 		def load_logger
 			return if @logger
 
