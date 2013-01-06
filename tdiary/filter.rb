@@ -4,6 +4,7 @@
 #
 module TDiary
 	module Filter
+
 		class Filter
 			DEBUG_NONE = 0
 			DEBUG_SPAM = 1

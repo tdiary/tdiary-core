@@ -6,6 +6,7 @@ module TDiary
 	class TDiaryAdmin < TDiaryAuthorOnlyBase
 		def initialize( cgi, rhtml, conf )
 			super
+
 			begin
 				@date = Time::local( @cgi.params['year'][0].to_i, @cgi.params['month'][0].to_i, @cgi.params['day'][0].to_i )
 			rescue ArgumentError, NameError
@@ -26,14 +27,13 @@ module TDiary
 				super
 			rescue TDiaryError
 			end
+
 			@date = Time::now + (@conf.hour_offset * 3600).to_i
 			title = ''
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
 				diary = self[@date]
-				if diary then
-					title = diary.title
-				end
+				title = diary.title if diary
 				DIRTY_NONE
 			end
 			@diary = @io.diary_factory( @date, title, '', @conf.style )
@@ -123,7 +123,8 @@ module TDiary
 			super
 		end
 
-		protected
+	protected
+
 		def do_eval_rhtml( prefix )
 			super
 			@plugin.instance_eval { update_proc }
@@ -144,6 +145,7 @@ module TDiary
 			rescue TDiaryError
 				@date = newdate
 			end
+
 			@author = @conf.multi_user ? @cgi.remote_user : nil
 
 			@io.transaction( @date ) do |diaries|
@@ -156,7 +158,8 @@ module TDiary
 			end
 		end
 
-		protected
+	protected
+
 		def newdate
 			Time::now + (@conf.hour_offset * 3600).to_i
 		end

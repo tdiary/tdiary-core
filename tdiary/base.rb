@@ -11,9 +11,7 @@ module TDiary
 		DIRTY_COMMENT = 2
 		DIRTY_REFERER = 4
 
-		attr_reader :cookies
-		attr_reader :date
-		attr_reader :diaries
+		attr_reader :cookies, :date, :diaries
 		attr_reader :cgi, :rhtml, :conf
 		attr_reader :ignore_parser_cache
 
@@ -30,11 +28,11 @@ module TDiary
 			begin
 				r = do_eval_rhtml( prefix )
 			rescue PluginError, SyntaxError, ArgumentError
-				r = ERB::new( File::open( "#{PATH}/skel/plugin_error.rhtml" ) {|f| f.read }.untaint ).result( binding )
+				r = ERB.new(File.read("#{PATH}/skel/plugin_error.rhtml").untaint).result(binding)
 			rescue Exception
 				raise
 			end
-			return r
+			r
 		end
 
 		def last_modified
@@ -49,7 +47,8 @@ module TDiary
 			@years = @io.calendar unless @years
 		end
 
-		protected
+	protected
+
 		def do_eval_rhtml( prefix )
 			# load plugin files
 			load_plugins
@@ -59,20 +58,22 @@ module TDiary
 
 			if r.nil?
 				files = ["header.rhtml", @rhtml, "footer.rhtml"]
+
 				rhtml = files.collect {|file|
 					path = "#{PATH}/skel/#{prefix}#{file}"
 					begin
-						File::open( "#{path}.#{@conf.lang}" ) {|f| f.read }
+						File.read("#{path}.#{@conf.lang}")
 					rescue
-						File::open( path ) {|f| f.read }
+						File.read(path)
 					end
 				}.join
+
 				begin
-					r = ERB::new( rhtml.untaint ).result( binding )
+					r = ERB.new(rhtml.untaint).result(binding)
 				rescue => e
+					# migration error on ruby 1.9 only 1st time, reload.
 					if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
-						# migration error on ruby 1.9 only 1st time, reload.
-						raise ForceRedirect::new( @conf.base_url )
+						raise ForceRedirect.new(@conf.base_url)
 					end
 				end
 				r = ERB::new( r ).src
@@ -81,7 +82,9 @@ module TDiary
 
 			# apply plugins
 			r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
+
 			@cookies += @plugin.cookies
+
 			r
 		end
 
@@ -162,6 +165,7 @@ module TDiary
 	#
 	class TDiaryCategoryView < TDiaryBase
 		attr_reader :last_modified
+
 		def initialize(cgi, rhtml, conf)
 			super
 			@last_modified = Time.now
@@ -174,6 +178,7 @@ module TDiary
 	#
 	class TDiarySearch < TDiaryBase
 		attr_reader :last_modified
+
 		def initialize(cgi, rhtml, conf)
 			super
 			@last_modified = Time.now
@@ -188,4 +193,3 @@ end
 # ruby-indent-level: 3
 # End:
 # vim: ts=3
-

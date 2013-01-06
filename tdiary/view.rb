@@ -6,6 +6,7 @@ module TDiary
 	class TDiaryView < TDiaryBase
 		def initialize( cgi, rhtml, conf )
 			super
+
 			unless referer_filter( @cgi.referer )
 				def @cgi.referer; nil; end
 			end
@@ -41,6 +42,7 @@ module TDiary
 		end
 
 	protected
+
 		def each_day
 			@diaries.keys.sort.each do |date|
 				diary = @diaries[date]
@@ -83,6 +85,7 @@ module TDiary
 	class TDiaryDay < TDiaryView
 		def initialize( cgi, rhtm, conf )
 			super
+
 			begin
 				# time is noon for easy to calc leap second.
 				@date = Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60
@@ -106,6 +109,7 @@ module TDiary
 		end
 
 	protected
+
 		def load( date )
 			if not @diary or (@diary.date.dup + 12*60*60).gmtime.strftime( '%Y%m%d' ) != date.dup.gmtime.strftime( '%Y%m%d' ) then
 				@io.transaction( date ) do |diaries|
@@ -142,6 +146,7 @@ module TDiary
 		end
 
 	protected
+
 		def load( date )
 			@date = date
 			@name = @cgi.params['name'][0]
@@ -247,6 +252,7 @@ module TDiary
 		end
 
 	protected
+
 		def nyear(month)
 			r = []
 			calendar
@@ -271,12 +277,14 @@ module TDiary
 	class TDiaryLatest < TDiaryView
 		def initialize( cgi, rhtml, conf )
 			super
+
 			if @cgi.params['date'][0] then
 				ym = [@cgi.params['date'][0][0,4].to_i, @cgi.params['date'][0][4,2].to_i]
 				@date = nil
 			else
 				ym = latest_month
 			end
+
 			unless @date then
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
@@ -360,6 +368,7 @@ module TDiary
 		end
 
 	protected
+
 		def count_diaries_after( diaries )
 			start = start_date
 			limit = limit_size( @conf.latest_limit )

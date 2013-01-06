@@ -4,15 +4,14 @@ module TDiary
 	#  base class for author-only access pages
 	#
 	class TDiaryAuthorOnlyBase < TDiaryBase
-		def csrf_protection_get_is_okay
-			false
-		end
+		def csrf_protection_get_is_okay; false; end
 
 		def initialize( cgi, rhtml, conf )
 			super
 			csrf_check( cgi, conf )
 		end
-		private
+
+	private
 
 		def csrf_check( cgi, conf )
 			# CSRF condition check

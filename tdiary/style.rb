@@ -115,7 +115,7 @@ module TDiary
 		end
 
 		def eval_rhtml( opt, path = '.' )
-			ERB::new( File::open( "#{path}/skel/#{opt['prefix']}diary.rhtml" ){|f| f.read }.untaint ).result( binding )
+			ERB.new(File.read("#{path}/skel/#{opt['prefix']}diary.rhtml").untaint).result(binding)
 		end
 
 		def to_src
