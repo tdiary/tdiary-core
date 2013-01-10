@@ -1,4 +1,5 @@
 #!ruby
+# encoding: US-ASCII
 
 class ImageSize
   require "stringio"
