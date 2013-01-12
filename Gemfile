@@ -57,6 +57,6 @@ group :development do
     end
     gem 'ci_reporter'
 
-    gem 'jasmine'
+    gem 'jasmine', '1.3.0'
   end
 end
