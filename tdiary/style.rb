@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module TDiary
 	#
 	# module SectionBase
@@ -82,6 +83,13 @@ module TDiary
 		end
 
 		def last_modified
+			# 日本語を含むツッコミを入れると diary.last_modified が String になる (原因不明)
+			# (PStore 保存前は Time だが, 保存後に String となる)
+			# 暫定的に String だったら Time へ変換する
+			if @last_modified.instance_of? String
+				@last_modified = Time.at(0)
+			end
+
 			@last_modified ? @last_modified : Time::at( 0 )
 		end
 

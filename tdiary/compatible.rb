@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
-# = for Ruby1.9.1 compatible =
-#
 
-# --------------------------------------------------------
-# 汎用的な設定
-# --------------------------------------------------------
+# ENV#[] raises an exception on secure mode
+class CGI
+	ENV = ::ENV.to_hash
+end
 
-# for Ruby1.9.1
+# for Ruby 1.9.3
+if ::Object.method_defined?(:untrust)
+	class Object
+		def taint
+			super
+			untrust
+		end
+	end
+end
+
+# for Ruby 1.9.X
 
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
 if ::String.method_defined?(:force_encoding)
@@ -54,11 +63,6 @@ if ::String.method_defined?(:force_encoding)
 	end
 end
 
-# ENV#[] raises an exception on secure mode
-class CGI
-	ENV = ::ENV.to_hash
-end
-
 # for Ruby 1.8.X
 unless ::String.method_defined?(:force_encoding)
 	class String
@@ -96,31 +100,6 @@ unless ::Integer.method_defined?(:ord)
 		end
 	end
 end
-
-# --------------------------------------------------------
-# tDiary 用の設定
-# --------------------------------------------------------
-
-# 日本語を含むツッコミを入れると diary.last_modified が String になる (原因不明)
-# (PStore 保存前は Time だが, 保存後に String となる)
-# 暫定的に String だったら Time へ変換する
-module TDiary
-	class WikiDiary
-		def last_modified
-			if @last_modified.instance_of? String
-				@last_modified = Time.at(0)
-			end
-			@last_modified
-		end
-	end
-end
-
-class Object
-	def taint
-		super
-		untrust
-	end
-end if ::Object.method_defined?(:untrust)
 
 # Local Variables:
 # mode: ruby
