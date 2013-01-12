@@ -116,10 +116,10 @@ module TDiary
 end
 
 class Object
-       def taint
-               super
-               untrust
-       end
+	def taint
+		super
+		untrust
+	end
 end if ::Object.method_defined?(:untrust)
 
 # Local Variables:
