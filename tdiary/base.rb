@@ -21,7 +21,6 @@ module TDiary
 			@cookies = []
 			@io = @conf.io_class.new( self )
 			@ignore_parser_cache = false
-			load_logger
 		end
 
 		def eval_rhtml( prefix = '' )
@@ -92,18 +91,6 @@ module TDiary
 
 		def delete( date )
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
-		end
-
-		def load_logger
-			if @conf.logger
-				TDiary.logger = @conf.logger
-			else
-				require 'logger'
-				log_path = (@conf.log_path || "#{@conf.data_path}log")
-				FileUtils.mkdir_p(log_path.untaint)
-				TDiary.logger = Logger.new(File.join(log_path, "debug.log"), 'daily')
-				TDiary.logger.level = Logger.const_get(@conf.log_level || 'DEBUG')
-			end
 		end
 
 	private

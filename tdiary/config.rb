@@ -12,6 +12,7 @@ module TDiary
 			configure_attrs
 			configure_bot_pattern
 			setup_attr_accessor_to_all_ivars
+			load_logger
 		end
 
 		# saving to tdiary.conf in @data_path
@@ -243,7 +244,8 @@ module TDiary
 			eval( def_vars2, b )
 		end
 
-		private
+	private
+
 		def setup_attr_accessor_to_all_ivars
 			names = instance_variables().collect {|ivar| ivar.to_s.sub(/@/, '') }
 			(class << self; self; end).class_eval { attr_accessor *names }
@@ -253,6 +255,18 @@ module TDiary
 			bot = ["bot", "spider", "antenna", "crawler", "moget", "slurp"]
 			bot += @options['bot'] || []
 			@bot = Regexp::new( "(#{bot.uniq.join( '|' )})", true )
+		end
+
+		def load_logger
+			if @logger
+				TDiary.logger = @logger
+			else
+				require 'logger'
+				log_path = (@log_path || "#{@data_path}/log")
+				FileUtils.mkdir_p(log_path.untaint)
+				TDiary.logger = Logger.new(File.join(log_path, "debug.log"), 'daily')
+				TDiary.logger.level = Logger.const_get(@log_level || 'DEBUG')
+			end
 		end
 
 		def method_missing( *m )
