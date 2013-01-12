@@ -88,9 +88,11 @@ module TDiary
 			# 暫定的に String だったら Time へ変換する
 			if @last_modified.instance_of? String
 				@last_modified = Time.at(0)
+			elsif @last_modified
+				@last_modified
+			else
+				Time::at( 0 )
 			end
-
-			@last_modified ? @last_modified : Time::at( 0 )
 		end
 
 		def last_modified=( lm )
