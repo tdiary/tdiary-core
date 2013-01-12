@@ -122,6 +122,17 @@ git push sqale deploy:master
 
 これで http://application-username.sqale.jp にアクセスして日記を書くことができます。
 
+### サーバーの選択
+
+Sqale用の`Procfile`（`misc/paas/sqale/Procfile`）ではThinというサーバーを設定していますが、このファイルを書き換えることで他のサーバーでtDiaryを動かすこともできます。
+指定できるサーバーと設定方法の詳細は、Sqaleの[マニュアル](https://sqale.jp/support/manual/change-web-server)を参照してください。
+
+また、SqaleデフォルトのUnicornで動かしたい場合は、`Procfile`を削除してください。
+
+```
+git rm Procfile
+```
+
 独自のテーマファイルを使う方法
 ----
 
