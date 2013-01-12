@@ -105,9 +105,6 @@ HEADER
 
 <h3>最近のツッコミ</h3>
 <%= recent_comment3 %>
-
-<h3>最近のTrackBack</h3>
-<%= recent_trackback3 %>
 </div>
 FOOTER
 
