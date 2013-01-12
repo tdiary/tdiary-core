@@ -19,3 +19,8 @@ gem 'pygments.rb'
 # To use RdbIO
 gem 'sequel'
 gem 'mysql2'
+
+# To use rack based application server
+gem 'thin', :require => false
+# gem 'puma', :require => false
+# gem 'rainbows', :require => false
