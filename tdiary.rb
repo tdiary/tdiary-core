@@ -14,7 +14,6 @@ Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.u
 
 require 'cgi'
 require 'uri'
-require 'logger'
 require 'fileutils'
 require 'pstore'
 require 'json'
@@ -84,6 +83,16 @@ module TDiary
 		attr_reader :path
 		def initialize( path )
 			@path = path
+		end
+	end
+
+	class << self
+		def logger
+			@@logger
+		end
+
+		def logger=(obj)
+			@@logger = obj
 		end
 	end
 end
