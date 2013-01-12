@@ -1,0 +1,466 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>doc/rd-draft.rd.ja</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">RD working draft 日本語版</a></h1><!-- RDLabel: "RD working draft 日本語版" -->
+<p>英語版は<a href="http://www.ruby-lang.org/~rubikitch/RDP-en.cgi?cmd=view&amp;name=RD">ここ</a>にあります。</p>
+<h2><a name="label-1" id="label-1">RDとは何か</a></h2><!-- RDLabel: "RDとは何か" -->
+<p>RDとはRuby版のPODです。つまりRubyスクリプトファイルの中に埋め込む事を意図して
+定義されたドキュメントフォーマットです。</p>
+<p>RDは主にplain textをさまざまなフォーマットに変換するplain2というプログラム
+の影響を受けています。そのため、RDはplain textに似ており、シンプルですっきり
+した文法なので読みやすく書きやすいでしょう。</p>
+<h2><a name="label-2" id="label-2">RubyインタプリタはRDをどのように扱うか</a></h2><!-- RDLabel: "RubyインタプリタはRDをどのように扱うか" -->
+<p>Rubyのインタプリタは単純に"<code>=begin</code>"で始まる行から"<code>=end</code>"で始まる
+行までを無視します。ですから、スクリプトファイル中に埋め込む事ができるのは
+RDだけではありません。何でも<code>=begin</code>と<code>=end</code>の間に書く事ができるの
+です。RDは選択肢の一つにすぎませんが、Ruby標準のドキュメントフォーマットと
+されています。<a name="footmark-1" id="footmark-1" href="#foottext-1"><sup><small>*1</small></sup></a></p>
+<h2><a name="label-3" id="label-3">RDの基本的な概念と文法</a></h2><!-- RDLabel: "RDの基本的な概念と文法" -->
+<h3><a name="label-4" id="label-4">Element, Block, Inline</a></h3><!-- RDLabel: "Element, Block, Inline" -->
+<p>これからの説明では"Element"という用語<a name="footmark-2" id="footmark-2" href="#foottext-2"><sup><small>*2</small></sup></a>をテキストに文章構造を与えるための
+構成要素という意味で用います。さらに、"<a href="#label-5">Block</a>"という用語を比較的
+大きくグローバルな構造を表すElementに、"<a href="#label-35">Inline</a>"という用語を比較的小さ
+くローカルな、テキストに付加的な修飾を与えるElementに対して用います。</p>
+<p>段落や見出し、リストなどがBlockです。RDではBlockを表すのに
+インデントや特殊文字を用います。Blockを入れ子にすることで複雑な
+構造も表現できます。そして、Blockの表現は自然とplain textに見え
+ます。詳しくは<a href="#label-5">Block</a>を見てください。</p>
+<p>強調やコードや参照などがInlineです。((? ... ?))のようなカッコと
+特殊文字の組合せがInlineの表現に使われます。ほとんどのInlineが互いに
+入れ子にできます。詳しくは<a href="#label-35">Inline</a>を見てください。</p>
+<h3><a name="label-5" id="label-5">Block</a></h3><!-- RDLabel: "Block" -->
+<h4><a name="label-6" id="label-6">基本文法</a></h4><!-- RDLabel: "基本文法" -->
+<p>Blockは行指向の文法にしたがいます。つまり、同じ行にある文字はすべて同じ
+Blockに属しています。インデントはBlockの入れ子レベルとタイプを表して
+います。行の先頭の文字はBlockのタイプに関係します。</p>
+<h5><a name="label-7" id="label-7">概念と用語</a></h5><!-- RDLabel: "概念と用語" -->
+<dl>
+<dt><a name="label-8" id="label-8">Baseline</a></dt><!-- RDLabel: "Baseline" -->
+<dd>
+Baselineはインデントの基準です。ある行のインデントととBaselineの相対的
+な深さはその行の属するBlockのタイプに影響します。
+</dd>
+<dt><a name="label-9" id="label-9">Head Char</a></dt><!-- RDLabel: "Head Char" -->
+<dd>
+Head Charは空白文字を除いた行の先頭の文字です。
+</dd>
+<dt><a name="label-10" id="label-10">STRINGLINE</a></dt><!-- RDLabel: "STRINGLINE" -->
+<dd>
+STRINGLINEは普通の文字で構成された行です。STRINGLINEは"<code>*</code>",
+"<code>(<var>num</var>)</code>", "<code>:</code>", "<code>=</code>", "<code>+</code>"といった文字を
+Head Charとしては含みません。しかし、インデントされた行なら"<code>=</code>"
+や"<code>+</code>"をHead Charとすることができます。
+</dd>
+<dt><a name="label-11" id="label-11">WHITELINE</a></dt><!-- RDLabel: "WHITELINE" -->
+<dd>
+WHITELINEは空白文字だけの行です。
+</dd>
+<dt><a name="label-12" id="label-12">Comment</a></dt><!-- RDLabel: "Comment" -->
+<dd>
+<code>/^#/</code>にマッチする行はコメントとみなされます。
+</dd>
+</dl>
+<h5><a name="label-13" id="label-13">Baselineの決定と影響</a></h5><!-- RDLabel: "Baselineの決定と影響" -->
+<p>トップレベルでは<a href="#label-8">Baseline</a>は行の左端です。リスト内ではBaselineはListItem
+の最初の<a href="#label-5">Block</a>によって決定します。例えば、</p>
+<pre>Example: "|" はBaselineを表しています。
+  |この行はトップレベルのTextBlockの行だとします。
+  |&lt;- したがって、Baselineは左端です。
+    *|List内では (1)
+     |&lt;- このようにBaselineは(1)の行で決定されます。
+    *    |同じListでもListItem毎にBaselineが決定されます。
+         |&lt;- したがって、1番目のListItemとは違うここにBaselineがあります。</pre>
+<p>|この行はトップレベルのTextBlockの行だとします。
+|&lt;- したがって、Baselineは左端です。</p>
+<ul>
+<li>|List内では (1)
+   |&lt;- このようにBaselineは(1)の行で決定されます。</li>
+<li>|同じListでもListItem毎にBaselineが決定されます。
+       |&lt;- したがって、1番目のListItemとは違うここにBaselineがあります。</li>
+</ul>
+<p>Blockが別のBlockに入れ子になっている時には内部のBlockのBaselineは外側の
+BlockのBaselineよりも深くなります。</p>
+<p>Baselineとインデントの相対的な位置関係がBlockのタイプに影響します。
+Baselineと同じ深さにインデントされた<a href="#label-10">STRINGLINE</a>は<a href="#label-20">TextBlock</a>
+に属す行となります。一方Baselineより深くインデントされた<a href="#label-10">STRINGLINE</a>
+は<a href="#label-21">Verbatim</a>の行です。</p>
+<h4><a name="label-14" id="label-14">Blockのタイプ</a></h4><!-- RDLabel: "Blockのタイプ" -->
+<h5><a name="label-15" id="label-15">Headline</a></h5><!-- RDLabel: "Headline" -->
+<p>Headlineは"<code>=</code>"か"<code>+</code>"を<a href="#label-9">Head Char</a>とする行で構成されます。
+Headlineは1行以上にはなりません。Headlineはトップレベルだけに置く事が
+できます。</p>
+<pre>Example:
+|&lt;- トップレベルのBaseline
+= Headline 1.
+=== Headline 1.1.1.
++ Headline 1.1.1.1.1.</pre>
+<h1><a name="label-16" id="label-16">Headline 1.</a></h1><!-- RDLabel: "Headline 1." -->
+<h3><a name="label-17" id="label-17">Headline 1.1.1.</a></h3><!-- RDLabel: "Headline 1.1.1." -->
+<h5><a name="label-18" id="label-18">Headline 1.1.1.1.1.</a></h5><!-- RDLabel: "Headline 1.1.1.1.1." -->
+<p>Headlineの先頭の特殊文字はHeadlineのレベルを表しています。次の図で
+最初のマークは最も大きなレベルのもので、最後のマークがもっとも小さな
+レベルのものです。</p>
+<pre>Fig: Headline Marks
+=
+==
+===
+====
++
+++</pre>
+<p>マークに続くテキストはHeadlineのタイトルです。これは同時に
+<a href="#label-46">Reference</a>のラベルとして使われます。</p>
+<p>Headlineのタイトルには<a href="#label-46">Reference</a>とFootnoteを除く<a href="#label-35">Inline</a>を使う事が
+できます。</p>
+<h5><a name="label-19" id="label-19">Include</a></h5><!-- RDLabel: "Include" -->
+<p>Includeは"<code>&lt;&lt;&lt;</code>"を<a href="#label-9">Head Char</a>とし、その後ろにインクルードする
+ファイルの名前が続く行からなります。RD形式のファイルと出力するフォーマッ
+トで書かれたファイルのどちらでもIncludeによってインクルードできます。</p>
+<p>RD形式のファイルをインクルードする時にはインクルードされるファイルの名
+前は"foo.rd"の様に".rd"もしくは".rb"というサフィックスでなくてはなりま
+せん。そして、"<code>&lt;&lt;&lt;</code>"の後にはサフィックスを含めたファイルの完全な
+名前を書きます。例えば、次の様にです。</p>
+<pre>&lt;&lt;&lt; foo.rd</pre>
+<p>出力するフォーマットのファイルをインクルードするには、インクルードされる
+ファイルはその出力フォーマットに固有のサフィックスを持たないといけません。
+例えば、HTMLのファイルをインクルードするには".html"というサフィックスを、
+Texinfo形式のファイルをインクルードするには".texi"というサフィックスを
+つけます。そして、"<code>&lt;&lt;&lt;</code>"の後ろにはサフィックスを除いたファイルの
+名前を書きます。例えば、</p>
+<pre>&lt;&lt;&lt; foo</pre>
+<p>と書くわけです。</p>
+<p>この場合、RDフォーマッタはHTMLを出力する時には"foo.html"をインクルード
+し、Texinfo形式で出力する時には"foo.texi"をインクルードします。出力フォー
+マットのIncludeを用いる時には複数の(しかもなるべく多くの)形式のインク
+ルードファイルを用意すべきです。</p>
+<h5><a name="label-20" id="label-20">TextBlock</a></h5><!-- RDLabel: "TextBlock" -->
+<p>TextBlockは複数の<a href="#label-10">STRINGLINE</a>から構成されます。それらの行は<a href="#label-8">Baseline</a>
+と同じインデントでないといけません。<a href="#label-8">Baseline</a>より深い<a href="#label-10">STRINGLINE</a>は
+<a href="#label-21">Verbatim</a>の行とみなされます。</p>
+<p>TextBlockは<a href="#label-35">Inline</a>を内部に含む事ができます。</p>
+<pre>Example:
+|
+これはTextBlockです。
+TextBlockの2行目の行です。
+  この行はTextBlockでなくVerbatimです。
+* そしてこの行はListの行です。(正確にはListItemの中のTextBlockの行でも
+  あるのですが)</pre>
+<p>この例は次のようにフォーマットされます。</p>
+<p>これはTextBlockです。
+TextBlockの2行目の行です。</p>
+<pre>この行はTextBlockでなくVerbatimです。</pre>
+<ul>
+<li>そしてこの行はListの行です。(正確にはListItemの中のTextBlockの行でも
+  あるのですが)</li>
+</ul>
+<h5><a name="label-21" id="label-21">Verbatim</a></h5><!-- RDLabel: "Verbatim" -->
+<p>Rubyスクリプトを引用するのにVerbatimを用いる事ができます。Verbatimは
+<a href="#label-8">Baseline</a>より深いインデントを持つ<a href="#label-10">STRINGLINE</a>で構成されます。
+Verbatimは"<code>*</code>"や"<code>(1)</code>"や"<code>:</code>"といった特殊文字を<!-- Reference, RDLabel "Head
+Char" doesn't exist --><em class="label-not-found">Head
+Char</em><!-- Reference end -->として持つ行も含む事ができますが、それらは最初の行には置く事
+ができません。最初の行にあるときには<a href="#label-22">List</a>と見なされます。Verbatim
+は最初の行より浅いインデントの行も含みません。Verbatimは<a href="#label-11">WHITELINE</a>
+を含める事ができます。</p>
+<p><a href="#label-35">Inline</a>はVerbatim内では使えません。</p>
+<pre>Example:
+ これはVerbatimです。
+   最初の行より深いインデントを持っても、同じVerbatimの行になります。
+ * この行はListに見えますが、Verbatimです。
+しかしこの行は最初の行よりも浅くインデントされているので、別のVerbatim
+の行になります。</pre>
+<p>この例が次のようにフォーマットされます。</p>
+<pre>これはVerbatimです。
+  最初の行より深いインデントを持っても、同じVerbatimの行になります。
+* この行はListに見えますが、Verbatimです。</pre>
+<pre>しかしこの行は最初の行よりも浅くインデントされているので、別のVerbatim
+の行になります。</pre>
+<h5><a name="label-22" id="label-22">List</a></h5><!-- RDLabel: "List" -->
+<p>Listは特殊な<a href="#label-5">Block</a>です。Listは複数のListItemから構成され、ListItem
+は複数のBlockから構成されます。したがって、ListはBlockを内部に含む事が
+できます。含む事のできるBlockにはList自身も含みます。<a name="footmark-3" id="footmark-3" href="#foottext-3"><sup><small>*3</small></sup></a></p>
+<p>ListItemは<a href="#label-11">WHITELINE</a>を含む事ができますが、<a href="#label-20">TextBlock</a>は
+持てません。そのため、WHITELINEを間にはさむ事によって複数のTextBlock
+をListItem内部に置く事ができます。</p>
+<p>Listには"<a href="#label-23">ItemList</a>"、"<a href="#label-24">EnumList</a>"、"<a href="#label-25">DescList</a>",
+"<a href="#label-28">MethodList</a>の4種類があります。</p>
+<h6><a name="label-23" id="label-23">ItemList</a></h6><!-- RDLabel: "ItemList" -->
+<p>ItemListは単純な番号付されないListです。ItemListItemは"<code>*</code>"という
+<a href="#label-9">Head Char</a>の行で始まります。ItemListItemの最初のBlockは必ず
+<a href="#label-20">TextBlock</a>になります。</p>
+<pre>Example:
+* 親Listの最初のItem
+    * 子Listの最初のItem
+    * 子Listの2番目のItem
+  親ListのItemに含まれるTextBlock</pre>
+<p>下のようにフォーマットされます。</p>
+<ul>
+<li><p>親Listの最初のItem</p>
+<ul>
+<li>子Listの最初のItem</li>
+<li>子Listの2番目のItem</li>
+</ul>
+<p>親ListのItemに含まれるTextBlock</p></li>
+</ul>
+<h6><a name="label-24" id="label-24">EnumList</a></h6><!-- RDLabel: "EnumList" -->
+<p>EnumListは番号付されたListです。EnumListItemは"<code><var>num</var></code>"(<var>num</var>
+は整数)という<a href="#label-9">Head Char</a>の行ではじまります。他の点ではEnumListは
+<a href="#label-23">ItemList</a>と同じです。</p>
+<pre>Example:
+(1) 親Listの最初のItem
+      * 子ListとなるItemList
+(2) 親Listの2番目のItem
+(10) 番号は無視されます。</pre>
+<p>次のようにフォーマットされます。</p>
+<ol>
+<li>親Listの最初のItem
+<ul>
+<li>子ListとなるItemList</li>
+</ul></li>
+<li>親Listの2番目のItem</li>
+<li>番号は無視されます。</li>
+</ol>
+<h6><a name="label-25" id="label-25">DescList</a></h6><!-- RDLabel: "DescList" -->
+<p>DescListは用語説明のためのListです。DescListItemは2つの部分からなります。
+1つはTermパートでもう1つはDescriptionパートです。Termパートは<a href="#label-46">Reference</a>
+のLabelとして使われます。</p>
+<p>Termパートは"<code>:</code>"という<a href="#label-9">Head Char</a>の行からなります。Termパートの
+行はインデントできることを除くとTermパートは<a href="#label-15">Headline</a>と同様です。</p>
+<p>DescriptionパートはTermパートの次の行からはじまります。Descriptionパート
+の<a href="#label-8">Baseline</a>はTermパートの(<a href="#label-9">Head Char</a>を除いた)テキスト部分と
+同じかより深くないといけません。例えば次の例は間違っています。</p>
+<pre>Example:
+:   |Term
+  |Description.</pre>
+<p>Descriptionぱーとは複数の<a href="#label-5">Block</a>を含む事ができます。<a href="#label-22">List</a>を
+最初のBlockとすることもできます。Termパートは<a href="#label-35">Inline</a>を含む事が
+できますが、<a href="#label-46">Reference</a>とFootnoteは例外です。</p>
+<pre>Example:
+:Term
+   Descriptionの最初の行
+   2番目の行
+:Term2
+   * Listも含む事ができます
+   * ...</pre>
+<p>次のようにフォーマットされます。</p>
+<dl>
+<dt><a name="label-26" id="label-26">Term</a></dt><!-- RDLabel: "Term" -->
+<dd>
+Descriptionの最初の行
+2番目の行
+</dd>
+<dt><a name="label-27" id="label-27">Term2</a></dt><!-- RDLabel: "Term2" -->
+<dd>
+<ul>
+<li>Listも含む事ができます</li>
+<li>...</li>
+</ul>
+</dd>
+</dl>
+<h6><a name="label-28" id="label-28">MethodList</a></h6><!-- RDLabel: "MethodList" -->
+<p>MethodListはメソッドの説明のための特殊なタイプの<a href="#label-25">DescList</a>です。
+ほとんどの点でMethodListは<a href="#label-25">DescList</a>と同様ですが、Labelの規則
+は違っています。RDフォーマッタはMethodListのTermパートがなんらかの
+Rubyのあるクラスのメソッドや定数やCの関数プロトタイプといったような
+プログラムのコードであると知っています。そのため、MethodListは
+メソッドの引数のように見える部分を除いた上でLabelとなります。詳細は
+<a href="#label-44">LabelとReference</a>を見てください。</p>
+<p>MethodListItemは<a href="#label-25">DescList</a>と同様にTermパートとDescription
+パートを持ちます。Termパートは"<code>---</code>"という<a href="#label-9">Head Char</a>
+の行でなり、Descriptionパートは<a href="#label-20">TextBlock</a>や<a href="#label-21">Verbatim</a>
+、<a href="#label-22">List</a>を含む事ができます。しかし、逆にMethodListを<a href="#label-22">List</a>
+の中に置くべきではありません。RDは将来的にはこれを禁止するかも
+しれません。</p>
+<pre>Example:
+--- Array#each {|i| ... } # =&gt; Labelは"Array#each"
+      各項目に対してブロックを評価する。
+--- Array#index(val) # =&gt; Labelは"Array#index"
+      ((|val|))と同じ値である最初の項目を返す。同じ項目が無いときには
+      (({nil}))を返す。</pre>
+<p>この例が次のようにフォーマットされます。</p>
+<dl>
+<dt><a name="label-29" id="label-29"><code>Array#each {|<var>i</var>| ... }</code></a></dt><!-- RDLabel: "Array#each" -->
+<dd>
+各項目に対してブロックを評価する。</dd>
+<dt><a name="label-30" id="label-30"><code>Array#index(<var>val</var>)</code></a></dt><!-- RDLabel: "Array#index" -->
+<dd>
+<var>val</var>と同じ値である最初の項目を返す。同じ項目が無いときには
+<code>nil</code>を返す。</dd>
+</dl>
+<p>フォーマッタのいくつかはMethodListのTermパートに書かれているのはRuby
+のメソッドや定数などであると仮定しています。そういったフォーマッタでは
+MethodListのTermパートをインテリジェントに扱う事ができますが、そのため
+には特定の慣習にしたがってRDを書く必要があります。</p>
+<p>標準的なRubyクラスリファレンスのための慣習として次のようなものが提案さ
+れています。</p>
+<dl>
+<dt><a name="label-31" id="label-31">インスタンスメソッド</a></dt><!-- RDLabel: "インスタンスメソッド" -->
+<dd>
+<p>クラス<var>Class</var>のインスタンスメソッド<var>method</var></p>
+<pre>Class#method(its params  ...) { parameter block }</pre>
+</dd>
+<dt><a name="label-32" id="label-32">クラスメソッド(クラスの特異メソッド)</a></dt><!-- RDLabel: "クラスメソッド(クラスの特異メソッド)" -->
+<dd>
+<p>クラス<var>Class</var>のクラスメソッド<var>method</var></p>
+<pre>Class.method(its params ...) { parameter block }</pre>
+</dd>
+<dt><a name="label-33" id="label-33">クラス定数</a></dt><!-- RDLabel: "クラス定数" -->
+<dd>
+<p>クラス<var>Class</var>の定数<var>Const</var></p>
+<pre>Class::Const</pre>
+</dd>
+<dt><a name="label-34" id="label-34">関数メソッド</a></dt><!-- RDLabel: "関数メソッド" -->
+<dd>
+<p>関数<var>func</var></p>
+<pre>function#func(its params ...) { parameter block }</pre>
+</dd>
+</dl>
+<p>Rubyはいくつかの特殊な文字(e.g. [], []=, +, -, &lt;&lt;, ...)はメソッドの名前
+(識別子)として使います。この時、Rubyインタプリタはこれらのメソッドの
+パースを普通のメソッドとは違ったやりかた(演算子メソッド)で行います。
+しかし、この慣習ではこれらの演算子メソッドも同じように書きます。</p>
+<pre>Example:
+  --- Array#[](key)
+        ((|key|))に対応する値を返す。
+  --- Array#[]=(key, value)
+        ((|key|))の場所に((|value|))を格納する。
+  --- Array#+(other)
+        2つの(({Array}))を結合してそれを返します。</pre>
+<h3><a name="label-35" id="label-35">Inline</a></h3><!-- RDLabel: "Inline" -->
+<p>Inlineは<a href="#label-20">TextBlock</a>や<a href="#label-15">Headline</a>、<a href="#label-25">DescList</a>のTermパートの
+中で使う事ができます。カッコを使ったマークアップがInlineに使われます。
+Inline同士は互いに入れ子にできます。</p>
+<p>次のInlineの一覧では左側に書式を、右側にフォーマット後の様子を表示
+しています。</p>
+<dl>
+<dt><a name="label-36" id="label-36">((*Em*)) =&gt; <em>Em</em></a></dt><!-- RDLabel: "((*Em*)) => Em" -->
+<dd>
+強調
+</dd>
+<dt><a name="label-37" id="label-37">(({while gets...})) =&gt; <code>while gets...</code></a></dt><!-- RDLabel: "(({while gets...})) => while gets..." -->
+<dd>
+プログラムのコード
+</dd>
+<dt><a name="label-38" id="label-38">((|var|)) =&gt; <var>var</var></a></dt><!-- RDLabel: "((|var|)) => var" -->
+<dd>
+メタ変数<a name="footmark-4" id="footmark-4" href="#foottext-4"><sup><small>*4</small></sup></a>
+</dd>
+<dt><a name="label-39" id="label-39">((%ruby -v%)) =&gt; <kbd>ruby -v</kbd></a></dt><!-- RDLabel: "((%ruby -v%)) => ruby -v" -->
+<dd>
+キーボード
+</dd>
+<dt><a name="label-40" id="label-40">((:Term:))</a></dt><!-- RDLabel: "((:Term:))" -->
+<dd>
+<p>=&gt; <a name="index-0" id="index-0">Term</a></p>
+<p>インデクスやキーワードとなる用語の指定</p>
+</dd>
+<dt><a name="label-41" id="label-41">((&lt;Identity or URL&gt;))</a></dt><!-- RDLabel: "((<Identity or URL>))" -->
+<dd>
+<p>=&gt; <!-- Reference, RDLabel "Indentity or URL" doesn't exist --><em class="label-not-found">Indentity or URL</em><!-- Reference end --></p>
+<p>参照。詳しくは<a href="#label-44">LabelとReference</a>を見てください。</p>
+</dd>
+<dt><a name="label-42" id="label-42">((-Footnote-))</a></dt><!-- RDLabel: "((-Footnote-))" -->
+<dd>
+<p>=&gt; <a name="footmark-5" id="footmark-5" href="#foottext-5"><sup><small>*5</small></sup></a></p>
+<p>脚注</p>
+</dd>
+<dt><a name="label-43" id="label-43">(('verb')) =&gt; verb</a></dt><!-- RDLabel: "(('verb')) => verb" -->
+<dd>
+Inlineのvarbatim(フォーマット抑制)
+</dd>
+</dl>
+<h4><a name="label-44" id="label-44">LabelとReference</a></h4><!-- RDLabel: "LabelとReference" -->
+<p>ReferenceにはLabelが必要です。RDでは<a href="#label-15">Headline</a>のタイトルと<a href="#label-25">DescList</a>
+や<a href="#label-28">MethodList</a>のTermパートだけがLabelとなります。したがって、各々の
+<a href="#label-15">Headline</a>には違うタイトルをつけてあげなくてはなりません。この問題の
+きちんとした解決策はまだ見付かっていません。</p>
+<h5><a name="label-45" id="label-45">どのようにLabelがつけられるか</a></h5><!-- RDLabel: "どのようにLabelがつけられるか" -->
+<p><a href="#label-15">Headline</a>のタイトルと<a href="#label-25">DescList</a>や<a href="#label-28">MethodList</a>のTermパートが
+Labelとして使われます。しかし、<a href="#label-35">Inline</a>が含まれるために、それらが
+そのままLabelとして使われる、というほど単純ではありません。</p>
+<p>第一に、<a href="#label-28">MethodList</a>はLabel付けにおいてはやや特殊です。<a href="#label-28">MethodList</a>
+のTermパートは<a href="#label-35">Inline</a>を含みませんが、その代わりRDでは<a href="#label-28">MethodList</a>
+のTermパートはメソッドリファレンスやそれに類似の物とみなされますので、次の
+ようなルールでラベルが付けられます。</p>
+<ol>
+<li>"<code>(</code>"や"<code>{</code>"の前にあるテキストだけがラベルと見なされる。<a name="footmark-6" id="footmark-6" href="#foottext-6"><sup><small>*6</small></sup></a></li>
+</ol>
+<p>次の例を見れば、どのようにルールが適用されているかわかるでしょう。
+"<code># =&gt;</code>"より右にあるのが<a href="#label-28">MethodList</a>のTermパートから抽出された
+Labelです。</p>
+<pre>Example:
+  --- Array.new([size[, val]]) # =&gt; Array.new
+  --- Array#[]=(key, val) # =&gt; Array#[]=
+  --- Array#each { ... } # =&gt; Array#each
+  --- void rb_define_method(VALUE class, ...) # =&gt; void rb_define_method</pre>
+<p>次に、<a href="#label-15">Headline</a>のタイトルや<a href="#label-25">DescList</a>のTermパートの場合には、この
+ような特別なルールはありませんが、<a href="#label-35">Inline</a>を含む事があるので、<a href="#label-35">Inline</a>
+に用いるカッコを取り除くためのルールがあります。</p>
+<ol>
+<li><p>どんな<a href="#label-35">Inline</a>修飾もLabelには影響しません。したがって、</p>
+<pre>= ((*Headline*))</pre>
+<pre>と
+  = Headline
+は共に"Headline"とLabelが決まります。</pre></li>
+<li><p>しかし、Labelを抽出する際には<a href="#label-35">Inline</a>の開始カッコの後ろと終端カッコ
+     の前にある空白文字は取り除かれます。したがって、</p>
+<pre>= ((* Headline  *))</pre>
+<p>も</p>
+<pre>= ((*Headline*))</pre>
+<p>も"Headline"とLabelがつけられます。</p></li>
+</ol>
+<h5><a name="label-46" id="label-46">Reference</a></h5><!-- RDLabel: "Reference" -->
+<p>LabelのつけられたElementはReferenceによって参照できます。Referenceは
+((&lt;...&gt;))というカッコで修飾される<a href="#label-35">Inline</a>です。</p>
+<p>最も簡単なReferenceの使用法は、単にLabelをそのカッコの中に書けばよいのです。</p>
+<pre>((&lt;Label&gt;))</pre>
+<p>これは"Label"というLabelに対する参照となります。また、フォーマッタによる
+出力では"Label"というテキストが表示にも使われます。例: <!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found">Label</em><!-- Reference end --><a name="footmark-7" id="footmark-7" href="#foottext-7"><sup><small>*7</small></sup></a></p>
+<p>URLによって示されたリソースを参照するには次のように書きます。</p>
+<pre>((&lt;URL:http://www.ruby-lang.org/en/raa.html&gt;))</pre>
+<p>可能ならRDフォーマッタはURLを次のようにハイパーリンクします。例:
+<a href="http://www.ruby-lang.org/en/raa.html">&lt;URL:http://www.ruby-lang.org/en/raa.html&gt;</a>.</p>
+<p>Labelとは違うテキストを表示に使いたい時には次のように書きます。</p>
+<pre>((&lt;Text for display|Label&gt;))</pre>
+<p>"Text for display"が表示用のテキストとして使われ、"Label"がLabelとして
+使われます。例: <!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found">Text for display</em><!-- Reference end --></p>
+<p>表示用のテキストは<a href="#label-35">Inline</a>を含む事ができます。しかし、Footnoteと
+Reference自身を含む事はできません。</p>
+<p>Reference内では"|"や"/"は特殊文字なのでこれらを使いたい時には、それを含む
+部分ごとダブルクオートで囲ってやらないといけません。これはReference内のどの
+部分でも同じです。</p>
+<pre>((&lt;"Bar | inside display text"|Label&gt;))</pre>
+<p><!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found">Bar | inside display text</em><!-- Reference end --></p>
+<p>表示用のテキストはURLへのReferenceにも使う事ができます。</p>
+<pre>((&lt;Ruby Application Archive|URL:http://www.ruby-lang.org/en/raa.html&gt;))</pre>
+<p><a href="http://www.ruby-lang.org/en/raa.html">Ruby Application Archive</a></p>
+<p>表示用のテキストが無い場合には代わりにLabelに<a href="#label-35">Inline</a>を使えます。</p>
+<pre>((&lt;((*Label*))&gt;))</pre>
+<p><!-- Reference, RDLabel "Label" doesn't exist --><em class="label-not-found"><em>Label</em></em><!-- Reference end --></p>
+<hr />
+<p class="foottext">
+<a name="foottext-1" id="foottext-1" href="#footmark-1"><sup><small>*1</small></sup></a><small>もし他のドキュメントフォーマットに興味があるなら、例えば
+rubyapi2
+<a href="http://www.ueda.info.waseda.ac.jp/~igarashi/ruby/xml.html#rubyapi2">&lt;URL:http://www.ueda.info.waseda.ac.jp/~igarashi/ruby/xml.html#rubyapi2&gt;</a>
+などを見るといいでしょう。これはRuby/Gtkのような大規模ライブラリのドキュメン
+ト向けに作られています。</small><br />
+<a name="foottext-2" id="foottext-2" href="#footmark-2"><sup><small>*2</small></sup></a><small>訳注: RDの文法用語についてはあ
+えて日本語訳をあてませんでした。</small><br />
+<a name="foottext-3" id="foottext-3" href="#footmark-3"><sup><small>*3</small></sup></a><small><a href="#label-15">Headline</a>
+や<a href="#label-19">Include</a>はList内部に持てません。</small><br />
+<a name="foottext-4" id="foottext-4" href="#footmark-4"><sup><small>*4</small></sup></a><small> Varについての詳しい説明はtexinfo.texiの該当部分にあります。</small><br />
+<a name="foottext-5" id="foottext-5" href="#footmark-5"><sup><small>*5</small></sup></a><small>Footnote</small><br />
+<a name="foottext-6" id="foottext-6" href="#footmark-6"><sup><small>*6</small></sup></a><small>
+      "<code>(...)</code>"の内部のテキストはメソッドの引数だと見なされ、
+      "<code>{...}</code>"の内部のテキストはメソッドのブロックと見なされるのです。</small><br />
+<a name="foottext-7" id="foottext-7" href="#footmark-7"><sup><small>*7</small></sup></a><small>
+"Label"というLabelのついたElementが無いのでおそらくReferenceの様には
+見えないでしょう。</small><br />
+</p>
+</body>
+</html>

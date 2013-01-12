@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>README.rd</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">RDtool 0.6.38</a></h1><!-- RDLabel: "RDtool 0.6.38" -->
+<h2><a name="label-1" id="label-1">What is RDtool</a></h2><!-- RDLabel: "What is RDtool" -->
+<p>RD is Ruby's POD. RDtool is formatter for RD.</p>
+<h2><a name="label-2" id="label-2">What is Changed</a></h2><!-- RDLabel: "What is Changed" -->
+<p>See HISTORY.</p>
+<h2><a name="label-3" id="label-3">How to Install</a></h2><!-- RDLabel: "How to Install" -->
+<ol>
+<li><kbd>su</kbd> if you install into public directories.</li>
+<li><kbd>ruby setup.rb</kbd></li>
+<li>If you want to use , utils/rd-mode.el, install it <em>by hand</em>.</li>
+</ol>
+<h2><a name="label-4" id="label-4">How to use</a></h2><!-- RDLabel: "How to use" -->
+<p>Simply,</p>
+<pre>% rd2 rdfile.rd &gt; outputfile</pre>
+<p>If you want to indicate format-library, do</p>
+<pre>% rd2 -r library rdfile.rd &gt; outputfile</pre>
+<p>Use <kbd> rd2 --help </kbd> for more options.</p>
+<p>For options depend on format-library, enter <kbd>--help</kbd> after
+the indication of format-library. For example,</p>
+<pre>% rd2 -r rd/rd2html-lib.rb --help</pre>
+<p>rd2 load "${HOME}/.rd2rc" when it runs.</p>
+<h2><a name="label-5" id="label-5">How to write RD?</a></h2><!-- RDLabel: "How to write RD?" -->
+<p>Please read doc/rd-draft.rd.</p>
+<h2><a name="label-6" id="label-6">About bug report</a></h2><!-- RDLabel: "About bug report" -->
+<p>If you find a bug in RDtool, please add new
+<a href="https://github.com/uwabami/rdtool/issues">issues at gihtub</a>,
+or E-mail me <a href="mailto:uwabami@gfd-dennou.org">&lt;URL:mailto:uwabami@gfd-dennou.org&gt;</a>.</p>
+<h2><a name="label-7" id="label-7">Copyright and License</a></h2><!-- RDLabel: "Copyright and License" -->
+<p>You can use/re-distribute/change RDtool under Ruby's License or GPL-2+.
+see LICNESE.txt and COPYING.txt. This distribution of RDtool include
+files that are copyrighted by somebody else, and these files can be
+re-distributed under those own license.</p>
+<p>These files include the condition of those licenses in themselves. The
+license information for every files is as follows.</p>
+<pre>Files: */
+  * Copyright: 2004 MoonWolf &lt;moonwolf@moonwolf.com&gt;
+               2011-2012 Youhei SASAKI &lt;uwabami@gfd-dennou.org&gt;
+  * License: Ruby's License or GPL-2+
+Files: lib/rd/rd2man-lib.rb
+  * Copyright: 2000  WATANABE Hirofumi
+               2012 Youhei SASAKI &lt;uwabami@gfd-dennou.org&gt;
+  * License: Ruby's License or GPL-2+
+Files: lib/rd/{head-filter,rd2html-ext-lib,rd2html-ext-opt}.rb
+  * Copyright: 2003 Rubikitch
+  * License: Ruby's License or GPL-2+
+Files: bin/rdswap
+  * Copyright: 1999 C.Hintze
+  * License: Ruby's License or GPL-2+
+Files: setup.rb
+  * Copyright: 2000-2006 Minero Aoki
+  * License: LGPL-2.1
+Files: utils/rd-mode.el
+  * Copyright: 1999 Koji Arai, Toshiro Kuwabara.
+  * License: GPL-2+</pre>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>README.rd.ja</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">RDtool 0.6.38</a></h1><!-- RDLabel: "RDtool 0.6.38" -->
+<h2><a name="label-1" id="label-1">RDってなに？</a></h2><!-- RDLabel: "RDってなに？" -->
+<p>RDはRubyにおけるPOD(Plain Old Documentation)のようなものです。
+RDtoolはRDのフォーマッタであり、RDをHTMLなどに変換できます。</p>
+<h2><a name="label-2" id="label-2">何が変わった？</a></h2><!-- RDLabel: "何が変わった？" -->
+<p>HISTORYを見てください。</p>
+<h2><a name="label-3" id="label-3">インストールの方法</a></h2><!-- RDLabel: "インストールの方法" -->
+<ol>
+<li>必要なら、<kbd>su</kbd></li>
+<li><kbd>ruby setup.rb</kbd></li>
+<li>utils/rd-mode.elを使いたいならば
+    それらを<em>手で</em>インストールします。</li>
+</ol>
+<h2><a name="label-4" id="label-4">どうやって使うか。</a></h2><!-- RDLabel: "どうやって使うか。" -->
+<p>基本的には、こんな感じ。</p>
+<pre>% rd2 rdfile.rd &gt; outputfile</pre>
+<p>フォーマットライブラリを指定したい時は、こう。</p>
+<pre>% rd2 -r library rdfile.rd &gt; outputfile</pre>
+<p><kbd> rd2 --help </kbd>でオプションの詳細がでます。</p>
+<p>フォーマットライブラリ依存のオプションは先にフォーマットライブラリの
+指定をしてから<kbd>--help</kbd>。例えば、</p>
+<pre>% rd2 -r rd/rd2html-lib.rb --help</pre>
+<p>rd2はホームディレクトリにある".rd2rc"というファイルを読み込みます。
+これはRubyスクリプトです。</p>
+<h2><a name="label-5" id="label-5">RDの書き方</a></h2><!-- RDLabel: "RDの書き方" -->
+<p>doc/rd-draft.rdを読んでください。</p>
+<h2><a name="label-6" id="label-6">バグ報告</a></h2><!-- RDLabel: "バグ報告" -->
+<p>If you find a bug in RDtool, please add new
+<a href="https://github.com/uwabami/rdtool/issues">issues at gihtub</a>,
+or E-mail me <a href="mailto:uwabami@gfd-dennou.org">&lt;URL:mailto:uwabami@gfd-dennou.org&gt;</a>.</p>
+<p>バグを見付けた時は、
+<a href="https://github.com/uwabami/rdtool/issues">github の issues</a>
+に報告するか、
+次のアドレスまでメールを下さると幸いです:
+<a href="mailto:uwabami@gfd-dennou.org">&lt;URL:mailto:uwabami@gfd-dennou.org&gt;</a></p>
+<h2><a name="label-7" id="label-7">ライセンス</a></h2><!-- RDLabel: "ライセンス" -->
+<p>RDtoolはRuby's LicenseかGPL-2+の下で使用/配布/改造してください。
+RDtoolのパッケージにはTosh以外の人が著作権を持つファイルが含まれています。
+それらのファイルについての配布条件はファイル自体に書かれたライセンスの下で
+行ってください。</p>
+<p>ファイル毎のライセンス表記は以下の通りです。</p>
+<pre>Files: */
+  * Copyright: 2004 MoonWolf &lt;moonwolf@moonwolf.com&gt;
+               2011-2012 Youhei SASAKI &lt;uwabami@gfd-dennou.org&gt;
+  * License: Ruby's License or GPL-2+
+Files: lib/rd/rd2man-lib.rb
+  * Copyright: 2000  WATANABE Hirofumi
+               2012 Youhei SASAKI &lt;uwabami@gfd-dennou.org&gt;
+  * License: Ruby's License or GPL-2+
+Files: lib/rd/{head-filter,rd2html-ext-lib,rd2html-ext-opt}.rb
+  * Copyright: 2003 Rubikitch
+  * License: Ruby's License or GPL-2+
+Files: bin/rdswap
+  * Copyright: 1999 C.Hintze
+  * License: Ruby's License or GPL-2+
+Files: setup.rb
+  * Copyright: 2000-2006 Minero Aoki
+  * License: LGPL-2.1
+Files: utils/rd-mode.el
+  * Copyright: 1999 Koji Arai, Toshiro Kuwabara.
+  * License: GPL-2+</pre>
+
+</body>
+</html>
