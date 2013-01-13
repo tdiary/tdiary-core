@@ -57,6 +57,7 @@ group :development do
     end
     gem 'ci_reporter'
 
+    gem 'json' # broken jasmine-1.3.0 dependency
     gem 'jasmine', '1.3.0'
   end
 end
