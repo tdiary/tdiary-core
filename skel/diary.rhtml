@@ -24,7 +24,7 @@ if opt['show_comment'] and count_comments > 0 then
 				<p><% if opt['bot'] then %>
 					<%=h comment.body.gsub( /\n/ , "<br>" ).gsub( /<br><br>\Z/, '' ) %>
 				<% else %>
-					<%= comment.body.make_link.gsub( /\n/ , "<br>" ).gsub( /<br><br>\Z/, '' ) %>
+					<%= comment.body.make_link.emojify.gsub( /\n/ , "<br>" ).gsub( /<br><br>\Z/, '' ) %>
 				<% end %></p><%
 			end
 		end %>

@@ -20,6 +20,42 @@ feature 'ツッコミの表示' do
 		page.should have_no_content "alpha"
 		page.should have_no_content "こんにちは!こんにちは!"
 	end
+
+	scenario "日付表示だと絵文字を表示できる" do
+		append_default_diary
+
+		visit "/"
+		click_link 'ツッコミを入れる'
+		fill_in "name", :with => "寿司"
+		fill_in "body", :with => <<-BODY
+:sushi: は美味しい
+BODY
+		click_button '投稿'
+
+		visit "/"
+		today = Date.today.strftime("%Y年%m月%d日")
+		page.find('h2', :text => today).click_link today
+		within('div.day div.comment div.commentbody') {
+			page.body.should be_include "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+		}
+	end
+
+	scenario "一覧表示の場合は bot 対策のため絵文字を表示できない" do
+		append_default_diary
+
+		visit "/"
+		click_link 'ツッコミを入れる'
+		fill_in "name", :with => "寿司"
+		fill_in "body", :with => <<-BODY
+:sushi: は美味しい
+BODY
+		click_button '投稿'
+
+		visit "/"
+		within('div.day div.comment div.commentshort') {
+			page.body.should be_include ":sushi: は美味しい"
+		}
+	end
 end
 
 # Local Variables:
