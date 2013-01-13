@@ -17,6 +17,24 @@ describe "core extension library" do
 			it { "shibata.hiroshi@gmail.com".make_link.should eq "<a href=\"mailto:shibata.hiroshi@gmail.com\">shibata.hiroshi@gmail.com</a>" }
 		end
 	end
+
+	describe "String#emojify!" do
+		context "emojify" do
+			before { @result = ":sushi: は美味しい".emojify }
+			it do
+				@result.should eq "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+			end
+		end
+
+		context "文字と数字しか変換しない" do
+			before do
+				@result = ":<script type='text/javascript'></script>: は美味しい".emojify
+			end
+			it do
+				@result.should eq ":<script type='text/javascript'></script>: は美味しい"
+			end
+		end
+	end
 end
 
 # Local Variables:

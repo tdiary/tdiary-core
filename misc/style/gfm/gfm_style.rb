@@ -106,7 +106,7 @@ module TDiary
 			end
 
 			# emoji
-			r.emojify!
+			r = r.emojify
 
 			# diary anchor
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
