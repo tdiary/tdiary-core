@@ -32,6 +32,13 @@ class String
 			gsub( /\001/, ' ' ).
 			gsub( /\t/, '&nbsp;' * 8 )
 	end
+
+	def emojify!
+		self.gsub!(/:([a-z0-9_+-]+):/) do |emoji|
+			emoji.gsub!(":", "")
+			"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{CGI.unescape(emoji)}.png' width='20' height='20' title='#{CGI.unescape(emoji)}' alt='#{CGI.unescape(emoji)}' class='emoji' />"
+		end
+	end
 end
 
 =begin

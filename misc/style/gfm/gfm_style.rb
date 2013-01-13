@@ -106,10 +106,7 @@ module TDiary
 			end
 
 			# emoji
-			r.gsub!(/:([a-z0-9_+-]+):/) do |emoji|
-				emoji.gsub!(":", "")
-				"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji}.png' width='20' height='20' title='#{emoji}' alt='#{emoji}' class='emoji' />"
-			end
+			r.emojify!
 
 			# diary anchor
 			r.gsub!(/<h(\d)/) { "<h#{$1.to_i + 2}" }
