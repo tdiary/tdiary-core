@@ -88,7 +88,9 @@ class PluginFake
 
 	class Config
 
-		attr_accessor :index, :html_title, :cgi
+		attr_accessor :index, :update, :author_name, :author_mail, :index_page,
+			:html_title, :theme, :css, :date_format, :referer_table, :options, :cgi,
+			:plugin_path, :lang, :style, :secure
 
 		def initialize
 			@cgi = CGIFake.new
