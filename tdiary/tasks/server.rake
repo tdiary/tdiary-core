@@ -24,7 +24,9 @@ task :server do
   opts = {
     :daemon => ENV['DAEMON'],
     :bind   => ENV['BIND'] || '0.0.0.0',
-    :port   => ENV['PORT'] || 19292
+    :port   => ENV['PORT'] || 19292,
+    :logger => $stderr,
+    :access_log => $stderr,
   }
 
   TDiary::Server.run( opts )

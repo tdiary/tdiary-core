@@ -13,11 +13,6 @@ module TDiary
 		require 'webrick/accesslog'
 		require 'tempfile'
 
-		DEFAULT_OPTIONS = {
-			:logger => $stderr,
-			:access_log => $stderr,
-		}
-
 		class << self
 			def run( option )
 				@@server = new( option )
@@ -33,9 +28,7 @@ module TDiary
 			end
 		end
 
-		def initialize( options )
-			opts = DEFAULT_OPTIONS.merge( options )
-
+		def initialize( opts )
 			@server = WEBrick::HTTPServer.new(
 				:Port => opts[:port], :BindAddress => opts[:bind],
 				:DocumentRoot => TDiary.root,
