@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-require File.expand_path('../environment', __FILE__)
-require 'tdiary'
-
 # FIXME too dirty hack :-<
 class CGI
 	def env_table_rack
@@ -24,7 +21,8 @@ module TDiary
 			dispatch_request( req )
 		end
 
-		private
+	private
+
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
 			req = TDiary::Request.new( env )
 			req.params # fill params to tdiary_request
