@@ -149,7 +149,7 @@ module TDiary
 	class TDiaryPluginView < TDiaryBase
 		attr_reader :last_modified
 
-		def initialize(cgi, rhtml = '', conf)
+		def initialize(cgi, rhtml, conf)
 			super
 
 			tdiary = tdiary_class(cgi.params['date'][0] || '').new(cgi, '', conf)
