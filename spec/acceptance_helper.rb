@@ -84,6 +84,7 @@ RSpec.configure do |config|
 				  when 'rdb'
 					  [:exclude_rdb, :exclude_rack, :exclude_no_secure]
 				  else
+					  # TEST_MODE = rack
 					  [:exclude_rack, :exclude_no_secure]
 				  end
 	excludes.each do |exclude|

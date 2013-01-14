@@ -24,7 +24,7 @@ feature 'ツッコミの表示' do
 	# workaround for Nokogiri::XML::Node::Encoding
 	# String#force_encoding を独自に定義しているため、Nokogiri 内部でエラーとなってしまう
 	unless RUBY_VERSION < '1.9'
-		scenario "日付表示だと絵文字を表示できる" do
+		scenario "日付表示だと絵文字を表示できる", :exclude_selenium do
 			append_default_diary
 
 			visit "/"
@@ -43,7 +43,7 @@ BODY
 			}
 		end
 
-		scenario "一覧表示の場合は bot 対策のため絵文字を表示できない" do
+		scenario "一覧表示の場合は bot 対策のため絵文字を表示できない", :exclude_selenium do
 			append_default_diary
 
 			visit "/"
