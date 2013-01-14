@@ -27,12 +27,17 @@ require 'tdiary/core_ext'
 module TDiary
 	PATH = File::dirname( __FILE__ ).untaint
 
+	# tDiary configuration class, initialize tdiary.conf and stored configuration.
 	autoload :Config,                   'tdiary/config'
+	# tDiary plugin class, loading all Plugin and eval plugins in view context.
 	autoload :Plugin,                   'tdiary/plugin'
 
+	# CGI standalone server
 	autoload :Server,                   'tdiary/server'
+	# Rack Application, TODO: integrate Server and Application
 	autoload :Application,              'tdiary/application'
 
+	# Diary model class
 	autoload :DiaryBase,                'tdiary/style'
 	autoload :SectionBase,              'tdiary/style'
 	autoload :CategorizableDiary,       'tdiary/style'
@@ -42,10 +47,13 @@ module TDiary
 	autoload :CommentManager,           'tdiary/comment_manager'
 	autoload :RefererManager,           'tdiary/referer_manager'
 
+	# Routing and Dispatch
 	autoload :Dispatcher,               'tdiary/dispatcher'
+	# Rack Request and Reponse, If you don't use Rack, adopt Rack interface.
 	autoload :Request,                  'tdiary/request'
 	autoload :Response,                 'tdiary/response'
 
+	# ViewController created by Dispatcher
 	autoload :TDiaryBase,               'tdiary/base'
 	autoload :TDiaryCategoryView,       'tdiary/base'
 	autoload :TDiarySearch,             'tdiary/base'
