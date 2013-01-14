@@ -5,15 +5,15 @@
 # Copyright (C) 2008-2010, Kakutani Shintaro <shintaro@kakutani.com>
 # You can redistribute it and/or modify it under GPL2.
 
-require 'webrick'
-require 'webrick/httpservlet/cgihandler'
-require 'webrick/httputils'
-require 'webrick/accesslog'
-require 'tempfile'
-
 module TDiary
-	class StandaloneCGIServer
-		TDIARY_CORE_DIR = File.expand_path( "../../../", File.dirname( __FILE__ ) )
+	class Server
+		require 'webrick'
+		require 'webrick/httpservlet/cgihandler'
+		require 'webrick/httputils'
+		require 'webrick/accesslog'
+		require 'tempfile'
+
+ 		TDIARY_CORE_DIR = File.expand_path("../../", __FILE__)
 		DEFAULT_OPTIONS = {
 			:logger => $stderr,
 			:access_log => $stderr,
@@ -21,7 +21,7 @@ module TDiary
 
 		class << self
 			def run( option )
-				@@server = TDiary::StandaloneCGIServer.new( option )
+				@@server = new( option )
 				trap( "INT" ) { @@server.shutdown }
 				trap( "TERM" ) { @@server.shutdown }
 

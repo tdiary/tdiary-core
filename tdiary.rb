@@ -29,6 +29,7 @@ module TDiary
 
 	autoload :Config,                   'tdiary/config'
 	autoload :Plugin,                   'tdiary/plugin'
+	autoload :Server,                   'tdiary/server'
 
 	autoload :DiaryBase,                'tdiary/style'
 	autoload :SectionBase,              'tdiary/style'
