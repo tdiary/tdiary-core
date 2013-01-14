@@ -9,6 +9,18 @@ task :server do
   $:.unshift File.expand_path('../../../', __FILE__).untaint
   require 'tdiary'
 
+  unless File.exist?(TDiary.root + '/tdiary.conf')
+    FileUtils.cp_r(TDiary.root + '/spec/fixtures/tdiary.conf.webrick',
+      TDiary.root + '/tdiary.conf', :verbose => false)
+  end
+  unless File.directory?(TDiary.root + '/tmp/data')
+    FileUtils.mkdir_p(TDiary.root + '/tmp/data/log')
+    File.open(TDiary.root + '/tmp/data/tdiary.conf', 'w') do |f|
+      f.write "tdiary_version = \"#{TDIARY_VERSION}\""
+    end
+    File.chmod(0644, TDiary.root + '/tmp/data/tdiary.conf')
+  end
+
   opts = {
     :daemon => ENV['DAEMON'],
     :bind   => ENV['BIND'] || '0.0.0.0',

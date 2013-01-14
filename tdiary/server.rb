@@ -13,35 +13,23 @@ module TDiary
 		require 'webrick/accesslog'
 		require 'tempfile'
 
-		TDIARY_CORE_DIR = File.expand_path("../../", __FILE__)
 		DEFAULT_OPTIONS = {
 			:logger => $stderr,
 			:access_log => $stderr,
 		}
 
 		class << self
-			def setup
-				unless File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
-					FileUtils.cp_r(TDIARY_CORE_DIR + '/spec/fixtures/tdiary.conf.webrick',
-						TDIARY_CORE_DIR + '/tdiary.conf', :verbose => false)
-				end
-				FileUtils.mkdir_p(TDIARY_CORE_DIR + '/tmp/data/log')
-			end
-
 			def run( option )
 				@@server = new( option )
 
 				trap( "INT" ) { @@server.shutdown }
 				trap( "TERM" ) { @@server.shutdown }
 
-				setup
-
 				@@server.start
 			end
 
 			def stop
 				@@server.shutdown
-				FileUtils.rm_rf TDIARY_CORE_DIR + '/tdiary.conf'
 			end
 		end
 
