@@ -20,19 +20,20 @@ module TDiary
 		}
 
 		class << self
+			def setup
+				unless File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
+					FileUtils.cp_r(TDIARY_CORE_DIR + '/spec/fixtures/tdiary.conf.webrick',
+						TDIARY_CORE_DIR + '/tdiary.conf', :verbose => false)
+				end
+				FileUtils.mkdir_p(TDIARY_CORE_DIR + '/tmp/data/log')
+			end
+
 			def run( option )
 				@@server = new( option )
 				trap( "INT" ) { @@server.shutdown }
 				trap( "TERM" ) { @@server.shutdown }
 
-				unless File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
-					FileUtils.cp_r(TDIARY_CORE_DIR + '/spec/fixtures/tdiary.conf.webrick',
-						TDIARY_CORE_DIR + '/tdiary.conf', :verbose => false)
-				end
-
-				unless File.directory?(TDIARY_CORE_DIR + '/tmp/data/log')
-					FileUtils.mkdir_p(TDIARY_CORE_DIR + '/tmp/data/log')
-				end
+				setup
 
 				@@server.start
 			end
@@ -40,9 +41,7 @@ module TDiary
 			def stop
 				@@server.shutdown
 
-				if File.exist?(TDIARY_CORE_DIR + '/tdiary.conf')
-					FileUtils.rm TDIARY_CORE_DIR + '/tdiary.conf'
-				end
+				FileUtils.rm_rf TDIARY_CORE_DIR + '/tdiary.conf'
 			end
 		end
 
@@ -77,7 +76,8 @@ module TDiary
 			@server.shutdown
 		end
 
-		private
+	private
+
 		def tdiary_mime_types
 			WEBrick::HTTPUtils::DefaultMimeTypes.merge( {
 					"rdf" => "application/xml",
