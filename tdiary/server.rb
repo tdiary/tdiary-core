@@ -13,7 +13,7 @@ module TDiary
 		require 'webrick/accesslog'
 		require 'tempfile'
 
- 		TDIARY_CORE_DIR = File.expand_path("../../", __FILE__)
+		TDIARY_CORE_DIR = File.expand_path("../../", __FILE__)
 		DEFAULT_OPTIONS = {
 			:logger => $stderr,
 			:access_log => $stderr,
@@ -30,6 +30,7 @@ module TDiary
 
 			def run( option )
 				@@server = new( option )
+
 				trap( "INT" ) { @@server.shutdown }
 				trap( "TERM" ) { @@server.shutdown }
 
@@ -40,7 +41,6 @@ module TDiary
 
 			def stop
 				@@server.shutdown
-
 				FileUtils.rm_rf TDIARY_CORE_DIR + '/tdiary.conf'
 			end
 		end
@@ -50,7 +50,7 @@ module TDiary
 
 			@server = WEBrick::HTTPServer.new(
 				:Port => opts[:port], :BindAddress => opts[:bind],
-				:DocumentRoot => TDIARY_CORE_DIR,
+				:DocumentRoot => TDiary.root,
 				:MimeTypes => tdiary_mime_types,
 				:Logger => webrick_logger_to( opts[:logger] ),
 				:AccessLog => webrick_access_log_to( opts[:access_log] ),
@@ -58,14 +58,10 @@ module TDiary
 				:CGIInterpreter => WEBrick::HTTPServlet::CGIHandler::Ruby
 			)
 			@server.logger.level = WEBrick::Log::DEBUG
-			@server.mount( "/", WEBrick::HTTPServlet::CGIHandler,
-				File.expand_path( "index.rb", TDIARY_CORE_DIR ) )
-			@server.mount( "/index.rb", WEBrick::HTTPServlet::CGIHandler,
-				File.expand_path( "index.rb", TDIARY_CORE_DIR ) )
-			@server.mount( "/update.rb", WEBrick::HTTPServlet::CGIHandler,
-				File.expand_path( "update.rb", TDIARY_CORE_DIR ) )
-			@server.mount( "/theme", WEBrick::HTTPServlet::FileHandler,
-				File.expand_path( "theme", TDIARY_CORE_DIR ) )
+			@server.mount("/", WEBrick::HTTPServlet::CGIHandler, TDiary.root + "/index.rb")
+			@server.mount("/index.rb", WEBrick::HTTPServlet::CGIHandler, TDiary.root + '/index.rb')
+			@server.mount("/update.rb", WEBrick::HTTPServlet::CGIHandler, TDiary.root + "/update.rb")
+			@server.mount("/theme", WEBrick::HTTPServlet::FileHandler, TDiary.root + '/theme')
 		end
 
 		def start
