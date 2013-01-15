@@ -47,10 +47,9 @@ end
 
 map "#{base_dir}/" do
 	use TDiary::Rack::HtmlAnchor
-	use TDiary::Rack::ValidRequestPath
 	run Rack::Cascade.new([
 		Rack::File.new("./public/"),
-		TDiary::Application.new(:index)
+		TDiary::Rack::ValidRequestPath.new(TDiary::Application.new(:index))
 	])
 end
 
