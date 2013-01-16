@@ -71,6 +71,19 @@ module TDiary
 
 		def load_plugins
 			calendar
+			#
+			# caching plugin
+			# NOTE: currently, plugin cache doesn't work in blogkit environment
+			#       see also https://github.com/tdiary/tdiary-core/issues/203
+			#
+			if @plugin && !@plugin.respond_to?( 'blogkit?' )
+				@plugin.diaries = @diaries
+				@plugin.date = @date
+				@plugin.last_modified = last_modified
+				@plugin.comment = @comment
+				return @plugin
+			end
+
 			@plugin = Plugin::new(
 				'conf' => @conf,
 				'mode' => mode,
