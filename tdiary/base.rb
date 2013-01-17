@@ -73,29 +73,29 @@ module TDiary
 			calendar
 			#
 			# caching plugin
-			# NOTE: currently, plugin cache doesn't work in blogkit environment
+			# NOTE: currently, plugin cache doesn't work with blog-category plugin
 			#       see also https://github.com/tdiary/tdiary-core/issues/203
 			#
-			if @plugin && !@plugin.respond_to?( 'blogkit?' )
+			if @plugin and not @plugin.respond_to?( 'blog_category' )
 				@plugin.diaries = @diaries
 				@plugin.date = @date
 				@plugin.last_modified = last_modified
 				@plugin.comment = @comment
-				return @plugin
+				@plugin
+			else
+				@plugin = Plugin::new(
+					'conf' => @conf,
+					'mode' => mode,
+					'diaries' => @diaries,
+					'cgi' => @cgi,
+					'years' => @years,
+					'cache_path' => @io.cache_path,
+					'date' => @date,
+					'comment' => @comment,
+					'last_modified' => last_modified,
+					'logger' => TDiary.logger
+				)
 			end
-
-			@plugin = Plugin::new(
-				'conf' => @conf,
-				'mode' => mode,
-				'diaries' => @diaries,
-				'cgi' => @cgi,
-				'years' => @years,
-				'cache_path' => @io.cache_path,
-				'date' => @date,
-				'comment' => @comment,
-				'last_modified' => last_modified,
-				'logger' => TDiary.logger
-			)
 		end
 
 		def <<( diary )
