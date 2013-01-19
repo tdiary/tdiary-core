@@ -218,6 +218,8 @@ def referer_save_current( diary, referer )
 end
 
 def referer_save_volatile( diary, referer )
+	# to prevend the increase in file size
+	return if diary.count_referers > 10000
 	diary.add_referer( referer ) if referer
 	referer_save( referer_volatile_file_name, diary ) do |fh|
 		diary.each_date do |date|
