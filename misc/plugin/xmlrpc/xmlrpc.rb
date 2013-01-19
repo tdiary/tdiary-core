@@ -52,7 +52,7 @@ server.add_handler('blogger.newPost') do |appkey, blogid, username, password, co
       @cgi.params['day']   = [postid[6..7]]
       @cgi.params['body']  = [src]
       @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-      tdiary = ::TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+      tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
       body = tdiary.eval_rhtml
       postid + "%02d" % index
     rescue ::TDiary::ForceRedirect => redirect
@@ -100,7 +100,7 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -138,7 +138,7 @@ server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -239,7 +239,7 @@ server.add_handler('metaWeblog.newPost') do |blogid, username, password, content
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
     body = tdiary.eval_rhtml
     postid + "%02d" % index
   rescue ::TDiary::ForceRedirect => redirect
@@ -283,7 +283,7 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -529,7 +529,7 @@ server.add_handler('mt.setPostCategories') do |postid, username, password, categ
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, 'show.rhtml', conf )
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
