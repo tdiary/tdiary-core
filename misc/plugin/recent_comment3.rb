@@ -15,15 +15,17 @@ def recent_comment3_format(format, *args)
 	format.gsub(/\$(\d)/) {|s| args[$1.to_i - 1]}
 end
 
-def recent_comment3_init
+def migrate_old_data
 	# backward compatibility
-	if File.exists?( "#{@cache_path}/recent_comments" ) then
+	if File.exists?("#{@cache_path}/recent_comments") && !File.exists?("{#{@conf.data_path}/recent_comments")
 		FileUtils.mv( "#{@cache_path}/recent_comments", "#{@conf.data_path}/recent_comments" )
 	end
 	if @conf['recent_comment3.cache'] == "#{@cache_path}/recent_comments" then
 		@conf['recent_comment3.cache'] = "#{@conf.data_path}/recent_comments"
 	end
+end
 
+def recent_comment3_init
 	@conf['recent_comment3.cache'] ||= "#{@conf.data_path}/recent_comments"
 	@conf['recent_comment3.cache_size'] ||= 50
 	@conf['recent_comment3.max'] ||= 3
@@ -38,6 +40,7 @@ end
 def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSOLUTE',*ob_except )
 	return 'DO NOT USE IN SECURE MODE' if @conf.secure
 
+	migrate_old_data
 	recent_comment3_init
 
 	cache = @conf['recent_comment3.cache'].untaint
@@ -127,6 +130,7 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 end
 
 add_update_proc do
+	migrate_old_data
 	recent_comment3_init
 
 	date = @date.strftime( '%Y%m%d' )
