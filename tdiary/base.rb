@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module TDiary
 	#
 	# class TDiaryBase
@@ -54,7 +55,7 @@ module TDiary
 			r = @io.restore_cache( prefix )
 
 			if r.nil?
-				r = erb_src(prefix)
+				r = @rhtml ? erb_src(prefix) : ""
 				@io.store_cache( r, prefix ) unless @diaries.empty?
 			end
 
