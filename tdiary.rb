@@ -3,11 +3,11 @@
 == NAME
 tDiary: the "tsukkomi-able" web diary system.
 
-Copyright (C) 2001-2012, TADA Tadashi <t@tdtds.jp>
+Copyright (C) 2001-2013, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
-TDIARY_VERSION = '3.2.0.20130117'
+TDIARY_VERSION = '3.2.0.20130120'
 
 $:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
 Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.untaint }
