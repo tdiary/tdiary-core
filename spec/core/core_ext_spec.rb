@@ -33,6 +33,13 @@ describe "core extension library" do
 			end
 		end
 
+		context "+1でもemojify" do
+			before { @result = "いいね!:+1:".emojify }
+			it do
+				@result.should eq "いいね!<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/plus1.png' width='20' height='20' title='plus1' alt='plus1' class='emoji' />"
+			end
+		end
+
 		context "文字と数字しか変換しない" do
 			before do
 				@result = ":<script type='text/javascript'></script>: は美味しい".emojify
