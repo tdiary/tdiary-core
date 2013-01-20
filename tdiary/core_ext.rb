@@ -34,8 +34,8 @@ class String
 	end
 
 	def emojify
-		self.downcase.gsub(/:([a-z0-9_+-]+):/) do |emoji|
-			emoji.gsub!(":", "")
+		self.gsub(/:([a-zA-Z0-9_+-]+):/) do |emoji|
+			emoji.gsub!(":", "").downcase!
 			"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji}.png' width='20' height='20' title='#{emoji}' alt='#{emoji}' class='emoji' />"
 		end
 	end
