@@ -43,7 +43,7 @@ BODY
 			}
 		end
 
-		scenario "一覧表示の場合は bot 対策のため絵文字を表示できない", :exclude_selenium do
+		scenario "一覧表示でも絵文字を表示できる", :exclude_selenium do
 			append_default_diary
 
 			visit "/"
@@ -56,7 +56,7 @@ BODY
 
 			visit "/"
 			within('div.day div.comment div.commentshort') {
-				page.body.should be_include ":sushi: は美味しい"
+				page.body.should be_include "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 			}
 		end
 	end

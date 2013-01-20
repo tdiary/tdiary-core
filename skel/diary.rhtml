@@ -38,7 +38,7 @@ if opt['show_comment'] and count_comments > 0 then
 		each_comment_tail( opt['comment_limit'] ) do |comment,idx|
 			if comment.visible? %>
 				<p><a href="<%=h opt['index'] %><%%=anchor "<%= @date.strftime( '%Y%m%d' ) %>#c<%= '%02d' % idx %>" %>"><%= opt['comment_anchor'] %></a>
-				<span class="commentator"><%=h comment.name %></span>&nbsp;[<%=h comment.shorten( opt['comment_length'] ) %>]</p><%
+				<span class="commentator"><%=h comment.name %></span>&nbsp;[<%=h(comment.shorten( opt['comment_length'] )).emojify %>]</p><%
 			end
 		end %>
 		</div><%
