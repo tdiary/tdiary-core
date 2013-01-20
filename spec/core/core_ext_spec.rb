@@ -26,6 +26,13 @@ describe "core extension library" do
 			end
 		end
 
+		context "大文字でもemojify" do
+			before { @result = ":SUSHI: は美味しい".emojify }
+			it do
+				@result.should eq "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+			end
+		end
+
 		context "文字と数字しか変換しない" do
 			before do
 				@result = ":<script type='text/javascript'></script>: は美味しい".emojify
