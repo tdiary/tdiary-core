@@ -21,7 +21,8 @@ def migrate_old_data
 	if File.exists?("#{@cache_path}/recent_comments") && !File.exists?("{#{@conf.data_path}/recent_comments")
 		FileUtils.mv( "#{@cache_path}/recent_comments", "#{@conf.data_path}/recent_comments" )
 	end
-	if Pathname(@conf['recent_comment3.cache']).cleanpath == Pathname("#{@cache_path}/recent_comments").cleanpath
+	if @conf['recent_comment3.cache'] &&
+			Pathname(@conf['recent_comment3.cache']).cleanpath == Pathname("#{@cache_path}/recent_comments").cleanpath
 		@conf['recent_comment3.cache'] = "#{@conf.data_path}/recent_comments"
 	end
 end
