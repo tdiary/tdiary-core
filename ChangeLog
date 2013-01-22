@@ -1,3 +1,6 @@
+2013-01-22  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* misc/plugin/recent_comment3.rb: directory matching condition discarded to ambiguous pattern.
+
 2013-01-20  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* misc/plugin/recent_comment3.rb: guard to overwrite empty data when exists data.
 
