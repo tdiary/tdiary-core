@@ -1,7 +1,7 @@
 bundler_args: --without development
 
 rvm:
-  - ree
+  - 1.8.7
   - 1.9.2
   - 1.9.3
   - ruby-head
@@ -29,16 +29,16 @@ notifications:
 matrix:
   exclude:
     # too bad exclude otpions.
-    - rvm: ree
+    - rvm: 1.8.7
       env: TEST_MODE=rack
       gemfile: Gemfile
-    - rvm: ree
+    - rvm: 1.8.7
       env: TEST_MODE=rdb
       gemfile: Gemfile
-    - rvm: ree
+    - rvm: 1.8.7
       env: TEST_MODE=webrick
       gemfile: Gemfile
-    - rvm: ree
+    - rvm: 1.8.7
       env: TEST_MODE=secure
       gemfile: Gemfile
     - rvm: 1.9.2
