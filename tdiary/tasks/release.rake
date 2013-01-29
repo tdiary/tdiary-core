@@ -64,7 +64,7 @@ task :release do
 	Dir.chdir("tmp") do
 		TARBALLS = Dir["*.tar.gz"] if TARBALLS.empty?
 		TARBALLS.each do |tgz|
-			sh "scp #{tgz} -P 443 www.tdiar.org:#{DIST_DIR}"
+			sh "scp -P 443 #{tgz} www.tdiary.org:#{DEST_DIR}"
 		end
 	end
 end
