@@ -104,7 +104,7 @@ class MakeRssFull
 	def file
 		f = @conf['makerss.file'] || 'index.rdf'
 		f = 'index.rdf' if f.empty?
-		f
+		"#{TDiary.document_root}/#{f}"
 	end
 
 	def writable?
