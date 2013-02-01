@@ -110,6 +110,10 @@ module TDiary
 		def root
 			File.expand_path('..', __FILE__)
 		end
+
+		def document_root
+			defined?( Rack ) ? "#{root}/public" : root
+		end
 	end
 end
 
