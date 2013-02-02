@@ -1,4 +1,4 @@
-<%# diary.rhtml %><%% @anchor_name = <%=opt['anchor'] || false%> %>
+<%% @anchor_name = <%=opt['anchor'] || false%> %>
 <div class="day autopagerize_page_element">
 <h2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump.gsub( /%/, '\\\\045' ) %> ) %></h2>
 
@@ -81,4 +81,3 @@ if opt['show_referer'] then
 	end
 end %>
 </div>
-

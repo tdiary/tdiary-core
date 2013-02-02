@@ -1,4 +1,3 @@
-<%# i.diary.rhtml $Revision: 1.13 $ %>
 <H2><%%= title_proc( Time::at( <%=@date.to_i%> ), <%= title.dump.gsub( /%/, '\\\\045' ) %> ) %></H2>
 <%%= body_enter_proc( Time::at( <%=@date.to_i%> ) ) %>
 <%= to_html( opt, :CHTML ) %>
