@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require 'rack/request'
 
 module TDiary
 	module Rack
@@ -8,9 +9,13 @@ module TDiary
 			end
 
 			def call( env )
-				if env['PATH_INFO'].match(/([0-9\-]+)\.html$/)
+				if env['PATH_INFO'].match(/(.*\/)([0-9\-]+)(p(\d\d))?\.html$/)
+					env["PATH_INFO"] = $1
+					date = $2
+					anchor = $4
 					env["QUERY_STRING"] += "&" unless env["QUERY_STRING"].empty?
-					env["QUERY_STRING"] += "date=#{$1}"
+					env["QUERY_STRING"] += "date=#{date}"
+					env["QUERY_STRING"] += "&p=#{anchor}" if anchor
 				end
 				@app.call( env )
 			end
