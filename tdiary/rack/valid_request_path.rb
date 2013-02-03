@@ -11,7 +11,7 @@ module TDiary
 				valid_paths = [
 					%r{^/$},
 					%r{^/index\.(rb|cgi)$},
-					%r{^/([0-9\-]+)\.html$}
+					%r{^/([0-9\-p]+)\.html$}
 				]
 				valid_paths.each do |path|
 					return @app.call(env) if env['PATH_INFO'].match(path)

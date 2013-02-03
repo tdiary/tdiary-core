@@ -29,8 +29,18 @@ describe TDiary::Rack::ValidRequestPath do
 			last_response.should be_ok
 		end
 
+		it 'should return 200 for a day with section_permalink_anchor plugin' do
+			get '/20120501p01.html'
+			last_response.should be_ok
+		end
+
 		it 'should return 200 for a day with query' do
 			get '/?date=20120501'
+			last_response.should be_ok
+		end
+
+		it 'should return 200 for a day with query and section_permalink_anchor plugin' do
+			get '/?date=20120501&p=01'
 			last_response.should be_ok
 		end
 
