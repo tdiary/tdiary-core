@@ -1,3 +1,12 @@
+2013-02-01  MATSUOKA Kohei <kohei@machu.jp>
+	puts rss file to the public directory if the Rack environment
+
+2013-01-30  MATSUOKA Kohei <kohei@machu.jp>
+	add TDiary::document_root to return static contents directory
+
+2013-01-29  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* release 3.2.1
+
 2013-01-22  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* misc/plugin/recent_comment3.rb: directory matching condition discarded to ambiguous pattern.
 
