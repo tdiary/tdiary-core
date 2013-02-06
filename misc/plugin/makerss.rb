@@ -104,7 +104,7 @@ class MakeRssFull
 	def file
 		f = @conf['makerss.file'] || 'index.rdf'
 		f = 'index.rdf' if f.empty?
-		"#{TDiary.document_root}/#{f}"
+		f =~ %r|^/| ? f : "#{TDiary.document_root}/#{f}"
 	end
 
 	def writable?
@@ -153,7 +153,7 @@ class MakeRssNoComments < MakeRssFull
 	def file
 		f = @conf['makerss.no_comments.file'] || 'no_comments.rdf'
 		f = 'no_comments.rdf' if f.empty?
-		"#{TDiary.document_root}/#{f}"
+		f =~ %r|^/| ? f : "#{TDiary.document_root}/#{f}"
 	end
 
 	def write( encoder )
