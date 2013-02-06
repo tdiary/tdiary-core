@@ -1,3 +1,6 @@
+2013-02-06  TADA Tadashi <t@tdtds.jp>
+	fixed #259: return path under tDiary.document_root only not fullpath
+
 2013-02-01  MATSUOKA Kohei <kohei@machu.jp>
 	puts rss file to the public directory if the Rack environment
 
