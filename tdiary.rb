@@ -112,7 +112,7 @@ module TDiary
 		end
 
 		def document_root
-			defined?( Rack ) ? "#{root}/public" : root
+			defined?( Rack ) ? "#{root}/public" : '.'
 		end
 	end
 end
