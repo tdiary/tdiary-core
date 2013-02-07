@@ -7,7 +7,7 @@ require 'tdiary/rack/auth/basic'
 require 'omniauth'
 require 'tdiary/rack/auth/omniauth'
 
-use Rack::Reloader if ENV['RACK_ENV'] == 'development'
+use Rack::Reloader unless ENV['RACK_ENV'] == 'production'
 
 base_dir = ''
 
