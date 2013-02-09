@@ -16,7 +16,10 @@ $(function() {
 		$.post(form.attr('action'), form.serialize(), function(data) {
 			form[0].reset();
 			$(':submit', form).removeAttr('disabled');
-			console.log(data);
+			var comment = $('div.comment');
+			// $(data) is a diary HTML of the day
+			comment.after($('div.comment', $(data)));
+			comment.remove();
 		}, 'html');
 	});
 });
