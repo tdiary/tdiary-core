@@ -19,9 +19,10 @@ $(function() {
 				form[0].reset();
 				$(':submit', form).removeAttr('disabled');
 				// $(data) is a diary HTML of the day
-				comment.after($('div.comment', $(data)));
-				comment.remove();
-				}, 'html');
+				var new_comment = $('div.comment', $(data));
+				comment.after(new_comment).remove();
+				comment = new_comment;
+			}, 'html');
 		});
 	}
 
