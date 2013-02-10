@@ -1,3 +1,7 @@
+2013-02-10  MATSUOKA Kohei <kohei@machu.jp>
+	* tdiary/view.rb, js/comment_ajax.js: post comment with ajax 
+	* tdiary/request.rb: implement TDiary::Request#xhr?
+
 2013-02-07  MATSUOKA Kohei <kohei@machu.jp>
 	fixed #260: tDiary.document_root returns current directory in the CGI/FastCGI
 
@@ -5,10 +9,10 @@
 	fixed #259: return path under tDiary.document_root only not fullpath
 
 2013-02-01  MATSUOKA Kohei <kohei@machu.jp>
-	puts rss file to the public directory if the Rack environment
+	* misc/plugin/makerss.rb: puts rss file to the public directory if the Rack environment
 
 2013-01-30  MATSUOKA Kohei <kohei@machu.jp>
-	add TDiary::document_root to return static contents directory
+	* tdiary.rb: add TDiary::document_root to return static contents directory
 
 2013-01-29  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* release 3.2.1
