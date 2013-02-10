@@ -73,7 +73,7 @@ module TDiary
 			end
 
 			def xhr?
-				raise NameError, 'not implemented : xhr?'
+				@env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
 			end
 
 			def accept_encoding
