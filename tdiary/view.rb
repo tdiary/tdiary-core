@@ -219,8 +219,12 @@ module TDiary
 		def do_eval_rhtml( prefix )
 			load_plugins
 			@plugin.instance_eval { update_proc } if @comment
-			anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
-			raise ForceRedirect::new( "#{@conf.index}#{anchor_str}#c#{'%02d' % @diary.count_comments( true )}" )
+			if @conf.request.xhr?
+				super
+			else
+				anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
+				raise ForceRedirect::new( "#{@conf.index}#{anchor_str}#c#{'%02d' % @diary.count_comments( true )}" )
+			end
 		end
 	end
 
