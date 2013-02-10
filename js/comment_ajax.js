@@ -6,36 +6,18 @@
  */
 
 $(function() {
-	function comment_ajax(target) {
-		var form = $('form.comment', target);
-		var comment = $('div.comment', target);
-		$('<input type="hidden">')
-		.attr('name', 'comment')
-		.appendTo(form);
-		form.submit(function(e) {
-			e.preventDefault();
-			$(':submit', form).attr('disabled', 'disabled');
-			$.post(form.attr('action'), form.serialize(), function(data) {
-				form[0].reset();
-				$(':submit', form).removeAttr('disabled');
-				// $(data) is a diary HTML of the day
-				var new_comment = $('div.comment', $(data));
-				comment.after(new_comment).remove();
-				comment = new_comment;
-			}, 'html');
-		});
-	}
-
-	$(window).bind('AutoPagerize_DOMNodeInserted', function(event) {
-		comment_ajax(event.target);
+	$(document).on('submit', 'form.comment', function(e) {
+		e.preventDefault();
+		var form = $(this);
+		$('<input type="hidden">').attr('name', 'comment').appendTo(form);
+		$(':submit', form).attr('disabled', 'disabled');
+		$.post(form.attr('action'), form.serialize(), function(data) {
+			form[0].reset();
+			$(':submit', form).removeAttr('disabled');
+			// $(data) is a diary HTML of the day
+			$('div.comment', form.parents('div.day'))
+				.after($('div.comment', $(data)))
+				.remove();
+		}, 'html');
 	});
-
-	// does not support IE8 or earlier
-	if (window.addEventListener) {
-		window.addEventListener('AutoPatchWork.DOMNodeInserted', function(event) {
-			comment_ajax(event.target);
-		}, false);
-	}
-
-	comment_ajax(document);
 });
