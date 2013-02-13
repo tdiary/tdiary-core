@@ -5,6 +5,9 @@
 2013-02-07  MATSUOKA Kohei <kohei@machu.jp>
 	fixed #260: tDiary.document_root returns current directory in the CGI/FastCGI
 
+2013-02-06  MATSUOKA Kohei <kohei@machu.jp>
+	fixed #250: disable Rack::Reloader except development environment
+
 2013-02-06  TADA Tadashi <t@tdtds.jp>
 	fixed #259: return path under tDiary.document_root only not fullpath
 
