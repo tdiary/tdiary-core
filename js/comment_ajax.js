@@ -15,7 +15,7 @@ $(function() {
 			form[0].reset();
 			$(':submit', form).removeAttr('disabled');
 			// $(data) is a diary HTML of the day
-			$('div.comment', form.parents('div.day'))
+			$('div.comment:first', form.parents('div.day'))
 				.after($('div.comment', $(data)))
 				.remove();
 		}, 'html');
