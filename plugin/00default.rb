@@ -374,13 +374,23 @@ end
 def script_tag
 	require 'uri'
 	query = script_tag_query_string
-	html = @javascripts.sort.map {|script|
-		if URI(script).scheme
-			%Q|<script src="#{script}" type="text/javascript"></script>|
-		else
-			%Q|<script src="#{js_url}/#{script}#{query}" type="text/javascript"></script>|
-		end
-	}.join( "\n\t" )
+	if defined?(Rack)
+		html = <<-HEAD
+		<script src="#{js_url}/00default.js" type="text/javascript"></script>
+		<script type="text/javascript"><!--
+		$tDiary.enabledPlugins = #{@javascripts.to_json}
+		//-->
+		</script>
+		HEAD
+	else
+		html = @javascripts.sort.map {|script|
+			if URI(script).scheme
+				%Q|<script src="#{script}" type="text/javascript"></script>|
+			else
+				%Q|<script src="#{js_url}/#{script}#{query}" type="text/javascript"></script>|
+			end
+		}.join( "\n\t" )
+	end
 	html << "\n" << <<-HEAD
 		<script type="text/javascript"><!--
 		#{@javascript_setting.map{|a| "#{a[0]} = #{a[1]};"}.join("\n\t\t")}

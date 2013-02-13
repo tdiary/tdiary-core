@@ -11,6 +11,42 @@
 $tDiary = new Object();
 $tDiary.plugin = new Object();
 $tDiary.blogkit = false;
+$tDiary.enabledPlugins = [];
+
+/*
+	plugin adding interface
+	Usage: 
+		$tDiary.plugin.add('sample', function() {
+			// do anything
+		});
+ */
+(function($) {
+	var plugins = {};
+
+	$tDiary.plugin.add = function(name, func) {
+		console.log('add plugin: ' + name);
+		plugins[name] = func;
+	};
+
+	// load enabled plugins
+	$(function() {
+		$.each($tDiary.enabledPlugins, function(i, name) {
+			console.log('load plugin:' + name);
+			if (typeof plugins[name] !== "undefined") {
+				plugins[name]();
+			} else {
+				console.log("cannot load plugin: " + name);
+			}
+		});
+	});
+})(jQuery);
+
+/*
+$tDiary.plugin.add('p1', function() { $tDiary.test1 = true; });
+$tDiary.plugin.add('p2', function() { $tDiary.test2 = true; });
+$tDiary.plugin.add('p3', function() { $tDiary.test3 = true; });
+$tDiary.enabledPlugins = ['p1', 'p2'];
+*/
 
 /*
 	utility functions
