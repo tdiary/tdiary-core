@@ -76,6 +76,22 @@ class CGI
 	def redirect_url
 		env_table['REDIRECT_URL']
 	end
+
+	def base_url_auto
+		return '' unless script_name
+		begin
+			script_dirname = script_name.empty? ? '' : File::dirname(script_name)
+			if https?
+				port = (server_port == 443) ? '' : ':' + server_port.to_s
+				"https://#{server_name}#{port}#{script_dirname}/"
+			else
+				port = (server_port == 80) ? '' : ':' + server_port.to_s
+				"http://#{server_name}#{port}#{script_dirname}/"
+			end.sub(%r|/+$|, '/')
+		rescue SecurityError
+			''
+		end
+	end
 end
 
 =begin

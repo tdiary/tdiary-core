@@ -61,23 +61,7 @@ module TDiary
 				end
 			rescue
 			end
-			base_url_auto
-		end
-
-		def base_url_auto
-			return '' unless @cgi.script_name
-			begin
-				script_dirname = @cgi.script_name.empty? ? '' : File::dirname(@cgi.script_name)
-				if @cgi.https?
-					port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
-					"https://#{ @cgi.server_name }#{ port }#{script_dirname}/"
-				else
-					port = (@cgi.server_port == 80) ? '' : ':' + @cgi.server_port.to_s
-					"http://#{ @cgi.server_name }#{ port }#{script_dirname}/"
-				end.sub(%r|/+$|, '/')
-			rescue SecurityError
-				''
-			end
+			@cgi.base_url_auto
 		end
 
 		if String.method_defined?(:encode)
