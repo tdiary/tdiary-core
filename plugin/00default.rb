@@ -376,11 +376,7 @@ def script_tag
 	query = script_tag_query_string
 	if defined?(Rack)
 		html = <<-HEAD
-		<script src="#{js_url}/00default.js" type="text/javascript"></script>
-		<script type="text/javascript"><!--
-		$tDiary.enabledPlugins = #{@javascripts.to_json}
-		//-->
-		</script>
+		<script src="#{js_url}/application.js" type="text/javascript"></script>
 		HEAD
 	else
 		html = @javascripts.sort.map {|script|
@@ -393,6 +389,7 @@ def script_tag
 	end
 	html << "\n" << <<-HEAD
 		<script type="text/javascript"><!--
+		$tDiary.enabledPlugins = #{@javascripts.to_json}
 		#{@javascript_setting.map{|a| "#{a[0]} = #{a[1]};"}.join("\n\t\t")}
 		//-->
 		</script>
