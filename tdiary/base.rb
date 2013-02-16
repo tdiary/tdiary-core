@@ -107,6 +107,10 @@ module TDiary
 			@diaries.delete( date.strftime( '%Y%m%d' ) )
 		end
 
+		def bot?
+			@conf.bot =~ @cgi.user_agent
+		end
+
 	private
 
 		def erb_src(prefix)
