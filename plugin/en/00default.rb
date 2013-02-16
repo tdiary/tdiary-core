@@ -147,7 +147,7 @@ add_conf_proc( 'default', 'Site information', 'basic' ) do
 
 	<h3 class="subtitle">URL of Your Diary</h3>
 	#{"<p>Specify your diary's URL. This URL is used by some plugins for indicate your diary</p>" unless @conf.mobile_agent?}
-	#{"<p><strong>NOTICE!! The URL specified below is different from current URL of accessed now.</strong></p>" unless @conf.base_url == @cgi.base_url_auto}
+	#{"<p><strong>NOTICE!! The URL specified below is different from current URL of accessed now.</strong></p>" unless @conf.base_url == @cgi.base_url}
 	<p><input name="base_url" value="#{h @conf.base_url}" size="70"></p>
 
 	<h3 class="subtitle">Description</h3>

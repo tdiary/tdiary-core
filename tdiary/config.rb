@@ -41,7 +41,7 @@ module TDiary
 			if @options['base_url'] && @options['base_url'].length > 0
 				@options['base_url']
 			else
-				@cgi.base_url_auto
+				@cgi.base_url
 			end
 		end
 

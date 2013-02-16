@@ -77,7 +77,7 @@ class CGI
 		env_table['REDIRECT_URL']
 	end
 
-	def base_url_auto
+	def base_url
 		return '' unless script_name
 		begin
 			script_dirname = script_name.empty? ? '' : File::dirname(script_name)
