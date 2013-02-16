@@ -7,8 +7,8 @@ module TDiary
 	class Config
 		attr_reader :database_url
 
-		def initialize( cgi, request = nil )
-			@cgi, @request = cgi, request
+		def initialize( cgi = nil, request = nil )
+			@request = request
 			configure_attrs
 			configure_bot_pattern
 			setup_attr_accessor_to_all_ivars
@@ -25,23 +25,23 @@ module TDiary
 		end
 
 		def mobile_agent?
-			@cgi.mobile_agent?
+			@request.mobile_agent?
 		end
 
 		def smartphone?
-			@cgi.smartphone?
+			@request.smartphone?
 		end
 		alias iphone? smartphone?
 
 		def bot?
-			@bot =~ @cgi.user_agent
+			@bot =~ @request.user_agent
 		end
 
 		def base_url
 			if @options['base_url'] && @options['base_url'].length > 0
 				@options['base_url']
 			else
-				@cgi.base_url
+				@request.base_url
 			end
 		end
 
