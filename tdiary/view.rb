@@ -134,7 +134,7 @@ module TDiary
 		end
 
 		def eval_rhtml( prefix = '' )
-			if not @diary and @conf.bot?
+			if not @diary and bot?
 				raise NotFound
 			else
 				super(prefix)
@@ -234,7 +234,7 @@ module TDiary
 	#
 	class TDiaryMonthBase < TDiaryView
 		def eval_rhtml( prefix = '' )
-			if @diaries.empty? and @conf.bot?
+			if @diaries.empty? and bot?
 				raise NotFound
 			else
 				super(prefix)

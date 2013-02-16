@@ -354,7 +354,7 @@ module TDiary
 		end
 
 		def bot?
-			@conf.bot?
+			@conf.bot =~ @cgi.user_agent
 		end
 
 		def help( name )

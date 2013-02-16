@@ -20,7 +20,7 @@ if @diary then
 		'anchor' => true,
 		'hide_comment_form' => @conf.hide_comment_form,
 		'show_nyear' => @conf.show_nyear,
-		'bot' => @conf.bot?,
+		'bot' => @conf.bot =~ @cgi.user_agent,
 	} %>
 	<%= @diary.eval_rhtml( param, PATH ) %><%
 else %>

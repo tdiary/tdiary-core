@@ -57,7 +57,7 @@ def random_google_init
 	end
 end
 
-if /(latest|day)/ === @mode and ! @conf.bot? and ! @cgi.mobile_agent?
+if /(latest|day)/ === @mode and !bot? and !@cgi.mobile_agent?
 	add_body_enter_proc do |date|
 		random_google_init
 
