@@ -111,6 +111,14 @@ module TDiary
 			@conf.bot =~ @cgi.user_agent
 		end
 
+		def base_url
+			if @conf.options['base_url'] && @conf.options['base_url'].length > 0
+				@conf.options['base_url']
+			else
+				@cgi.base_url
+			end
+		end
+
 	private
 
 		def erb_src(prefix)
@@ -128,7 +136,7 @@ module TDiary
 			rescue => e
 				# migration error on ruby 1.9 only 1st time, reload.
 				if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
-					raise ForceRedirect.new(@conf.base_url)
+					raise ForceRedirect.new(base_url)
 				end
 			end
 			ERB.new(r).src

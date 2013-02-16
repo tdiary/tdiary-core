@@ -38,8 +38,8 @@ module TDiary
 
 			referer = cgi.referer || ''
 			referer = referer.sub(/\?.*$/, '')
-			base_uri = URI.parse(conf.base_url)
-			config_uri = URI.parse(conf.base_url) + conf.update
+			base_uri = URI.parse(base_url)
+			config_uri = URI.parse(base_url) + conf.update
 
 			referer_is_empty = referer == ''
 			referer_uri = URI.parse(referer) if !referer_is_empty

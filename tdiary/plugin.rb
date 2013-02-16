@@ -357,6 +357,14 @@ module TDiary
 			@conf.bot =~ @cgi.user_agent
 		end
 
+		def base_url
+			if @conf.options['base_url'] && @conf.options['base_url'].length > 0
+				@conf.options['base_url']
+			else
+				@cgi.base_url
+			end
+		end
+
 		def help( name )
 			%Q[<span class="help-icon"><a href="http://docs.tdiary.org/#{h @conf.lang}/?#{h name}" target="_blank"><img src="#{theme_url}/help.png" width="19" height="19" alt="Help"></a></span>]
 		end
