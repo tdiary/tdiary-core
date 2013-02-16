@@ -410,7 +410,7 @@ def css_tag
 end
 
 def smartphone_tag
-	if @conf.smartphone? then
+	if @cgi.smartphone? then
 	<<-CSS
 <meta name = "viewport" content = "width = device-width">
 	<style type="text/css"><!--
