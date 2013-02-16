@@ -24,6 +24,7 @@ module TDiary
 			@io_class.save_cgi_conf(self, result)
 		end
 
+		# this method backword compatibility, you can use @cgi.mobile_agent?
 		def mobile_agent?
 			@request.mobile_agent?
 		end

@@ -12,7 +12,7 @@
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
 # Distributed under the GPL
 
-unless @conf.mobile_agent?
+unless @cgi.mobile_agent?
 
 def my( a, str, title = nil )
 	date, frag = a.scan( /(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*(?:#?([pct]\d+))?$/ )[0]

@@ -185,7 +185,7 @@ module TDiary
 			@name = @cgi.params['name'][0]
 			@mail = @cgi.params['mail'][0]
 			@body = @cgi.params['body'][0]
-			if @conf.mobile_agent? && String.method_defined?(:encode)
+			if @cgi.mobile_agent? && String.method_defined?(:encode)
 				@name.force_encoding(conf.mobile_encoding)
 				@body.force_encoding(conf.mobile_encoding)
 			end

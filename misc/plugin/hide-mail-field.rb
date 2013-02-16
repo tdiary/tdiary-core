@@ -8,7 +8,7 @@
 # Distributed under GPL.
 #
 add_header_proc do
-	if @mode == 'day' and not @conf.mobile_agent? then
+	if @mode == 'day' and not @cgi.mobile_agent? then
 		<<-STYLE
 		<style type="text/css"><!--
 			form.comment div.mail { display: none; }
@@ -20,7 +20,7 @@ add_header_proc do
 end
 
 add_footer_proc do
-	if @mode == 'day' and not @conf.mobile_agent? then
+	if @mode == 'day' and not @cgi.mobile_agent? then
 		<<-SCRIPT
 		<script type="text/javascript"><!--
 			document.getElementsByName("mail")[0].value = "";

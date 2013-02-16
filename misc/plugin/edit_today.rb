@@ -16,7 +16,7 @@ def edit_today_link( date, title )
 	unless /^(day|preview)$/ =~ @mode
 		edit_today_init
 		caption = @conf['edit_today.caption']
-		unless @conf.mobile_agent?
+		unless @cgi.mobile_agent?
 			r = <<-HTML
 			#{title}\n<span class="edit-today">
 			<a href="#{@update}?edit=true;#{date.strftime( 'year=%Y;month=%m;day=%d' )}" title="#{edit_today_edit_label( date )}" rel="nofollow">#{caption}</a>

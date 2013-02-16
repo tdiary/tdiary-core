@@ -28,7 +28,7 @@
 #
  
 # running on only non mobile mode
-unless @conf.mobile_agent? then
+unless @cgi.mobile_agent? then
 
 #
 # show TrackBack ping URL

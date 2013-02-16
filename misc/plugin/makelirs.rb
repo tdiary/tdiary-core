@@ -56,7 +56,7 @@ add_update_proc do
 	cgi = @cgi.clone
 	conf = @conf.clone
 	def cgi.mobile_agent?; false; end
-	def conf.mobile_agent?; false; end
+	def cgi.mobile_agent?; false; end
 
 	t = TDiaryLatest::new( cgi, "latest.rhtml", conf )
 	body = t.eval_rhtml

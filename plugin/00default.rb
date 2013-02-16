@@ -224,7 +224,7 @@ add_header_proc do
 end
 
 def calc_links
-	if /day|edit/ =~ @mode or (@conf.mobile_agent? and /latest|month|nyear/ =~ @mode) then
+	if /day|edit/ =~ @mode or (@cgi.mobile_agent? and /latest|month|nyear/ =~ @mode) then
 		today = @date.strftime('%Y%m%d')
 		days = []
 		yms = []
@@ -261,7 +261,7 @@ def calc_links
 end
 
 def charset
-	if @conf.mobile_agent? then
+	if @cgi.mobile_agent? then
 		@conf.mobile_encoding
 	else
 		@conf.encoding
@@ -454,7 +454,7 @@ add_title_proc do |date, title|
 end
 
 def nyear_link( date, title )
-	if @conf.show_nyear and @mode != 'nyear' and !@conf.mobile_agent? then
+	if @conf.show_nyear and @mode != 'nyear' and !@cgi.mobile_agent? then
 		y = date.strftime( '%Y' )
 		m = date.strftime( '%m' )
 		d = date.strftime( '%d' )
@@ -512,7 +512,7 @@ end
 def subtitle_link( date, index, subtitle )
 	r = ''
 
-	if @conf.mobile_agent? then
+	if @cgi.mobile_agent? then
 		r << %Q[<A NAME="p#{'%02d' % index}">*</A> ]
 		r << %Q|(#{h @author})| if @multi_user and @author and subtitle
 	else
@@ -841,7 +841,7 @@ def conf_theme_list
 			image.src = 'http://www.tdiary.org/theme.image/' + theme + '.jpg'
 		}
 	--></script>
-	#{@theme_location_comment unless @conf.mobile_agent?}
+	#{@theme_location_comment unless @cgi.mobile_agent?}
 	HTML
 end
 
