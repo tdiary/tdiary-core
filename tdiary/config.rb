@@ -15,7 +15,6 @@ module TDiary
 			load_logger
 		end
 
-		# saving to tdiary.conf in @data_path
 		def save
 			result = ERB.new(File.read("#{TDiary::PATH}/skel/tdiary.rconf").untaint).result(binding)
 			result.untaint unless @secure
@@ -38,6 +37,14 @@ module TDiary
 			@bot =~ @cgi.user_agent
 		end
 
+		def base_url
+			if @options['base_url'] && @options['base_url'].length > 0
+				@options['base_url']
+			else
+				@cgi.base_url_auto
+			end
+		end
+
 		#
 		# get/set/delete plugin options
 		#
@@ -52,16 +59,6 @@ module TDiary
 		def delete( key )
 			@options.delete( key )
 			@options2.delete( key )
-		end
-
-		def base_url
-			begin
-				if @options['base_url'].length > 0 then
-					return @options['base_url']
-				end
-			rescue
-			end
-			@cgi.base_url_auto
 		end
 
 		if String.method_defined?(:encode)
