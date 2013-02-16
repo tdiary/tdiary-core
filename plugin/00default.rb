@@ -217,7 +217,7 @@ add_header_proc do
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
 	#{css_tag.chomp}
-	#{iphone_tag.chomp}
+	#{smartphone_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
 	HEADER
@@ -409,8 +409,8 @@ def css_tag
 	CSS
 end
 
-def iphone_tag
-	if @conf.iphone? then
+def smartphone_tag
+	if @conf.smartphone? then
 	<<-CSS
 <meta name = "viewport" content = "width = device-width">
 	<style type="text/css"><!--
