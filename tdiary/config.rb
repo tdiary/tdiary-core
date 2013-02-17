@@ -40,6 +40,7 @@ module TDiary
 			@bot =~ @request.user_agent
 		end
 
+		# backword compatibility, you can use TDiary::ViewHelper#base_url
 		def base_url
 			if @options['base_url'] && @options['base_url'].length > 0
 				@options['base_url']
