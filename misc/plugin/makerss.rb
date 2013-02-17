@@ -61,6 +61,7 @@ end
 
 class MakeRssFull
 	include ERB::Util
+	include TDiary::ViewHelper
 
 	def initialize(conf, cgi = CGI.new)
 		@conf, @cgi = conf, cgi
@@ -128,14 +129,6 @@ class MakeRssFull
 				f.write( encoder.call( xml ) )
 			end
 		rescue
-		end
-	end
-
-	def base_url
-		if @conf.options['base_url'] && @conf.options['base_url'].length > 0
-			@conf.options['base_url']
-		else
-			@cgi.base_url
 		end
 	end
 

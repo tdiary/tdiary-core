@@ -8,6 +8,8 @@ require 'erb'
 module TDiary
 	class Plugin
 		include ERB::Util
+		include ViewHelper
+
 		attr_reader :cookies
 		attr_writer :comment, :date, :diaries, :last_modified
 
@@ -351,18 +353,6 @@ module TDiary
 				end
 			end
 			str ? str : ref
-		end
-
-		def bot?
-			@conf.bot =~ @cgi.user_agent
-		end
-
-		def base_url
-			if @conf.options['base_url'] && @conf.options['base_url'].length > 0
-				@conf.options['base_url']
-			else
-				@cgi.base_url
-			end
 		end
 
 		def help( name )
