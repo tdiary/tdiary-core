@@ -81,7 +81,7 @@ module TDiary
 	autoload :TDiaryLatest,             'tdiary/view'
 
 	# Helper, these module called from ViewController and Plugins
-	autoload :ViewHelper,               'tdiary/view_helper.rb'
+	autoload :ViewHelper,               'tdiary/view_helper'
 
 	#
 	# exception classes
