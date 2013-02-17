@@ -96,7 +96,7 @@ end
 
 def tlink_getcomment( url )
   result = ""
-  ref = @conf.base_url
+  ref = base_url
   agent = { "User-Agent" => "DoCoMo (compatible; tDiary plugin; tlink; #{ref})" }
   host, path, frag = url.scan( %r[http://(.*?)/(.*)#((?:p|c)\d\d)] )[0]
   if /p0/ =~ frag

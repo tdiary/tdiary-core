@@ -62,8 +62,8 @@ end
 class MakeRssFull
 	include ERB::Util
 
-	def initialize( conf )
-		@conf = conf
+	def initialize(conf, cgi = CGI.new)
+		@conf, @cgi = conf, cgi
 		@item_num = 0
 	end
 
@@ -131,14 +131,22 @@ class MakeRssFull
 		end
 	end
 
+	def base_url
+		if @conf.options['base_url'] && @conf.options['base_url'].length > 0
+			@conf.options['base_url']
+		else
+			@cgi.base_url
+		end
+	end
+
 	def url
-		u = @conf['makerss.url'] || "#{@conf.base_url}#{File.basename(file)}"
-		u = "#{@conf.base_url}#{File.basename(file)}" if u.empty?
+		u = @conf['makerss.url'] || "#{base_url}#{File.basename(file)}"
+		u = "#{base_url}#{File.basename(file)}" if u.empty?
 		u
 	end
 end
 
-@makerss_rsses << MakeRssFull::new( @conf )
+@makerss_rsses << MakeRssFull::new(@conf, @cgi)
 
 class MakeRssNoComments < MakeRssFull
 	def title
@@ -163,20 +171,20 @@ class MakeRssNoComments < MakeRssFull
 
 	def url
 		return nil unless @conf['makerss.no_comments']
-		u = @conf['makerss.no_comments.url'] || "#{@conf.base_url}#{File.basename(file)}"
-		u = "#{@conf.base_url}#{File.basename(file)}" if u.empty?
+		u = @conf['makerss.no_comments.url'] || "#{base_url}#{File.basename(file)}"
+		u = "#{base_url}#{File.basename(file)}" if u.empty?
 		u
 	end
 end
 
-@makerss_rsses << MakeRssNoComments::new( @conf )
+@makerss_rsses << MakeRssNoComments::new(@conf, @cgi)
 
 def makerss_update
 	date = @date.strftime( "%Y%m%d" )
 	diary = @diaries[date]
 
 	uri = @conf.index.dup
-	uri[0, 0] = @conf.base_url if %r|^https?://|i !~ @conf.index
+	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
 
 	require 'pstore'
@@ -256,7 +264,7 @@ def makerss_update
 		if /^http/ =~ @conf.banner
 			rdf_image = @conf.banner
 		else
-			rdf_image = @conf.base_url + @conf.banner
+			rdf_image = base_url + @conf.banner
 		end
 		rsses.each {|r| r.image( %Q[<image rdf:resource="#{h rdf_image}" />\n] ) }
 	end
@@ -269,8 +277,8 @@ def makerss_update
 end
 
 def makerss_header( uri )
-	rdf_url = @conf['makerss.url'] || "#{@conf.base_url}index.rdf"
-	rdf_url = "#{@conf.base_url}index.rdf" if rdf_url.empty?
+	rdf_url = @conf['makerss.url'] || "#{base_url}index.rdf"
+	rdf_url = "#{base_url}index.rdf" if rdf_url.empty?
 
 	desc = @conf.description || ''
 
@@ -362,7 +370,7 @@ def makerss_body( uri, rdfsec )
 			text << body_leave
 			unless text.empty?
 				uri = @conf.index.dup
-				uri[0, 0] = @conf.base_url unless %r|^https?://|i =~ uri
+				uri[0, 0] = base_url unless %r|^https?://|i =~ uri
 				uri.gsub!( %r|/\./|, '/' )
 				text = absolutify( text, uri )
 				text.gsub!( /\]\]>/, ']]]]><![CDATA[>' )

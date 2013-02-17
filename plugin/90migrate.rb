@@ -98,7 +98,7 @@ if !@conf.tdiary_version && @conf.io_class.to_s == 'TDiary::DefaultIO'
 	Dir["#{dir}/*.parser"].each{|f| FileUtils.rm_f( f )}
 
 	# redirect to top page
-	raise ::TDiary::ForceRedirect, @conf.base_url
+	raise ::TDiary::ForceRedirect, base_url
 end
 
 # Local Variables:

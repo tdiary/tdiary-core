@@ -29,7 +29,7 @@ server.add_handler('blogger.newPost') do |appkey, blogid, username, password, co
   @cgi = CGI::new
   conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(conf.base_url) + conf.update).to_s
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
   if username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
     begin
       postid = Time.now.strftime("%Y%m%d")
@@ -67,7 +67,7 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
   @cgi = CGI::new
   conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(conf.base_url) + conf.update).to_s
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
   unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
@@ -114,7 +114,7 @@ server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
   @cgi = CGI::new
   conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(conf.base_url) + conf.update).to_s
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
   unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
@@ -188,7 +188,7 @@ server.add_handler('blogger.getUsersBlogs') do |appkey, username, password|
     {
       'blogid'   => conf['xmlrpc.blogid'],
       'blogName' => conf.html_title,
-      'url'      => conf.base_url
+      'url'      => base_url
     }
   ]
   result
@@ -203,7 +203,7 @@ server.add_handler('blogger.getUserInfo') do |appkey, username, password|
   result = {
     'nickname'  => conf.author_name,
     'email'     => conf.author_mail,
-    'url'       => conf.base_url,
+    'url'       => base_url,
     'lastname'  => conf['xmlrpc.lastname'],
     'firstname' => conf['xmlrpc.firstname'],
     'userid'    => conf['xmlrpc.userid']
@@ -215,7 +215,7 @@ server.add_handler('metaWeblog.newPost') do |blogid, username, password, content
   @cgi = CGI::new
   conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(conf.base_url) + conf.update).to_s
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
   unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
@@ -251,7 +251,7 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
   @cgi = CGI::new
   conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(conf.base_url) + conf.update).to_s
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
   unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
@@ -310,7 +310,7 @@ server.add_handler('metaWeblog.getPost') do |postid, username, password|
   diary.each_section {|sec|
     i += 1
     if i==index
-      link = conf.base_url + conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % i
+      link = base_url + conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % i
       title = sec.stripped_subtitle || ''
       body  = sec.body
       result = {
@@ -351,7 +351,7 @@ server.add_handler('metaWeblog.getRecentPosts') do |blogid, username, password, 
     diary.each_section {|sec|
       index += 1
       postid = diary.date.strftime('%Y%m%d') + "%02d" % index
-      link = conf.base_url + conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % index
+      link = base_url + conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % index
       title = sec.stripped_subtitle || ''
       body  = sec.body
       author = sec.author || conf['xmlrpc.userid']
@@ -391,7 +391,7 @@ server.add_handler('metaWeblog.newMediaObject') do |blogid, username, password, 
   open(path,'wb') {|f|
     f.write bits.to_s
   }
-  {'url' => (URI.parse(conf.base_url) + (image_url + '/' + name)).to_s }
+  {'url' => (URI.parse(base_url) + (image_url + '/' + name)).to_s }
 end
 
 server.add_handler('mt.getRecentPostTitles') do |blogid, username, password, numberOfPosts|
@@ -491,7 +491,7 @@ server.add_handler('mt.setPostCategories') do |postid, username, password, categ
   @cgi = CGI::new
   conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(conf.base_url) + conf.update).to_s
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
   unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end

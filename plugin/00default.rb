@@ -324,7 +324,7 @@ end
 def mobile_link_discovery
 	return '' unless /^(latest|day)$/ =~ @mode
 	uri = @conf.index.dup
-	uri[0, 0] = @conf.base_url if %r|^https?://|i !~ @conf.index
+	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
 	if @mode == 'day' then
 		uri += anchor( @date.strftime( '%Y%m%d' ) )
@@ -535,7 +535,7 @@ end
 def my( a, str, title = nil )
 	date, noise, frag = a.scan( /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)([^\d]*)?#?([pct]\d+)?$/ )[0]
 	anc = frag ? "#{date}#{frag}" : date
-	index = /^https?:/ =~ @conf.index ? '' : @conf.base_url
+	index = /^https?:/ =~ @conf.index ? '' : base_url
 	index += @conf.index.sub(%r|^\./|, '')
 	if title then
 		%Q[<a href="#{h index}#{anchor anc}" title="#{h title}">#{str}</a>]

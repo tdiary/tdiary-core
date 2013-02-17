@@ -36,7 +36,7 @@ module TDiary::Filter
 			return true unless (key || '' ).length > 0
 
 			blog = @conf.index.dup
-			blog[0, 0] = @conf.base_url unless %r|^https?://|i =~ blog
+			blog[0, 0] = base_url unless %r|^https?://|i =~ blog
 			blog.gsub!( %r|/\./|, '/' )
 			permalink = "#{blog}?date=#{diary.date.strftime('%Y%m%d')}"
 

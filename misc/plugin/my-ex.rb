@@ -49,7 +49,7 @@ def my( a, str, title = nil )
 			end
 		end
 	end
-	index = /^https?:/ =~ @index ? '' : @conf.base_url
+	index = /^https?:/ =~ @index ? '' : base_url
 	index += @index.sub(%r|^\./|, '')
 	if title then
 		%Q[<a href="#{h index}#{anchor anc}" title="#{title}">#{str}</a>]
