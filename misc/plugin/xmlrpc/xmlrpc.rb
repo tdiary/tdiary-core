@@ -27,19 +27,20 @@ end
 
 include TDiary::ViewHelper
 
+@cgi = CGI::new
+@conf = ::TDiary::Config::new(@cgi)
+
 server.add_handler('blogger.newPost') do |appkey, blogid, username, password, content, publish|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
-  if username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + @conf.update).to_s
+  if username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     begin
       postid = Time.now.strftime("%Y%m%d")
       year, month, day = postid.scan(/(\d{4})(\d\d)(\d\d)/)[0]
       @cgi.params['date']  = [postid]
-      tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+      tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
       time = Time::local( year, month, day ) + 12*60*60
-      diary = tdiary[time] || tdiary.instance_variable_get(:@io).diary_factory(time, '', '', conf.style)
+      diary = tdiary[time] || tdiary.instance_variable_get(:@io).diary_factory(time, '', '', @conf.style)
 
       title,body = content.split(/\n/,2)
       index = diary.add_section(title, body)
@@ -53,8 +54,8 @@ server.add_handler('blogger.newPost') do |appkey, blogid, username, password, co
       @cgi.params['month'] = [postid[4..5]]
       @cgi.params['day']   = [postid[6..7]]
       @cgi.params['body']  = [src]
-      @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-      tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
+      @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
+      tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
       body = tdiary.eval_rhtml
       postid + "%02d" % index
     rescue ::TDiary::ForceRedirect => redirect
@@ -66,16 +67,14 @@ server.add_handler('blogger.newPost') do |appkey, blogid, username, password, co
 end
 
 server.add_handler('blogger.editPost') do |appkey, postid, username, password, content, publish|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + @conf.update).to_s
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   begin
     @cgi.params['date']  = [postid[0,8]]
-    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     year, month, day, index = postid.scan(/(\d{4})(\d\d)(\d\d)(\d\d)/)[0]
     index = index.to_i
     time = Time::local( year, month, day ) + 12*60*60
@@ -101,8 +100,8 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
     @cgi.params['month'] = [postid[4..5]]
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
-    @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
+    @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -113,18 +112,16 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
 end
 
 server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + @conf.update).to_s
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   begin
     year, month, day, index = postid.scan(/(\d{4})(\d\d)(\d\d)(\d\d)/)[0]
     index = index.to_i
     @cgi.params['date']  = [postid[0,8]]
-    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     time = Time::local( year, month, day ) + 12*60*60
     diary = tdiary[time]
     
@@ -139,8 +136,8 @@ server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
     @cgi.params['month'] = [postid[4..5]]
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
-    @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
+    @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -151,23 +148,21 @@ server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
 end
 
 server.add_handler('blogger.getRecentPosts') do |appkey, blogid, username, password, numberOfPosts|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   result = []
   @cgi.params['title'] = ['']
   @cgi.params['body']  = ['']
   @cgi.params['hide']  = ['true']
-  conf.latest_limit = numberOfPosts
-  tdiary = ::TDiary::TDiaryLatest::new( @cgi, 'latest.rhtml', conf )
+  @conf.latest_limit = numberOfPosts
+  tdiary = ::TDiary::TDiaryLatest::new( @cgi, 'latest.rhtml', @conf )
   tdiary.latest(numberOfPosts) {|diary|
     index = 0
     diary.each_section {|sec|
       index += 1
       postid = diary.date.strftime('%Y%m%d') + "%02d" % index
-      author = sec.author || conf['xmlrpc.userid']
+      author = sec.author || @conf['xmlrpc.userid']
       body  = sec.subtitle + "\n" + sec.body
       result << {
         'postid'      => postid,
@@ -181,15 +176,13 @@ server.add_handler('blogger.getRecentPosts') do |appkey, blogid, username, passw
 end
 
 server.add_handler('blogger.getUsersBlogs') do |appkey, username, password|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   result = [
     {
-      'blogid'   => conf['xmlrpc.blogid'],
-      'blogName' => conf.html_title,
+      'blogid'   => @conf['xmlrpc.blogid'],
+      'blogName' => @conf.html_title,
       'url'      => base_url
     }
   ]
@@ -197,37 +190,33 @@ server.add_handler('blogger.getUsersBlogs') do |appkey, username, password|
 end
 
 server.add_handler('blogger.getUserInfo') do |appkey, username, password|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   result = {
-    'nickname'  => conf.author_name,
-    'email'     => conf.author_mail,
+    'nickname'  => @conf.author_name,
+    'email'     => @conf.author_mail,
     'url'       => base_url,
-    'lastname'  => conf['xmlrpc.lastname'],
-    'firstname' => conf['xmlrpc.firstname'],
-    'userid'    => conf['xmlrpc.userid']
+    'lastname'  => @conf['xmlrpc.lastname'],
+    'firstname' => @conf['xmlrpc.firstname'],
+    'userid'    => @conf['xmlrpc.userid']
   }
   result
 end
 
 server.add_handler('metaWeblog.newPost') do |blogid, username, password, content, publish|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + @conf.update).to_s
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   begin
     postid = Time.now.strftime("%Y%m%d")
     year, month, day = postid.scan(/(\d{4})(\d\d)(\d\d)/)[0]
     @cgi.params['date']  = [postid]
-    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     time = Time::local( year, month, day ) + 12*60*60
-    diary = tdiary[time] || tdiary.instance_variable_get(:@io).diary_factory(time, '', '', conf.style)
+    diary = tdiary[time] || tdiary.instance_variable_get(:@io).diary_factory(time, '', '', @conf.style)
     
     index = diary.add_section(content['title'], content['description'])
     src = diary.to_src
@@ -240,8 +229,8 @@ server.add_handler('metaWeblog.newPost') do |blogid, username, password, content
     @cgi.params['month'] = [postid[4..5]]
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
-    @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
+    @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     body = tdiary.eval_rhtml
     postid + "%02d" % index
   rescue ::TDiary::ForceRedirect => redirect
@@ -250,16 +239,14 @@ server.add_handler('metaWeblog.newPost') do |blogid, username, password, content
 end
 
 server.add_handler('metaWeblog.editPost') do |postid, username, password, content, publish|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + @conf.update).to_s
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   begin
     @cgi.params['date']  = [postid[0,8]]
-    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     year, month, day, index = postid.scan(/(\d{4})(\d\d)(\d\d)(\d\d)/)[0]
     index = index.to_i
     time = Time::local( year, month, day ) + 12*60*60
@@ -284,8 +271,8 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
     @cgi.params['month'] = [postid[4..5]]
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
-    @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
+    @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -296,13 +283,11 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
 end
 
 server.add_handler('metaWeblog.getPost') do |postid, username, password|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   @cgi.params['date'] = [postid[0,8]]
-  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', conf )
+  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', @conf )
   year, month, day, index = postid.scan(/(\d{4})(\d\d)(\d\d)(\d\d)/)[0]
   index = index.to_i
   date = Time::local( year, month, day ) + 12*60*60
@@ -312,11 +297,11 @@ server.add_handler('metaWeblog.getPost') do |postid, username, password|
   diary.each_section {|sec|
     i += 1
     if i==index
-      link = base_url + conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % i
+      link = base_url + @conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % i
       title = sec.stripped_subtitle || ''
       body  = sec.body
       result = {
-        'userid'       => conf['xmlrpc.userid'],
+        'userid'       => @conf['xmlrpc.userid'],
         'dateCreated'  => diary.last_modified.utc,
         'postid'       => postid,
         'description'  => body,
@@ -337,26 +322,24 @@ server.add_handler('metaWeblog.getPost') do |postid, username, password|
 end
 
 server.add_handler('metaWeblog.getRecentPosts') do |blogid, username, password, numberOfPosts|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   result = []
   @cgi.params['title'] = ['']
   @cgi.params['body']  = ['']
   @cgi.params['hide']  = ['true']
-  conf.latest_limit = numberOfPosts
-  tdiary = ::TDiary::TDiaryLatest::new( @cgi, 'latest.rhtml', conf )
+  @conf.latest_limit = numberOfPosts
+  tdiary = ::TDiary::TDiaryLatest::new( @cgi, 'latest.rhtml', @conf )
   tdiary.latest(numberOfPosts) {|diary|
     index = 0
     diary.each_section {|sec|
       index += 1
       postid = diary.date.strftime('%Y%m%d') + "%02d" % index
-      link = base_url + conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % index
+      link = base_url + @conf.index.sub(%r|^\./|, '') + diary.date.strftime('%Y%m%d') + ".html\#p%02d" % index
       title = sec.stripped_subtitle || ''
       body  = sec.body
-      author = sec.author || conf['xmlrpc.userid']
+      author = sec.author || @conf['xmlrpc.userid']
       result << {
         'dateCreated'       => diary.last_modified.utc,
         'userid'            => author,
@@ -378,14 +361,12 @@ server.add_handler('metaWeblog.getRecentPosts') do |blogid, username, password, 
 end
 
 server.add_handler('metaWeblog.newMediaObject') do |blogid, username, password, file|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
-  image_dir = conf['image.dir'] || './images/'
+  image_dir = @conf['image.dir'] || './images/'
   image_dir.chop! if /\/$/ =~ image_dir
-  image_url = conf['image.url'] || './images/'
+  image_url = @conf['image.url'] || './images/'
   image_url.chop! if /\/$/ =~ image_url
   name = file['name']
   bits = file['bits']
@@ -397,23 +378,21 @@ server.add_handler('metaWeblog.newMediaObject') do |blogid, username, password, 
 end
 
 server.add_handler('mt.getRecentPostTitles') do |blogid, username, password, numberOfPosts|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   result = []
   @cgi.params['title'] = ['']
   @cgi.params['body']  = ['']
   @cgi.params['hide']  = ['true']
-  conf.latest_limit = numberOfPosts
-  tdiary = ::TDiary::TDiaryLatest::new( @cgi, 'latest.rhtml', conf )
+  @conf.latest_limit = numberOfPosts
+  tdiary = ::TDiary::TDiaryLatest::new( @cgi, 'latest.rhtml', @conf )
   tdiary.latest(numberOfPosts) {|diary|
     index = 0
     diary.each_section {|sec|
       index += 1
       postid = diary.date.strftime('%Y%m%d') + "%02d" % index
-      author = sec.author || conf['xmlrpc.userid']
+      author = sec.author || @conf['xmlrpc.userid']
       result << {
         'dateCreated'       => diary.last_modified.utc,
         'userid'            => author,
@@ -426,19 +405,17 @@ server.add_handler('mt.getRecentPostTitles') do |blogid, username, password, num
 end
 
 server.add_handler('mt.getCategoryList') do |blogid, username, password|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   @cgi.params['date'] = [Time.now.strftime('%Y%m%d')]
-  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', conf )
+  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', @conf )
   list = []
   tdiary.calendar.each do |y, ms|
     ms.each do |m|
       ym = "#{y}#{m}"
       @cgi.params['date'] = [ym]
-      m = ::TDiary::TDiaryMonth.new(@cgi, '', conf)
+      m = ::TDiary::TDiaryMonth.new(@cgi, '', @conf)
       sections = {}
       m.diaries.each do |ymd, diary|
         next if !diary.visible?
@@ -460,13 +437,11 @@ server.add_handler('mt.getCategoryList') do |blogid, username, password|
 end
 
 server.add_handler('mt.getPostCategories') do |postid, username, password|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   @cgi.params['date'] = [postid[0,8]]
-  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', conf )
+  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', @conf )
   result = []
   year, month, day, index = postid.scan(/(\d{4})(\d\d)(\d\d)(\d\d)/)[0]
   index = index.to_i
@@ -490,16 +465,14 @@ server.add_handler('mt.getPostCategories') do |postid, username, password|
 end
 
 server.add_handler('mt.setPostCategories') do |postid, username, password, categories|
-  @cgi = CGI::new
-  conf = ::TDiary::Config::new(@cgi)
   ENV['REQUEST_METHOD'] = 'POST'
-  ENV['HTTP_REFERER'] = (URI.parse(base_url) + conf.update).to_s
-  unless username==conf['xmlrpc.username'] && password==conf['xmlrpc.password']
+  ENV['HTTP_REFERER'] = (URI.parse(base_url) + @conf.update).to_s
+  unless username == @conf['xmlrpc.username'] && password == @conf['xmlrpc.password']
     raise XMLRPC::FaultException.new(1,'userid or password incorrect')
   end
   begin
     @cgi.params['date']  = [postid[0,8]]
-    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", conf )
+    tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     year, month, day, index = postid.scan(/(\d{4})(\d\d)(\d\d)(\d\d)/)[0]
     index = index.to_i
     time = Time::local( year, month, day ) + 12*60*60
@@ -530,8 +503,8 @@ server.add_handler('mt.setPostCategories') do |postid, username, password, categ
     @cgi.params['month'] = [postid[4..5]]
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
-    @cgi.params['csrf_protection_key']  = [conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, conf )
+    @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
+    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     body = tdiary.eval_rhtml
     true
   rescue ::TDiary::ForceRedirect => redirect
@@ -569,10 +542,8 @@ server.add_handler('mt.supportedTextFilters') do
 end
 
 server.add_handler('mt.getTrackbackPings') do |postid|
-  @cgi = CGI::new
   @cgi.params['date'] = [postid[0,8]]
-  conf = ::TDiary::Config::new(@cgi)
-  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', conf )
+  tdiary = TDiary::TDiaryDay::new( @cgi, 'day.rhtml', @conf )
   result = []
   date = Time::local( *postid.scan( /^(\d{4})(\d\d)(\d\d)(\d\d)$/ )[0] ) + 12*60*60
   tdiary[date].each_visible_trackback(100) {|com,i|
