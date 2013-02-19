@@ -8,6 +8,8 @@ require 'erb'
 module TDiary
 	class Plugin
 		include ERB::Util
+		include ViewHelper
+
 		attr_reader :cookies
 		attr_writer :comment, :date, :diaries, :last_modified
 
@@ -351,10 +353,6 @@ module TDiary
 				end
 			end
 			str ? str : ref
-		end
-
-		def bot?
-			@conf.bot?
 		end
 
 		def help( name )

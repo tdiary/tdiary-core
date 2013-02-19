@@ -55,7 +55,7 @@ def category_anchor(category)
 		else
 			""
 		end
-	if @category_icon[category] and !@conf.mobile_agent?
+	if @category_icon[category] and !@cgi.mobile_agent?
 		%Q|<a href="#{h @index}?#{period_string}category=#{u category}"><img class="category" src="#{h @category_icon_url}#{h @category_icon[category]}" alt="#{h category}"></a>|
 	else
 		%Q|[<a href="#{h @index}?#{period_string}category=#{u category}">#{h category}</a>]|
@@ -71,7 +71,7 @@ def category_navi_anchor(info, label, mobile = false)
 end
 
 def category_navi
-	mobile = @conf.mobile_agent?
+	mobile = @cgi.mobile_agent?
 	info = Category::Info.new(@cgi, @years, @conf)
 	mode = info.mode
 
@@ -177,7 +177,7 @@ def category_dropdown_list(label = nil, multiple = nil)
 	info = Category::Info.new(@cgi, @years, @conf)
 	category = info.category
 	if category.empty?
-		return '' if @conf.mobile_agent?
+		return '' if @cgi.mobile_agent?
 		category = ['ALL'] 
 	end
 

@@ -30,7 +30,7 @@ module TDiary
 					false
 				#elsif /[\x00-\x20\x7f-\xff]/ =~ referer then
 				#	false
-				elsif @conf.bot?
+				elsif @conf.bot =~ @cgi.user_agent
 					false
 				elsif %r|^https?://|i =~ referer
 					ref = CGI::unescape( referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) ).force_encoding('ASCII-8BIT')

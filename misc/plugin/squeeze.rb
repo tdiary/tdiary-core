@@ -117,6 +117,7 @@ module ::TDiary
 	
 			cgi = CGI::new
 			def cgi.referer; nil; end
+			def cgi.user_agent; 'bot'; end
 			super( cgi, 'day.rhtml', conf )
 			@diary = diary
 			@date = diary.date
@@ -218,12 +219,12 @@ if mode == "CGI" || mode == "CMD"
 	begin
 		require 'cgi'
 		cgi = CGI.new
+		def cgi.user_agent; 'bot'; end
 		conf = TDiary::Config::new(cgi)
 		conf.header = ''
 		conf.footer = squeeze_navi_on_footer
 		conf.show_comment = true
 		conf.hide_comment_form = true
-		def conf.bot?; true; end
 		output_path = "#{conf.data_path}/cache/html" unless output_path
 		Dir.mkdir(output_path, 0755) unless File.directory?(output_path)
 		::TDiary::YATDiarySqueezeMain.new(output_path, all_data, overwrite, compat, conf, suffix)
@@ -247,7 +248,6 @@ else
 		conf.footer = squeeze_navi_on_footer
 		conf.show_comment = true
 		conf.hide_comment_form = true
-		def conf.bot?; true; end
 
 		diary = @diaries[@date.strftime('%Y%m%d')]
 		dir = @options['squeeze.output_path'] || @options['yasqueeze.output_path']

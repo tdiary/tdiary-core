@@ -444,7 +444,7 @@ _END
 #{@my_sequel_conf.handler_block}
 <h3>#{@my_sequel_plugin_name}</h3>
 #{@my_sequel_description}
-#{@my_sequel_conf.html(@my_sequel_restore_default_label, @conf.mobile_agent?).chomp}
+#{@my_sequel_conf.html(@my_sequel_restore_default_label, @cgi.mobile_agent?).chomp}
 _HTML
 	end
 
@@ -454,7 +454,7 @@ _HTML
 	# activate this plugin if header procs are called
 	# - This avoids being called from makerss.rb
 	add_header_proc do
-		if not @conf.bot? and not @conf.mobile_agent? then
+		if not bot? and not @cgi.mobile_agent? then
 			@my_sequel_active = true
 			@my_sequel.restore(@diaries.keys)
 			MySequel.css(@my_sequel_conf[:inner_css])
@@ -498,7 +498,7 @@ _HTML
 	# show sequels when leaving a section
 	add_section_leave_proc do
 		r = ''
-		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not @conf.bot? and not @conf.mobile_agent? then
+		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not bot? and not @cgi.mobile_agent? then
 			r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
 				my_sequel_orig_my(src_anchor, anchor_str)
 			}
@@ -511,7 +511,7 @@ _HTML
 	add_body_leave_proc do
 		r = ''
 		if @my_sequel_active and @my_sequel_date then
-			if not @conf.bot? and not @conf.mobile_agent? then
+			if not bot? and not @cgi.mobile_agent? then
 				r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
 					my_sequel_orig_my(src_anchor, anchor_str)
 				}

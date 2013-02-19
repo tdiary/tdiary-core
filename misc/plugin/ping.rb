@@ -26,7 +26,7 @@ def ping( list )
       <value>#{@conf.html_title}</value>
     </param>
     <param>
-      <value>#{@conf.base_url}</value>
+      <value>#{base_url}</value>
     </param>
   </params>
 </methodCall>

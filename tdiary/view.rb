@@ -134,7 +134,7 @@ module TDiary
 		end
 
 		def eval_rhtml( prefix = '' )
-			if not @diary and @conf.bot?
+			if not @diary and bot?
 				raise NotFound
 			else
 				super(prefix)
@@ -185,7 +185,7 @@ module TDiary
 			@name = @cgi.params['name'][0]
 			@mail = @cgi.params['mail'][0]
 			@body = @cgi.params['body'][0]
-			if @conf.mobile_agent? && String.method_defined?(:encode)
+			if @cgi.mobile_agent? && String.method_defined?(:encode)
 				@name.force_encoding(conf.mobile_encoding)
 				@body.force_encoding(conf.mobile_encoding)
 			end
@@ -234,7 +234,7 @@ module TDiary
 	#
 	class TDiaryMonthBase < TDiaryView
 		def eval_rhtml( prefix = '' )
-			if @diaries.empty? and @conf.bot?
+			if @diaries.empty? and bot?
 				raise NotFound
 			else
 				super(prefix)

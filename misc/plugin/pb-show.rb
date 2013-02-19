@@ -20,7 +20,7 @@
 #
 
 # running on only non mobile mode
-unless @conf.mobile_agent? then
+unless @cgi.mobile_agent? then
 
 #
 # hide Pingbacks in TSUKKOMI
@@ -138,9 +138,9 @@ add_body_enter_proc do |date|
 	cgi = File.basename(@options['pb.cgi'] || './pb.rb')
 	@pb_date = date
    @pb_id_url = %Q|#{h @index}#{anchor( @pb_date.strftime('%Y%m%d') )}|
-	@pb_id_url[0, 0] = @conf.base_url if %r|^https?://|i !~ @conf.index
+	@pb_id_url[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	@pb_id_url.gsub!( %r|/\./|, '/' )
-	@pb_url = %Q|#{h @conf.base_url}#{cgi}/#{@pb_date.strftime('%Y%m%d')}|
+	@pb_url = %Q|#{h base_url}#{cgi}/#{@pb_date.strftime('%Y%m%d')}|
 	''
 end
 
