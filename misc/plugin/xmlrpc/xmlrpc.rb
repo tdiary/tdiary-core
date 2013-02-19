@@ -25,7 +25,7 @@ else
   server = XMLRPC::CGIServer.new
 end
 
-server.class.class_eval { include TDiary::ViewHelper }
+include TDiary::ViewHelper
 
 server.add_handler('blogger.newPost') do |appkey, blogid, username, password, content, publish|
   @cgi = CGI::new
