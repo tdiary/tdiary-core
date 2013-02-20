@@ -56,7 +56,7 @@ add_update_proc do
 	cgi = @cgi.clone
 	conf = @conf.clone
 	def cgi.mobile_agent?; false; end
-	def conf.mobile_agent?; false; end
+	def cgi.mobile_agent?; false; end
 
 	t = TDiaryLatest::new( cgi, "latest.rhtml", conf )
 	body = t.eval_rhtml
@@ -67,7 +67,7 @@ add_update_proc do
 	utc_offset = now.utc_offset
 
 	uri = @index.dup
-	uri[0, 0] = @conf.base_url if %r|^https?://|i !~ @index
+	uri[0, 0] = base_url if %r|^https?://|i !~ @index
 	uri.gsub!( %r|/\./|, '/' )
 
 	lirs = "LIRS,#{t.last_modified.tv_sec},#{Time.now.tv_sec},#{utc_offset},#{body.size},#{e[uri]},#{e[@html_title]},#{e[@author_name]},,\n"

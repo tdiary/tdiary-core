@@ -25,7 +25,7 @@
 #
 @calendar2_image_dir = @options && @options['image.dir'] || './images/'
 @calendar2_image_dir.chop! if /\/$/ =~ @calendar2_image_dir
-@calendar2_image_url = @options && @options['image.url'] || "#{@conf.base_url}images/"
+@calendar2_image_url = @options && @options['image.url'] || "#{base_url}images/"
 @calendar2_image_url.chop! if /\/$/ =~ @calendar2_image_url
 @calendar2_imageex_yearlydir = @options && @options['image_ex.yearlydir'] || 0
 @calendar2_show_image = @options && @options['calendar2.show_image'] || false

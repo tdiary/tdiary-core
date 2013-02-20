@@ -31,6 +31,8 @@ module TDiary
 	autoload :Config,                   'tdiary/config'
 	# tDiary plugin class, loading all Plugin and eval plugins in view context.
 	autoload :Plugin,                   'tdiary/plugin'
+	# tDiary Filter class, all filters is loaded by in TDiaryView.
+	autoload :Filter,                   'tdiary/filter'
 
 	# CGI standalone server
 	autoload :Server,                   'tdiary/server'
@@ -43,7 +45,6 @@ module TDiary
 	autoload :CategorizableDiary,       'tdiary/style'
 	autoload :UncategorizableDiary,     'tdiary/style'
 	autoload :Comment,                  'tdiary/comment'
-	autoload :Filter,                   'tdiary/filter'
 	autoload :CommentManager,           'tdiary/comment_manager'
 	autoload :RefererManager,           'tdiary/referer_manager'
 
@@ -78,6 +79,9 @@ module TDiary
 	autoload :TDiaryNYear,              'tdiary/view'
 	autoload :TDiaryMonthWithoutFilter, 'tdiary/view'
 	autoload :TDiaryLatest,             'tdiary/view'
+
+	# Helper, these module called from ViewController and Plugins
+	autoload :ViewHelper,               'tdiary/view_helper'
 
 	#
 	# exception classes

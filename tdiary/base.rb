@@ -6,6 +6,7 @@ module TDiary
 	#
 	class TDiaryBase
 		include ERB::Util
+		include ViewHelper
 
 		DIRTY_NONE = 0
 		DIRTY_DIARY = 1
@@ -124,7 +125,7 @@ module TDiary
 			rescue => e
 				# migration error on ruby 1.9 only 1st time, reload.
 				if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
-					raise ForceRedirect.new(@conf.base_url)
+					raise ForceRedirect.new(base_url)
 				end
 			end
 			ERB.new(r).src

@@ -7,7 +7,7 @@
 #
 
 add_header_proc do
-  %Q!\t<link rel="EditURI" type="application/rsd+xml" title="RSD" href="#{h @conf.base_url}rsd.xml" />\n!
+  %Q!\t<link rel="EditURI" type="application/rsd+xml" title="RSD" href="#{h base_url}rsd.xml" />\n!
 end
 
 add_conf_proc('XMLRPC', 'XML-RPC API') do
@@ -36,7 +36,7 @@ end
 # for conf_proc
 #
 def xmlrpc_init
-  @conf['xmlrpc.url']       ||= @conf.base_url + 'xmlrpc.rb'
+  @conf['xmlrpc.url']       ||= base_url + 'xmlrpc.rb'
   @conf['xmlrpc.blogid']    ||= 'devlog'
   @conf['xmlrpc.username']  ||= 'default'
   @conf['xmlrpc.password']  ||= ''
@@ -60,7 +60,7 @@ def saveconf_xmlrpc
         <service>
           <engineName>tDiary</engineName>
           <engineLink>http://www.tdiary.org/</engineLink>
-          <homePageLink>#{h @conf.base_url}</homePageLink>
+          <homePageLink>#{h base_url}</homePageLink>
           <apis>
           <api name="MetaWeblog" preferred="true" apiLink="#{h @conf['xmlrpc.url']}" blogID="#{h @conf['xmlrpc.blogid']}"/>
           <api name="Blogger" preferred="false" apiLink="#{h @conf['xmlrpc.url']}" blogID="#{h @conf['xmlrpc.blogid']}"/>

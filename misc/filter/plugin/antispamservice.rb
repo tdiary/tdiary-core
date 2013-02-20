@@ -60,7 +60,7 @@ end
 def antispam_verify_key?( host, key )
 	uri = URI::parse( "http://#{@antispam_service_list[host]}/1.1/verify-key")
 	blog = @conf.index.dup
-	blog[0, 0] = @conf.base_url unless %r|^https?://|i =~ blog
+	blog[0, 0] = base_url unless %r|^https?://|i =~ blog
 	blog.gsub!( %r|/\./|, '/' )
 	data = "key=#{key}&blog=#{blog}"
 	header = {

@@ -135,10 +135,10 @@ class PluginFake
 		end
 	end
 
-	def iphone?
-		@conf.cgi.iphone?
+	def smartphone?
+		@conf.cgi.smartphone?
 	end
-	alias ipod? iphone?
+  alias iphone? smartphone?
 end
 
 class CGIFake
@@ -158,7 +158,7 @@ class CGIFake
 		]x
 	end
 
-	def iphone?
+	def smartphone?
 		self.user_agent =~ /iP(?:hone|od)/
 	end
 end

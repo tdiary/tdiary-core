@@ -32,7 +32,7 @@ module TDiary::Filter
 			return true unless comment.name == 'TrackBack'
 
 			dest_uri = @conf.index.dup
-			dest_uri[0, 0] = @conf.base_url if %r|^https?://|i !~ @conf.index
+			dest_uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 			dest_uri.gsub!( %r|/\./|, '/' )
 
 			# TrackBack URI is the 1st line of comment.body.

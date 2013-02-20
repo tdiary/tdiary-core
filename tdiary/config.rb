@@ -7,15 +7,14 @@ module TDiary
 	class Config
 		attr_reader :database_url
 
-		def initialize( cgi, request = nil )
-			@cgi, @request = cgi, request
+		def initialize( cgi = nil, request = nil )
+			@request = request
 			configure_attrs
 			configure_bot_pattern
 			setup_attr_accessor_to_all_ivars
 			load_logger
 		end
 
-		# saving to tdiary.conf in @data_path
 		def save
 			result = ERB.new(File.read("#{TDiary::PATH}/skel/tdiary.rconf").untaint).result(binding)
 			result.untaint unless @secure
@@ -25,17 +24,29 @@ module TDiary
 			@io_class.save_cgi_conf(self, result)
 		end
 
+		# backword compatibility, you can use @cgi.mobile_agent?
 		def mobile_agent?
-			@cgi.mobile_agent?
+			@request.mobile_agent?
 		end
 
+		# backword compatibility, you can use @cgi.smartphone?
 		def smartphone?
-			@cgi.smartphone?
+			@request.smartphone?
 		end
 		alias iphone? smartphone?
 
+		# backword compatibility, you can use bot? or @conf.bot =~ @cgi.user_agent
 		def bot?
-			@bot =~ @cgi.user_agent
+			@bot =~ @request.user_agent
+		end
+
+		# backword compatibility, you can use TDiary::ViewHelper#base_url
+		def base_url
+			if @options['base_url'] && @options['base_url'].length > 0
+				@options['base_url']
+			else
+				@request.base_url
+			end
 		end
 
 		#
@@ -52,32 +63,6 @@ module TDiary
 		def delete( key )
 			@options.delete( key )
 			@options2.delete( key )
-		end
-
-		def base_url
-			begin
-				if @options['base_url'].length > 0 then
-					return @options['base_url']
-				end
-			rescue
-			end
-			base_url_auto
-		end
-
-		def base_url_auto
-			return '' unless @cgi.script_name
-			begin
-				script_dirname = @cgi.script_name.empty? ? '' : File::dirname(@cgi.script_name)
-				if @cgi.https?
-					port = (@cgi.server_port == 443) ? '' : ':' + @cgi.server_port.to_s
-					"https://#{ @cgi.server_name }#{ port }#{script_dirname}/"
-				else
-					port = (@cgi.server_port == 80) ? '' : ':' + @cgi.server_port.to_s
-					"http://#{ @cgi.server_name }#{ port }#{script_dirname}/"
-				end.sub(%r|/+$|, '/')
-			rescue SecurityError
-				''
-			end
 		end
 
 		if String.method_defined?(:encode)

@@ -73,7 +73,7 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
    	image = image_list( @image_date )[id.to_i]
    	image_t = image_list( @image_date )[thumbnail.to_i] if thumbnail
 	end
-	if @conf.iphone? then
+	if @cgi.smartphone? then
 		size = ''
 	elsif size
 		if size.kind_of?(Array)
@@ -124,7 +124,7 @@ end
 #
 @image_dir = @options && @options['image.dir'] || './images/'
 @image_dir.chop! if /\/$/ =~ @image_dir
-@image_url = @options && @options['image.url'] || "#{@conf.base_url}images/"
+@image_url = @options && @options['image.url'] || "#{base_url}images/"
 @image_url.chop! if /\/$/ =~ @image_url
 @image_maxwidth = @options && @options['image.maxwidth'] || nil
 

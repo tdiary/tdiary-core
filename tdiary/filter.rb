@@ -4,8 +4,9 @@
 #
 module TDiary
 	module Filter
-
 		class Filter
+			include ViewHelper
+
 			DEBUG_NONE = 0
 			DEBUG_SPAM = 1
 			DEBUG_FULL = 2

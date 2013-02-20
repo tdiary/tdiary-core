@@ -217,14 +217,14 @@ add_header_proc do
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
 	#{css_tag.chomp}
-	#{iphone_tag.chomp}
+	#{smartphone_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
 	HEADER
 end
 
 def calc_links
-	if /day|edit/ =~ @mode or (@conf.mobile_agent? and /latest|month|nyear/ =~ @mode) then
+	if /day|edit/ =~ @mode or (@cgi.mobile_agent? and /latest|month|nyear/ =~ @mode) then
 		today = @date.strftime('%Y%m%d')
 		days = []
 		yms = []
@@ -261,7 +261,7 @@ def calc_links
 end
 
 def charset
-	if @conf.mobile_agent? then
+	if @cgi.mobile_agent? then
 		@conf.mobile_encoding
 	else
 		@conf.encoding
@@ -324,7 +324,7 @@ end
 def mobile_link_discovery
 	return '' unless /^(latest|day)$/ =~ @mode
 	uri = @conf.index.dup
-	uri[0, 0] = @conf.base_url if %r|^https?://|i !~ @conf.index
+	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
 	if @mode == 'day' then
 		uri += anchor( @date.strftime( '%Y%m%d' ) )
@@ -409,8 +409,8 @@ def css_tag
 	CSS
 end
 
-def iphone_tag
-	if @conf.iphone? then
+def smartphone_tag
+	if @cgi.smartphone? then
 	<<-CSS
 <meta name = "viewport" content = "width = device-width">
 	<style type="text/css"><!--
@@ -454,7 +454,7 @@ add_title_proc do |date, title|
 end
 
 def nyear_link( date, title )
-	if @conf.show_nyear and @mode != 'nyear' and !@conf.mobile_agent? then
+	if @conf.show_nyear and @mode != 'nyear' and !@cgi.mobile_agent? then
 		y = date.strftime( '%Y' )
 		m = date.strftime( '%m' )
 		d = date.strftime( '%d' )
@@ -512,7 +512,7 @@ end
 def subtitle_link( date, index, subtitle )
 	r = ''
 
-	if @conf.mobile_agent? then
+	if @cgi.mobile_agent? then
 		r << %Q[<A NAME="p#{'%02d' % index}">*</A> ]
 		r << %Q|(#{h @author})| if @multi_user and @author and subtitle
 	else
@@ -535,7 +535,7 @@ end
 def my( a, str, title = nil )
 	date, noise, frag = a.scan( /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)([^\d]*)?#?([pct]\d+)?$/ )[0]
 	anc = frag ? "#{date}#{frag}" : date
-	index = /^https?:/ =~ @conf.index ? '' : @conf.base_url
+	index = /^https?:/ =~ @conf.index ? '' : base_url
 	index += @conf.index.sub(%r|^\./|, '')
 	if title then
 		%Q[<a href="#{h index}#{anchor anc}" title="#{h title}">#{str}</a>]
@@ -841,7 +841,7 @@ def conf_theme_list
 			image.src = 'http://www.tdiary.org/theme.image/' + theme + '.jpg'
 		}
 	--></script>
-	#{@theme_location_comment unless @conf.mobile_agent?}
+	#{@theme_location_comment unless @cgi.mobile_agent?}
 	HTML
 end
 

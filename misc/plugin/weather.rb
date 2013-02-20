@@ -413,7 +413,7 @@ Weather_default_items = {
 
 # shows weather
 def weather( date = nil, wrap = true )
-	return '' if @conf.bot? and not @options['weather.show_robot']
+	return '' if bot? and not @options['weather.show_robot']
 	path = @options['weather.dir'] || Weather_default_path
 	w = Weather::restore( path, date || @date )
 	if w then
