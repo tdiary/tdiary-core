@@ -1,5 +1,7 @@
 # tDiary
 
+[![Build Status](https://secure.travis-ci.org/tdiary/tdiary-core.png)](https://travis-ci.org/tdiary/tdiary-core) [![Dependency Status](https://gemnasium.com/tdiary/tdiary-core.png)](https://gemnasium.com/tdiary/tdiary-core)
+
 ## tDiary, The TSUKKOMI-able Weblog.
 
 At first, see doc/README-en.rd
