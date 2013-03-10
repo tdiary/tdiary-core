@@ -12,6 +12,9 @@ gem 'omniauth-github'
 # To use memcached for CacheIO
 # gem 'dalli'
 
+# To use redis for CacheIO
+# gem 'redis'
+
 platforms :mri do
   # To use CoffeeScript
   gem 'coffee-script'
