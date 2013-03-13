@@ -43,6 +43,7 @@ module TDiary
 			@server.mount("/index.rb", WEBrick::HTTPServlet::CGIHandler, TDiary.root + '/index.rb')
 			@server.mount("/update.rb", WEBrick::HTTPServlet::CGIHandler, TDiary.root + "/update.rb")
 			@server.mount("/theme", WEBrick::HTTPServlet::FileHandler, TDiary.root + '/theme')
+			@server.mount("/js", WEBrick::HTTPServlet::FileHandler, TDiary.root + '/js')
 		end
 
 		def start
