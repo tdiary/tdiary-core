@@ -982,6 +982,31 @@ def saveconf_recommendfilter
 	end
 end
 
+#
+# old ruby alert
+#
+def old_ruby_alert
+	if RUBY_VERSION < '1.9' and !@conf['old_ruby_alert.hide']
+		%Q|<div class="alert-warn">
+			<a href="#" class="action-button" id="alert-old-ruby">&times;</a>
+			#{old_ruby_alert_message}
+		</div>|
+	else
+		''
+	end
+end
+
+def old_ruby_alert_message
+	"お使いのRuby #{RUBY_VERSION}は次のリリースからサポート対象外になります。"
+end
+
+add_conf_proc( 'old_ruby_alert', nil) do
+	if @mode == 'saveconf'
+		@conf['old_ruby_alert.hide'] = true
+	end
+	%Q|<h3>OLD RUBY ALERT</h3>| # dummy
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t

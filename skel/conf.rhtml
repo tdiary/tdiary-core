@@ -1,5 +1,6 @@
 <%%=navi%>
 <h1><%=h @conf.html_title %>(<%%=h navi_preference%>) - <%%=h conf_label( <%=@key.dump%> )%><%%=help( <%=@key.dump%> + '.rb' )%></h1>
+<%%= old_ruby_alert %>
 <div class="sidebar">
 	<%% each_conf_genre do |genre|%>
 	<div class="block">

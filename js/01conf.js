@@ -39,4 +39,24 @@ $(function(){
 		});
 		return false;
 	});
+
+	/*
+	 * old ruby alert
+	 */
+	$('#alert-old-ruby').on('click', function(){
+		var data = 'conf=old_ruby_alert;saveconf=OK';
+		var csrf_key = $('#conf-form input[name=csrf_protection_key]').attr('value');
+		if (csrf_key){ data += ';csrf_protection_key=' + csrf_key; }
+
+		$.ajax({
+			url: $('#conf-form').attr('action'),
+			type: 'POST',
+			dataType: 'html',
+			data: data
+		}).done(function(html){
+			$('.alert-warn').hide();
+		}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+			alert('failed saving settings.' + textStatus);
+		});
+	});
 });

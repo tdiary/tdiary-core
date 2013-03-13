@@ -375,6 +375,13 @@ add_conf_proc( 'recommendfilter', 'Recommend filter', 'basic' ) do
 	HTML
 end
 
+#
+# old ruby alert
+#
+def old_ruby_alert_message
+	"The ruby #{RUBY_VERSION} will be unsupported by tDiary next release."
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t

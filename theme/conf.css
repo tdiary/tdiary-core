@@ -28,6 +28,49 @@ a:visited {
 	color: #A8B392;
 }
 
+div.alert-warn {
+	background-color: #faa;
+	border-style: solid;
+	border-color: #f88;
+	border-width: 1px;
+	border-radius: 8px;
+	padding: 4px 8px;
+	margin: 1em auto;
+	width: 80%;
+	zoom: 100%;
+}
+
+.action-button {
+	float: right;
+	border-style: solid;
+	border-color: transparent;
+	border-width: 1px;
+	border-radius: 8px;
+	padding: 0px 4px;
+	color: #000;
+}
+.action-button:hover {
+	background-color: #f88;
+	border-style: solid;
+	border-color: #f55;
+	border-width: 1px;
+	border-radius: 8px;
+	padding: 0px 4px;
+}
+.action-button:link,
+.action-button:visited {
+	color: #000;
+	text-decoration: none;
+}
+
+div.alert-warn:after {
+	content: "";
+	height: 0;
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
+
 div.adminmenu {
 	font-size: 80%;
 	margin: 3px 0px 3px 0px;

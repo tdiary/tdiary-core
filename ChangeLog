@@ -1,5 +1,6 @@
 2013-03-13  TADA Tadashi <t@tdtds.jp>
 	* tdiary/server.rb: fix js not load
+	* alert of old ruby version for end of ruby 1.8
 
 2013-02-10  MATSUOKA Kohei <kohei@machu.jp>
 	* tdiary/view.rb, js/comment_ajax.js: post comment with ajax 
