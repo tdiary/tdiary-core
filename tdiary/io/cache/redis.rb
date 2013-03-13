@@ -30,7 +30,7 @@ module TDiary
 
 		def restore_data(key)
 			obj = redis.get(key)
-			if obj.nil? || obj == 'null'
+			if obj.nil?
 				nil
 			else
 				YAML.load(obj)
@@ -51,7 +51,7 @@ module TDiary
 
 		def restore_parser_cache(date, key = nil)
 			obj = redis.get(date.strftime("%Y%m.parser"))
-			if obj.nil? || obj == 'null'
+			if obj.nil?
 				nil
 			else
 				YAML.load(obj)
