@@ -2,18 +2,6 @@ require 'dalli'
 
 module TDiary
 	module CacheIO
-		def restore_data(key)
-			memcache.get(key)
-		end
-
-		def store_data(data, key)
-			memcache.set(key, data)
-		end
-
-		def delete_data(key)
-			memcache.delete(key)
-		end
-
 		def restore_cache(prefix)
 			if key = cache_key(prefix)
 				restore_data(key)
@@ -38,6 +26,18 @@ module TDiary
 		end
 
 		private
+
+		def restore_data(key)
+			memcache.get(key)
+		end
+
+		def store_data(data, key)
+			memcache.set(key, data)
+		end
+
+		def delete_data(key)
+			memcache.delete(key)
+		end
 
 		def restore_parser_cache(date, key = nil)
 			memcache.get(date.strftime("%Y%m.parser"))

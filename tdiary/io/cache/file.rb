@@ -2,21 +2,6 @@
 
 module TDiary
 	module CacheIO
-		def restore_data(path)
-			File.read(path) rescue nil
-		end
-
-		def store_data(data, path)
-			File.open(path, 'w') do |f|
-				f.flock(File::LOCK_EX)
-				f.write(data)
-			end
-		end
-
-		def delete_data(path)
-			File.delete(path.untaint)
-		end
-
 		def restore_cache( prefix )
 			restore_data("#{cache_path}/#{cache_file( prefix )}") if cache_enable?( prefix )
 		end
@@ -32,6 +17,21 @@ module TDiary
 		end
 
 		private
+
+		def restore_data(path)
+			File.read(path) rescue nil
+		end
+
+		def store_data(data, path)
+			File.open(path, 'w') do |f|
+				f.flock(File::LOCK_EX)
+				f.write(data)
+			end
+		end
+
+		def delete_data(path)
+			File.delete(path.untaint)
+		end
 
 		def restore_parser_cache(date, key = nil)
 			return nil if @tdiary.ignore_parser_cache

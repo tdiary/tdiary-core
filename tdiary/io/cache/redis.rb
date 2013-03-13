@@ -3,23 +3,6 @@ require 'yaml'
 
 module TDiary
 	module CacheIO
-		def restore_data(key)
-			obj = redis.get(key)
-      if obj.nil? || obj == 'null'
-        nil
-      else
-        YAML.load(obj)
-      end
-		end
-
-		def store_data(data, key)
-			redis.set(key, YAML.dump(data))
-		end
-
-		def delete_data(key)
-			redis.del(key)
-		end
-
 		def restore_cache(prefix)
 			if key = cache_key(prefix)
 				restore_data(key)
@@ -45,13 +28,30 @@ module TDiary
 
 		private
 
+		def restore_data(key)
+			obj = redis.get(key)
+			if obj.nil? || obj == 'null'
+				nil
+			else
+				YAML.load(obj)
+			end
+		end
+
+		def store_data(data, key)
+			redis.set(key, YAML.dump(data))
+		end
+
+		def delete_data(key)
+			redis.del(key)
+		end
+
 		def restore_parser_cache(date, key = nil)
 			obj = redis.get(date.strftime("%Y%m.parser"))
-      if obj.nil? || obj == 'null'
-        nil
-      else
-        YAML.load(obj)
-      end
+			if obj.nil? || obj == 'null'
+				nil
+			else
+				YAML.load(obj)
+			end
 		end
 
 		def store_parser_cache(date, obj, key = nil)
