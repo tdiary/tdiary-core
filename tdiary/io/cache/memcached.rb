@@ -16,7 +16,7 @@ module TDiary
 
 		def clear_cache(target = :all)
 			if target == :all
-				memcache.flush
+				delete_data(:all)
 			else
 				ym = target.to_s.scan(/\d{4}\d{2}/)[0]
 				['latest.rb', 'i.latest.rb', "#{ym}.rb", "i.#{ym}.rb"].each do |key|
@@ -36,7 +36,11 @@ module TDiary
 		end
 
 		def delete_data(key)
-			memcache.delete(key)
+			if key == :all
+				memcache.flush
+			else
+				memcache.delete(key)
+			end
 		end
 
 		def restore_parser_cache(date, key = nil)
