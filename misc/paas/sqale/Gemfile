@@ -1,8 +1,7 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'rake'
 
-# Use rack environment
 gem 'rack'
 gem 'sprockets'
 gem 'omniauth'
@@ -11,16 +10,10 @@ gem 'omniauth-github'
 
 gem 'coffee-script'
 
-# To use GFM style or To covert tDiary document.
 gem 'redcarpet'
-gem 'twitter-text', :require => false
+gem 'twitter-text', require: false
 gem 'pygments.rb'
 
-# To use RdbIO
+gem 'thin', require: false
 gem 'sequel'
 gem 'mysql2'
-
-# To use rack based application server
-gem 'thin', :require => false
-# gem 'puma', :require => false
-# gem 'rainbows', :require => false
