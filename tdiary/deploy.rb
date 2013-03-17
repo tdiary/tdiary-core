@@ -2,10 +2,6 @@
 
 require 'capistrano_colors'
 
-require 'bundler/capistrano'
-set :bundle_dir, nil
-set :bundle_flags, "--quiet"
-
 require 'rvm/capistrano'
 set :rvm_type, :system
 
@@ -26,8 +22,6 @@ server config[:server], :app
 
 set :user, config[:username]
 set :deploy_to, defer { "/home/#{user}/app/#{application}" }
-set :password, defer { Capistrano::CLI.password_prompt('sudo password: ') }
-set :use_sudo, true
 
 namespace :deploy do
   task :start do ; end
