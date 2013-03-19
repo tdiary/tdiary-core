@@ -54,11 +54,12 @@ group :development do
     gem 'sqlite3'
 
     gem 'rcov', :platforms => :mri_18
-    platforms :mri_19 do
+    if RUBY_VERSION > '1.9' # bundler did't provide :mri_20 platform
       gem 'simplecov', :require => false
       gem 'simplecov-rcov', :require => false
     end
     gem 'ci_reporter'
+    gem 'coveralls', :require => false
 
     gem 'json' # broken jasmine-1.3.0 dependency
     gem 'jasmine', '1.3.0'
