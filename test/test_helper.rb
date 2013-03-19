@@ -4,10 +4,4 @@
 end
 
 require 'tdiary/environment'
-
 require 'test/unit'
-
-if RUBY_VERSION > '1.9'
-  require 'coveralls'
-  Coveralls.wear!
-end
