@@ -2,8 +2,8 @@ bundler_args: --without development
 
 rvm:
   - 1.8.7
-  - 1.9.2
   - 1.9.3
+  - 2.0.0
   - ruby-head
 
 before_script:
@@ -41,28 +41,28 @@ matrix:
     - rvm: 1.8.7
       env: TEST_MODE=secure
       gemfile: Gemfile
-    - rvm: 1.9.2
+    - rvm: 1.9.3
       env: TEST_MODE=rack
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.2
+    - rvm: 1.9.3
       env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.2
+    - rvm: 1.9.3
       env: TEST_MODE=webrick
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.2
+    - rvm: 1.9.3
       env: TEST_MODE=secure
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.3
+    - rvm: 2.0.0
       env: TEST_MODE=rack
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.3
+    - rvm: 2.0.0
       env: TEST_MODE=rdb
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.3
+    - rvm: 2.0.0
       env: TEST_MODE=webrick
       gemfile: misc/gemfiles/ruby18.gemfile
-    - rvm: 1.9.3
+    - rvm: 2.0.0
       env: TEST_MODE=secure
       gemfile: misc/gemfiles/ruby18.gemfile
     - rvm: ruby-head
