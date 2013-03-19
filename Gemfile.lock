@@ -45,13 +45,12 @@ GEM
     highline (1.6.16)
     hike (1.2.1)
     httpauth (0.2.0)
-    jasmine (1.3.0)
-      jasmine-core (>= 1.3.0)
+    jasmine (1.3.2)
+      jasmine-core (~> 1.3.1)
       rack (~> 1.0)
       rspec (>= 1.3.1)
       selenium-webdriver (>= 0.1.3)
     jasmine-core (1.3.1)
-    json (1.7.7)
     jwt (0.1.8)
       multi_json (>= 1.5)
     launchy (2.2.0)
@@ -169,8 +168,7 @@ DEPENDENCIES
   ci_reporter
   coffee-script
   coveralls
-  jasmine (= 1.3.0)
-  json
+  jasmine
   launchy
   omniauth
   omniauth-github

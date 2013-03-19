@@ -52,6 +52,7 @@ group :development do
     gem 'launchy'
     gem 'sequel'
     gem 'sqlite3'
+    gem 'jasmine'
 
     gem 'rcov', :platforms => :mri_18
     if RUBY_VERSION > '1.9' # bundler did't provide :mri_20 platform
@@ -60,8 +61,5 @@ group :development do
     end
     gem 'ci_reporter'
     gem 'coveralls', :require => false
-
-    gem 'json' # broken jasmine-1.3.0 dependency
-    gem 'jasmine', '1.3.0'
   end
 end
