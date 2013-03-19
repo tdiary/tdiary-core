@@ -5,7 +5,7 @@ ENV['RACK_ENV'] = "test"
 
 require 'tdiary/environment'
 
-if ENV['COVERAGE'] = 'simplecov'
+if ENV['COVERAGE'] == 'simplecov'
 	require 'simplecov'
 	require 'simplecov-rcov'
 	class SimpleCov::Formatter::MergedFormatter
