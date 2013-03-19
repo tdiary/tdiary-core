@@ -7,7 +7,7 @@ require 'tdiary/environment'
 
 require 'test/unit'
 
-unless defined?(RCov)
+if RUBY_VERSION > '1.9'
   require 'coveralls'
   Coveralls.wear!
 end

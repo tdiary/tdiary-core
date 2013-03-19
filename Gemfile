@@ -53,13 +53,9 @@ group :development do
     gem 'sequel'
     gem 'sqlite3'
     gem 'jasmine'
-
-    gem 'rcov', :platforms => :mri_18
-    if RUBY_VERSION > '1.9' # bundler did't provide :mri_20 platform
-      gem 'simplecov', :require => false
-      gem 'simplecov-rcov', :require => false
-      gem 'coveralls', :require => false
-    end
+    gem 'simplecov', :require => false
+    gem 'simplecov-rcov', :require => false
+    gem 'coveralls', :require => false
     gem 'ci_reporter'
   end
 end
