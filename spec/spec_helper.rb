@@ -20,8 +20,14 @@ if ENV['COVERAGE'] == 'simplecov'
 		add_filter '/vendor/'
 	end
 elsif RUBY_VERSION > '1.9'
+	require 'simplecov'
 	require 'coveralls'
-	Coveralls.wear!
+
+	SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+	SimpleCov.start do
+		add_filter '/spec/'
+		add_filter '/vendor/'
+	end
 end
 
 require 'tdiary'
