@@ -58,8 +58,8 @@ group :development do
     if RUBY_VERSION > '1.9' # bundler did't provide :mri_20 platform
       gem 'simplecov', :require => false
       gem 'simplecov-rcov', :require => false
+      gem 'coveralls', :require => false
     end
     gem 'ci_reporter'
-    gem 'coveralls', :require => false
   end
 end

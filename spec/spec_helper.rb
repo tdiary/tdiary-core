@@ -19,7 +19,7 @@ if ENV['COVERAGE'] = 'simplecov'
 		add_filter '/spec/'
 		add_filter '/vendor/'
 	end
-else
+elsif RUBY_VERSION > '1.9'
 	require 'coveralls'
 	Coveralls.wear!
 end
