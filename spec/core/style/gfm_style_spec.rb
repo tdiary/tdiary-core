@@ -99,6 +99,37 @@ replace
 		it { @diary.to_html.should eq @html }
 	end
 
+	describe 'autolink' do
+		before do
+			source = <<-EOF
+# subTitle
+
+ * http://www.google.com
+
+[google](https://www.google.com)
+
+http://www.google.com
+         EOF
+			@diary.append(source)
+			@html = <<-EOF
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<ul>
+<li><a href="http://www.google.com" rel="nofollow">http://www.google.com</a></li>
+</ul>
+
+<p><a href="https://www.google.com" rel="nofollow">google</a></p>
+
+<p><a href="http://www.google.com" rel="nofollow">http://www.google.com</a></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+         EOF
+		end
+
+		it { @diary.to_html.should eq @html }
+	end
+
 	describe 'url syntax with code blocks' do
 		before do
 			source = <<-'EOF'
@@ -141,7 +172,7 @@ http://example.com is example.com
 <div class="section">
 <%=section_enter_proc( Time.at( 1041346800 ) )%>
 <h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
-<p><a href="http://example.com">example</a> is example.com</p>
+<p><a href="http://example.com" rel="nofollow">example</a> is example.com</p>
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 			EOF
