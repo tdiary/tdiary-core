@@ -9,6 +9,7 @@
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
 # Copyright (C) 2004, MoonWolf <moonwolf@moonwolf.com>
 # Copyright (C) 2012, kdmsnr <kdmsnr@gmail.com>
+# Copyright (C) 2013, hsbt <shibata.hiroshi@gmail.com>
 # You can distribute this under GPL.
 #
 
