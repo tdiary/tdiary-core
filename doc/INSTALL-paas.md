@@ -195,8 +195,8 @@ require 'tdiary/io/cache/memcached'
 
 ```
 git add .
-git commit -m "enable memcach"
+git commit -m "enable memcache"
 git push heroku deploy:master
 ```
 
-git push コマンドが完了すると memacached をキャッシュの保存先とした tDiary が利用可能となります。
+git push コマンドが完了すると memcached をキャッシュの保存先とした tDiary が利用可能となります。
