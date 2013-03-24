@@ -14,7 +14,7 @@ module TDiary
 
 		alias :subtitle_to_html :subtitle
 		alias :stripped_subtitle_to_html :stripped_subtitle
-	
+
 		def initialize( title, author = nil )
 			@subtitle = title
 			if @subtitle then
@@ -38,7 +38,7 @@ module TDiary
 			@categories = get_categories
 			@stripped_subtitle = strip_subtitle
 		end
-	
+
 		def subtitle=(subtitle)
 			cat_str = ""
 			@categories.each {|cat|
@@ -66,11 +66,11 @@ module TDiary
 			end
 			@stripped_subtitle = strip_subtitle
 		end
-	
+
 		def body=(str)
 			@bodies = str.split(/\n/)
 		end
-	
+
 		def categories=(categories)
 			@categories = categories
 			cat_str = ""
@@ -80,11 +80,11 @@ module TDiary
 			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
 			@stripped_subtitle = strip_subtitle
 		end
-	
+
 		def set_body( bodies )
 			@bodies = bodies
 		end
-	
+
 		def body
 			if @bodies then
 				@bodies.join('')
@@ -130,7 +130,7 @@ module TDiary
 			end
 			s + ( if "" != body then body else "\n" end )
 		end
-	
+
 		def to_s
 			"subtitle=#{@subtitle}, body=#{body}"
 		end
@@ -280,12 +280,12 @@ module TDiary
 	class EtdiaryDiary
 		include DiaryBase
 		include CategorizableDiary
-		
+
 		TAG_BEG_REGEXP = /\A<([A-Za-z][0-9A-Za-z]*)([^>]*)>([^\r]*)\z/
 		TAG_END_REGEXP = /\A([^\r]*)<\/([A-Za-z][0-9A-Za-z]*)>\n*\z/
 		PRE_REGEXP     = /\A<[Pp][Rr][Ee][^>]*>([^\r]*)<\/[Pp][Rr][Ee]>\n*\z/
 		TITLE_REGEXP   = /\A<<([^\r]*?)>>[^>]/
-	
+
 		def initialize( date, title, body, modified = Time::now )
 			init_diary
 			set_date( date )
@@ -296,11 +296,11 @@ module TDiary
 			end
 			@last_modified = modified
 		end
-	
+
 		def style
 			'etDiary'
 		end
-	
+
 		def replace( date, title, body )
 			set_date( date )
 			set_title( title )
@@ -348,13 +348,13 @@ module TDiary
 			@last_modified = Time::now
 			self
 		end
-	
+
 		def each_paragraph
 			@sections.each do |fragment|
 				yield fragment
 			end
 		end
-	
+
 		def each_section
 			section = nil
 			each_paragraph do |fragment|
@@ -368,7 +368,7 @@ module TDiary
 			end
 			yield section if section
 		end
-	
+
 		def add_section(subtitle, body)
 			sec = EtdiarySection::new( '' )
 			sec.subtitle = subtitle
@@ -376,11 +376,11 @@ module TDiary
 			@sections << sec
 			@sections.size
 		end
-	
+
 		def delete_section(index)
 			@sections.delete_at(index - 1)
 		end
-	
+
 		def to_src
 			src = ''
 			each_paragraph do |fragment|
@@ -388,7 +388,7 @@ module TDiary
 			end
 			src.sub(/\n*\z/,"\n")
 		end
-	
+
 		def to_html_section(section, factory)
 			r = ''
 			s = if section.bodies then section.body else nil end
