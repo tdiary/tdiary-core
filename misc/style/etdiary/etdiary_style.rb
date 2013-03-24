@@ -97,7 +97,7 @@ module TDiary
 			if @bodies then
 				r = ''
 				in_p = false
-				@bodies.join( '' ).each( "\n\n" ) do |p|
+				@bodies.join('').each_line("\n\n") do |p|
 					if /\A</ !~ p then
 						r << "<p>#{p.chomp}</p>\n"
 					else

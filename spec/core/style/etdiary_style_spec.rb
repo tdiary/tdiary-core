@@ -499,6 +499,8 @@ sect2-para0
 		end
 		it { @section.should_not be_nil }
 		it { @anchorNumber.should eq 2 }
+		# github issue #271
+		it { @section.body_to_html.should eq "<p>sect2-para0\n</p>\n" }
 	end
 end
 
