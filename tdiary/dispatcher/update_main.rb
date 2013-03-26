@@ -33,7 +33,8 @@ module TDiary
 							'Content-Type' => 'text/html',
 							'charset' => conf.encoding,
 							'Content-Length' => body.bytesize.to_s,
-							'Vary' => 'User-Agent'
+							'Vary' => 'User-Agent',
+							'X-Frame-Options' => 'SAMEORIGIN'
 						}
 					end
 					body = ( request.head? ? '' : body )
