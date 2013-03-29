@@ -3,6 +3,18 @@ require 'acceptance_helper'
 require 'resolv'
 
 feature 'spamフィルタ設定の利用', :exclude_selenium do
+	scenario 'IPベースのブラックリストの spam-champuru が spamlookup に置き換わる' do
+		visit '/update.rb?conf=dnsblfilter'
+		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
+		fill_in 'spamlookup.domain.list', :with => ""
+		fill_in 'spamlookup.safe_domain.list', :with => ""
+		page.all('div.saveconf').first.click_button 'OK'
+
+		visit '/update.rb?conf=dnsblfilter'
+		page.should have_no_content "dnsbl.spam-champuru.livedoor.com"
+		page.should have_content "bsb.spamlookup.net"
+	end
+
 	scenario 'IPベースのブラックリストが動作する' do
 		IPSocket.stub(:getaddress) { '127.0.0.1' }
 		Resolv.stub(:getaddress) { '127.0.0.1' }
@@ -10,7 +22,7 @@ feature 'spamフィルタ設定の利用', :exclude_selenium do
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
+		fill_in 'spamlookup.ip.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.domain.list', :with => ""
 		fill_in 'spamlookup.safe_domain.list', :with => ""
 		page.all('div.saveconf').first.click_button 'OK'
@@ -35,7 +47,7 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
+		fill_in 'spamlookup.ip.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.domain.list', :with => ""
 		fill_in 'spamlookup.safe_domain.list', :with => ""
 		page.all('div.saveconf').first.click_button 'OK'
@@ -111,7 +123,7 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
+		fill_in 'spamlookup.ip.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
 		fill_in 'spamlookup.safe_domain.list', :with => "www.example.com"
 		page.all('div.saveconf').first.click_button 'OK'
