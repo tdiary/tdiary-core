@@ -11,7 +11,11 @@ $(function() {
 		var form = $(this);
 		$('<input type="hidden">').attr('name', 'comment').appendTo(form);
 		$(':submit', form).attr('disabled', 'disabled');
+		$('div.button input', form).hide();
+		$('div.button', form).append('<div id="loading-button"><img src="theme/loading.gif">')
 		$.post(form.attr('action'), form.serialize(), function(data) {
+			$('#loading-button').remove();
+			$('div.button input', form).show();
 			form[0].reset();
 			$(':submit', form).removeAttr('disabled');
 			// $(data) is a diary HTML of the day
