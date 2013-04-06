@@ -72,7 +72,7 @@ module TDiary
 		def memcache
 			options = {}
 			if @tdiary.conf.user_name
-				options.merge! {:namespace => @tdiary.conf.user_name}
+				options.merge!({:namespace => @tdiary.conf.user_name})
 			end
 			@_client ||= Dalli::Client.new(nil, options)
 		end
