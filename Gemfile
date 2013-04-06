@@ -22,7 +22,7 @@ platforms :mri do
 
   gem 'redcarpet'
   gem 'pygments.rb'
-  gem 'twitter-text'
+  gem 'twitter-text', :require => false
 end
 
 platforms :jruby do

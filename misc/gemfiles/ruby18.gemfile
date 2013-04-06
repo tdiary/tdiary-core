@@ -15,7 +15,7 @@ gem 'redis'
 gem 'redis-namespace'
 
 gem 'redcarpet'
-gem 'twitter-text'
+gem 'twitter-text', :require => false
 gem 'pygments.rb'
 
 group :development, :test do
