@@ -44,15 +44,15 @@ module TDiary
 		end
 
 		def restore_parser_cache(date, key = nil)
-			memcache.get(date.strftime("%Y%m.parser"))
+			restore_data(date.strftime("%Y%m.parser"))
 		end
 
 		def store_parser_cache(date, obj, key = nil)
-			memcache.set(date.strftime("%Y%m.parser"), obj)
+			store_data(date.strftime("%Y%m.parser"), obj)
 		end
 
-		def clear_parser_cache(date)
-			memcache.flush
+		def clear_parser_cache(*args)
+			delete_data(:all)
 		end
 
 		def cache_key(prefix)
