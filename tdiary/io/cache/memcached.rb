@@ -48,7 +48,7 @@ module TDiary
 		end
 
 		def store_parser_cache(date, obj, key = nil)
-			store_data(date.strftime("%Y%m.parser"), obj)
+			store_data(obj, date.strftime("%Y%m.parser"))
 		end
 
 		def clear_parser_cache(*args)
@@ -72,7 +72,7 @@ module TDiary
 		def memcache
 			options = {}
 			if @tdiary.conf.user_name
-				options.merge! {:namespace => @tdiary.conf.user_name}
+				options.merge!({:namespace => @tdiary.conf.user_name})
 			end
 			@_client ||= Dalli::Client.new(nil, options)
 		end
