@@ -70,7 +70,11 @@ module TDiary
 		end
 
 		def memcache
-			@_client ||= Dalli::Client.new
+			options = {}
+			if @tdiary.conf.user_name
+				options.merge! {:namespace => @tdiary.conf.user_name}
+			end
+			@_client ||= Dalli::Client.new(nil, options)
 		end
 	end
 end
