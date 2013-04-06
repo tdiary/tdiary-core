@@ -28,10 +28,13 @@ module TDiary
 		def eval_rhtml( prefix = '' )
 			begin
 				r = do_eval_rhtml( prefix )
-			rescue PluginError, SyntaxError, ArgumentError
-				r = ERB.new(File.read("#{PATH}/skel/plugin_error.rhtml").untaint).result(binding)
-			rescue Exception
-				raise
+			rescue PluginError, SyntaxError, ArgumentError, Exception => e
+				if e.class == ForceRedirect
+					raise
+				else
+					body = File.read("#{PATH}/skel/plugin_error.rhtml").untaint
+					r = ERB.new(body).result(binding)
+				end
 			end
 			r
 		end
