@@ -34,6 +34,7 @@ GEM
       simplecov (>= 0.7)
       thor
     daemons (1.1.9)
+    dalli (2.6.2)
     diff-lcs (1.2.2)
     eventmachine (1.0.3)
     execjs (1.4.0)
@@ -106,6 +107,9 @@ GEM
       rack-test (>= 0.5)
     rake (10.0.4)
     redcarpet (2.2.2)
+    redis (3.0.3)
+    redis-namespace (1.2.1)
+      redis (~> 3.0.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.13.0)
@@ -167,6 +171,7 @@ DEPENDENCIES
   ci_reporter
   coffee-script
   coveralls
+  dalli
   jasmine
   launchy
   omniauth
@@ -179,6 +184,8 @@ DEPENDENCIES
   racksh
   rake
   redcarpet
+  redis
+  redis-namespace
   rspec
   rvm-capistrano
   sequel
@@ -189,4 +196,5 @@ DEPENDENCIES
   tapp
   test-unit
   thin
+  trinidad
   twitter-text

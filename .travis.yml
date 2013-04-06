@@ -1,3 +1,5 @@
+services: memcache
+
 bundler_args: --without development
 
 rvm:
