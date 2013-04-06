@@ -67,6 +67,5 @@ matrix:
       env: TEST_MODE=secure
       gemfile: misc/gemfiles/ruby18.gemfile
   allow_failures:
-    # webrick and secure mode is unstable results...
+    # webrick mode is unstable results...
     - env: TEST_MODE=webrick
-    - env: TEST_MODE=secure

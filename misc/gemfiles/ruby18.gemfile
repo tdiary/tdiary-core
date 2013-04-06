@@ -4,13 +4,18 @@ gem 'rake'
 
 gem 'rack'
 gem 'sprockets'
+gem 'coffee-script'
+
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 
-gem 'coffee-script'
+gem 'dalli'
+gem 'redis'
+gem 'redis-namespace'
+
 gem 'redcarpet'
-gem 'twitter-text', :require => false
+gem 'twitter-text'
 gem 'pygments.rb'
 
 group :development, :test do
