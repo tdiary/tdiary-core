@@ -14,6 +14,7 @@ gem 'omniauth-github'
 
 # To use redis for CacheIO
 # gem 'redis'
+# gem 'redis-namespace'
 
 platforms :mri do
   # To use CoffeeScript

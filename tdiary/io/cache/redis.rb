@@ -1,4 +1,5 @@
 require 'redis'
+require 'redis-namespace'
 require 'yaml'
 
 module TDiary
@@ -81,7 +82,11 @@ module TDiary
 		end
 
 		def redis
-			@_client ||=  Redis.new
+			@_client ||= if @tdiary.conf.user_name
+								 Redis::Namespace.new(@tdiary.conf.user_name.to_sym, Redis.new)
+							 else
+								 Redis.new
+							 end
 		end
 	end
 end
