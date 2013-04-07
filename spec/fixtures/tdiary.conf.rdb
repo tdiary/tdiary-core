@@ -3,6 +3,7 @@
 @data_path = File.expand_path("../tmp/data", __FILE__)
 @cache_path = "#{@data_path}/cache"
 @database_url = 'sqlite://tmp/tdiary_test.db'
+@user_name = 'test'
 
 require 'tdiary/io/cache/memcached'
 require 'tdiary/io/rdb'
