@@ -53,11 +53,10 @@ feature 'プラグイン選択設定の利用' do
 
 		visit '/update.rb'
 
-		scripts = page.all(:xpath, '//head//script').map{|s| s[:src]}.join
-		scripts.should be_include('caretposition.js')
-		scripts.should be_include('category_autocomplete.js')
-		scripts.should be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
-		scripts.should_not be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
+		page.body.should be_include('caretposition.js')
+		page.body.should be_include('category_autocomplete.js')
+		page.body.should be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
+		page.body.should_not be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
 	end
 end
 

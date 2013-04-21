@@ -130,13 +130,10 @@ FOOTER
 		select 'Tdiary1', :from => 'theme'
 
 		page.all('div.saveconf').first.click_button "OK"
-		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
-		within('head') {
-			page.should have_css('link[href="assets/base.css"]')
-			page.should have_css('link[href="assets/tdiary1/tdiary1.css"]')
-		}
+		page.body.should be_include('href="assets/base.css"')
+		page.body.should be_include('href="assets/tdiary1/tdiary1.css"')
 
 		visit '/update.rb?conf=theme'
 		within('select option[selected]'){
@@ -149,7 +146,6 @@ FOOTER
 		select 'Tdiary1', :from => 'theme'
 
 		page.all('div.saveconf').first.click_button "OK"
-		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		within('head') {

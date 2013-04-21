@@ -42,6 +42,7 @@ group :development do
     gem 'test-unit', :require => 'test/unit'
     gem 'rspec'
     gem 'capybara', :require => 'capybara/rspec'
+    gem 'selenium-webdriver'
     gem 'launchy'
     gem 'sequel'
     gem 'sqlite3'
