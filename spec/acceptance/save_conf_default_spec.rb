@@ -125,20 +125,22 @@ FOOTER
 		page.should have_field('hour_offset', :with => '-24.0')
 	end
 
-	scenario 'Rack 環境でテーマ選択が保存される', :exclude_selenium do
-		visit '/update.rb?conf=theme'
-		select 'Tdiary1', :from => 'theme'
+	if RUBY_VERSION > '1.9'
+		scenario 'Rack 環境でテーマ選択が保存される', :exclude_selenium do
+			visit '/update.rb?conf=theme'
+			select 'Tdiary1', :from => 'theme'
 
-		page.all('div.saveconf').first.click_button "OK"
+			page.all('div.saveconf').first.click_button "OK"
 
-		click_link '最新'
-		page.body.should be_include('href="assets/base.css"')
-		page.body.should be_include('href="assets/tdiary1/tdiary1.css"')
+			click_link '最新'
+			page.body.should be_include('href="assets/base.css"')
+			page.body.should be_include('href="assets/tdiary1/tdiary1.css"')
 
-		visit '/update.rb?conf=theme'
-		within('select option[selected]'){
-			page.should have_content 'Tdiary1'
-		}
+			visit '/update.rb?conf=theme'
+			within('select option[selected]'){
+				page.should have_content 'Tdiary1'
+			}
+		end
 	end
 
 	scenario 'Webrick 環境でテーマ選択が保存される', :exclude_rack do
