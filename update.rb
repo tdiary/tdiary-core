@@ -7,11 +7,6 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $stdout.binmode }
-begin
-	Encoding::default_external = 'UTF-8'
-rescue NameError
-	$KCODE = 'n'
-end
 
 begin
 	if FileTest::symlink?( __FILE__ ) then
