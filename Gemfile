@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'tdiary' unless File.exist?('tdiary.rb')
+
 gem 'rake'
 
 gem 'rack'
