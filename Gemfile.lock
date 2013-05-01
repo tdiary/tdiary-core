@@ -196,5 +196,6 @@ DEPENDENCIES
   tapp
   test-unit
   thin
+  thor
   trinidad
   twitter-text
