@@ -10,8 +10,6 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 
-gem 'thor'
-
 gem 'dalli'
 gem 'redis'
 gem 'redis-namespace'
