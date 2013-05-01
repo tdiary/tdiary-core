@@ -23,7 +23,33 @@ module TDiary
 			directory('doc', File.join(target, 'doc'))
 			inside(target) do
 				run('bundle install --without test development')
+				run('tdiary htpasswd')
 			end
+			say 'install finished', :green
+			say 'run `bundle exec rackup` to start server', :green
+		end
+
+		desc "htpasswd", "Create a .htpasswd file"
+		def htpasswd
+			require 'webrick/httpauth/htpasswd'
+			say "Input your username/password"
+			print 'Username: '
+			ARGV.replace([])
+			username = gets().chop
+			print 'New password: '
+			system "stty -echo"
+			password = $stdin.gets.chop
+			puts
+			print 'Re-type new password: '
+			password2 = $stdin.gets.chop
+			puts
+			system "stty echo"
+			if password != password2
+				raise StandardError, 'password verification error'
+			end
+			htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
+			htpasswd.set_passwd(nil, username, password)
+			htpasswd.flush
 		end
 
 		desc "version", "Prints the tDiary's version information"
