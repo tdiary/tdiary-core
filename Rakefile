@@ -1,6 +1,18 @@
 # -*- coding: utf-8 -*-
 
-require File.expand_path('../tdiary/environment', __FILE__)
+begin
+	# for using tDiary gem
+	require 'tdiary/environment'
+rescue LoadError
+	require File.expand_path('../tdiary/environment', __FILE__)
+end
+
+begin
+	# for using tDiary gem
+	require 'tdiary/tasks'
+rescue LoadError
+	require File.expand_path('../tdiary/tasks', __FILE__)
+end
 
 require 'rake'
 require 'rake/clean'
@@ -15,8 +27,6 @@ CLOBBER.include(
 	"rdoc",
 	"coverage"
 )
-
-Dir['tdiary/tasks/**/*.rake'].each {|f| load f}
 
 # Local Variables:
 # mode: ruby
