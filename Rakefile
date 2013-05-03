@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 
-begin
-	# for using tDiary gem
-	require 'tdiary/environment'
-rescue LoadError
-	require File.expand_path('../tdiary/environment', __FILE__)
-end
-
-begin
-	# for using tDiary gem
-	require 'tdiary/tasks'
-rescue LoadError
-	require File.expand_path('../tdiary/tasks', __FILE__)
+%w(tdiary/environment tdiary/tasks).each do |file|
+	begin
+		# in tDiary gem environment
+		require file
+	rescue LoadError
+		# in local environment
+		require File.expand_path("../#{file}", __FILE__)
+	end
 end
 
 require 'rake'
