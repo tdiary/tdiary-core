@@ -56,9 +56,9 @@ def category_anchor(category)
 			""
 		end
 	if @category_icon[category] and !@cgi.mobile_agent?
-		%Q|<a href="#{h @index}?#{period_string}category=#{u category}"><img class="category" src="#{h @category_icon_url}#{h @category_icon[category]}" alt="#{h category}"></a>|
+		%Q|<a href="#{h @index}?#{period_string}category=#{u category}" title="#{h category}"><img class="category" src="#{h @category_icon_url}#{h @category_icon[category]}" alt="#{h category}"></a>|
 	else
-		%Q|[<a href="#{h @index}?#{period_string}category=#{u category}">#{h category}</a>]|
+		%Q|[<a href="#{h @index}?#{period_string}category=#{u category}" title="#{h category}">#{h category}</a>]|
 	end
 end
 
