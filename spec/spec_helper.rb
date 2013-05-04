@@ -5,14 +5,16 @@ ENV['RACK_ENV'] = "test"
 
 require 'tdiary/environment'
 
-require 'simplecov'
-require 'coveralls'
+if ENV['COVERAGE'] = 'simplecov'
+	require 'simplecov'
+	require 'coveralls'
 
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-SimpleCov.start do
-	add_filter '/spec/'
-	add_filter '/test/'
-	add_filter '/vendor/'
+	SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+	SimpleCov.start do
+		add_filter '/spec/'
+		add_filter '/test/'
+		add_filter '/vendor/'
+	end
 end
 
 require 'tdiary'

@@ -1,6 +1,5 @@
 if defined? RSpec
 	require 'rspec/core/rake_task'
-	require 'ci/reporter/rake/rspec'
 
 	desc 'Run the code in spec'
 	RSpec::Core::RakeTask.new(:spec) do |t|
@@ -35,19 +34,10 @@ if defined? RSpec
 			end
 		end
 
-		if defined?(Rcov)
-			desc 'Run the code in specs with RCov'
-			RSpec::Core::RakeTask.new(:report) do |t|
-				t.pattern = "spec/**/*_spec.rb"
-				t.rcov = true
-				t.rcov_opts = IO.readlines(File.join('spec', 'rcov.opts')).map {|line| line.chomp.split(" ") }.flatten
-			end
-		else
-			desc 'Displayed code coverage with SimpleCov'
-			task :report do
-				ENV['COVERAGE'] = 'simplecov'
-				Rake::Task["spec"].invoke
-			end
+		desc 'Displayed code coverage with SimpleCov'
+		task :coverage do
+			ENV['COVERAGE'] = 'simplecov'
+			Rake::Task["spec"].invoke
 		end
 	end
 end
