@@ -118,11 +118,26 @@ module TDiary
 		end
 
 		def root
+			library_root
+		end
+
+		# directory where tDiary libraries is located
+		def library_root
 			File.expand_path('..', __FILE__)
 		end
 
+		# directory where the server was started
+		def server_root
+			Dir.pwd
+		end
+
+		# directory in which the document is published
 		def document_root
-			defined?( Rack ) ? "#{root}/public" : '.'
+			if defined?( Rack )
+				File.join(server_root, 'public')
+			else
+				server_root
+			end
 		end
 	end
 end
