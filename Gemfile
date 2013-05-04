@@ -1,6 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'tdiary' unless File.exist?('tdiary.rb')
+if File.exist?('tdiary.gemspec')
+	# directly installed (e.g. git clone, archive file)
+	gemspec
+else
+	# installed by gem
+	gem 'tdiary'
+end
 
 gem 'rake'
 
