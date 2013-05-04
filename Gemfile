@@ -8,9 +8,6 @@ else
 	gem 'tdiary'
 end
 
-gem 'rake'
-
-gem 'rack'
 gem 'sprockets'
 gem 'coffee-script'
 
