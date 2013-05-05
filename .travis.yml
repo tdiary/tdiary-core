@@ -10,9 +10,8 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - DAEMON=1 bundle exec rake server
-  - bundle exec tdiary new spec_server --spec
 
-script: cd spec_server && bundle exec rake spec spec:acceptance:rdb test
+script: bundle exec rake spec spec:acceptance:rdb test
 
 env:
   - TEST_MODE=rack
