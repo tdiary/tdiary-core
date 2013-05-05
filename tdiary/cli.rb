@@ -31,14 +31,14 @@ module TDiary
 			end
 			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
 			directory('doc', File.join(target, 'doc'))
-			if options[:test]
+			if options[:spec]
 				append_to_file(File.join(target, 'Gemfile'), "path '#{TDiary.root}'")
 				directory('spec', File.join(target, 'spec'))
 				directory('test', File.join(target, 'test'))
 			end
 
 			inside(target) do
-				if options[:test]
+				if options[:spec]
 					run('bundle install --without development')
 				else
 					run('bundle install --without test development')
