@@ -2,7 +2,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.4)
-    builder (3.2.0)
     capistrano (2.14.2)
       highline
       net-scp (>= 1.0.0)
@@ -18,8 +17,6 @@ GEM
       xpath (~> 2.0)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
-    ci_reporter (1.8.4)
-      builder (>= 2.1.2)
     coderay (1.0.9)
     coffee-script (2.2.0)
       coffee-script-source
@@ -132,8 +129,6 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    simplecov-rcov (0.2.3)
-      simplecov (>= 0.4.1)
     slop (3.4.4)
     sprockets (2.9.3)
       hike (~> 1.2)
@@ -167,7 +162,6 @@ DEPENDENCIES
   capistrano
   capistrano_colors
   capybara
-  ci_reporter
   coffee-script
   coveralls
   dalli
@@ -190,7 +184,6 @@ DEPENDENCIES
   selenium-webdriver
   sequel
   simplecov
-  simplecov-rcov
   sprockets
   sqlite3
   tapp
