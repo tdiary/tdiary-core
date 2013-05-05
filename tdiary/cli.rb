@@ -27,7 +27,7 @@ module TDiary
 				run('tdiary htpasswd')
 			end
 			say 'install finished', :green
-			say 'run `bundle exec rackup` to start server', :green
+			say 'run `tdiary server` to start server', :green
 		end
 
 		desc "server", "Start tDiary server"
