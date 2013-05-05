@@ -11,23 +11,42 @@ module TDiary
 		end
 
 		desc "new DIR_NAME", "Create a new tDiary directory"
+		method_option "spec", :type => :string, :banner => "install with test files"
 		def new(name)
 			target = File.join(Dir.pwd, name)
+
 			empty_directory(target)
 			empty_directory(File.join(target, 'public'))
 			empty_directory(File.join(target, 'misc/plugin'))
-			%w(README.md Gemfile config.ru tdiary.conf.beginner
-				tdiary.conf.sample tdiary.conf.sample-en).each do |file|
+			%w(
+				README.md
+				Gemfile
+				Rakefile
+				config.ru
+				tdiary.conf.beginner
+				tdiary.conf.sample
+				tdiary.conf.sample-en
+			).each do |file|
 				copy_file(file, File.join(target, file))
 			end
 			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
 			directory('doc', File.join(target, 'doc'))
+			if options[:test]
+				append_to_file(File.join(target, 'Gemfile'), "path '#{TDiary.root}'")
+				directory('spec', File.join(target, 'spec'))
+				directory('test', File.join(target, 'test'))
+			end
+
 			inside(target) do
-				run('bundle install --without test development')
-				run('tdiary htpasswd')
+				if options[:test]
+					run('bundle install --without development')
+				else
+					run('bundle install --without test development')
+					run('bundle exec tdiary htpasswd')
+				end
 			end
 			say 'install finished', :green
-			say 'run `tdiary server` to start server', :green
+			say "run `tdiary server` in #{name} directory to start server", :green
 		end
 
 		desc "server", "Start tDiary server"
