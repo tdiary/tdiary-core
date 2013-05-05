@@ -12,7 +12,7 @@ end
 
 require 'rake'
 require 'rake/clean'
-require 'bundler/gem_tasks'
+require 'bundler/gem_tasks' if File.exists?('tdiary.gemspec')
 
 CLEAN.include(
 	"tmp",
