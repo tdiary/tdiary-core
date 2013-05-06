@@ -37,12 +37,15 @@ module TDiary
 				directory('test', File.join(target, 'test'))
 			end
 
-			inside(target) do
-				if options[:spec]
-					run('bundle install --without development')
-				else
-					run('bundle install --without test development')
-					run('bundle exec tdiary htpasswd')
+			Bundler.with_clean_env do
+				inside(target) do
+					if options[:spec]
+						# run('bundle install --without development')
+						run('bundle install')
+					else
+						run('bundle install --without test development')
+						run('bundle exec tdiary htpasswd')
+					end
 				end
 			end
 			say 'install finished', :green
