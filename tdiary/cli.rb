@@ -1,6 +1,7 @@
 # coding: utf-8
 require 'thor'
 require 'tdiary'
+require 'bundler'
 
 module TDiary
 	class CLI < Thor
@@ -11,45 +12,34 @@ module TDiary
 		end
 
 		desc "new DIR_NAME", "Create a new tDiary directory"
-		method_option "spec", :type => :string, :banner => "install with test files"
 		def new(name)
 			target = File.join(Dir.pwd, name)
-
-			empty_directory(target)
-			empty_directory(File.join(target, 'public'))
-			empty_directory(File.join(target, 'misc/plugin'))
-			%w(
-				README.md
-				Gemfile
-				Rakefile
-				config.ru
-				tdiary.conf.beginner
-				tdiary.conf.sample
-				tdiary.conf.sample-en
-			).each do |file|
-				copy_file(file, File.join(target, file))
-			end
-			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
-			directory('doc', File.join(target, 'doc'))
-			if options[:spec]
-				append_to_file(File.join(target, 'Gemfile'), "path '#{TDiary.root}'")
-				directory('spec', File.join(target, 'spec'))
-				directory('test', File.join(target, 'test'))
-			end
+			deploy(target)
 
 			Bundler.with_clean_env do
 				inside(target) do
-					if options[:spec]
-						# run('bundle install --without development')
-						run('bundle install')
-					else
-						run('bundle install --without test development')
-						run('bundle exec tdiary htpasswd')
-					end
+					run('bundle install --without test development')
+					run('bundle exec tdiary htpasswd')
 				end
 			end
 			say 'install finished', :green
 			say "run `tdiary server` in #{name} directory to start server", :green
+		end
+
+		desc "test", "Create test server and run tDiary test"
+		def test
+			target = File.join(Dir.pwd, 'tmp/test')
+			deploy(target)
+			append_to_file(File.join(target, 'Gemfile'), "path '#{TDiary.root}'")
+			directory('spec', File.join(target, 'spec'))
+			directory('test', File.join(target, 'test'))
+
+			Bundler.with_clean_env do
+				inside(target) do
+					run('bundle install')
+					run('bundle exec rake spec')
+				end
+			end
 		end
 
 		desc "server", "Start tDiary server"
@@ -85,5 +75,24 @@ module TDiary
 			say "tdiary #{TDiary::VERSION}"
 		end
 		map %w(-v --version) => :version
+
+		def deploy(target)
+			empty_directory(target)
+			empty_directory(File.join(target, 'public'))
+			empty_directory(File.join(target, 'misc/plugin'))
+			%w(
+				README.md
+				Gemfile
+				Rakefile
+				config.ru
+				tdiary.conf.beginner
+				tdiary.conf.sample
+				tdiary.conf.sample-en
+			).each do |file|
+				copy_file(file, File.join(target, file))
+			end
+			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
+			directory('doc', File.join(target, 'doc'))
+		end
 	end
 end
