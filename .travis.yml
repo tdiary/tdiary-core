@@ -18,6 +18,7 @@ env:
   - TEST_MODE=rdb
   - TEST_MODE=webrick
   - TEST_MODE=secure
+  - TEST_MODE=gem
 
 notifications:
   irc: "irc.freenode.org#tdiary"
