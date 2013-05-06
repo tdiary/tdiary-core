@@ -1,3 +1,0 @@
---output "coverage/spec"
---exclude "spec/.*, spec/acceptance/.*, spec/plugin/.*, gems/.*, bundle/.*"
---aggregate coverage.aggregate

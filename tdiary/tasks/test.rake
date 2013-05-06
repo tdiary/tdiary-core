@@ -1,6 +1,5 @@
 if defined? Test::Unit
 	require 'rake/testtask'
-	require 'ci/reporter/rake/test_unit'
 
 	Rake::TestTask.new do |t|
 		t.libs << "test"

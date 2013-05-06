@@ -53,8 +53,6 @@ group :development do
     gem 'sqlite3'
     gem 'jasmine'
     gem 'simplecov', :require => false
-    gem 'simplecov-rcov', :require => false
     gem 'coveralls', :require => false
-    gem 'ci_reporter'
   end
 end

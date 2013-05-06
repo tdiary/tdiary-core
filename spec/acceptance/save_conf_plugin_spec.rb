@@ -46,20 +46,18 @@ feature 'プラグイン選択設定の利用' do
 		page.should_not have_content 'rspec.rb'
 	end
 
-	if RUBY_VERSION > '1.9'
-		scenario '外部の Javascript を追加するプラグインを有効にする' do
-			visit '/update.rb?conf=sp'
+	scenario '外部の Javascript を追加するプラグインを有効にする' do
+		visit '/update.rb?conf=sp'
 
-			check "sp.category_autocomplete.rb"
-			page.all('div.saveconf').first.click_button 'OK'
+		check "sp.category_autocomplete.rb"
+		page.all('div.saveconf').first.click_button 'OK'
 
-			visit '/update.rb'
+		visit '/update.rb'
 
-			page.body.should be_include('caretposition.js')
-			page.body.should be_include('category_autocomplete.js')
-			page.body.should be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
-			page.body.should_not be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
-		end
+		page.body.should be_include('caretposition.js')
+		page.body.should be_include('category_autocomplete.js')
+		page.body.should be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
+		page.body.should_not be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
 	end
 end
 # Local Variables:
