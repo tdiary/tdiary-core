@@ -43,8 +43,25 @@ module TDiary
 		end
 
 		desc "server", "Start tDiary server"
+		method_option "rack", :type => :string, :banner =>
+			"start server with rack interface (default)"
+		method_option "cgi", :type => :string, :banner =>
+			"start server with cgi interface"
 		def server
-			run 'bundle exec rackup'
+			if options[:cgi]
+				opts = {
+					:daemon => ENV['DAEMON'],
+					:bind   => ENV['BIND'] || '0.0.0.0',
+					:port   => ENV['PORT'] || 19292,
+					:logger => $stderr,
+					:access_log => $stderr,
+				}
+				TDiary::Server.run( opts )
+			elsif
+				# --rack option
+				# TODO: start rack server without run command
+				run 'bundle exec rackup'
+			end
 		end
 
 		desc "htpasswd", "Create a .htpasswd file"
