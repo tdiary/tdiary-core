@@ -5,6 +5,7 @@ coverage.*
 data/*
 !data/.htaccess
 log
+pkg
 tmp
 rdoc
 index.rdf
