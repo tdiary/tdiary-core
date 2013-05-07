@@ -101,7 +101,6 @@ module TDiary
 				%w(
 				README.md
 				Gemfile
-				Rakefile
 				config.ru
 				tdiary.conf.beginner
 				tdiary.conf.sample
