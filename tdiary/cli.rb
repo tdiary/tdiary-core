@@ -93,11 +93,12 @@ module TDiary
 		end
 		map %w(-v --version) => :version
 
-		def deploy(target)
-			empty_directory(target)
-			empty_directory(File.join(target, 'public'))
-			empty_directory(File.join(target, 'misc/plugin'))
-			%w(
+		no_commands do
+			def deploy(target)
+				empty_directory(target)
+				empty_directory(File.join(target, 'public'))
+				empty_directory(File.join(target, 'misc/plugin'))
+				%w(
 				README.md
 				Gemfile
 				Rakefile
@@ -105,11 +106,12 @@ module TDiary
 				tdiary.conf.beginner
 				tdiary.conf.sample
 				tdiary.conf.sample-en
-			).each do |file|
-				copy_file(file, File.join(target, file))
+				).each do |file|
+					copy_file(file, File.join(target, file))
+				end
+				copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
+				directory('doc', File.join(target, 'doc'))
 			end
-			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
-			directory('doc', File.join(target, 'doc'))
 		end
 	end
 end
