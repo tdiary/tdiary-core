@@ -6,6 +6,7 @@ SP_PREFIX = 'sp'
 @sp_path = @sp_path.collect do |path|
 	/\/$/ =~ path ? path.chop : path
 end
+@sp_path << "#{TDiary::PATH}/misc/plugin" if @sp_path.include?('misc/plugin')
 
 # get plugin option
 def sp_option( key )

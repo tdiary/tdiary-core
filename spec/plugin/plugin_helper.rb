@@ -185,7 +185,7 @@ end
 
 def plugin_path( plugin_sym, base=nil )
 	paths = []
-	paths << ( base ? base : "misc/plugin" )
+	paths << ( base ? base : File.join(TDiary.library_root, "misc/plugin") )
 	paths << "#{plugin_sym.to_s}.rb"
 	File.expand_path( File.join( paths ))
 end

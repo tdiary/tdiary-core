@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
-require File.expand_path('../tdiary/environment', __FILE__)
+require 'tdiary/environment'
+require 'tdiary/tasks'
 
 require 'rake'
 require 'rake/clean'
+require 'bundler/gem_tasks' if File.exists?('tdiary.gemspec')
 
 CLEAN.include(
 	"tmp",
@@ -14,8 +16,6 @@ CLOBBER.include(
 	"rdoc",
 	"coverage"
 )
-
-Dir['tdiary/tasks/**/*.rake'].each {|f| load f}
 
 # Local Variables:
 # mode: ruby
