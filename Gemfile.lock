@@ -4,7 +4,7 @@ PATH
     tdiary (3.2.2.20130507)
       rack
       rake
-      thor
+      thor (~> 0.18)
 
 GEM
   remote: https://rubygems.org/
