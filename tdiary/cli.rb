@@ -59,8 +59,10 @@ module TDiary
 				TDiary::Server.run( opts )
 			elsif
 				# --rack option
-				# TODO: start rack server without run command
-				run 'bundle exec rackup'
+				require 'rack'
+				# Rack::Server reads ARGV as :config, so delete it
+				ARGV.shift
+				Rack::Server.start
 			end
 		end
 
