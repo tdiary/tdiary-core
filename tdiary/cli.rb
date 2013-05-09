@@ -12,15 +12,21 @@ module TDiary
 		end
 
 		desc "new DIR_NAME", "Create a new tDiary directory"
+		method_option "skip-bundle", :type => :boolean, :banner =>
+			"don't run bundle and .htpasswd generation"
 		def new(name)
 			target = File.join(Dir.pwd, name)
 			deploy(target)
 
-			Bundler.with_clean_env do
-				inside(target) do
-					run('bundle install --without test development')
-					run('bundle exec tdiary htpasswd')
+			unless options[:'skip-bundle']
+				Bundler.with_clean_env do
+					inside(target) do
+						run('bundle install --without test development')
+						run('bundle exec tdiary htpasswd')
+					end
 				end
+			else
+				say "run `bundle install && bundle exec tdiary htpasswd` manually", :red
 			end
 			say 'install finished', :green
 			say "run `tdiary server` in #{name} directory to start server", :green
