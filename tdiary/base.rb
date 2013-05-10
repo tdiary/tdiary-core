@@ -125,11 +125,9 @@ module TDiary
 
 			begin
 				r = ERB.new(rhtml.untaint).result(binding)
-			rescue => e
+			rescue ::Encoding::CompatibilityError => e
 				# migration error on ruby 1.9 only 1st time, reload.
-				if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
-					raise ForceRedirect.new(base_url)
-				end
+				raise ForceRedirect.new(base_url)
 			end
 			ERB.new(r).src
 		end

@@ -24,8 +24,8 @@ module TDiary
 			end
 			begin
 				uref = CGI::unescape( ref )
-			rescue => e
-				return if defined?(::Encoding) && e.class == ::Encoding::CompatibilityError
+			rescue ::Encoding::CompatibilityError => e
+				return
 			end
 			if pair = @referers[uref] then
 				pair = [pair, ref] if pair.class != Array # for compatibility
