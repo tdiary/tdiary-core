@@ -53,20 +53,35 @@ module TDiary
 			"start server with rack interface (default)"
 		method_option "cgi", :type => :string, :banner =>
 			"start server with cgi interface"
+		method_option "bind", :aliases => "b", :type => :string, :default => "0.0.0.0", :banner =>
+			"bind to the IP"
+		method_option "port", :aliases => "p", :type => :numeric, :default => 19292, :banner =>
+			"use PORT"
 		def server
 			if options[:cgi]
 				opts = {
 					:daemon => ENV['DAEMON'],
-					:bind   => ENV['BIND'] || '0.0.0.0',
-					:port   => ENV['PORT'] || 19292,
+					:bind   => options[:bind],
+					:port   => options[:port],
 					:logger => $stderr,
 					:access_log => $stderr,
 				}
 				TDiary::Server.run( opts )
 			elsif
 				# --rack option
-				# TODO: start rack server without run command
-				run 'bundle exec rackup'
+				require 'rack'
+				# Rack::Server reads ARGV as :config, so delete it
+				ARGV.shift
+				opts = {
+					:environment => ENV['RACK_ENV'] || "development",
+					:daemonize   => false,
+					:Host        => options[:bind],
+					:Port        => options[:port],
+					:pid         => File.expand_path("tdiary.pid"),
+					:AccessLog   => $stderr,
+					:config      => File.expand_path("config.ru")
+				}
+				Rack::Server.start( opts )
 			end
 		end
 
