@@ -122,6 +122,7 @@ module TDiary
 				%w(
 				README.md
 				Gemfile
+				Gemfile.lock
 				config.ru
 				tdiary.conf.beginner
 				tdiary.conf.sample
