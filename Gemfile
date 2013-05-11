@@ -12,7 +12,6 @@ gem 'rake'
 
 gem 'rack'
 gem 'sprockets'
-gem 'coffee-script'
 
 gem 'omniauth'
 gem 'omniauth-twitter'
@@ -38,6 +37,7 @@ platforms :jruby do
 end
 
 group :development do
+  gem 'coffee-script'
   gem 'capistrano', :require => false
   gem 'capistrano_colors', :require => false
   gem 'rvm-capistrano', :require => false
