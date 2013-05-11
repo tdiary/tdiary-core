@@ -67,6 +67,11 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     tilt (1.3.3)
+    twitter-text (1.6.1)
+      unf (~> 0.0.5)
+    unf (0.0.5)
+      unf_ext
+    unf_ext (0.0.6)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -90,3 +95,4 @@ DEPENDENCIES
   sprockets
   therubyracer
   thin
+  twitter-text

@@ -8,6 +8,7 @@ gem 'sprockets'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
+gem 'twitter-text', :require => false
 
 gem 'dalli'
 gem 'redis'
