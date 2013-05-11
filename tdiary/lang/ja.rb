@@ -22,29 +22,12 @@ def mobile_encoding
 	'Shift_JIS'
 end
 
-if String.method_defined?(:encode)
-	def to_mobile( str )
-		str.encode(mobile_encoding, {:invalid => :replace, :undef => :replace})
-	end
+def to_mobile( str )
+	str.encode(mobile_encoding, {:invalid => :replace, :undef => :replace})
+end
 
-	def to_mail( str )
-		str.encode('iso-2022-jp', {:invalid => :replace, :undef => :replace})
-	end
-else
-	require 'nkf'
-	require 'iconv'
-
-	def to_mobile( str )
-		NKF::nkf( '-m0 -W -s', str )
-	end
-
-	def to_mail( str )
-		begin
-			Iconv.conv('iso-2022-jp', 'utf-8', str)
-		rescue
-			NKF::nkf('-m0 -W -j', str)
-		end
-	end
+def to_mail( str )
+	str.encode('iso-2022-jp', {:invalid => :replace, :undef => :replace})
 end
 
 def migrate_to_utf8( str )

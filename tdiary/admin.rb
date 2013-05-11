@@ -73,7 +73,7 @@ module TDiary
 
 			@title = @cgi.params['title'][0]
 			@body = @cgi.params['body'][0]
-			if @cgi.mobile_agent? && String.method_defined?(:encode)
+			if @cgi.mobile_agent?
 				@title.force_encoding(@conf.mobile_encoding)
 				@body.force_encoding(@conf.mobile_encoding)
 			end
@@ -113,7 +113,7 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			@title = cgi.params['title'][0]
 			@body = cgi.params['body'][0]
-			if cgi.mobile_agent? && String.method_defined?(:encode)
+			if cgi.mobile_agent?
 				@title.force_encoding(conf.mobile_encoding)
 				@body.force_encoding(conf.mobile_encoding)
 			end

@@ -65,50 +65,18 @@ module TDiary
 			@options2.delete( key )
 		end
 
-		if String.method_defined?(:encode)
-			# preload transcodes outside $SAFE=4 environment, that is a workaround
-			# for the possible SecurityError. see the following uri for the detail.
-			# http://redmine.ruby-lang.org/issues/5279
-			%w(utf-16be euc-jp iso-2022-jp Shift_JIS).each do |enc|
-				"\uFEFF".encode(enc) rescue nil
+		def to_native( str, charset = nil )
+			str = str.dup
+			if str.encoding == Encoding::ASCII_8BIT
+				str.force_encoding(charset || 'utf-8')
 			end
-
-			def to_native( str, charset = nil )
-				str = str.dup
-				if str.encoding == Encoding::ASCII_8BIT
-					str.force_encoding(charset || 'utf-8')
-				end
-				unless str.valid_encoding?
-					str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
-				end
-				unless str.encoding == Encoding::UTF_8
-					str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
-				end
-				str
+			unless str.valid_encoding?
+				str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
 			end
-		else
-			require 'kconv'
-			require 'iconv'
-			require 'nkf'
-
-			def to_native( str, charset = nil )
-				return str if Kconv.isutf8(str)
-				begin
-					Iconv.conv('utf-8', charset || 'utf-8', str)
-				rescue
-					from = case charset
-						when /^utf-8$/i
-							'W'
-						when /^shift_jis/i
-							'S'
-						when /^EUC-JP/i
-							'E'
-						else
-							''
-					end
-					NKF::nkf("-m0 -#{from}w", str)
-				end
+			unless str.encoding == Encoding::UTF_8
+				str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
 			end
+			str
 		end
 
 	private
