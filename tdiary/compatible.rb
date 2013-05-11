@@ -38,11 +38,11 @@ class PStore
 			# force convert ASCII_8BIT pstore data to UTF_8
 			file = open_and_lock_file(@filename, false)
 			table = Marshal::load(file, proc {|obj|
-					if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
-						obj.force_encoding('UTF-8')
-					end
-					obj
-				})
+				if obj.respond_to?('force_encoding') && obj.encoding == Encoding::ASCII_8BIT
+					obj.force_encoding('UTF-8')
+				end
+				obj
+			})
 			table[:__ruby_version] = RUBY_VERSION
 			if on_windows?
 				save_data_with_fast_strategy(Marshal::dump(table), file)
