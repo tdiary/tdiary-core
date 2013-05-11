@@ -1,4 +1,4 @@
-source :rubygems
+source 'http://rubygems.org'
 
 gem 'rake'
 
@@ -10,6 +10,8 @@ gem 'omniauth-twitter'
 gem 'omniauth-github'
 
 gem 'dalli'
+gem 'redis'
+gem 'redis-namespace'
 
 gem 'coffee-script'
 gem 'therubyracer'
