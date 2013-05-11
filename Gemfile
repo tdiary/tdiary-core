@@ -6,6 +6,9 @@ if File.exist?('tdiary.gemspec')
 else
 	# installed by gem
 	gem 'tdiary'
+
+	# use edge tDiary
+	# gem 'tdiary', :git => 'git@github.com:tdiary/tdiary-core.git'
 end
 
 gem 'rake'
