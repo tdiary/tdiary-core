@@ -13,8 +13,6 @@
 # You can distribute this under GPL.
 #
 
-$KCODE = 'u' if RUBY_VERSION < '1.9'
-
 begin
 	require 'rubygems'
 rescue LoadError

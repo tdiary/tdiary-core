@@ -8,7 +8,6 @@
 # You can redistribute it and/or modify it under GPL2.
 #
 BEGIN { $stdout.binmode }
-$KCODE = 'n'
 
 require "fileutils"
 require "pstore"

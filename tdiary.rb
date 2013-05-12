@@ -12,11 +12,7 @@ TDIARY_VERSION = TDiary::VERSION
 
 $:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
 Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.untaint }
-begin
-	Encoding::default_external = 'UTF-8'
-rescue NameError
-	$KCODE = 'n'
-end
+Encoding::default_external = 'UTF-8'
 
 require 'cgi'
 require 'uri'

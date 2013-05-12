@@ -7,7 +7,6 @@
 # require Ruby1.8 or xml-rpc(http://raa.ruby-lang.org/project/xml-rpc/)
 
 BEGIN { $stdout.binmode }
-$KCODE = 'n'
 
 if FileTest::symlink?( __FILE__ ) then
   org_path = File::dirname( File::readlink( __FILE__ ) )
