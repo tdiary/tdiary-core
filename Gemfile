@@ -12,6 +12,7 @@ gem 'rake'
 
 gem 'rack'
 gem 'sprockets'
+gem 'coffee-script', :group => [:development, :test]
 
 gem 'omniauth'
 gem 'omniauth-twitter'
@@ -37,7 +38,6 @@ platforms :jruby do
 end
 
 group :development do
-  gem 'coffee-script'
   gem 'capistrano', :require => false
   gem 'capistrano_colors', :require => false
   gem 'rvm-capistrano', :require => false
@@ -45,7 +45,6 @@ group :development do
   gem 'racksh', :require => false
 
   group :test do
-    gem 'coffee-script'
     gem 'pry'
     gem 'tapp'
     gem 'test-unit', :require => 'test/unit'
