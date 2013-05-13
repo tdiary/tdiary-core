@@ -41,9 +41,6 @@ platforms :jruby do
 end
 
 group :development do
-  gem 'capistrano', :require => false
-  gem 'capistrano_colors', :require => false
-  gem 'rvm-capistrano', :require => false
   gem 'pit', :require => false
   gem 'racksh', :require => false
 
