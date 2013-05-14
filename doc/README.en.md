@@ -36,7 +36,7 @@ You can choice a grammar of writing your diary by 'Style' feature. Some style fi
 
 ### Written in Ruby
 
-Important :-). tDiary requires Ruby-1.8.2 or later.
+Important :-). tDiary requires Ruby-1.9.2 or later.
 
 ### Others
 

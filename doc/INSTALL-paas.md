@@ -12,7 +12,7 @@ tDiary-3.1.3 以降のバージョンでは tDiary を [Heroku](http://www.herok
 tDiary を PaaS で動作させるためには以下のツールが必要となります。
 
   - [git](http://git-scm.com)
-  - Ruby 1.8.7 以降
+  - Ruby 1.9.2 以降
   - RubyGems 1.3.7 以降
   - Bundler 1.0.0 以降
 
