@@ -15,7 +15,7 @@ gem 'rake'
 
 gem 'rack'
 gem 'sprockets'
-gem 'coffee-script'
+gem 'coffee-script', :group => [:development, :test]
 
 gem 'omniauth'
 gem 'omniauth-twitter'
