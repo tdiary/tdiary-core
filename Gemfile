@@ -11,6 +11,9 @@ else
 	# gem 'tdiary', :git => 'git@github.com:tdiary/tdiary-core.git'
 end
 
+# if you use tdiary-contrib gem, uncomment this line.
+# gem 'tdiary-contrib'
+
 gem 'rake'
 
 gem 'rack'

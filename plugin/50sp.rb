@@ -8,6 +8,9 @@ SP_PREFIX = 'sp'
 end
 @sp_path << "#{TDiary::PATH}/misc/plugin" if @sp_path.include?('misc/plugin')
 
+# FIXME: dirty hack, it should create TDiary::Server::Config.plugin_path
+TDiary::Contrib::Plugin.setup( @sp_path ) if defined?(TDiary::Contrib)
+
 # get plugin option
 def sp_option( key )
 	@conf["#{SP_PREFIX}.#{key}"]
