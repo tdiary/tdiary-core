@@ -38,6 +38,9 @@ map "#{base_dir}/assets" do
 	environment = Sprockets::Environment.new
 	%w(js theme).each {|path| environment.append_path File.join(TDiary.root, path) }
 
+	# FIXME: dirty hack, it should create TDiary::Server::Config.assets_path
+	TDiary::Contrib::Assets.setup(environment) if defined?(TDiary::Contrib)
+	
 	# if you need to auto compilation for CoffeeScript
 	# require 'tdiary/rack/assets/precompile'
 	# use TDiary::Rack::Assets::Precompile, environment
