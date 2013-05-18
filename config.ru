@@ -1,6 +1,5 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
 require 'tdiary/environment'
-require 'tdiary'
 require 'tdiary/rack/html_anchor'
 require 'tdiary/rack/valid_request_path'
 require 'tdiary/rack/auth/basic'
