@@ -4,17 +4,20 @@ Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
 Capybara.app = Rack::Builder.new do
 	map '/' do
-		run TDiary::Application.new(:index)
+		run TDiary::Dispatcher.index
 	end
 
 	map '/index.rb' do
-		run TDiary::Application.new(:index)
+		run TDiary::Dispatcher.index
 	end
 
 	map '/update.rb' do
-		run TDiary::Application.new(:update)
+		run TDiary::Dispatcher.update
 	end
 end
+
+# FIXME: TDiary::Application has auth middleware in update.rb, so it cannot be tested.
+# Capybara.app = TDiary::Application.new
 
 Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../tmp/capybara'
 

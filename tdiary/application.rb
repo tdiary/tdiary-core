@@ -1,50 +1,42 @@
 # -*- coding: utf-8 -*-
-
-# FIXME too dirty hack :-<
-class CGI
-	def env_table_rack
-		$RACK_ENV
-	end
-
-	alias :env_table_orig :env_table
-	alias :env_table :env_table_rack
-end
+require 'rack/builder'
+require 'tdiary/rack/html_anchor'
+require 'tdiary/rack/valid_request_path'
+require 'tdiary/rack/auth/basic'
 
 module TDiary
 	class Application
-		def initialize( target )
-			@target = target
+		def initialize( base_dir = '' )
+			@app = ::Rack::Builder.new {
+				map "#{base_dir}/" do
+					use TDiary::Rack::HtmlAnchor
+					run ::Rack::Cascade.new([
+						::Rack::File.new("./public/"),
+						TDiary::Rack::ValidRequestPath.new(TDiary::Dispatcher.index)
+					])
+				end
+
+				map "#{base_dir}/update.rb" do
+					use TDiary::Rack::Auth::Basic, '.htpasswd'
+					run TDiary::Dispatcher.update
+				end
+
+				map "#{base_dir}/assets" do
+					environment = Sprockets::Environment.new
+					%w(js theme).each {|path| environment.append_path File.join(TDiary.root, path) }
+					# FIXME: dirty hack, it should create TDiary::Server::Config.assets_path
+					TDiary::Contrib::Assets.setup(environment) if defined?(TDiary::Contrib)
+					run environment
+
+					# if you need to auto compilation for CoffeeScript
+					# require 'tdiary/rack/assets/precompile'
+					# use TDiary::Rack::Assets::Precompile, environment
+				end
+			}
 		end
 
 		def call( env )
-			req = adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_request( req )
-		end
-
-	private
-
-		def adopt_rack_request_to_plain_old_tdiary_style( env )
-			req = TDiary::Request.new( env )
-			req.params # fill params to tdiary_request
-			$RACK_ENV = req.env
-			env["rack.input"].rewind
-			fake_stdin_as_params
-			req
-		end
-
-		def dispatch_request( request )
-			dispatcher = TDiary::Dispatcher.__send__( @target )
-			dispatcher.dispatch_cgi( request )
-		end
-
-		def fake_stdin_as_params
-			stdin_spy = StringIO.new( "" )
-			# FIXME dirty hack
-			if $RACK_ENV && $RACK_ENV['rack.input']
-				stdin_spy.print( $RACK_ENV['rack.input'].read )
-				stdin_spy.rewind
-			end
-			$stdin = stdin_spy
+			@app.call( env )
 		end
 	end
 end
