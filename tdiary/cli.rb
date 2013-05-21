@@ -17,6 +17,7 @@ module TDiary
 		def new(name)
 			target = File.join(Dir.pwd, name)
 			deploy(target)
+			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
 
 			unless options[:'skip-bundle']
 				Bundler.with_clean_env do
@@ -30,6 +31,28 @@ module TDiary
 			end
 			say 'install finished', :green
 			say "run `tdiary server` in #{name} directory to start server", :green
+		end
+
+		desc "update", "update tDiary"
+		method_option "skip-bundle", :type => :boolean, :banner =>
+			"don't run bundle"
+		def update
+			target = Dir.pwd
+			unless in_tdiary_dir?(target)
+				say "please run update command in your tdiary directory", :red
+				return 1
+			end
+
+			deploy(target)
+
+			unless options[:'skip-bundle']
+				Bundler.with_clean_env do
+					inside(target) do
+						run('bundle install --without test development')
+					end
+				end
+			end
+			say 'update finished', :green
 		end
 
 		desc "test", "Create test server and run tDiary test"
@@ -130,8 +153,11 @@ module TDiary
 				).each do |file|
 					copy_file(file, File.join(target, file))
 				end
-				copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
 				directory('doc', File.join(target, 'doc'))
+			end
+
+			def in_tdiary_dir?(target)
+				File.exist?(File.join(target, 'tdiary.conf'))
 			end
 		end
 	end
