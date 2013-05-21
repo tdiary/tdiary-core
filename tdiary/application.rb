@@ -7,7 +7,7 @@ require 'tdiary/rack/auth/basic'
 module TDiary
 	class Application
 		def initialize( base_dir = '' )
-			@app = ::Rack::Builder.new {
+			@app = ::Rack::Builder.app {
 				map "#{base_dir}/" do
 					use TDiary::Rack::HtmlAnchor
 					run ::Rack::Cascade.new([
