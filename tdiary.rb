@@ -7,12 +7,15 @@ Copyright (C) 2001-2013, TADA Tadashi <t@tdtds.jp>
 You can redistribute it and/or modify it under GPL2.
 =end
 
+Encoding::default_external = 'UTF-8'
+
 require 'tdiary/version'
 TDIARY_VERSION = TDiary::VERSION
 
 $:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
-Dir["#{File::dirname(__FILE__) + '/vendor/*/lib'}"].each {|dir| $:.unshift dir.untaint }
-Encoding::default_external = 'UTF-8'
+['/misc/lib/*/lib', '/vendor/*/lib'].each do |path|
+	Dir["#{File::dirname(__FILE__) + path}"].each {|dir| $:.unshift dir.untaint }
+end
 
 require 'cgi'
 require 'uri'
