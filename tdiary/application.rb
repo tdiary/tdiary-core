@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'rack/builder'
+require 'tdiary/rack/static'
 require 'tdiary/rack/html_anchor'
 require 'tdiary/rack/valid_request_path'
 require 'tdiary/rack/auth/basic'
@@ -10,10 +11,9 @@ module TDiary
 			@app = ::Rack::Builder.app {
 				map "#{base_dir}/" do
 					use TDiary::Rack::HtmlAnchor
-					run ::Rack::Cascade.new([
-						::Rack::File.new("./public/"),
-						TDiary::Rack::ValidRequestPath.new(TDiary::Dispatcher.index)
-					])
+					use TDiary::Rack::Static, "public"
+					use TDiary::Rack::ValidRequestPath
+					run TDiary::Dispatcher.index
 				end
 
 				map "#{base_dir}/update.rb" do
