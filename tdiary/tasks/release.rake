@@ -42,8 +42,12 @@ def make_tarball( repo, version = nil )
 		Dir.chdir 'tdiary-core' do
 			sh "chmod +x index.rb index.fcgi update.rb update.fcgi"
 			sh 'rake doc'
-			sh 'bundle --path .bundle'
-			sh 'cd misc/lib; gem unpack bundler'
+			Bundler.with_clean_env do
+				sh 'bundle --path .bundle --without development:test'
+			end
+			Dir.chdir 'misc/lib' do
+				sh 'gem unpack bundler'
+			end
 		end
 	end
 
