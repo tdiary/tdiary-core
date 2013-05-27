@@ -14,7 +14,7 @@ TARBALLS = []
 def fetch_files( repo )
 	Dir.chdir("tmp") do
 		rm_rf repo rescue true
-		sh "git clone git://github.com/tdiary/#{repo}.git #{repo}"
+		sh "git clone --depth 1 git://github.com/tdiary/#{repo}.git #{repo}"
 	end
 end
 
@@ -42,6 +42,12 @@ def make_tarball( repo, version = nil )
 		Dir.chdir 'tdiary-core' do
 			sh "chmod +x index.rb index.fcgi update.rb update.fcgi"
 			sh 'rake doc'
+			Bundler.with_clean_env do
+				sh 'bundle --path .bundle --without development:test'
+			end
+			Dir.chdir 'misc/lib' do
+				sh 'gem unpack bundler'
+			end
 		end
 	end
 
