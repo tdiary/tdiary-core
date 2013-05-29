@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'rack/builder'
+require 'tdiary/application/configuration'
 require 'tdiary/rack/static'
 require 'tdiary/rack/html_anchor'
 require 'tdiary/rack/valid_request_path'
@@ -7,30 +8,42 @@ require 'tdiary/rack/auth/basic'
 
 module TDiary
 	class Application
-		def initialize( base_dir = '' )
+		class << self
+			def configure(&block)
+				instance_eval &block
+			end
+
+			def config
+				@config ||= Configuration.new
+			end
+		end
+
+		def initialize( base_dir = '/' )
 			@app = ::Rack::Builder.app {
-				map "#{base_dir}/" do
-					use TDiary::Rack::HtmlAnchor
-					use TDiary::Rack::Static, "public"
-					use TDiary::Rack::ValidRequestPath
-					run TDiary::Dispatcher.index
-				end
+				map base_dir do
+					map Application.config.path[:index] do
+						use TDiary::Rack::HtmlAnchor
+						use TDiary::Rack::Static, "public"
+						use TDiary::Rack::ValidRequestPath
+						run TDiary::Dispatcher.index
+					end
 
-				map "#{base_dir}/update.rb" do
-					use TDiary::Rack::Auth::Basic, '.htpasswd'
-					run TDiary::Dispatcher.update
-				end
+					map Application.config.path[:update] do
+						use TDiary::Rack::Auth::Basic, '.htpasswd'
+						run TDiary::Dispatcher.update
+					end
 
-				map "#{base_dir}/assets" do
-					environment = Sprockets::Environment.new
-					%w(js theme).each {|path| environment.append_path File.join(TDiary.root, path) }
-					# FIXME: dirty hack, it should create TDiary::Server::Config.assets_path
-					TDiary::Contrib::Assets.setup(environment) if defined?(TDiary::Contrib)
-					run environment
+					map Application.config.path[:assets] do
+						# if you need to auto compilation for CoffeeScript
+						# require 'tdiary/rack/assets/precompile'
+						# use TDiary::Rack::Assets::Precompile, environment
 
-					# if you need to auto compilation for CoffeeScript
-					# require 'tdiary/rack/assets/precompile'
-					# use TDiary::Rack::Assets::Precompile, environment
+						environment = Sprockets::Environment.new
+						Application.config.assets_paths.each do |path|
+							environment.append_path path
+						end
+						run environment
+					end
 				end
 			}
 		end
@@ -38,6 +51,12 @@ module TDiary
 		def call( env )
 			@app.call( env )
 		end
+	end
+
+	Application.configure do
+		config.assets_paths.concat %w(js theme).map {|path|
+			File.join(TDiary.root, path)
+		}
 	end
 end
 
