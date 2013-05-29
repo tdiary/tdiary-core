@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'rack'
   spec.add_dependency 'rake'
-  spec.add_dependency 'thor'
   spec.add_dependency 'hikidoc'
   spec.add_dependency 'rdtool'
   spec.add_dependency 'imagesize'
