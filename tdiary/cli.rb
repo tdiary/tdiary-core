@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'thor'
-require 'tdiary'
+require 'tdiary/version'
 require 'bundler'
 
 module TDiary
