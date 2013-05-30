@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+$LOAD_PATH.unshift '.'
+
 require 'tdiary/environment'
 require 'tdiary/tasks'
 

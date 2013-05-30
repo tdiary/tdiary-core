@@ -20,6 +20,12 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 1.9.2'
 
+  spec.add_dependency 'rack'
+  spec.add_dependency 'rake'
+  spec.add_dependency 'hikidoc'
+  spec.add_dependency 'rdtool'
+  spec.add_dependency 'imagesize'
+
   spec.add_dependency 'thor', '~> 0.18'
   spec.add_dependency "bundler", "~> 1.3"
 end
