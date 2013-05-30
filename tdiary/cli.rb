@@ -8,7 +8,7 @@ module TDiary
 		include Thor::Actions
 
 		def self.source_root
-			TDiary.root
+			File.expand_path('../..', __FILE__)
 		end
 
 		desc "new DIR_NAME", "Create a new tDiary directory"
@@ -59,7 +59,7 @@ module TDiary
 		def test
 			target = File.join(Dir.pwd, 'tmp/test')
 			deploy(target)
-			append_to_file(File.join(target, 'Gemfile'), "path '#{TDiary.root}'")
+			append_to_file(File.join(target, 'Gemfile'), "path '#{CLI::source_root}'")
 			directory('spec', File.join(target, 'spec'))
 			directory('test', File.join(target, 'test'))
 
