@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'rack/builder'
 require 'tdiary/application/configuration'
+# TODO: use autoload in tdiary/rack
 require 'tdiary/rack/static'
 require 'tdiary/rack/html_anchor'
 require 'tdiary/rack/valid_request_path'
@@ -21,6 +22,10 @@ module TDiary
 		def initialize( base_dir = '/' )
 			@app = ::Rack::Builder.app {
 				map base_dir do
+					Application.config.builder_procs.each do |builder_proc|
+						instance_eval &builder_proc
+					end
+
 					map Application.config.path[:index] do
 						use TDiary::Rack::HtmlAnchor
 						use TDiary::Rack::Static, "public"
@@ -34,14 +39,16 @@ module TDiary
 					end
 
 					map Application.config.path[:assets] do
-						# if you need to auto compilation for CoffeeScript
-						# require 'tdiary/rack/assets/precompile'
-						# use TDiary::Rack::Assets::Precompile, environment
-
 						environment = Sprockets::Environment.new
 						Application.config.assets_paths.each do |path|
 							environment.append_path path
 						end
+
+						if Application.config.assets_precompile
+							require 'tdiary/rack/assets/precompile'
+							use TDiary::Rack::Assets::Precompile, environment
+						end
+
 						run environment
 					end
 				end
