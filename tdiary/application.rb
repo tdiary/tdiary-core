@@ -50,7 +50,7 @@ module TDiary
 			end
 
 			map Application.config.path[:assets] do
-				environment = ::Sprockets::Environment.new
+				environment = Sprockets::Environment.new
 				Application.config.assets_paths.each do |path|
 					environment.append_path path
 				end
