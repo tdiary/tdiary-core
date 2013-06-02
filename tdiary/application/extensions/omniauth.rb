@@ -4,7 +4,6 @@ require 'tdiary/rack/auth/omniauth'
 
 TDiary::Application.configure do
 	config.builder do
-		# TODO: use autoload
 		use ::Rack::Session::Pool, :expire_after => 2592000
 		use OmniAuth::Builder do
 			configure {|conf| conf.path_prefix = "/auth" }
@@ -15,5 +14,10 @@ TDiary::Application.configure do
 		map('/auth') do
 			run TDiary::Rack::Auth::OmniAuth::CallbackHandler.new
 		end
+	end
+
+	config.authenticate TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
+		# TODO: an user can setting
+		auth.info.nickname == 'your_twitter_screen_name'
 	end
 end

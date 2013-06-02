@@ -44,7 +44,7 @@ module TDiary
 			end
 
 			map Application.config.path[:update] do
-				use TDiary::Rack::Auth::Basic, '.htpasswd'
+				instance_eval &Application.config.authenticate_proc
 				run TDiary::Dispatcher.update
 			end
 
@@ -62,6 +62,8 @@ module TDiary
 				run environment
 			end
 		end
+
+		config.authenticate TDiary::Rack::Auth::Basic, '.htpasswd'
 	end
 end
 

@@ -1,7 +1,7 @@
 module TDiary
 	class Application
 		class Configuration
-			attr_accessor :assets_paths, :assets_precompile, :plugin_paths, :path, :builder_procs
+			attr_accessor :assets_paths, :assets_precompile, :plugin_paths, :path, :builder_procs, :authenticate_proc
 
 			def initialize
 				@assets_paths = []
@@ -14,10 +14,15 @@ module TDiary
 					assets: '/assets'
 				}
 				@builder_procs = []
+				@authenticate_proc = proc { }
 			end
 
 			def builder(&block)
 				@builder_procs << block
+			end
+
+			def authenticate(middleware, *params, &block)
+				@authenticate_proc = proc { use middleware, *params, &block }
 			end
 		end
 	end
