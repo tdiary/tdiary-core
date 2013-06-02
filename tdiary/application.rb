@@ -21,32 +21,6 @@ module TDiary
 					Application.config.builder_procs.each do |builder_proc|
 						instance_eval &builder_proc
 					end
-
-					map Application.config.path[:index] do
-						use TDiary::Rack::HtmlAnchor
-						use TDiary::Rack::Static, "public"
-						use TDiary::Rack::ValidRequestPath
-						run TDiary::Dispatcher.index
-					end
-
-					map Application.config.path[:update] do
-						use TDiary::Rack::Auth::Basic, '.htpasswd'
-						run TDiary::Dispatcher.update
-					end
-
-					map Application.config.path[:assets] do
-						environment = Sprockets::Environment.new
-						Application.config.assets_paths.each do |path|
-							environment.append_path path
-						end
-
-						if Application.config.assets_precompile
-							require 'tdiary/rack/assets/precompile'
-							use TDiary::Rack::Assets::Precompile, environment
-						end
-
-						run environment
-					end
 				end
 			}
 		end
@@ -60,6 +34,34 @@ module TDiary
 		config.assets_paths.concat %w(js theme).map {|path|
 			File.join(TDiary.root, path)
 		}
+
+		config.builder do
+			map Application.config.path[:index] do
+				use TDiary::Rack::HtmlAnchor
+				use TDiary::Rack::Static, "public"
+				use TDiary::Rack::ValidRequestPath
+				run TDiary::Dispatcher.index
+			end
+
+			map Application.config.path[:update] do
+				use TDiary::Rack::Auth::Basic, '.htpasswd'
+				run TDiary::Dispatcher.update
+			end
+
+			map Application.config.path[:assets] do
+				environment = Sprockets::Environment.new
+				Application.config.assets_paths.each do |path|
+					environment.append_path path
+				end
+
+				if Application.config.assets_precompile
+					require 'tdiary/rack/assets/precompile'
+					use TDiary::Rack::Assets::Precompile, environment
+				end
+
+				run environment
+			end
+		end
 	end
 end
 
