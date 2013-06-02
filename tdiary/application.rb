@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'rack/builder'
 require 'tdiary/application/configuration'
-# TODO: use autoload in tdiary/rack
-require 'tdiary/rack/static'
-require 'tdiary/rack/html_anchor'
-require 'tdiary/rack/valid_request_path'
-require 'tdiary/rack/auth/basic'
+require 'tdiary/rack'
 
 module TDiary
 	class Application
