@@ -1,51 +1,70 @@
 # -*- coding: utf-8 -*-
-
-# FIXME too dirty hack :-<
-class CGI
-	def env_table_rack
-		$RACK_ENV
-	end
-
-	alias :env_table_orig :env_table
-	alias :env_table :env_table_rack
-end
+require 'rack/builder'
+require 'tdiary/application/configuration'
+require 'tdiary/rack'
+require 'sprockets'
 
 module TDiary
 	class Application
-		def initialize( target )
-			@target = target
+		class << self
+			def configure(&block)
+				instance_eval &block
+			end
+
+			def config
+				@config ||= Configuration.new
+			end
+		end
+
+		def initialize( base_dir = '/' )
+			@app = ::Rack::Builder.app {
+				map base_dir do
+					Application.config.builder_procs.each do |builder_proc|
+						instance_eval &builder_proc
+					end
+				end
+			}
 		end
 
 		def call( env )
-			req = adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_request( req )
+			@app.call( env )
 		end
+	end
 
-	private
+	Application.configure do
+		config.assets_paths.concat %w(js theme).map {|path|
+			File.join(TDiary.root, path)
+		}
 
-		def adopt_rack_request_to_plain_old_tdiary_style( env )
-			req = TDiary::Request.new( env )
-			req.params # fill params to tdiary_request
-			$RACK_ENV = req.env
-			env["rack.input"].rewind
-			fake_stdin_as_params
-			req
-		end
-
-		def dispatch_request( request )
-			dispatcher = TDiary::Dispatcher.__send__( @target )
-			dispatcher.dispatch_cgi( request )
-		end
-
-		def fake_stdin_as_params
-			stdin_spy = StringIO.new( "" )
-			# FIXME dirty hack
-			if $RACK_ENV && $RACK_ENV['rack.input']
-				stdin_spy.print( $RACK_ENV['rack.input'].read )
-				stdin_spy.rewind
+		config.builder do
+			map Application.config.path[:index] do
+				use TDiary::Rack::HtmlAnchor
+				use TDiary::Rack::Static, "public"
+				use TDiary::Rack::ValidRequestPath
+				run TDiary::Dispatcher.index
 			end
-			$stdin = stdin_spy
+
+			map Application.config.path[:update] do
+				instance_eval &Application.config.authenticate_proc
+				run TDiary::Dispatcher.update
+			end
+
+			map Application.config.path[:assets] do
+				environment = Sprockets::Environment.new
+				Application.config.assets_paths.each do |path|
+					environment.append_path path
+				end
+
+				if Application.config.assets_precompile
+					require 'tdiary/rack/assets/precompile'
+					use TDiary::Rack::Assets::Precompile, environment
+				end
+
+				run environment
+			end
 		end
+
+		config.authenticate TDiary::Rack::Auth::Basic, '.htpasswd'
 	end
 end
 

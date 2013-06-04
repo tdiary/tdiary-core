@@ -1,6 +1,16 @@
 # -*- coding: utf-8; -*-
 require 'stringio'
 
+# FIXME too dirty hack :-<
+class CGI
+	def env_table_rack
+		$RACK_ENV
+	end
+
+	alias :env_table_orig :env_table
+	alias :env_table :env_table_rack
+end
+
 module TDiary
 	class Dispatcher
 
@@ -14,6 +24,11 @@ module TDiary
 
 		def initialize( target )
 			@target = TARGET[target]
+		end
+
+		def call( env )
+			req = adopt_rack_request_to_plain_old_tdiary_style( env )
+			dispatch_cgi( req )
 		end
 
 		# FIXME rename method name to more suitable one.
@@ -65,6 +80,27 @@ module TDiary
 				new( :update )
 			end
 			private :new
+		end
+
+	private
+
+		def adopt_rack_request_to_plain_old_tdiary_style( env )
+			req = TDiary::Request.new( env )
+			req.params # fill params to tdiary_request
+			$RACK_ENV = req.env
+			env["rack.input"].rewind
+			fake_stdin_as_params
+			req
+		end
+
+		def fake_stdin_as_params
+			stdin_spy = StringIO.new( "" )
+			# FIXME dirty hack
+			if $RACK_ENV && $RACK_ENV['rack.input']
+				stdin_spy.print( $RACK_ENV['rack.input'].read )
+				stdin_spy.rewind
+			end
+			$stdin = stdin_spy
 		end
 	end
 end
