@@ -83,10 +83,13 @@ module TDiary
 			return if @filters
 
 			@filters = []
-			filter_path = @conf.filter_path || "#{PATH}/tdiary/filter"
-			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
-				require file.untaint
-				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf )
+			filter_paths = @conf.filter_path ||
+				[PATH, TDiary.server_root].map {|base| ["#{base}/tdiary/filter"] }
+			[filter_paths].flatten.uniq.each do |filter_path|
+				Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
+					require file.untaint
+					@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf )
+				end
 			end
 		end
 
