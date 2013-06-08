@@ -857,7 +857,7 @@ def saveconf_theme
 		next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
 		name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
 		[theme,name]
-	}.compact
+	}.compact.uniq
 end
 
 # comments
