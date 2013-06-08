@@ -851,13 +851,13 @@ def saveconf_theme
 		@conf.css = @cgi.params['css'][0]
 	end
 
-	@conf_theme_list = []
-	Dir::glob( "#{::TDiary::PATH}/theme/*" ).sort.each do |dir|
+	theme_paths = [::TDiary::PATH, TDiary.server_root].map {|d| "#{d}/theme/*" }
+	@conf_theme_list = Dir::glob( theme_paths ).sort.map {|dir|
 		theme = dir.sub( %r[.*/theme/], '')
 		next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
 		name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
-		@conf_theme_list << [theme,name]
-	end
+		[theme,name]
+	}.compact
 end
 
 # comments
