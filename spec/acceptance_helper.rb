@@ -3,6 +3,7 @@ require 'sprockets'
 
 Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
+require 'tdiary/application'
 Capybara.app = Rack::Builder.new do
 	map '/' do
 		run TDiary::Dispatcher.index

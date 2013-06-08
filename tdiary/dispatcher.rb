@@ -1,16 +1,6 @@
 # -*- coding: utf-8; -*-
 require 'stringio'
 
-# FIXME too dirty hack :-<
-class CGI
-	def env_table_rack
-		$RACK_ENV
-	end
-
-	alias :env_table_orig :env_table
-	alias :env_table :env_table_rack
-end
-
 module TDiary
 	class Dispatcher
 
