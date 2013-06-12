@@ -81,6 +81,8 @@ module TDiary
 		method_option "port", :aliases => "p", :type => :numeric, :default => 19292, :banner =>
 			"use PORT"
 		def server
+			require 'tdiary'
+
 			if options[:cgi]
 				opts = {
 					:daemon => ENV['DAEMON'],
