@@ -3,8 +3,6 @@
 # Set up gems listed in the Gemfile.
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
-require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
-
 if defined?(Bundler)
   env = [:default]
   env << :development if ENV['RACK_ENV'].nil? || ENV['RACK_ENV'].empty?
