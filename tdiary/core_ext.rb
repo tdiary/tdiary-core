@@ -102,8 +102,13 @@ module Safe
 		result = nil
 		if $SAFE < level then
 			Proc.new {
-				$SAFE = level
-				result = yield
+				begin
+					$SAFE = level
+				rescue ArgumentError => e
+					# $SAFE=4 was removed from Ruby 2.1.0.
+				ensure
+					result = yield
+				end
 			}.call
 		else
 			result = yield
