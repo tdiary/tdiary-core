@@ -72,8 +72,13 @@ module TDiary
 
 		def valid_plugin_syntax?(code)
 			lambda {
-				$SAFE = 4
-				eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
+				begin
+					$SAFE = 4
+				rescue ArgumentError
+					# $SAFE=4 was removed from Ruby 2.1.0.
+				ensure
+					eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
+				end
 			}.call
 		rescue SyntaxError
 			lambda { eval('') }.call
