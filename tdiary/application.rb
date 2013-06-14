@@ -43,8 +43,10 @@ module TDiary
 
 	Application.configure do
 		config.assets_paths.concat %w(js theme).map {|path|
-			File.join(TDiary.root, path)
-		}
+			[TDiary.root, TDiary.server_root].map {|base_dir|
+				File.join(base_dir, path)
+			}
+		}.flatten.uniq
 
 		config.builder do
 			map Application.config.path[:index] do
