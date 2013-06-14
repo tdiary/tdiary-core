@@ -37,9 +37,12 @@ module TDiary
 
 		def load_styles
 			@styles = {}
-			paths = @tdiary.conf.options['style.path'] || ["#{TDiary::PATH}/tdiary/style", "#{TDiary::PATH}/tdiary"]
-			[paths].flatten.each do |path|
-				path = path.sub(/\/+$/, '')
+			paths = @tdiary.conf.options['style.path'] ||
+				[TDiary::PATH, TDiary.server_root].map {|base|
+					["#{base}/tdiary/style", "#{base}/tdiary"]
+				}
+			[paths].flatten.uniq.each do |path|
+				path = path.sub(/\/+$/, '').untaint
 				Dir.glob("#{path}/*_style.rb") do |style_file|
 					require style_file.untaint
 					style = File.basename(style_file).sub(/_style\.rb$/, '')
