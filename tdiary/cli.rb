@@ -55,6 +55,21 @@ module TDiary
 			say 'update finished', :green
 		end
 
+		desc "assets_copy", "copy assets files"
+		def assets_copy
+			require 'tdiary/environment'
+			assets_path = File.join(TDiary.server_root, 'public/assets')
+			TDiary::Application.config.assets_paths.each do |path|
+				Dir.glob(File.join(path, '*')).each do |entity|
+					if File.directory?(entity)
+						directory entity, File.join(assets_path, File.basename(entity))
+					else
+						copy_file entity, File.join(assets_path, File.basename(entity))
+					end
+				end
+			end
+		end
+
 		desc "test", "Create test server and run tDiary test"
 		def test
 			target = File.join(Dir.pwd, 'tmp/test')
@@ -81,7 +96,7 @@ module TDiary
 		method_option "port", :aliases => "p", :type => :numeric, :default => 19292, :banner =>
 			"use PORT"
 		def server
-			require 'tdiary'
+			require 'tdiary/environment'
 
 			if options[:cgi]
 				opts = {
@@ -105,7 +120,7 @@ module TDiary
 					:AccessLog   => $stderr,
 					:config      => File.expand_path("config.ru")
 				}
-				Rack::Server.start( opts )
+				::Rack::Server.start( opts )
 			end
 		end
 
