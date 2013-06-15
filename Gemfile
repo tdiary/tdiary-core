@@ -18,10 +18,6 @@ end
 
 gem 'coffee-script', :group => [:development, :test]
 
-gem 'omniauth'
-gem 'omniauth-twitter'
-gem 'omniauth-github'
-
 gem 'dalli'
 gem 'redis'
 gem 'redis-namespace'
