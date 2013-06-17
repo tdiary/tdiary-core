@@ -11,7 +11,7 @@ module TDiary
 
 			def call( env )
 				result = @file.call( env )
-				if result[0].to_i == 404
+				if result[0].to_i >= 400 && result[0].to_i < 500
 					@app.call( env )
 				else
 					result

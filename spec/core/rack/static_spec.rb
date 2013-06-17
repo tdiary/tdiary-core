@@ -18,5 +18,10 @@ describe TDiary::Rack::Static do
 			get '/index.rb'
 			last_response.status.should be 500
 		end
+
+		it 'should run the app when post method' do
+			post '/index.rb'
+			last_response.status.should be 500
+		end
 	end
 end
