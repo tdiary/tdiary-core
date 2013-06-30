@@ -1,65 +1,21 @@
 インストールマニュアル
-===========
+======================
 
-tDiaryのインストールと設定
-----------------
+tDiaryの設置
+------------
 
-一般的なCGIの実行を許可しているISPやレンタルサーバ上で利用する場合を想定し、以下のような環境を例に説明します。
+tDiaryは様々な環境で動作します。それぞれの環境にあわせた設置手順を参照してください。
 
-  - WWWサーバ: Apache 1.3.x
-  - ユーザ名: foo
-  - 日記のURL: http://www.hoge.example.org/~foo/diary/
-  - 上記URLのパス: /home/foo/public\_html/diary
+ - 独自サーバ、VPSサーバなどのRack環境 … [INSTALL-rack.html](INSTALL-rack.html)
+ - Heroku、SqaleなどのPaaS環境 … [INSTALL-paas.html](INSTALL-paas.html)
+ - レンタルサーバなどのCGI環境 … [INSTALL-cgi.html](INSTALL-cgi.html)
 
-### CGIスクリプトの設定
-
-配布アーカイブを展開し、中身をすべて/home/foo/public\_html/diaryにコピーします。以下の2つのファイルがCGIスクリプト本体なので、WWWサーバの権限で実行可能なようにパーミッションを設定してください。
-
-  - index.rb
-  - update.rb
-
-また、/usr/bin/envを使った起動ができない環境では、各ファイルの先頭を、rubyのパスに書き換える必要があるでしょう。ISPのホームディレクトリにこっそりRubyを入れたような場合を除き、通常はあまり気にしなくても良いはずです。
-
-### .htaccessの作成
-
-続いて、CGIの実行環境を整えます。dot.htaccessを.htaccessにリネームして、環境に合わせて書き換えます。添付のサンプルは以下のようになっています。
-
-```
-Options +ExecCGI
-AddHandler cgi-script .rb
-DirectoryIndex index.rb
-
-<Files "*.rhtml">
-   deny from all
-</Files>
-
-<Files "tdiary.*">
-   deny from all
-</Files>
-
-<Files update.rb>
-AuthName      tDiary
-AuthType      Basic
-AuthUserFile  /home/foo/.htpasswd
-Require user  foo
-</Files>
-```
-
-ここでは、
-
-  - CGIの実行を可能にし、
-  - サフィックス「.rb」のファイルをCGIと認識させ、
-  - index.rbをデフォルトのファイルに設定し、
-  - *.rhtmlとtdiary.*のファイルの参照を禁止して、
-  - update.rbへのアクセスにはユーザ認証が必要
-
-という設定になっています。とりあえず書き換えが必要なのは、AuthUserFileとRequire userでしょう。意味はWebででも調べて下さい。AuthUseFileは、あらかじめhtpasswdコマンドで作成しておく必要があります(これもWebで調べればわかります)。
-
-また、利用するWWWサーバの設定が、CGIの実行ファイルのサフィックスを固定(例:.cgi)にしている場合があります。この場合、AddHandlerやDirectoryIndexも変更する必要があるでしょう。これに応じて、index.rbやupdate.rbのファイル名も変更する必要があります。
+tDiaryの設定
+------------
 
 ### tdiary.confの作成
 
-次に、tDiaryの設定ファイルであるtdiary.confを作ります。
+tDiaryの設定ファイルであるtdiary.confを作ります。
 
 初めてtDiaryをインストールする人には、付属のtdiary.conf.beginnerを使うのがオススメです。最初に使えるようにしておくと良いプラグインがあらかじめONになっていたり、spamフィルタにある程度の設定がされているなど、インストールしてすぐに使いやすい状態になっています。
 
@@ -111,7 +67,7 @@ load\_cgi\_confはその位置でCGIによる設定を読み込む指令です�
 なお、両者の指定位置は独立しているので、両者の位置を組み合わせることで様々な設定を行うことが可能です。また、@secureを指定しない場合のデフォルト値はtrueです。
 
 tDiaryの実行
----------
+------------
 
 ### 日記の更新
 
@@ -150,7 +106,7 @@ tDiaryにはプラグインと呼ばれる機能があります。プラグイ�
 日記をつけ続けるだけです(これが一番難しい:-)。Have fun!!
 
 著作権、サポートなど
-----------
+--------------------
 
 tDiary本体は、原作者であるただただし(t@tdtds.jp)が、GPL2の元で配布、改変を許可するフリーソフトウェアです。
 
