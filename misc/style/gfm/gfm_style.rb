@@ -103,6 +103,10 @@ module TDiary
 			if r =~ /<a href="<a href="/
 				r.gsub!(/<a href="<a href=".*?" rel="nofollow">(.*?)<\/a>">(.*?)<\/a>/){ "<a href=\"#{$1}\" rel=\"nofollow\">#{$2}</a>" }
 			end
+      # ignore auto imagelink
+			if r =~ /<img src="<a href="/
+				r.gsub!(/<img src="<a href=".*?" rel="nofollow">(.*?)<\/a>"(?: alt="(.*?)")?>/){ "<img src=\"#{$1}\" alt=\"#{$2}\">" }
+			end
 
 			# emoji
 			r = r.emojify

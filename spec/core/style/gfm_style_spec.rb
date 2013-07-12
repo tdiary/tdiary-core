@@ -130,6 +130,32 @@ http://www.google.com
 		it { @diary.to_html.should eq @html }
 	end
 
+  describe 'auto imagelink' do
+		before do
+			source = <<-EOF
+# subTitle
+
+![](http://www.google.com/logo.jpg)
+
+![google](http://www.google.com/logo.jpg)
+         EOF
+			@diary.append(source)
+			@html = <<-EOF
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><img src="http://www.google.com/logo.jpg" alt=""></p>
+
+<p><img src="http://www.google.com/logo.jpg" alt="google"></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+         EOF
+		end
+
+		it { @diary.to_html.should eq @html }
+
+  end
+
 	describe 'url syntax with code blocks' do
 		before do
 			source = <<-'EOF'
