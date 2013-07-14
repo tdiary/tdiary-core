@@ -172,6 +172,28 @@ aaa</p>
 		end
 	end
 
+	describe 'fn' do
+		context 'my' do
+			before do
+				source = <<-'EOF'
+((-((<20130714>))-))
+				EOF
+				@diary.append(source)
+			end
+
+			before do
+				@html = <<-'EOF'
+<div class="section">
+<%=section_enter_proc( Time::at( 1041346800 ))%>
+<p><%=fn apply_plugin( "<%=my \"20130714\",\"20130714\"%%>" ) %></p>
+<%=section_leave_proc( Time::at( 1041346800 ))%>
+</div>
+				EOF
+			end
+			it { @diary.to_html.should eq @html }
+		end
+	end
+
 	describe 'test_rd_on_error' do
 		context 'link' do
 			before do
