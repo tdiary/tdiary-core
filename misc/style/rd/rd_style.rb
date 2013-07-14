@@ -99,8 +99,8 @@ module RD
 		end
 
 		def apply_to_Footnote(element, content)
-			heredoc_id = "%0.32b" % rand( 0x100000000 )
-			%Q|<%=fn <<'#{heredoc_id}' \n #{content.join}\n#{heredoc_id}\n%>|
+			escaped_content = content.join.gsub( /%>/, "%%>" )
+			%Q|<%=fn apply_plugin( #{escaped_content.dump} ) %>|
 		end
 
 		def apply_to_RefToElement(element, content)
