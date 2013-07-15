@@ -22,7 +22,7 @@ module TDiary
 		end
 
 		# FIXME rename method name to more suitable one.
-		def dispatch_cgi( request, cgi = CGI.new )
+		def dispatch_cgi(request, cgi = CGI.new)
 			result = @target.run( request, cgi )
 			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
 			result.to_a
@@ -62,6 +62,7 @@ module TDiary
 			def update
 				new( :update )
 			end
+
 			private :new
 		end
 
@@ -76,11 +77,11 @@ module TDiary
 			req
 		end
 
+		# FIXME dirty hack
 		def fake_stdin_as_params
-			stdin_spy = StringIO.new( "" )
-			# FIXME dirty hack
+			stdin_spy = StringIO.new
 			if $RACK_ENV && $RACK_ENV['rack.input']
-				stdin_spy.print( $RACK_ENV['rack.input'].read )
+				stdin_spy.print($RACK_ENV['rack.input'].read)
 				stdin_spy.rewind
 			end
 			$stdin = stdin_spy
