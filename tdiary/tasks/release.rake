@@ -11,7 +11,7 @@ TARBALLS = []
 def fetch_files( repo )
 	Dir.chdir("tmp") do
 		rm_rf repo rescue true
-		sh "git clone --depth 1 https://github.com/tdiary/#{repo}.git #{repo}"
+		sh "git clone --depth 10 https://github.com/tdiary/#{repo}.git #{repo}"
 	end
 end
 
