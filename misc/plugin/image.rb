@@ -138,9 +138,9 @@ end
 #
 
 def image_info( f )
-	require 'image_size'
-	info = ImageSize::new( f.read )
-	[info.get_type.downcase.sub( /jpeg/, 'jpg' ), info.get_size].flatten
+	require 'fastimage'
+	info = FastImage.new( f.read )
+	[info.type.to_s.sub( /jpeg/, 'jpg' ), info.size].flatten
 end
 
 def image_ext
