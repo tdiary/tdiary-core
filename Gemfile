@@ -16,6 +16,9 @@ end
 # use edge tDiary contrib
 # gem 'tdiary-contrib', :git => 'git@github.com:tdiary/tdiary-contrib.git'
 
+# if you use assets pipeline, uncomment this line
+# gem 'sprockets'
+
 gem 'coffee-script', :group => [:development, :test]
 
 gem 'dalli'
