@@ -1,25 +1,18 @@
 # -*- coding: utf-8 -*-
 # stolen from okkez http://github.com/hiki/hiki/blob/rack/hiki/request.rb
 module TDiary
-	if Object.const_defined?( :Rack )
-		Request = ::Rack::Request
-		class ::Rack::Request
-			alias remote_addr ip
+	class Request < ::Rack::Request
+		include RequestExtension
+
+		attr_reader :env, :cgi
+
+		def initialize( env, cgi = nil )
+			@env = env
+			@cgi = cgi
 		end
-		Request.class_eval { include RequestExtension }
-	else
-		raise RuntimeError, 'Do not use CGI class!' if Object.const_defined?( :Rack )
-		# CGI を Rack::Request っぽいインターフェイスに変換する
-		class Request
-			include RequestExtension
 
-			attr_reader :env, :cgi
-			def initialize( env, cgi = CGI.new )
-				@cgi = cgi
-				@env = env
-			end
-
-			def params
+		def params
+			if @cgi
 				return @params if @params
 				@params = { }
 				@cgi.params.each{|k, v|
@@ -34,73 +27,141 @@ module TDiary
 					end
 				}
 				@params
+			else
+				super
 			end
+		end
 
-			def []( key )
+		def []( key )
+			if @cgi
 				params[key.to_s]
+			else
+				super
 			end
+		end
 
-			def []=( key, val )
+		def []=( key, val )
+			if @cgi
 				params[key.to_s] = val
+			else
+				super
 			end
+		end
 
-			def request_method
+		def request_method
+			if @cgi
 				@env['REQUEST_METHOD']
+			else
+				super
 			end
+		end
 
-			def header( header )
+		def header( header )
+			if @cgi
 				@cgi.header( header )
+			else
+				super
 			end
+		end
 
-			def get?
+		def get?
+			if @cgi
 				request_method == 'GET'
+			else
+				super
 			end
+		end
 
-			def head?
+		def head?
+			if @cgi
 				request_method == 'HEAD'
+			else
+				super
 			end
+		end
 
-			def post?
+		def post?
+			if @cgi
 				request_method == 'POST'
+			else
+				super
 			end
+		end
 
-			def put?
+		def put?
+			if @cgi
 				request_method == 'PUT'
+			else
+				super
 			end
+		end
 
-			def delete?
+		def delete?
+			if @cgi
 				request_method == 'DELETE'
+			else
+				super
 			end
+		end
 
-			def xhr?
+		def xhr?
+			if @cgi
 				@env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
+			else
+				super
 			end
+		end
 
-			def accept_encoding
+		def accept_encoding
+			if @cgi
 				raise NameError, 'not implemented : accept_encoding'
+			else
+				super
 			end
+		end
 
-			def body
+		def body
+			if @cgi
 				raise NameError, 'not implemented : body'
+			else
+				super
 			end
+		end
 
-			def content_charset
+		def content_charset
+			if @cgi
 				@env['CONTENT_CHARSET']
+			else
+				super
 			end
+		end
 
-			def content_length
+		def content_length
+			if @cgi
 				@env['CONTENT_LENGTH']
+			else
+				super
 			end
+		end
 
-			def content_type
+		def content_type
+			if @cgi
 				@env['CONTENT_TYPE']
+			else
+				super
 			end
+		end
 
-			def remote_addr
+		def remote_addr
+			if @cgi
 				@env['REMOTE_ADDR']
+			else
+				super
 			end
+		end
 
-			def cookies
+		def cookies
+			if @cgi
 				return @cookies if @cookies
 				@cookies = { }
 				@cgi.cookies.each{|k, v|
@@ -114,96 +175,187 @@ module TDiary
 					end
 				}
 				@cookies
+			else
+				super
 			end
+		end
 
-			def form_data?
+		def form_data?
+			if @cgi
 				raise NameError, 'not implemented : form_data?'
+			else
+				super
 			end
+		end
 
-			def fullpath
+		def fullpath
+			if @cgi
 				raise NameError, 'not implemented : fullpath'
+			else
+				super
 			end
+		end
 
-			def host
+		def host
+			if @cgi
 				# Remove port number.from Rack::Response
 				( @env["HTTP_HOST"] || @env["SERVER_NAME"] ).gsub( /:\d+\z/, '' )
+			else
+				super
 			end
+		end
 
-			def ip
+		def ip
+			if @cgi
 				raise NameError, 'not implemented : ip'
+			else
+				super
 			end
+		end
+		alias remote_addr ip
 
-			def media_type
+		def media_type
+			if @cgi
 				raise NameError, 'not implemented : madia_type'
+			else
+				super
 			end
+		end
 
-			def media_type_params
+		def media_type_params
+			if @cgi
 				raise NameError, 'not implemented : media_type_params'
+			else
+				super
 			end
+		end
 
-			def openid_request
+		def openid_request
+			if @cgi
 				raise NameError, 'not implemented : openid_request'
+			else
+				super
 			end
+		end
 
-			def openid_response
+		def openid_response
+			if @cgi
 				raise NameError, 'not implemented : openid_response'
+			else
+				super
 			end
+		end
 
-			def parseable_data?
+		def parseable_data?
+			if @cgi
 				raise NameError, 'not implemented : parseable_data?'
+			else
+				super
 			end
+		end
 
-			def path
+		def path
+			if @cgi
 				raise NameError, 'not implemented : path'
+			else
+				super
 			end
+		end
 
-			def path_info
-				@env['PATH_INFO'].to_s
+		def path_info
+			if @cgi
+				raise NameError, 'not implemented : path'
+			else
+				super
 			end
+			w		end
 
-			def path_info=( s )
+		def path_info=( s )
+			if @cgi
 				raise NameError, 'not implemented : path_info='
+			else
+				super
 			end
+		end
 
-			def port
+		def port
+			if @cgi
 				raise NameError, 'not implemented : port'
+			else
+				super
 			end
+		end
 
-			def query_string
+		def query_string
+			if @cgi
 				raise NameError, 'not implemented : query_string'
+			else
+				super
 			end
+		end
 
-			def referer
+		def referer
+			if @cgi
 				raise NameError, 'not implemented : referer'
+			else
+				super
 			end
-			alias referrer referer
+		end
+		alias referrer referer
 
-			def schema
+		def schema
+			if @cgi
 				raise NameError, 'not implemented : schema'
+			else
+				super
 			end
+		end
 
-			def script_name
+		def script_name
+			if @cgi
 				@env['SCRIPT_NAME']
+			else
+				super
 			end
+		end
 
-			def session_options
+		def session_options
+			if @cgi
 				raise NameError, 'not implemented : session_options'
+			else
+				super
 			end
+		end
 
-			def url
+		def url
+			if @cgi
 				raise NameError, 'not implemented : url'
+			else
+				super
 			end
+		end
 
-			def user_agent
+		def user_agent
+			if @cgi
 				@cgi.user_agent
+			else
+				super
 			end
+		end
 
-			def base_url
+		def base_url
+			if @cgi
 				@cgi.base_url
+			else
+				super
 			end
+		end
 
-			def values_at( *keys )
+		def values_at( *keys )
+			if @cgi
 				raise NameError, 'not implemented : values_at'
+			else
+				super
 			end
 		end
 	end
