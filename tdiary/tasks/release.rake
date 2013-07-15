@@ -25,7 +25,7 @@ REPOS.each_with_index do |repo, i|
 end
 
 def make_tarball( repo, version = nil )
-	suffix = version ? "-#{version}" : ''
+	suffix = version ? "-#{version}" : '-snapshot'
 	dest = "#{repo == 'tdiary-core' ? 'tdiary' : repo}#{suffix}"
 
 	if version then
@@ -86,8 +86,8 @@ task :snapshot => REPOS do
 			mv d, "tdiary-core/theme/"
 		end
 		mv "tdiary-core", "tdiary"
-		sh "tar zcf tdiary-full.tar.gz tdiary"
-		TARBALLS << "tdiary-full.tar.gz"
+		sh "tar zcf tdiary-full-snapshot.tar.gz tdiary"
+		TARBALLS << "tdiary-full-snapshot.tar.gz"
 		rm_rf "tdiary"
 		REPOS.each {|repo| rm_rf repo rescue true }
 	end
