@@ -8,8 +8,6 @@
 #
 BEGIN { $stdout.binmode }
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile.cgi', __FILE__)
-
 begin
 	if FileTest::symlink?( __FILE__ ) then
 		org_path = File::dirname( File::readlink( __FILE__ ) ).untaint
