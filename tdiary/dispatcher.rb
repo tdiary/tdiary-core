@@ -44,7 +44,7 @@ module TDiary
 
 			# stolen from Rack::Handler::CGI.send_body
 			def send_body( body )
-				body.lines.each { |part|
+				body.each { |part|
 					$stdout.print part
 					$stdout.flush
 				}
