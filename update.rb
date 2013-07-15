@@ -27,9 +27,10 @@ begin
 		@cgi = CGI::new(:accept_charset => 'shift_jis')
 		@cgi.params = cgi.params.dup
 	end
+
 	request = TDiary::Request.new( ENV, @cgi )
 	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
-	headers['type'] = headers.delete('Content-Type')
+
 	TDiary::Dispatcher.send_headers( status, headers )
 	::Rack::Handler::CGI.send_body(body)
 rescue Exception

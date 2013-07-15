@@ -30,11 +30,12 @@ module TDiary
 
 		class << self
 			# stolen from Rack::Handler::CGI.send_headers
-			def send_headers( status, headers )
+			def send_headers(status, headers)
 				begin
-					$stdout.print CGI.new.header( {'Status'=>status}.merge(headers) )
+					headers['type'] = headers.delete('Content-Type')
+					$stdout.print CGI.new.header({'Status'=>status}.merge(headers))
 				rescue EOFError
-					charset = headers.delete( 'charset' )
+					charset = headers.delete('charset')
 					headers['Content-Type'] ||= headers.delete( 'type' )
 					headers['Content-Type'] += "; charset=#{charset}" if charset
 					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
