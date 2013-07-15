@@ -42,14 +42,6 @@ module TDiary
 				$stdout.flush
 			end
 
-			# stolen from Rack::Handler::CGI.send_body
-			def send_body( body )
-				body.each { |part|
-					$stdout.print part
-					$stdout.flush
-				}
-			end
-
 			# FIXME temporary method during (scratch) refactoring
 			def extract_status_for_legacy_tdiary( head )
 				status_str = head.delete('status')

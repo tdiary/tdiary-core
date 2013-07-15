@@ -31,8 +31,7 @@ begin
 	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
 	headers['type'] = headers.delete('Content-Type')
 	TDiary::Dispatcher.send_headers( status, headers )
-	TDiary::Dispatcher.send_body( body )
-
+	::Rack::Handler::CGI.send_body(body)
 rescue Exception
 	if @cgi then
 		print @cgi.header( 'status' => '500 Internal Server Error', 'type' => 'text/html' )
