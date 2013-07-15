@@ -390,7 +390,7 @@ def script_tag
 end
 
 def theme_url
-	defined?(Sprockets) ? 'assets' : 'theme'
+	defined?(::Sprockets) ? 'assets' : 'theme'
 end
 
 def css_tag
