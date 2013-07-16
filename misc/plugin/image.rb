@@ -180,8 +180,7 @@ if /^formplugin$/ =~ @mode then
 		images = image_list( date )
 	   if @cgi.params['plugin_image_addimage'][0]
 			@cgi.params['plugin_image_file'].each do |file|
-				filename = file.original_filename
-				extension, = image_info( filename )
+				extension, = image_info( file.path )
 				file.rewind
 
 				if extension =~ /\A(#{image_ext})\z/i
