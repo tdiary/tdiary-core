@@ -26,8 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rdtool', '>= 0.6.0'
   spec.add_dependency 'fastimage'
 
-  spec.add_dependency 'sprockets', '~> 2.10'
-
   spec.add_dependency 'thor', '~> 0.18'
   spec.add_dependency "bundler", "~> 1.3"
+
+  spec.add_development_dependency 'sprockets'
 end
