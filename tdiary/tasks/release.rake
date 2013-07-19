@@ -8,24 +8,15 @@ REPOS = %w(tdiary-core tdiary-theme tdiary-blogkit tdiary-contrib)
 DEST_DIR = "/var/www/tdiary.org/htdocs/download"
 TARBALLS = []
 
-#
-# utilities
-#
 def fetch_files( repo )
 	Dir.chdir("tmp") do
 		rm_rf repo rescue true
-		sh "git clone --depth 1 git://github.com/tdiary/#{repo}.git #{repo}"
-	end
-end
-
-REPOS.each_with_index do |repo, i|
-	file REPOS[i] do |t|
-		fetch_files(t.name)
+		sh "git clone --depth 10 https://github.com/tdiary/#{repo}.git #{repo}"
 	end
 end
 
 def make_tarball( repo, version = nil )
-	suffix = version ? "-#{version}" : ''
+	suffix = version ? "-#{version}" : '-snapshot'
 	dest = "#{repo == 'tdiary-core' ? 'tdiary' : repo}#{suffix}"
 
 	if version then
@@ -57,13 +48,30 @@ def make_tarball( repo, version = nil )
 	TARBALLS << "#{dest}.tar.gz"
 end
 
-#
-# tasks
-#
+def make_full_package(version = nil)
+	suffix = version ? "-#{version}" : '-snapshot'
+	Dir.chdir("tmp") do
+		TARBALLS.clear
+		REPOS.each do |repo|
+			make_tarball( repo, version )
+		end
+		Dir["tdiary-theme/*"].each do |d|
+			mv d, "tdiary-core/theme/" rescue true
+		end
+		mv "tdiary-core", "tdiary#{suffix}"
+		sh "tar zcf tdiary-full#{suffix}.tar.gz tdiary#{suffix}"
+		TARBALLS << "tdiary-full#{suffix}.tar.gz"
+		rm_rf "tdiary#{suffix}"
+		REPOS.each {|repo| rm_rf repo rescue true }
+	end
+end
+
 task :default => :snapshot
 
 desc 'fetching all files from GitHub.'
-task :fetch => REPOS
+task :fetch do
+	REPOS.each{|r| fetch_files(r) }
+end
 
 desc 'releasing all files'
 task :release do
@@ -76,39 +84,13 @@ task :release do
 end
 
 desc 'making packages of snapshot.'
-task :snapshot => REPOS do
-	Dir.chdir("tmp") do
-		TARBALLS.clear
-		REPOS.each do |repo|
-			make_tarball( repo )
-		end
-		Dir["tdiary-theme/*"].each do |d|
-			mv d, "tdiary-core/theme/"
-		end
-		mv "tdiary-core", "tdiary"
-		sh "tar zcf tdiary-full.tar.gz tdiary"
-		TARBALLS << "tdiary-full.tar.gz"
-		rm_rf "tdiary"
-		REPOS.each {|repo| rm_rf repo rescue true }
-	end
+task :snapshot => :fetch do
+	make_full_package
 end
 
 desc 'making packages of stable.'
-task :stable => REPOS do
-	Dir.chdir("tmp") do
-		TARBALLS.clear
-		REPOS.each do |repo|
-			make_tarball( repo, STABLE )
-		end
-		Dir["tdiary-theme/*"].each do |d|
-			mv d, "tdiary-core/theme/" rescue true
-		end
-		mv "tdiary-core", "tdiary-#{STABLE}"
-		sh "tar zcf tdiary-full-#{STABLE}.tar.gz tdiary-#{STABLE}"
-		TARBALLS << "tdiary-full-#{STABLE}.tar.gz"
-		rm_rf "tdiary-#{STABLE}"
-		REPOS.each {|repo| rm_rf repo rescue true }
-	end
+task :stable => :fetch do
+	make_full_package(STABLE)
 end
 
 desc 'cleanup all files.'
