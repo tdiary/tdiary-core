@@ -368,7 +368,7 @@ def script_tag_query_string
 end
 
 def js_url
-	defined?(::Sprockets) ? 'assets' : 'js'
+	@cgi ? 'js' : 'assets'
 end
 
 def script_tag
@@ -390,7 +390,7 @@ def script_tag
 end
 
 def theme_url
-	defined?(::Sprockets) ? 'assets' : 'theme'
+	@cgi ? 'theme' : 'assets'
 end
 
 def css_tag

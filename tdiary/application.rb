@@ -72,7 +72,7 @@ module TDiary
 				end
 
 				run environment
-			end if defined?(::Sprockets)
+			end
 		end
 
 		config.authenticate TDiary::Rack::Auth::Basic, '.htpasswd'
