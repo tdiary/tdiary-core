@@ -86,13 +86,11 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
 			size = %Q| width="#{size.to_i}"|
 		end
 	elsif @image_maxwidth and not @conf.secure then
-		File::open( "#{@image_dir}/#{image}".untaint, 'rb' ) do |f|
-			t, w, h = image_info( f )
-			if w > @image_maxwidth then
-				size = %Q[ width="#{h @image_maxwidth}"]
-			else
-				size = ""
-			end
+		t, w, h = image_info( "#{@image_dir}/#{image}".untaint )
+		if w > @image_maxwidth then
+			size = %Q[ width="#{h @image_maxwidth}"]
+		else
+			size = ""
 		end
 	end
 	if thumbnail then
@@ -138,9 +136,9 @@ end
 #
 
 def image_info( f )
-	require 'image_size'
-	info = ImageSize::new( f.read )
-	[info.get_type.downcase.sub( /jpeg/, 'jpg' ), info.get_size].flatten
+	require 'fastimage'
+	info = FastImage.new( f )
+	[info.type.to_s.sub( /jpeg/, 'jpg' ), info.size].flatten
 end
 
 def image_ext
@@ -182,10 +180,9 @@ if /^formplugin$/ =~ @mode then
 		images = image_list( date )
 	   if @cgi.params['plugin_image_addimage'][0]
 			@cgi.params['plugin_image_file'].each do |file|
-				filename = file.original_filename
-				extension, = image_info( file )
+				extension, = image_info( file.path )
 				file.rewind
-				
+
 				if extension =~ /\A(#{image_ext})\z/i
 					begin
 						size = file.size
@@ -237,7 +234,7 @@ add_form_proc do |date|
 			if @conf.secure then
 				img_type, img_w, img_h = 'jpg', nil, nil
 			else
-				img_type, img_w, img_h = open(File.join(@image_dir,img).untaint, 'rb') {|f| image_info(f)}
+				img_type, img_w, img_h = image_info(File.join(@image_dir,img).untaint)
 			end
 			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			if @conf.secure then

@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rake', '>= 10.0.0'
   spec.add_dependency 'hikidoc', '>= 0.0.6'
   spec.add_dependency 'rdtool', '>= 0.6.0'
-  spec.add_dependency 'imagesize', '>= 0.1.0'
+  spec.add_dependency 'fastimage'
 
   spec.add_dependency 'sprockets', '~> 2.10'
 
