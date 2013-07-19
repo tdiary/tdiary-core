@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'sprockets'
 
 Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 

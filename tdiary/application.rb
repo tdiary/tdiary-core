@@ -2,7 +2,6 @@
 require 'rack/builder'
 require 'tdiary/application/configuration'
 require 'tdiary/rack'
-require 'sprockets'
 
 # FIXME too dirty hack :-<
 class CGI
@@ -73,7 +72,7 @@ module TDiary
 				end
 
 				run environment
-			end
+			end if defined?(::Sprockets)
 		end
 
 		config.authenticate TDiary::Rack::Auth::Basic, '.htpasswd'
