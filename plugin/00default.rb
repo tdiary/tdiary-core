@@ -368,7 +368,7 @@ def script_tag_query_string
 end
 
 def js_url
-	@cgi ? 'js' : 'assets'
+	@cgi.is_a?(RackCGI) ? 'assets' : 'js'
 end
 
 def script_tag
@@ -390,7 +390,7 @@ def script_tag
 end
 
 def theme_url
-	@cgi ? 'theme' : 'assets'
+	@cgi.is_a?(RackCGI) ? 'assets' : 'theme'
 end
 
 def css_tag

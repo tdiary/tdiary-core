@@ -94,6 +94,8 @@ class CGI
 	end
 end
 
+class RackCGI < CGI; end
+
 =begin
 == Safe module
 =end

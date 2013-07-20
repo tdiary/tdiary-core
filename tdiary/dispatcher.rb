@@ -18,11 +18,11 @@ module TDiary
 
 		def call( env )
 			req = adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_cgi( req )
+			dispatch_cgi(req, RackCGI.new)
 		end
 
 		# FIXME rename method name to more suitable one.
-		def dispatch_cgi(request, cgi = CGI.new)
+		def dispatch_cgi(request, cgi)
 			result = @target.run( request, cgi )
 			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
 			result.to_a
