@@ -26,8 +26,9 @@ class HTMLwithPygments < Redcarpet::Render::HTML
 		require 'pygments'
 		Pygments.highlight(code, :lexer => language)
 	rescue Exception
+ 		escaped = CGI.escapeHTML(code)
 		<<-HTML
-<div class="highlight"><pre>#{code}</pre></div>
+<div class="highlight"><pre>#{escaped}</pre></div>
 		HTML
 	end
 end
