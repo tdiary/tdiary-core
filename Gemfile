@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-if File.exist?('tdiary.gemspec')
+if File.exist?(File.expand_path('../tdiary.gemspec', __FILE__))
 	# directly installed (e.g. git clone, archive file)
 	gemspec
 else
