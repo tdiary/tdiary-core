@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tdiary (3.2.2.20130617)
+    tdiary (3.2.2.20130720)
       bundler (~> 1.3)
       fastimage
       hikidoc (>= 0.0.6)
