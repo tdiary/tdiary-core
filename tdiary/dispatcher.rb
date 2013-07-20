@@ -22,7 +22,7 @@ module TDiary
 		end
 
 		# FIXME rename method name to more suitable one.
-		def dispatch_cgi( request, cgi = CGI.new )
+		def dispatch_cgi(request, cgi = CGI.new)
 			result = @target.run( request, cgi )
 			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
 			result.to_a
@@ -30,24 +30,17 @@ module TDiary
 
 		class << self
 			# stolen from Rack::Handler::CGI.send_headers
-			def send_headers( status, headers )
+			def send_headers(status, headers)
 				begin
-					$stdout.print CGI.new.header( {'Status'=>status}.merge(headers) )
+					headers['type'] = headers.delete('Content-Type')
+					$stdout.print CGI.new.header({'Status'=>status}.merge(headers))
 				rescue EOFError
-					charset = headers.delete( 'charset' )
+					charset = headers.delete('charset')
 					headers['Content-Type'] ||= headers.delete( 'type' )
 					headers['Content-Type'] += "; charset=#{charset}" if charset
 					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
 				end
 				$stdout.flush
-			end
-
-			# stolen from Rack::Handler::CGI.send_body
-			def send_body( body )
-				body.lines.each { |part|
-					$stdout.print part
-					$stdout.flush
-				}
 			end
 
 			# FIXME temporary method during (scratch) refactoring
@@ -69,6 +62,7 @@ module TDiary
 			def update
 				new( :update )
 			end
+
 			private :new
 		end
 
@@ -83,11 +77,11 @@ module TDiary
 			req
 		end
 
+		# FIXME dirty hack
 		def fake_stdin_as_params
-			stdin_spy = StringIO.new( "" )
-			# FIXME dirty hack
+			stdin_spy = StringIO.new
 			if $RACK_ENV && $RACK_ENV['rack.input']
-				stdin_spy.print( $RACK_ENV['rack.input'].read )
+				stdin_spy.print($RACK_ENV['rack.input'].read)
 				stdin_spy.rewind
 			end
 			$stdin = stdin_spy

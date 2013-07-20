@@ -32,7 +32,7 @@ tDiaryのダウンロードサイトから、配布アーカイブを取得し�
 % git clone git://github.com/tdiary/tdiary-core.git
 % mv tdiary-core tdiary
 % cd tdiary
-% bundle install --gemfile Gemfile.cgi
+% bundle install
 ```
 
 ## CGIスクリプトの設定

@@ -16,28 +16,34 @@ end
 # use edge tDiary contrib
 # gem 'tdiary-contrib', :git => 'git@github.com:tdiary/tdiary-contrib.git'
 
-# if you use assets pipeline, uncomment this line
-# gem 'sprockets'
+group :coffee do
+  gem 'coffee-script'
+  gem 'therubyracer'
+end
 
-gem 'coffee-script', :group => [:development, :test]
+group :memcached do
+  gem 'dalli'
+end
 
-gem 'dalli'
-gem 'redis'
-gem 'redis-namespace'
+group :redis do
+  gem 'redis'
+  gem 'redis-namespace'
+end
 
-platforms :mri do
-  gem 'thin'
-
-  # if you don't have JavaScript processor, uncomment this line.
-  # gem 'therubyracer'
-
+group :gfm do
   gem 'redcarpet'
   gem 'pygments.rb'
   gem 'twitter-text', :require => false
 end
 
-platforms :jruby do
-  gem 'trinidad'
+group :server do
+  platforms :mri do
+    gem 'thin'
+  end
+
+  platforms :jruby do
+    gem 'trinidad'
+  end
 end
 
 group :development do
