@@ -2,6 +2,7 @@
 require 'spec_helper'
 require 'rack/test'
 require 'fileutils'
+require 'sprockets'
 require 'tdiary/rack/assets/precompile'
 
 if defined?(Encoding)
