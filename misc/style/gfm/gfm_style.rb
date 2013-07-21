@@ -13,22 +13,16 @@
 # You can distribute this under GPL.
 #
 
-begin
-	require 'rubygems'
-rescue LoadError
-ensure
-	require 'redcarpet'
-	require 'twitter-text'
-end
+require 'redcarpet'
+require 'pygments'
+require 'twitter-text'
 
 class HTMLwithPygments < Redcarpet::Render::HTML
 	def block_code(code, language)
-		require 'pygments'
 		Pygments.highlight(code, :lexer => language)
 	rescue Exception
- 		escaped = CGI.escapeHTML(code)
 		<<-HTML
-<div class="highlight"><pre>#{escaped}</pre></div>
+<div class="highlight"><pre>#{CGI.escapeHTML(code)}</pre></div>
 		HTML
 	end
 end
