@@ -105,7 +105,7 @@ class MakeRssFull
 	def file
 		f = @conf['makerss.file'] || 'index.rdf'
 		f = 'index.rdf' if f.empty?
-		f =~ %r|^/| ? f : "#{TDiary.document_root}/#{f}"
+		f =~ %r|^/| ? f : "#{document_root}/#{f}"
 	end
 
 	def writable?
@@ -137,6 +137,14 @@ class MakeRssFull
 		u = "#{base_url}#{File.basename(file)}" if u.empty?
 		u
 	end
+
+	def document_root
+		if @cgi.is_a?(RackCGI)
+			File.join(TDiary.server_root, 'public')
+		else
+			TDiary.server_root
+		end
+	end
 end
 
 @makerss_rsses << MakeRssFull::new(@conf, @cgi)
@@ -154,7 +162,7 @@ class MakeRssNoComments < MakeRssFull
 	def file
 		f = @conf['makerss.no_comments.file'] || 'no_comments.rdf'
 		f = 'no_comments.rdf' if f.empty?
-		f =~ %r|^/| ? f : "#{TDiary.document_root}/#{f}"
+		f =~ %r|^/| ? f : "#{document_root}/#{f}"
 	end
 
 	def write( encoder )
