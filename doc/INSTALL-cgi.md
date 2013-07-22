@@ -32,8 +32,10 @@ tDiaryのダウンロードサイトから、配布アーカイブを取得し�
 % git clone git://github.com/tdiary/tdiary-core.git
 % mv tdiary-core tdiary
 % cd tdiary
-% bundle install
+% bundle install --without coffee:memcached:redis:gfm:server:development
 ```
+
+上記の例では tDiary を動作させるのに最低限必要なライブラリのみインストールしています。もし、memcached に伽種を保存したり、GFM スタイルを使用する場合は --without オプションから該当ライブラリの文字列を削除して実行してください。
 
 ## CGIスクリプトの設定
 
