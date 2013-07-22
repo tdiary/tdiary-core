@@ -96,7 +96,9 @@ module TDiary
 
 			# ignore duplicate autolink
 			if r =~ /<a href="<a href="/
-				r.gsub!(/<a href="<a href=".*?" rel="nofollow">(.*?)<\/a>">(.*?)<\/a>/){ "<a href=\"#{$1}\" rel=\"nofollow\">#{$2}</a>" }
+				r.gsub!(/<a href="<a href=".*?" rel="nofollow">(.*?)<\/a>"(.*?)>(.*?)<\/a>/) do
+          "<a href=\"#{$1}\" rel=\"nofollow\"#{$2}>#{$3}</a>"
+        end
 			end
       # ignore auto imagelink
 			if r =~ /<img src="<a href="/
