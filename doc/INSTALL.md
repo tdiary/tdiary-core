@@ -29,6 +29,22 @@ tdiary.conf.beginnerをtdiary.confにリネームして、内容を書き換え�
 
 tdiary.confには、他にもいろいろな設定項目を記述できます。これらの項目には以下の3つの種類があります。
 
+tDiary は日記データのキャッシュを PStore ファイルとして保存しますが、設定を変えることによりより高速な memcached を使用することも可能です。memcached をキャッシュの保存先として使用する場合は tdiary.conf を以下のように変更します。
+
+```
+# require 'tdiary/io/cache/file'
+# To use memcache addon
+require 'tdiary/io/cache/memcached'
+```
+
+同様に redis を使用する場合は tdiary.conf を以下のように変更します。
+
+```
+# require 'tdiary/io/cache/file'
+# To use memcache addon
+require 'tdiary/io/cache/redis'
+```
+
 #### CGIで設定できない項目
 
 @data\_pathのように、CGIでは設定できない項目です。これらの項目は、tdiary.confファイルを直接編集して変更しなければいけません。
