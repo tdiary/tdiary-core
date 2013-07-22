@@ -32,17 +32,21 @@ tdiary.confには、他にもいろいろな設定項目を記述できます。
 tDiary は日記データのキャッシュを PStore ファイルとして保存しますが、設定を変えることによりより高速な memcached を使用することも可能です。memcached をキャッシュの保存先として使用する場合は tdiary.conf を以下のように変更します。
 
 ```
+# 以下の行をコメントアウト
 # require 'tdiary/io/cache/file'
-# To use memcache addon
 require 'tdiary/io/cache/memcached'
+require 'tdiary/io/default'
+@io_class = DefaultIO
 ```
 
 同様に redis を使用する場合は tdiary.conf を以下のように変更します。
 
 ```
+# 以下の行をコメントアウト
 # require 'tdiary/io/cache/file'
-# To use memcache addon
 require 'tdiary/io/cache/redis'
+require 'tdiary/io/default'
+@io_class = DefaultIO
 ```
 
 #### CGIで設定できない項目
