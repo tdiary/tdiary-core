@@ -130,15 +130,6 @@ module TDiary
 		def server_root
 			Dir.pwd
 		end
-
-		# directory in which the document is published
-		def document_root
-			if defined?( Rack )
-				File.join(server_root, 'public')
-			else
-				server_root
-			end
-		end
 	end
 end
 
