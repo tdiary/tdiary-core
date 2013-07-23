@@ -29,8 +29,7 @@ tDiaryのダウンロードサイトから、配布アーカイブを取得し�
 次に、gitコマンドでtDiaryのソースコードを取得した後に、 `bundle install` コマンドを実行して外部ライブラリをインストールします。
 
 ```
-% git clone git://github.com/tdiary/tdiary-core.git
-% mv tdiary-core tdiary
+% git clone git://github.com/tdiary/tdiary-core.git tdiary
 % cd tdiary
 % bundle install --without coffee:memcached:redis:gfm:server:development
 ```
