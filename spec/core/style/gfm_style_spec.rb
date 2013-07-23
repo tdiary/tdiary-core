@@ -156,6 +156,28 @@ http://www.google.com
 
   end
 
+  describe 'auto imagelink' do
+		before do
+			source = <<-EOF
+# subTitle
+
+<a href="http://www.exaple.com" target="_blank">Anchor</a>
+         EOF
+			@diary.append(source)
+			@html = <<-EOF
+<div class="section">
+<%=section_enter_proc( Time.at( 1041346800 ) )%>
+<h3><%= subtitle_proc( Time.at( 1041346800 ), "subTitle" ) %></h3>
+<p><a href="http://www.exaple.com" rel="nofollow" target="_blank">Anchor</a></p>
+<%=section_leave_proc( Time.at( 1041346800 ) )%>
+</div>
+         EOF
+		end
+
+		it { @diary.to_html.should eq @html }
+
+  end
+
 	describe 'url syntax with code blocks' do
 		before do
 			source = <<-'EOF'
