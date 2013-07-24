@@ -16,6 +16,12 @@ end
 # use edge tDiary contrib
 # gem 'tdiary-contrib', :git => 'git@github.com:tdiary/tdiary-contrib.git'
 
+gem 'rack'
+gem 'sprockets'
+gem 'hikidoc'
+gem 'rdtool'
+gem 'fastimage'
+
 group :coffee do
   gem 'coffee-script'
   gem 'therubyracer'
@@ -49,6 +55,7 @@ end
 group :development do
   gem 'pit', :require => false
   gem 'racksh', :require => false
+  gem 'rake'
 
   group :test do
     gem 'pry'
