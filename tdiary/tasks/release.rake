@@ -34,7 +34,7 @@ def make_tarball( repo, version = nil )
 			sh "chmod +x index.rb index.fcgi update.rb update.fcgi"
 			sh 'rake doc'
 			Bundler.with_clean_env do
-				sh 'bundle --path .bundle --without coffee:memcached:redis:gfm:server:development'
+				sh 'bundle --path .bundle --without coffee:memcached:redis:gfm:server:development:test'
 			end
 			Dir.chdir 'misc/lib' do
 				sh 'gem unpack bundler'
