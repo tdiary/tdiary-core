@@ -223,6 +223,7 @@ class CGI
 	end
 	def referer; nil; end
 	def user_agent; nil; end
+	def mobile_agent?; nil; end
 	def request_method; 'GET'; end
 end
 
