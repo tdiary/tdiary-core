@@ -72,3 +72,10 @@ group :development do
     gem 'coveralls', :require => false
   end
 end
+
+# https://github.com/redmine/redmine/blob/master/Gemfile#L89
+local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
+if File.exists?(local_gemfile)
+  puts "Loading Gemfile.local ..." if $DEBUG # `ruby -d` or `bundle -v`
+  instance_eval File.read(local_gemfile)
+end
