@@ -18,6 +18,7 @@ module TDiary
 			target = File.join(Dir.pwd, name)
 			deploy(target)
 			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
+			template('misc/templates/Gemfile.local.erb', File.join(target, 'Gemfile.local'))
 
 			unless options[:'skip-bundle']
 				Bundler.with_clean_env do

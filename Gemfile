@@ -1,21 +1,5 @@
 source 'https://rubygems.org'
 
-if File.exist?(File.expand_path('../tdiary.gemspec', __FILE__))
-	# directly installed (e.g. git clone, archive file)
-	gemspec
-else
-	# installed by gem
-	gem 'tdiary'
-
-	# use edge tDiary
-	# gem 'tdiary', :git => 'git@github.com:tdiary/tdiary-core.git'
-end
-
-# if you use tdiary-contrib gem, uncomment this line.
-# gem 'tdiary-contrib'
-# use edge tDiary contrib
-# gem 'tdiary-contrib', :git => 'git@github.com:tdiary/tdiary-contrib.git'
-
 gem 'rack'
 gem 'sprockets'
 gem 'hikidoc'
