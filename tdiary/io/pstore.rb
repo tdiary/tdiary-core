@@ -132,7 +132,7 @@ end
 Management a day of diary
 =end
 class Diary
-	include TDiary::DiaryBase
+	include TDiary::BaseDiary
 	include TDiary::UncategorizableDiary
 
 	def initialize( date, title, body )
