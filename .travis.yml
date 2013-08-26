@@ -4,6 +4,9 @@ rvm:
   - 1.9.3
   - 2.0.0
 
+# ignored --deployment option
+bundler_args: ""
+
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
