@@ -4,9 +4,9 @@ require 'spec_helper'
 require 'tdiary'
 require 'misc/style/emptdiary/emptdiary_style'
 
-describe TDiary::EmptdiaryDiary do
+describe TDiary::Style::EmptdiaryDiary do
 	before do
-		@diary = TDiary::EmptdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
+		@diary = TDiary::Style::EmptdiaryDiary.new(Time::at( 1041346800 ), "TITLE", "")
 	end
 
 	describe '#append' do
