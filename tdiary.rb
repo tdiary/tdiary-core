@@ -131,6 +131,10 @@ module TDiary
 		def server_root
 			Dir.pwd
 		end
+
+		def configuration
+			@@configuration ||= Configuration.new
+		end
 	end
 end
 
