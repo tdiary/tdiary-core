@@ -88,6 +88,45 @@ module TDiary
 			@options2.delete( key )
 		end
 
+		# backword compatibility, you can use @cgi.mobile_agent?
+		def mobile_agent?
+			@request.mobile_agent?
+		end
+
+		# backword compatibility, you can use @cgi.smartphone?
+		def smartphone?
+			@request.smartphone?
+		end
+		alias iphone? smartphone?
+
+		# backword compatibility, you can use bot? or @conf.bot =~ @cgi.user_agent
+		def bot?
+			@bot =~ @request.user_agent
+		end
+
+		# backword compatibility, you can use TDiary::ViewHelper#base_url
+		def base_url
+			if @options['base_url'] && @options['base_url'].length > 0
+				@options['base_url']
+			else
+				@request.base_url
+			end
+		end
+
+		def to_native( str, charset = nil )
+			str = str.dup
+			if str.encoding == Encoding::ASCII_8BIT
+				str.force_encoding(charset || 'utf-8')
+			end
+			unless str.valid_encoding?
+				str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
+			end
+			unless str.encoding == Encoding::UTF_8
+				str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
+			end
+			str
+		end
+
 	private
 
 		# loading tdiary.conf in current directory
@@ -189,46 +228,7 @@ module TDiary
 	end
 
 	# backword compatibility
-	class Config < Configuration
-		# backword compatibility, you can use @cgi.mobile_agent?
-		def mobile_agent?
-			@request.mobile_agent?
-		end
-
-		# backword compatibility, you can use @cgi.smartphone?
-		def smartphone?
-			@request.smartphone?
-		end
-		alias iphone? smartphone?
-
-		# backword compatibility, you can use bot? or @conf.bot =~ @cgi.user_agent
-		def bot?
-			@bot =~ @request.user_agent
-		end
-
-		# backword compatibility, you can use TDiary::ViewHelper#base_url
-		def base_url
-			if @options['base_url'] && @options['base_url'].length > 0
-				@options['base_url']
-			else
-				@request.base_url
-			end
-		end
-
-		def to_native( str, charset = nil )
-			str = str.dup
-			if str.encoding == Encoding::ASCII_8BIT
-				str.force_encoding(charset || 'utf-8')
-			end
-			unless str.valid_encoding?
-				str.encode!('utf-16be', {:invalid => :replace, :undef => :replace})
-			end
-			unless str.encoding == Encoding::UTF_8
-				str.encode!('utf-8', {:invalid => :replace, :undef => :replace})
-			end
-			str
-		end
-	end
+	Config = Configuration
 end
 
 # Local Variables:
