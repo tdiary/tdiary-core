@@ -1,10 +1,10 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8 -*-
 #
-# class Config
+# class Configuration
 #  configuration class
 #
 module TDiary
-	class Config
+	class Configuration
 		attr_reader :database_url
 
 		def initialize( cgi = nil, request = nil )
@@ -227,6 +227,9 @@ module TDiary
 			nil
 		end
 	end
+
+	# backword compatibility
+	Config = Configuration
 end
 
 # Local Variables:
