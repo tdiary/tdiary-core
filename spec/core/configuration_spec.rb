@@ -15,8 +15,15 @@ describe TDiary::Configuration do
     FileUtils.rm_rf work_conf
   end
 
-  it "TDiary.configuration" do
-    TDiary.configuration.class.should == TDiary::Configuration
+  describe "TDiary.configuration" do
+    before do
+      @obj = TDiary.configuration
+    end
+
+    it { @obj.class.should eq TDiary::Configuration }
+    it "singleton" do
+      @obj.should eq TDiary.configuration
+    end
   end
 
   it "TDiary.configuration.attribute" do
