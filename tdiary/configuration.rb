@@ -15,54 +15,6 @@ module TDiary
 			load_logger
 		end
 
-		# loading tdiary.conf in @data_path.
-		def load_cgi_conf
-			def_vars1 = ''
-			def_vars2 = ''
-			[
-				:tdiary_version,
-				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
-				:description, :icon, :banner, :x_frame_options,
-				:header, :footer,
-				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
-				:theme, :css,
-				:show_comment, :comment_limit, :comment_limit_per_day,
-				:mail_on_comment, :mail_header,
-				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
-				:options2,
-			].each do |var|
-				def_vars1 << "#{var} = nil\n"
-				def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
-			end
-
-			unless @io_class
-				require 'tdiary/io/cache/file'
-				require 'tdiary/io/default'
-				@io_class = DefaultIO
-			end
-
-			cgi_conf = @io_class.load_cgi_conf(self)
-			cgi_conf.untaint unless @secure
-
-			b = binding.taint
-			eval( def_vars1, b )
-			Safe::safe( @secure ? 4 : 1 ) do
-				begin
-					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
-				rescue SyntaxError
-					enc = case @lang
-							when 'en'
-								'UTF-8'
-							else
-								'EUC-JP'
-							end
-					cgi_conf.force_encoding( enc )
-					retry
-				end
-			end if cgi_conf
-			eval( def_vars2, b )
-		end
-
 		def save
 			result = ERB.new(File.read("#{TDiary::PATH}/skel/tdiary.rconf").untaint).result(binding)
 			result.untaint unless @secure
@@ -128,6 +80,54 @@ module TDiary
 		end
 
 	private
+
+		# loading tdiary.conf in @data_path.
+		def load_cgi_conf
+			def_vars1 = ''
+			def_vars2 = ''
+			[
+				:tdiary_version,
+				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
+				:description, :icon, :banner, :x_frame_options,
+				:header, :footer,
+				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
+				:theme, :css,
+				:show_comment, :comment_limit, :comment_limit_per_day,
+				:mail_on_comment, :mail_header,
+				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
+				:options2,
+			].each do |var|
+				def_vars1 << "#{var} = nil\n"
+				def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
+			end
+
+			unless @io_class
+				require 'tdiary/io/cache/file'
+				require 'tdiary/io/default'
+				@io_class = DefaultIO
+			end
+
+			cgi_conf = @io_class.load_cgi_conf(self)
+			cgi_conf.untaint unless @secure
+
+			b = binding.taint
+			eval( def_vars1, b )
+			Safe::safe( @secure ? 4 : 1 ) do
+				begin
+					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
+				rescue SyntaxError
+					enc = case @lang
+							when 'en'
+								'UTF-8'
+							else
+								'EUC-JP'
+							end
+					cgi_conf.force_encoding( enc )
+					retry
+				end
+			end if cgi_conf
+			eval( def_vars2, b )
+		end
 
 		# loading tdiary.conf in current directory
 		def configure_attrs
