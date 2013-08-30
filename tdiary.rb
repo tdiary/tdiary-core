@@ -34,7 +34,8 @@ module TDiary
 	PATH = File::dirname( __FILE__ ).untaint
 
 	# tDiary configuration class, initialize tdiary.conf and stored configuration.
-	autoload :Config,                   'tdiary/config'
+	autoload :Configuration,            'tdiary/configuration'
+	autoload :Config,                   'tdiary/configuration'
 	# tDiary plugin class, loading all Plugin and eval plugins in view context.
 	autoload :Plugin,                   'tdiary/plugin'
 	# tDiary Filter class, all filters is loaded by in TDiaryView.
@@ -129,6 +130,10 @@ module TDiary
 		# directory where the server was started
 		def server_root
 			Dir.pwd
+		end
+
+		def configuration
+			@@configuration ||= Configuration.new
 		end
 	end
 end
