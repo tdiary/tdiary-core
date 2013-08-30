@@ -1,10 +1,10 @@
-# -*- coding: utf-8; -*-
+# -*- coding: utf-8 -*-
 #
-# class Config
+# class Configuration
 #  configuration class
 #
 module TDiary
-	class Config
+	class Configuration
 		attr_reader :database_url
 
 		def initialize( cgi = nil, request = nil )
@@ -22,6 +22,22 @@ module TDiary
 				eval( result, binding, "(TDiary::Config#save)", 1 )
 			end
 			@io_class.save_cgi_conf(self, result)
+		end
+
+		#
+		# get/set/delete plugin options
+		#
+		def []( key )
+			@options[key]
+		end
+
+		def []=( key, val )
+			@options2[key] = @options[key] = val
+		end
+
+		def delete( key )
+			@options.delete( key )
+			@options2.delete( key )
 		end
 
 		# backword compatibility, you can use @cgi.mobile_agent?
@@ -49,22 +65,6 @@ module TDiary
 			end
 		end
 
-		#
-		# get/set/delete plugin options
-		#
-		def []( key )
-			@options[key]
-		end
-
-		def []=( key, val )
-			@options2[key] = @options[key] = val
-		end
-
-		def delete( key )
-			@options.delete( key )
-			@options2.delete( key )
-		end
-
 		def to_native( str, charset = nil )
 			str = str.dup
 			if str.encoding == Encoding::ASCII_8BIT
@@ -80,6 +80,55 @@ module TDiary
 		end
 
 	private
+
+		# loading tdiary.conf in @data_path.
+		def load_cgi_conf
+			def_vars1 = ''
+			def_vars2 = ''
+			[
+				:tdiary_version,
+				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
+				:description, :icon, :banner, :x_frame_options,
+				:header, :footer,
+				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
+				:theme, :css,
+				:show_comment, :comment_limit, :comment_limit_per_day,
+				:mail_on_comment, :mail_header,
+				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
+				:options2,
+			].each do |var|
+				def_vars1 << "#{var} = nil\n"
+				def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
+			end
+
+			unless @io_class
+				require 'tdiary/io/cache/file'
+				require 'tdiary/io/default'
+				@io_class = DefaultIO
+			end
+
+			cgi_conf = @io_class.load_cgi_conf(self)
+			cgi_conf.untaint unless @secure
+
+			b = binding.taint
+			eval( def_vars1, b )
+			Safe::safe( @secure ? 4 : 1 ) do
+				begin
+					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
+				rescue SyntaxError
+					enc = case @lang
+							when 'en'
+								'UTF-8'
+							else
+								'EUC-JP'
+							end
+					cgi_conf.force_encoding( enc )
+					retry
+				end
+			end if cgi_conf
+			eval( def_vars2, b )
+		end
+
 		# loading tdiary.conf in current directory
 		def configure_attrs
 			@secure = true unless @secure
@@ -149,56 +198,6 @@ module TDiary
 			@section_anchor = @paragraph_anchor unless @section_anchor
 		end
 
-		# loading tdiary.conf in @data_path.
-		def load_cgi_conf
-			def_vars1 = ''
-			def_vars2 = ''
-			[
-				:tdiary_version,
-				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
-				:description, :icon, :banner, :x_frame_options,
-				:header, :footer,
-				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
-				:theme, :css,
-				:show_comment, :comment_limit, :comment_limit_per_day,
-				:mail_on_comment, :mail_header,
-				:show_referer, :no_referer2, :only_volatile2, :referer_table2,
-				:options2,
-			].each do |var|
-				def_vars1 << "#{var} = nil\n"
-				def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
-			end
-
-			unless @io_class
-				require 'tdiary/io/cache/file'
-				require 'tdiary/io/default'
-				@io_class = DefaultIO
-			end
-
-			cgi_conf = @io_class.load_cgi_conf(self)
-			cgi_conf.untaint unless @secure
-
-			b = binding.taint
-			eval( def_vars1, b )
-			Safe::safe( @secure ? 4 : 1 ) do
-				begin
-					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
-				rescue SyntaxError
-					enc = case @lang
-							when 'en'
-								'UTF-8'
-							else
-								'EUC-JP'
-							end
-					cgi_conf.force_encoding( enc )
-					retry
-				end
-			end if cgi_conf
-			eval( def_vars2, b )
-		end
-
-	private
-
 		def setup_attr_accessor_to_all_ivars
 			names = instance_variables().collect {|ivar| ivar.to_s.sub(/@/, '') }
 			(class << self; self; end).class_eval { attr_accessor *names }
@@ -227,6 +226,9 @@ module TDiary
 			nil
 		end
 	end
+
+	# backword compatibility
+	Config = Configuration
 end
 
 # Local Variables:

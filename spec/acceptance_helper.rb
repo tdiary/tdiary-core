@@ -34,7 +34,7 @@ RSpec.configure do |config|
 	end
 
 	config.after(:all) do
-		FileUtils.rm_r work_conf
+		FileUtils.rm_rf work_conf
 	end
 
 	config.before(:each) do
@@ -42,7 +42,7 @@ RSpec.configure do |config|
 	end
 
 	config.after(:each) do
-		FileUtils.rm_r work_data_dir
+		FileUtils.rm_rf work_data_dir
 	end
 
 	if ENV['TEST_MODE'] == 'rdb'
