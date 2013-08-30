@@ -47,10 +47,7 @@ module TDiary
 	autoload :Application,              'tdiary/application'
 
 	# Diary model class
-	autoload :DiaryBase,                'tdiary/style'
-	autoload :SectionBase,              'tdiary/style'
-	autoload :CategorizableDiary,       'tdiary/style'
-	autoload :UncategorizableDiary,     'tdiary/style'
+	autoload :Style,                    'tdiary/style'
 	autoload :Comment,                  'tdiary/comment'
 	autoload :CommentManager,           'tdiary/comment_manager'
 	autoload :RefererManager,           'tdiary/referer_manager'

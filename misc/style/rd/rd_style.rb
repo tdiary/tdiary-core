@@ -55,11 +55,11 @@ module RD
 
 		def apply_to_DescListItem(element, term, description)
 			%Q[<dt>#{term.join}</dt>] +
-			if description.empty? then
-				"\n"
-			else
-				%Q[\n<dd>\n#{description.join("\n").chomp}\n</dd>]
-			end
+				if description.empty? then
+					"\n"
+				else
+					%Q[\n<dd>\n#{description.join("\n").chomp}\n</dd>]
+				end
 		end
 
 		def apply_to_MethodList(element, items)
@@ -129,7 +129,7 @@ module RD
 
 			if cat
 				r =
-				cat.scan(/\[(.*?)\]/).collect do |c|
+					cat.scan(/\[(.*?)\]/).collect do |c|
 			  		%Q|<%= category_anchor("#{c[0]}") %>|
 				end.join + subtitle
 			else
@@ -187,173 +187,175 @@ MSG
 end
 
 module TDiary
-	class RDSection
-		include RD
+	module Style
+		class RDSection
+			include RD
 
-		attr_reader :author, :categories, :subtitle, :stripped_subtitle
-		attr_reader :body_to_html, :subtitle_to_html, :stripped_subtitle_to_html
-	
-		def initialize( fragment, author = nil )
-			@author = author
-			if /\A=(?!=)/ =~ fragment then
-				@subtitle, @body = fragment.split( /\n/, 2 )
-				@subtitle.sub!( /^\=\s*/, '' )
-			else
-				@subtitle = nil
-				@body = fragment.dup
-			end
-			@body = @body || ''
-			@body.sub!( /[\n\r]+\Z/, '' )
-			@body << "\n\n"
-
-			@categories = get_categories
-			@stripped_subtitle = strip_subtitle
-
-			@subtitle_to_html = manufacture(@subtitle, true)
-			@stripped_subtitle_to_html = manufacture(@stripped_subtitle, true)
-			@body_to_html = manufacture(@body, false)
-		end
-	
-		def subtitle=(subtitle)
-			cat_str = ""
-			@categories.each {|cat|
-				cat_str << "[#{cat}]"
-			}
-			cat_str << " " unless cat_str.empty?
-			@subtitle = subtitle ? (cat_str + subtitle) : nil
-			@stripped_subtitle = strip_subtitle
-		end
-	
-		def body=(str)
-			@body = str
-		end
-	
-		def body
-		  	@body.dup
-		end
-	
-		def categories=(categories)
-			@categories = categories
-			cat_str = ""
-			categories.each {|cat|
-				cat_str << "[#{cat}]"
-			}
-			cat_str << " " unless cat_str.empty?
-			@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
-			@stripped_subtitle = strip_subtitle
-		end
-
-		def to_src
-			r = ''
-			r << "= #{@subtitle}\n" if @subtitle
-			r << @body
-		end
-
-		def html( date, idx, opt, mode = :HTML)
-			if mode == :CHTML
-				visitor = RD2tDiaryCHTMLVistor.new( date, idx, opt, @author)
-				section_open = "<%=section_enter_proc( Time::at( #{date.to_i} ))%>\n"
-				section_close = "<%=section_leave_proc( Time::at( #{date.to_i} ))%>\n"
-			else
-				visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
-				section_open = %Q[<div class="section">\n<%=section_enter_proc( Time::at( #{date.to_i} ))%>\n]
-				section_close = "<%=section_leave_proc( Time::at( #{date.to_i} ))%>\n</div>\n"
-			end
-
-			src = to_src.split(/^/)
-			src.unshift("=begin\n").push("=end\n")
-			tree = RDTree.new( src, nil, nil)
-			begin
-				tree.parse
-			rescue ParseError
-				raise SyntaxError, $!.message
-			end
-
-			r = "#{section_open}#{visitor.visit( tree )}#{section_close}"
-		end
-
-		private
-		def manufacture(str, subtitle = false)
-			return nil unless str
-			src = str.strip.split(/^/).unshift("=begin\n").push("=end\n")
-			visitor = RD2tDiaryVisitor.new
-			tree = RDTree.new(src, nil, nil)
-			begin
-				r = visitor.visit( tree.parse )
-				r.gsub!(/<\/?p>/, '') if subtitle
-				r
-			rescue ParseError
-				str
-			end
-		end
-
-		def get_categories
-			return [] unless @subtitle
-			cat = /^(\[(.*?)\])+/.match(@subtitle).to_a[0]
-			return [] unless cat
-			cat.scan(/\[(.*?)\]/).collect do |c|
-				c[0].split(/,/)
-			end.flatten
-		end
-
-		def strip_subtitle
-			return nil unless @subtitle
-			@subtitle.sub(/^(\[(.*?)\])+/,'')
-		end
-	end
-
-	class RdDiary
-		include DiaryBase
-		include CategorizableDiary
-	
-		def initialize( date, title, body, modified = Time::now )
-			init_diary
-			replace( date, title, body )
-			@last_modified = modified
-		end
-	
-		def style
-			'RD'
-		end
-	
-		def append( body, author = nil )
-			section = nil
-			body.lines.each do |l|
-				case l
-				when /^=(begin|end)\b/
-				  	# do nothing
-				when /^=[^=]/
-				  	@sections << RDSection::new( section, author ) if section
-					section = l
+			attr_reader :author, :categories, :subtitle, :stripped_subtitle
+			attr_reader :body_to_html, :subtitle_to_html, :stripped_subtitle_to_html
+			
+			def initialize( fragment, author = nil )
+				@author = author
+				if /\A=(?!=)/ =~ fragment then
+					@subtitle, @body = fragment.split( /\n/, 2 )
+					@subtitle.sub!( /^\=\s*/, '' )
 				else
-					section = '' unless section
-					section << l
+					@subtitle = nil
+					@body = fragment.dup
+				end
+				@body = @body || ''
+				@body.sub!( /[\n\r]+\Z/, '' )
+				@body << "\n\n"
+
+				@categories = get_categories
+				@stripped_subtitle = strip_subtitle
+
+				@subtitle_to_html = manufacture(@subtitle, true)
+				@stripped_subtitle_to_html = manufacture(@stripped_subtitle, true)
+				@body_to_html = manufacture(@body, false)
+			end
+			
+			def subtitle=(subtitle)
+				cat_str = ""
+				@categories.each {|cat|
+					cat_str << "[#{cat}]"
+				}
+				cat_str << " " unless cat_str.empty?
+				@subtitle = subtitle ? (cat_str + subtitle) : nil
+				@stripped_subtitle = strip_subtitle
+			end
+			
+			def body=(str)
+				@body = str
+			end
+			
+			def body
+				@body.dup
+			end
+			
+			def categories=(categories)
+				@categories = categories
+				cat_str = ""
+				categories.each {|cat|
+					cat_str << "[#{cat}]"
+				}
+				cat_str << " " unless cat_str.empty?
+				@subtitle = @subtitle ? (cat_str + @stripped_subtitle) : nil
+				@stripped_subtitle = strip_subtitle
+			end
+
+			def to_src
+				r = ''
+				r << "= #{@subtitle}\n" if @subtitle
+				r << @body
+			end
+
+			def html( date, idx, opt, mode = :HTML)
+				if mode == :CHTML
+					visitor = RD2tDiaryCHTMLVistor.new( date, idx, opt, @author)
+					section_open = "<%=section_enter_proc( Time::at( #{date.to_i} ))%>\n"
+					section_close = "<%=section_leave_proc( Time::at( #{date.to_i} ))%>\n"
+				else
+					visitor = RD2tDiaryVisitor.new( date, idx, opt, @author )
+					section_open = %Q[<div class="section">\n<%=section_enter_proc( Time::at( #{date.to_i} ))%>\n]
+					section_close = "<%=section_leave_proc( Time::at( #{date.to_i} ))%>\n</div>\n"
+				end
+
+				src = to_src.split(/^/)
+				src.unshift("=begin\n").push("=end\n")
+				tree = RDTree.new( src, nil, nil)
+				begin
+					tree.parse
+				rescue ParseError
+					raise SyntaxError, $!.message
+				end
+
+				r = "#{section_open}#{visitor.visit( tree )}#{section_close}"
+			end
+
+			private
+			def manufacture(str, subtitle = false)
+				return nil unless str
+				src = str.strip.split(/^/).unshift("=begin\n").push("=end\n")
+				visitor = RD2tDiaryVisitor.new
+				tree = RDTree.new(src, nil, nil)
+				begin
+					r = visitor.visit( tree.parse )
+					r.gsub!(/<\/?p>/, '') if subtitle
+					r
+				rescue ParseError
+					str
 				end
 			end
-			@sections << RDSection::new( section, author ) if section
-			@last_modified = Time::now
-			self
-		end
-	
-		def add_section(subtitle, body)
-			sec = RDSection::new("\n")
-			sec.subtitle = subtitle
-			sec.body     = body
-			@sections << sec
-			@sections.size
-		end
-	
-		def to_html( opt = {}, mode = :HTML )
-			r = ''
-			idx = 1
-			each_section do |section|
-				r << section.html( date, idx, opt, mode )
-				idx += 1
+
+			def get_categories
+				return [] unless @subtitle
+				cat = /^(\[(.*?)\])+/.match(@subtitle).to_a[0]
+				return [] unless cat
+				cat.scan(/\[(.*?)\]/).collect do |c|
+					c[0].split(/,/)
+				end.flatten
 			end
-			return r
+
+			def strip_subtitle
+				return nil unless @subtitle
+				@subtitle.sub(/^(\[(.*?)\])+/,'')
+			end
 		end
 
-		undef :to_html4, :to_chtml
+		class RdDiary
+			include BaseDiary
+			include CategorizableDiary
+			
+			def initialize( date, title, body, modified = Time::now )
+				init_diary
+				replace( date, title, body )
+				@last_modified = modified
+			end
+			
+			def style
+				'RD'
+			end
+			
+			def append( body, author = nil )
+				section = nil
+				body.lines.each do |l|
+					case l
+					when /^=(begin|end)\b/
+						# do nothing
+					when /^=[^=]/
+						@sections << RDSection::new( section, author ) if section
+						section = l
+					else
+						section = '' unless section
+						section << l
+					end
+				end
+				@sections << RDSection::new( section, author ) if section
+				@last_modified = Time::now
+				self
+			end
+			
+			def add_section(subtitle, body)
+				sec = RDSection::new("\n")
+				sec.subtitle = subtitle
+				sec.body     = body
+				@sections << sec
+				@sections.size
+			end
+			
+			def to_html( opt = {}, mode = :HTML )
+				r = ''
+				idx = 1
+				each_section do |section|
+					r << section.html( date, idx, opt, mode )
+					idx += 1
+				end
+				return r
+			end
+
+			undef :to_html4, :to_chtml
+		end
 	end
 end
 
@@ -363,4 +365,3 @@ end
 # tab-width: 3
 # ruby-indent-level: 3
 # End:
-
