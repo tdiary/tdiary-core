@@ -46,7 +46,7 @@ module TDiary
 				Dir.glob("#{path}/*_style.rb") do |style_file|
 					require style_file.untaint
 					style = File.basename(style_file).sub(/_style\.rb$/, '')
-					@styles[style] = TDiary.const_get("#{style.capitalize}Diary")
+					@styles[style] = TDiary::Style.const_get("#{style.capitalize}Diary")
 				end
 			end
 		end

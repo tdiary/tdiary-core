@@ -4,9 +4,9 @@ require 'spec_helper'
 require 'tdiary'
 require 'misc/style/gfm/gfm_style'
 
-describe TDiary::GfmDiary do
+describe TDiary::Style::GfmDiary do
 	before do
-		@diary = TDiary::GfmDiary.new(Time.at( 1041346800 ), "TITLE", "")
+		@diary = TDiary::Style::GfmDiary.new(Time.at( 1041346800 ), "TITLE", "")
 	end
 
 	describe '#append' do

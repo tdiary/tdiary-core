@@ -4,9 +4,9 @@ require 'spec_helper'
 require 'tdiary'
 require 'tdiary/style/wiki_style'
 
-describe TDiary::WikiDiary do
+describe TDiary::Style::WikiDiary do
 	before do
-		@diary = TDiary::WikiDiary.new(Time.at( 1041346800 ), "TITLE", "")
+		@diary = TDiary::Style::WikiDiary.new(Time.at( 1041346800 ), "TITLE", "")
 	end
 
 	describe '#append' do
