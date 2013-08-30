@@ -34,7 +34,20 @@ def make_tarball( repo, version = nil )
 			sh "chmod +x index.rb index.fcgi update.rb update.fcgi"
 			sh 'rake doc'
 			Bundler.with_clean_env do
-				sh 'bundle --path .bundle --without coffee:memcached:redis:gfm:server:development:test'
+					sh "bundle --path .bundle --without coffee:memcached:redis:gfm:server:development:test"
+			end
+			Dir.chdir '.bundle/ruby' do
+				v = `ls`.chomp
+				case v
+				when '2.0.0'
+					FileUtils.cp_r '2.0.0', '1.9.1'
+				when '1.9.1'
+					FileUtils.cp_r '1.9.1', '2.0.0'
+				else
+					FileUtils.cp_r v, '2.0.0'
+					FileUtils.cp_r v, '1.9.1'
+					FileUtils.rm_rf v
+				end
 			end
 			Dir.chdir 'misc/lib' do
 				sh 'gem unpack bundler'
@@ -66,38 +79,38 @@ def make_full_package(version = nil)
 	end
 end
 
-task :default => :snapshot
+namespace :package do
+	desc 'fetching all files from GitHub.'
+	task :fetch do
+		REPOS.each{|r| fetch_files(r) }
+	end
 
-desc 'fetching all files from GitHub.'
-task :fetch do
-	REPOS.each{|r| fetch_files(r) }
-end
-
-desc 'releasing all files'
-task :release do
-	Dir.chdir("tmp") do
-		TARBALLS = Dir["*.tar.gz"] if TARBALLS.empty?
-		TARBALLS.each do |tgz|
-			sh "scp -P 443 #{tgz} www.tdiary.org:#{DEST_DIR}"
+	desc 'releasing all files'
+	task :release do
+		Dir.chdir("tmp") do
+			TARBALLS = Dir["*.tar.gz"] if TARBALLS.empty?
+			TARBALLS.each do |tgz|
+				sh "scp -P 443 #{tgz} www.tdiary.org:#{DEST_DIR}"
+			end
 		end
 	end
-end
 
-desc 'making packages of snapshot.'
-task :snapshot => :fetch do
-	make_full_package
-end
+	desc 'making packages of snapshot.'
+	task :snapshot => :fetch do
+		make_full_package
+	end
 
-desc 'making packages of stable.'
-task :stable => :fetch do
-	make_full_package(STABLE)
-end
+	desc 'making packages of stable.'
+	task :stable => :fetch do
+		make_full_package(STABLE)
+	end
 
-desc 'cleanup all files.'
-task :clean do
-	Dir.chdir("tmp") do
-		REPOS.each {|repo| rm_rf repo rescue true }
-		sh "rm *.tar.gz" rescue true
+	desc 'cleanup all files.'
+	task :clean do
+		Dir.chdir("tmp") do
+			REPOS.each {|repo| rm_rf repo rescue true }
+			sh "rm *.tar.gz" rescue true
+		end
 	end
 end
 
