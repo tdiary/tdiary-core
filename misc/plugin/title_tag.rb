@@ -24,7 +24,7 @@
 alias :title_tag2 :title_tag
 
 module ::TDiary
-	module DiaryBase
+	module BaseDiary
 		def all_subtitles_to_html
 			titles = Array.new
 			each_section do |section|
