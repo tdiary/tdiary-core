@@ -24,22 +24,24 @@
 alias :title_tag2 :title_tag
 
 module ::TDiary
-	module BaseDiary
-		def all_subtitles_to_html
-			titles = Array.new
-			each_section do |section|
-				titles << (section.subtitle_to_html || '').strip
+	module Style
+		module BaseDiary
+			def all_subtitles_to_html
+				titles = Array.new
+				each_section do |section|
+					titles << (section.subtitle_to_html || '').strip
+				end
+				return titles
 			end
-			return titles
-		end
 
-		def all_stripped_subtitles_to_html
-			return all_subtitles_to_html unless categorizable?
-			titles = Array.new
-			each_section do |section|
-				titles << (section.stripped_subtitle_to_html || '').strip
+			def all_stripped_subtitles_to_html
+				return all_subtitles_to_html unless categorizable?
+				titles = Array.new
+				each_section do |section|
+					titles << (section.stripped_subtitle_to_html || '').strip
+				end
+				return titles
 			end
-			return titles
 		end
 	end
 end
