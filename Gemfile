@@ -2,10 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rack'
 gem 'sprockets'
+gem 'hikidoc'
+gem 'rdtool'
 gem 'fastimage'
-
-gem 'tdiary-style-tdiary'
-gem 'tdiary-style-wiki'
 
 group :coffee do
   gem 'coffee-script'
@@ -19,6 +18,12 @@ end
 group :redis do
   gem 'redis'
   gem 'redis-namespace'
+end
+
+group :gfm do
+  gem 'redcarpet'
+  gem 'pygments.rb'
+  gem 'twitter-text', :require => false
 end
 
 group :server do
