@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 gem 'rack'
 gem 'sprockets'
 gem 'hikidoc'
-gem 'rdtool'
 gem 'fastimage'
 
 group :coffee do
@@ -18,12 +17,6 @@ end
 group :redis do
   gem 'redis'
   gem 'redis-namespace'
-end
-
-group :gfm do
-  gem 'redcarpet'
-  gem 'pygments.rb'
-  gem 'twitter-text', :require => false
 end
 
 group :server do
