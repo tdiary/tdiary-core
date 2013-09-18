@@ -279,9 +279,9 @@ http://example.com is example.com
 			source = <<-'EOF'
 # subTitle
 
-()[20120101p01]
+[](20120101p01)
 
-(Link)[20120101p01]
+[Link](20120101p01)
 
 			EOF
 			@diary.append(source)
