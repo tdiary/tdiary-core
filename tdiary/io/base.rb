@@ -38,16 +38,13 @@ module TDiary
 		def load_styles
 			@styles = {}
 			paths = @tdiary.conf.options['style.path'] ||
-				[TDiary::PATH, TDiary.server_root].map {|base|
-					["#{base}/tdiary/style", "#{base}/tdiary"]
-				}
+				[TDiary::PATH, TDiary.server_root].map {|base| "#{base}/tdiary/style" }
 			[paths].flatten.uniq.each do |path|
 				path = path.sub(/\/+$/, '').untaint
-				Dir.glob("#{path}/*_style.rb") do |style_file|
-					require style_file.untaint
-					style = File.basename(style_file).sub(/_style\.rb$/, '')
-					@styles[style] = TDiary::Style.const_get("#{style.capitalize}Diary")
-				end
+				Dir.glob("#{path}/*.rb") {|style_file| require style_file.untaint }
+			end
+			(["tdiary", "wiki"] + [@tdiary.conf.style]).flatten.uniq.each do |style|
+				@styles[style] = TDiary::Style.const_get("#{style.capitalize}Diary")
 			end
 		end
 
