@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 require 'tdiary'
-require 'tdiary/style/tdiary_style'
+require 'tdiary/style/tdiary'
 
 describe TDiary::Style::TdiaryDiary do
 	before do
