@@ -15,8 +15,6 @@ require 'hikidoc'
 module TDiary
 	module Style
 		class WikiSection
-			include BaseSection
-
 			def initialize( fragment, author = nil )
 				@author = author
 				if fragment[0] == ?! then
@@ -154,7 +152,6 @@ module TDiary
 		end
 
 		class WikiDiary
-			include BaseDiary
 			include CategorizableDiary
 
 			def initialize( date, title, body, modified = Time.now )

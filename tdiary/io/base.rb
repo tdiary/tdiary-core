@@ -44,7 +44,12 @@ module TDiary
 				Dir.glob("#{path}/*.rb") {|style_file| require style_file.untaint }
 			end
 			(["tdiary", "wiki"] + [@tdiary.conf.style].map(&:downcase)).flatten.uniq.each do |style|
-				@styles[style] = TDiary::Style.const_get("#{style.capitalize}Diary")
+				klass = TDiary::Style.const_get("#{style.capitalize}Diary")
+				klass.send(:include, TDiary::Style::BaseDiary)
+				if TDiary::Style.const_defined? ("#{style.capitalize}Section")
+					TDiary::Style.const_get("#{style.capitalize}Section").send(:include, TDiary::Style::BaseSection)
+				end
+				@styles[style] = klass
 			end
 		end
 
