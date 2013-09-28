@@ -117,8 +117,6 @@ module TDiary
 		end
 
 		class TdiaryDiary
-			include CategorizableDiary
-
 			def initialize( date, title, body, modified = Time::now )
 				init_diary
 				replace( date, title, body )

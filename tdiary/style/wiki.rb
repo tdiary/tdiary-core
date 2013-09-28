@@ -152,8 +152,6 @@ module TDiary
 		end
 
 		class WikiDiary
-			include CategorizableDiary
-
 			def initialize( date, title, body, modified = Time.now )
 				init_diary
 				replace( date, title, body )
