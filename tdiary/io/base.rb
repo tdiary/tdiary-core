@@ -46,6 +46,7 @@ module TDiary
 			(["tdiary", "wiki"] + [@tdiary.conf.style].map(&:downcase)).flatten.uniq.each do |style|
 				klass = TDiary::Style.const_get("#{style.capitalize}Diary")
 				klass.send(:include, TDiary::Style::BaseDiary)
+				klass.send(:include, TDiary::Style::CategorizableDiary)
 				if TDiary::Style.const_defined? ("#{style.capitalize}Section")
 					TDiary::Style.const_get("#{style.capitalize}Section").send(:include, TDiary::Style::BaseSection)
 				end
