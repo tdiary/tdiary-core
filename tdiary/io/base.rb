@@ -4,6 +4,7 @@
 #  base of IO class
 #
 require 'fileutils'
+require 'tdiary/style' # XXX can't auto loading TDiary::Style subclasses
 
 module TDiary
 	class BaseIO
