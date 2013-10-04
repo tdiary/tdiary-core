@@ -1,7 +1,7 @@
 # -*- coding: utf-8; -*-
 
 module TDiary
-	module CacheIO
+	module Cache
 		def restore_cache( prefix )
 			restore_data("#{cache_path}/#{cache_file( prefix )}") if cache_enable?( prefix )
 		end

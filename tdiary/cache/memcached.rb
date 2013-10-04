@@ -1,7 +1,7 @@
 require 'dalli'
 
 module TDiary
-	module CacheIO
+	module Cache
 		def restore_cache(prefix)
 			if key = cache_key(prefix)
 				restore_data(key)
