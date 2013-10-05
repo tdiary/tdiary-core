@@ -71,7 +71,7 @@ module TDiary
   class RdbIO < BaseIO
     include CommentIO
     include RefererIO
-    include CacheIO
+    include Cache
 
     class << self
       def load_cgi_conf(conf)
