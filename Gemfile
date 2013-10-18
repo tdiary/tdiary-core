@@ -10,15 +10,6 @@ group :coffee do
   gem 'therubyracer'
 end
 
-group :memcached do
-  gem 'dalli'
-end
-
-group :redis do
-  gem 'redis'
-  gem 'redis-namespace'
-end
-
 group :server do
   platforms :mri do
     gem 'thin'
@@ -47,6 +38,8 @@ group :development do
     gem 'jasmine'
     gem 'simplecov', :require => false
     gem 'coveralls', :require => false
+
+    gem 'tdiary-cache-memcached', github: 'tdiary/tdiary-cache-memcached', require: false
   end
 end
 

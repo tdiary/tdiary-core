@@ -120,7 +120,7 @@ module TDiary
 	class DefaultIO < BaseIO
 		include CommentIO
 		include RefererIO
-		include CacheIO
+		include Cache
 
 		class << self
 			def parse_tdiary( data )
