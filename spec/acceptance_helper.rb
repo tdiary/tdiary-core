@@ -44,7 +44,6 @@ RSpec.configure do |config|
 
 	config.after(:each) do
 		FileUtils.rm_rf work_data_dir
-		FileUtils.rm_r File.join(work_data_dir, "tdiary.conf")
 	end
 
 	if ENV['TEST_MODE'] == 'webrick'
