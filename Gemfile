@@ -38,6 +38,8 @@ group :development do
     gem 'jasmine'
     gem 'simplecov', :require => false
     gem 'coveralls', :require => false
+
+    gem 'tdiary-cache-memcached', github: 'tdiary/tdiary-cache-memcached', require: false
   end
 end
 
