@@ -91,8 +91,8 @@ module TDiary
 						false
 					end
 	
-					require 'tdiary/defaultio'
-					DefaultIO::new( self ).transaction( date ) do |diaries|
+					require 'tdiary/io/default'
+					IO::Default::new( self ).transaction( date ) do |diaries|
 						diaries.update( @diaries )
 						TDiaryBase::DIRTY_DIARY | TDiaryBase::DIRTY_COMMENT | TDiaryBase::DIRTY_REFERER
 					end

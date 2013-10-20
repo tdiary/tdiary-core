@@ -31,7 +31,7 @@ module TDiary
 	class TDiaryLatest
 	end
 
-	class DefaultIO
+	class IO::Default
 	end
 end
 
