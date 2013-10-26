@@ -19,7 +19,6 @@ script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle e
 
 env:
   - TEST_MODE=rack
-  - TEST_MODE=rdb
   - TEST_MODE=webrick
   - TEST_MODE=secure
   - TEST_MODE=gem
