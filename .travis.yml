@@ -15,11 +15,10 @@ before_install:
 before_script:
   - DAEMON=1 bundle exec rake server
 
-script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec spec:acceptance:rdb jasmine:ci test ; fi
+script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec jasmine:ci test ; fi
 
 env:
   - TEST_MODE=rack
-  - TEST_MODE=rdb
   - TEST_MODE=webrick
   - TEST_MODE=secure
   - TEST_MODE=gem

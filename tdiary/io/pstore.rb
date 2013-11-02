@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# pstoreio.rb: tDiary IO class of tdiary 1.x format. $Revision: 1.25 $
+# pstoreio.rb: tDiary IO class of tdiary 1.x format.
 #
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2.
@@ -8,53 +8,55 @@
 require 'pstore'
 
 module TDiary
-	class PStoreIO
-		def initialize( tdiary )
-			@data_path = tdiary.conf.data_path
-		end
+	module IO
+		class PStore
+			def initialize( tdiary )
+				@data_path = tdiary.conf.data_path
+			end
 
-		#
-		# block must be return boolean which dirty diaries.
-		#
-		def transaction( date )
-			diaries = {}
-			filename = date.strftime( "#{@data_path}%Y%m" )
-			begin
-				PStore::new( filename ).transaction do |db|
-					dirty = false
-					if db.root?( 'diary' ) then
-						diaries.update( db['diary'] )
+			#
+			# block must be return boolean which dirty diaries.
+			#
+			def transaction( date )
+				diaries = {}
+				filename = date.strftime( "#{@data_path}%Y%m" )
+				begin
+					PStore::new( filename ).transaction do |db|
+						dirty = false
+						if db.root?( 'diary' ) then
+							diaries.update( db['diary'] )
+						end
+						dirty = yield( diaries ) if iterator?
+						if dirty != TDiary::TDiaryBase::DIRTY_NONE then
+							db['diary'] = diaries
+						else
+							db.abort
+						end
 					end
-					dirty = yield( diaries ) if iterator?
-					if dirty != TDiary::TDiaryBase::DIRTY_NONE then
-						db['diary'] = diaries
-					else
-						db.abort
-					end
+				rescue PStore::Error, NameError, Errno::EACCES
+					raise PermissionError::new( "make your @data_path to writable via httpd. #$!" )
 				end
-			rescue PStore::Error, NameError, Errno::EACCES
-				raise PermissionError::new( "make your @data_path to writable via httpd. #$!" )
+				begin
+					File::delete( filename ) if diaries.empty?
+				rescue Errno::ENOENT
+				end
+				return diaries
 			end
-			begin
-				File::delete( filename ) if diaries.empty?
-			rescue Errno::ENOENT
-			end
-			return diaries
-		end
 
-		def calendar
-			calendar = {}
-			Dir["#{@data_path}??????"].sort.each do |file|
-				year, month = file.scan( %r[/(\d{4})(\d\d)$] )[0]
-				next unless year
-				calendar[year] = [] unless calendar[year]
-				calendar[year] << month
+			def calendar
+				calendar = {}
+				Dir["#{@data_path}??????"].sort.each do |file|
+					year, month = file.scan( %r[/(\d{4})(\d\d)$] )[0]
+					next unless year
+					calendar[year] = [] unless calendar[year]
+					calendar[year] << month
+				end
+				calendar
 			end
-			calendar
-		end
 
-		def diary_factory( date, title, body, style = nil )
-			Diary::new( date, title, body )
+			def diary_factory( date, title, body, style = nil )
+				Diary::new( date, title, body )
+			end
 		end
 	end
 end

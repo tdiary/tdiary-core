@@ -564,7 +564,7 @@ class DispRef2Setup < Hash
 			options_key = "disp_referrer2.#{key}"
 			self[key] = @options[options_key] if @options.has_key?( options_key )
 		end
-		self['no_cache'] = true if defined?(::TDiary::DefaultIO) && @conf.io_class == ::TDiary::DefaultIO
+		self['no_cache'] = true if defined?(::TDiary::IO::Default) && @conf.io_class == ::TDiary::IO::Default
 
 		# additions
 		self['labels'] = {

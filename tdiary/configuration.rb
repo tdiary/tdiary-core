@@ -104,7 +104,7 @@ module TDiary
 			unless @io_class
 				require 'tdiary/cache/file'
 				require 'tdiary/io/default'
-				@io_class = DefaultIO
+				@io_class = IO::Default
 			end
 
 			cgi_conf = @io_class.load_cgi_conf(self)

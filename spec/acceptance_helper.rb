@@ -39,40 +39,11 @@ RSpec.configure do |config|
 
 	config.before(:each) do
 		FileUtils.mkdir_p work_data_dir
+		FileUtils.cp_r(fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false) unless fixture_conf.empty?
 	end
 
 	config.after(:each) do
 		FileUtils.rm_rf work_data_dir
-	end
-
-	if ENV['TEST_MODE'] == 'rdb'
-		work_db = 'sqlite://tmp/tdiary_test.db'
-		config.before(:each) do
-			Sequel.connect(work_db) do |db|
-				db.drop_table(:conf) if db.table_exists?(:conf)
-				db.create_table :conf do
-					String :body, :text => true
-				end
-				db[:conf].insert(:body => File.read(fixture_conf))
-			end
-		end
-
-		config.after(:each) do
-			Sequel.connect(work_db) do |db|
-				[:diaries, :comments, :conf].each do |table|
-					db.drop_table(table) if db.table_exists? table
-				end
-			end
-			Dalli::Client.new(nil, {:namespace => 'test'}).flush
-		end
-	else
-		config.before(:each) do
-			FileUtils.cp_r(fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false) unless fixture_conf.empty?
-		end
-
-		config.after(:each) do
-			FileUtils.rm_r File.join(work_data_dir, "tdiary.conf")
-		end
 	end
 
 	if ENV['TEST_MODE'] == 'webrick'
@@ -85,10 +56,7 @@ RSpec.configure do |config|
 					  [:exclude_selenium, :exclude_no_secure]
 				  when 'secure'
 					  [:exclude_rack, :exclude_secure]
-				  when 'rdb'
-					  [:exclude_rdb, :exclude_rack, :exclude_no_secure]
-				  else
-					  # TEST_MODE = rack
+				  else # rack
 					  [:exclude_rack, :exclude_no_secure]
 				  end
 	excludes.each do |exclude|
