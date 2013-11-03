@@ -35,7 +35,7 @@ module TDiary
 						s.split( /\r?\n\.\r?\n/ ).each do |l|
 							headers, body = Default.parse_tdiary( l )
 							next unless body
-							comment = Comment::new(
+							comment = ::TDiary::Comment::new(
 								headers['Name'],
 								headers['Mail'],
 								body,
