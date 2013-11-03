@@ -23,6 +23,47 @@ RSpec.configure do |config|
 	config.treat_symbols_as_metadata_keys_with_true_values = true
 end
 
+class DummyTDiary
+	def conf
+		DummyConf.new
+	end
+
+	def ignore_parser_cache
+		false
+	end
+end
+
+class DummyConf
+	attr_accessor :data_path
+
+	def cache_path
+		nil
+	end
+end
+
+class DummyStyle
+	attr_accessor :title, :to_src
+
+	def initialize(id, title, body, last_modified)
+		@title = title
+		@to_src = body
+	end
+
+	def style
+		"dummy"
+	end
+
+	def last_modified
+		Time.now
+	end
+
+	def visible?
+		true
+	end
+
+	def show(dummy); end
+end
+
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t
