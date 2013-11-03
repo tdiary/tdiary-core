@@ -25,7 +25,9 @@ end
 
 class DummyTDiary
 	def conf
-		DummyConf.new
+		conf = DummyConf.new
+      conf.data_path = TDiary.root + "/tmp/"
+      conf
 	end
 
 	def ignore_parser_cache
@@ -37,31 +39,16 @@ class DummyConf
 	attr_accessor :data_path
 
 	def cache_path
-		nil
+		TDiary.root + "/tmp/cache"
 	end
-end
 
-class DummyStyle
-	attr_accessor :title, :to_src
-
-	def initialize(id, title, body, last_modified)
-		@title = title
-		@to_src = body
+	def options
+		{}
 	end
 
 	def style
-		"dummy"
+		"wiki"
 	end
-
-	def last_modified
-		Time.now
-	end
-
-	def visible?
-		true
-	end
-
-	def show(dummy); end
 end
 
 # Local Variables:
