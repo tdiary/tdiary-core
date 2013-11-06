@@ -5,8 +5,15 @@ require 'tdiary'
 require 'tdiary/style/wiki'
 
 describe TDiary::Style::WikiDiary do
+	before :all do
+		klass = TDiary::Style::WikiDiary
+		klass.send(:include, TDiary::Style::BaseDiary)
+		klass.send(:include, TDiary::Style::CategorizableDiary)
+		TDiary::Style::WikiSection.send(:include, TDiary::Style::BaseSection)
+	end
+
 	before do
-		@diary = TDiary::Style::WikiDiary.new(Time.at( 1041346800 ), "TITLE", "")
+		@diary = TDiary::Style::WikiDiary.new(Time::at( 1041346800 ), "TITLE", "")
 	end
 
 	describe '#append' do
