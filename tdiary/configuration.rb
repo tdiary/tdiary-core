@@ -101,8 +101,11 @@ module TDiary
 				def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
 			end
 
-			unless @io_class
+			unless defined?(::TDiary::Cache)
 				require 'tdiary/cache/file'
+			end
+
+			unless @io_class
 				require 'tdiary/io/default'
 				@io_class = IO::Default
 			end
