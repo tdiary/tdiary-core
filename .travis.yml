@@ -1,3 +1,5 @@
+language: ruby
+
 services: memcache
 
 rvm:
