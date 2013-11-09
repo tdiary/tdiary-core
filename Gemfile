@@ -5,11 +5,6 @@ gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
 
-group :coffee do
-  gem 'coffee-script'
-  gem 'therubyracer'
-end
-
 group :server do
   platforms :mri do
     gem 'thin'
