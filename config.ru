@@ -1,4 +1,5 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
+require 'tdiary'
 require 'tdiary/environment'
 require 'tdiary/application'
 
