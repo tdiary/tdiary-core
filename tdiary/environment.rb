@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# name spaces reservation
+module TDiary::Cache; end
+
 # Set up gems listed in the Gemfile.
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 

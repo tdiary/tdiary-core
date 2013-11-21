@@ -101,7 +101,7 @@ module TDiary
 				def_vars2 << "@#{var} = #{var} unless #{var} == nil\n"
 			end
 
-			unless defined?(::TDiary::Cache)
+			unless defined?(::TDiary::Cache) && ::TDiary::Cache.method_defined?(:store_cache)
 				require 'tdiary/cache/file'
 			end
 
