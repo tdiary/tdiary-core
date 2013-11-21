@@ -13,6 +13,7 @@ GEM
       multipart-post (~> 1.1)
     hashie (2.0.3)
     hike (1.2.2)
+    hikidoc (0.0.6)
     httpauth (0.2.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
@@ -47,7 +48,6 @@ GEM
       yajl-ruby (~> 1.1.0)
     rack (1.5.2)
     rake (10.0.4)
-    redcarpet (2.2.2)
     sequel (4.4.0)
     sprockets (2.9.3)
       hike (~> 1.2)
@@ -73,6 +73,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
+  hikidoc
   omniauth
   omniauth-github
   omniauth-twitter
@@ -80,7 +81,6 @@ DEPENDENCIES
   pygments.rb
   rack
   rake
-  redcarpet
   sprockets
   tdiary-io-rdb
   thin

@@ -10,7 +10,7 @@ gem 'omniauth-github'
 
 gem 'coffee-script'
 
-gem 'redcarpet'
+gem 'hikidoc'
 gem 'twitter-text', require: false
 gem 'pygments.rb'
 
