@@ -49,8 +49,6 @@ module TDiary
 	# Diary model class
 	autoload :Style,                    'tdiary/style'
 	autoload :Comment,                  'tdiary/comment'
-	autoload :CommentManager,           'tdiary/comment_manager'
-	autoload :RefererManager,           'tdiary/referer_manager'
 
 	# Routing and Dispatch
 	autoload :Dispatcher,               'tdiary/dispatcher'
