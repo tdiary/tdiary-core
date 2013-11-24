@@ -18,6 +18,6 @@ TDiary::Application.configure do
 
 	config.authenticate TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
 		# TODO: an user can setting
-		auth.info.nickname == 'your_twitter_screen_name'
+		auth.info.nickname == ENV['TWITTER_NAME'] || ENV['GITHUB_NAME']
 	end
 end

@@ -39,27 +39,22 @@ htpasswd -cd .htpasswd username
 
 ### ライブラリを有効にする
 
-まず、利用する外部サービスに対応したライブラリを有効にします。Twitter認証では `omniauth-twitter` ライブラリを使用します。Gemfileにて以下の行が有効になっていることを確認してください。無ければ追加してください。
+まず、利用する外部サービスに対応したライブラリを有効にします。Twitter認証では `omniauth-twitter` ライブラリを使用します。Gemfile.localにて以下の行が有効になっていることを確認してください。無ければ追加してください。
 
 ```
 gem 'omniauth'
 gem 'omniauth-twitter'
 ```
 
-次に設定ファイル `config.ru` を編集します。 `use OmniAuth::Builder` ブロック内の `provier :twitter` で始まる行を有効にします。
+次に設定ファイル `config.ru` を編集します。 ```run TDiary::Applicationn.new( base_dir )``` の前に以下の行を追加します。無ければ追加してください。
 
 ```
-# OmniAuth settings
-use Rack::Session::Pool, :expire_after => 2592000
-use OmniAuth::Builder do
-	configure {|conf| conf.path_prefix = "#{base_dir}/auth" }
-	provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-end
+require 'tdiary/application/extension/omniauth'
 ```
 
 ### 鍵とパスワードの取得と環境変数への設定
 
-設定ファイル `config.ru` に書かれているTWITTER_KEYとTWITTER_SECRETは、Twitter認証を利用するための鍵 (Consumer key) とパスワード (Consumer secret) です。これらは[Twitterのサイト](https://dev.twitter.com/apps/new)から取得できます。
+Twitter 認証を使うためには、Twitter認証を利用するための鍵 (Consumer key) とパスワード (Consumer secret) としてTWITTER_KEYとTWITTER_SECRETを環境変数として設定する必要があります。これらは[Twitterのサイト](https://dev.twitter.com/apps/new)から取得できます。
 
 鍵とパスワードを取得したら環境変数に設定します。
 
@@ -72,18 +67,10 @@ export TWITTER_SECRET="your_consumer_secret"
 
 ### 編集画面へのアクセスを許可するアカウントの設定
 
-日記の編集画面へのアクセスを許可するアカウントを設定します。 `config.ru` 内の `use TDiary::Rack::Auth::OmniAuth` で始まるブロックをコメントアウトしてください。
+日記の編集画面へのアクセスを許可するアカウントを設定します。 環境変数TWITTER_NAMEにログインを許可したい twitter のアカウント名(スクリーンネーム)を設定して下さい。
 
 ```
-map "#{base_dir}/update.rb" do
-	# use TDiary::Rack::Auth::Basic, '.htpasswd'
-	use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
-		auth.info.nickname == 'your_twitter_screen_name'
-	end
-	run TDiary::Application.new(:update)
-end
+export TWITTER_NAME='your_twitter_screen_name'
 ```
-
-`your_twitter_screen_name` にあなたのTwitterアカウント名を設定します。
 
 日記の編集画面にアクセスすると、Twitterのログイン画面が表示されるようになります。編集画面へは `your_twitter_screen_name` で指定したアカウントのみがアクセスできます。
