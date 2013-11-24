@@ -18,9 +18,8 @@ tDiary-3.0.1.20101011 以降のバージョンでは tDiary を test するた�
 
 tDiary でテストを実行するためには以下の環境を用意する必要があります。
 
-  - Ruby 1.9.2 以降または Ruby 2.0.0 以降
-  - RubyGems 1.3.7 以降
-  - Bundler 1.0.0 以降
+  - Ruby 1.9.3 または Ruby 2.0.0
+  - Bundler 1.3.5 以降
 
 動かし方
 ----
@@ -28,8 +27,15 @@ tDiary でテストを実行するためには以下の環境を用意する必�
 tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
 
 ```
+bundle install
+```
+
+Ruby をインストールしているディレクトリへの書き込み権限がない場合は --path オプションを付けることで任意のディレクトリに依存 gem をインストールすることができます。
+
+```
 bundle install --path ~/.bundle
 ```
+
 bundler によるインストールが完了すると、tDiary でテストを実行できるようになります。以下のコマンドを実行すると、tDiary に付属しているテストが全て実行されます。
 
 ```
@@ -41,4 +47,6 @@ bundle exec rake spec
 
 tDiary に用意されているテストは以下の3種類で構成されています。この構成は今後も変更される可能性もあるので、Rake -T コマンドを実行して Rake タスクの内容を確認するようにしてください。
 
-rake spec:acceptanceEnd-to-End のテストを実行しますrake spec:corecore(tDiary本体)に関わるテストを実行します。rake spec:pluginmisc/plugin 配下に存在するプラグインファイルのテストを実行します。
+ - spec:core: core(tDiary本体)に関わるテストを実行します。
+ - spec:plugin: misc/plugin 配下に存在するプラグインファイルのテストを実行します。
+ - spec:acceptance: 日記の作成や削除について、HTTPリクエストからデータの保存までの End-to-End のテストを実行します
