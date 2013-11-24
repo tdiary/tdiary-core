@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # name spaces reservation
+module TDiary; end
 module TDiary::Cache; end
 
 # Set up gems listed in the Gemfile.
