@@ -1,12 +1,10 @@
 module TDiary
 	class Application
 		class Configuration
-			attr_accessor :assets_paths, :assets_precompile, :plugin_paths, :path, :builder_procs, :authenticate_proc
+			attr_accessor :assets_paths, :plugin_paths, :path, :builder_procs, :authenticate_proc
 
 			def initialize
 				@assets_paths = []
-				# if you need to auto compilation for CoffeeScript
-				@assets_precompile = false;
 				@plugin_paths = []
 				@path = {
 					index: '/',
