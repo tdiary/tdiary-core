@@ -4,16 +4,13 @@ gem 'rake'
 
 gem 'rack'
 gem 'sprockets'
+gem 'hikidoc'
+gem 'fastimage'
+
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 
-gem 'coffee-script'
-
-gem 'redcarpet'
-gem 'twitter-text', require: false
-gem 'pygments.rb'
-
 gem 'thin', require: false
-gem 'sequel'
+gem 'tdiary-io-rdb'
 gem 'mysql2'

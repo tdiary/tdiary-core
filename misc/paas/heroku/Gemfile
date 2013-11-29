@@ -4,15 +4,12 @@ gem 'rake'
 
 gem 'rack'
 gem 'sprockets'
+gem 'hikidoc'
+gem 'fastimage'
+
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
-
-gem 'coffee-script'
-
-gem 'hikidoc'
-gem 'twitter-text', require: false
-gem 'pygments.rb'
 
 gem 'thin', require: false
 gem 'tdiary-io-rdb'
