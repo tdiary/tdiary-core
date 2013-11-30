@@ -28,11 +28,11 @@ iモードに限らず、ほとんどの携帯電話やPalm・ザウルスなど
 
 ### プラグインによる機能追加
 
-プラグインというモジュールを追加することで、日記の機能を増やしたり変更したりすることが可能です。詳しくは[HOWTO-use-plugin.html](HOWTO-use-plugin.html)(使い方)・[HOWTO-make-plugin.html](HOWTO-make-plugin.html)(作り方)を参照してください。
+プラグインというモジュールを追加することで、日記の機能を増やしたり変更したりすることが可能です。詳しくは[HOWTO-use-plugin.md](HOWTO-use-plugin.md)(使い方)・[HOWTO-make-plugin.md](HOWTO-make-plugin.md)(作り方)を参照してください。
 
 ### 記述形式や保存形式を変更できる
 
-日記を記述する形式(スタイル機能)や、データの保存形式(IO機能)が選択可能です。スタイルはmisc/styleの下に複数収められています。IOは現在、1.4系までの旧tDiary互換のPStoreIOと、2.0系以降の新しいテキスト形式であるDefaultIOがあります。詳しくは[HOWTO-make-io.rd](HOWTO-make-io.rd)を参照してください。
+日記を記述する形式(スタイル機能)や、データの保存形式(IO機能)が選択可能です。スタイルはmisc/styleの下に複数収められています。IOは現在、1.4系までの旧tDiary互換のPStoreIOと、2.0系以降の新しいテキスト形式であるDefaultIOがあります。詳しくは[HOWTO-make-io.md](HOWTO-make-io.md)を参照してください。
 
 ### Rubyで書かれている
 
@@ -43,7 +43,7 @@ iモードに限らず、ほとんどの携帯電話やPalm・ザウルスなど
 tDiaryのインストールと設定
 ----------------
 
-[INSTALL.html](INSTALL.html)を参照してください。
+[INSTALL.md](INSTALL.md)を参照してください。
 
 著作権、サポートなど
 ----------
