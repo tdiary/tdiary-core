@@ -66,6 +66,11 @@ module TDiary
 					environment.append_path path
 				end
 
+				# FIXME: dirty hack
+				if defined?(TDiary::Contrib)
+					TDiary::Contrib::Assets.setup( environment ) 
+				end
+
 				if Application.config.assets_precompile
 					require 'tdiary/rack/assets/precompile'
 					use TDiary::Rack::Assets::Precompile, environment
