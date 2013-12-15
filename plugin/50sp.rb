@@ -12,9 +12,6 @@ end
 	TDiary::Extensions::const_get( extension ).sp_path
 }.flatten.compact.uniq
 
-require 'pry'
-binding.pry
-
 # get plugin option
 def sp_option( key )
 	@conf["#{SP_PREFIX}.#{key}"]
