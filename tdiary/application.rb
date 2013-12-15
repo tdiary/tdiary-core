@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'rack/builder'
+require 'tdiary/extensions/core'
 require 'tdiary/application/configuration'
 require 'tdiary/rack'
 
@@ -41,12 +42,6 @@ module TDiary
 	end
 
 	Application.configure do
-		config.assets_paths.concat %w(js theme).map {|path|
-			[TDiary.root, TDiary.server_root].map {|base_dir|
-				File.join(base_dir, path)
-			}
-		}.flatten.uniq
-
 		config.builder do
 			map Application.config.path[:index] do
 				use TDiary::Rack::HtmlAnchor
@@ -62,9 +57,11 @@ module TDiary
 
 			map Application.config.path[:assets] do
 				environment = Sprockets::Environment.new
-				Application.config.assets_paths.each do |path|
-					environment.append_path path
-				end
+				TDiary::Extensions::constants.map {|extension|
+					TDiary::Extensions::const_get( extension ).assets_path
+				}.flatten.uniq.each {|assets_path|
+					environment.append_path assets_path
+				}
 
 				if Application.config.assets_precompile
 					require 'tdiary/rack/assets/precompile'
