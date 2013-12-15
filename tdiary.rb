@@ -45,6 +45,7 @@ module TDiary
 	autoload :Server,                   'tdiary/server'
 	# Rack Application, TODO: integrate Server and Application
 	autoload :Application,              'tdiary/application'
+	autoload :Extensions,               'tdiary/extensions'
 
 	# Diary model class
 	autoload :Style,                    'tdiary/style'

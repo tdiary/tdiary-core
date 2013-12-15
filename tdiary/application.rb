@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+require 'tdiary'
 require 'rack/builder'
-require 'tdiary/extensions/core'
 require 'tdiary/application/configuration'
 require 'tdiary/rack'
 

@@ -1,5 +1,4 @@
 $:.unshift( File::dirname( __FILE__ ).untaint )
-require 'tdiary'
 require 'tdiary/application'
 
 use ::Rack::Reloader unless ENV['RACK_ENV'] == 'production'
