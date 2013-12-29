@@ -7,7 +7,7 @@ feature 'ツッコミ設定の利用' do
 		append_default_comment
 
 		visit '/update.rb?conf=comment'
-		select '非表示', :from => 'show_comment'
+		select '非表示', from: 'show_comment'
 
 		page.all('div.saveconf').first.click_button "OK"
 		# within('title') { page.should have_content('(設定完了)') }
@@ -26,8 +26,8 @@ feature 'ツッコミ設定の利用' do
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "bravo"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "bravo"
+		fill_in "body", with: <<-BODY
 こんばんは!こんばんは!
 BODY
 
@@ -35,7 +35,7 @@ BODY
 		page.should have_content "Click here!"
 
 		visit '/update.rb?conf=comment'
-		fill_in 'comment_limit', :with => '1'
+		fill_in 'comment_limit', with: '1'
 
 		page.all('div.saveconf').first.click_button "OK"
 		# within('title') { page.should have_content('(設定完了)') }
@@ -49,7 +49,7 @@ BODY
 		}
 
 		today = Date.today.strftime('%Y年%m月%d日')
-		page.find('h2', :text => today).click_link today
+		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') { 
 			page.should have_content "alpha"
 			page.should have_content "bravo"
@@ -63,14 +63,14 @@ BODY
 		append_default_comment
 
 		visit '/update.rb?conf=comment'
-		fill_in 'comment_limit_per_day', :with => '1'
+		fill_in 'comment_limit_per_day', with: '1'
 
 		page.all('div.saveconf').first.click_button "OK"
 		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
 		today = Date.today.strftime('%Y年%m月%d日')
-		page.find('h2', :text => today).click_link today
+		page.find('h2', text: today).click_link today
 		within('div#comment-form-section') {
 			within('div.caption') { page.should have_content('本日の日記はツッコミ数の制限を越えています。') }
 			page.should have_no_css('form')

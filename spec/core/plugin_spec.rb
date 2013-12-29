@@ -8,7 +8,7 @@ describe TDiary::Plugin do
 	before do
 		config = PluginFake::Config.new
 		config.plugin_path = 'spec/fixtures/plugin'
-		@plugin = TDiary::Plugin.new({ :conf => config, :debug => true })
+		@plugin = TDiary::Plugin.new({ conf: config, debug: true })
 	end
 
 	describe '#load_plugin' do
