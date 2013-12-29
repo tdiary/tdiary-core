@@ -12,7 +12,7 @@ module TDiary
 		end
 
 		desc "new DIR_NAME", "Create a new tDiary directory"
-		method_option "skip-bundle", :type => :boolean, :banner =>
+		method_option "skip-bundle", type: :boolean, banner:
 			"don't run bundle and .htpasswd generation"
 		def new(name)
 			target = File.join(Dir.pwd, name)
@@ -35,7 +35,7 @@ module TDiary
 		end
 
 		desc "update", "update tDiary"
-		method_option "skip-bundle", :type => :boolean, :banner =>
+		method_option "skip-bundle", type: :boolean, banner:
 			"don't run bundle"
 		def update
 			target = Dir.pwd
@@ -88,13 +88,13 @@ module TDiary
 		end
 
 		desc "server", "Start tDiary server"
-		method_option "rack", :type => :string, :banner =>
+		method_option "rack", type: :string, banner:
 			"start server with rack interface (default)"
-		method_option "cgi", :type => :string, :banner =>
+		method_option "cgi", type: :string, banner:
 			"start server with cgi interface"
-		method_option "bind", :aliases => "b", :type => :string, :default => "0.0.0.0", :banner =>
+		method_option "bind", aliases: "b", type: :string, default: "0.0.0.0", banner:
 			"bind to the IP"
-		method_option "port", :aliases => "p", :type => :numeric, :default => 19292, :banner =>
+		method_option "port", aliases: "p", type: :numeric, default: 19292, banner:
 			"use PORT"
 		def server
 			require 'tdiary/environment'

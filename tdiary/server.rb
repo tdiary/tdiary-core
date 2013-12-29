@@ -30,7 +30,7 @@ module TDiary
 
 		def initialize( opts )
 			@server = WEBrick::HTTPServer.new(
-				:Port => opts[:port], :BindAddress => opts[:bind],
+				:Port => opts[:port], BindAddress: opts[:bind],
 				:DocumentRoot => TDiary.root,
 				:MimeTypes => tdiary_mime_types,
 				:Logger => webrick_logger_to( opts[:logger] ),

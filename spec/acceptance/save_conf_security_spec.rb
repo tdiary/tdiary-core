@@ -30,14 +30,14 @@ feature 'spamフィルタ設定の利用' do
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		select '捨てる', :from => 'spamfilter.filter_mode'
-		fill_in "spamfilter.max_uris", :with => 1
+		select '捨てる', from: 'spamfilter.filter_mode'
+		fill_in "spamfilter.max_uris", with: 1
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.org
 http://www.example.org
@@ -45,9 +45,9 @@ BODY
 		click_button '投稿'
 
 		visit '/update.rb'
-		fill_in "year", :with => Date.today.year
-		fill_in "month", :with => Date.today.month
-		fill_in "day", :with => Date.today.day
+		fill_in "year", with: Date.today.year
+		fill_in "month", with: Date.today.month
+		fill_in "day", with: Date.today.day
 		click_button 'この日付の日記を編集'
 
 		page.should have_no_content "alpha"
@@ -58,13 +58,13 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in "spamfilter.max_uris", :with => 1
+		fill_in "spamfilter.max_uris", with: 1
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.org
 http://www.example.org
@@ -73,8 +73,8 @@ BODY
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "bravo"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "bravo"
+		fill_in "body", with: <<-BODY
 こんばんは!こんばんは!
 http://www.example.org
 BODY
@@ -91,7 +91,7 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in "spamfilter.max_rate", :with => 50
+		fill_in "spamfilter.max_rate", with: 50
 
 		page.all('div.saveconf').first.click_button 'OK'
 		# capybara-2.0 can't find title element
@@ -99,8 +99,8 @@ BODY
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.org
 http://www.example.org
@@ -110,8 +110,8 @@ BODY
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "bravo"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "bravo"
+		fill_in "body", with: <<-BODY
 こんばんは!こんばんは!
 こんばんは!こんばんは!
 http://www.example.org
@@ -129,7 +129,7 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in "spamfilter.bad_comment_patts", :with => <<-BODY
+		fill_in "spamfilter.bad_comment_patts", with: <<-BODY
 こんにちは!
 BODY
 		page.all('div.saveconf').first.click_button 'OK'
@@ -137,8 +137,8 @@ BODY
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 BODY
 		click_button '投稿'
@@ -152,25 +152,25 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in "spamfilter.bad_mail_patts", :with => <<-BODY
+		fill_in "spamfilter.bad_mail_patts", with: <<-BODY
 example.com
 BODY
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "mail", :with => "admin@example.com"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "mail", with: "admin@example.com"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 BODY
 		click_button '投稿'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "bravo"
-		fill_in "mail", :with => "t@tdtds.jp"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "bravo"
+		fill_in "mail", with: "t@tdtds.jp"
+		fill_in "body", with: <<-BODY
 こんばんは!こんばんは!
 BODY
 		click_button '投稿'
@@ -187,23 +187,23 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in "spamfilter.bad_uri_patts", :with => <<-BODY
+		fill_in "spamfilter.bad_uri_patts", with: <<-BODY
 example
 BODY
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは! http://www.example.com
 BODY
 		click_button '投稿'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "bravo"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "bravo"
+		fill_in "body", with: <<-BODY
 example こんにちは!
 BODY
 		click_button '投稿'
@@ -219,15 +219,15 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in "spamfilter.bad_ip_addrs", :with => <<-BODY
+		fill_in "spamfilter.bad_ip_addrs", with: <<-BODY
 127.0.0.1
 BODY
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 BODY
 		click_button '投稿'
@@ -241,7 +241,7 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		fill_in 'comment_description', :with => 'これはツッコミの注意文です'
+		fill_in 'comment_description', with: 'これはツッコミの注意文です'
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
@@ -261,7 +261,7 @@ BODY
 
 		visit '/update.rb?conf=spamfilter'
 		page.should have_field 'filter.debug_mode'
-		select '記録しない', :from => 'filter.debug_mode'
+		select '記録しない', from: 'filter.debug_mode'
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb?conf=spamfilter'

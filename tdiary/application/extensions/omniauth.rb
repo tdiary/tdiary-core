@@ -4,7 +4,7 @@ require 'tdiary/rack/auth/omniauth'
 
 TDiary::Application.configure do
 	config.builder do
-		use ::Rack::Session::Pool, :expire_after => 2592000
+		use ::Rack::Session::Pool, expire_after: 2592000
 		use OmniAuth::Builder do
 			configure {|conf| conf.path_prefix = "/auth" }
 			provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']

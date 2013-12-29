@@ -8,7 +8,7 @@ describe TDiary::Configuration do
   let(:work_conf) { File.expand_path('../../../tdiary.conf', __FILE__) }
 
   before do
-    FileUtils.cp_r tdiary_conf, work_conf, :verbose => false
+    FileUtils.cp_r tdiary_conf, work_conf, verbose: false
   end
 
   after do

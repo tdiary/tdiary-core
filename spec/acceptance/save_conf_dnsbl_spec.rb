@@ -5,9 +5,9 @@ require 'resolv'
 feature 'spamフィルタ設定の利用', :exclude_selenium do
 	scenario 'IPベースのブラックリストの spam-champuru が spamlookup に置き換わる' do
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "dnsbl.spam-champuru.livedoor.com"
-		fill_in 'spamlookup.domain.list', :with => ""
-		fill_in 'spamlookup.safe_domain.list', :with => ""
+		fill_in 'spamlookup.ip.list', with: "dnsbl.spam-champuru.livedoor.com"
+		fill_in 'spamlookup.domain.list', with: ""
+		fill_in 'spamlookup.safe_domain.list', with: ""
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb?conf=dnsblfilter'
@@ -22,15 +22,15 @@ feature 'spamフィルタ設定の利用', :exclude_selenium do
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "bsb.spamlookup.net"
-		fill_in 'spamlookup.domain.list', :with => ""
-		fill_in 'spamlookup.safe_domain.list', :with => ""
+		fill_in 'spamlookup.ip.list', with: "bsb.spamlookup.net"
+		fill_in 'spamlookup.domain.list', with: ""
+		fill_in 'spamlookup.safe_domain.list', with: ""
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.com
 BODY
@@ -47,15 +47,15 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "bsb.spamlookup.net"
-		fill_in 'spamlookup.domain.list', :with => ""
-		fill_in 'spamlookup.safe_domain.list', :with => ""
+		fill_in 'spamlookup.ip.list', with: "bsb.spamlookup.net"
+		fill_in 'spamlookup.domain.list', with: ""
+		fill_in 'spamlookup.safe_domain.list', with: ""
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.com
 BODY
@@ -72,15 +72,15 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => ""
-		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
-		fill_in 'spamlookup.safe_domain.list', :with => ""
+		fill_in 'spamlookup.ip.list', with: ""
+		fill_in 'spamlookup.domain.list', with: "bsb.spamlookup.net"
+		fill_in 'spamlookup.safe_domain.list', with: ""
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.com
 BODY
@@ -97,15 +97,15 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => ""
-		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
-		fill_in 'spamlookup.safe_domain.list', :with => ""
+		fill_in 'spamlookup.ip.list', with: ""
+		fill_in 'spamlookup.domain.list', with: "bsb.spamlookup.net"
+		fill_in 'spamlookup.safe_domain.list', with: ""
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.com
 BODY
@@ -123,15 +123,15 @@ BODY
 		append_default_diary
 
 		visit '/update.rb?conf=dnsblfilter'
-		fill_in 'spamlookup.ip.list', :with => "bsb.spamlookup.net"
-		fill_in 'spamlookup.domain.list', :with => "bsb.spamlookup.net"
-		fill_in 'spamlookup.safe_domain.list', :with => "www.example.com"
+		fill_in 'spamlookup.ip.list', with: "bsb.spamlookup.net"
+		fill_in 'spamlookup.domain.list', with: "bsb.spamlookup.net"
+		fill_in 'spamlookup.safe_domain.list', with: "www.example.com"
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 http://www.example.com
 BODY
