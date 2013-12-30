@@ -30,7 +30,7 @@ RSpec.configure do |config|
 	work_conf = File.expand_path('../../tdiary.conf', __FILE__)
 
 	config.before(:all) do
-		FileUtils.cp_r tdiary_conf, work_conf, :verbose => false
+		FileUtils.cp_r tdiary_conf, work_conf, verbose: false
 	end
 
 	config.after(:all) do
@@ -39,7 +39,7 @@ RSpec.configure do |config|
 
 	config.before(:each) do
 		FileUtils.mkdir_p work_data_dir
-		FileUtils.cp_r(fixture_conf, File.join(work_data_dir, "tdiary.conf"), :verbose => false) unless fixture_conf.empty?
+		FileUtils.cp_r(fixture_conf, File.join(work_data_dir, "tdiary.conf"), verbose: false) unless fixture_conf.empty?
 	end
 
 	config.after(:each) do

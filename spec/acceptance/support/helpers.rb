@@ -4,11 +4,11 @@ module HelperMethods
 	def append_default_diary(ymd = Date.today.to_s)
 		date = Date.parse(ymd)
 		visit '/update.rb'
-		fill_in "year", :with => date.year
-		fill_in "month", :with => date.month
-		fill_in "day", :with => date.day
-		fill_in "title", :with => "tDiaryのテスト"
-		fill_in "body", :with => <<-BODY
+		fill_in "year", with: date.year
+		fill_in "month", with: date.month
+		fill_in "day", with: date.day
+		fill_in "title", with: "tDiaryのテスト"
+		fill_in "body", with: <<-BODY
 !さて、テストである。
 とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P
 BODY
@@ -18,10 +18,10 @@ BODY
 	def append_default_comment(ymd = Date.today.to_s)
 		visit "/"
 		date = Date.parse(ymd).strftime('%Y年%m月%d日')
-		page.find('h2', :text => date).click_link date
+		page.find('h2', text: date).click_link date
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => 'こんにちは!こんにちは!'
+		fill_in "name", with: "alpha"
+		fill_in "body", with: 'こんにちは!こんにちは!'
 		click_button '投稿'
 	end
 

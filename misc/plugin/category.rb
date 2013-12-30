@@ -78,8 +78,8 @@ def category_navi
 	result = ''
 	case mode
 	when :year, :half, :quarter, :month
-		all_diary = Category::Info.new(@cgi, @years, @conf, :year => -1, :month => -1)
-		all = Category::Info.new(@cgi, @years, @conf, :category => ['ALL'], :year => -1, :month => -1)
+		all_diary = Category::Info.new(@cgi, @years, @conf, year: -1, month: -1)
+		all = Category::Info.new(@cgi, @years, @conf, category: ['ALL'], year: -1, month: -1)
 		result << category_navi_anchor(info.prev, @conf['category.prev_' + mode.to_s], mobile)
 		result << category_navi_anchor(info.next, @conf['category.next_' + mode.to_s], mobile)
 		unless mobile then
@@ -87,17 +87,17 @@ def category_navi
 			result << category_navi_anchor(all, @conf['category.all'])
 		end
 	when :all
-		year = Category::Info.new(@cgi, @years, @conf, :year => Time.now.year.to_s)
-		half = Category::Info.new(@cgi, @years, @conf, :year => Time.now.year.to_s, :month => "#{((Time.now.month - 1) / 6 + 1)}H")
-		quarter = Category::Info.new(@cgi, @years, @conf, :year => Time.now.year.to_s, :month => "#{((Time.now.month - 1) / 3 + 1)}Q")
-		month = Category::Info.new(@cgi, @years, @conf, :year => Time.now.year.to_s, :month => '%02d' % Time.now.month)
+		year = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s)
+		half = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s, month: "#{((Time.now.month - 1) / 6 + 1)}H")
+		quarter = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s, month: "#{((Time.now.month - 1) / 3 + 1)}Q")
+		month = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s, month: '%02d' % Time.now.month)
 		result << category_navi_anchor(year, @conf['category.this_year'], mobile)
 		result << category_navi_anchor(half, @conf['category.this_half'], mobile)
 		result << category_navi_anchor(quarter, @conf['category.this_quarter'], mobile)
 		result << category_navi_anchor(month, @conf['category.this_month'], mobile)
 	end
 	if !info.category.include?('ALL') and !mobile then
-		all_category = Category::Info.new(@cgi, @years, @conf, :category => ['ALL'])
+		all_category = Category::Info.new(@cgi, @years, @conf, category: ['ALL'])
 		result << category_navi_anchor(all_category, @conf['category.all_category'])
 	end
 	result

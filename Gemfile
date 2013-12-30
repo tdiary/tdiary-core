@@ -21,24 +21,24 @@ group :server do
 end
 
 group :development do
-  gem 'pit', :require => false
-  gem 'racksh', :require => false
+  gem 'pit', require: false
+  gem 'racksh', require: false
   gem 'rake'
   gem 'redcarpet'
 
   group :test do
     gem 'pry'
     gem 'tapp'
-    gem 'test-unit', :require => 'test/unit'
+    gem 'test-unit', require: 'test/unit'
     gem 'rspec'
-    gem 'capybara', :require => 'capybara/rspec'
+    gem 'capybara', require: 'capybara/rspec'
     gem 'selenium-webdriver'
     gem 'launchy'
     gem 'sequel'
     gem 'sqlite3'
     gem 'jasmine', '~> 1.3'
-    gem 'simplecov', :require => false
-    gem 'coveralls', :require => false
+    gem 'simplecov', require: false
+    gem 'coveralls', require: false
   end
 end
 

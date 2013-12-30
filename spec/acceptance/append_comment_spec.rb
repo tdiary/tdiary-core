@@ -6,8 +6,8 @@ feature 'ツッコミの更新' do
 		append_default_diary
 		visit '/'
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 BODY
 
@@ -22,7 +22,7 @@ BODY
 			page.should have_content "こんにちは!こんにちは!"
 		}
 		today = Date.today.strftime('%Y年%m月%d日')
-		page.find('h2', :text => today).click_link today
+		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') {
 			within('div.commentator'){
 				t = Time.now
@@ -38,8 +38,8 @@ BODY
 		append_default_comment
 		visit "/"
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "bravo"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "bravo"
+		fill_in "body", with: <<-BODY
 こんばんは!こんばんは!
 BODY
 
@@ -55,7 +55,7 @@ BODY
 		}
 
 		today = Date.today.strftime('%Y年%m月%d日')
-		page.find('h2', :text => today).click_link today
+		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') {
 			t = Time.now
 			page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day]
@@ -70,8 +70,8 @@ BODY
 		append_default_diary
 		visit '/'
 		click_link 'ツッコミを入れる'
-		fill_in "name", :with => "alpha"
-		fill_in "body", :with => <<-BODY
+		fill_in "name", with: "alpha"
+		fill_in "body", with: <<-BODY
 こんにちは!こんにちは!
 BODY
 

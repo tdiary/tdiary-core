@@ -66,7 +66,7 @@ def amazon_call_ecs( asin, country = nil )
 	url << "&Version=#{@amazon_require_version}"
 
 	timeout( 10 ) do
-		open( url, :proxy => @proxy ) {|f| f.read}
+		open( url, proxy: @proxy ) {|f| f.read}
 	end
 end
 

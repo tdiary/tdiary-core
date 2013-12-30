@@ -167,12 +167,12 @@ racc_goto_default = [
 racc_token_table = {
  false => 0,
  Object.new => 1,
- :IDENT => 2,
+ IDENT: 2,
  ":" => 3,
  "{" => 4,
  "}" => 5,
- :QUOTE => 6,
- :EOL => 7 }
+ QUOTE: 6,
+ EOL: 7 }
 
 racc_use_result_var = true
 

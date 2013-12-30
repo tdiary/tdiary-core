@@ -19,7 +19,7 @@ feature '日記を読む' do
 		after_day = '2010年05月01日'
 
 		visit '/'
-		page.find('h2', :text => before_day).click_link "#{before_day}"
+		page.find('h2', text: before_day).click_link "#{before_day}"
 		within('div.adminmenu'){ page.should have_content "次の日記(#{after_day})"}
 
 		click_link "次の日記(#{after_day})"
@@ -54,7 +54,7 @@ feature '日記を読む' do
 		append_default_diary('20030423')
 
 		visit '/'
-		page.find('h2', :text => "2001年04月23日").click_link '2001年04月23日'
+		page.find('h2', text: "2001年04月23日").click_link '2001年04月23日'
 		click_link '長年日記'
 
 		titles = page.all('h2 span.date a').map{|t| t.text }
@@ -79,12 +79,12 @@ feature '日記を読む' do
 
 		visit '/'
 		click_link '追記'
-		within('span.year') { fill_in "year", :with => 2001 }
-		within('span.month') { fill_in "month", :with => 01 }
-		within('span.day') { fill_in "day", :with => 31 }
-		within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+		within('span.year') { fill_in "year", with: 2001 }
+		within('span.month') { fill_in "month", with: 01 }
+		within('span.day') { fill_in "day", with: 31 }
+		within('div.title') { fill_in "title", with: "tDiaryのテスト" }
 		within('div.textarea') {
-			fill_in "body", :with => <<-BODY
+			fill_in "body", with: <<-BODY
 !さて、月末である。
 今月も終わる
 BODY
@@ -93,12 +93,12 @@ BODY
 
 		visit '/'
 		click_link '追記'
-		within('span.year') { fill_in "year", :with => 2001 }
-		within('span.month') { fill_in "month", :with => 02 }
-		within('span.day') { fill_in "day", :with => 01 }
-		within('div.title') { fill_in "title", :with => "tDiaryのテスト" }
+		within('span.year') { fill_in "year", with: 2001 }
+		within('span.month') { fill_in "month", with: 02 }
+		within('span.day') { fill_in "day", with: 01 }
+		within('div.title') { fill_in "title", with: "tDiaryのテスト" }
 		within('div.textarea') {
-			fill_in "body", :with => <<-BODY
+			fill_in "body", with: <<-BODY
 !さて、月始めである。
 今月も始まる
 BODY
