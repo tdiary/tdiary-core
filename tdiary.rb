@@ -125,7 +125,7 @@ module TDiary
 
 		# directory where the server was started
 		def server_root
-			Dir.pwd
+			Dir.pwd.untaint
 		end
 
 		def configuration
