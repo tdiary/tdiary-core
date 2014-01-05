@@ -120,10 +120,13 @@ end
 #
 # initialize
 #
-@image_dir = @options && @options['image.dir'] || './images/'
+@image_dir = (@options && @options['image.dir']) || File.join(TDiary.server_root, @cgi.is_a?(RackCGI) ? 'public/images' : 'images')
 @image_dir.chop! if /\/$/ =~ @image_dir
+FileUtils.mkdir_p @image_dir unless File.exist?(@image_dir)
+
 @image_url = @options && @options['image.url'] || "#{base_url}images/"
 @image_url.chop! if /\/$/ =~ @image_url
+
 @image_maxwidth = @options && @options['image.maxwidth'] || nil
 
 add_body_enter_proc do |date|	
