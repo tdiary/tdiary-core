@@ -46,7 +46,7 @@ describe TDiary::IO::Default do
       end
     end
 
-    subject { File.open(TDiary.root + "/tmp/#{Time.now.year}/#{Time.now.year}#{Time.now.month}.td2").read }
+    subject { File.open(TDiary.root + "/tmp/#{Time.now.year}/#{Time.now.strftime('%Y%m')}.td2").read }
     it { expect(subject).to be_include "foo" }
     it { expect(subject).to be_include "bar" }
 
@@ -68,7 +68,7 @@ describe TDiary::IO::Default do
         end
       end
 
-      subject { File.open(TDiary.root + "/tmp/#{Time.now.year}/#{Time.now.year}#{Time.now.month}.td2").read }
+      subject { File.open(TDiary.root + "/tmp/#{Time.now.year}/#{Time.now.strftime('%Y%m')}.td2").read }
 
       it "update contents of diary" do
         expect(subject).to_not be_nil
