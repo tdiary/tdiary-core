@@ -56,11 +56,19 @@ module TDiary
 
 		include TDiary::PluginTestStub
 
-		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
+		def StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')
 			plugin_class = Class.new(StubPlugin)
 			plugin = plugin_class.new(lang)
 			plugin.load(plugin_relative_path)
-			return plugin_class
+			return plugin_class, plugin
+		end
+
+		def StubPlugin::load_plugin(plugin_relative_path, lang = 'en')
+			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[1]
+		end
+
+		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
+			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[0]
 		end
 
 		def initialize(lang = 'en')
