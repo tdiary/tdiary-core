@@ -42,6 +42,18 @@ module TDiary
 
 	class ConfStub
 		def style; 'tDiary'; end
+
+		def initialize
+			@conf = Hash.new
+		end
+
+		def []=(k,v)
+			@conf[k] = v
+		end
+
+		def [](k)
+			return @conf[k]
+		end
 	end
 
 	class StubPlugin
@@ -70,6 +82,8 @@ module TDiary
 		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
 			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[0]
 		end
+
+		attr_accessor :conf
 
 		def initialize(lang = 'en')
 			@lang = lang
