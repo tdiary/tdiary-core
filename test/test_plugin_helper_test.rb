@@ -39,4 +39,12 @@ class TestPluginTestHelper < Test::Unit::TestCase
 		end
 		assert_equal('value', plugin.conf['key'])
 	end
+
+	def test_plugin_options
+		plugin = TDiary::StubPlugin::load_plugin('plugin/00default.rb', 'en')
+		assert_nothing_raised do
+			plugin.options['key'] = 'value'
+		end
+		assert_equal('value', plugin.options['key'])
+	end
 end

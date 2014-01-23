@@ -84,6 +84,7 @@ module TDiary
 		end
 
 		attr_accessor :conf
+		attr_accessor :options
 
 		def initialize(lang = 'en')
 			@lang = lang
