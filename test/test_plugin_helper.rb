@@ -42,23 +42,67 @@ module TDiary
 
 	class ConfStub
 		def style; 'tDiary'; end
+
+		def initialize
+			@conf = Hash.new
+		end
+
+		def []=(k,v)
+			@conf[k] = v
+		end
+
+		def [](k)
+			return @conf[k]
+		end
 	end
 
-	class PluginTestCase < Test::Unit::TestCase
+	class StubPlugin
+		def self.inherited(child)
+			super
+			child.module_eval(<<-EOS)
+				def context
+					binding
+				end
+			EOS
+		end
+
 		include TDiary::PluginTestStub
 
-		def add_stub_ivars
+		def StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')
+			plugin_class = Class.new(StubPlugin)
+			plugin = plugin_class.new(lang)
+			plugin.load(plugin_relative_path)
+			return plugin_class, plugin
+		end
+
+		def StubPlugin::load_plugin(plugin_relative_path, lang = 'en')
+			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[1]
+		end
+
+		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
+			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[0]
+		end
+
+		attr_accessor :conf
+		attr_accessor :options
+
+		def initialize(lang = 'en')
+			@lang = lang
+			reset
+		end
+
+		def load(plugin_relative_path)
+			reset
+			ppath = TDiary::PluginTestHelper.absolute_path_of(plugin_relative_path)
+			pl10n = TDiary::PluginTestHelper.resource_absolute_path_of(plugin_relative_path, @lang)
+			File.open(pl10n){|f| eval(f.read, context, TDiary::PluginTestHelper.resource_relative_path_of(plugin_relative_path, @lang))}
+			File.open(ppath){|f| eval(f.read, context, plugin_relative_path)}
+		end
+
+		def reset
 			@options = {}
 			@conf_genre_label = {}
 			@conf = TDiary::ConfStub.new
-		end
-
-		def load_plugin(plugin_relative_path, lang = 'en', context = binding)
-			add_stub_ivars
-			ppath = PluginTestHelper.absolute_path_of(plugin_relative_path)
-			pl10n = PluginTestHelper.resource_absolute_path_of(plugin_relative_path, lang)
-			File.open(pl10n){|f| eval(f.read, context, PluginTestHelper.resource_relative_path_of(plugin_relative_path, lang))}
-			File.open(ppath){|f| eval(f.read, context, plugin_relative_path)}
 		end
 	end
 end
