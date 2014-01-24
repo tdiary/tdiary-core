@@ -45,7 +45,8 @@ module TDiary
 					path = path.sub(/\/+$/, '').untaint
 					Dir.glob("#{path}/*.rb") {|style_file| require style_file.untaint }
 				end
-				(["tdiary", "wiki"] + [@tdiary.conf.style].map(&:downcase)).flatten.uniq.each do |style|
+            @tdiary.conf.enabled_styles.each do |style_name|
+					style = style_name.downcase
 					klass = TDiary::Style.const_get("#{style.capitalize}Diary")
 					klass.send(:include, TDiary::Style::BaseDiary)
 					klass.send(:include, TDiary::Style::CategorizableDiary)
@@ -76,4 +77,4 @@ end
 # tab-width: 3
 # ruby-indent-level: 3
 # End:
-# vim: ts=3
+# vim: ts=3 sw=3 noexpandtab

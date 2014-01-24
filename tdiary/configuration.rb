@@ -150,6 +150,9 @@ module TDiary
 
 			@data_path += '/' if @data_path && /\/$/ !~ @data_path
 			@style = 'tDiary' unless @style
+			unless @enabled_styles
+				@enabled_styles = ["tDiary", "Wiki", @style].uniq(&:downcase)
+			end
 			@index = './' unless @index
 			@update = 'update.rb' unless @update
 			@hide_comment_form = false unless defined?( @hide_comment_form )
@@ -240,4 +243,4 @@ end
 # tab-width: 3
 # ruby-indent-level: 3
 # End:
-# vim: ts=3
+# vim: ts=3 sw=3 noexpandtab
