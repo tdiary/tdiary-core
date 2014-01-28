@@ -81,6 +81,34 @@ describe TDiary::IO::Default do
 
   end
 
+  describe "#style" do
+    context "given Foo style" do
+      let(:io) { TDiary::IO::Default.new(DummyTDiary.new) }
+
+      before do
+        TDiary::Style.const_set(:FooSection, Class.new)
+        TDiary::Style.const_set(:FooDiary, Class.new)
+      end
+
+      it "activates a style automatically" do
+        style = io.style("Foo")
+        expect(style).to eq TDiary::Style::FooDiary
+        expect(style).to be < TDiary::Style::BaseDiary
+        expect(style).to be < TDiary::Style::CategorizableDiary
+        expect(TDiary::Style::FooSection).to be < TDiary::Style::BaseSection
+      end
+
+      it "raises a BadStyleError when style is unknown" do
+        expect { io.style("Bar") }.to raise_error(TDiary::BadStyleError)
+      end
+
+      after do
+        TDiary::Style.send(:remove_const, :FooSection)
+        TDiary::Style.send(:remove_const, :FooDiary)
+      end
+    end
+  end
+
   before(:all) do
     ["/tmp/tdiary.conf", "/tmp/#{Time.now.year}"].each do |file|
       FileUtils.rm_rf TDiary.root + file
