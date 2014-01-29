@@ -27,10 +27,16 @@ tDiary の最新版を取得します。
 git clone git://github.com/tdiary/tdiary-core.git
 ```
 
-heroku コマンドを用いて Heroku でアプリケーションを作成します。なお、Heroku のアカウント作成方法は本ドキュメントでは省略します。tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
+続いて、依存するライブラリをインストールするために bundle install コマンドを実行します。
 
 ```
 % cd tdiary-core
+% bundle install
+```
+
+heroku コマンドを用いて Heroku でアプリケーションを作成します。なお、Heroku のアカウント作成方法は本ドキュメントでは省略します。tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
+
+```
 % heroku apps:create [アプリケーション名]
 ```
 
@@ -51,7 +57,7 @@ heroku コマンドを用いて Heroku でアプリケーションを作成し�
 日記更新時に必要となるユーザー名とパスワードを保存する .htpasswd ファイルを作成します。この情報は重要なので、外部には公開しないでください。
 
 ```
-% rake auth:password:create
+% bundle exec rake auth:password:create
 ```
 
 ここまでの変更内容を deploy ブランチにコミットし、Heroku にアプリケーションを転送します。
@@ -73,10 +79,16 @@ tDiary の最新版を取得します。
 git clone git://github.com/tdiary/tdiary-core.git
 ```
 
-sqale.jp にアクセスして新しいアプリケーションを作成します。作成後にアプリケーションの URL を git のリモートリポジトリに追加します。tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
+続いて、依存するライブラリをインストールするために bundle install コマンドを実行します。
 
 ```
 % cd tdiary-core
+% bundle install
+```
+
+sqale.jp にアクセスして新しいアプリケーションを作成します。作成後にアプリケーションの URL を git のリモートリポジトリに追加します。tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
+
+```
 % git remote add sqale ssh://sqale@gateway.sqale.jp:2222/[username]/[application].git
 ```
 
@@ -97,7 +109,7 @@ username と application の値は別途読み替えてください。続いて�
 日記更新時に必要となるユーザー名とパスワードを保存する .htpasswd ファイルを作成します。この情報は重要なので、外部には公開しないでください。
 
 ```
-% rake auth:password:create
+% bundle exec rake auth:password:create
 ```
 
 dot.env ファイルを .env にリネームして、データベースの接続情報を記入します。データベースの接続情報は sqale のアプリケーションダッシュボードから参照してください。接続情報は以下の形式で記入します。
@@ -109,7 +121,7 @@ DATABASE_URL=mysql2://username:password@hostname/database
 sqale では javascript や css ファイルを作業ディレクトリの public/assets 配下に置く必要があります。以下のコマンドを実行して対象のファイルをコピーしてください。
 
 ```
-rake assets:copy
+% bundle exec rake assets:copy
 ```
 
 ここまでの変更内容を deploy ブランチにコミットし、Heroku にアプリケーションを転送します。
