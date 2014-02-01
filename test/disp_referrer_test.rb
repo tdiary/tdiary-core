@@ -16,7 +16,7 @@ require 'uri'
 # top level. Therefore, we will spit required objects defined
 # in tdiary.rb to the top level.
 
-# Stab for @conf
+# Stub for @conf
 class DispReferrerStubConf
 	def secure; false; end
 	def options; {}; end
