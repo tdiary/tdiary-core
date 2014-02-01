@@ -144,8 +144,8 @@ class TestStationRegexp < Test::Unit::TestCase
 	end
 end
 
-# Stab for @conf
-class StabConf
+# Stub for @conf
+class WeatherStubConf
 	def to_native(str); str; end
 	def [](*args); nil; end
 end
@@ -155,7 +155,7 @@ class FetchTest < Test::Unit::TestCase
 		plugin_class = TDiary::StubPlugin::new_plugin('misc/plugin/weather.rb', 'en')
 		url = plugin_class::Weather::STATION_URL_TEMPLATE % 'PHTO'
 			
-		weather = plugin_class::Weather.new(Time.now, nil, StabConf.new)
+		weather = plugin_class::Weather.new(Time.now, nil, WeatherStubConf.new)
 		weather.get(url, {}, plugin_class::Weather_default_items)
 		assert_not_nil(weather.data['temperature(C)'])
 	end
