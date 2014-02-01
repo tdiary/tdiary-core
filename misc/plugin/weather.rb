@@ -68,9 +68,17 @@ of GPL version 2 or later.
 require 'net/http'
 require 'cgi'
 require 'timeout'
+require 'date'	# DateTime.strptime
 
 =begin
 == Classes and methods
+=== WeatherParser
+
+--- WeatherParser::parse
+=end
+
+
+=begin
 === WeatherTranslator module
 We want Japanese displayed in a diary written in Japanese.
 
@@ -144,45 +152,61 @@ class Weather
 	# magic numbers
 	WAITTIME = 10
 	MAXREDIRECT = 10
+	AVIATIONWEATHER_STATION_REGEXP = %r|(?:aviationweather.gov/adds/metars/\?.*station_ids=)([A-Z]{4,4})\b|
+	NOAA_STATION_REGEXP = %r|(?:weather.noaa.gov/weather/current/)([A-Z]{4,4})\b|
+	RAW_STATION_REGEXP = %r|\A([A-Z]{4,4})\z|
+	STATION_URL_TEMPLATE = "http://www.aviationweather.gov/adds/metars/?station_ids=%s&std_trans=translated&chk_metars=on&hoursStr=most+recent+only"
+
+	def Weather::extract_station_id(url)
+			[AVIATIONWEATHER_STATION_REGEXP, NOAA_STATION_REGEXP, RAW_STATION_REGEXP].each do |r|
+				m = r.match(url)
+				return m[1] if m and m[1]
+			end
+			return nil
+	end
 
 	# edit this method according to the HTML we will get
 	def parse_html( html, items )
 		htmlitems = Hash.new
 
-		# weather data is in the 4th table in the HTML from weather.noaa.gov
-		table = html.scan( %r[<table.*?>(.*?)</table>]mi )[3][0]
-		table.scan( %r[<tr.*?>(.*?)</tr>]mi ).collect {|a| a[0]}.each do |row|
+		# weather data is in the 1st table in the HTML from aviationweather.gov
+		table = html.scan( %r[<table.*?>(.*?)</table>]mi )
+		return if not table or not table[0] or not table[0][0]
+		table[0][0].scan( %r[<tr.*?>(.*?)</tr>]mi ).collect {|a| a[0]}.each do |row|
 			# <tr><td> *item* -> downcased </td><td> *value* </td></tr>
 			if %r[<td.*?>(.*?)</td>\s*<td.*?>(.*?)</td>]mi =~ row then
 				item = $1
 				value = $2
-				item = item.gsub( /<br>/i, '/' ).gsub( /<.*?>/m , '').strip.downcase
-				value = value.gsub( /<br>/i, '/' ).gsub( /<.*?>/m , '').strip
+				item = item.gsub( /<br>/i, '/' ).gsub( /<.*?>/m , '').strip.sub(/:$/, '').downcase
+				value = value.gsub(/\&(nbsp|#160);/, ' ').gsub(/\&#46;/, '.').gsub(/\&#37/, '%').gsub(/\&deg;/, '').gsub( /<br>/i, '/' ).gsub( /<.*?>/m , '').strip
 
 				# unit conversion settings
 				units = []
 				case item
 				when 'conditions at'
 					# we have to convert the UTC time into UNIX time
-					if /(\d{4}).(\d\d).(\d\d)\s*(\d\d)(\d\d)\s*UTC$/ =~ value then
-						value = Time::utc( $1, $2, $3, $4, $5 ).to_i.to_s
+					if /observed\s+(.*)$/ =~ value then
+						value = DateTime.strptime($1, "%H%M %z %d %B %Y").to_time.to_i.to_s
 					else
 						raise StandardError, 'Parse error in "Conditions at"'
 					end
 				when 'visibility' # we want to preserve adjective phrase if possible
-					if /(.*)([\d.]+)\s*mile(\(s\))?/i =~ value then
-						htmlitems["#{item}(km)"] = sprintf( '%s %.3f', $1.strip, $2.to_f * 1.610 )
-						htmlitems["#{item}(mile)"] = sprintf( '%s %s', $1.strip, $2 )
+					if /(.+)miles?/i =~ value then
+						htmlitems["#{item}(mile)"] = $1.strip
 					end
-				when 'wind' # we want to preserve adjective phrase if possible
-					speed = value.scan( /([\d.]+)\s*MPH/i ).collect { |x| x[0] }
-					htmlitems["#{item}(MPH)"] = speed.join(',')
-					htmlitems["#{item}(m/s)"] = speed.collect {|s| sprintf( '%.4f', s.to_f * 0.4472222 ) }.join(',')
+					if /([^\(]+)km/i =~ value then
+						htmlitems["#{item}(km)"] = $1.strip
+					end
+				when 'winds' # we want to preserve adjective phrase if possible
+					%w(MPH knots m/s).each do |unit|
+						speed = value.scan( /([\d.]+)\s*#{unit}/i ).collect { |x| x[0] }
+						htmlitems["wind(#{unit})"] = speed.join(',')
+					end
 					if /([\d.]+)\s*degrees?/i =~ value then
-						htmlitems["#{item}(deg)"] = $1
+						htmlitems["wind(deg)"] = $1
 					end
 					if /from\s+(the\s+)?(\w+)/i =~ value then
-						htmlitems["#{item}dir"] = $2 + ($3 ? " #{$3}" : '')
+						htmlitems["winddir"] = $2 + ($3 ? " #{$3}" : '')
 					end
 					if /(\(direction variable\))/i =~ value then
 						htmlitems["#{item}dir"] << " #{$1}"
@@ -192,18 +216,19 @@ class Weather
 					units = ['C', 'F']
 				when 'windchill'
 					units = ['C', 'F']
-				when 'dew point'
+				when 'dewpoint'
 					units = ['C', 'F']
 				when 'relative humidity'
 					units = ['%']
 				when 'pressure (altimeter)'
-					units = ['hPa']
+					units = ['mb']	# mb (mbar) and hPa results in same number
 				end
 
 				# parse the value with the units if preferred and possible
 				units.each do |unit|
-					if /(-?[\d.]+)\s*\(?#{unit}\b/i =~ value then
-						htmlitems["#{item}(#{unit})"] = $1
+					if /(-?[\d.]+)\s*\D?\(?#{unit}\b/i =~ value then
+						number = $1
+						htmlitems["#{item}(#{unit})"] = number
 					end
 				end
 
@@ -212,6 +237,18 @@ class Weather
 
 			end	# if %r[<td.*?>(.*?)</td>\s*<td.*?>(.*?)</td>]mi =~ row
 		end	# table.scan( %r[<tr.*?>(.*?)</tr>]mi ) ... do |row|
+
+		# Obtain weather from Weather: or Clouds:
+		weather = 'Unknown'
+		# e.g.: FG -RA  (fog, light rain)
+		if /\((.*)\)/ =~ htmlitems['weather'] then
+			weather = $1.strip
+		# e.g.: few clouds at 3000 feet AGL
+		elsif /(.*?)\s+at/ =~ htmlitems['clouds'] then
+			weather = $1.strip
+		end
+		# Weather seemed to have been slash divided capitalized string
+		htmlitems['weather'] = weather.split(/,\s*/).map{|e| e.strip.capitalize}.join('/')
 
 		# translate the parsed HTML into the Weather hash with more generic key
 		items.each do |from, to|
@@ -257,7 +294,7 @@ class Weather
 		px_port = 80 if px_host and !px_port
 		u = URI::parse( url )
 		Net::HTTP::Proxy( px_host, px_port ).start( u.host, u.port ) do |http|
-			case res = http.get( u.path, header )
+			case res = http.get( u.request_uri, header )
 			when Net::HTTPSuccess
 				res.body
 			when Net::HTTPRedirection
@@ -406,9 +443,9 @@ Weather_default_items = {
 	'visibility(km)'            => 'visibility(km)',
 	'temperature(C)'            => 'temperature(C)',
 	'windchill(C)'              => 'windchill(C)',
-	'dew point(C)'              => 'dewpoint(C)',
+	'dewpoint(C)'               => 'dewpoint(C)',
 	'relative humidity(%)'      => 'humidity(%)',
-	'pressure (altimeter)(hPa)' => 'pressure(hPa)',
+	'pressure (altimeter)(mb)'  => 'pressure(hPa)',
 }
 
 # shows weather
@@ -436,6 +473,7 @@ def get_weather
 	w = Weather::restore( path, @date )
 	if not w or w.error then
 		items = @options['weather.items'] || Weather_default_items
+		update_weather_url( @options )
 		w = Weather.new( @date, @options['weather.tz'], @conf )
 		w.get( @options['weather.url'], @options['weather.header'] || {}, items )
 		if @options.has_key?( 'weather.oldest' ) then
@@ -448,11 +486,28 @@ def get_weather
 	end
 end
 
+# Update URL of weather information
+#
+# Around April, 2012, NOAA chnaged the URL of the current weather from
+# http://weather.noaa.gov/weather/current/#{station_id}.html
+# to
+# http://www.aviationweather.gov/adds/metars/?station_ids=#{station_id}&std_trans=translated&chk_metars=on&hoursStr=most+recent+only
+def update_weather_url( hash )
+	if hash['weather.url'] and match = hash['weather.url'].scan(%r[\Ahttp://weather.noaa.gov/weather/current/(\w{4,4}).html\z])[0]
+		hash['weather.url'] = Weather::STATION_URL_TEMPLATE % match[0]
+	end
+end
+
 # www configuration interface
 def configure_weather
 	if( @mode == 'saveconf' ) then
 		# weather.url
-		@conf['weather.url'] = @cgi.params['weather.url'][0]
+		station = Weather::extract_station_id( @cgi.params['weather.url'][0] )
+		if station
+			@conf['weather.url'] = Weather::STATION_URL_TEMPLATE % station
+		else
+			@conf['weather.url'] = @cgi.params['weather.url'][0]
+		end
 		# weather.tz
 		tz = @cgi.params['weather.tz'][0]
 		unless tz.empty? then	# need more checks
@@ -469,6 +524,7 @@ def configure_weather
 			end
 		end
 	end
+	update_weather_url( @conf )
 	weather_configure_html( @conf )
 end
 

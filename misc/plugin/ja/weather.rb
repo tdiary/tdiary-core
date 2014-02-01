@@ -343,6 +343,8 @@ end
 
 # www configuration interface
 def weather_configure_html( conf )
+	station = Weather::extract_station_id(conf['weather.url'])
+	station ||= conf['weather.url']
 	<<-HTML
 	<h3 class="subtitle">その日の天気プラグイン</h3>
 	<p>その日の天気を、その日の日記を最初に更新する時に取得して保存し、
@@ -352,8 +354,11 @@ def weather_configure_html( conf )
 		<a href="http://weather.noaa.gov/">NOAA National Weather Service</a>
 		から、Select a country...で国名を選んでGo!ボタンを押し、
 		次に観測地点を選んでください。
-		そして、その時表示されたページのURLを、以下に記入してください。</p>
-	<p><input name="weather.url" value="#{conf['weather.url']}" size="60"></p>
+		そして、その時表示されたページのURL
+		(例えば東京ヘリポートの場合は<tt>http://weather.noaa.gov/weather/current/RJTI.html</tt>となります)
+		を、以下に記入してください。
+		大文字4文字のStation IDでもかまいません。</p>
+	<p><input name="weather.url" value="#{station}" size="50"></p>
 	<p>将来日記のタイムゾーンが変化する可能性がある方は、
 		今のタイムゾーンを記録しておくことをお勧めします。
 		これによって、日記が引越した後も、

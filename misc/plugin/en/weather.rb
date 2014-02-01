@@ -126,6 +126,8 @@ end
 
 # www configuration interface
 def weather_configure_html( conf )
+	station = Weather::extract_station_id(conf['weather.url'])
+	station ||= conf['weather.url']
 	<<-HTML
 	<h3 class="subtitle">Weather-of-today plugin</h3>
 	<p>Records the weather when the diary is first updated for the date
@@ -136,8 +138,9 @@ def weather_configure_html( conf )
 		<a href="http://weather.noaa.gov/">NOAA National Weather Service</a>
 		and push the &quot;Go!&quot; button.
 		Then select the observation point.
-		Write down the URL of the page shown in the box below.</p>
-	<p><input name="weather.url" value="#{conf['weather.url']}" size="60"></p>
+		Write down the URL of the page shown in the box below.
+		The four letter station ID can also be used here.</p>
+	<p><input name="weather.url" value="#{station}" size="60"></p>
 	<p>It would be better to record your time zone in the data if you are
 		likely to move to another time zone in the future.
 		Thus, the weather data will be  shown in the local time where the
