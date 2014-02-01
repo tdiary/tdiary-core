@@ -105,4 +105,51 @@ module TDiary
 			@conf = TDiary::ConfStub.new
 		end
 	end
+
+	class StubPlugin
+		def self.inherited(child)
+			super
+			child.module_eval(<<-EOS)
+				def context
+					binding
+				end
+			EOS
+		end
+
+		include TDiary::PluginTestStub
+
+		def StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')
+			plugin_class = Class.new(StubPlugin)
+			plugin = plugin_class.new(lang)
+			plugin.load(plugin_relative_path)
+			return plugin_class, plugin
+		end
+
+		def StubPlugin::load_plugin(plugin_relative_path, lang = 'en')
+			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[1]
+		end
+
+		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
+			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[0]
+		end
+
+		def initialize(lang = 'en')
+			@lang = lang
+			reset
+		end
+
+		def load(plugin_relative_path)
+			reset
+			ppath = TDiary::PluginTestHelper.absolute_path_of(plugin_relative_path)
+			pl10n = TDiary::PluginTestHelper.resource_absolute_path_of(plugin_relative_path, @lang)
+			File.open(pl10n){|f| eval(f.read, context, TDiary::PluginTestHelper.resource_relative_path_of(plugin_relative_path, @lang))}
+			File.open(ppath){|f| eval(f.read, context, plugin_relative_path)}
+		end
+
+		def reset
+			@options = {}
+			@conf_genre_label = {}
+			@conf = TDiary::ConfStub.new
+		end
+	end
 end
