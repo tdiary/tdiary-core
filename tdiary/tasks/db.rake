@@ -47,9 +47,9 @@ namespace :db do
 							primary_key [:diary_id, :no]
 						end unless db.table_exists?(:comments)
 
-						diaries.each do |date, diary|
+						diaries.each do |d, diary|
 							no = 0
-							if /(\d\d\d\d)(\d\d)(\d\d)/ =~ date
+							if /(\d\d\d\d)(\d\d)(\d\d)/ =~ d
 								year  = $1
 								month = $2
 								day   = $3
@@ -57,7 +57,7 @@ namespace :db do
 							entry = db[:diaries].filter(:year => year,
 								:month => month,
 								:day => day,
-								:diary_id => date)
+								:diary_id => d)
 							if entry.count > 0
 								entry.update(:title => diary.title,
 									:last_modified => diary.last_modified.to_i,
@@ -68,7 +68,7 @@ namespace :db do
 								db[:diaries].insert(:year => year,
 									:month => month,
 									:day => day,
-									:diary_id => date,
+									:diary_id => d,
 									:title => diary.title,
 									:last_modified => diary.last_modified.to_i,
 									:style => diary.style,
@@ -78,7 +78,7 @@ namespace :db do
 
 							diary.each_comment(diary.count_comments(true)) do |com|
 								no += 1
-								comment = db[:comments].filter(:diary_id => date, :no => no)
+								comment = db[:comments].filter(:diary_id => d, :no => no)
 								if comment.count > 0
 									comment.update(:name => com.name, :mail => com.mail, :last_modified => com.date.to_i, :visible => com.visible?, :comment => com.body)
 								else
