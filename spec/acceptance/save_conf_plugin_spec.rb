@@ -5,7 +5,7 @@ feature 'プラグイン選択設定の利用' do
 	plugin_path = "#{TDiary::PATH}/misc/plugin/rspec.rb"
 
 	scenario '新入荷のプラグインが表示される' do
-		FileUtils.rm plugin_path if File.exists? plugin_path
+		FileUtils.rm plugin_path if File.exist? plugin_path
 
 		visit '/update.rb?conf=sp'
 		page.all('div.saveconf').first.click_button 'OK'

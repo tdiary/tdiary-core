@@ -18,7 +18,7 @@ end
 
 def migrate_old_data
 	# backward compatibility
-	if File.exists?("#{@cache_path}/recent_comments") && !File.exists?("{#{@conf.data_path}/recent_comments")
+	if File.exist?("#{@cache_path}/recent_comments") && !File.exist?("{#{@conf.data_path}/recent_comments")
 		FileUtils.mv( "#{@cache_path}/recent_comments", "#{@conf.data_path}/recent_comments" )
 	end
 	# workaround for "/foo//bar" doesn't equal "/foo/bar"

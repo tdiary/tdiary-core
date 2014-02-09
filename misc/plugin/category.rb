@@ -28,7 +28,7 @@ def category_icon_init
 	@conf['category.icon'].split(/\n/).each do |l|
 		c, i = l.split
 		next if c.nil? or i.nil?
-		@category_icon[c] = i if File.exists?("#{@category_icon_dir}#{i}".untaint)
+		@category_icon[c] = i if File.exist?("#{@category_icon_dir}#{i}".untaint)
 	end
 end
 category_icon_init

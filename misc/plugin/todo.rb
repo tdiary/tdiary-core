@@ -146,7 +146,7 @@ end
 
 # backward compatibility
 def todo_file
-	if File.exists?( "#{@cache_path}/todo" ) then
+	if File.exist?( "#{@cache_path}/todo" ) then
 		FileUtils.mv( "#{@cache_path}/todo", "#{@conf.data_path}/todo")
 	end
 	(@options && @options['todo.path'] || @conf.data_path) + "/todo"
