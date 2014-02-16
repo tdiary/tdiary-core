@@ -455,7 +455,6 @@ end
 
 def nyear_link( date, title )
 	if @conf.show_nyear and @mode != 'nyear' and !@cgi.mobile_agent? then
-		y = date.strftime( '%Y' )
 		m = date.strftime( '%m' )
 		d = date.strftime( '%d' )
 		years = @years.find_all {|year, months| months.include? m}
@@ -533,7 +532,7 @@ end
 # make anchor tag in my diary
 #
 def my( a, str, title = nil )
-	date, noise, frag = a.scan( /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)([^\d]*)?#?([pct]\d+)?$/ )[0]
+	date, _, frag = a.scan( /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)([^\d]*)?#?([pct]\d+)?$/ )[0]
 	anc = frag ? "#{date}#{frag}" : date
 	index = /^https?:/ =~ @conf.index ? '' : base_url
 	index += @conf.index.sub(%r|^\./|, '')
