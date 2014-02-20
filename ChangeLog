@@ -1,3 +1,6 @@
+2013-02-21  TADA Tadashi <t@tdtds.jp>
+	* add theme_online plugin #291
+
 2013-03-20  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* misc/style/gfm/gfm_style.rb: bugfix #268, #269. fixed broken rule of autolink replacements.
 
