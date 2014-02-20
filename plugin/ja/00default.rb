@@ -265,7 +265,7 @@ add_conf_proc( 'theme', 'テーマ選択', 'theme' ) do
 	<h3 class="subtitle">テーマの指定</h3>
 	#{"<p>日記のデザインをテーマ、もしくはCSSの直接入力で指定します。ドロップダウンメニューから「CSS指定→」を選択した場合には、右の欄にCSSのURLを入力してください。</p>" unless @cgi.mobile_agent?}
 	<p>
-	<select name="theme" onChange="changeTheme( theme_thumbnail, this )">
+	<select name="theme" id="theme_selection">
 		<option value="">CSS指定→</option>
 	HTML
 	r << conf_theme_list
