@@ -233,7 +233,7 @@ add_conf_proc( 'theme', 'Themes', 'theme' ) do
 	<h3 class="subtitle">Theme</h3>
 	#{"<p>Specify the design of your diary using Theme or CSS. When you select \"CSS specify\", input URL of CSS into the field right side.</p>" unless @cgi.mobile_agent?}
 	<p>
-	<select name="theme" onChange="changeTheme( theme_thumbnail, this )">
+	<select name="theme" id="theme_selection">
 		<option value="">CSS Specify-&gt;</option>
 	HTML
 	r << conf_theme_list

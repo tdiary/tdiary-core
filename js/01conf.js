@@ -43,7 +43,7 @@ $(function(){
 	/*
 	 * theme thumbnail changer
 	 */
-	$('#theme_selection').on('change', function(){
+	$(document).on('change', '#theme_selection',function(){
 		var list = $(this);
 		var image = $('#theme_thumbnail');
 

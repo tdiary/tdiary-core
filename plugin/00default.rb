@@ -398,6 +398,10 @@ def css_tag
 		css = "#{h theme_url}/conf.css"
 	elsif @conf.theme and @conf.theme.length > 0
 		location, name = @conf.theme.split(/\//, 2)
+		unless name
+			name = location
+			location = 'local'
+		end
 		css = __send__("theme_url_#{location}", name)
 	else
 		css = @conf.css
@@ -824,8 +828,6 @@ def conf_theme_list
 		end
 		r << %Q|<option value="#{h theme[0]}"#{select}>#{theme[1]}</option>|
 	end
-	p t
-	p @conf.theme
 	img = t == -1 ? 'nowprinting' : @conf.theme.sub(/^.*\//, '')
 	r << <<-HTML
 	</select>
