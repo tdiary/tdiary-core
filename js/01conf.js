@@ -41,6 +41,22 @@ $(function(){
 	});
 
 	/*
+	 * theme thumbnail changer
+	 */
+	$(document).on('change', '#theme_selection',function(){
+		var list = $(this);
+		var image = $('#theme_thumbnail');
+
+		var theme = '';
+		if ( list.selectedIndex == 0 ) {
+			theme = 'nowprinting';
+		} else {
+			theme = list.val().replace(/^.*\//, '');
+		}
+		image.attr('src', 'http://www.tdiary.org/theme.image/' + theme + '.jpg');
+	});
+
+	/*
 	 * old ruby alert
 	 */
 	$('#alert-old-ruby').on('click', function(){
