@@ -20,13 +20,13 @@ describe TDiary::Configuration do
       @obj = TDiary.configuration
     end
 
-    it { @obj.class.should eq TDiary::Configuration }
+    it { expect(@obj.class).to eq TDiary::Configuration }
     it "singleton" do
-      @obj.should eq TDiary.configuration
+      expect(@obj).to eq TDiary.configuration
     end
   end
 
   it "TDiary.configuration.attribute" do
-    TDiary.configuration.style.should == "Wiki"
+    expect(TDiary.configuration.style).to eq("Wiki")
   end
 end

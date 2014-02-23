@@ -8,8 +8,8 @@ feature 'リンク元の表示', exclude_selenium: true do
 		today = Date.today.strftime("%Y年%m月%d日")
 		page.find('h2', text: today).click_link today
 		within('div.day') {
-			page.should have_css('div[class="refererlist"]')
-			within('div.refererlist') { page.should have_content "http://www.example.com" }
+			expect(page).to have_css('div[class="refererlist"]')
+			within('div.refererlist') { expect(page).to have_content "http://www.example.com" }
 		}
 	end
 
@@ -18,7 +18,7 @@ feature 'リンク元の表示', exclude_selenium: true do
 		visit "/"
 		today = Date.today.strftime("%Y年%m月%d日")
 		page.find('h2', text: today).click_link today
-		within('div.day div.refererlist') { page.should have_link "http://www.example.com" }
+		within('div.day div.refererlist') { expect(page).to have_link "http://www.example.com" }
 	end
 end
 

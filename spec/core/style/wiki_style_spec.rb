@@ -42,7 +42,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html }
+			it { expect(@diary.to_html).to eq @html }
 		end
 
 		context 'CHTML' do
@@ -56,11 +56,11 @@ honbun
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 
 		context 'to_src' do
-			it { @diary.to_src.should eq @source }
+			it { expect(@diary.to_src).to eq @source }
 		end
 	end
 
@@ -97,7 +97,7 @@ replace
 </div>
 			EOF
 		end
-		it { @diary.to_html.should eq @html }
+		it { expect(@diary.to_html).to eq @html }
 	end
 
 	describe '#add_section' do
@@ -131,7 +131,7 @@ honbun
 </div>
 			EOF
 		end
-		it { @diary.to_html.should eq @html }
+		it { expect(@diary.to_html).to eq @html }
 	end
 
 	describe '#delete_section' do
@@ -157,7 +157,7 @@ honbun
 </div>
 			EOF
 		end
-		it { @diary.to_html.should eq @html }
+		it { expect(@diary.to_html).to eq @html }
 	end
 
 	describe 'test_wiki_style2' do
@@ -185,7 +185,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html }
+			it { expect(@diary.to_html).to eq @html }
 		end
 
 		context 'CHTML' do
@@ -198,7 +198,7 @@ honbun
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 
@@ -237,7 +237,7 @@ honbun
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html }
+			it { expect(@diary.to_html).to eq @html }
 		end
 
 		context 'CHTML' do
@@ -254,7 +254,7 @@ honbun
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 
@@ -300,7 +300,7 @@ ge
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html }
+			it { expect(@diary.to_html).to eq @html }
 		end
 
 		context 'CHTML' do
@@ -324,7 +324,7 @@ ge
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 
@@ -372,7 +372,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html }
+			it { expect(@diary.to_html).to eq @html }
 		end
 
 		context 'CHTML' do
@@ -392,7 +392,7 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 
@@ -422,7 +422,7 @@ appended body
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html }
+			it { expect(@diary.to_html).to eq @html }
 		end
 
 		context 'CHTML' do
@@ -435,7 +435,7 @@ appended body
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 end

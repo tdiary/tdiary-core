@@ -11,17 +11,17 @@ describe TDiary::Rack::Static do
 
 		it 'should return the file in static directory' do
 			get '/README.md'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should run the app if file is not exist' do
 			get '/index.rb'
-			last_response.status.should be 500
+			expect(last_response.status).to be 500
 		end
 
 		it 'should run the app when post method' do
 			post '/index.rb'
-			last_response.status.should be 500
+			expect(last_response.status).to be 500
 		end
 	end
 end

@@ -26,19 +26,19 @@ describe PStore, "auto convert library" do
 
 	it "should convert an encoding to UTF-8 automatically" do
 		PStore.new(@dbfile).transaction do |db|
-			db["key1"].encoding.should == Encoding::UTF_8
-			db["key2"].should  == 2
-			db["key3"][2].encoding.should  == Encoding::UTF_8
+			expect(db["key1"].encoding).to eq(Encoding::UTF_8)
+			expect(db["key2"]).to  eq(2)
+			expect(db["key3"][2].encoding).to  eq(Encoding::UTF_8)
 		end
 	end
 
 	it "1回目のtransactionではMashal.loadが3回呼ばれる" do
-		Marshal.should_receive(:load).exactly(3).and_return({})
+		expect(Marshal).to receive(:load).exactly(3).and_return({})
 		PStore.new(@dbfile).transaction {}
 	end
 
 	it "2回目のtransactionではMashal.loadが1回だけ呼ばれる" do
-		Marshal.should_receive(:load).exactly(4).and_return({})
+		expect(Marshal).to receive(:load).exactly(4).and_return({})
 		PStore.new(@dbfile).transaction {}
 		PStore.new(@dbfile).transaction {}
 	end

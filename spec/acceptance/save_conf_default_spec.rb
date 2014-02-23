@@ -22,12 +22,12 @@ feature '基本設定の利用' do
 		# within('title') { page.should have_content('ただの日記') }
 
 		visit '/update.rb?conf=default'
-		page.should have_field "author_name", with: "ただただし"
-		page.should have_field "html_title", with: "ただの日記"
-		page.should have_field "author_mail", with: "t@tdtds.jp"
-		page.should have_field "index_page", with: "http://www.example.com"
-		page.should have_field "description", with: "ただただしによる日々の記録"
-		page.should have_field "icon", with: "http://tdtds.jp/favicon.png"
+		expect(page).to have_field "author_name", with: "ただただし"
+		expect(page).to have_field "html_title", with: "ただの日記"
+		expect(page).to have_field "author_mail", with: "t@tdtds.jp"
+		expect(page).to have_field "index_page", with: "http://www.example.com"
+		expect(page).to have_field "description", with: "ただただしによる日々の記録"
+		expect(page).to have_field "icon", with: "http://tdtds.jp/favicon.png"
 		# TODO banner の値が fill_in されない
 		# page.should have_field("banner", with: "http://sho.tdiary.net/images/banner.png")
 	end
@@ -49,16 +49,16 @@ FOOTER
 		#within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
-		within('h1') { page.should have_content('alpha') }
-		within('div.sidebar') { page.should have_content('bravo')}
+		within('h1') { expect(page).to have_content('alpha') }
+		within('div.sidebar') { expect(page).to have_content('bravo')}
 
 		visit '/update.rb?conf=header'
-		page.should have_field "header", with: <<-HEADER
+		expect(page).to have_field "header", with: <<-HEADER
 <%= navi %>
 <h1>alpha</h1>
 <div class="main">
 HEADER
-		page.should have_field "footer", with: <<-FOOTER
+		expect(page).to have_field "footer", with: <<-FOOTER
 </div>
 <div class="sidebar">
 bravo
@@ -85,12 +85,12 @@ FOOTER
 		# within('title') { page.should have_content('(設定完了)') }
 
 		click_link '最新'
-		page.should have_content('★')
-		page.should have_content('●')
+		expect(page).to have_content('★')
+		expect(page).to have_content('●')
 		titles = page.all('h2 span.date a').map{|t| t.text }
-		titles.should include("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
-		titles.should_not include("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
-		page.should_not have_content("長年日記")
+		expect(titles).to include("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
+		expect(titles).not_to include("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
+		expect(page).not_to have_content("長年日記")
 	end
 
 	scenario 'ログレベルの選択の設定' do
@@ -104,7 +104,7 @@ FOOTER
 		# TODO ログレベルの確認
 
 		visit '/update.rb?conf=logger'
-		within('select option[selected]'){ page.should have_content 'DEBUG' }
+		within('select option[selected]'){ expect(page).to have_content 'DEBUG' }
 	end
 
 	scenario '時差調整が保存される' do
@@ -116,13 +116,13 @@ FOOTER
 
 		click_link '追記'
 		y, m, d = (Date.today - 1).to_s.split('-').map {|t| t.sub(/^0+/, "") }
-		within('span.year') { page.should have_field('year', with: y) }
-		within('span.month') { page.should have_field('month', with: m) }
-		within('span.day') { page.should have_field('day', with: d) }
+		within('span.year') { expect(page).to have_field('year', with: y) }
+		within('span.month') { expect(page).to have_field('month', with: m) }
+		within('span.day') { expect(page).to have_field('day', with: d) }
 
 		click_link '設定'
 		click_link '時差調整'
-		page.should have_field('hour_offset', with: '-24.0')
+		expect(page).to have_field('hour_offset', with: '-24.0')
 	end
 
 	scenario 'Rack 環境でテーマ選択が保存される', :exclude_selenium do
@@ -132,12 +132,12 @@ FOOTER
 		page.all('div.saveconf').first.click_button "OK"
 
 		click_link '最新'
-		page.body.should be_include('href="assets/base.css"')
-		page.body.should be_include('href="assets/tdiary1/tdiary1.css"')
+		expect(page.body).to be_include('href="assets/base.css"')
+		expect(page.body).to be_include('href="assets/tdiary1/tdiary1.css"')
 
 		visit '/update.rb?conf=theme'
 		within('select option[selected]'){
-			page.should have_content 'Tdiary1'
+			expect(page).to have_content 'Tdiary1'
 		}
 	end
 
@@ -149,13 +149,13 @@ FOOTER
 
 		click_link '最新'
 		within('head') {
-			page.should have_css('link[href="theme/base.css"]')
-			page.should have_css('link[href="theme/tdiary1/tdiary1.css"]')
+			expect(page).to have_css('link[href="theme/base.css"]')
+			expect(page).to have_css('link[href="theme/tdiary1/tdiary1.css"]')
 		}
 
 		visit '/update.rb?conf=theme'
 		within('select option[selected]'){
-			page.should have_content 'Tdiary1'
+			expect(page).to have_content 'Tdiary1'
 		}
 	end
 end

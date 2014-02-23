@@ -30,7 +30,7 @@ describe TDiary::Rack::Assets::Precompile do
 		end
 
 		it "JavaScript にコンパイルされる" do
-			FileTest.exist?("#{assets_path}/foo.js").should be_true
+			expect(FileTest.exist?("#{assets_path}/foo.js")).to be_truthy
 		end
 	end
 
@@ -46,7 +46,7 @@ describe TDiary::Rack::Assets::Precompile do
 			end
 
 			it "JavaScript が更新される" do
-				@jstime.should < File.mtime("#{assets_path}/foo.js").to_i
+				expect(@jstime).to be < File.mtime("#{assets_path}/foo.js").to_i
 			end
 		end
 
@@ -61,7 +61,7 @@ describe TDiary::Rack::Assets::Precompile do
 			end
 
 			it "JavaScript は更新されない" do
-				@jstime.should == File.mtime("#{assets_path}/foo.js").to_i
+				expect(@jstime).to eq(File.mtime("#{assets_path}/foo.js").to_i)
 			end
 		end
 	end

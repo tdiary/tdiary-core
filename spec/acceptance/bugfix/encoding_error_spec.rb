@@ -14,7 +14,7 @@ feature '1.9 でエンコーディングエラーとなるリファラ' do
 
 		visit "/?date=#{Date.today.strftime('%Y%m%d')}"
 
-		page.should have_content "さて、テストである。"
+		expect(page).to have_content "さて、テストである。"
 	end
 end
 

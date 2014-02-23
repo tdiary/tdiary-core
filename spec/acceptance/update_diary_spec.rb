@@ -20,13 +20,13 @@ BODY
 
 		visit '/'
 		page.find('h2', text: '2001年04月23日').click_link '2001年04月23日'
-		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day span.title'){ expect(page).to have_content "tDiaryのテスト" }
 		within('div.body'){
-			page.should have_content "さて、テストである。"
-			page.should have_content "もう一度テストである。"
+			expect(page).to have_content "さて、テストである。"
+			expect(page).to have_content "もう一度テストである。"
 
-			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
-			page.should have_content "本当に動くかな?"
+			expect(page).to have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			expect(page).to have_content "本当に動くかな?"
 		}
 
 		visit '/update.rb'
@@ -44,13 +44,13 @@ BODY
 
 		visit '/'
 		page.find('h2', text: '2001年04月23日').click_link '2001年04月23日'
-		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day span.title'){ expect(page).to have_content "tDiaryのテスト" }
 		within('div.body'){
-			page.should have_no_content "さて、テストである。"
-			page.should have_content "もう一度テストである。"
+			expect(page).to have_no_content "さて、テストである。"
+			expect(page).to have_content "もう一度テストである。"
 
-			page.should have_no_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
-			page.should have_content "本当に動くかな?"
+			expect(page).to have_no_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			expect(page).to have_content "本当に動くかな?"
 		}
 	end
 
@@ -66,10 +66,10 @@ BODY
 		within('div.textarea') { fill_in "body", with: '' }
 
 		click_button "登録"
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit '/'
-		within('div.day') { page.should have_no_css('h3') }
+		within('div.day') { expect(page).to have_no_css('h3') }
 	end
 
 	scenario '日記を隠す' do
@@ -83,10 +83,10 @@ BODY
 		check 'hide'
 
 		click_button "登録"
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit '/'
-		page.should have_no_css('div[class="day"]')
+		expect(page).to have_no_css('div[class="day"]')
 	end
 
 	scenario '編集画面に前の日記と次の日記のリンク表示される' do
@@ -100,8 +100,8 @@ BODY
 		fill_in "day", with: '3'
 		click_button 'この日付の日記を編集'
 
-		page.should have_content('«前の日記(2001年05月02日)')
-		page.should have_content('次の日記(2001年05月04日)»')
+		expect(page).to have_content('«前の日記(2001年05月02日)')
+		expect(page).to have_content('次の日記(2001年05月04日)»')
 	end
 end
 
