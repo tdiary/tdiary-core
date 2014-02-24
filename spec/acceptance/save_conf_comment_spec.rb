@@ -14,9 +14,9 @@ feature 'ツッコミ設定の利用' do
 
 		click_link '最新'
 		within('div.day div.comment') {
-			page.should have_no_css('div[class="commentshort"]')
-			page.should have_no_content "alpha"
-			page.should have_no_content "こんにちは!こんにちは!"
+			expect(page).to have_no_css('div[class="commentshort"]')
+			expect(page).to have_no_content "alpha"
+			expect(page).to have_no_content "こんにちは!こんにちは!"
 		}
 	end
 
@@ -32,7 +32,7 @@ feature 'ツッコミ設定の利用' do
 BODY
 
 		click_button '投稿'
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit '/update.rb?conf=comment'
 		fill_in 'comment_limit', with: '1'
@@ -42,19 +42,19 @@ BODY
 
 		click_link '最新'
 		within('div.day div.comment div.commentshort') {
-			page.should have_no_content "alpha"
-			page.should have_content "bravo"
-			page.should have_no_content "こんにちは!こんにちは!"
-			page.should have_content "こんばんは!こんばんは!"
+			expect(page).to have_no_content "alpha"
+			expect(page).to have_content "bravo"
+			expect(page).to have_no_content "こんにちは!こんにちは!"
+			expect(page).to have_content "こんばんは!こんばんは!"
 		}
 
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') { 
-			page.should have_content "alpha"
-			page.should have_content "bravo"
-			page.should have_content "こんにちは!こんにちは!"
-			page.should have_content "こんばんは!こんばんは!"
+			expect(page).to have_content "alpha"
+			expect(page).to have_content "bravo"
+			expect(page).to have_content "こんにちは!こんにちは!"
+			expect(page).to have_content "こんばんは!こんばんは!"
 		}
 	end
 
@@ -72,8 +72,8 @@ BODY
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
 		within('div#comment-form-section') {
-			within('div.caption') { page.should have_content('本日の日記はツッコミ数の制限を越えています。') }
-			page.should have_no_css('form')
+			within('div.caption') { expect(page).to have_content('本日の日記はツッコミ数の制限を越えています。') }
+			expect(page).to have_no_css('form')
 		}
 	end
 end

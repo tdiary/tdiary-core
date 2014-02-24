@@ -13,7 +13,7 @@ feature 'リンク元設定の利用' do
 		click_link '最新'
 		today = Date.today.strftime("%Y年%m月%d日")
 		page.find('h2', text: today).click_link today
-		within('div.day') { page.should have_no_css('div[class="refererlist"]') }
+		within('div.day') { expect(page).to have_no_css('div[class="refererlist"]') }
 	end
 
 	scenario 'リンク元記録の除外設定が動いている' do
@@ -27,7 +27,7 @@ feature 'リンク元設定の利用' do
 		click_link '最新'
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
-		within('div.day div.refererlist') { page.should have_no_link('http://www.example.com') }
+		within('div.day div.refererlist') { expect(page).to have_no_link('http://www.example.com') }
 	end
 
 	scenario 'リンク元の置換が動いている', :exclude_selenium do
@@ -45,8 +45,8 @@ REFERER
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
 		within('div.day div.refererlist') {
-			page.should have_link "alice"
-			page.should have_no_link "http://www.example.com"
+			expect(page).to have_link "alice"
+			expect(page).to have_no_link "http://www.example.com"
 		}
 	end
 end

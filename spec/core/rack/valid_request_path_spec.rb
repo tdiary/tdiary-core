@@ -11,57 +11,57 @@ describe TDiary::Rack::ValidRequestPath do
 
 		it 'should return 200 for latest' do
 			get '/'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a nyear' do
 			get '/0501.html'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a month' do
 			get '/201205.html'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a day' do
 			get '/20120501.html'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a day with section_permalink_anchor plugin' do
 			get '/20120501p01.html'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a day with query' do
 			get '/?date=20120501'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a day with query and section_permalink_anchor plugin' do
 			get '/?date=20120501&p=01'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 200 for a day with index.rb and query' do
 			get '/index.rb?date=20120501'
-			last_response.should be_ok
+			expect(last_response).to be_ok
 		end
 
 		it 'should return 404 for access to the invalid file' do
 			get '/20120501'
-			last_response.status.should be 404
+			expect(last_response.status).to be 404
 			get '/invalid'
-			last_response.status.should be 404
+			expect(last_response.status).to be 404
 			head '/invalid'
-			last_response.status.should be 404
-			last_response.body.length.should be 0
+			expect(last_response.status).to be 404
+			expect(last_response.body.length).to be 0
 		end
 
 		it 'should return 404 for access to the invalid directory' do
 			get '/invalid/'
-			last_response.status.should == 404
+			expect(last_response.status).to eq(404)
 		end
 	end
 end

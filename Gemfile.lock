@@ -1,13 +1,18 @@
-GEM
-  remote: https://rubygems.org/
+GIT
+  remote: git://github.com/jnicklas/capybara.git
+  revision: 595cd4a89bc5c7873e74a3b05761d27c30cc198a
   specs:
-    addressable (2.3.5)
-    capybara (2.2.1)
+    capybara (2.2.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.3.5)
     childprocess (0.5.1)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
@@ -71,14 +76,18 @@ GEM
     ref (1.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rspec (2.14.1)
-      rspec-core (~> 2.14.0)
-      rspec-expectations (~> 2.14.0)
-      rspec-mocks (~> 2.14.0)
-    rspec-core (2.14.7)
-    rspec-expectations (2.14.5)
-      diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.14.6)
+    rspec (3.0.0.beta2)
+      rspec-core (= 3.0.0.beta2)
+      rspec-expectations (= 3.0.0.beta2)
+      rspec-mocks (= 3.0.0.beta2)
+    rspec-core (3.0.0.beta2)
+      rspec-support (= 3.0.0.beta2)
+    rspec-expectations (3.0.0.beta2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.0.0.beta2)
+    rspec-mocks (3.0.0.beta2)
+      rspec-support (= 3.0.0.beta2)
+    rspec-support (3.0.0.beta2)
     rubyzip (1.1.0)
     sawyer (0.5.3)
       addressable (~> 2.3.5)
@@ -101,11 +110,8 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.8)
-    tapp (1.4.0)
-      thor
     term-ansicolor (1.3.0)
       tins (~> 1.0)
-    test-unit (2.5.5)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -124,7 +130,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  capybara
+  capybara!
   coffee-script
   coveralls
   fastimage
@@ -138,14 +144,12 @@ DEPENDENCIES
   racksh
   rake
   redcarpet
-  rspec
+  rspec (~> 3.0.0.beta2)
   selenium-webdriver
   sequel
   simplecov
   sprockets
   sqlite3
-  tapp
-  test-unit
   therubyracer
   thin
   trinidad

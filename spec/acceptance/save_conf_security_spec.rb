@@ -11,7 +11,7 @@ feature 'spamフィルタ設定の利用' do
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb?conf=sp'
-		page.should have_checked_field 'sp.hide-mail-field.rb'
+		expect(page).to have_checked_field 'sp.hide-mail-field.rb'
 	end
 
 	scenario 'CSRF対策の設定が保存される' do
@@ -23,7 +23,7 @@ feature 'spamフィルタ設定の利用' do
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb?conf=csrf_protection'
-		page.should have_selector 'input[name="check_key"][value="true"][checked]'
+		expect(page).to have_selector 'input[name="check_key"][value="true"][checked]'
 	end
 
 	scenario 'spamと判定されたツッコミを捨てる' do
@@ -50,8 +50,8 @@ BODY
 		fill_in "day", with: Date.today.day
 		click_button 'この日付の日記を編集'
 
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'URLの数によるspam判定' do
@@ -81,10 +81,10 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
-		page.should have_content "bravo"
-		page.should have_content "こんばんは!こんばんは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_content "bravo"
+		expect(page).to have_content "こんばんは!こんばんは!"
 	end
 
 	scenario 'URLの割合によるspam判定' do
@@ -119,10 +119,10 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
-		page.should have_content "bravo"
-		page.should have_content "こんばんは!こんばんは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_content "bravo"
+		expect(page).to have_content "こんばんは!こんばんは!"
 	end
 
 	scenario 'キーワードでツッコミがはじかれる' do
@@ -144,8 +144,8 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'メールアドレスでツッコミがはじかれる' do
@@ -176,10 +176,10 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
-		page.should have_content "bravo"
-		page.should have_content "こんばんは!こんばんは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_content "bravo"
+		expect(page).to have_content "こんばんは!こんばんは!"
 
 	end
 
@@ -209,10 +209,10 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは! http://www.example.com"
-		page.should have_content "bravo"
-		page.should have_content "example こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは! http://www.example.com"
+		expect(page).to have_content "bravo"
+		expect(page).to have_content "example こんにちは!"
 	end
 
 	scenario 'IPアドレスでツッコミが弾かれる' do
@@ -233,8 +233,8 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'ツッコミの注意文が保存されて表示される' do
@@ -246,27 +246,27 @@ BODY
 
 		visit "/"
 		click_link 'ツッコミを入れる'
-		page.should have_content 'これはツッコミの注意文です'
+		expect(page).to have_content 'これはツッコミの注意文です'
 	end
 
 	scenario 'スパムフィルターのログ記録の設定ができない', :exclude_no_secure do
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		page.should_not have_field 'filter.debug_mode'
+		expect(page).not_to have_field 'filter.debug_mode'
 	end
 
 	scenario 'スパムフィルターのログ記録の設定が保存される', :exclude_secure do
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
-		page.should have_field 'filter.debug_mode'
+		expect(page).to have_field 'filter.debug_mode'
 		select '記録しない', from: 'filter.debug_mode'
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb?conf=spamfilter'
 		within('select[name="filter.debug_mode"] option[selected]'){
-			page.should have_content '記録しない'
+			expect(page).to have_content '記録しない'
 		}
 	end
 end

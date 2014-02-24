@@ -12,24 +12,24 @@ feature 'ツッコミの更新' do
 BODY
 
 		click_button '投稿'
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
 			within('span.commentator') {
-				page.should have_content "alpha"
+				expect(page).to have_content "alpha"
 			}
-			page.should have_content "こんにちは!こんにちは!"
+			expect(page).to have_content "こんにちは!こんにちは!"
 		}
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') {
 			within('div.commentator'){
 				t = Time.now
-				within('span.commenttime'){ page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day] }
-				within('span.commentator'){ page.should have_content "alpha" }
+				within('span.commenttime'){ expect(page).to have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day] }
+				within('span.commentator'){ expect(page).to have_content "alpha" }
 			}
-			page.should have_content "こんにちは!こんにちは!"
+			expect(page).to have_content "こんにちは!こんにちは!"
 		}
 	end
 
@@ -44,25 +44,25 @@ BODY
 BODY
 
 		click_button '投稿'
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
-			page.should have_content "alpha"
-			page.should have_content "bravo"
-			page.should have_content "こんにちは!こんにちは!"
-			page.should have_content "こんばんは!こんばんは!"
+			expect(page).to have_content "alpha"
+			expect(page).to have_content "bravo"
+			expect(page).to have_content "こんにちは!こんにちは!"
+			expect(page).to have_content "こんばんは!こんばんは!"
 		}
 
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') {
 			t = Time.now
-			page.should have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day]
-			page.should have_content "alpha"
-			page.should have_content "bravo"
-			page.should have_content "こんにちは!こんにちは!"
-			page.should have_content "こんばんは!こんばんは!"
+			expect(page).to have_content "%04d年%02d月%02d日" % [t.year, t.month, t.day]
+			expect(page).to have_content "alpha"
+			expect(page).to have_content "bravo"
+			expect(page).to have_content "こんにちは!こんにちは!"
+			expect(page).to have_content "こんばんは!こんばんは!"
 		}
 	end
 
@@ -76,11 +76,11 @@ BODY
 BODY
 
 		click_button '投稿'
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit "/"
 		within('ol.recent-comment > li') do
-			page.should have_content "alpha"
+			expect(page).to have_content "alpha"
 		end
 	end
 end

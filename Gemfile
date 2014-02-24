@@ -29,10 +29,8 @@ group :development do
 
   group :test do
     gem 'pry'
-    gem 'tapp'
-    gem 'test-unit', require: 'test/unit'
-    gem 'rspec'
-    gem 'capybara', require: 'capybara/rspec'
+    gem 'rspec', '~> 3.0.0.beta2'
+    gem 'capybara', require: 'capybara/rspec', github: 'jnicklas/capybara'
     gem 'selenium-webdriver'
     gem 'launchy'
     gem 'sequel'

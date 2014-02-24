@@ -5,29 +5,29 @@ feature '日記の追記' do
 	scenario '更新画面のデフォルト表示' do
 		visit '/'
 		click_link '追記'
-		page.should have_content('日記の更新')
+		expect(page).to have_content('日記の更新')
 
 		y, m, d = Date.today.to_s.split('-').map {|t| t.sub(/^0+/, "") }
-		within('span.year') { page.should have_field('year', with: y) }
-		within('span.month') { page.should have_field('month', with: m) }
-		within('span.day') { page.should have_field('day', with: d) }
+		within('span.year') { expect(page).to have_field('year', with: y) }
+		within('span.month') { expect(page).to have_field('month', with: m) }
+		within('span.day') { expect(page).to have_field('day', with: d) }
 	end
 
 	scenario '今日の日記を書く' do
 		append_default_diary
 
 		visit '/'
-		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day span.title'){ expect(page).to have_content "tDiaryのテスト" }
 		within('div.day div.section'){
-			within('h3') { page.should have_content "さて、テストである。" }
-			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			within('h3') { expect(page).to have_content "さて、テストである。" }
+			expect(page).to have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 		}
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
-		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day span.title'){ expect(page).to have_content "tDiaryのテスト" }
 		within('div.day div.section'){
-			within('h3') { page.should have_content "さて、テストである。" }
-			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			within('h3') { expect(page).to have_content "さて、テストである。" }
+			expect(page).to have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 		}
 	end
 
@@ -36,10 +36,10 @@ feature '日記の追記' do
 
 		visit '/'
 		page.find('h2', text: '2001年04月23日').click_link '2001年04月23日'
-		within('div.day span.title'){ page.should have_content "tDiaryのテスト" }
+		within('div.day span.title'){ expect(page).to have_content "tDiaryのテスト" }
 		within('div.day div.section'){
-			within('h3') { page.should have_content "さて、テストである。" }
-			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			within('h3') { expect(page).to have_content "さて、テストである。" }
+			expect(page).to have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 		}
 	end
 
@@ -57,15 +57,15 @@ BODY
 		}
 
 		click_button "追記"
-		page.should have_content "Click here!"
+		expect(page).to have_content "Click here!"
 
 		visit '/'
-		within('div.day span.title'){ page.should have_content "Hikiのテスト" }
+		within('div.day span.title'){ expect(page).to have_content "Hikiのテスト" }
 		within('div.body'){
-			page.should have_content "さて、テストである。"
-			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
-			page.should have_content "さて、Hikiのテストである。"
-			page.should have_content "とみせかけてtDiary:-)"
+			expect(page).to have_content "さて、テストである。"
+			expect(page).to have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			expect(page).to have_content "さて、Hikiのテストである。"
+			expect(page).to have_content "とみせかけてtDiary:-)"
 		}
 	end
 
@@ -81,10 +81,10 @@ BODY
 		}
 
 		click_button 'プレビュー'
-		page.should have_content "tDiaryのテスト"
+		expect(page).to have_content "tDiaryのテスト"
 		within('div.day div.section'){
-			within('h3') { page.should have_content "さて、テストである。" }
-			page.should have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
+			within('h3') { expect(page).to have_content "さて、テストである。" }
+			expect(page).to have_content "とりあえず自前の環境ではちゃんと動いているが、きっと穴がいっぱいあるに違いない:-P"
 		}
 	end
 end

@@ -14,8 +14,8 @@ describe "bq plugin w/" do
 			@body_snippet = plugin.bq('foo')
 		end
 
-		it { @body_snippet.should == expected_html_body(
-				:src => 'foo') }
+		it { expect(@body_snippet).to eq(expected_html_body(
+				:src => 'foo')) }
 	end
 
 	def expected_html_body(options)

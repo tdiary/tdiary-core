@@ -25,7 +25,7 @@ BODY
 
 		visit '/'
 		page.find('a', text: "category").click
-		page.should have_content 'Categories'
+		expect(page).to have_content 'Categories'
 	end
 end
 

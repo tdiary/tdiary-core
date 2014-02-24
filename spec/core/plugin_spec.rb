@@ -16,13 +16,13 @@ describe TDiary::Plugin do
 		subject { @plugin }
 
 		it '読み込まれたプラグインのメソッドを呼び出せること' do
-			subject.sample.should eq 'sample plugin'
+			expect(subject.sample).to eq 'sample plugin'
 		end
 
 		it 'プラグイン一覧が @plugin_files で取得できること' do
 			# TODO: 実際にはPlugin.newした時点でload_pluginが呼ばれている
 			# @plugin_filesの追加もinitializeメソッド内で実行されている
-			subject.instance_variable_get(:@plugin_files).should include('spec/fixtures/plugin/sample.rb')
+			expect(subject.instance_variable_get(:@plugin_files)).to include('spec/fixtures/plugin/sample.rb')
 		end
 
 		context 'リソースファイルが存在する場合' do
@@ -32,7 +32,7 @@ describe TDiary::Plugin do
 			end
 
 			it 'Confファイルで指定した言語に対応するリソースが読み込まれること' do
-				@plugin.sample_ja.should eq 'サンプルプラグイン'
+				expect(@plugin.sample_ja).to eq 'サンプルプラグイン'
 			end
 		end
 	end
@@ -45,12 +45,12 @@ describe TDiary::Plugin do
 		subject { @plugin.eval_src(@src, false) }
 
 		it 'Pluginオブジェクト内でソースが実行されること' do
-			should eq 'hello sample plugin'
+			is_expected.to eq 'hello sample plugin'
 		end
 
 		context 'secureモード指定の場合' do
 			it 'Safeモード4で実行されること' do
-				Safe.should_receive(:safe).with(4)
+				expect(Safe).to receive(:safe).with(4)
 				@plugin.eval_src(@src, true)
 			end
 		end
@@ -72,7 +72,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:header_proc) }
 
 		it 'add_header_procで登録したブロックが実行されること' do
-			should eq 'header1 header2'
+			is_expected.to eq 'header1 header2'
 		end
 	end
 
@@ -84,7 +84,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:footer_proc) }
 
 		it 'add_footer_procで登録したブロックが実行されること' do
-			should eq 'footer1 footer2'
+			is_expected.to eq 'footer1 footer2'
 		end
 	end
 
@@ -98,14 +98,14 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:update_proc) }
 
 		it 'add_update_procで登録したブロックが実行されること' do
-			proc1.should_receive(:call)
-			proc2.should_receive(:call)
+			expect(proc1).to receive(:call)
+			expect(proc2).to receive(:call)
 			# should_receiveの場合はsubjectが使えないため明示的に実行
 			@plugin.__send__(:update_proc)
 		end
 
 		it '空の文字列を返すこと' do
-			should eq ''
+			is_expected.to eq ''
 		end
 	end
 
@@ -120,17 +120,17 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:title_proc, date, 'title') }
 
 		it 'add_title_procで登録したブロックを実行し、最後の結果を返すこと' do
-			should eq 'title2'
+			is_expected.to eq 'title2'
 		end
 
 		it '前のprocの結果が次のprocに渡されること' do
-			proc1.should_receive(:call).with(date, 'title').and_return('title1')
-			proc2.should_receive(:call).with(date, 'title1')
+			expect(proc1).to receive(:call).with(date, 'title').and_return('title1')
+			expect(proc2).to receive(:call).with(date, 'title1')
 			@plugin.__send__(:title_proc, date, 'title')
 		end
 
 		it 'apply_pluginメソッドを呼び出すこと' do
-			@plugin.should_receive(:apply_plugin)
+			expect(@plugin).to receive(:apply_plugin)
 			# should_receiveの場合はsubjectが使えないため明示的に実行
 			@plugin.__send__(:title_proc, date, 'title')
 		end
@@ -145,7 +145,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:body_enter_proc, date) }
 
 		it 'add_body_enter_procで登録したブロックが実行されること' do
-			should eq 'body1 body2'
+			is_expected.to eq 'body1 body2'
 		end
 	end
 
@@ -157,7 +157,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:body_leave_proc, @date) }
 
 		it 'add_body_leave_procで登録したブロックが実行されること' do
-			should eq 'body1 body2'
+			is_expected.to eq 'body1 body2'
 		end
 	end
 
@@ -173,15 +173,15 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:section_enter_proc, date1) }
 
 		it 'add_section_enter_procで登録したブロックを実行し、結果を連結して返すこと' do
-			should eq 'section1 section2'
+			is_expected.to eq 'section1 section2'
 		end
 
 		it '呼ばれた回数に応じてセクション番号の数が増加すること (日付単位)' do
-			proc1.should_receive(:call).with(date1, 1)
+			expect(proc1).to receive(:call).with(date1, 1)
 			@plugin.__send__(:section_enter_proc, date1)
-			proc1.should_receive(:call).with(date1, 2)
+			expect(proc1).to receive(:call).with(date1, 2)
 			@plugin.__send__(:section_enter_proc, date1)
-			proc1.should_receive(:call).with(date2, 1)
+			expect(proc1).to receive(:call).with(date2, 1)
 			@plugin.__send__(:section_enter_proc, date2)
 		end
 	end
@@ -198,18 +198,18 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:subtitle_proc, date1, 'subtitle') }
 
 		it 'add_subtitle_procで登録したブロックを実行し、最後の結果を返すこと' do
-			should eq 'subtitle2'
+			is_expected.to eq 'subtitle2'
 		end
 
 		it '前のprocの結果が次のprocに渡されること' do
-			proc1.should_receive(:call).with(date1, 1, 'subtitle').and_return('subtitle1')
-			proc2.should_receive(:call).with(date1, 1, 'subtitle1')
+			expect(proc1).to receive(:call).with(date1, 1, 'subtitle').and_return('subtitle1')
+			expect(proc2).to receive(:call).with(date1, 1, 'subtitle1')
 			@plugin.__send__(:section_enter_proc, date1)
 			@plugin.__send__(:subtitle_proc, date1, 'subtitle')
 		end
 
 		it 'apply_pluginメソッドを呼び出すこと' do
-			@plugin.should_receive(:apply_plugin)
+			expect(@plugin).to receive(:apply_plugin)
 			# should_receiveの場合はsubjectが使えないため明示的に実行
 			@plugin.__send__(:subtitle_proc, date1, 'title')
 		end
@@ -227,18 +227,18 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:section_leave_proc, date1) }
 
 		it 'add_section_leave_procで登録したブロックを実行し、結果を連結して返すこと' do
-			should eq 'section1 section2'
+			is_expected.to eq 'section1 section2'
 		end
 
 		it '呼ばれた回数に応じてセクション番号の数が増加すること (日付単位)' do
 			# セクション番号はsection_enter_procの呼び出し回数で決定する
-			proc1.should_receive(:call).with(date1, 1)
+			expect(proc1).to receive(:call).with(date1, 1)
 			@plugin.__send__(:section_enter_proc, date1)
 			@plugin.__send__(:section_leave_proc, date1)
-			proc1.should_receive(:call).with(date1, 2)
+			expect(proc1).to receive(:call).with(date1, 2)
 			@plugin.__send__(:section_enter_proc, date1)
 			@plugin.__send__(:section_leave_proc, date1)
-			proc1.should_receive(:call).with(date2, 1)
+			expect(proc1).to receive(:call).with(date2, 1)
 			@plugin.__send__(:section_enter_proc, date2)
 			@plugin.__send__(:section_leave_proc, date2)
 		end
@@ -253,7 +253,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:comment_leave_proc, date) }
 
 		it 'add_comment_leave_procで登録したブロックが実行されること' do
-			should eq 'comment1 comment2'
+			is_expected.to eq 'comment1 comment2'
 		end
 	end
 
@@ -266,7 +266,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:edit_proc, date) }
 
 		it 'add_edit_procで登録したブロックが実行されること' do
-			should eq 'edit1 edit2'
+			is_expected.to eq 'edit1 edit2'
 		end
 	end
 
@@ -279,7 +279,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:form_proc, date) }
 
 		it 'add_form_procで登録したブロックが実行されること' do
-			should eq 'form1 form2'
+			is_expected.to eq 'form1 form2'
 		end
 	end
 
@@ -290,21 +290,21 @@ describe TDiary::Plugin do
 		context '@modeがconfの場合' do
 			before { @plugin.instance_variable_set(:@mode, 'conf') }
 			it 'コールバックを登録すること' do
-				should include('label1')
+				is_expected.to include('label1')
 			end
 		end
 
 		context '@modeがsaveconfの場合' do
 			before { @plugin.instance_variable_set(:@mode, 'saveconf') }
 			it 'コールバックを登録すること' do
-				should include('label1')
+				is_expected.to include('label1')
 			end
 		end
 
 		context '@modeがconf, saveconf以外の場合' do
 			before { @plugin.instance_variable_set(:@mode, 'edit') }
 			it 'コールバックの登録を無視すること' do
-				should be_nil
+				is_expected.to be_nil
 			end
 		end
 	end
@@ -319,7 +319,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:conf_proc, 'key1') }
 
 		it 'add_conf_procで登録したブロックのうち、keyが一致するものを実行して結果を返すこと' do
-			should eq 'conf1'
+			is_expected.to eq 'conf1'
 		end
 	end
 
@@ -328,7 +328,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:remove_tag, @string) }
 
 		it '文字列からタグが除去されること' do
-			should eq 'test example.com'
+			is_expected.to eq 'test example.com'
 		end
 	end
 
@@ -339,22 +339,22 @@ describe TDiary::Plugin do
 
 		subject { @plugin.__send__(:apply_plugin, '<%= sample %>') }
 		it 'プラグインが再実行されること' do
-			should eq 'sample plugin'
+			is_expected.to eq 'sample plugin'
 		end
 
 		context '解釈できない文字列を渡された場合' do
 			subject { @plugin.__send__(:apply_plugin, '<%= undefined_method %>') }
-			it { should include 'Invalid Text' }
+			it { is_expected.to include 'Invalid Text' }
 		end
 
 		context '文字列がnilの場合' do
 			subject { @plugin.__send__(:apply_plugin, nil) }
-			it { should eq '' }
+			it { is_expected.to eq '' }
 		end
 
 		context 'remove_tagがtrueの場合' do
 			it 'remove_tagメソッドを呼び出すこと' do
-				@plugin.should_receive(:remove_tag)
+				expect(@plugin).to receive(:remove_tag)
 				@plugin.__send__(:apply_plugin, '', true)
 			end
 		end
@@ -371,7 +371,7 @@ describe TDiary::Plugin do
 		subject { @plugin.__send__(:content_proc, 'key1', date) }
 
 		it 'add_content_procで登録したブロックのうち、keyに相当するものを実行すること' do
-			should eq 'contents1'
+			is_expected.to eq 'contents1'
 		end
 
 		context 'keyに相当するブロックが存在しない場合' do

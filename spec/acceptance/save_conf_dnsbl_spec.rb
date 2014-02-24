@@ -11,13 +11,13 @@ feature 'spamフィルタ設定の利用', :exclude_selenium do
 		page.all('div.saveconf').first.click_button 'OK'
 
 		visit '/update.rb?conf=dnsblfilter'
-		page.should have_no_content "dnsbl.spam-champuru.livedoor.com"
-		page.should have_content "bsb.spamlookup.net"
+		expect(page).to have_no_content "dnsbl.spam-champuru.livedoor.com"
+		expect(page).to have_content "bsb.spamlookup.net"
 	end
 
 	scenario 'IPベースのブラックリストが動作する' do
-		IPSocket.stub(:getaddress) { '127.0.0.1' }
-		Resolv.stub(:getaddress) { '127.0.0.1' }
+		allow(IPSocket).to receive(:getaddress) { '127.0.0.1' }
+		allow(Resolv).to receive(:getaddress) { '127.0.0.1' }
 
 		append_default_diary
 
@@ -37,12 +37,12 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'IPベースのブラックリストでセーフの場合' do
-		IPSocket.stub(:getaddress) { raise TimeoutError }
+		allow(IPSocket).to receive(:getaddress) { raise TimeoutError }
 
 		append_default_diary
 
@@ -62,12 +62,12 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_content "alpha"
-		page.should have_content "こんにちは!こんにちは!"
+		expect(page).to have_content "alpha"
+		expect(page).to have_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'ドメインベースのブラックリストが動作する' do
-		Resolv.stub(:getaddress) { '127.0.0.1' }
+		allow(Resolv).to receive(:getaddress) { '127.0.0.1' }
 
 		append_default_diary
 
@@ -87,12 +87,12 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'ドメインベースのブラックリストでセーフの場合' do
-		Resolv.stub(:getaddress) { raise TimeoutError }
+		allow(Resolv).to receive(:getaddress) { raise TimeoutError }
 
 		append_default_diary
 
@@ -112,13 +112,13 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_content "alpha"
-		page.should have_content "こんにちは!こんにちは!"
+		expect(page).to have_content "alpha"
+		expect(page).to have_content "こんにちは!こんにちは!"
 	end
 
 	scenario 'ブラックリストに問い合わせないリストが動作する' do
-		IPSocket.should_receive(:getaddress).exactly(0)
-		Resolv.should_receive(:getaddress).exactly(0)
+		expect(IPSocket).to receive(:getaddress).exactly(0)
+		expect(Resolv).to receive(:getaddress).exactly(0)
 
 		append_default_diary
 
@@ -138,8 +138,8 @@ BODY
 		click_button '投稿'
 
 		visit "/"
-		page.should have_content "alpha"
-		page.should have_content "こんにちは!こんにちは!"
+		expect(page).to have_content "alpha"
+		expect(page).to have_content "こんにちは!こんにちは!"
 	end
 end
 

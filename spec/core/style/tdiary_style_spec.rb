@@ -42,7 +42,7 @@ subTitle2
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html.chomp }
+			it { expect(@diary.to_html).to eq @html.chomp }
 		end
 
 		context 'CHTML' do
@@ -56,12 +56,12 @@ subTitle2
 <p>honbun</p><%= section_leave_proc( Time::at( 1041346800 ) ) %>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 
 
 		context 'to_src' do
-			it { @diary.to_src.should eq @source }
+			it { expect(@diary.to_src).to eq @source }
 		end
 	end
 
@@ -98,7 +98,7 @@ replaceTitle2
 </div>
 			EOF
 		end
-		it { @diary.to_html.should eq @html.chomp }
+		it { expect(@diary.to_html).to eq @html.chomp }
 	end
 
 	describe '#add_section' do
@@ -122,7 +122,7 @@ subTitle
 </div>
 			EOF
 		end
-		it { @diary.to_html.should eq @html.chomp }
+		it { expect(@diary.to_html).to eq @html.chomp }
 	end
 
 	describe '#delete_section' do
@@ -145,7 +145,7 @@ subTitle2
 </div>
 			EOF
 		end
-		it { @diary.to_html.should eq @html.chomp }
+		it { expect(@diary.to_html).to eq @html.chomp }
 	end
 
 	describe 'test_tdiary_style2' do
@@ -167,7 +167,7 @@ subTitle2
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html.chomp }
+			it { expect(@diary.to_html).to eq @html.chomp }
 		end
 
 		context 'CHTML' do
@@ -178,7 +178,7 @@ subTitle2
 <p>honbun</p><%= section_leave_proc( Time::at( 1041346800 ) ) %>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 
@@ -215,7 +215,7 @@ ge%><%= section_leave_proc( Time::at( 1041346800 ) ) %>
 </div>
 				EOF
 			end
-			it { @diary.to_html.should eq @html.chomp }
+			it { expect(@diary.to_html).to eq @html.chomp }
 		end
 
 		context 'CHTML' do
@@ -233,7 +233,7 @@ ge%>b
 ge%><%= section_leave_proc( Time::at( 1041346800 ) ) %>
 				EOF
 			end
-			it { @diary.to_html({}, :CHTML).should eq @html }
+			it { expect(@diary.to_html({}, :CHTML)).to eq @html }
 		end
 	end
 end

@@ -9,14 +9,14 @@ feature 'プラグイン選択設定の利用' do
 
 		visit '/update.rb?conf=sp'
 		page.all('div.saveconf').first.click_button 'OK'
-		page.should_not have_content '新入荷'
+		expect(page).not_to have_content '新入荷'
 
 		FileUtils.touch plugin_path
 
 		click_link 'プラグイン選択'
 
-		page.should have_content '新入荷'
-		page.should have_content 'rspec.rb'
+		expect(page).to have_content '新入荷'
+		expect(page).to have_content 'rspec.rb'
 
 		FileUtils.rm plugin_path
 	end
@@ -29,7 +29,7 @@ feature 'プラグイン選択設定の利用' do
 		check "sp.rspec.rb"
 		page.all('div.saveconf').first.click_button 'OK'
 
-		page.should have_checked_field "sp.rspec.rb"
+		expect(page).to have_checked_field "sp.rspec.rb"
 
 		FileUtils.rm plugin_path
 	end
@@ -38,12 +38,12 @@ feature 'プラグイン選択設定の利用' do
 		FileUtils.touch plugin_path
 
 		visit '/update.rb?conf=sp'
-		page.should have_content 'rspec.rb'
+		expect(page).to have_content 'rspec.rb'
 
 		FileUtils.rm plugin_path
 
 		click_link 'プラグイン選択'
-		page.should_not have_content 'rspec.rb'
+		expect(page).not_to have_content 'rspec.rb'
 	end
 
 	scenario '外部の Javascript を追加するプラグインを有効にする' do
@@ -54,10 +54,10 @@ feature 'プラグイン選択設定の利用' do
 
 		visit '/update.rb'
 
-		page.body.should be_include('caretposition.js')
-		page.body.should be_include('category_autocomplete.js')
-		page.body.should be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
-		page.body.should_not be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
+		expect(page.body).to be_include('caretposition.js')
+		expect(page.body).to be_include('category_autocomplete.js')
+		expect(page.body).to be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
+		expect(page.body).not_to be_include('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
 	end
 end
 # Local Variables:

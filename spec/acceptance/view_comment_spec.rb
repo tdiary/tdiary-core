@@ -12,13 +12,13 @@ feature 'ツッコミの表示' do
 		uncheck 'commentcheckboxr0'
 		click_button 'ツッコミ表示状態変更'
 		visit '/'
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 
 		today = Date.today.strftime("%Y年%m月%d日")
 		page.find('h2', text: today).click_link today
-		page.should have_no_content "alpha"
-		page.should have_no_content "こんにちは!こんにちは!"
+		expect(page).to have_no_content "alpha"
+		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
 	scenario "日付表示だと絵文字を表示できる", :exclude_selenium do
@@ -36,7 +36,7 @@ BODY
 		today = Date.today.strftime("%Y年%m月%d日")
 		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') {
-			page.body.should be_include "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+			expect(page.body).to be_include "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 		}
 	end
 
@@ -53,7 +53,7 @@ BODY
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
-			page.body.should be_include "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+			expect(page.body).to be_include "<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 		}
 	end
 end
