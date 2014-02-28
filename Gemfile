@@ -29,6 +29,7 @@ group :development do
 
   group :test do
     gem 'pry'
+    gem 'test-unit'
     gem 'rspec', '~> 3.0.0.beta2'
     gem 'capybara', require: 'capybara/rspec', github: 'jnicklas/capybara'
     gem 'selenium-webdriver'
