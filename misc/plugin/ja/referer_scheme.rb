@@ -53,7 +53,7 @@ unless @conf.referer_table.respond_to?( 'scheme_tdiarynet', true ) then
 	class << @conf.referer_table
 	private
 		TdiaryNet = '\.tdiary\.net/'
-	
+
 		def scheme_tdiarynet( url, name )
 			TdiaryDates.each do |a|
 				yield( "http://#{url}#{TdiaryNet}#{a[0]}", name + a[1] )

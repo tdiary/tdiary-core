@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2006 Masao Mutoh
 # You can redistribute it and/or modify it under GPL2.
-# 
+#
 
 @counter_conf_counter ||= "Access counter"
 @counter_conf_init_head ||= "Initial number"

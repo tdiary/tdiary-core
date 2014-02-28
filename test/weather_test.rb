@@ -65,7 +65,7 @@ class TestParseHtml < Test::Unit::TestCase
 	def language
 		"en"
 	end
-	  
+
 	def test_parse_sample
 		html = open(File.join(File.dirname(__FILE__), 'weather-ADDS-METARS-RJAA-130131.html')).read.force_encoding('ISO-8859-1')
 		@weather.parse_html(html, @plugin_class::Weather_default_items)
@@ -101,7 +101,7 @@ class TestParseHtml < Test::Unit::TestCase
 		@weather.parse_html(html, {'weather' => 'weather'})
 		assert_equal("Fog/Light rain", @weather.data['weather'])
 	end
-	  
+
 	def test_parse_sample_with_160
 		html = open(File.join(File.dirname(__FILE__), 'weather-ADDS-METARS-PHTO-140131.html')).read.force_encoding('ISO-8859-1')
 		@weather.parse_html(html, @plugin_class::Weather_default_items)
@@ -154,7 +154,7 @@ class FetchTest < Test::Unit::TestCase
 	def skip_fetch_from_aviationweather_gov
 		plugin_class = TDiary::StubPlugin::new_plugin('misc/plugin/weather.rb', 'en')
 		url = plugin_class::Weather::STATION_URL_TEMPLATE % 'PHTO'
-			
+
 		weather = plugin_class::Weather.new(Time.now, nil, WeatherStubConf.new)
 		weather.get(url, {}, plugin_class::Weather_default_items)
 		assert_not_nil(weather.data['temperature(C)'])

@@ -36,7 +36,7 @@ module ::TDiary
 				yield com,i
 			end
 		end
-	
+
 		def each_visible_pingback_tail( limit = 3 )
 			i = 0
 			@comments.find_all {|com|

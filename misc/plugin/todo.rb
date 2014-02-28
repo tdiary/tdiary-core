@@ -34,7 +34,7 @@
 #
 # Copyright (c) 2001,2002,2003 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL
-# 
+#
 
 require 'fileutils'
 require 'time'

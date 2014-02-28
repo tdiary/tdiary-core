@@ -25,7 +25,7 @@ def my( a, str, title = nil )
 			idx = 1
 			@diaries[date].each_section do |s|
 				section = s
-				break if idx == frag.to_i 
+				break if idx == frag.to_i
 				idx += 1
 			end
 			if section and section.subtitle then

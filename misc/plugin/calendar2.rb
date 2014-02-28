@@ -103,7 +103,7 @@ def calendar2(days_format = nil, navi_format = nil, show_todo = nil)
 				@date
 			end
 	year = date.year
-	month = date.month  
+	month = date.month
 	p_c_n = calendar2_prev_current_next
 
 	result = <<CALENDAR_HEAD

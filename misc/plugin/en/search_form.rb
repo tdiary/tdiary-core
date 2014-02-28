@@ -2,7 +2,7 @@
 
 def google_form( button_name = "Google Search", size = 20, default_text = "" )
 	first = %Q[<a href="http://www.google.com/">
-		<img src="http://www.google.com/logos/Logo_40wht.gif" 
+		<img src="http://www.google.com/logos/Logo_40wht.gif"
 			style="border-width: 0px; vertical-align: middle;" alt="Google"></a>]
 	search_form( "http://www.google.com/search", "q", button_name, size, default_text, first, '' )
 end

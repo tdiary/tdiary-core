@@ -27,7 +27,7 @@ module TDiary::Filter
 				debug( "No linkcheck to TrackBacks.", DEBUG_FULL )
 				return true
 			end
-		
+
 			# check only TrackBack
 			return true unless comment.name == 'TrackBack'
 
@@ -64,7 +64,7 @@ module TDiary::Filter
 				debug( "TrackBack source was no response." )
 				comment.show = false
 				return @filter_mode
-			rescue 
+			rescue
 				debug( "Cannot access to TrackBack source (#{$!})." )
 				comment.show = false
 				return @filter_mode

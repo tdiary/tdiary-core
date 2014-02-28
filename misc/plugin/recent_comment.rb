@@ -22,7 +22,7 @@ def recent_comment( ob_max = 'OBSOLUTE', sep = 'OBSOLUTE', ob_form = 'OBSOLUTE',
    recent_comment_init
 
    max = @conf['recent_comment.max']
-   form = @conf['recent_comment.date_format'] 
+   form = @conf['recent_comment.date_format']
    except = @conf['recent_comment.except_list']
    format = @conf['recent_comment.format']
    notfound_msg = @conf['recent_comment.notfound_msg']
@@ -34,7 +34,7 @@ def recent_comment( ob_max = 'OBSOLUTE', sep = 'OBSOLUTE', ob_form = 'OBSOLUTE',
    @diaries.each_value do |diary|
       next unless diary.visible?
       diary.each_comment_tail( max ) do |comment, idx|
-         if (except != '') && (/#{except}/ =~ comment.name) 
+         if (except != '') && (/#{except}/ =~ comment.name)
             next
          end
          comments << comment
@@ -42,9 +42,9 @@ def recent_comment( ob_max = 'OBSOLUTE', sep = 'OBSOLUTE', ob_form = 'OBSOLUTE',
          index[comment.date] = idx
       end
    end
-   
+
    result = []
-   
+
    comments.sort{|a,b| (a.date)<=>(b.date)}.reverse.each_with_index do |com,idx|
       break if idx >= max
       a = h(@index) + anchor("#{date[com.date].strftime( '%Y%m%d' )}#c#{'%02d' % index[com.date]}")
@@ -56,7 +56,7 @@ def recent_comment( ob_max = 'OBSOLUTE', sep = 'OBSOLUTE', ob_form = 'OBSOLUTE',
       result << recent_comment_format(format, idx, a, popup, str, date_str)
       result << "</li>\n"
    end
-   
+
    if result.size == 0
       notfound_msg
    else

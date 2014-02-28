@@ -62,13 +62,13 @@
 	* first version
 =end
 
-add_body_enter_proc do |date|   
+add_body_enter_proc do |date|
 	@sn_count = 1
 	@sn_idx = 0
 	""
 end
 
-add_body_leave_proc do |date|   
+add_body_leave_proc do |date|
 	@sn_count = 1
 	@sn_idx = 0
 	""
@@ -94,7 +94,7 @@ def sn( number = nil )
 	@sn_count += 1
 	%Q[#{'%d' % number}]
 end
- 
+
 def sn_anchorid
 	%Q[#{'%d' % @sn_idx}]
 end

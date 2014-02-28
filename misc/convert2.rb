@@ -90,7 +90,7 @@ module TDiary
 						@diaries = diaries
 						false
 					end
-	
+
 					require 'tdiary/io/default'
 					IO::Default::new( self ).transaction( date ) do |diaries|
 						diaries.update( @diaries )
@@ -100,12 +100,12 @@ module TDiary
 				end
 			end
 		end
-	
+
 	protected
 		def cookie_name
 			''
 		end
-	
+
 		def cookie_mail
 			''
 		end

@@ -71,7 +71,7 @@ Disp_referrer2_with_Nora = <<'_END'.taint
 _END
 Disp_referrer2_without_Nora = <<'_END'.taint
 <!-- p>
-	Please install the 
+	Please install the
 	<a href="http://www.moonwolf.com/ruby/archive/nora-20040830.tar.gz">Nora
 	library</a> if you feel the pages show too slowly.
 </p -->

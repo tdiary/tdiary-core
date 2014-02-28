@@ -419,7 +419,7 @@ def smartphone_tag
 	<<-CSS
 <meta name = "viewport" content = "width = device-width">
 	<style type="text/css"><!--
-	form.comment textarea { 
+	form.comment textarea {
 		width: 80%;
 	}
 	--></style>
@@ -448,7 +448,7 @@ def title_of_day( date, title )
 	r = <<-HTML
 	<span class="date">
 	<a href="#{h @conf.index}#{anchor( date.strftime( '%Y%m%d' ) )}">#{date.strftime @conf.date_format}</a>
-	</span> 
+	</span>
 	<span class="title">#{title}</span>
 	HTML
 	return r.gsub( /^\t+/, '' ).chomp
@@ -714,7 +714,7 @@ def comment_mail_send
 	mail = @comment.mail
 	mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
 	mail = receivers[0] if mail.empty?
-	
+
 	now = Time::now
 	g = now.dup.gmtime
 	l = Time::local( g.year, g.month, g.day, g.hour, g.min, g.sec )

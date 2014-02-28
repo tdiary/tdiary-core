@@ -42,7 +42,7 @@ end
 
 def category_anchor(category)
 	period = @conf['category.period'] || 'quarter'
-	period_string = 
+	period_string =
 		case period
 		when "month"
 			"year=#{@date.year};month=#{'%02d' % @date.month};"
@@ -178,7 +178,7 @@ def category_dropdown_list(label = nil, multiple = nil)
 	category = info.category
 	if category.empty?
 		return '' if @cgi.mobile_agent?
-		category = ['ALL'] 
+		category = ['ALL']
 	end
 
 	options = ''

@@ -16,7 +16,7 @@ Patch written by:
 class FCGI
   def self::each_cgi(*args)
     require 'cgi'
-    
+
     eval(<<-EOS,TOPLEVEL_BINDING)
     class CGI
       public :env_table
@@ -63,7 +63,7 @@ class FCGI
       end # FCGI::CGI class
     end # FCGI class
     EOS
-    
+
     if FCGI::is_cgi?
       yield ::CGI.new(*args)
     else
@@ -72,7 +72,7 @@ class FCGI
         $stdout, $stderr = request.out, request.err
 
         yield CGI.new(request, *args)
-        
+
         request.finish
       }
     end

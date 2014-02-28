@@ -1169,7 +1169,7 @@ class DispRef2SetupIF
 	# setup mode
 	Options = 'options'
 	RefList = 'reflist'
-	
+
 	def initialize( cgi, setup, conf, mode )
 		@cgi = cgi
 		@setup = setup

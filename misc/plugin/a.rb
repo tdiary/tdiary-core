@@ -9,13 +9,13 @@
 #   a "http://www.hoge.com/diary/", "Hoge Diary"
 #
 # a(key, option_or_name = "", name = nil)
-#   Use dictionary file. You need to create the dictionary 
+#   Use dictionary file. You need to create the dictionary
 #   file with a CGI.
 #   a "home"
 #   a "home", "20020329.html", "Here"
 #
 # a("name|key:option")
-#   Use dictionary file. You need to create the dictionary 
+#   Use dictionary file. You need to create the dictionary
 #   file with a CGI.
 #
 #   a "key"
@@ -29,8 +29,8 @@
 #
 # 3. Documents
 # See URLs below for more details.
-#   http://ponx.s5.xrea.com/hiki/a.rb.html (English) 
-#   http://ponx.s5.xrea.com/hiki/ja/a.rb.html (Japanese) 
+#   http://ponx.s5.xrea.com/hiki/a.rb.html (English)
+#   http://ponx.s5.xrea.com/hiki/ja/a.rb.html (Japanese)
 #
 # Copyright (c) 2002-2004 MUTOH Masao <mutoh@highway.ne.jp>
 # You can redistribute it and/or modify it under GPL2.

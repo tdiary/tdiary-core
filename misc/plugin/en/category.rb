@@ -95,7 +95,7 @@ HTML
 <h3 class="subtitle">Header</h3>
 <p>
 This text is inserted into top of category view.
-"&lt;%= category_navi %&gt;" genaretes navigation buttons for category, 
+"&lt;%= category_navi %&gt;" genaretes navigation buttons for category,
 and "&lt;%= category_list %&gt;" lists all category names.
 You can use plugins and write any HTML tags.
 </p>

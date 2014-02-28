@@ -50,7 +50,7 @@ BODY
 
 		today = Date.today.strftime('%Y年%m月%d日')
 		page.find('h2', text: today).click_link today
-		within('div.day div.comment div.commentbody') { 
+		within('div.day div.comment div.commentbody') {
 			expect(page).to have_content "alpha"
 			expect(page).to have_content "bravo"
 			expect(page).to have_content "こんにちは!こんにちは!"

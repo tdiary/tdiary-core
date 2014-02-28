@@ -5,11 +5,11 @@
 # 		 namazi.cgiが作成する検索キーワードログ(NMZ.slog)から
 #		 最新xx件分の検索語を表示します。
 # パラメタ:
-#   file:       検索キーワードログファイル名(絶対パス表記) 
-#   namazu:     なまずcgi名 
-#   limit:      表示件数(未指定時:5) 
+#   file:       検索キーワードログファイル名(絶対パス表記)
+#   namazu:     なまずcgi名
+#   limit:      表示件数(未指定時:5)
 #   sep:        セパレータ(未指定時:空白)
-#   make_link:  <a>を生成するか?(未指定時:生成する)    
+#   make_link:  <a>を生成するか?(未指定時:生成する)
 #
 #
 # Copyright (c) 2002 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>

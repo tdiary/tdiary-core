@@ -5,13 +5,13 @@
 # Create daily HTML file from tDiary database.
 #
 # See URLs below for more details.
-#   http://ponx.s5.xrea.com/hiki/squeeze.rb.html (English) 
-#   http://ponx.s5.xrea.com/hiki/ja/squeeze.rb.html (Japanese) 
+#   http://ponx.s5.xrea.com/hiki/squeeze.rb.html (English)
+#   http://ponx.s5.xrea.com/hiki/ja/squeeze.rb.html (Japanese)
 #
 # Copyright (C) 2002 MUTOH Masao <mutoh@highway.ne.jp>
 # You can redistribute it and/or modify it under GPL2.
 #
-# The original version of this file was distributed with squeeze 
+# The original version of this file was distributed with squeeze
 # TADA Tadashi <sho@spc.gr.jp> with GPL2.
 #
 unless $tdiary_squeeze_loaded
@@ -77,7 +77,7 @@ if mode == "CMD" || mode == "CGI"
 		$:.unshift tdiary_path
 	else
 		@options = Hash.new
-		File::readlines("tdiary.conf").each {|item| 
+		File::readlines("tdiary.conf").each {|item|
 			if item =~ /@options/
 				begin
 					eval(item)
@@ -114,7 +114,7 @@ module ::TDiary
 	class YATDiarySqueeze < TDiaryBase
 		def initialize(diary, dest, all_data, overwrite, compat, conf, suffix)
 			@ignore_parser_cache = true
-	
+
 			cgi = CGI::new
 			def cgi.referer; nil; end
 			def cgi.user_agent; 'bot'; end
@@ -128,7 +128,7 @@ module ::TDiary
 			@compat = compat
 			@suffix = suffix
 		end
-	
+
 		def execute
 			if @compat
 				dir = @dest
@@ -143,7 +143,7 @@ module ::TDiary
 				File::delete( filename )
 			end
 			if @diary.visible? or @all_data
-				if not FileTest::exist?(filename) or 
+				if not FileTest::exist?(filename) or
 						File::mtime(filename) != @diary.last_modified
 					File::open(filename, 'w'){|f| f.write(eval_rhtml)}
 					File::utime(@diary.last_modified, @diary.last_modified, filename)
@@ -158,7 +158,7 @@ module ::TDiary
 			end
 			name
 		end
-		
+
 		protected
 		def mode
 			'day'

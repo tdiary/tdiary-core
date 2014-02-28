@@ -20,12 +20,12 @@
 #
 # 2. Documents
 # See URLs below for more details.
-#   http://ponx.s5.xrea.com/hiki/counter.rb.html (English) 
-#   http://ponx.s5.xrea.com/hiki/ja/counter.rb.html (Japanese) 
+#   http://ponx.s5.xrea.com/hiki/counter.rb.html (English)
+#   http://ponx.s5.xrea.com/hiki/ja/counter.rb.html (Japanese)
 #
 # Copyright (c) 2002-2006 Masao Mutoh
 # You can redistribute it and/or modify it under GPL2.
-# 
+#
 =begin ChangeLog
 2006-02-14 Masao Mutoh
    * Add some user-agents.
@@ -33,18 +33,18 @@
 
 2006-02-14 mitty
    * Fixed a problem when counter2_access.dat is broken.
-   
+
 2006-02-07 Masao Mutoh
    * Revert the log file name from counter2.log to counter.log.
      Reported by Ken-ichi Mito.
    * 2.0.1
- 
+
 2006-01-20 Masao Mutoh
    * Improves the speed and stability.
      - Separate data to counterdata and accessdata.
      - counterdata is the target of backup, but accessdata doesn't do backup.
      - change a key of an Array of String to a hash.
-     - Removed "counter.daily_backup" option. Now daily_backup is applied 
+     - Removed "counter.daily_backup" option. Now daily_backup is applied
        everyday unless this setting.
      - Add a new "counter.max_keep_access_num" option which you can set the max
        number to keep users in the accessdata file to avoid to become
@@ -155,7 +155,7 @@
       アクセスした場合に@todayが0になる不具合の修正
    * コメント入れたときに数字が表示されない不具合の修正
    * HEADでアクセスがあった場合はカウントしないようにした
-      (reported by NT<nt@24i.net>, suggested a solution 
+      (reported by NT<nt@24i.net>, suggested a solution
          by TADA Tadashi <sho@spc.gr.jp>)
    * version 1.0.2
 
@@ -195,7 +195,7 @@ if @cgi.request_method == 'GET' and counter_allow?
 	require 'date'
 	require 'pstore'
 	require 'fileutils'
-	
+
 eval(<<TOPLEVEL_CLASS, TOPLEVEL_BINDING)
 	class TDiaryAccessData
 		attr_accessor :ignore_cookie #means ALWAYS ignore a cookie.
@@ -251,7 +251,7 @@ eval(<<TOPLEVEL_CLASS, TOPLEVEL_BINDING)
 					eval(io.read)
 				end
 			rescue Exception
-				back = (Dir.glob(File.join(@path, "counter2.dat.?")).sort{|a,b| 
+				back = (Dir.glob(File.join(@path, "counter2.dat.?")).sort{|a,b|
 						File.mtime(a) <=> File.mtime(b)}.reverse)[0]
 				open(back, "r") do |io|
 					begin
@@ -317,7 +317,7 @@ TOPLEVEL_CLASS
 			cookie = nil
 			if FileTest.exist?(File.join(dir, "counter.dat"))
 				db = PStore.new(File.join(dir, "counter.dat"))
-				db.transaction do 
+				db.transaction do
 					old = db["countdata"]
 					TDiaryCountData.new(dir, old.all, old.today, old.yesterday).save
 				end
@@ -342,8 +342,8 @@ TOPLEVEL_CLASS
 				changed = false
 				if new_user?(cgi, options)
 					@cnt.up(today, dir, cgi, (options and options["counter.log"]))
-					cookie = CGI::Cookie.new({"name" => "tdiary_counter", 
-							"value" => @version, 
+					cookie = CGI::Cookie.new({"name" => "tdiary_counter",
+							"value" => @version,
 							"expires" => Time.now + timer * 3600})
 					changed = true
 				end
@@ -353,13 +353,13 @@ TOPLEVEL_CLASS
 						if options["counter.kiriban"] == ""
 							options["counter.kiriban"] = [-1]
 						elsif options["counter.kiriban"].include?(",")
-							options["counter.kiriban"] =  
+							options["counter.kiriban"] =
 								options["counter.kiriban"].split(",").collect{|i| i.to_i}
 						else
 							options["counter.kiriban"] = [options["counter.kiriban"].to_i]
 						end
 					end
-					@kiriban = options["counter.kiriban"].include?(@cnt.all + @init_num) 
+					@kiriban = options["counter.kiriban"].include?(@cnt.all + @init_num)
 				end
 
 				if ! @kiriban and options["counter.kiriban_today"]
@@ -367,7 +367,7 @@ TOPLEVEL_CLASS
 						if options["counter.kiriban_today"] == ""
 							options["counter.kiriban_today"] = [-1]
 						elsif options["counter.kiriban_today"].include?(",")
-							options["counter.kiriban_today"] = 
+							options["counter.kiriban_today"] =
 								options["counter.kiriban_today"].split(",").collect{|i| i.to_i}
 						else
 							options["counter.kiriban_today"] = [options["counter.kiriban_today"].to_i]
@@ -381,7 +381,7 @@ TOPLEVEL_CLASS
 					changed = true
 				end
 
-				#when it is kiriban time, ignore the cookie next access time. 
+				#when it is kiriban time, ignore the cookie next access time.
 				if @kiriban or @kiriban_today
 					@access.ignore_cookie = true
 					changed = true
@@ -396,13 +396,13 @@ TOPLEVEL_CLASS
 
 		def new_user_without_cookie?(cgi, options)
 			if options
-				interval = options["counter.deny_same_src_interval"] 
-				maxaccessnum = options["counter.max_keep_access_num"] 
+				interval = options["counter.deny_same_src_interval"]
+				maxaccessnum = options["counter.max_keep_access_num"]
 			end
 			interval = 2 unless interval	         # 2 hour.
 			maxaccessnum = 10000 unless maxaccessnum # 2 hour.
 			current_time = Time.now
-			previous_access_time = @access.previous_access_time(current_time, cgi.remote_addr, 
+			previous_access_time = @access.previous_access_time(current_time, cgi.remote_addr,
 				cgi.user_agent, interval, maxaccessnum)
 			if previous_access_time
 				ret = current_time - previous_access_time > interval * 3600
@@ -414,7 +414,7 @@ TOPLEVEL_CLASS
 
 		def new_user?(cgi, options)
 			return true if @access.ignore_cookie
-			if cgi.cookies 
+			if cgi.cookies
 				if cgi.cookies.keys.include?("tdiary_counter")
 					ret = false
 				else
@@ -435,7 +435,7 @@ TOPLEVEL_CLASS
 					result << %Q[<img src="#{h theme_url}/#{yield(num)}" alt="#{num}" />]
 				elsif filetype == ""
 					result << %Q[<span class="counter-#{depth}"><span class="counter-num-#{num}">#{num}</span></span>]
-				else 
+				else
 					result << %Q[<img src="#{h theme_url}/#{num}.#{filetype}" alt="#{num}" />]
 				end
 				depth += 1
@@ -451,13 +451,13 @@ TOPLEVEL_CLASS
 		def kiriban?; @kiriban; end
 		def kiriban_today?; @kiriban_today; end
 
-		module_function :new_user?, :new_user_without_cookie?, :all, :today, :yesterday, :format, 
+		module_function :new_user?, :new_user_without_cookie?, :all, :today, :yesterday, :format,
       :main, :run, :kiriban?, :kiriban_today?
 	end
 
 	#init_num is deprecated.
 	#please replace it to @options["counter.init_num"]
-	def counter(figure = 0, filetype = "", init_num = 0, &proc) 
+	def counter(figure = 0, filetype = "", init_num = 0, &proc)
 		TDiaryCounter.format("", theme_url, TDiaryCounter.all, figure, filetype, init_num, &proc)
 	end
 
@@ -543,11 +543,11 @@ def print_conf_html
 	@conf["counter.kiriban"] ||= ""
 	if @conf["counter.kiriban"].kind_of? Array
 		@conf["counter.kiriban"] = @conf["counter.kiriban"].join(", ")
-	end 
+	end
 	@conf["counter.kiriban_today"] ||= ""
 	if @conf["counter.kiriban_today"].kind_of? Array
 		@conf["counter.kiriban_today"] = @conf["counter.kiriban_today"].join(", ")
-	end 
+	end
 
 	@conf["counter.kiriban_msg"] ||= ""
 	@conf["counter.kiriban_today_msg"] ||= ""
@@ -565,7 +565,7 @@ def print_conf_html
 		@conf["counter.kiriban_msg"] = @conf.to_native(@cgi.params["counter.kiriban_msg"][0]).gsub(/\r\n/, "\n" ).gsub(/\r/, '').sub(/\n+\z/, '')
 		@conf["counter.kiriban_today_msg"] = @conf.to_native(@cgi.params["counter.kiriban_today_msg"][0]).gsub(/\r\n/, "\n").gsub(/\r/, '').sub(/\n+\z/, '')
 		@conf["counter.kiriban_nomatch_msg"] = @conf.to_native(@cgi.params["counter.kiriban_nomatch_msg"][0]).gsub(/\r\n/, "\n").gsub(/\r/, '').sub(/\n+\z/, '')
-	end  
+	end
 
 	<<-HTML
 	<h3 class="subtitle">#{@counter_conf_init_head}</h3>
@@ -619,7 +619,7 @@ def print_conf_html
 end
 
 # Configure
-add_conf_proc('counter', @counter_conf_counter) do 
+add_conf_proc('counter', @counter_conf_counter) do
 	print_conf_html
 end
 

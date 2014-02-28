@@ -13,7 +13,7 @@
 	* support conf_proc.
 
 2002-03-24 TADA Tadashi <sho@spc.gr.jp>
-	* suppress output in mobile mode. 
+	* suppress output in mobile mode.
 
 2002-03-12 TADA Tadashi <sho@spc.gr.jp>
 	* support insert into @header.

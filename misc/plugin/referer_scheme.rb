@@ -30,12 +30,12 @@ end
 
 unless @conf.referer_table.respond_to?( 'scheme_tdiary', true ) then
 	class << @conf.referer_table
-		TdiaryDates = [ 
+		TdiaryDates = [
 				['(?:\\?date=)?(\d{4})(\d{2})(\d{2})-(\d+)(?:\.html)?.*', '(\1-\2-\3~)'],
 				['(?:\\?date=)?(\d{4})(\d{2})(\d{2})(?:\.html)?.*', '(\1-\2-\3)'],
 				['(?:\\?date=)?(\d{4})(\d{2})(?:\.html)?.*', '(\1-\2)'],
 				['(?:\\?date=)?(\d{2})(\d{2})(?:\.html)?.*', '(\1-\2)'],
-		] 
+		]
 		private
 		def scheme_tdiary( url, name )
 			TdiaryDates.each do |a|

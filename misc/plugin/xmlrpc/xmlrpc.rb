@@ -44,7 +44,7 @@ server.add_handler('blogger.newPost') do |appkey, blogid, username, password, co
       title,body = content.split(/\n/,2)
       index = diary.add_section(title, body)
       src = diary.to_src
-      
+
       @cgi.params.delete 'date'
       @cgi.params['old']   = [postid]
       @cgi.params['hide']  = diary.visible? ? [] : ['true']
@@ -78,7 +78,7 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
     index = index.to_i
     time = Time::local( year, month, day ) + 12*60*60
     diary = tdiary[time]
-    
+
     src = ''
     i = 0
     diary.each_section {|sec|
@@ -90,7 +90,7 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
       end
       src << sec.to_src
     }
-    
+
     @cgi.params.delete 'date'
     @cgi.params['old']   = [postid[0,8]]
     @cgi.params['hide']  = diary.visible? ? [] : ['true']
@@ -123,10 +123,10 @@ server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
     tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     time = Time::local( year, month, day ) + 12*60*60
     diary = tdiary[time]
-    
+
     diary.delete_section(index)
     src = diary.to_src
-    
+
     @cgi.params.delete 'date'
     @cgi.params['old']   = [postid[0,8]]
     @cgi.params['hide']  = diary.visible? ? [] : ['true']
@@ -216,10 +216,10 @@ server.add_handler('metaWeblog.newPost') do |blogid, username, password, content
     tdiary = ::TDiary::TDiaryDay::new( @cgi, "day.rhtml", @conf )
     time = Time::local( year, month, day ) + 12*60*60
     diary = tdiary[time] || tdiary.instance_variable_get(:@io).diary_factory(time, '', '', @conf.style)
-    
+
     index = diary.add_section(content['title'], content['description'])
     src = diary.to_src
-    
+
     @cgi.params.delete 'date'
     @cgi.params['old']   = [postid]
     @cgi.params['hide']  = diary.visible? ? [] : ['true']
@@ -250,7 +250,7 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
     index = index.to_i
     time = Time::local( year, month, day ) + 12*60*60
     diary = tdiary[time]
-    
+
     src = ''
     i = 0
     diary.each_section {|sec|
@@ -261,7 +261,7 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
       end
       src << sec.to_src
     }
-    
+
     @cgi.params.delete 'date'
     @cgi.params['old']   = [postid[0,8]]
     @cgi.params['hide']  = diary.visible? ? [] : ['true']
@@ -478,7 +478,7 @@ server.add_handler('mt.setPostCategories') do |postid, username, password, categ
     diary = tdiary[time]
 
     @cgi.params.delete 'date'
-    
+
     src = ''
     i = 0
     diary.each_section {|sec|
@@ -494,7 +494,7 @@ server.add_handler('mt.setPostCategories') do |postid, username, password, categ
       end
       src << sec.to_src
     }
-    
+
     @cgi.params['old']   = [postid[0,8]]
     @cgi.params['hide']  = diary.visible? ? [] : ['true']
     @cgi.params['title'] = [diary.title]

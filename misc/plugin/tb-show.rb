@@ -26,7 +26,7 @@
 #		%Q|#{comment_new_tb_backup }</a>]<br>[TrackBack to <a href="#{@tb_url}">#{@tb_url}|
 #	end
 #
- 
+
 # running on only non mobile mode
 unless @cgi.mobile_agent? then
 

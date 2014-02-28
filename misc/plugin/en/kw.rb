@@ -4,7 +4,7 @@ end
 
 def kw_desc
 	<<-HTML
-	<p>kw(KeyWord) plugin generate a Link by simple words. You can specify keywords		
+	<p>kw(KeyWord) plugin generate a Link by simple words. You can specify keywords
 	as space sepalated value: "keyword URL". For example,</p>
 	<pre>google http://www.google.com/search?q=$1</pre>
 	<p>then you specify in your diary as:</p>

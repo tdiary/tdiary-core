@@ -6,7 +6,7 @@
 if !@conf.tdiary_version && @conf.io_class.to_s == 'TDiary::IO::Default'
 	def convert_pstore( file )
 		require "pstore"
-	
+
 		db = PStore.new( file )
 		begin
 			roots = db.transaction{ db.roots }
@@ -27,7 +27,7 @@ if !@conf.tdiary_version && @conf.io_class.to_s == 'TDiary::IO::Default'
 			end
 		end
 	end
-	
+
 	def convert_element( data )
 		case data
 		when Hash, Array

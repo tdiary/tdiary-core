@@ -49,7 +49,7 @@
 初めて設定する時には、
   Insecure: can't modify hash (SecurityError)
 というエラーが出る可能性があります。これはtDiaryの問題です。この場合には、
-tDiaryを新しくして1.5.5.20030806以降を使うか、「基本」から何も変更せず 
+tDiaryを新しくして1.5.5.20030806以降を使うか、「基本」から何も変更せず
 に「OK」を押すことでエラーを回避できるでしょう。
 
 リンク元置換リストやオプションを変更した場合は、キャッシュディレクトリ
@@ -588,18 +588,18 @@ DispReferrer2_Engines = {
 	'102' => [[%r{\Ahttp://66\.102\.(?:[0-9]|1[0-5])\.\d+/}i, '"Google検索"', [:prev, 'as_q', 'q'], DispReferrer2_Google_cache]],
 	# other google candidates:
 	# % whois 216.239.37.104
-	# NetRange:   216.239.32.0 - 216.239.63.255 
-	# CIDR:       216.239.32.0/19 
+	# NetRange:   216.239.32.0 - 216.239.63.255
+	# CIDR:       216.239.32.0/19
 	# NetName:    GOOGLE
 	'216' => [[%r{\Ahttp://216\.239\.(?:3[2-9]|[4-5]\d|6[0-3])\.\d+/}i, '"Google検索"', [:prev, 'as_q', 'q'], DispReferrer2_Google_cache]],
 	# % whois 72.14.203.104
-	# NetRange:   72.14.192.0 - 72.14.239.255 
-	# CIDR:       72.14.192.0/19, 72.14.224.0/20 
+	# NetRange:   72.14.192.0 - 72.14.239.255
+	# CIDR:       72.14.192.0/19, 72.14.224.0/20
 	# NetName:    GOOGLE
 	'14' => [[%r{\Ahttp://72\.14\.(?:19[2-9]|2\d\d)\.\d+/}i, '"Google検索"', [:prev, 'as_q', 'q'], DispReferrer2_Google_cache]],
 	# % whois 66.249.93.104
-	# NetRange:   66.249.64.0 - 66.249.95.255 
-	# CIDR:       66.249.64.0/19 
+	# NetRange:   66.249.64.0 - 66.249.95.255
+	# CIDR:       66.249.64.0/19
 	# NetName:    GOOGLE
 	'249' => [[%r{\Ahttp://66\.249\.(?:6[4-9]|[7-8]\d|9[0-5])\.\d+/}i, '"Google検索"', [:prev, 'as_q', 'q'], DispReferrer2_Google_cache]],
 	'ezweb' => [[%r{\Ahttp://ezsch\.ezweb\.ne\.jp/search/}i, '"EZweb検索"', ['query'], nil]],

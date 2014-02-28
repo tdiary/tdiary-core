@@ -1,5 +1,5 @@
 # -*- indent-tabs-mode: t -*-
-# recent_rss.rb: RSS recent plugin 
+# recent_rss.rb: RSS recent plugin
 #
 # options:
 #   @options['recent_rss.use-image-link'] : use image as link
@@ -35,13 +35,13 @@ def recent_rss( url, max = 5, cache_time = 3600, show_modified = true )
 	cache_file = "#{@cache_path}/recent_rss.#{CGI.escape(url)}"
 
 	recent_rss_cache_rss(url, cache_file, cache_time.to_i)
-	
+
 	return '' unless test(?r, cache_file)
 
 	rv = %Q|<div class="recent-rss">\n|
 
 	site_info, *infos = recent_rss_read_from_cache(cache_file)
-  
+
 	if site_info
 		title, url, time, image = site_info
 		content = recent_rss_entry_to_html( title, url, time, image, show_modified )
@@ -49,9 +49,9 @@ def recent_rss( url, max = 5, cache_time = 3600, show_modified = true )
 		rv << %Q|<span class="#{recent_rss_modified_class(time)}">#{content}</span>\n|
 		rv << "</div>\n"
 	end
-  
+
 	have_entry = infos.size > 0 && max > 0
-  
+
 	rv << %Q|<ol class="recent-rss">\n| if have_entry
 	i = 0
 	infos.each do |title, url, time, image|
@@ -93,14 +93,14 @@ def recent_rss_cache_rss(url, cache_file, cache_time)
 	cached_time = File.mtime(cache_file) if File.exist?(cache_file)
 
 	if cached_time.nil? or Time.now > cached_time + cache_time
-		
+
 		begin
 			uri = URI.parse(url)
 
 			raise URI::InvalidURIError unless uri.is_a?(URI::HTTP)
 
 			rss_source = recent_rss_fetch_rss(uri, cached_time)
-			
+
 			raise InvalidResourceError if rss_source.nil?
 
 			# parse RSS

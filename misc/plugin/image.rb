@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # image.rb
 # -pv-
-# 
+#
 # 名称:
 # 絵日記Plugin
 #
@@ -129,7 +129,7 @@ FileUtils.mkdir_p @image_dir unless File.exist?(@image_dir)
 
 @image_maxwidth = @options && @options['image.maxwidth'] || nil
 
-add_body_enter_proc do |date|	
+add_body_enter_proc do |date|
    @image_date = date.strftime( "%Y%m%d" )
    ""
 end

@@ -233,7 +233,7 @@ end
 
 def search_result
 	unless @conf.io_class == (TDiary.const_defined?('DefaultIO') ? TDiary::DefaultIO : TDiary::IO::Default)
-		return %Q|<p class="message">could not use this plugin under #{@conf.io_class}.</p>| 
+		return %Q|<p class="message">could not use this plugin under #{@conf.io_class}.</p>|
 	end
 
 	query = CGI::unescape( @cgi.params['q'][0] )

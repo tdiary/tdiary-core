@@ -99,7 +99,7 @@ module TDiary
 								fhr.truncate( 0 )
 								fhr.puts( TDiary::TDIARY_MAGIC )
 								fhr.puts( "Date: #{date}" )
-								fhr.puts 
+								fhr.puts
 								diary.each_referer( diary.count_referers ) do |count,ref|
 									fhr.puts( "#{count} #{ref}" )
 								end

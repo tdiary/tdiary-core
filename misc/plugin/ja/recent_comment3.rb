@@ -31,7 +31,7 @@ if @mode == 'conf' || @mode == 'saveconf'
       <h3 class="subtitle">ツリー表示時のタイトルの長さ</h3>
       <p>ツリー表示機能を使用する時のタイトルの長さを指定します。ツリー表示機能を使用しない場合には関係ありません。</p>
       <p>最大 <input name="recent_comment3.titlelen" value="#{h( @conf['recent_comment3.titlelen'] )}" size="3" /> 文字</p>
-      
+
       <h3 class="subtitle">生成するHTMLのテンプレート</h3>
       <p>各ツッコミをどのようなHTMLで表示するかを指定します．</p>
       <textarea name="recent_comment3.format" cols="70" rows="3">#{h( @conf['recent_comment3.format'] )}</textarea>

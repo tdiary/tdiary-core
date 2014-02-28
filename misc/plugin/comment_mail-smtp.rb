@@ -19,7 +19,7 @@
 #     @options['comment_mail.receivers']
 #          メールを送るアドレス文字列。カンマで区切って複数指定できる。
 #          無指定時には日記筆者のアドレスになる。
-#  
+#
 #   tdiary.confでのみ指定できるもの:
 #     @options['comment_mail.smtp_host']
 #     @options['comment_mail.smtp_port']

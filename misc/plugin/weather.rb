@@ -538,13 +538,13 @@ _END
 end
 
 if not feed? and not @options['weather.in_title'] then
-	add_body_enter_proc do |date| 
+	add_body_enter_proc do |date|
 		weather( date )
 	end
 end
 
 if not feed? and @options['weather.in_title'] then
-	add_title_proc do |date, title| 
+	add_title_proc do |date, title|
 		title + weather( date, false )
 	end
 end

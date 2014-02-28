@@ -69,7 +69,7 @@ def sf_list_plugins( sf_opt )
 		r += @sf_label_please_select
 		unless unknown.empty? then
 			r += @sf_label_new
-			r += "<ul>\n" 
+			r += "<ul>\n"
 			r += sf_li_plugins( unknown, sf_option( 'usenew' ) )
 			r += "</ul>\n"
 		end

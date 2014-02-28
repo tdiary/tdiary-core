@@ -41,7 +41,7 @@
 
 2002-05-16 MUTOH Masao <mutoh@highway.ne.jp>
 	* cache mechanism support.
-	* code cleanup(remove require 'cgi', 
+	* code cleanup(remove require 'cgi',
 		getcomment rename to tlink_getcomment).
 
 2002-05-05 NT <nt@24i.net>
@@ -70,7 +70,7 @@ require 'net/http'
 require 'kconv'
 require 'pstore'
 
-def tlink_initialize 
+def tlink_initialize
   dir = @cache_path + "/tlink"
   @tlink_path = dir + "/tlink.dat"
 

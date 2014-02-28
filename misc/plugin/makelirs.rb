@@ -29,21 +29,21 @@ add_update_proc do
 				def utc_offset
 					l = self.dup.localtime
 					u = self.dup.utc
-	
+
 					if l.year != u.year
 						off = l.year < u.year ? -1 : 1
 					elsif l.mon != u.mon
 						off = l.mon < u.mon ? -1 : 1
 					elsif l.mday != u.mday
 						off = l.mday < u.mday ? -1 : 1
-					else    
+					else
 						off = 0
 					end
-	
+
 					off = off * 24 + l.hour - u.hour
 					off = off * 60 + l.min - u.min
 					off = off * 60 + l.sec - u.sec
-	
+
 					return off
 				end
 			end

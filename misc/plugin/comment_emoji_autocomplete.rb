@@ -11,7 +11,7 @@ if !@cgi.mobile_agent? && /\A(?:day)\z/ =~ @mode
 	add_header_proc do
 		%Q|<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
 	end
-   
+
 	enable_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
 	enable_js('caretposition.js')
 	enable_js('comment_emoji_autocomplete.js')

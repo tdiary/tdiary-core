@@ -83,7 +83,7 @@ add_footer_proc do
 				'name' => 'tdiary_whats_new',
 				'value' => [@whats_new[:this_time]],
 				'path' => cookie_path,
-				'expires' => Time::now.gmtime + 90*24*60*60 
+				'expires' => Time::now.gmtime + 90*24*60*60
 			})
 			add_cookie(cookie)
 		end

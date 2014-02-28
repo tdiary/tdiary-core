@@ -5,7 +5,7 @@
 #
 # Copyright (c) 2001,2002,2003 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL
-# 
+#
 
 def todo_msg_today; "今日"; end
 def todo_msg_in_time(days); "あと#{days}日"; end

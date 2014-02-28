@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# limitdays.rb: 
+# limitdays.rb:
 #
 # Copyright (C) SHIBATA Hiroshi <shibata.hiroshi@gmail.com> 2008.
 # Distributed under GPL2.
@@ -16,7 +16,7 @@ module TDiary::Filter
 			else
 				@date_limit = nil
 			end
-			
+
 			if @date_limit
 				now = Time.now
 				today = Time.local(now.year, now.month, now.day)

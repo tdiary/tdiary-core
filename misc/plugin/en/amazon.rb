@@ -11,7 +11,7 @@
 #     asin:    ASIN or ISBN
 #     comment: comment (optional)
 #
-# isbn_image_right: 
+# isbn_image_right:
 #   Parameter:
 #     asin:    ASIN or ISBN
 #     comment: comment (optional)
@@ -38,7 +38,7 @@
 #                             amazon.rb uses images on tDiary.org when this
 #                             option not specified. If you want to use your
 #                             original images, modify PNG file in amazon directory.
-#   @options['amazon.nodefault']: If you dosen't want to show default image 
+#   @options['amazon.nodefault']: If you dosen't want to show default image
 #                             when the book image not found, set true.
 
 @amazon_default_country = 'us'

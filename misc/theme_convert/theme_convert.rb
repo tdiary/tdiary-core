@@ -404,14 +404,14 @@ def theme_convert ( fname, hash )
           end
         end
       }
-    end 
+    end
   end
 
   rcss = File::readlines( "append.rcss" ).join
   File.open( fname.sub( /\.css/i, "-2.css" ), "a" ) do |f|
     f.write( ERB::new( rcss ).result( binding ) )
   end
-end 
+end
 
 while cssname = ARGV.shift
   unless cssname
@@ -422,7 +422,7 @@ while cssname = ARGV.shift
   begin
     simplify_css( cssname )
   rescue
-    File.delete( cssname.sub( /\.css/i, "-simple.css" ) ) 
+    File.delete( cssname.sub( /\.css/i, "-simple.css" ) )
     puts "Error!: #{$!}"
     next
   end
