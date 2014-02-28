@@ -427,7 +427,7 @@ margin: 0px;
 _END
 			:description => 'CSS for the links. The followoing is applied to <code>div.sequel</code>.',
 			:index => 3,
-			:textarea => {:rows => 5},
+			:textarea => {rows: 5},
 		},
 	}
 

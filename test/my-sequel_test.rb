@@ -164,7 +164,7 @@ class TestMySequelConf < Test::Unit::TestCase
 				:title => 'Test to show text area',
 				:default => "a\nb\ncc",
 				:index => 4,
-				:textarea => {:rows => 2},
+				:textarea => {rows: 2},
 			}
 		}
 		@my_sequel_conf = MySequel::Conf.new(@defaults)

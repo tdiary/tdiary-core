@@ -40,7 +40,7 @@ margin: 0px;
 _END
 		:description => '後日談へのリンクに設定されるCSSです。div.sequelに適用されます。',
 		:index => 3,
-		:textarea => {:rows => 5},
+		:textarea => {rows: 5},
 	},
 }
 

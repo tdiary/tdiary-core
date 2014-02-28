@@ -18,13 +18,13 @@ begin
 	require 'tdiary'
 
 	encoding_error = {}
-	cgi = CGI::new(:accept_charset => "UTF-8") do |name, value|
+	cgi = CGI::new(accept_charset: "UTF-8") do |name, value|
 		encoding_error[name] = value
 	end
 	if encoding_error.empty?
 		@cgi = cgi
 	else
-		@cgi = CGI::new(:accept_charset => 'shift_jis')
+		@cgi = CGI::new(accept_charset: 'shift_jis')
 		@cgi.params = cgi.params
 	end
 
