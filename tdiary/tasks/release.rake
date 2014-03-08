@@ -39,11 +39,17 @@ def make_tarball( repo, version = nil )
 			Dir.chdir '.bundle/ruby' do
 				v = `ls`.chomp
 				case v
+				when '2.1.0'
+					FileUtils.cp_r '2.1.0', '1.9.1'
+					FileUtils.cp_r '2.1.0', '2.0.0'
 				when '2.0.0'
 					FileUtils.cp_r '2.0.0', '1.9.1'
+					FileUtils.cp_r '2.0.0', '2.1.0'
 				when '1.9.1'
 					FileUtils.cp_r '1.9.1', '2.0.0'
+					FileUtils.cp_r '1.9.1', '2.1.0'
 				else
+					FileUtils.cp_r v, '2.1.0'
 					FileUtils.cp_r v, '2.0.0'
 					FileUtils.cp_r v, '1.9.1'
 					FileUtils.rm_rf v
