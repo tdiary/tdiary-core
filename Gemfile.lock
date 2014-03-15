@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jnicklas/capybara.git
-  revision: 595cd4a89bc5c7873e74a3b05761d27c30cc198a
+  revision: a94dfbc4d07dcfe53bbea334f7f47f584737a0c0
   specs:
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -33,12 +33,12 @@ GEM
     execjs (2.0.2)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
-    fastimage (1.6.0)
+    fastimage (1.6.1)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.3)
     hike (1.2.3)
     hikidoc (0.0.6)
-    hub (1.11.2)
+    hub (1.12.0)
     jasmine (1.3.2)
       jasmine-core (~> 1.3.1)
       rack (~> 1.0)
@@ -49,13 +49,13 @@ GEM
       addressable (~> 2.3)
     libv8 (3.16.14.3)
     method_source (0.8.2)
-    mime-types (2.1)
+    mime-types (2.2)
     mini_portile (0.5.2)
-    multi_json (1.8.4)
+    multi_json (1.9.0)
     multipart-post (2.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
-    octokit (2.7.1)
+    octokit (2.7.2)
       sawyer (~> 0.5.2)
     octorelease (0.0.4)
       hub
@@ -97,14 +97,14 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
-    sequel (4.7.0)
+    sequel (4.8.0)
     simplecov (0.8.2)
       docile (~> 1.1.0)
       multi_json
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
-    slop (3.4.7)
-    sprockets (2.11.0)
+    slop (3.5.0)
+    sprockets (2.12.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -116,7 +116,7 @@ GEM
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
-    thin (1.6.1)
+    thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
