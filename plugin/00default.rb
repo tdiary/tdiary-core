@@ -213,6 +213,7 @@ add_header_proc do
 	#{index_page_tag}
 	#{mobile_link_discovery}
 	#{icon_tag}
+	#{default_ogp}
 	#{description_tag}
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
@@ -346,6 +347,13 @@ def icon_tag
 	else
 		''
 	end
+end
+
+def default_ogp
+	%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
+	<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
+	<meta content="#{base_url}images/ogimage.png" property="og:image">
+	<meta content="#{h uri}" property="og:url">]
 end
 
 def description_tag
