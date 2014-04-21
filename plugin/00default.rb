@@ -321,14 +321,18 @@ def index_page_tag
 	result.chop.chop
 end
 
-def mobile_link_discovery
-	return '' unless /^(latest|day)$/ =~ @mode
+def uri
 	uri = @conf.index.dup
 	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
 	if @mode == 'day' then
 		uri += anchor( @date.strftime( '%Y%m%d' ) )
 	end
+  return uri
+end
+
+def mobile_link_discovery
+	return '' unless /^(latest|day)$/ =~ @mode
 	%Q[<link rel="alternate" media="handheld" type="text/html" href="#{h uri}">]
 end
 
