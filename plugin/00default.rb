@@ -346,16 +346,22 @@ def icon_tag
 end
 
 def default_ogp
-  uri = @conf.index.dup
-  uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
-  uri.gsub!( %r|/\./|, '/' )
-  if @mode == 'day' then
-    uri += anchor( @date.strftime( '%Y%m%d' ) )
+  unless @conf.options2['sp.selected'].include?('ogp.rb')
+    uri = @conf.index.dup
+    uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+    uri.gsub!( %r|/\./|, '/' )
+    if @mode == 'day' then
+      uri += anchor( @date.strftime( '%Y%m%d' ) )
+    end
+    %Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
+    <meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
+    <meta content="#{base_url}images/ogimage.png" property="og:image">
+    <meta content="#{h uri}" property="og:url">]
+  else
+    if @conf.banner.empty?
+      %Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
+    end
   end
-	%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
-	<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
-	<meta content="#{base_url}images/ogimage.png" property="og:image">
-	<meta content="#{h uri}" property="og:url">]
 end
 
 def description_tag
