@@ -322,19 +322,15 @@ def index_page_tag
 	result.chop.chop
 end
 
-def uri
-	uri = @conf.index.dup
-	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
-	uri.gsub!( %r|/\./|, '/' )
-	if @mode == 'day' then
-		uri += anchor( @date.strftime( '%Y%m%d' ) )
-	end
-  return uri
-end
-
 def mobile_link_discovery
-	return '' unless /^(latest|day)$/ =~ @mode
-	%Q[<link rel="alternate" media="handheld" type="text/html" href="#{h uri}">]
+  return '' unless /^(latest|day)$/ =~ @mode
+  uri = @conf.index.dup
+  uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+  uri.gsub!( %r|/\./|, '/' )
+  if @mode == 'day' then
+    uri += anchor( @date.strftime( '%Y%m%d' ) )
+  end
+  %Q[<link rel="alternate" media="handheld" type="text/html" href="#{h uri}">]
 end
 
 def icon_tag
@@ -350,6 +346,12 @@ def icon_tag
 end
 
 def default_ogp
+  uri = @conf.index.dup
+  uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+  uri.gsub!( %r|/\./|, '/' )
+  if @mode == 'day' then
+    uri += anchor( @date.strftime( '%Y%m%d' ) )
+  end
 	%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
 	<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
 	<meta content="#{base_url}images/ogimage.png" property="og:image">
