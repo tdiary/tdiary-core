@@ -346,7 +346,11 @@ def icon_tag
 end
 
 def default_ogp
-  unless @conf.options2['sp.selected'].include?('ogp.rb')
+  if @conf.options2['sp.selected'] && @conf.options2['sp.selected'].include?('ogp.rb')
+      if defined?(@conf.banner)
+        %Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
+      end
+  else
     uri = @conf.index.dup
     uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
     uri.gsub!( %r|/\./|, '/' )
@@ -357,10 +361,6 @@ def default_ogp
     <meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
     <meta content="#{base_url}images/ogimage.png" property="og:image">
     <meta content="#{h uri}" property="og:url">]
-  else
-    if @conf.banner.empty?
-      %Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
-    end
   end
 end
 
