@@ -13,7 +13,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.6)
-    childprocess (0.5.2)
+    childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
     coffee-script (2.2.0)
@@ -55,7 +55,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
-    octokit (3.0.0)
+    octokit (3.1.0)
       sawyer (~> 0.5.3)
     octorelease (0.0.5)
       hub
@@ -71,7 +71,7 @@ GEM
     racksh (1.0.0)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rake (10.2.2)
+    rake (10.3.1)
     redcarpet (3.1.1)
     ref (1.0.5)
     rest-client (1.6.7)
@@ -104,7 +104,7 @@ GEM
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
     slop (3.5.0)
-    sprockets (2.12.0)
+    sprockets (2.12.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
