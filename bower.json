@@ -10,9 +10,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "spec/javascripts",
-    "test",
-    "tests"
+    "spec/javascripts/lib"
   ],
   "devDependencies": {
     "jquery": "~2.1.0",
