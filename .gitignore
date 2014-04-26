@@ -15,3 +15,5 @@ spec/reports
 doc/*.html
 .rspec
 /Gemfile.local
+bower_components
+node_modules
