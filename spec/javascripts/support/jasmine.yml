@@ -1,5 +1,6 @@
 src_files:
-  - "spec/javascripts/jquery.js"
+  - "spec/javascripts/lib/jquery/jquery.js"
+  - "spec/javascripts/lib/**/*.js"
   - "js/**/*.js"
 
 stylesheets:

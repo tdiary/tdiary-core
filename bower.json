@@ -1,0 +1,19 @@
+{
+  "name": "tdiary-core",
+  "version": "4.0.3",
+  "homepage": "https://github.com/tdiary/tdiary-core",
+  "authors": [
+    "SHIBATA Hiroshi <hsbt@ruby-lang.org>"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "spec/javascripts/lib"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.0",
+    "jasmine-jquery": "~2.0.3"
+  }
+}

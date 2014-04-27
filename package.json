@@ -1,0 +1,29 @@
+{
+  "name": "tdiary-core",
+  "version": "4.0.3",
+  "description": "",
+  "main": "",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tdiary/tdiary-core.git"
+  },
+  "author": "",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/tdiary/tdiary-core/issues"
+  },
+  "homepage": "https://github.com/tdiary/tdiary-core",
+  "devDependencies": {
+    "bower": "~1.2.8",
+    "grunt": "~0.4.4",
+    "grunt-cli": "~0.1.13",
+    "grunt-bower-task": "~0.3.4"
+  }
+}
