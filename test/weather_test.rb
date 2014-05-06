@@ -1,3 +1,4 @@
+# encoding: utf-8
 # by @kou
 # https://github.com/tdiary/tdiary-core/pull/218#issuecomment-10048898
 
@@ -141,6 +142,18 @@ class TestStationRegexp < Test::Unit::TestCase
 
 	def test_no_station_id
 		assert_nil(@plugin_class::Weather::extract_station_id('http://www.tdiary.org/'))
+	end
+end
+
+class TestWeatherTranslaterJa < Test::Unit::TestCase
+	def setup
+		@plugin_class = TDiary::StubPlugin::new_plugin('misc/plugin/weather.rb', 'ja')
+	end
+
+	def test_translate_broken_clouds
+		ja = @plugin_class::WeatherTranslator::S.new('cloudy').\
+			translate(@plugin_class::Weather::Words_ja)
+		assert_equal('曇', ja)
 	end
 end
 

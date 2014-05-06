@@ -76,11 +76,11 @@ module TDiary
 		end
 
 		def StubPlugin::load_plugin(plugin_relative_path, lang = 'en')
-			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[1]
+			return StubPlugin::_load_plugin(plugin_relative_path, lang)[1]
 		end
 
 		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
-			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[0]
+			return StubPlugin::_load_plugin(plugin_relative_path, lang)[0]
 		end
 
 		attr_accessor :conf
@@ -126,11 +126,11 @@ module TDiary
 		end
 
 		def StubPlugin::load_plugin(plugin_relative_path, lang = 'en')
-			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[1]
+			return StubPlugin::_load_plugin(plugin_relative_path, lang)[1]
 		end
 
 		def StubPlugin::new_plugin(plugin_relative_path, lang = 'en')
-			return StubPlugin::_load_plugin(plugin_relative_path, lang = 'en')[0]
+			return StubPlugin::_load_plugin(plugin_relative_path, lang)[0]
 		end
 
 		def initialize(lang = 'en')
