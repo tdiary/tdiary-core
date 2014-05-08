@@ -1,3 +1,6 @@
+2014-05-08  TADA Tadashi <t@tdtds.jp>
+	* fix error on image when edit mode #412
+
 2014-02-21  TADA Tadashi <t@tdtds.jp>
 	* add theme_online plugin #291
 
