@@ -347,7 +347,7 @@ def default_ogp
 		end
 		%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
 		<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
-		<meta content="#{base_url}images/ogimage.png" property="og:image">
+		<meta content="#{h uri}#{h theme_url}/ogimage.png" property="og:image">
 		<meta content="#{h uri}" property="og:url">]
 	end
 end
