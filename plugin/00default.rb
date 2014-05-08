@@ -334,22 +334,22 @@ def icon_tag
 end
 
 def default_ogp
-  if @conf.options2['sp.selected'] && @conf.options2['sp.selected'].include?('ogp.rb')
-      if defined?(@conf.banner)
-        %Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
-      end
-  else
-    uri = @conf.index.dup
-    uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
-    uri.gsub!( %r|/\./|, '/' )
-    if @mode == 'day' then
-      uri += anchor( @date.strftime( '%Y%m%d' ) )
-    end
-    %Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
-    <meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
-    <meta content="#{base_url}images/ogimage.png" property="og:image">
-    <meta content="#{h uri}" property="og:url">]
-  end
+	if @conf.options2['sp.selected'] && @conf.options2['sp.selected'].include?('ogp.rb')
+		if defined?(@conf.banner)
+			%Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
+		end
+	else
+		uri = @conf.index.dup
+		uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+		uri.gsub!( %r|/\./|, '/' )
+		if @mode == 'day' then
+			uri += anchor( @date.strftime( '%Y%m%d' ) )
+		end
+		%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
+		<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
+		<meta content="#{base_url}images/ogimage.png" property="og:image">
+		<meta content="#{h uri}" property="og:url">]
+	end
 end
 
 def description_tag
@@ -579,13 +579,13 @@ end
 # make comment form
 #
 def comment_description
-   begin
-      if @conf.options['comment_description'].length > 0 then
-         return @conf.options['comment_description']
-      end
-   rescue
-   end
-   comment_description_default
+	 begin
+		if @conf.options['comment_description'].length > 0 then
+			 return @conf.options['comment_description']
+		end
+	 rescue
+	 end
+	 comment_description_default
 end
 
 def comment_form_text
