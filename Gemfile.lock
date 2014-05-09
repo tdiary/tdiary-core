@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jnicklas/capybara.git
-  revision: 59f751f1c4dcd570175cfc33d2a87da2f4ac7544
+  revision: 2b778ae6dcdaab067edde542b5dd8f05df3ee3ba
   specs:
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -51,13 +51,13 @@ GEM
     method_source (0.8.2)
     mime-types (2.2)
     mini_portile (0.5.3)
-    multi_json (1.9.3)
+    multi_json (1.10.0)
     multipart-post (2.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     octokit (3.1.0)
       sawyer (~> 0.5.3)
-    octorelease (0.0.5)
+    octorelease (0.0.6)
       hub
       octokit
     phantomjs (1.9.7.0)
