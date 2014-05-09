@@ -33,7 +33,7 @@ GEM
     execjs (2.0.2)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
-    fastimage (1.6.2)
+    fastimage (1.6.1)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.3)
     hike (1.2.3)
@@ -51,7 +51,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.2)
     mini_portile (0.5.3)
-    multi_json (1.9.3)
+    multi_json (1.9.2)
     multipart-post (2.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
@@ -98,7 +98,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
-    sequel (4.10.0)
+    sequel (4.9.0)
     simplecov (0.8.2)
       docile (~> 1.1.0)
       multi_json
@@ -111,11 +111,6 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.9)
-    tdiary (4.0.3)
-      bundler (~> 1.3)
-      thor (~> 0.18)
-    tdiary-style-emptdiary (0.0.2)
-      tdiary (> 4.0.1.20130929)
     term-ansicolor (1.3.0)
       tins (~> 1.0)
     test-unit (2.5.5)
@@ -157,7 +152,6 @@ DEPENDENCIES
   simplecov
   sprockets
   sqlite3
-  tdiary-style-emptdiary
   test-unit
   therubyracer
   thin
