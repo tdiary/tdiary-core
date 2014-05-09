@@ -62,7 +62,9 @@ module TDiary
 
 			def create_tdiary
 				begin
-					if params['append']
+					if params['plugin']
+						tdiary = TDiary::TDiaryFormPlugin::new( cgi, 'update.rhtml', conf )
+					elsif params['append']
 						tdiary = TDiary::TDiaryAppend::new( cgi, nil, conf )
 					elsif params['edit']
 						tdiary = TDiary::TDiaryEdit::new( cgi, 'update.rhtml', conf )
@@ -70,8 +72,6 @@ module TDiary
 						tdiary = TDiary::TDiaryReplace::new( cgi, nil, conf )
 					elsif params['appendpreview'] or params['replacepreview']
 						tdiary = TDiary::TDiaryPreview::new( cgi, 'preview.rhtml', conf )
-					elsif params['plugin']
-						tdiary = TDiary::TDiaryFormPlugin::new( cgi, 'update.rhtml', conf )
 					elsif params['comment']
 						tdiary = TDiary::TDiaryShowComment::new( cgi, 'update.rhtml', conf )
 					elsif params['saveconf']

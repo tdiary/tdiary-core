@@ -211,8 +211,8 @@ add_header_proc do
 	#{author_name_tag}
 	#{author_mail_tag}
 	#{index_page_tag}
-	#{mobile_link_discovery}
 	#{icon_tag}
+	#{default_ogp}
 	#{description_tag}
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
@@ -321,17 +321,6 @@ def index_page_tag
 	result.chop.chop
 end
 
-def mobile_link_discovery
-	return '' unless /^(latest|day)$/ =~ @mode
-	uri = @conf.index.dup
-	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
-	uri.gsub!( %r|/\./|, '/' )
-	if @mode == 'day' then
-		uri += anchor( @date.strftime( '%Y%m%d' ) )
-	end
-	%Q[<link rel="alternate" media="handheld" type="text/html" href="#{h uri}">]
-end
-
 def icon_tag
 	if @conf.icon and not(@conf.icon.empty?) then
 		if /\.ico$/ =~ @conf.icon then
@@ -341,6 +330,25 @@ def icon_tag
 		end
 	else
 		''
+	end
+end
+
+def default_ogp
+	if @conf.options2['sp.selected'] && @conf.options2['sp.selected'].include?('ogp.rb')
+		if defined?(@conf.banner)
+			%Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
+		end
+	else
+		uri = @conf.index.dup
+		uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+		uri.gsub!( %r|/\./|, '/' )
+		if @mode == 'day' then
+			uri += anchor( @date.strftime( '%Y%m%d' ) )
+		end
+		%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
+		<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
+		<meta content="#{h uri}#{h theme_url}/ogimage.png" property="og:image">
+		<meta content="#{h uri}" property="og:url">]
 	end
 end
 
@@ -571,13 +579,13 @@ end
 # make comment form
 #
 def comment_description
-   begin
-      if @conf.options['comment_description'].length > 0 then
-         return @conf.options['comment_description']
-      end
-   rescue
-   end
-   comment_description_default
+	 begin
+		if @conf.options['comment_description'].length > 0 then
+			 return @conf.options['comment_description']
+		end
+	 rescue
+	 end
+	 comment_description_default
 end
 
 def comment_form_text
