@@ -151,7 +151,7 @@ class TestWeatherTranslaterJa < Test::Unit::TestCase
 	end
 
 	def test_translate_broken_clouds
-		ja = @plugin_class::WeatherTranslator::S.new('cloudy').\
+		ja = @plugin_class::WeatherTranslator::S.new('broken clouds').\
 			translate(@plugin_class::Weather::Words_ja)
 		assert_equal('曇', ja)
 	end
