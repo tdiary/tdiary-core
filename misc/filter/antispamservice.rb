@@ -5,7 +5,6 @@
 # usage:
 #    1) Get your free API Key from:
 #         a. Akismet API from http://akismet.com/personal/
-#         b. TypePad Antispam API from http://antispam.typepad.com/info/get-api-key.html
 #    2) Set the API key and enable filter in your tdiary.conf. See below.
 #          @options['antispam.service'] = 'rest.akismet.com'
 #          @options['antispam.key'] = '1234567890ab'
@@ -25,7 +24,6 @@ module TDiary::Filter
 			@antispam_service_list = {
 				# Service => ServiceHost
 				'Akismet' => 'rest.akismet.com',
-				'TypePad' => 'api.antispam.typepad.com'
 			}
 
 			host  = @antispam_service_list[@conf['antispam.service']]

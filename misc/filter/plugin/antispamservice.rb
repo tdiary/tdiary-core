@@ -13,7 +13,6 @@ require 'uri'
 @antispam_service_list = {
 	# Service => ServiceHost
 	'Akismet' => 'rest.akismet.com',
-	'TypePad' => 'api.antispam.typepad.com'
 }
 
 add_conf_proc( 'antispamservice', @antispam_label_conf, 'security' ) do
