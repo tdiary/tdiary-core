@@ -5,7 +5,7 @@ require 'tdiary/io/default'
 
 describe TDiary::IO::Default do
   it 'is_a TDiary::IO::Base' do
-    expect { TDiary::IO::Default.is_a?(TDiary::IO::Base) }.to be_truthy
+    expect(TDiary::IO::Default.ancestors.include?(TDiary::IO::Base)).to be_truthy
   end
 
   describe "#save_cgi_conf and #load_cgi_conf" do
