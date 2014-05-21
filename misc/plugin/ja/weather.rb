@@ -239,7 +239,7 @@ class Weather
 		[%r[\s*\bclear\b\s*]i, '"快晴"'],
 		[%r[\s*\b(mostly |partly )?cloudy\b\s*]i, '"曇"'],
 		[%r[\s*\bbroken clouds\b\s*]i, '"曇"'],
-		[%r[\s*\bovercast\b\s*]i, '"曇"'],
+		[%r[\s*\bovercast( cloud deck)?\b\s*]i, '"曇"'],
 		[%r[\s*\blight snow showers?\b\s*]i, '"にわか雪"'],
 		[%r[\s*\blight snow\b\s*]i, '"小雪"'],
 		[%r[\s*\blight drizzle\b\s*]i, '"小雨"'],
