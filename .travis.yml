@@ -11,7 +11,7 @@ rvm:
 cache: bundler
 
 # ignored --deployment option
-bundler_args: ""
+bundler_args: "--without server"
 
 before_install:
   - "export DISPLAY=:99.0"
@@ -36,7 +36,5 @@ notifications:
 
 matrix:
   allow_failures:
-    # eventmachine cann't build with rb_thread_blocking_region
-    - rvm: ruby-head
     # webrick mode is unstable results...
     - env: TEST_MODE=webrick
