@@ -150,6 +150,12 @@ class TestWeatherTranslaterJa < Test::Unit::TestCase
 		@plugin_class = TDiary::StubPlugin::new_plugin('misc/plugin/weather.rb', 'ja')
 	end
 
+	def test_translate_few_clouds
+		ja = @plugin_class::WeatherTranslator::S.new('Few clouds').\
+			translate(@plugin_class::Weather::Words_ja)
+		assert_equal('曇', ja)
+	end
+
 	def test_translate_broken_clouds
 		ja = @plugin_class::WeatherTranslator::S.new('broken clouds').\
 			translate(@plugin_class::Weather::Words_ja)
