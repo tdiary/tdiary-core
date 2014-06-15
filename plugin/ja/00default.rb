@@ -125,7 +125,7 @@ end
 def preview_label; 'プレビュー'; end
 
 def nyear_diary_label(date, years); "長年日記"; end
-def nyear_diary_title(date, years); "長年日記"; end
+def nyear_diary_title; "長年日記"; end
 
 #
 # labels (for mobile)

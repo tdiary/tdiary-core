@@ -90,7 +90,7 @@ end
 def preview_label; 'Preview'; end
 
 def nyear_diary_label(date, years); "my old days"; end
-def nyear_diary_title(date, years); "same days in past"; end
+def nyear_diary_title; "same days in past"; end
 
 
 #
