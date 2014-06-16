@@ -103,7 +103,7 @@ module TDiary
 					if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ u then
 						%Q[<%=my '#{$1}#{$2}', '#{escape_quote k}' %>]
 					elsif /:/ =~ u
-						scheme = URI(u).scheme
+						scheme = URI(u).scheme rescue nil # URI::InvalidURIError
 						if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
 							u.sub!( /^\w+:/, '' ) if %r|://| !~ u and /^mailto:/ !~ u
 							%Q[<a href="#{u}">#{k}</a>]
