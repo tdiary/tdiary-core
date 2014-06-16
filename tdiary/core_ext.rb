@@ -106,7 +106,7 @@ module Safe
 			Proc.new {
 				begin
 					$SAFE = level
-				rescue ArgumentError => e
+				rescue ArgumentError
 					# $SAFE=4 was removed from Ruby 2.1.0.
 				ensure
 					result = yield
