@@ -79,7 +79,6 @@ module TDiary
 
 			def body_to_html
 				html = ""
-				tag = false
 				@body.lines.each do |p|
 					if p[0] == ?< then
 						html = @body.dup
