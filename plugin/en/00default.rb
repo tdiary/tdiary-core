@@ -30,7 +30,7 @@ def title_tag
 		r << '(Preferences Changed)'
 	when 'nyear'
 		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
-		r << "(#{years[0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
+		r << "(#{years[0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label}])" if @date
 	end
 	r << '</title>'
 end
@@ -89,8 +89,8 @@ def submit_label
 end
 def preview_label; 'Preview'; end
 
-def nyear_diary_label(date, years); "my old days"; end
-def nyear_diary_title(date, years); "same days in past"; end
+def nyear_diary_label; "my old days"; end
+def nyear_diary_title; "same days in past"; end
 
 
 #

@@ -11,6 +11,7 @@
 # You can distribute this under GPL.
 #
 require 'hikidoc'
+require 'uri'
 
 module TDiary
 	module Style
@@ -102,7 +103,7 @@ module TDiary
 					if /^(\d{4}|\d{6}|\d{8}|\d{8}-\d+)[^\d]*?#?([pct]\d+)?$/ =~ u then
 						%Q[<%=my '#{$1}#{$2}', '#{escape_quote k}' %>]
 					elsif /:/ =~ u
-						scheme, path = u.split( /:/, 2 )
+						scheme = URI( u ).scheme rescue nil # URI::InvalidURIError
 						if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
 							u.sub!( /^\w+:/, '' ) if %r|://| !~ u and /^mailto:/ !~ u
 							%Q[<a href="#{u}">#{k}</a>]

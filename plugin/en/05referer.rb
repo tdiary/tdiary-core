@@ -13,9 +13,6 @@ def label_no_referer; "Today's Links Excluding List"; end
 def label_only_volatile; "Volatile Links List"; end
 def label_referer_table; "Today's Links Conversion Rule"; end
 
-def nyear_diary_label(date, years); "my old days"; end
-def nyear_diary_title(date, years); "same days in past"; end
-
 add_conf_proc( 'referer', "Today's Link", 'referer' ) do
 	saveconf_referer
 

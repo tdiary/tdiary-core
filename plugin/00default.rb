@@ -472,7 +472,7 @@ def nyear_link( date, title )
 		d = date.strftime( '%d' )
 		years = @years.find_all {|year, months| months.include? m}
 		if years.length >= 2 then
-			%Q|#{title} <span class="nyear">[<a href="#{h @conf.index}#{anchor m + d}" title="#{h(nyear_diary_title(date, years))}">#{nyear_diary_label date, years}</a>]</span>|
+			%Q|#{title} <span class="nyear">[<a href="#{h @conf.index}#{anchor m + d}" title="#{h(nyear_diary_title)}">#{nyear_diary_label}</a>]</span>|
 		else
 			title
 		end

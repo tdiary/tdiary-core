@@ -33,7 +33,7 @@ class PStore
 	def transaction(*args, &block)
 		begin
 			compatible_transaction_original(*args, &block)
-		rescue PStoreRuby18Exception => e
+		rescue PStoreRuby18Exception
 			# first loaded the pstore file (it's created by Ruby-1.8)
 			# force convert ASCII_8BIT pstore data to UTF_8
 			file = open_and_lock_file(@filename, false)

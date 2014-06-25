@@ -30,7 +30,7 @@ def title_tag
 		r << '(設定完了)'
 	when 'nyear'
 		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
-		r << "(#{h @cgi.params['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label @date, years}])" if @date
+		r << "(#{h @cgi.params['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label}])" if @date
 	end
 	r << '</title>'
 end
@@ -124,8 +124,8 @@ def submit_label
 end
 def preview_label; 'プレビュー'; end
 
-def nyear_diary_label(date, years); "長年日記"; end
-def nyear_diary_title(date, years); "長年日記"; end
+def nyear_diary_label; "長年日記"; end
+def nyear_diary_title; "長年日記"; end
 
 #
 # labels (for mobile)

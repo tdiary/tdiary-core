@@ -272,7 +272,7 @@ module TDiary
 
 		def conf_proc( key )
 			r = ''
-			label, block = @conf_procs[key]
+			_, block = @conf_procs[key]
 			r = block.call if block
 			r
 		end
