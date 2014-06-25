@@ -258,6 +258,7 @@ class Weather
 		[%r[\s*\blightning\b\s*]i, '"稲光"'],
 		[%r[\s*\bsand\b\s*]i, '"黄砂"'],
 		[%r[\s*\bcumulonimbus clouds\b\s*]i, '"積乱雲"'],
+		[%r[\s*\bscattered clouds\b\s*]i, '"ちぎれ雲"'],
 		[%r[\s*\bcumulus clouds\b\s*]i, '"積雲"'],
 		[%r[\s*\btowering\b\s*]i, '""'],
 		[%r[\s*\bobserved\b\s*]i, '""'],

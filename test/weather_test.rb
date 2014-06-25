@@ -173,6 +173,12 @@ class TestWeatherTranslaterJa < Test::Unit::TestCase
 			translate(@plugin_class::Weather::Words_ja)
 		assert_equal('曇', ja)
 	end
+
+	def test_translate_scattered_clouds
+		ja = @plugin_class::WeatherTranslator::S.new('Scattered clouds').\
+			translate(@plugin_class::Weather::Words_ja)
+		assert_equal('ちぎれ雲', ja)
+	end
 end
 
 # Stub for @conf
