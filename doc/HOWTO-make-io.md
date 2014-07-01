@@ -16,18 +16,21 @@ IOクラス
 tdiary.rbにはTDiary::IOBaseというクラスが定義されており、これを継承 して独自のIOクラスを作成します。下記の例は、HogeIOを定義しています。
 
 ```
-class HogeIO < TDiary::IOBase
-   def calendar
-      .....
+module TDiary
+   module IO
+      class Hoge < Base
+         def calendar
+            .....
+         end
+         .....
+      end
    end
-
-   .....
 end
 ```
 
 ### 最低限実装すべきもの
 
-IOBaseクラスにはIOクラスに共通ないくつかのメソッドがすでに実装してあ ります。これを継承したIOクラスでは、さらに以下のようなメソッドを実装 しなくてはいけません。
+TDiary::IO::BaseクラスにはIOクラスに共通ないくつかのメソッドがすでに実装してあ ります。これを継承したIOクラスでは、さらに以下のようなメソッドを実装 しなくてはいけません。
 
 #### calendar
 tDiaryに、日記が存在する年月を通知するためのメソッドです。実行時にtDiary から呼び出されます。
@@ -74,31 +77,6 @@ def trasaction( date )
 end
 ```
 
-#### diary\_factory( date, title, body, style = 'tDiary' )
-diary\_factoryは、指定されたフォーマットの日記オブジェクトを生成して 返します。
-
-引数dateは日付(Stringで8桁)を指定します。title、bodyはそれぞれ生成す る日記のタイトルと本文です(String)。styleは日記の記述形式を指定する 文字列で、diary\_factoryに依存します。
-
-返り値はDiaryBaseをincludeした継承したクラスのオブジェクトです。
-
-以下にdiary\_factoryの例を示します。
-
-```
-def diary_factory( date, title, body, style = 'tDiary' )
-   case style
-      when 'tDiary' DefaultDiary::new( date, title, body )
-      default raise StandardError, 'bad style'
-   end
-end
-```
-
-もし、スタイルに対応したIOクラスを作るなら、initializeでload\_styleを 呼んだ上で、以下のようにstyled\_diary\_factoryを呼ぶだけで良いです。
-
-```
-def diary_factory( date, title, body, style = 'tDiary' )
-   styled_diary_factory( date, title, body, style )
-end
-```
 
 日記データ
 -----
@@ -145,43 +123,15 @@ end
 もし、この日記データをスタイルとして設計するのであれば、IOクラスとは 分離して、別のファイルにする必要があります。この場合、スタイル名と ファイル名、日記データクラス名には強い依存性があります。「Hoge」という スタイルを作る場合、以下のように作る必要があります。
 
   - スタイル名: Hoge
-  - ファイル名: hoge\_style.rb
-  - クラス名　: TDiary::HogeDiary (スタイル名.capitalize + 'Diary')
-
-### DiaryBaseモジュール
-
-tdiary.rbにはDiaryBaseというモジュールが定義されており、 日記データのクラスはこのモジュールをincludeしなければなりません。
-
-下記の例はHogeDiaryにDiaryBaseをincludeしています。
-
-```
-class HogeDiary
-   include DiaryBase
-   .....
-end
-```
-
-### CategorizableDiary/UncategorizableDiaryモジュール
-
-tdiary.rbにはCategorizableDiaryとUncategorizableDiaryというモジュールが定義されています。 日記データのクラスは、カテゴリ機能に対応している場合はCategorizableDiaryモジュールを、 カテゴリ機能に対応していない場合はUncategorizableDiaryモジュールを includeしなければなりません。
-
-下記の例はHogeDiaryにCategoriabeleDiaryをincludeしています。
-
-```
-class HogeDiary
-   include CategorizableDiary
-   .....
-end
-```
+  - ファイル名: style/hoge.rb
+  - クラス名　: TDiary::Style::HogeDiary (スタイル名.capitalize + 'Diary')
 
 ### 最低限実装すべきもの
 
 DiaryBaseモジュールには日記データのクラスに必要な幾つかのメソッドが 定義されています。DiaryBaseで定義されているメソッド以外に 日記データのクラスが備えるべきメソッドは下記のものになります。 (ここでいうメソッドは Public Instance Method のことです。)
 
   - initialize
-  - replace
   - append
-  - each\_section
   - to\_html
   - to\_src
   - style
@@ -197,7 +147,6 @@ DiaryBaseモジュールには日記データのクラスに必要な幾つか�
 
 ```
 class HogeDiary
-   include DiaryBase
    .....
    def initialize(date, title, body, modified = Time::now)
       init_diary
@@ -206,16 +155,6 @@ class HogeDiary
    .....
 end
 ```
-
-#### replace(date, title, body)
-日記データの日付をdateに、日記本文のソースをbodyに、タイトルをtitleに変更します。 dateはTimeオブジェクト、もしくは、日付をあらわす文字列('YYYYMMDD')です。 日付を表す文字列は具体的には下のようになります。
-
-  - '20020831'
-  - '20010101'
-
-body, titleは文字列です。
-
-日記本文が変更された場合、日記本文を解釈し直す必要があります。 解釈し直す時には日記データを構成するセクションも変更されます。
 
 #### append(body, author = nil)
 日記本文を追加します。bodyは追加される日記本文です。 authorは日記を記述した人の名前で、文字列です。 authorの引数はデフォルトでnilにしなければなりません。
@@ -238,18 +177,6 @@ class HogeDiary
    .....
 end
 ```
-
-#### to\_html(opt, mode = :HTML)
-日記データをHTMLに変換します。引数optは設定ファイル(tdiary.conf)の内容の一部を 保持するHashオブジェクトです。引数modeはSymbolオブジェクトで、 現在は下記のいずれかです。
-
-  - :HTML
-  - :CHTML
-
-想定しないmodeが指定された場合は、:HTMLが指定されたものとみなして下 さい。:HTMLの場合は通常のブラウザ用にHTMLに、:CHTMLの場合は携帯端末 用にcHTMLに変換しなければなりません。
-
-optの内容によって、日記のリンク先を変更しなければならないので、注意 が必要です。
-
-カテゴリ機能に対応した日記データのクラスでは、 各セクションのサブタイトル中のカテゴリ指定をcategory\_anchorプラグインの呼出しに変換して下さい。
 
 #### to\_src
 日記の本文を返します。

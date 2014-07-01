@@ -33,20 +33,20 @@ tDiary は日記データのキャッシュを PStore ファイルとして保�
 
 ```
 # 以下の行をコメントアウト
-# require 'tdiary/io/cache/file'
-require 'tdiary/io/cache/memcached'
+# require 'tdiary/cache/file'
+require 'tdiary/cache/memcached'
 require 'tdiary/io/default'
-@io_class = DefaultIO
+@io_class = TDiary::IO::Default
 ```
 
 同様に redis を使用する場合は tdiary.conf を以下のように変更します。
 
 ```
 # 以下の行をコメントアウト
-# require 'tdiary/io/cache/file'
-require 'tdiary/io/cache/redis'
+# require 'tdiary/cache/file'
+require 'tdiary/cache/redis'
 require 'tdiary/io/default'
-@io_class = DefaultIO
+@io_class = TDiary::IO::Default
 ```
 
 #### CGIで設定できない項目

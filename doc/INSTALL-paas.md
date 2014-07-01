@@ -198,9 +198,9 @@ gem 'dalli'
 tdiary.conf を以下のように変更します。
 
 ```
-# require 'tdiary/io/cache/file'
+# require 'tdiary/cache/file'
 # To use memcache addon
-require 'tdiary/io/cache/memcached'
+require 'tdiary/cache/memcached'
 ```
 
 この状態を Heroku に反映させます。
