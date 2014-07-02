@@ -13,7 +13,7 @@ IOクラス
 
 ### IOBaseクラス
 
-tdiary.rbにはTDiary::IOBaseというクラスが定義されており、これを継承 して独自のIOクラスを作成します。下記の例は、HogeIOを定義しています。
+tdiary.rbにはTDiary::IOBaseというクラスが定義されており、これを継承 して独自のIOクラスを作成します。下記の例は、Tdiary::IO::Hogeを定義しています。
 
 ```
 module TDiary
