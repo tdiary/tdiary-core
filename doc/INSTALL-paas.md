@@ -57,7 +57,7 @@ heroku コマンドを用いて Heroku でアプリケーションを作成し�
 日記更新時に必要となるユーザー名とパスワードを保存する .htpasswd ファイルを作成します。この情報は重要なので、外部には公開しないでください。
 
 ```
-% bundle exec rake auth:password:create
+% bundle exec bin/tdiary htpasswd
 ```
 
 ここまでの変更内容を deploy ブランチにコミットし、Heroku にアプリケーションを転送します。

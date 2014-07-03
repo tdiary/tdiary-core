@@ -14,6 +14,7 @@ gem 'omniauth-github'
 gem 'thin', require: false
 gem 'tdiary-io-rdb'
 gem 'pg'
+gem 'thor'
 
 # To use memcached for Cache
 # gem 'tdiary-cache-memcached'
