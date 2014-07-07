@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.6)
-    capybara (2.3.0)
+    capybara (2.4.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -25,7 +25,7 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     eventmachine (1.0.3)
-    execjs (2.2.0)
+    execjs (2.2.1)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     fastimage (1.6.3)
@@ -50,7 +50,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
-    octokit (3.1.2)
+    octokit (3.2.0)
       sawyer (~> 0.5.3)
     octorelease (0.0.6)
       hub
@@ -83,8 +83,8 @@ GEM
       rspec-support (~> 3.0.0)
     rspec-mocks (3.0.2)
       rspec-support (~> 3.0.0)
-    rspec-support (3.0.1)
-    rubyzip (1.1.4)
+    rspec-support (3.0.2)
+    rubyzip (1.1.6)
     sawyer (0.5.4)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -93,7 +93,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
-    sequel (4.11.0)
+    sequel (4.12.0)
     simplecov (0.8.2)
       docile (~> 1.1.0)
       multi_json
