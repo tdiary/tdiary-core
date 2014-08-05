@@ -38,3 +38,4 @@ matrix:
   allow_failures:
     # webrick mode is unstable results...
     - env: TEST_MODE=webrick
+    - rvm: ruby-head
