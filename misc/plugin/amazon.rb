@@ -170,7 +170,7 @@ def amazon_detail_html( item )
 	@conf['amazon.imgsize'] = size_orig
 
 	url = amazon_url( item )
-	html = <<-HTML
+	<<-HTML
 	<a class="amazon-detail" href="#{url}"><span class="amazon-detail">
 		<img class="amazon-detail left" src="#{h image[:src]}"
 		height="#{h image[:height]}" width="#{h image[:width]}"

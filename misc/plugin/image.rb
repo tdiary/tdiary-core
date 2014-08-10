@@ -240,11 +240,6 @@ add_form_proc do |date|
 				img_type, img_w, img_h = image_info(File.join(@image_dir,img).untaint)
 			end
 			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
-			if @conf.secure then
-				img_info = ''
-			else
-				img_info = "#{File.size(File.join(@image_dir,img).untaint).to_s.reverse.gsub( /\d{3}/, '\0,' ).sub( /,$/, '' ).reverse} bytes"
-			end
 			img_info = ''
 			if img_w && img_h
 				img_info << %Q|<span class="image-width">#{img_w}</span> x <span class="image-height">#{img_h}</span>|

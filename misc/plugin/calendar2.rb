@@ -72,8 +72,6 @@ def calendar2_make_anchor(ym, str)
 end
 
 def calender2_make_image(diary, date)
-	f_list = []
-
 	/[^_]image(?:_left|_right|_gps)?\s*\(?\s*([0-9]*)\s*\,?\s*'[^']*'/ =~ diary.to_s
 	if $1 == nil
 		return nil

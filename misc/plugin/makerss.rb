@@ -287,7 +287,7 @@ def makerss_header( uri )
 	copyright += " <#{@conf.author_mail}>" if @conf.author_mail and not @conf.author_mail.empty?
 	copyright += ", copyright of comments by respective authors"
 
-	xml = %Q[<?xml version="1.0" encoding="UTF-8"?>
+	%Q[<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="rss.css" type="text/css"?>
 <rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="#{h @conf.html_lang}">
 	<channel rdf:about="#{h rdf_url}">
@@ -342,7 +342,6 @@ def makerss_body( uri, rdfsec )
 
 		@makerss_in_feed = true
 		subtitle = rdfsec.section.subtitle_to_html
-		sec_id = rdfsec.id[9,2].to_i
 		body_enter = body_enter_proc( date )
 		body = apply_plugin( rdfsec.section.body_to_html )
 		body_leave = body_leave_proc( date )
@@ -445,7 +444,7 @@ add_edit_proc do
 	else
 		''
 	end
-	r = <<-HTML
+	<<-HTML
 	<div class="makerss"><label for="makerss_update">
 	<input type="checkbox" id="makerss_update" name="makerss_update" value="false"#{checked} tabindex="390">
 	#{@makerss_edit_label}

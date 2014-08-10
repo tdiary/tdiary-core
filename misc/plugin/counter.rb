@@ -494,7 +494,7 @@ TOPLEVEL_CLASS
 			msg = @options["counter.kiriban_today_msg"] ? @options["counter.kiriban_today_msg"] : ""
 			ERB.new(msg.untaint).result(binding)
 		else
-			msg = @options["counter.kiriban_nomatch_msg"] ? @options["counter.kiriban_nomatch_msg"] : ""
+			@options["counter.kiriban_nomatch_msg"] ? @options["counter.kiriban_nomatch_msg"] : ""
 		end
 	end
 end
