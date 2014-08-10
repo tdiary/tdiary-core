@@ -119,7 +119,7 @@ end
 # configuration menu
 # options are updated when we are eval'ed
 add_conf_proc( SP_PREFIX, @sp_label, 'basic' ) do
-	r = @sp_label_description + sp_list_plugins( @sp_opt )
+	@sp_label_description + sp_list_plugins( @sp_opt )
 end
 
 # Finally, we can eval the selected plugins as tdiary.rb does

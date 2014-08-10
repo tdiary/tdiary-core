@@ -93,7 +93,6 @@ class RefererDiary
 			@current_date = d
 			yield( self )
 		end
-		current_date = nil
 	end
 end
 

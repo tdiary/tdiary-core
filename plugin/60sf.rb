@@ -116,7 +116,7 @@ end
 # configuration menu
 # options are updated when we are eval'ed
 add_conf_proc( SF_PREFIX, @sf_label, 'security' ) do
-	r = @sf_label_description + sf_list_plugins( @sf_opt )
+	@sf_label_description + sf_list_plugins( @sf_opt )
 end
 
 # Finally, we can eval the selected plugins as tdiary.rb does

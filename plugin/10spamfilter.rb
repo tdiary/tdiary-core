@@ -84,18 +84,6 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 			@conf['spamfilter.date_limit'] = nil
 		end
 
-		if @conf['spamfilter.filter_mode'].nil? || @conf['spamfilter.filter_mode']
-			filter_mode = true
-		else
-			filter_mode = false
-		end
-
-		if @conf['spamfilter.resolv_check_mode'].nil? || @conf['spamfilter.resolv_check_mode']
-			resolv_check_mode = true
-		else
-			resolv_check_mode = false
-		end
-
 		if @cgi.params['spamlookup.ip.list'] && @cgi.params['spamlookup.ip.list'][0]
 			@conf['spamlookup.ip.list'] = @cgi.params['spamlookup.ip.list'][0]
 		else
