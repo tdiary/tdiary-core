@@ -158,7 +158,7 @@ add_update_proc do
 				db['comments'].each do |c|
 					break if c.nil?
 
-					comment, cdate, serial = c
+					comment, cdate, _ = c
 					next if cdate.strftime('%Y%m%d') != date
 
 					if comment == dcomment && comment.date.to_s == dcomment.date.to_s

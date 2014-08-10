@@ -539,7 +539,7 @@ server.add_handler('mt.getTrackbackPings') do |postid|
   result = []
   date = Time::local( *postid.scan( /^(\d{4})(\d\d)(\d\d)(\d\d)$/ )[0] ) + 12*60*60
   tdiary[date].each_visible_trackback(100) {|com,i|
-    url, name, title, excerpt = com.body.split( /\n/,4 )
+    url, _, title, _ = com.body.split( /\n/,4 )
     result << {
       'pingURL'   => url,
       'pingIP'    => '127.0.0.1',

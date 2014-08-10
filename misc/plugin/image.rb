@@ -86,7 +86,7 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
 			size = %Q| width="#{size.to_i}"|
 		end
 	elsif @image_maxwidth and not @conf.secure then
-		t, w, h = image_info( "#{@image_dir}/#{image}".untaint )
+		_, w, _ = image_info( "#{@image_dir}/#{image}".untaint )
 		if w > @image_maxwidth then
 			size = %Q[ width="#{h @image_maxwidth}"]
 		else
@@ -235,9 +235,9 @@ add_form_proc do |date|
 	   images.each_with_index do |img,id|
 			next unless img
 			if @conf.secure then
-				img_type, img_w, img_h = 'jpg', nil, nil
+				img_w, img_h = nil, nil
 			else
-				img_type, img_w, img_h = image_info(File.join(@image_dir,img).untaint)
+				_, img_w, img_h = image_info(File.join(@image_dir,img).untaint)
 			end
 			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			img_info = ''

@@ -43,7 +43,7 @@ def my( a, str, title = nil )
 				tb = nil
 				@diaries[date].each_visible_trackback( frag.to_i ) {|t, idx| tb = t}
 				if tb then
-					url, name, tbtitle, excerpt = tb.body.split( /\n/,4 )
+					_, name, _, excerpt = tb.body.split( /\n/,4 )
 					title = h( "[#{name}] #{@conf.shorten( excerpt, @conf.comment_length )}" )
 				end
 			end
