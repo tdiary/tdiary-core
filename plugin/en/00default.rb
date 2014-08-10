@@ -300,7 +300,6 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 		errstr = '<p class="message">No key specified. Configuration not saved.</p>'
 	end
 	csrf_protection_method = @conf.options['csrf_protection_method'] || 1
-	csrf_protection_key = @conf.options['csrf_protection_key'] || ''
 	<<-HTML
 	#{errstr}
 	<p>This page configures a protection scheme to prevent "cross-site request forgery" (CSRF) attacks.</p>
