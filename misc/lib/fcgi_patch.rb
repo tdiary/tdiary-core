@@ -67,7 +67,6 @@ class FCGI
     if FCGI::is_cgi?
       yield ::CGI.new(*args)
     else
-      exit_requested = false
       FCGI::each {|request|
         $stdout, $stderr = request.out, request.err
 

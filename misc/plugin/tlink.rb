@@ -75,7 +75,7 @@ def tlink_initialize
   @tlink_path = dir + "/tlink.dat"
 
   Dir.mkdir(dir, 0700) unless FileTest.exist?(dir)
-  db = PStore.new(@tlink_path).transaction do |db|
+  PStore.new(@tlink_path).transaction do |db|
     if (db.root?('tlinkdata')) then
       @tlink_dic = db["tlinkdata"]
     else

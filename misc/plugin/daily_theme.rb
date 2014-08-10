@@ -40,7 +40,7 @@ def daily_theme_conf_proc
 	# initialize Theme list
 	@conf['daily_theme.list'] = "default" unless @conf['daily_theme.list']
 
-	result = <<-HTML
+	<<-HTML
 	<h3>#{@daily_theme_label}</h3>
 	<p>#{@daily_theme_label_desc}</p>
 	<p><textarea name="daily_theme.list" cols="70" rows="20">#{h( @conf['daily_theme.list'] )}</textarea></p>

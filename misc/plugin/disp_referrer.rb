@@ -1040,7 +1040,7 @@ class DispRef2Refs
 						end
 						result << "</li>\n"
 					end
-				rescue Encoding::CompatibilityError => e
+				rescue Encoding::CompatibilityError
 				end
 			end
 			result << "</ul>\n"

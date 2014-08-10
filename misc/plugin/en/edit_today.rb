@@ -7,7 +7,7 @@ def edit_today_edit_label( date )
 end
 
 def edit_today_conf_html
-	r = <<-HTML
+	<<-HTML
 	<h3 class="subtitle">Link String</h3>
 	<p>Specify string to link to edit page. If you have image file, you can specify icon on this link.</p>
 	<p><input name="edit_today_caption" size="70" value="#{h @conf['edit_today.caption']}"></p>

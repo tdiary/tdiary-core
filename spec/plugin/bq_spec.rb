@@ -19,6 +19,6 @@ describe "bq plugin w/" do
 	end
 
 	def expected_html_body(options)
-		expected = %|<blockquote>\n<p>#{options[:src]}</p>\n</blockquote>\n|
+		%|<blockquote>\n<p>#{options[:src]}</p>\n</blockquote>\n|
 	end
 end

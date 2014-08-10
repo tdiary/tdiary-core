@@ -126,7 +126,7 @@ begin
 	end
 
 	@cgi = CGI::new
-	conf = TDiary::MigrateConfig::new(@cgi)
+	TDiary::MigrateConfig::new(@cgi)
 
 	print @cgi.header( 'status' => '200 OK', 'type' => 'text/html' )
 	puts "<h1>Migration completed.</h1>"

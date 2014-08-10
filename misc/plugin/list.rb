@@ -28,7 +28,7 @@ def li( text )
 	text.each_line do |line|
 		list << ("<li>" + line.chomp + "</li>")
 	end
-	result = list
+	list
 end
 
 

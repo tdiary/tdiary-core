@@ -64,7 +64,7 @@ def ping_conf_proc
 	@conf['ping.list'] = '' unless @conf['ping.list']
 	@conf['ping.timeout'] = '3' unless @conf['ping.timeout']
 
-	result = <<-HTML
+	<<-HTML
 		<h3>#{@ping_label_list}</h3>
 		<p>#{@ping_label_list_desc}</p>
 		<p><textarea name="ping.list" cols="70" rows="5">#{h( @conf['ping.list'] )}</textarea></p>
@@ -82,7 +82,7 @@ def ping_edit_proc
 	if @mode == 'preview' then
 		checked = @cgi.params['plugin_ping_send'][0] == 'true' ? ' checked' : ''
 	end
-	r = <<-HTML
+	<<-HTML
 	<div class="ping"><label for="plugin_ping_send">
 	<input type="checkbox" id="plugin_ping_send" name="plugin_ping_send" value="true"#{checked}  tabindex="400">
 	#{@ping_label_send}

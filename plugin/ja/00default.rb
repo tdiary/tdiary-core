@@ -29,7 +29,6 @@ def title_tag
 	when 'saveconf'
 		r << '(設定完了)'
 	when 'nyear'
-		years = @diaries.keys.map {|ymd| ymd.sub(/^\d{4}/, "")}
 		r << "(#{h @cgi.params['date'][0].sub( /^(\d\d)/, '\1-')}[#{nyear_diary_label}])" if @date
 	end
 	r << '</title>'
@@ -300,7 +299,6 @@ add_conf_proc( 'csrf_protection', 'CSRF(乗っ取り)対策', 'security' ) do
 		errstr = '<p class="message">鍵が空です。変更されませんでした。</p>'
 	end
 	csrf_protection_method = @conf.options['csrf_protection_method'] || 1
-	csrf_protection_key = @conf.options['csrf_protection_key'] || ''
 	<<-HTML
 	#{errstr}
 	<p>クロスサイト・リクエストフォージェリ(CSRF)の対策手法を設定します。</p>

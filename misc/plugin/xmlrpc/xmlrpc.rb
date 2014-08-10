@@ -54,10 +54,9 @@ server.add_handler('blogger.newPost') do |appkey, blogid, username, password, co
       @cgi.params['day']   = [postid[6..7]]
       @cgi.params['body']  = [src]
       @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
-      tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
-      body = tdiary.eval_rhtml
+      ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
       postid + "%02d" % index
-    rescue ::TDiary::ForceRedirect => redirect
+    rescue ::TDiary::ForceRedirect
       postid + "%02d" % index
     end
   else
@@ -100,10 +99,9 @@ server.add_handler('blogger.editPost') do |appkey, postid, username, password, c
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
-    body = tdiary.eval_rhtml
+    ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     true
-  rescue ::TDiary::ForceRedirect => redirect
+  rescue ::TDiary::ForceRedirect
     true
   rescue Exception
     raise XMLRPC::FaultException.new(1,$!.to_s + "\n" + $!.backtrace.join("\n"))
@@ -136,10 +134,9 @@ server.add_handler('blogger.deletePost') do |appkey, postid, username, password|
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
-    body = tdiary.eval_rhtml
+    ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     true
-  rescue ::TDiary::ForceRedirect => redirect
+  rescue ::TDiary::ForceRedirect
     true
   rescue Exception
     raise XMLRPC::FaultException.new(1,$!.to_s + "\n" + $!.backtrace.join("\n"))
@@ -229,10 +226,9 @@ server.add_handler('metaWeblog.newPost') do |blogid, username, password, content
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
-    body = tdiary.eval_rhtml
+    ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     postid + "%02d" % index
-  rescue ::TDiary::ForceRedirect => redirect
+  rescue ::TDiary::ForceRedirect
     postid + "%02d" % index
   end
 end
@@ -271,10 +267,9 @@ server.add_handler('metaWeblog.editPost') do |postid, username, password, conten
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
-    body = tdiary.eval_rhtml
+    ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     true
-  rescue ::TDiary::ForceRedirect => redirect
+  rescue ::TDiary::ForceRedirect
     true
   rescue Exception
     raise XMLRPC::FaultException.new(1,$!.to_s + "\n" + $!.backtrace.join("\n"))
@@ -415,7 +410,6 @@ server.add_handler('mt.getCategoryList') do |blogid, username, password|
       ym = "#{y}#{m}"
       @cgi.params['date'] = [ym]
       m = ::TDiary::TDiaryMonth.new(@cgi, '', @conf)
-      sections = {}
       m.diaries.each do |ymd, diary|
         next if !diary.visible?
         diary.each_section do |s|
@@ -503,10 +497,9 @@ server.add_handler('mt.setPostCategories') do |postid, username, password, categ
     @cgi.params['day']   = [postid[6..7]]
     @cgi.params['body']  = [src]
     @cgi.params['csrf_protection_key']  = [@conf.options['csrf_protection_key']]
-    tdiary = ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
-    body = tdiary.eval_rhtml
+    ::TDiary::TDiaryReplace::new( @cgi, nil, @conf )
     true
-  rescue ::TDiary::ForceRedirect => redirect
+  rescue ::TDiary::ForceRedirect
     true
   rescue Exception
     raise XMLRPC::FaultException.new(1,$!.to_s + "\n" + $!.backtrace.join("\n"))
@@ -546,7 +539,7 @@ server.add_handler('mt.getTrackbackPings') do |postid|
   result = []
   date = Time::local( *postid.scan( /^(\d{4})(\d\d)(\d\d)(\d\d)$/ )[0] ) + 12*60*60
   tdiary[date].each_visible_trackback(100) {|com,i|
-    url, name, title, excerpt = com.body.split( /\n/,4 )
+    url, _, title, _ = com.body.split( /\n/,4 )
     result << {
       'pingURL'   => url,
       'pingIP'    => '127.0.0.1',

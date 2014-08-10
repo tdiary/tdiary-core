@@ -105,8 +105,6 @@ end
 
 def category_list_sections
 	info = Category::Info.new(@cgi, @years, @conf)
-	category = info.category
-	years = info.years
 	r = ''
 
 	raise ::TDiary::NotFound if @categorized.empty? and bot?
@@ -141,8 +139,6 @@ end
 
 def category_list_sections_mobile
 	info = Category::Info.new(@cgi, @years, @conf)
-	category = info.category
-	years = info.years
 	r = ''
 
 	raise ::TDiary::NotFound if @categorized.empty? and bot?
@@ -496,7 +492,6 @@ class Cache
 				ym = "#{y}#{m}"
 				cgi.params['date'] = [ym]
 				m = TDiaryMonth.new(cgi, '', @conf)
-				sections = {}
 				m.diaries.each do |ymd, diary|
 					next if !diary.visible?
 					initial_replace_sections(diary)
@@ -699,7 +694,6 @@ end
 
 if @mode == 'conf' || @mode == 'saveconf'
 	add_conf_proc( 'category', @category_conf_label, 'basic' ) do
-		cache = @category_cache
 		if @mode == 'saveconf'
 			if @cgi.valid?( 'category_initialize' )
 				@category_cache.recreate(@years)
