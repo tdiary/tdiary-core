@@ -39,7 +39,9 @@ We want Japanese displayed in a diary written in Japanese.
 require 'erb'
 
 class Weather
-	Words_en = []
+	Words_en = [
+		[%r[\Aunknown\z]i, '""'],
+	]
 end
 
 =begin

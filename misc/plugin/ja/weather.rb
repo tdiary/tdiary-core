@@ -260,6 +260,7 @@ class Weather
 		[%r[\s*\bcumulonimbus clouds\b\s*]i, '"積乱雲"'],
 		[%r[\s*\bscattered clouds\b\s*]i, '"ちぎれ雲"'],
 		[%r[\s*\bcumulus clouds\b\s*]i, '"積雲"'],
+		[%r[\Aunknown\z]i, '""'],
 		[%r[\s*\btowering\b\s*]i, '""'],
 		[%r[\s*\bobserved\b\s*]i, '""'],
 		[%r[\s*\bC\b\s*], '"℃"'],
