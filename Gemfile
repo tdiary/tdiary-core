@@ -30,7 +30,7 @@ group :development do
   group :test do
     gem 'pry'
     gem 'test-unit'
-    gem 'rspec', '~> 3.0.0.beta2'
+    gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
     gem 'selenium-webdriver'
     gem 'launchy'
