@@ -2,11 +2,11 @@
 # 50sp.rb - select-plugins plugin
 
 SP_PREFIX = 'sp'
-@sp_path = [( @conf["#{SP_PREFIX}.path"] || "#{TDiary::PATH}/misc/plugin" )].flatten
+@sp_path = [( @conf["#{SP_PREFIX}.path"] || "#{TDiary.root}/misc/plugin" )].flatten
 @sp_path = @sp_path.collect do |path|
 	/\/$/ =~ path ? path.chop : path
 end
-@sp_path << "#{TDiary::PATH}/misc/plugin" if @sp_path.include?('misc/plugin')
+@sp_path << "#{TDiary.root}/misc/plugin" if @sp_path.include?('misc/plugin')
 
 @sp_path.concat TDiary::Extensions::constants.map {|extension|
 	TDiary::Extensions::const_get( extension ).sp_path
