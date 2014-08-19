@@ -115,7 +115,7 @@ module TDiary
 		end
 
 		def root
-			library_root
+			File.expand_path(File.join(library_root, '..'))
 		end
 
 		# directory where tDiary libraries is located
