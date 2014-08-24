@@ -10,11 +10,11 @@ BEGIN { $stdout.binmode }
 
 begin
 	if FileTest::symlink?( __FILE__ ) then
-		org_path = File::dirname( File::readlink( __FILE__ ) ).untaint
+		org_path = File::dirname( File::readlink( __FILE__ ) )
 	else
-		org_path = File::dirname( __FILE__ ).untaint
+		org_path = File::dirname( __FILE__ )
 	end
-	$:.unshift( org_path ) unless $:.include?( org_path )
+	$:.unshift( org_path.untaint ) unless $:.include?( org_path )
 	require 'tdiary'
 
 	encoding_error = {}
