@@ -1,3 +1,18 @@
+2014-08-29  TADA Tadashi <t@tdtds.jp>
+	* release 4.0.5
+
+2014-08-27  zunda  <zunda at freeshell.org>
+	* plugin/weather.rb: Change Japanese translation for few clouds
+
+2014-08-12  zunda  <zunda at freeshell.org>
+	* plugin/weather.rb: Change Japanese translation for few clouds
+
+2014-07-25  zunda  <zunda at freeshell.org>
+	* plugin/weather.rb: Add a Japanese translation to Scattered Clouds
+
+2014-06-14  zunda  <zunda at freeshell.org>
+	* plugin/weather.rb: Add a translation for `few clouds'
+
 2014-05-29  TADA Tadashi <t@tdtds.jp>
 	* release 4.0.4
 
