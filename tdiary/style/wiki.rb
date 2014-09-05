@@ -104,7 +104,11 @@ module TDiary
 						%Q[<%=my '#{$1}#{$2}', '#{escape_quote k}' %>]
 					elsif /:/ =~ u
 						scheme = URI( u ).scheme rescue nil # URI::InvalidURIError
-						if /\A(?:http|https|ftp|mailto)\z/ =~ scheme
+						# if 'a' elements with some attr in the plugin notation,
+						# its HTML will be diffelent from link notation (then it error).
+						# trap the style of HTML when u has a space because it means
+						# two or more attr.
+						if / / =~ u || /\A(?:http|https|ftp|mailto)\z/ =~ scheme
 							u.sub!( /^\w+:/, '' ) if %r|://| !~ u and /^mailto:/ !~ u
 							%Q[<a href="#{u}">#{k}</a>]
 						elsif ( k == u )
