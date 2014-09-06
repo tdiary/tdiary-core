@@ -20,7 +20,7 @@ if @diary then
 		'hide_comment_form' => @conf.hide_comment_form,
 		'show_nyear' => false,
 	} %>
-	<%= @diary.eval_rhtml( param, PATH ) %>
+	<%= @diary.eval_rhtml( param ) %>
 	<%%=comment_form_mobile%>
 <% else %>
 	<p><%%=no_diary%></P><%

@@ -19,7 +19,7 @@ if diary then
 %><P>
 <%%= mobile_navi %>
 </P>
-	<%= diary.eval_rhtml( param, PATH ) %>
+	<%= diary.eval_rhtml( param ) %>
 	<% unless @conf.hide_comment_form %>
 	<HR>
 	<FORM METHOD="POST" ACTION="<%=h @conf.index %>">

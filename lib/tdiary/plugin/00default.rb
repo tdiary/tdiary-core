@@ -739,9 +739,9 @@ def comment_mail_send
 
 	rmail = ''
 	begin
-		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt.#{@conf.lang}" ){|f| f.read }
+		rmail = File::open( "../skel/mail.rtxt.#{@conf.lang}" ){|f| f.read }
 	rescue
-		rmail = File::open( "#{::TDiary::PATH}/skel/mail.rtxt" ){|f| f.read }
+		rmail = File::open( "../skel/mail.rtxt" ){|f| f.read }
 	end
 	text = @conf.to_mail( ERB::new( rmail.untaint ).result( binding ) )
 	receivers.each { |i| i.untaint }

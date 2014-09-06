@@ -22,7 +22,7 @@ if @diary then
 		'show_nyear' => @conf.show_nyear,
 		'bot' => @conf.bot =~ @cgi.user_agent,
 	} %>
-	<%= @diary.eval_rhtml( param, PATH ) %><%
+	<%= @diary.eval_rhtml( param ) %><%
 else %>
 	<p class="message">
 	<%%=no_diary%>

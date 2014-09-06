@@ -32,7 +32,7 @@ module TDiary
 				if e.class == ForceRedirect
 					raise
 				else
-					body = File.read("#{PATH}/skel/plugin_error.rhtml").untaint
+					body = File.read("#{File.dirname(__FILE__)}/skel/plugin_error.rhtml").untaint
 					r = ERB.new(body).result(binding)
 				end
 			end
@@ -115,7 +115,7 @@ module TDiary
 
 		def erb_src(prefix)
 			rhtml = ["header.rhtml", @rhtml, "footer.rhtml"].map do |file|
-				path = "#{PATH}/skel/#{prefix}#{file}"
+				path = "#{File.dirname(__FILE__)}/skel/#{prefix}#{file}"
 				begin
 					File.read("#{path}.#{@conf.lang}")
 				rescue

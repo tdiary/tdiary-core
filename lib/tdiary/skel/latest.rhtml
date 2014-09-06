@@ -18,8 +18,8 @@ param = {
 	'comment_length' => @conf.comment_length,
 	'hide_comment_form' => @conf.hide_comment_form,
 }
-each_day do |diary| %>
-	<%= diary.eval_rhtml( param, PATH ) %>
+latest( @conf.latest_limit ) do |diary| %>
+	<%= diary.eval_rhtml( param ) %>
 	<hr class="sep"><%
 end %>
 
