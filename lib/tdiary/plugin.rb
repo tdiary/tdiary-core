@@ -54,7 +54,7 @@ module TDiary
 
 			# loading plugins
 			@plugin_files = []
-			plugin_path = @conf.plugin_path || "#{PATH}/plugin"
+			plugin_path = @conf.plugin_path || "#{File.dirname(__FILE__)}/plugin"
 			plugin_file = ''
 			begin
 				Dir::glob( "#{plugin_path}/*.rb" ).sort.each do |file|

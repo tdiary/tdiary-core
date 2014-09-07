@@ -121,7 +121,7 @@ module TDiary
 				@sections.delete_at(index - 1)
 			end
 
-			def eval_rhtml( opt, path = '.' )
+			def eval_rhtml( opt, path = "#{File.dirname(__FILE__)}/../.." )
 				ERB.new(File.read("#{path}/skel/#{opt['prefix']}diary.rhtml").untaint).result(binding)
 			end
 

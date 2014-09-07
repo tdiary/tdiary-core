@@ -2,7 +2,7 @@
 require 'acceptance_helper'
 
 feature 'プラグイン選択設定の利用' do
-	plugin_path = "#{TDiary::PATH}/misc/plugin/rspec.rb"
+	plugin_path = "#{TDiary.root}/misc/plugin/rspec.rb"
 
 	scenario '新入荷のプラグインが表示される' do
 		FileUtils.rm plugin_path if File.exist? plugin_path
