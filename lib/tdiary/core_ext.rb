@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+require 'gemoji'
+
 module TDiary
 	module RequestExtension
 		def mobile_agent?
@@ -34,10 +37,14 @@ class String
 	end
 
 	def emojify
-		self.gsub(/:([a-zA-Z0-9_+-]+):/) do |emoji|
-			emoji = ":plus1:" if emoji == ":+1:"
-			emoji.gsub!(":", "").downcase!
-			"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji}.png' width='20' height='20' title='#{emoji}' alt='#{emoji}' class='emoji' />"
+		self.gsub(/:([a-zA-Z0-9_+-]+):/) do |match|
+			emoji_alias = $1.downcase
+			if emoji = Emoji.find_by_alias(emoji_alias)
+				emoji_name = emoji.name == '+1' ? 'plus1' : emoji.name
+				"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji_name}.png' width='20' height='20' title='#{emoji_name}' alt='#{emoji_name}' class='emoji' />"
+			else
+				match
+			end
 		end
 	end
 end
