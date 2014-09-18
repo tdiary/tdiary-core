@@ -40,12 +40,14 @@ describe "core extension library" do
 			end
 		end
 
-		context "文字と数字しか変換しない" do
-			before do
-				@result = ":<script type='text/javascript'></script>: は美味しい".emojify
-			end
-			it do
-				expect(@result).to eq ":<script type='text/javascript'></script>: は美味しい"
+		context "絵文字に変換しない" do
+			[
+				":<script type='text/javascript'></script>: は美味しい",
+				"foo::bar::baz"
+			].each do |str|
+				describe str do
+					it { expect(str.emojify).to eq str }
+				end
 			end
 		end
 	end
