@@ -32,7 +32,7 @@ else
 end
 %>
 <% if @show_result %>
-	<%= @diary.eval_rhtml( param, PATH ) %>
+	<%= @diary.eval_rhtml( param ) %>
 <% else %>
 	<div class="day">
 	<h2><span class="title">プラグイン・エラー</span></h2>

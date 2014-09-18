@@ -49,7 +49,7 @@ gem 'omniauth-twitter'
 次に設定ファイル `config.ru` を編集します。 ```run TDiary::Applicationn.new( base_dir )``` の前に以下の行を追加します。無ければ追加してください。
 
 ```
-require 'tdiary/application/extension/omniauth'
+require 'tdiary/application/extensions/omniauth'
 ```
 
 ### 鍵とパスワードの取得と環境変数への設定

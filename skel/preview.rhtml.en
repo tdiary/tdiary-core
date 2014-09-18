@@ -19,7 +19,7 @@ param = {
 	'show_nyear' => @conf.show_nyear,
 } %>
 <% if @show_result %>
-	<%= @diary.eval_rhtml( param, PATH ) %>
+	<%= @diary.eval_rhtml( param ) %>
 <% else %>
 	<div class="day">
 	<h2><span class="title">Plugin Error</span></h2>

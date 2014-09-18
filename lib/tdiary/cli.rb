@@ -8,7 +8,7 @@ module TDiary
 		include Thor::Actions
 
 		def self.source_root
-			File.expand_path('../..', __FILE__)
+			File.expand_path('../../..', __FILE__)
 		end
 
 		desc "new DIR_NAME", "Create a new tDiary directory"

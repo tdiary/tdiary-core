@@ -349,6 +349,8 @@ ge
 [[鯖|http://ja.wikipedia.org/wiki/%E9%AF%96]]
 
 http://ja.wikipedia.org/wiki/%E9%AF%96
+
+{{'<a href="http://ja.wikipedia.org/wiki/%E9%AF%96" target="_blank">鯖</a>'}}
 			EOF
 			@diary.append(source)
 		end
@@ -368,6 +370,8 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <p><%=kw 'bbb:ccc', 'aaa\'bbb'%></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">鯖</a></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">http://ja.wikipedia.org/wiki/%E9%AF%96</a></p>
+<p><%='<a href="http://ja.wikipedia.org/wiki/%E9%AF%96" target="_blank">鯖</a>'
+%></p>
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 </div>
 				EOF
@@ -389,6 +393,8 @@ http://ja.wikipedia.org/wiki/%E9%AF%96
 <p><%=kw 'bbb:ccc', 'aaa\'bbb'%></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">鯖</a></p>
 <p><a href="http://ja.wikipedia.org/wiki/%E9%AF%96">http://ja.wikipedia.org/wiki/%E9%AF%96</a></p>
+<p><%='<a href="http://ja.wikipedia.org/wiki/%E9%AF%96" target="_blank">鯖</a>'
+%></p>
 <%=section_leave_proc( Time.at( 1041346800 ) )%>
 				EOF
 			end

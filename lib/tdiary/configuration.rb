@@ -16,7 +16,7 @@ module TDiary
 		end
 
 		def save
-			result = ERB.new(File.read("#{TDiary::PATH}/skel/tdiary.rconf").untaint).result(binding)
+			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../skel/tdiary.rconf").untaint).result(binding)
 			result.untaint unless @secure
 			Safe::safe( @secure ? 4 : 1 ) do
 				eval( result, binding, "(TDiary::Config#save)", 1 )
