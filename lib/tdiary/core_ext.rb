@@ -39,9 +39,11 @@ class String
 	def emojify
 		self.gsub(/:([a-zA-Z0-9_+-]+):/) do |match|
 			emoji_alias = $1.downcase
-			if emoji = Emoji.find_by_alias(emoji_alias)
-				emoji_name = emoji.name == '+1' ? 'plus1' : emoji.name
-				"<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/#{emoji_name}.png' width='20' height='20' title='#{emoji_name}' alt='#{emoji_name}' class='emoji' />"
+			emoji_url = %Q[<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/%s.png' width='20' height='20' title='%s' alt='%s' class='emoji' />]
+			if emoji_alias == 'plus1' or emoji_alias == '+1'
+				emoji_url % (['plus1']*3)
+			elsif emoji = Emoji.find_by_alias(emoji_alias)
+				emoji_url % ([emoji.name]*3)
 			else
 				match
 			end
