@@ -102,9 +102,11 @@ module TDiary
 			@comment_leave_procs.taint
 			@subtitle_procs.taint
 			@section_leave_procs.taint
-			return Safe::safe( secure ? 4 : 1 ) do
+			ret = Safe::safe( secure ? 4 : 1 ) do
 				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			end
+			@conf.io_class.plugin_close(@storage)
+			return ret
 		end
 
 	private
