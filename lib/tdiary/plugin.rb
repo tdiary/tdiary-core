@@ -52,6 +52,13 @@ module TDiary
 			@referer_table = @conf.referer_table
 			@options = @conf.options
 
+			# setup plugin storage
+			unless @conf.io_class.method_defined?(:plugin_open)
+				require 'tdiary/io/plugin_pstore'
+				@conf.io_class.extend(TDiary::IO::PluginPStore)
+			end
+			@storage = @conf.io_class.plugin_open(@conf)
+
 			# loading plugins
 			@plugin_files = []
 			plugin_path = @conf.plugin_path || "#{File.dirname(__FILE__)}/plugin"
@@ -101,6 +108,12 @@ module TDiary
 		end
 
 	private
+		def transaction(plugin_name)
+			@conf.io_class.plugin_transaction(@storage, plugin_name) do |db|
+				yield db
+			end
+		end
+
 		def add_header_proc( block = Proc::new )
 			@header_procs << block
 		end
