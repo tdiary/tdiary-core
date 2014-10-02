@@ -37,6 +37,7 @@ GEM
     fastimage (1.6.3)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.3)
+    gemoji (2.1.0)
     hike (1.2.3)
     hikidoc (0.1.0)
     hub (1.12.2)
@@ -144,6 +145,7 @@ DEPENDENCIES
   coffee-script
   coveralls
   fastimage
+  gemoji
   hikidoc
   jasmine
   launchy
