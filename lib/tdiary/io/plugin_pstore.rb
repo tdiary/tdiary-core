@@ -20,12 +20,21 @@ module TDiary
 
 			def plugin_transaction(storage_object, plugin_name)
 				PStore.new(storage_object + "#{plugin_name}.db").transaction do |db|
+					# define methods of plugin storage interface
+					# PStore has 'delete' method as same function
 					def db.get(key)
 						self[key]
 					end
 					def db.set(key, value)
 						self[key] = value
 					end
+					# def db.delete( key )
+					#
+					# end
+					def db.keys
+						self.roots
+					end
+
 					yield db
 				end
 			end
