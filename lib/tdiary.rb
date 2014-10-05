@@ -12,8 +12,8 @@ Encoding::default_external = 'UTF-8'
 require 'tdiary/version'
 TDIARY_VERSION = TDiary::VERSION
 
-$:.unshift File.join(File::dirname(__FILE__), '/misc/lib').untaint
-['/misc/lib/*/lib', '/vendor/*/lib'].each do |path|
+$:.unshift File.join(File::dirname(__FILE__), '../misc/lib').untaint
+['../misc/lib/*/lib', '../vendor/*/lib'].each do |path|
 	Dir["#{File::dirname(__FILE__) + path}"].each {|dir| $:.unshift dir.untaint }
 end
 
