@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/eventmachine/eventmachine.git
+  revision: 4d53154a9ea420cdc65bf8985b9156ad4c3730c9
+  specs:
+    eventmachine (1.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -30,7 +36,6 @@ GEM
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    eventmachine (1.0.3)
     execjs (2.2.1)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
@@ -51,7 +56,7 @@ GEM
       addressable (~> 2.3)
     libv8 (3.16.14.7)
     method_source (0.8.2)
-    mime-types (2.3)
+    mime-types (2.4.1)
     mini_portile (0.6.0)
     multi_json (1.10.1)
     multipart-post (2.0.0)
@@ -144,6 +149,7 @@ DEPENDENCIES
   capybara
   coffee-script
   coveralls
+  eventmachine!
   fastimage
   gemoji
   hikidoc

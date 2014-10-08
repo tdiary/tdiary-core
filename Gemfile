@@ -13,6 +13,7 @@ end
 
 group :server do
   platforms :mri do
+    gem 'eventmachine', github: 'eventmachine/eventmachine'
     gem 'thin'
   end
 
