@@ -11,9 +11,6 @@ rvm:
 
 cache: bundler
 
-# ignored --deployment option
-bundler_args: "--without server"
-
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
