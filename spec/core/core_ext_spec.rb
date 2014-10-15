@@ -40,12 +40,21 @@ describe "core extension library" do
 			end
 		end
 
-		context "文字と数字しか変換しない" do
-			before do
-				@result = ":<script type='text/javascript'></script>: は美味しい".emojify
-			end
+		context "plus1でもemojify" do
+			before { @result = "いいね!:plus1:".emojify }
 			it do
-				expect(@result).to eq ":<script type='text/javascript'></script>: は美味しい"
+				expect(@result).to eq "いいね!<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/plus1.png' width='20' height='20' title='plus1' alt='plus1' class='emoji' />"
+			end
+		end
+
+		context "絵文字に変換しない" do
+			[
+				":<script type='text/javascript'></script>: は美味しい",
+				"foo::bar::baz"
+			].each do |str|
+				describe str do
+					it { expect(str.emojify).to eq str }
+				end
 			end
 		end
 	end

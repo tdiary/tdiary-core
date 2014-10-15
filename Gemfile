@@ -4,6 +4,7 @@ gem 'rack'
 gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
+gem 'gemoji'
 
 group :coffee do
   gem 'coffee-script'
@@ -12,6 +13,7 @@ end
 
 group :server do
   platforms :mri do
+    gem 'eventmachine', github: 'eventmachine/eventmachine'
     gem 'thin'
   end
 
