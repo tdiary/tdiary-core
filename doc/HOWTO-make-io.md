@@ -100,7 +100,7 @@ end
 また、ブロックが渡されるので、ストレージを読み書き可能にしてから yield する必要があります。yield にはブロック引数をひとつ渡す必要があり、この引数には以下のメソッドが実装されていなければなりません。
 
 * get( key ) : key で指定された値(value)を返します
-* set( key, value ) : key に value を保存します。value には任意の Ruby オブジェクトが入ります
+* set( key, value ) : key に value を保存します。value は文字列です
 * delete( key ) : key で指定された値を削除します
 * keys : ストレージに保存されている key をすべて Array で返します
 
