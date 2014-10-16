@@ -108,6 +108,7 @@ module TDiary
 			unless @io_class
 				require 'tdiary/io/default'
 				@io_class = IO::Default
+				attr_reader :io_class
 			end
 
 			cgi_conf = @io_class.load_cgi_conf(self)
