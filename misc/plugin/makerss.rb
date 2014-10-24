@@ -34,24 +34,62 @@ if /^append|replace|comment|showcomment$/ =~ @mode then
 	end
 	module ::TDiary
 		class RDFSection
-			attr_reader :id, :time, :section, :diary_title
+			attr_reader :id, :time, :section
+
+			def self.from_json(id, json)
+				self.new(id, nil, nil, data: JSON.load(json))
+			end
 
 			# 'id' has 'YYYYMMDDpNN' format (p or c).
 			# 'time' is Last-Modified this section as a Time object.
-			def initialize( id, time, section )
-				@id, @time, @section, @diary_title = id, time, section, diary_title
+			def initialize( id, time = nil, section = nil, opts = {} )
+				@id = id
+				if opts[:data]
+					@time = opts[:data]['time']
+					@is_comment = opts[:data]['is_comment']
+					@section = opts[:data]['section']
+				else
+					@time = time_string(time)
+					@is_comment = section.respond_to?(:name)
+					@section = section_to_hash(section)
+				end
 			end
 
-			def time_string
-				g = @time.dup.gmtime
-				l = Time::local( g.year, g.month, g.day, g.hour, g.min, g.sec )
-				tz = (g.to_i - l.to_i)
-				zone = sprintf( "%+03d:%02d", tz / 3600, tz % 3600 / 60 )
-				@time.strftime( "%Y-%m-%dT%H:%M:%S" ) + zone
+			def body?
+				!@is_comment
 			end
 
 			def <=>( other )
 				other.time <=> @time
+			end
+
+			def to_json
+				{
+					'id' => @id,
+					'time' => @time,
+					'section' => @section,
+					'is_comment' => @is_comment
+				}.to_json
+			end
+
+		private
+			def time_string(time)
+				g = time.dup.gmtime
+				l = Time::local( g.year, g.month, g.day, g.hour, g.min, g.sec )
+				tz = (g.to_i - l.to_i)
+				zone = sprintf( "%+03d:%02d", tz / 3600, tz % 3600 / 60 )
+				time.strftime( "%Y-%m-%dT%H:%M:%S" ) + zone
+			end
+
+			def section_to_hash(section)
+				sec ||= {}
+				sec['body'] = section.respond_to?(:body_to_html) ? section.body_to_html : section.body
+				sec['subtitle'] = section.subtitle_to_html if section.respond_to?(:subtitle_to_html)
+				sec['visibility'] = section.visible? rescue true
+				sec['category'] = section.categories rescue []
+
+				sec['name'] = section.name if section.respond_to?(:name)
+				return sec
 			end
 		end
 	end
@@ -155,7 +193,7 @@ class MakeRssNoComments < MakeRssFull
 	end
 
 	def item( seq, body, rdfsec )
-		return unless rdfsec.section.respond_to?( :body_to_html )
+		return unless rdfsec.body?
 		super
 	end
 
@@ -181,6 +219,16 @@ end
 @makerss_rsses << MakeRssNoComments::new(@conf, @cgi)
 
 def makerss_update
+	def get(db, id)
+		json = db.get(id)
+		return nil unless json
+		RDFSection.from_json(id, json) rescue nil
+	end
+
+	def set(db, id, section)
+		db.set(id, section.to_json)
+	end
+
 	date = @date.strftime( "%Y%m%d" )
 	diary = @diaries[date]
 
@@ -188,77 +236,65 @@ def makerss_update
 	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
 
-	require 'pstore'
-	cache = {}
 	rsses = @makerss_rsses
 
-	begin
-		PStore::new( "#{@cache_path}/makerss.cache" ).transaction do |db|
-			begin
-				cache = db['cache'] if db.root?( 'cache' )
-
-				if /^append|replace$/ =~ @mode then
-					format = "#{date}p%02d"
-					index = 0
-					diary.each_section do |section|
-						index += 1
-						id = format % index
-						if diary.visible? and !cache[id] then
-							cache[id] = RDFSection::new( id, Time::now, section )
-						elsif !diary.visible? and cache[id]
-							cache.delete( id )
-						elsif diary.visible? and cache[id]
-							if cache[id].section.body_to_html != section.body_to_html or
-									cache[id].section.subtitle_to_html != section.subtitle_to_html then
-								cache[id] = RDFSection::new( id, Time::now, section )
-							end
-						end
-					end
-
-					loop do
-						index += 1
-						id = format % index
-						if cache[id] then
-							cache.delete( id )
-						else
-							break
-						end
-					end
-				elsif /^comment$/ =~ @mode and @conf.show_comment
-					id = "#{date}c%02d" % diary.count_comments( true )
-					cache[id] = RDFSection::new( id, @comment.date, @comment )
-				elsif /^showcomment$/ =~ @mode
-					index = 0
-					diary.each_comment do |comment|
-						index += 1
-						id = "#{date}c%02d" % index
-						if !cache[id] and (@conf.show_comment and comment.visible? and /^(TrackBack|Pingback)$/i !~ comment.name) then
-							cache[id] = RDFSection::new( id, comment.date, comment )
-						elsif cache[id] and !(@conf.show_comment and comment.visible? and /^(TrackBack|Pingback)$/i !~ comment.name)
-							cache.delete( id )
+	transaction('makerss') do |db|
+		begin
+			if /^append|replace$/ =~ @mode then
+				format = "#{date}p%02d"
+				index = 0
+				diary.each_section do |section|
+					index += 1
+					id = format % index
+					if diary.visible? and !get(db, id) then
+						set(db, id, RDFSection::new( id, Time::now, section ))
+					elsif !diary.visible? and get(db, id)
+						db.delete(id)
+					elsif diary.visible? and get(db, id)
+						if get(db, id).section['body'] != section.body_to_html or
+								get(db, id).section['subtitle'] != section.subtitle_to_html then
+							set(db, id, RDFSection::new( id, Time::now, section ))
 						end
 					end
 				end
 
-				rsses.each{|rss| rss.head( makerss_header( uri ) ) }
-				cache.values.sort{|a,b| b.time <=> a.time}.each_with_index do |rdfsec, idx|
-					unless rdfsec.section.respond_to?( :visible? ) and !rdfsec.section.visible?
-						rsses.each {|rss|
-							rss.item( makerss_seq( uri, rdfsec ), makerss_body( uri, rdfsec ), rdfsec )
-						}
-					end
-					if idx > 50
-						cache.delete( rdfsec.id )
+				loop do
+					index += 1
+					id = format % index
+					if get(db, id) then
+						db.delete(id)
+					else
+						break
 					end
 				end
+			elsif /^comment$/ =~ @mode and @conf.show_comment
+				id = "#{date}c%02d" % diary.count_comments( true )
+				set(db, id, RDFSection::new( id, @comment.date, @comment ))
+			elsif /^showcomment$/ =~ @mode
+				index = 0
+				diary.each_comment do |comment|
+					index += 1
+					id = "#{date}c%02d" % index
+					if !get(db, id) and (@conf.show_comment and comment.visible? and /^(TrackBack|Pingback)$/i !~ comment.name) then
+						set(db, id, RDFSection::new( id, comment.date, comment ))
+					elsif get(db, id) and !(@conf.show_comment and comment.visible? and /^(TrackBack|Pingback)$/i !~ comment.name)
+						db.delete(id)
+					end
+				end
+			end
 
-				db['cache'] = cache
-			rescue PStore::Error
+			rsses.each{|rss| rss.head( makerss_header( uri ) ) }
+			db.keys.map{|k|get(db, k)}.sort.each_with_index do |rdfsec, idx|
+				if rdfsec && rdfsec.section['visibility']
+					rsses.each {|rss|
+						rss.item( makerss_seq( uri, rdfsec ), makerss_body( uri, rdfsec ), rdfsec )
+					}
+				end
+				if idx > 50
+					db.delete(rdfsec.id)
+				end
 			end
 		end
-	rescue ArgumentError
-		File.unlink( "#{@cache_path}/makerss.cache" )
-		retry
 	end
 
 	if @conf.banner and not @conf.banner.empty?
@@ -330,20 +366,20 @@ end
 
 def makerss_body( uri, rdfsec )
 	rdf = ""
-	if rdfsec.section.respond_to?( :body_to_html ) then
+	if rdfsec.body? then
 		rdf = %Q|<item rdf:about="#{h uri}#{anchor rdfsec.id}">\n|
 		rdf << %Q|<link>#{h uri}#{anchor rdfsec.id}</link>\n|
 		rdf << %Q|<xhtml:link xhtml:rel="alternate" xhtml:media="handheld" xhtml:type="text/html" xhtml:href="#{h uri}#{anchor rdfsec.id}" />\n|
-		rdf << %Q|<dc:date>#{h rdfsec.time_string}</dc:date>\n|
+		rdf << %Q|<dc:date>#{h rdfsec.time}</dc:date>\n|
 		a = rdfsec.id.scan( /(\d{4})(\d\d)(\d\d)/ ).flatten.map{|s| s.to_i}
 		date = Time::local( *a )
 		old_apply_plugin = @conf['apply_plugin']
 		@conf['apply_plugin'] = true
 
 		@makerss_in_feed = true
-		subtitle = rdfsec.section.subtitle_to_html
+		subtitle = rdfsec.section['subtitle']
 		body_enter = body_enter_proc( date )
-		body = apply_plugin( rdfsec.section.body_to_html )
+		body = apply_plugin( rdfsec.section['body'] )
 		body_leave = body_leave_proc( date )
 		@makerss_in_feed = false
 
@@ -354,10 +390,8 @@ def makerss_body( uri, rdfsec )
 		end
 		rdf << %Q|<title>#{sub}</title>\n|
 		rdf << %Q|<dc:creator>#{h @conf.author_name}</dc:creator>\n|
-		unless rdfsec.section.categories.empty?
-			rdfsec.section.categories.each do |category|
-				rdf << %Q|<dc:subject>#{h category}</dc:subject>\n|
-			end
+		rdfsec.section['category'].each do |category|
+			rdf << %Q|<dc:subject>#{h category}</dc:subject>\n|
 		end
 		desc = remove_tag( body ).strip
 		desc.gsub!( /&.*?;/, '' )
@@ -388,10 +422,10 @@ def makerss_body( uri, rdfsec )
 	else # TSUKKOMI
 		rdf = %Q|<item rdf:about="#{h uri}#{anchor rdfsec.id}">\n|
 		rdf << %Q|<link>#{h uri}#{anchor rdfsec.id}</link>\n|
-		rdf << %Q|<dc:date>#{h rdfsec.time_string}</dc:date>\n|
-		rdf << %Q|<title>#{makerss_tsukkomi_label( rdfsec.id )} (#{h rdfsec.section.name})</title>\n|
-		rdf << %Q|<dc:creator>#{h rdfsec.section.name}</dc:creator>\n|
-		text = rdfsec.section.body
+		rdf << %Q|<dc:date>#{h rdfsec.time}</dc:date>\n|
+		rdf << %Q|<title>#{makerss_tsukkomi_label( rdfsec.id )} (#{h rdfsec.section['name']})</title>\n|
+		rdf << %Q|<dc:creator>#{h rdfsec.section['name']}</dc:creator>\n|
+		text = rdfsec.section['body']
 		rdf << %Q|<description>#{h makerss_desc_shorten( text )}</description>\n|
 		unless @conf['makerss.hidecontent']
 			rdf << %Q|<content:encoded><![CDATA[#{text.make_link.gsub( /\n/, '<br>' ).gsub( /<br><br>\Z/, '' ).gsub( /\]\]>/, ']]]]><![CDATA[>' )}]]></content:encoded>\n|
