@@ -13,7 +13,7 @@
 #      show_modified: show modified time of the entry (true)
 #
 # Copyright (c) 2003-2005 Kouhei Sutou <kou@cozmixng.org>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 require "rss/rss"

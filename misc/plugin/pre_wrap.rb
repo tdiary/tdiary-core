@@ -2,7 +2,7 @@
 # pre_wrap.rb: word wrapping style for preformat (<pre>)
 #
 # Copyright (C) 2010 TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 add_header_proc do
 	<<-STYLE

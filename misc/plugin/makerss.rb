@@ -25,7 +25,7 @@
 #            into the directory of your diary, and permit writable to httpd.
 #
 # Copyright (c) 2009 TADA Tadashi <t@tdtds.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 if /^append|replace|comment|showcomment$/ =~ @mode then

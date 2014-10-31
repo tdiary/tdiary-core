@@ -4,7 +4,7 @@
 # recent_comment: 最近のツッコミをリストアップする
 #
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this file under the GPL2.
+# You can distribute this file under the GPL2 or any later version.
 #
 def recent_comment_format(format, *args)
    format.gsub(/\$(\d)/) {|s| args[$1.to_i - 1]}

@@ -1,7 +1,7 @@
 # en/daily_theme.rb
 #
 # Copyright (c) 2005 SHIBATA Hiroshi <h-sbt@nifty.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 
 @daily_theme_label = 'Daily Theme'
 @daily_theme_label_desc = 'List of theme name.'

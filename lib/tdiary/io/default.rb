@@ -3,7 +3,7 @@
 # defaultio.rb: tDiary IO class for tDiary 2.x - 4.x format.
 #
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 require 'fileutils'
 require 'tdiary/io/base'

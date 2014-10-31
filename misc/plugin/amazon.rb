@@ -3,7 +3,7 @@
 # see document: #{@lang}/amazon.rb
 #
 # Copyright (C) 2005-2007 TADA Tadashi <sho@spc.gr.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 autoload :Net,     'net/http'

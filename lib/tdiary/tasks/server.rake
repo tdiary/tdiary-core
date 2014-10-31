@@ -3,7 +3,7 @@
 # server: script for running standalone tdiary cgi server.
 #
 # Copyright (C) 2008-2010, Kakutani Shintaro <shintaro@kakutani.com>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 
 task :server do
   $:.unshift File.expand_path('../../../', __FILE__).untaint

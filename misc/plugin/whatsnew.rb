@@ -30,7 +30,7 @@
 # のように指定します．
 #
 # Copyright (c) 2002 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 @whats_new = {}.taint

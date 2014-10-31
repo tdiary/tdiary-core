@@ -3,7 +3,7 @@
 # draft.rb: save draft data to Web Storage automatically
 #
 # Copyright (c) MATSUOKA Kohei <http://www.machu.jp/>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 if /\A(form|edit|preview|showcomment)\z/ === @mode then
 	enable_js('draft.js')

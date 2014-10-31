@@ -3,7 +3,7 @@
 # 00default.rb: default plugins
 #
 # Copyright (C) 2010, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 #

@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{a TSUKKOMI-able Web-log}
   spec.description   = %q{tDiary is so called Weblog.}
   spec.homepage      = "http://www.tdiary.org/"
-  spec.license       = "GPL-2"
+  spec.license       = "GPL2"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

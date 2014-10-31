@@ -2,7 +2,7 @@
  * amazon.js : replace amazon URL using bit.ly (amzn.to).
  *
  * Copyright (C) 2011 by TADA Tadashi <t@tdtds.jp>
- * You can distribute it under GPL.
+ * You can distribute it under GPL2 or any later version.
  */
 
 $(function(){

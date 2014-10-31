@@ -5,7 +5,7 @@
 #   @secure = true な環境では動作しません．
 #
 # Copyright (c) 2002 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 require 'pstore'
 require 'fileutils'

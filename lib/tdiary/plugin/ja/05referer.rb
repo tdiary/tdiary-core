@@ -3,7 +3,7 @@
 # 05referer.rb: Japanese resource of referer plugin
 #
 # Copyright (C) 2006, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 def referer_today; '本日のリンク元'; end

@@ -3,7 +3,7 @@
 # English resources for recent_comment3.rb
 #
 # Copyright (c) 2005 Hiroshi SHIBATA <h-sbt@nifty.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 if @mode == 'conf' || @mode == 'saveconf'

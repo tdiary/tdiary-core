@@ -6,7 +6,7 @@
 # Copyright (C) 2004, Akinori MUSHA
 # Copyright (C) 2006, moriq
 # Copyright (C) 2011, Kazuhiko <kazuhiko@fdiary.net>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 require 'fcgi'
 # workaround untaint LOAD_PATH for rubygems library path is always tainted.

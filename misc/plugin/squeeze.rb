@@ -9,10 +9,10 @@
 #   http://ponx.s5.xrea.com/hiki/ja/squeeze.rb.html (Japanese)
 #
 # Copyright (C) 2002 MUTOH Masao <mutoh@highway.ne.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 # The original version of this file was distributed with squeeze
-# TADA Tadashi <sho@spc.gr.jp> with GPL2.
+# TADA Tadashi <sho@spc.gr.jp> with GPL2 or any later version.
 #
 unless $tdiary_squeeze_loaded
 $tdiary_squeeze_loaded ||= true

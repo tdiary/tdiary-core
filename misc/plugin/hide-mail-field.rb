@@ -5,7 +5,7 @@
 # address field in spamfilter plugin.
 #
 # Copyright (C) 2007 by TADA Tadahi <sho@spc.gr.jp>
-# Distributed under GPL.
+# Distributed under GPL2 or any later version.
 #
 add_header_proc do
 	if @mode == 'day' and not @cgi.mobile_agent? then

@@ -3,7 +3,7 @@
 # XML-RPC API
 #
 # Copyright (c) 2004 MoonWolf <moonwolf@moonwolf.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 add_header_proc do

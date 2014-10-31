@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 # Copyright (C) 2005  akira yamada
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 
 add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 	if @mode == 'saveconf'

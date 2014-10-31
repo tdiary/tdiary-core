@@ -10,7 +10,7 @@
 #         http://tdiary-users.sourceforge.jp/cgi-bin/wiki.cgi?html%A4%C7%A5%A2%A5%AF%A5%BB%A5%B9%A4%B7%A4%BF%A4%A4
 #
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 def anchor( s )

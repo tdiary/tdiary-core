@@ -164,7 +164,7 @@ Now, All you have to do is that you write diary ( But, it is the most difficult 
 License
 -------
 
-tDiary is free software created by TADA Tadashi(sho@spc.gr.jp). tDiary is licensed under the terms of GPL2. You can distribute and modify it under the terms of GPL2.
+tDiary is free software created by TADA Tadashi(sho@spc.gr.jp). tDiary is licensed under the terms of GPL2 or any later version. You can distribute and modify it under the terms of GPL2.
 
 But, all the files that are in "erb/" directory is ERb library created by Seki-san. You can know the detail about the license of these files at http://www2a.biglobe.ne.jp/~seki/ruby/.
 

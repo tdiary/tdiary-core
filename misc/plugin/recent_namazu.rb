@@ -13,7 +13,7 @@
 #
 #
 # Copyright (c) 2002 Hiroyuki Ikezoe <zoe@kasumi.sakura.ne.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 
 def recent_namazu(file, namazu, limit = 5, sep='&nbsp;', make_link = true)
 	begin

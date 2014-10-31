@@ -44,7 +44,7 @@ tDiary.Netには、[テーマ・ギャラリー](http://www.tdiary.org/20021001.
 Title: クローバー
 Author: ただただし
 Access: t@tdtds.jp
-License: GPL
+License: GPL2 or any later version
 Comment: 四つ葉のクローバーの葉をあしらった、シンプルでかわいらしいテーマ 春向きのテーマです。 サイドバー対応。 calendar2、recent_list、footnote、amazonプラグイン対応。
 ```
 

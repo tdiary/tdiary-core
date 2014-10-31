@@ -42,7 +42,7 @@
 
 == 著作権について (Copyright notice)
 	Copyright (c) 2003 SAKAMOTO Hideki <hs@on-sky.net>
-	Distributed under the GPL
+	Distributed under the GPL2 or any later version.
 =end
 
 =begin Changelog

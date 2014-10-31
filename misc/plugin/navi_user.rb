@@ -7,7 +7,7 @@
 #   の日記がない場合は，ナビゲーションを表示しない．月またぎにも対応．
 #
 # Copyright (c) 2002 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 
 # this plugin is obsoleted
 

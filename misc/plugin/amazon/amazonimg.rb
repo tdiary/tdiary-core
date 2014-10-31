@@ -5,7 +5,7 @@
 # set URL of this script to @options['amazon.secure-cgi'] into tdiary.conf.
 #
 # Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 ### modify settings below ###

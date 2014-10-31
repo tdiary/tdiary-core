@@ -8,7 +8,7 @@
 #
 # Copyright (C) 2003, TADA Tadashi <t@tdtds.jp>
 # Copyright (C) 2005, Kazuhiko <kazuhiko@fdiary.net>
-# You can distribute this under GPL.
+# You can distribute this under GPL2 or any later version.
 #
 require 'hikidoc'
 require 'uri'

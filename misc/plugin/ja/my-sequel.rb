@@ -9,7 +9,7 @@
 #
 # Permission is granted for use, copying, modification, distribution,
 # and distribution of modified versions of this work under the terms
-# of GPL version 2.
+# of GPL2 or any later version.
 #
 
 @my_sequel_plugin_name ||= '後日談へのリンク'

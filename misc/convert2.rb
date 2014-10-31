@@ -4,7 +4,7 @@
 # convert2: convert diary data file format tDiary1 to tDiary2.
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 
 =begin How to usage
 ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]

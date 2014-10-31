@@ -33,7 +33,7 @@
 #   http://ponx.s5.xrea.com/hiki/ja/a.rb.html (Japanese)
 #
 # Copyright (c) 2002-2004 MUTOH Masao <mutoh@highway.ne.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 # Resources

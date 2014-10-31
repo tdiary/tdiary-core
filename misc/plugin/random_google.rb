@@ -7,7 +7,7 @@
 #   tDiary1.5.5以降で導入されたconf_procに対応しているので，tDiaryの設定画面からどうぞ．
 #
 # Copyright (c) 2003 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 def random_google_pickup_word(date)
