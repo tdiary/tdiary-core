@@ -8,7 +8,7 @@
 #	   と書いてください。
 #
 # Copyright (C) 2002 by zoe <http://www.kasumi.sakura.ne.jp/~zoe/tdiary/>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 def use_number_anchor( n = 1 )

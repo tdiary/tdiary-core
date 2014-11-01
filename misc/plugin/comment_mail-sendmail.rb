@@ -26,7 +26,7 @@
 #          無指定時には「'/usr/sbin/sendmail'」。
 #
 # Copyright (c) 2003 TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this file under the GPL.
+# You can distribute this file under the GPL2 or any later version.
 #
 def comment_mail( text, to )
 	begin

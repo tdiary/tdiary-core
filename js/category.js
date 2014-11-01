@@ -2,7 +2,7 @@
  category.js: javascript for category.rb plugin of tDiary
 
  Copyright (C) 2011 by TADA Tadashi <t@tdtds.jp>
- You can redistribute it and/or modify it under GPL2.
+ You can redistribute it and/or modify it under GPL2 or any later version.
  */
 
 $(function(){

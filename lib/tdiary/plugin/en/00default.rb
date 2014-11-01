@@ -3,7 +3,7 @@
 # en/00default.rb: English resources of 00default.rb.
 #
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 #

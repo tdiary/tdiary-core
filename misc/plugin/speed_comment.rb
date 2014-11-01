@@ -5,7 +5,7 @@
 #                pluginディレクトリに入れるだけで動きます。
 #
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 =begin ChangeLog
 2003-09-24 TADA Tadashi <sho@spc.gr.jp>

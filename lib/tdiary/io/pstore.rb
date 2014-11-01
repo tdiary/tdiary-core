@@ -3,7 +3,7 @@
 # pstoreio.rb: tDiary IO class of tdiary 1.x format.
 #
 # Copyright (C) 2001-2005, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 require 'pstore'
 

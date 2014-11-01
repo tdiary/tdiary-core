@@ -4,7 +4,7 @@
 #                                 using jQuery UI autocomplete.
 #
 # Copyright (C) 2013, tamoot <tamoot+tdiary@gmail.com>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 if !@cgi.mobile_agent? && /\A(?:day)\z/ =~ @mode

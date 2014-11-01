@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2003-2005 Minero Aoki
 # Copyright (C) 2012, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 #
 

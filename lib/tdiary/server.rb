@@ -3,7 +3,7 @@
 # server.rb: standalone tdiary cgi server via WEBrick.
 #
 # Copyright (C) 2008-2010, Kakutani Shintaro <shintaro@kakutani.com>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 
 module TDiary
 	class Server

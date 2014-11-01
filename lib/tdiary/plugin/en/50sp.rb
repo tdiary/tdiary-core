@@ -36,8 +36,7 @@ You can use this plugin in a secure diary.
 Copyright (C) 2003 zunda <zunda at freeshell.org>
 
 Permission is granted for use, copying, modification, distribution, and
-distribution of modified versions of this work under the terms of GPL
-version 2 or later.
+distribution of modified versions of this work under the terms of GPL version 2 or later.
 =end
 
 @sp_label = 'Plugin selection'

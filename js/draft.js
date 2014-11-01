@@ -2,7 +2,7 @@
  * draft.js: save draft data to Web Storage automatically
  * 
  * Copyright (c) MATSUOKA Kohei <http://www.machu.jp/>
- * Distributed under the GPL
+ * Distributed under the GPL2 or any later version.
  */
 $(function() {
 

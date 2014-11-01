@@ -24,7 +24,7 @@
 #   http://ponx.s5.xrea.com/hiki/ja/counter.rb.html (Japanese)
 #
 # Copyright (c) 2002-2006 Masao Mutoh
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 =begin ChangeLog
 2006-02-14 Masao Mutoh

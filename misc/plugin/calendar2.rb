@@ -21,7 +21,7 @@
 #                      }
 #
 # Copyright (c) 2001,2002 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 @calendar2_image_dir = @options && @options['image.dir'] || './images/'
 @calendar2_image_dir.chop! if /\/$/ =~ @calendar2_image_dir

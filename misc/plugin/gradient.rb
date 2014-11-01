@@ -11,7 +11,7 @@
 #     <%=gradient 'こんなこともできます', 10, 30 %>
 #
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this file under the GPL2.
+# You can distribute this file under the GPL2 or any later version.
 #
 def gradient( str, first_size, last_size )
 	ary = str.split( //u )

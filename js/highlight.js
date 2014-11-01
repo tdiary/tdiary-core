@@ -4,7 +4,7 @@
  * Copyright (C) 2003 by Ryuji SAKAI
  * Copyright (C) 2003 by Kazuhiro NISHIYAMA
  * Copyright (C) 2011 by MATSUOKA Kohei <kmachu@gmail.com>
- * You can distribute it under GPL.
+ * You can distribute it under GPL2 or any later version.
  */
 
 $(function() {

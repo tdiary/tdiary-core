@@ -8,7 +8,7 @@
 #     last_color:  グラデーション終了色(16進 6桁指定)
 #
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this file under the GPL2.
+# You can distribute this file under the GPL2 or any later version.
 #
 def gradation( str, first_color, last_color )
 	ary = str.split( //u )

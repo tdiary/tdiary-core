@@ -49,7 +49,7 @@
 # Copyright (c) 2002,2003 Daisuke Kato <dai@kato-agri.com>
 # Copyright (c) 2002 Toshi Okada <toshi@neverland.to>
 # Copyright (c) 2003 Yoshimi KURUMA <yoshimik@iris.dti.ne.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 unless @resource_loaded then

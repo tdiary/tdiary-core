@@ -10,7 +10,7 @@
 #   str: リンクにする文字列
 #
 # Copyright (c) 2002 TADA Tadashi <sho@spc.gr.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 
 unless @cgi.mobile_agent?
 

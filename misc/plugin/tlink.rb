@@ -16,7 +16,7 @@
 #       <a href="http://tdiary.tdiary.net/20020131.html#c01", title="テストでござるよ">このツッコミ</a>
 #
 # Copyright(C) 2002 NT <nt@24i.net>
-# Distributed under the GPL.
+# Distributed under the GPL2 or any later version.
 #
 # Modified: by abbey <inlet@cello.no-ip.org>
 #

@@ -12,7 +12,7 @@
 #		If true, hide 'Pingbacks(n)' when there is no Pingbacks.  Default value is false.
 #
 # Copyright (c) 2003 TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this file under the GPL.
+# You can distribute this file under the GPL2 or any later version.
 #
 # Modified: by Junichiro Kita <kita@kitaj.no-ip.com>
 # Modified: by MoonWolf <moonwolf@moonwolf.com>

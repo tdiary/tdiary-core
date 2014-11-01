@@ -2,7 +2,7 @@
 # ja/category.rb
 #
 # Copyright (c) 2004 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 def category_title

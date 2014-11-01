@@ -3,7 +3,7 @@
 # 05referer.rb: load/save and show today's referer plugin
 #
 # Copyright (C) 2005, TADA Tadashi <t@tdtds.jp>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 #

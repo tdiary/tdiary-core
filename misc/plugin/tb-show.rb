@@ -12,7 +12,7 @@
 #		If true, hide 'TrackBacks(n)' when there is no TrackBacks.  Default value is false.
 #
 # Copyright (c) 2003 TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this file under the GPL.
+# You can distribute this file under the GPL2 or any later version.
 #
 # Modified: by Junichiro Kita <kita@kitaj.no-ip.com>
 #

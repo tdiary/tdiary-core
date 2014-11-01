@@ -3,7 +3,7 @@
 # English resources for todo.rb
 #
 # Copyright (c) 2001,2002,2003 Junichiro KITA <kita@kitaj.no-ip.com>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 def todo_msg_today; "today"; end

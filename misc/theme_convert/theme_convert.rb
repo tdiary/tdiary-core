@@ -9,7 +9,7 @@
 #         （hoge-simple.css は作業用の一時ファイル）
 #
 # Copyright (c) 2002 NT <nt@24i.net>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 
 =begin ChangeLog

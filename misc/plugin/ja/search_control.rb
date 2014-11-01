@@ -24,8 +24,7 @@ secure==trueな日記でも使えます。
 Copyright (C) 2003, 2004 zunda <zunda at freeshell.org>
 
 Permission is granted for use, copying, modification, distribution, and
-distribution of modified versions of this work under the terms of GPL
-version 2 or later.
+distribution of modified versions of this work under the terms of GPL version 2 or later.
 =end
 
 =begin ChangeLog

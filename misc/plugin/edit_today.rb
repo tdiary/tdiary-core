@@ -1,7 +1,7 @@
 # edit_today.rb : add link to edit after title of each days.
 #
 # Copyright (C) 2007 by NOB <nob@harunaru.com>
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 def edit_today_init

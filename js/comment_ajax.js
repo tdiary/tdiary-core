@@ -2,7 +2,7 @@
  * comment_ajax.js:
  *
  * Copyright (C) 2013 by MATSUOKA Kohei <kohei@machu.jp>
- * You can distribute it under GPL.
+ * You can distribute it under GPL2 or any later version.
  */
 
 $(function() {

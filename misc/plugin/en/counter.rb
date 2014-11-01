@@ -3,7 +3,7 @@
 # English resource file for access counter plugin.
 #
 # Copyright (c) 2006 Masao Mutoh
-# You can redistribute it and/or modify it under GPL2.
+# You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
 @counter_conf_counter ||= "Access counter"

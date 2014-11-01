@@ -27,7 +27,7 @@
 #   The default of this option is true.
 #
 # Copyright (C) 2003, TADA Tadashi <sho@spc.gr.jp>
-# You can distribute this under GPL.
+# You can distribute this under GPL2 or any later version.
 #
 
 unless String.method_defined?(:encode)

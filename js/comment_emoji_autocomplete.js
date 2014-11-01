@@ -3,7 +3,7 @@
  *                         using jQuery UI autocomplete.
  *
  * Copyright (C) 2013 by tamoot <tamoot+tdiary@gmail.com>
- * You can distribute it under GPL.
+ * You can distribute it under GPL2 or any later version.
  */
 
 $(function() {

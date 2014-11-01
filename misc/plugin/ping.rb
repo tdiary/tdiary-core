@@ -3,7 +3,7 @@
 # ping to weblog ping servers.
 #
 # Copyright (c) 2004 TADA Tadashi <sho@spc.gr.jp>
-# Distributed under the GPL
+# Distributed under the GPL2 or any later version.
 #
 # Modified: by MoonWolf <moonwolf@moonwolf.com>
 #

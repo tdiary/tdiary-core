@@ -7,8 +7,7 @@
 #                NISHIMURA Takashi <nt at be.to>
 #
 # Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work under the terms
-# of GPL version 2.
+# and distribution of modified versions of this work under the terms of GPL version 2 or later.
 #
 # Language resources can be found in the middle of thie file.
 # Please search a line with `language resource'
