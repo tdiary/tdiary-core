@@ -1,3 +1,9 @@
+2014-11-10  TADA Tadashi <t@tdtds.jp>
+	* misc/plugin/makerss.rb: support plugin storage
+
+2014-10-17  TADA Tadashi <t@tdtds.jp>
+	* implement plugin storage in IO class
+
 2014-09-05  TADA Tadashi <t@tdtds.jp>
 	* style/wiki.rb: fix #437: error when 'a' element with some attr in plugin notation
 
