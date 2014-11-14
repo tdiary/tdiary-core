@@ -3,7 +3,6 @@
 # Copyright (c) 2003 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL2 or any later version.
 #
-require 'pstore'
 
 #
 # initialize
@@ -419,8 +418,16 @@ class Cache
 	def initialize(conf, bind)
 		@conf = conf
 		@binding = bind                           # ...... very ugly
-		@dir = "#{conf.data_path}/category"
-		Dir.mkdir(@dir) unless File.exist?(@dir)
+		@plugin = @binding.eval('self')
+		@categories = nil
+	end
+
+	def get(db, cat)
+		JSON.load(db.get(cat))
+	end
+
+	def set(db, cat, data)
+		db.set(cat, data.to_json)
 	end
 
 	def add_categories(list)
@@ -429,22 +436,15 @@ class Cache
 	end
 
 	def replace_categories(list)
-		PStore.new(cache_file).transaction do |db|
-			db['category'] = list.sort.uniq
-		end
+		@categories = list
 	end
 
-	#
-	# restore category names
-	# ["category1", "category2", ...]
-	#
 	def restore_categories
-		list = nil
-		PStore.new(cache_file).transaction do |db|
-			list = db['category'] if db.root?('category')
-			db.abort
+		return @categories if @categories
+		@plugin.__send__(:transaction, 'category') do |db|
+			@categories = db.keys
 		end
-		list || []
+		return @categories
 	end
 
 	#
@@ -459,24 +459,27 @@ class Cache
 		deleted = []
 		ymd = diary.date.strftime('%Y%m%d')
 
-		categories.each do |c|
-			PStore.new(cache_file(c)).transaction do |db|
-				db['category'] = {} unless db.root?('category')
+		@plugin.__send__(:transaction, 'category') do |db|
+			categories.each do |c|
+				cat = get(db, c) || {}
 				if diary.visible? and categorized[c]
-					db['category'].update(categorized[c])
+					cat.update(categorized[c])
+					set(db, c, cat)
 				else
 					# diary is invisible or sections of this category is deleted
-					db['category'].delete(ymd)
-					deleted << c if db['category'].empty?
+					cat.delete(ymd)
+					if cat.empty?
+						db.delete(c)
+						deleted << c
+					else
+						set(db, c, cat)
+					end
 				end
 			end
-		end
 
-		if !deleted.empty?
-			deleted.each do |c|
-				File.unlink(cache_file(c))
+			if !deleted.empty?
+				replace_categories(categories - deleted)
 			end
-			replace_categories(categories - deleted)
 		end
 	end
 
@@ -487,16 +490,24 @@ class Cache
 		cgi = Category::CGI::new
 
 		list = []
-		years.each do |y, ms|
-			ms.each do |m|
-				ym = "#{y}#{m}"
-				cgi.params['date'] = [ym]
-				m = TDiaryMonth.new(cgi, '', @conf)
-				m.diaries.each do |ymd, diary|
-					next if !diary.visible?
-					initial_replace_sections(diary)
-					diary.each_section do |s|
-						list |= s.categories unless s.categories.empty?
+		@plugin.__send__(:transaction, 'category') do |db|
+			db.keys.each {|key|db.delete(key)}
+
+			years.each do |y, ms|
+				ms.each do |m|
+					ym = "#{y}#{m}"
+					cgi.params['date'] = [ym]
+					m = TDiaryMonth.new(cgi, '', @conf)
+					m.diaries.each do |ymd, diary|
+						next if !diary.visible? or !diary.categorizable?
+						categorized = categorize_diary(diary)
+						categorized.keys.each do |c|
+							cat = get(db, c) || {}
+							set(db, c, cat.update(categorized[c]))
+						end
+						diary.each_section do |s|
+							list |= s.categories unless s.categories.empty?
+						end
 					end
 				end
 			end
@@ -522,9 +533,8 @@ class Cache
 		begin
 			categorized.clear
 			categories.each do |c|
-				PStore.new(cache_file(c)).transaction do |db|
-					categorized[c] = db['category']
-					db.abort
+				@plugin.__send__(:transaction, 'category') do |db|
+					categorized[c] = get(db, c)
 				end
 				categorized[c].keys.each do |ymd|
 					y, m = ymd[0,4], ymd[4,2]
@@ -581,22 +591,6 @@ EVAL
 		end
 
 		categorized
-	end
-
-	#
-	# cache each section of diary
-	# used in recreate
-	#
-	def initial_replace_sections(diary)
-		return if diary.nil? or !diary.visible? or !diary.categorizable?
-
-		categorized = categorize_diary(diary)
-		categorized.keys.each do |c|
-			PStore.new(cache_file(c)).transaction do |db|
-				db['category'] = {} unless db.root?('category')
-				db['category'].update(categorized[c])
-			end
-		end
 	end
 end
 
