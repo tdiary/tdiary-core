@@ -19,6 +19,7 @@ before_install:
   - "echo 'gemspec' > Gemfile.local"
 
 before_script:
+  - bundle update
   - npm install
   - grunt
 
