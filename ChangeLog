@@ -1,3 +1,8 @@
+2014-11-26  TADA Tadashi <t@tdtds.jp>
+	* misc/plugin/category.rb: support plugin storage
+	* misc/plugin/disp_referrer.rb: unsupport nora library
+	* misc/plugin/recent_comment3.rb: fix error on tree view mode
+
 2014-11-10  TADA Tadashi <t@tdtds.jp>
 	* misc/plugin/makerss.rb: support plugin storage
 
