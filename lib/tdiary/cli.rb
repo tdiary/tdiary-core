@@ -159,8 +159,8 @@ module TDiary
 				empty_directory(target)
 				empty_directory(File.join(target, 'public'))
 				empty_directory(File.join(target, 'misc/plugin'))
-				empty_directory(File.join(target, 'tdiary/filter'))
-				empty_directory(File.join(target, 'tdiary/style'))
+				empty_directory(File.join(target, 'lib/tdiary/filter'))
+				empty_directory(File.join(target, 'lib/tdiary/style'))
 				empty_directory(File.join(target, 'js'))
 				empty_directory(File.join(target, 'theme'))
 				%w(
