@@ -228,11 +228,7 @@ end
 =begin
 === Tdiary::Plugin::DispRef2String
 文字コードの変換、URL、HTMLでの取り扱いに関するメソッド群です。インスタ
-ンスは作りません。UconvライブラリやNoraライブラリがあればそれを使い、無
-ければ無いなりに処理します。
-
---- DispRef2String::nora?
-      Noraが使える時にはtrue、そうでないときにはfalseを返します。
+ンスは作りません。Uconvライブラリがあればそれを使い、無ければ無いなりに処理します。
 
 --- DispRef2String::normalize( str )
       続く空白を取り去ったりsite:...という文字列を消したりして、検索キー
@@ -321,54 +317,24 @@ class DispRef2String
 		nil
 	end
 
-	# escapeHTML: escape to be used in HTML
-	# unescape: unesape the URL
-	@@have_nora = false
-	begin
-		begin
-			require 'web/escape'
-			@@have_nora = true
-		rescue LoadError
-			require 'escape'
-			@@have_nora = true
-		end
-		def self::escapeHTML( str )
-			str ? Web::escapeHTML( str ) : ''
-		end
-		def self::unescape( str )
-			str ? Web::unescape( str ) : ''
-		end
-	rescue LoadError
-		def self::unescape( str )
-			if str then
-				# escape ruby 1.6 bug.
-				begin
-					str.gsub( /\+/, ' ').gsub(/((?:%[0-9a-fA-F]{2})+)/n) do
-						[$1.delete('%')].pack('H*')
-					end
-				rescue Encoding::CompatibilityError
-					''
+	def self::unescape( str )
+		if str then
+			# escape ruby 1.6 bug.
+			begin
+				str.gsub( /\+/, ' ').gsub(/((?:%[0-9a-fA-F]{2})+)/n) do
+					[$1.delete('%')].pack('H*')
 				end
-			else
+			rescue Encoding::CompatibilityError
 				''
 			end
-		end
-		begin
-			require 'erb'
-			extend ERB::Util
-			def DispRef2String::escapeHTML( str )
-				str ? h( str ) : ''
-			end
-		rescue LoadError
-			def DispRef2String::escapeHTML( str )
-				str ? CGI::escapeHTML( str ) : ''
-			end
+		else
+			''
 		end
 	end
 
-	# Nora?
-	def self::nora?
-		@@have_nora
+	extend ERB::Util
+	def DispRef2String::escapeHTML( str )
+		str ? h( str ) : ''
 	end
 
 	# add K, M with 1024 divisions
@@ -1247,11 +1213,6 @@ class DispRef2SetupIF
 	# show description
 	def show_description
 		r = Disp_referrer2_abstract.dup
-		if DispRef2String.nora? then
-			r << Disp_referrer2_with_Nora
-		else
-			r << Disp_referrer2_without_Nora
-		end
 		if @cache then
 			r << sprintf( Disp_referrer2_cache_info, DispRef2String::bytes( @cache.size ) )
 			r << sprintf( Disp_referrer2_update_info, "#{DispRef2String::escapeHTML(@conf.update)}?conf=referer" )

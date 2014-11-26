@@ -206,18 +206,6 @@ Disp_referrer2_abstract = <<'_END'.taint
 	サーチエンジンの検索結果は、検索語毎にまとめられます。
 </p>
 _END
-Disp_referrer2_with_Nora = <<'_END'.taint
-<p>
-	Noraライブラリを使っていますので、表示が少し速いはずです。
-</p>
-_END
-Disp_referrer2_without_Nora = <<'_END'.taint
-<!-- p>
-	表示速度が気になる場合は、
-	<a href="http://www.moonwolf.com/ruby/archive/nora-20040830.tar.gz">Nora
-	ライブラリ</a>をインストールしてみてください。
-</p -->
-_END
 Disp_referrer2_cache_info = <<'_END'.taint
 <p>
 	現在、キャッシュの大きさは%1$sバイトです。

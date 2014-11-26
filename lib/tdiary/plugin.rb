@@ -4,6 +4,7 @@
 #  plugin management class
 #
 require 'erb'
+require 'pathname'
 
 module TDiary
 	class Plugin
