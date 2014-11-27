@@ -10,6 +10,7 @@
 require 'pstore'
 require 'fileutils'
 require 'time'
+require 'pathname'
 
 def recent_comment3_format(format, *args)
 	format.gsub(/\$(\d)/) {|s| args[$1.to_i - 1]}
