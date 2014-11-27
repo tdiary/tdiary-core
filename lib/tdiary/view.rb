@@ -170,6 +170,13 @@ module TDiary
 	end
 
 	#
+	# class TDiaryDayWithoutFilter
+	#
+	class TDiaryDayWithoutFilter < TDiaryDay
+		def referer_filter(referer); end
+	end
+
+	#
 	# class TDiaryComment
 	#  save a comment
 	#
