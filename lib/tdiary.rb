@@ -76,6 +76,7 @@ module TDiary
 	autoload :TDiaryShowComment,        'tdiary/admin'
 	autoload :TDiaryView,               'tdiary/view'
 	autoload :TDiaryDay,                'tdiary/view'
+	autoload :TDiaryDayWithoutFilter,   'tdiary/view'
 	autoload :TDiaryComment,            'tdiary/view'
 	autoload :TDiaryMonthBase,          'tdiary/view'
 	autoload :TDiaryMonth,              'tdiary/view'

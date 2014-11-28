@@ -10,6 +10,7 @@
 require 'pstore'
 require 'fileutils'
 require 'time'
+require 'pathname'
 
 def recent_comment3_format(format, *args)
 	format.gsub(/\$(\d)/) {|s| args[$1.to_i - 1]}
@@ -100,7 +101,7 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 			tree_order.each do |entry_date|
 				a_entry = @index + anchor(entry_date)
 				cgi.params['date'] = [entry_date]
-				diary = TDiaryDay::new(cgi, '', @conf)
+				diary = TDiaryDayWithoutFilter::new(cgi, '', @conf)
 				title = diary.diaries[entry_date].title.gsub( /<[^>]*>/, '' ) if diary
 
 				if title.nil? || title.length == 0 || title.strip.delete('　').delete(' ').length == 0 then
