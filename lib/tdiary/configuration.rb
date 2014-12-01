@@ -19,7 +19,7 @@ module TDiary
 			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../views/tdiary.rconf").untaint).result(binding)
 			result.untaint unless @secure
 			Safe::safe( @secure ? 4 : 1 ) do
-				eval( result, binding, "(TDiary::Config#save)", 1 )
+				eval( result, binding, "(TDiary::Configuration#save)", 1 )
 			end
 			@io_class.save_cgi_conf(self, result)
 		end
@@ -118,7 +118,7 @@ module TDiary
 			eval( def_vars1, b )
 			Safe::safe( @secure ? 4 : 1 ) do
 				begin
-					eval( cgi_conf, b, "(TDiary::Config#load_cgi_conf)", 1 )
+					eval( cgi_conf, b, "(TDiary::Configuration#load_cgi_conf)", 1 )
 				rescue SyntaxError
 					enc = case @lang
 							when 'en'
