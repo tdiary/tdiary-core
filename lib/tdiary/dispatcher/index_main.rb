@@ -11,7 +11,7 @@ module TDiary
 			def initialize( request, cgi )
 				@request = request
 				@cgi = cgi
-				@conf = TDiary::Config::new( cgi, request )
+				@conf = TDiary::Configuration::new( cgi, request )
 				@params = request.params
 			end
 
