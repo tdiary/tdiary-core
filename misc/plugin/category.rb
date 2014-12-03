@@ -497,7 +497,7 @@ class Cache
 				ms.each do |m|
 					ym = "#{y}#{m}"
 					cgi.params['date'] = [ym]
-					m = TDiaryMonth.new(cgi, '', @conf)
+					m = TDiaryMonthWithoutFilter.new(cgi, '', @conf)
 					m.diaries.each do |ymd, diary|
 						next if !diary.visible? or !diary.categorizable?
 						categorized = categorize_diary(diary)
