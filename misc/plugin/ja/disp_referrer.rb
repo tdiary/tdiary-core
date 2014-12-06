@@ -451,7 +451,6 @@ DispReferrer2_Engines = {
 		[%r{\Ahttp://(?:image-search\.yahoo\.co\.jp/(?:search|detail)|images\.search\.yahoo\.co\.jp/bin/(?:search|query))}, '".co.jpのYahoo!画像検索"', ['p'], DispReferrer2_Google_cache],
 		[%r{\Ahttp://images\.search\.yahoo\.(:?com|co\.jp)/search/images(?:/view)?}, '".comのYahoo!画像検索"', ['p'], DispReferrer2_Google_cache],
 	],
-	'yahoofs' => [[%r{\Ahttp://cache\.yahoofs\.jp/}i, '"Yahoo!検索"', ['w'], DispReferrer2_Yahoofs]],
 	'netscape' => [[%r{\Ahttp://[^/]+\.netscape\.([^/]+)/}i, '".#{$1}のNetscape検索"', ['search', 'query'], DispReferrer2_Google_cache]],
 	'msn' => [[%r{\Ahttp://[^/]+\.MSN\.([^/]+)/}i, '".#{$1}のMSNサーチ"', ['q', 'MT'], nil ]],
 	'bing' => [[%r{\Ahttp://(www|jp)\.bing\.com/}i, '"Bing検索"', ['q'], nil ]],
@@ -480,7 +479,6 @@ DispReferrer2_Engines = {
 		[%r{\Ahttp://srchnavi\.nifty\.com/}i, '"@niftyのリダイレクタ"', ['title'], nil ],
 		[%r{\Ahttp://azby\.search\.nifty\.com/}i, '"AzbyClub"', ['Text'], nil ],
 	],
-	'eniro' => [[%r{\Ahttp://[^/]+\.eniro\.se/}i, '"Eniro"', ['q'], DispReferrer2_Google_cache]],
 	'excite' => [[%r{\Ahttp://[^/]+\.excite\.([^/]+)/}i, '".#{$1}のExcite"', ['search', 's', 'query', 'qkw'], nil ]],
 	'biglobe' => [
 		[%r{\Ahttp://(?:[^/]+\.)?search\.biglobe\.ne\.jp/}i, '"BIGLOBEサーチ"', ['q'], nil ],
