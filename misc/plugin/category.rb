@@ -423,7 +423,7 @@ class Cache
 	end
 
 	def get(db, cat)
-		JSON.load(db.get(cat))
+		JSON.load(db.get(cat) || '{}')
 	end
 
 	def set(db, cat, data)
