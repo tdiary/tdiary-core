@@ -47,7 +47,7 @@ module TDiary
 				end
 				TDiary::Style.constants(false).each do |name|
 					prefix = name.slice(/\A(.*)Diary\z/, 1)
-					if prefix && /\A(Base|Categorizable)\z/ !~ prefix
+					if prefix && /\A(Base|Categorizable|Uncategorizable)\z/ !~ prefix
 						klass = TDiary::Style.const_get(name)
 						klass.send(:include, TDiary::Style::BaseDiary)
 						klass.send(:include, TDiary::Style::CategorizableDiary)
