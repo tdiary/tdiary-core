@@ -14,7 +14,7 @@ TDIARY_VERSION = TDiary::VERSION
 
 $:.unshift File.join(File::dirname(__FILE__), '../misc/lib').untaint
 ['../misc/lib/*/lib', '../vendor/*/lib'].each do |path|
-	Dir["#{File::dirname(__FILE__) + path}"].each {|dir| $:.unshift dir.untaint }
+	Dir[File.join(File.dirname(__FILE__), path)].each {|dir| $:.unshift dir.untaint }
 end
 
 require 'cgi'
