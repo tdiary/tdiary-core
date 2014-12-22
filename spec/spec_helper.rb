@@ -17,18 +17,11 @@ if ENV['COVERAGE'] = 'simplecov'
 	end
 end
 
-# need to prepare before require 'tdiary'
-FileUtils.mkdir_p File.expand_path(File.dirname(__FILE__) + '/..') + '/misc/lib/foo-0.0.1/lib'
-
 require 'tdiary'
 
 RSpec.configure do |config|
 	config.expect_with :rspec do |c|
 		c.syntax = :expect
-	end
-
-	config.after(:suite) do
-		FileUtils.rm_rf File.expand_path(File.dirname(__FILE__) + '/..') + '/misc/lib/foo-0.0.1'
 	end
 end
 
