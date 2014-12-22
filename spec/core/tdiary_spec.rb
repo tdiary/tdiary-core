@@ -11,5 +11,11 @@ describe TDiary do
     it "include misc path into load path" do
       expect(@loaded_paths).to be_include @root_path + '/misc/lib'
     end
+
+    context 'append gem' do
+      it "include append gem path into load path" do
+        expect(@loaded_paths).to be_include @root_path + '/misc/lib/foo-0.0.1/lib'
+      end
+    end
   end
 end
