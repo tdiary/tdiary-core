@@ -21,7 +21,7 @@ module TDiary
 				def login(env)
 					env['rack.session']['tdiary.auth.redirect'] =
 						"#{env['REQUEST_PATH']}?#{env['QUERY_STRING']}"
-					redirect = "#{::OmniAuth.config.path_prefix}/#{@provider}"
+					redirect = File.join(File.dirname(env['REQUEST_PATH']), "#{::OmniAuth.config.path_prefix}/#{@provider}")
 					[302, {'Content-Type' => 'text/plain', 'Location' => redirect}, []]
 				end
 
