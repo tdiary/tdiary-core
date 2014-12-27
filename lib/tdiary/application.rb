@@ -29,7 +29,8 @@ module TDiary
 		def initialize( base_dir = '/' )
 			@app = ::Rack::Builder.app {
 				map base_dir do
-					Application.config.builder_procs.each do |builder_proc|
+					# call extensions setup before the core setup (fixed #442)
+					Application.config.builder_procs.reverse.each do |builder_proc|
 						instance_eval &builder_proc
 					end
 				end
