@@ -1,3 +1,11 @@
+2014-12-27  MATSUOKA Kohei <kohei@machu.jp>
+	* lib/tdiary/application.rb: fix #442: call extensions setup before the core setup
+	* lib/tdiary/application/extensions/omniauth.rb: fix error with base_dir 
+	* lib/tdiary/rack/auth/omniauth.rb: remove github authentication
+
+2014-12-22  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
+	* lib/tdiary.rb: fixed load path of additional gems
+
 2014-12-16  TADA Tadashi <t@tdtds.jp>
 	* plugin/category.rb: fix error on update running on ruby 1.9.3
 
