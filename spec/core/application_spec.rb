@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+require 'spec_helper'
+require 'rack/test'
+require 'tdiary/application'
+
+describe TDiary::Application do
+	include Rack::Test::Methods
+
+	before do
+	end
+
+	describe '#call' do
+		let(:app) { TDiary::Application.new }
+
+		context "when is accessed to index"
+		it do
+			get '/'
+			expect(last_response.status).to eq 200
+		end
+
+		context "when is accessed to update" do
+			it do
+				get '/update.rb'
+				expect(last_response.status).to eq 401
+			end
+		end
+
+		context "with base_dir" do
+			let(:app) { TDiary::Application.new('/diary') }
+
+			it do
+				get '/diary/'
+				expect(last_response.status).to eq 200
+			end
+
+			context "when access to root directory" do
+				it do
+					get '/'
+					expect(last_response.status).to eq 404
+				end
+			end
+		end
+	end
+end
+
+# Local Variables:
+# mode: ruby
+# indent-tabs-mode: t
+# tab-width: 3
+# ruby-indent-level: 3
+# End:
