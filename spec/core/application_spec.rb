@@ -40,6 +40,24 @@ describe TDiary::Application do
 				end
 			end
 		end
+
+		context "when the application raises exception" do
+			before do
+				TDiary::Application.configure do
+					config.builder do
+						map '/cause_exception' do
+							run lambda {|env| raise StandardError.new }
+						end
+					end
+				end
+			end
+
+			it do
+				get '/cause_exception'
+				expect(last_response.status).to eq 500
+				expect(last_response.body).to match(/^StandardError/)
+			end
+		end
 	end
 end
 

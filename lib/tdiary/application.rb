@@ -38,7 +38,13 @@ module TDiary
 		end
 
 		def call( env )
-			@app.call( env )
+			begin
+				@app.call( env )
+			rescue Exception => e
+				body = ["#{e.class}: #{e}\n"]
+				body << e.backtrace.join("\n")
+				[500, {'Content-Type' => 'text/plain'}, body]
+			end
 		end
 	end
 
