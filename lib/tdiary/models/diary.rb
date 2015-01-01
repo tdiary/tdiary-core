@@ -2,13 +2,18 @@ module TDiary
 	module Models
 		class Diary
 			# YYYYMMDD
-			def self.find_by_day(conf, year, month, day)
-				new(conf, year, month, day)
+			def self.find_by_day(conf, date)
+				# date: YYYYMMDD
+				m = date.match(/^(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})$/)
+				raise ArgumentError.new("date must be YYYYMMDD format") unless m
+				new(conf, m[:year], m[:month], m[:day])
 			end
 
-			# YYYYMM
-			def self.find_by_month(conf, year, month)
-				new(conf, year, month)
+			def self.find_by_month(conf, date)
+				# date: YYYYMM
+				m = date.match(/^(?<year>\d{4})(?<month>\d{2})$/)
+				raise ArgumentError.new("date must be YYYYMM format") unless m
+				new(conf, m[:year], m[:month])
 			end
 
 			def initialize(conf, year, month, day = nil)

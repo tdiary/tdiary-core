@@ -36,7 +36,7 @@ describe TDiary::Models::Diary do
   end
 
 	context "with find_by_month" do
-		let(:diary) { TDiary::Models::Diary.find_by_month(conf, "2005", "01") }
+		let(:diary) { TDiary::Models::Diary.find_by_month(conf, "200501") }
 		it { expect(diary).to be_a_kind_of TDiary::Models::Diary }
 
 		describe "#conf" do
@@ -53,7 +53,7 @@ describe TDiary::Models::Diary do
 	end
 
 	context "with find_by_day" do
-		let(:diary) { TDiary::Models::Diary.find_by_day(conf, "2005", "01", "20") }
+		let(:diary) { TDiary::Models::Diary.find_by_day(conf, "20050120") }
 		it { expect(diary).to be_a_kind_of TDiary::Models::Diary }
 
 		describe "#conf" do
