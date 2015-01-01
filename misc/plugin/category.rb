@@ -209,20 +209,6 @@ end
 module Category
 
 #
-# CGI (mock-up CGI class for Cache::recreate)
-#
-class CGI
-	attr_reader :params
-	def initialize
-		@params = Hash.new([])
-	end
-	def referer; nil; end
-	def user_agent; nil; end
-	def mobile_agent?; nil; end
-	def request_method; 'GET'; end
-end
-
-#
 # Info
 #
 class Info
@@ -487,17 +473,13 @@ class Cache
 	# (re)create category cache
 	#
 	def recreate(years)
-		cgi = Category::CGI::new
-
 		list = []
 		@plugin.__send__(:transaction, 'category') do |db|
 			db.keys.each {|key|db.delete(key)}
 
 			years.each do |y, ms|
 				ms.each do |m|
-					ym = "#{y}#{m}"
-					cgi.params['date'] = [ym]
-					m = TDiaryMonthWithoutFilter.new(cgi, '', @conf)
+					m = Models::Diary::find_by_month(@conf, "#{y}#{m}")
 					m.diaries.each do |ymd, diary|
 						next if !diary.visible? or !diary.categorizable?
 						categorized = categorize_diary(diary)
