@@ -3,15 +3,15 @@ module TDiary
 		class Diary
 			# YYYYMMDD
 			def self.find_by_day(conf, year, month, day)
-				new(conf: conf, year: year, month: month, day: day)
+				new(conf, year, month, day)
 			end
 
 			# YYYYMM
 			def self.find_by_month(conf, year, month)
-				new(conf: conf, year: year, month: month)
+				new(conf, year, month)
 			end
 
-			def initialize(conf: nil, year: nil, month: nil, day: nil)
+			def initialize(conf, year, month, day = nil)
 				cgi = FakeCGI.new
 				if year && month && day
 					cgi.params['date'] = ["#{year}#{month}#{day}"]
