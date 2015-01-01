@@ -12,10 +12,6 @@ group :coffee do
 end
 
 group :server do
-  platforms :mri do
-    gem 'thin'
-  end
-
   platforms :jruby do
     gem 'trinidad'
   end
