@@ -1,22 +1,36 @@
 module TDiary
 	module Models
 		class Diary
-			def initialize(conf)
-				@conf = conf
+			# YYYYMMDD
+			def self.find_by_day(conf, year, month, day)
+				new(conf: conf, year: year, month: month, day: day)
 			end
 
 			# YYYYMM
-			def month(year, month)
-				cgi = FakeCGI.new
-				cgi.params['date'] = ["#{year}#{month}"]
-				TDiaryMonthWithoutFilter::new(cgi, '', @conf)
+			def self.find_by_month(conf, year, month)
+				new(conf: conf, year: year, month: month)
 			end
 
-			# YYYYMMDD
-			def day(year, month, day)
+			def initialize(conf: nil, year: nil, month: nil, day: nil)
 				cgi = FakeCGI.new
-				cgi.params['date'] = ["#{year}#{month}#{day}"]
-				TDiaryDayWithoutFilter::new(cgi, '', @conf)
+				if year && month && day
+					cgi.params['date'] = ["#{year}#{month}#{day}"]
+					@controller = TDiaryDayWithoutFilter::new(cgi, '', conf)
+				elsif year && month
+					cgi.params['date'] = ["#{year}#{month}"]
+					@controller = TDiaryMonthWithoutFilter::new(cgi, '', conf)
+				else
+					raise StandardError.new
+				end
+			end
+
+			def conf
+				@controller.conf
+			end
+
+			def diaries
+				# Hash of 'YYYYMMDD' => TDiary::Style::WikiDiary
+				@controller.diaries
 			end
 
 			class FakeCGI < CGI
