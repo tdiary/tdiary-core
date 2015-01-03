@@ -40,6 +40,9 @@ module TDiary
 
 			class FakeCGI < CGI
 				def refeter; nil end
+				def user_agent; nil; end
+				def mobile_agent?; nil; end
+				def request_method; 'GET'; end
 			end
 		end
 	end
