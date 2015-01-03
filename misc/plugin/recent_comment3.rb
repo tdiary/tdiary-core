@@ -97,7 +97,7 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 		else
 			tree_order.each do |entry_date|
 				a_entry = @index + anchor(entry_date)
-				diary = Models::Diary::find_by_day(@conf, entry_date)
+				diary = DiaryContainer::find_by_day(@conf, entry_date)
 				title = diary.diaries[entry_date].title.gsub( /<[^>]*>/, '' ) if diary
 
 				if title.nil? || title.length == 0 || title.strip.delete('　').delete(' ').length == 0 then

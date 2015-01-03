@@ -3,9 +3,9 @@ require 'spec_helper'
 require 'tdiary'
 require 'tdiary/cache/file'
 require 'tdiary/io/default'
-require 'tdiary/models/diary'
+require 'tdiary/diary_container'
 
-describe TDiary::Models::Diary do
+describe TDiary::DiaryContainer do
 	let(:conf) { TDiary::Configuration.new }
 	let(:today) { Time.local(2005, 1, 20, 12, 0, 0) }
 
@@ -36,8 +36,8 @@ describe TDiary::Models::Diary do
   end
 
 	context "with find_by_month" do
-		let(:diary) { TDiary::Models::Diary.find_by_month(conf, "200501") }
-		it { expect(diary).to be_a_kind_of TDiary::Models::Diary }
+		let(:diary) { TDiary::DiaryContainer.find_by_month(conf, "200501") }
+		it { expect(diary).to be_a_kind_of TDiary::DiaryContainer }
 
 		describe "#conf" do
 			subject { diary.conf }
@@ -53,8 +53,8 @@ describe TDiary::Models::Diary do
 	end
 
 	context "with find_by_day" do
-		let(:diary) { TDiary::Models::Diary.find_by_day(conf, "20050120") }
-		it { expect(diary).to be_a_kind_of TDiary::Models::Diary }
+		let(:diary) { TDiary::DiaryContainer.find_by_day(conf, "20050120") }
+		it { expect(diary).to be_a_kind_of TDiary::DiaryContainer }
 
 		describe "#conf" do
 			subject { diary.conf }

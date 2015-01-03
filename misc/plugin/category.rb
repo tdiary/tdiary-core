@@ -479,7 +479,7 @@ class Cache
 
 			years.each do |y, ms|
 				ms.each do |m|
-					m = Models::Diary::find_by_month(@conf, "#{y}#{m}")
+					m = DiaryContainer::find_by_month(@conf, "#{y}#{m}")
 					m.diaries.each do |ymd, diary|
 						next if !diary.visible? or !diary.categorizable?
 						categorized = categorize_diary(diary)

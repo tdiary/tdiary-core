@@ -31,7 +31,7 @@ def recent_list( days = 30, date_format = nil, title_with_body = nil, show_size 
 	catch(:exit) {
 		@years.keys.sort.reverse_each do |year|
 			@years[year].sort.reverse_each do |month|
-				m = Models::Diary::find_by_month(@conf, "#{year}#{month}")
+				m = DiaryContainer::find_by_month(@conf, "#{year}#{month}")
 				m.diaries.keys.sort.reverse_each do |date|
 					next unless m.diaries[date].visible?
 					result << %Q|<li><a href="#{@index}#{anchor date}">#{m.diaries[date].date.strftime(date_format)}</a>\n|
