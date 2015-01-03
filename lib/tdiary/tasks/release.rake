@@ -36,6 +36,17 @@ def make_tarball( repo, version = nil )
 			Bundler.with_clean_env do
 					sh "bundle --path .bundle --without coffee:server:development:test"
 			end
+
+			# reduce filesize
+			Dir.glob('.bundle/ruby/*/cache/*').each do |file|
+				# cached gem file
+				rm_rf file
+			end
+			Dir.glob('.bundle/ruby/*/gems/*/*/').each do |dir|
+				# spec, fixtures etc..
+				rm_rf dir unless File.basename(dir).match(/lib|data/)
+			end
+
 			Dir.chdir '.bundle/ruby' do
 				v = `ls`.chomp
 				case v
