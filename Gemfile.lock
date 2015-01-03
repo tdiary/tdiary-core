@@ -143,4 +143,3 @@ DEPENDENCIES
   sqlite3
   test-unit
   therubyracer
-  trinidad
