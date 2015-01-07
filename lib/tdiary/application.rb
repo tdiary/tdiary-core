@@ -24,6 +24,14 @@ module TDiary
 			def config
 				@config ||= Configuration.new
 			end
+
+			def after_initialize(&callback)
+				after_initialize_procs << callback
+			end
+
+			def after_initialize_procs
+				@after_initialize_procs ||= []
+			end
 		end
 
 		def initialize( base_dir = '/' )
@@ -35,6 +43,7 @@ module TDiary
 					end
 				end
 			}
+			self.class.after_initialize_procs.each {|p| p.call(self) }
 		end
 
 		def call( env )
