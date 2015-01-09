@@ -58,7 +58,7 @@ module TDiary
 
 		desc "assets_copy", "copy assets files"
 		def assets_copy
-			require 'tdiary/environment'
+			require 'tdiary'
 			assets_path = File.join(TDiary.server_root, 'public/assets')
 			TDiary::Application.config.assets_paths.each do |path|
 				Dir.glob(File.join(path, '*')).each do |entity|
