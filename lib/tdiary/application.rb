@@ -64,9 +64,7 @@ module TDiary
 
 			map Application.config.path[:assets] do
 				environment = Sprockets::Environment.new
-				TDiary::Extensions::constants.map {|extension|
-					TDiary::Extensions::const_get( extension ).assets_path
-				}.flatten.uniq.each {|assets_path|
+				TDiary::Application.config.assets_paths.each {|assets_path|
 					environment.append_path assets_path
 				}
 
