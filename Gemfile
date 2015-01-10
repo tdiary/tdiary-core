@@ -11,16 +11,6 @@ group :coffee do
   gem 'therubyracer'
 end
 
-group :server do
-  platforms :mri do
-    gem 'thin'
-  end
-
-  platforms :jruby do
-    gem 'trinidad'
-  end
-end
-
 group :development do
   gem 'pit', require: false
   gem 'racksh', require: false
