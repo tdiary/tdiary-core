@@ -50,6 +50,7 @@ module TDiary
 	# Diary model class
 	autoload :Style,                    'tdiary/style'
 	autoload :Comment,                  'tdiary/comment'
+	autoload :DiaryContainer,           'tdiary/diary_container'
 
 	# Routing and Dispatch
 	autoload :Dispatcher,               'tdiary/dispatcher'
