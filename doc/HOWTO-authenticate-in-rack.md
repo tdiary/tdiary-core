@@ -52,7 +52,7 @@ gem 'omniauth-twitter'
 require 'tdiary/application/extensions/omniauth'
 ```
 
-### Twitter
+### Twitter Appsへのアプリケーションの登録
 
 Twitter 認証を使うためには、Twitter のサイトにてアプリケーションを登録する必要があります。[Twitter Apps](https://dev.twitter.com/apps/new)にアクセスし、以下の情報を入力して新しいアプリケーションを登録してください。
 
