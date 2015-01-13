@@ -27,7 +27,7 @@ module TDiary
 			def assets_paths
 				TDiary::Extensions::constants.map {|extension|
 					TDiary::Extensions::const_get( extension ).assets_path
-				}.flatten.uniq.each
+				}.flatten.uniq
 			end
 		end
 	end
