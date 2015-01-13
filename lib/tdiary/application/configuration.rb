@@ -1,7 +1,7 @@
 module TDiary
 	class Application
 		class Configuration
-			attr_accessor :assets_paths, :assets_precompile, :plugin_paths, :path, :builder_procs, :authenticate_proc
+			attr_accessor :assets_precompile, :plugin_paths, :path, :builder_procs, :authenticate_proc
 
 			def initialize
 				# if you need to auto compilation for CoffeeScript
@@ -22,6 +22,12 @@ module TDiary
 
 			def authenticate(middleware, *params, &block)
 				@authenticate_proc = proc { use middleware, *params, &block }
+			end
+
+			def assets_paths
+				TDiary::Extensions::constants.map {|extension|
+					TDiary::Extensions::const_get( extension ).assets_path
+				}.flatten.uniq
 			end
 		end
 	end
