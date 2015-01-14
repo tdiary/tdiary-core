@@ -46,7 +46,7 @@ module TDiary
 		end
 
 		module BaseDiary
-			include ERB::Util
+			include ::ERB::Util
 			include CommentManager
 			include RefererManager
 
