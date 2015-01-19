@@ -1,3 +1,6 @@
+2015-01-19  TADA Tadashi <t@tdtds.jp>
+	* plugin/amazon.rb: retry by returning error from rpaproxy
+
 2014-12-27  MATSUOKA Kohei <kohei@machu.jp>
 	* lib/tdiary/application.rb: fix #442: call extensions setup before the core setup
 	* lib/tdiary/application/extensions/omniauth.rb: fix error with base_dir 
