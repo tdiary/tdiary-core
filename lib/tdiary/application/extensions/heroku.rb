@@ -23,6 +23,8 @@ TDiary::Application.after_initialize do
 		'last_modified' => Time.now,  # FIXME
 		'logger' => TDiary.logger
 	)
-	binding.pry
-	plugin.makerss_write
+	# binding.pry
+
+	# create index.rdf on startup
+	plugin.makerss_update
 end
