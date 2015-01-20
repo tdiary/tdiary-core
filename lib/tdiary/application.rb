@@ -7,7 +7,7 @@ require 'tdiary/rack'
 # FIXME too dirty hack :-<
 class CGI
 	def env_table_rack
-		$RACK_ENV
+		$RACK_ENV || ENV
 	end
 
 	alias :env_table_orig :env_table

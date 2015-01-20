@@ -28,7 +28,7 @@
 # Distributed under the GPL2 or any later version.
 #
 
-if /^append|replace|comment|showcomment$/ =~ @mode then
+if /^append|replace|comment|showcomment|startup$/ =~ @mode then
 	unless @conf.description
 		@conf.description = @conf['whatsnew_list.rdf.description']
 	end
