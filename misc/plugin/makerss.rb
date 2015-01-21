@@ -486,6 +486,10 @@ add_edit_proc do
 	HTML
 end
 
+add_startup_proc do
+	makerss_update
+end
+
 def replace_entities( text )
 	unless @xml_entity_table then
 		@xml_entity_table = {

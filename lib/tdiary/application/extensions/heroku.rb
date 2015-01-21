@@ -21,10 +21,11 @@ TDiary::Application.after_initialize do
 		'date' => Time.now,
 		'comment' => nil,
 		'last_modified' => Time.now,  # FIXME
-		'logger' => TDiary.logger
+		'logger' => TDiary.logger,
+		# 'debug' => true
 	)
 	# binding.pry
 
-	# create index.rdf on startup
-	plugin.makerss_update
+	# run startup plugin
+	plugin.__send__(:startup_proc, self)
 end
