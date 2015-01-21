@@ -31,6 +31,7 @@ module TDiary
 			@conf_procs = {}
 			@conf_genre_label = {}
 			@content_procs = {}
+			@startup_procs = []
 			@cookies = []
 			@javascripts = []
 			@javascript_setting = []
@@ -335,6 +336,16 @@ module TDiary
 				raise PluginError::new( "Plugin error: #{key} is not found." )
 			end
 			@content_procs[key].call( date )
+		end
+
+		def add_startup_proc( block = Proc::new )
+			@startup_procs << block
+		end
+
+		def startup_proc( app )
+			@startup_procs.each do |proc|
+				proc.call( app )
+			end
 		end
 
 		def remove_tag( str )

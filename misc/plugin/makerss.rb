@@ -28,7 +28,7 @@
 # Distributed under the GPL2 or any later version.
 #
 
-if /^append|replace|comment|showcomment$/ =~ @mode then
+if /^append|replace|comment|showcomment|startup$/ =~ @mode then
 	unless @conf.description
 		@conf.description = @conf['whatsnew_list.rdf.description']
 	end
@@ -484,6 +484,10 @@ add_edit_proc do
 	#{@makerss_edit_label}
 	</label></div>
 	HTML
+end
+
+add_startup_proc do
+	makerss_update
 end
 
 def replace_entities( text )
