@@ -24,14 +24,6 @@ module TDiary
 			def config
 				@config ||= Configuration.new
 			end
-
-			def after_initialize(&callback)
-				after_initialize_procs << callback
-			end
-
-			def after_initialize_procs
-				@after_initialize_procs ||= []
-			end
 		end
 
 		def initialize( base_dir = '/' )
@@ -43,7 +35,7 @@ module TDiary
 					end
 				end
 			}
-			self.class.after_initialize_procs.each {|p| p.call(self) }
+			run_plugin_startup_procs
 		end
 
 		def call( env )
@@ -54,6 +46,36 @@ module TDiary
 				body << e.backtrace.join("\n")
 				[500, {'Content-Type' => 'text/plain'}, body]
 			end
+		end
+
+	private
+		def run_plugin_startup_procs
+			# avoid offline mode at CGI.new
+			ARGV.replace([""])
+			cgi = RackCGI.new
+
+			request = TDiary::Request.new(ENV, cgi)
+			conf = TDiary::Configuration.new(cgi, request)
+			tdiary = TDiary::TDiaryBase.new(cgi, '', conf)
+			io = conf.io_class.new(tdiary)
+
+			plugin = TDiary::Plugin.new(
+				'conf' => conf,
+				'mode' => 'startup',
+				'diaries' => tdiary.diaries,
+				'cgi' => cgi,
+				'years' => nil,
+				'cache_path' => io.cache_path,
+				'date' => Time.now,
+				'comment' => nil,
+				'last_modified' => Time.now,  # FIXME
+				'logger' => TDiary.logger,
+				# 'debug' => true
+			)
+			# binding.pry
+
+			# run startup plugin
+			plugin.__send__(:startup_proc, self)
 		end
 	end
 
