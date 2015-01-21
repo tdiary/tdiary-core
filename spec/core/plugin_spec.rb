@@ -379,6 +379,19 @@ describe TDiary::Plugin do
 			it { expect { subject }.to raise_error }
 		end
 	end
+
+	describe '#startup_proc' do
+		let (:proc) { lambda { "some plugin" } }
+		let (:app) { lambda { "tdiary application" } }
+		before do
+			@plugin.__send__(:add_startup_proc, &proc)
+		end
+
+		it 'add_startup_procで登録したブロックが実行されること' do
+			expect(proc).to receive(:call).with(app)
+			@plugin.__send__(:startup_proc, app)
+		end
+	end
 end
 
 # Local Variables:
