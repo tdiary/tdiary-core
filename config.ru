@@ -1,7 +1,5 @@
 $:.unshift( File.join(File::dirname( __FILE__ ), 'lib' ).untaint )
 require 'tdiary/application'
-#require 'tdiary/application/extensions/omniauth'
-#require 'tdiary/application/extensions/heroku'
 
 use ::Rack::Reloader unless ENV['RACK_ENV'] == 'production'
 base_dir = '/'
