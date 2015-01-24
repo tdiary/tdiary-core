@@ -5,6 +5,7 @@ gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
 gem 'gemoji'
+gem 'mail'
 
 group :coffee do
   gem 'coffee-script'
