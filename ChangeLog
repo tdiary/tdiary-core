@@ -1,5 +1,6 @@
 2015-01-24  TADA Tadashi <t@tdtds.jp>
 	* plugin/comment_mail-smtp.rb: use Mail gem instead of Net::SMTP
+	* plugin/comment_ajax.rb: set theme_url into js
 
 2015-01-19  TADA Tadashi <t@tdtds.jp>
 	* plugin/amazon.rb: retry by returning error from rpaproxy

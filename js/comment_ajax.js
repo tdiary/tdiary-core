@@ -12,7 +12,7 @@ $(function() {
 		$('<input type="hidden">').attr('name', 'comment').appendTo(form);
 		$(':submit', form).attr('disabled', 'disabled');
 		$('div.button input', form).hide();
-		$('div.button', form).append('<div id="loading-button"><img src="theme/loading.gif">')
+		$('div.button', form).append('<div id="loading-button"><img src="' + $tDiary.plugin.comment_ajax.theme + '/loading.gif">')
 		$.post(form.attr('action'), form.serialize(), function(data) {
 			$('#loading-button').remove();
 			$('div.button input', form).show();
