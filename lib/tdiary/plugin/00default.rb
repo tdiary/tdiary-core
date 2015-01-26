@@ -383,7 +383,7 @@ def script_tag
 	require 'uri'
 	query = script_tag_query_string
 	html = @javascripts.sort.map {|script|
-		if URI(script).scheme
+		if URI(script).scheme or script =~ %r|\A//|
 			%Q|<script src="#{script}" type="text/javascript"></script>|
 		else
 			%Q|<script src="#{js_url}/#{script}#{query}" type="text/javascript"></script>|

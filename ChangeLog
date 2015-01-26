@@ -1,3 +1,6 @@
+2015-01-26  TADA Tadashi <t@tdtds.jp>
+	* accept external JavaScript or CSS URL without scheme
+
 2015-01-24  TADA Tadashi <t@tdtds.jp>
 	* plugin/comment_mail-smtp.rb: use Mail gem instead of Net::SMTP
 	* plugin/comment_ajax.rb: set theme_url into js
