@@ -342,12 +342,13 @@ def default_ogp
 		uri = @conf.index.dup
 		uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 		uri.gsub!( %r|/\./|, '/' )
+		image = File.join(uri, "#{theme_url}/ogimage.png")
 		if @mode == 'day' then
 			uri += anchor( @date.strftime( '%Y%m%d' ) )
 		end
 		%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
 		<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
-		<meta content="#{h uri}#{h theme_url}/ogimage.png" property="og:image">
+		<meta content="#{h image}" property="og:image">
 		<meta content="#{h uri}" property="og:url">]
 	end
 end

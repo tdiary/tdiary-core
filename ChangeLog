@@ -1,3 +1,6 @@
+2015-01-27  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: fix #482 by another code: bad url of og:image
+
 2015-01-26  TADA Tadashi <t@tdtds.jp>
 	* accept external JavaScript or CSS URL without scheme
 	* plugin/theme_online.rb: support another theme site by options
