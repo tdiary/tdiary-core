@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 require 'tdiary/application'
-require 'tdiary/rack/auth/omniauth'
 begin
 	require 'rack/session/dalli'
 rescue LoadError
