@@ -1,3 +1,6 @@
+2015-01-28  TADA Tadashi <t@tdtds.jp>
+	* use Rack::Session::Dalli automatically if dalli gem loaded
+
 2015-01-27  TADA Tadashi <t@tdtds.jp>
 	* plugin/00default.rb: fix #482 by another code: bad url of og:image
 
