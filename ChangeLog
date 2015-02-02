@@ -1,3 +1,6 @@
+2015-02-02  TADA Tadashi <t@tdtds.jp>
+	* Gemfile: work around about rack 1.6 not separate params with ';'. see #485
+
 2015-01-28  TADA Tadashi <t@tdtds.jp>
 	* use Rack::Session::Dalli automatically if dalli gem loaded
 

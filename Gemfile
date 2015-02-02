@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack'
+gem 'rack', '~> 1.5.0'
 gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
