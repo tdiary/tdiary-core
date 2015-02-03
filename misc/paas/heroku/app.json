@@ -1,0 +1,16 @@
+{
+  "name": "tDiary",
+  "website": "http://www.tdiary.org/",
+  "repository": "https://github.com/tdtds/tdiary-on-heroku/tree/heroku",
+  "addons": [
+    "sendgrid",
+    "memcachier",
+    "mongolab"
+  ],
+  "env": {
+    "TWITTER_KEY": "",
+    "TWITTER_SECRET": "",
+	 "TWITTER_NAME": "",
+    "RACK_ENV": "production"
+  }
+}
