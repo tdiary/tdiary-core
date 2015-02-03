@@ -21,54 +21,20 @@ tDiary を PaaS で動作させるためには以下のツールが必要とな�
 動かし方 - Heroku の場合
 ----
 
-tDiary の最新版を取得します。
+日記の更新時にTwitterのOAuthを使って認証するようになっています。あらかじめ[Twitter Application Management](https://apps.twitter.com/)にてアプリケーションを作成し、Consumer Key (API Key) と Consumer Secret (API Secret) を取得しておきます。
 
-```
-git clone git://github.com/tdiary/tdiary-core.git
-```
+続いて GitHub 上にある[tDiaryのリポジトリ](https://github.com/tdiary/tdiary-core)から、Herokuボタンを使ってデプロイしてください(トップページ下部のREADMEにあります)。
 
-続いて、依存するライブラリをインストールするために bundle install コマンドを実行します。
+Heroku の New App ページになったら、下記の情報を入力して、Deploy for Free ボタンを押します。
 
-```
-% cd tdiary-core
-% bundle install
-```
+* App Name (任意)
+* TWITTER_KEY: Twitter の Consumer Key (API Key)
+* TWITTER_SECRET: Twitter の Consumer Secret (API Secret)
+* TWITTER_NAME: 認証に使う Twitter のユーザ名
 
-heroku コマンドを用いて Heroku でアプリケーションを作成します。なお、Heroku のアカウント作成方法は本ドキュメントでは省略します。tDiary のルートディレクトリ(Gemfile が存在する箇所) で以下のコマンドを実行します。
+「Deployed to Heroku」まで進めば利用可能です。「View it」のリンクから日記に飛んで下さい。
 
-```
-% heroku apps:create [アプリケーション名]
-```
-
-アプリケーション名には mydiary など任意の名前を英数字で入力します。続いて、Heroku 専用の作業ブランチを作成します。
-
-```
-% git checkout -b deploy
-```
-
-作業ブランチで Heroku で動かすために必要な設定ファイルをコピーします。
-
-```
-% cp misc/paas/heroku/* .
-```
-
-続いて .gitignore の 2 行目の .htpasswd と 9 行目の tdiary.conf を削除します。
-
-日記更新時に必要となるユーザー名とパスワードを保存する .htpasswd ファイルを作成します。この情報は重要なので、外部には公開しないでください。
-
-```
-% bundle exec bin/tdiary htpasswd
-```
-
-ここまでの変更内容を deploy ブランチにコミットし、Heroku にアプリケーションを転送します。
-
-```
-git add .
-git commit -m "deploy"
-git push heroku deploy:master
-```
-
-これで http://mydiary.herokuapp.com にアクセスして日記を書くことができます。
+【注意】View itから飛んだ先のURLは https://～ になっています。いったん http://～ にしないと認証が通らないので注意してください。なお、設定画面で「日記のURL」を https://～ に変更することで https での利用が可能です。
 
 動かし方 - sqale の場合
 ----
