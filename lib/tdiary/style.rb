@@ -2,6 +2,7 @@
 
 require 'tdiary/comment_manager'
 require 'tdiary/referer_manager'
+require 'erb'
 
 module TDiary
 	module Style
