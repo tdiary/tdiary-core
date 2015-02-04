@@ -9,11 +9,11 @@
   ],
   "scripts": {
     "postdeploy": "bundle exec rake mongodb:index"
-  }
+  },
   "env": {
     "TWITTER_KEY": "",
     "TWITTER_SECRET": "",
 	 "TWITTER_NAME": "",
     "RACK_ENV": "production"
-  },
+  }
 }
