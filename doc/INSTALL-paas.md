@@ -6,20 +6,10 @@ Install to PaaS
 
 tDiary-3.1.3 以降のバージョンでは tDiary を [Heroku](http://www.heroku.com) や [sqale](http://sqale.jp) のような PasS で動かすことが可能です。PaaS を利用することで、3.1.3 以前のバージョンで必要とされていた Apache のような http サーバーの用意や CGI として動作させるための環境設定を行う事なく、 tDiary を動かして日記を書くことが可能となります。
 
-必要なもの
------
-
-tDiary を PaaS で動作させるためには以下のツールが必要となります。
-
-  - [git](http://git-scm.com)
-  - Ruby 1.9.2 以降
-  - RubyGems 1.3.7 以降
-  - Bundler 1.0.0 以降
-
-また、よくわからない場合は Heroku が配布している [heroku toolbelt](https://toolbelt.heroku.com) を用いると簡単に上記のツールをインストールすることができます。
-
 動かし方 - Heroku の場合
 ----
+
+Webブラウザだけあれば動作させることが可能です。
 
 日記の更新時にTwitterのOAuthを使って認証するようになっています。あらかじめ[Twitter Application Management](https://apps.twitter.com/)にてアプリケーションを作成し、Consumer Key (API Key) と Consumer Secret (API Secret) を取得しておきます。
 
@@ -39,7 +29,16 @@ Heroku の New App ページになったら、下記の情報を入力して、D
 動かし方 - sqale の場合
 ----
 
-tDiary の最新版を取得します。
+tDiary を sqale で動作させるためには以下のツールが必要となります。
+
+  - [git](http://git-scm.com)
+  - Ruby 1.9.2 以降
+  - RubyGems 1.3.7 以降
+  - Bundler 1.0.0 以降
+
+また、よくわからない場合は Heroku が配布している [heroku toolbelt](https://toolbelt.heroku.com) を用いると簡単に上記のツールをインストールすることができます。
+
+git を使って tDiary の最新版を取得します。
 
 ```
 git clone git://github.com/tdiary/tdiary-core.git
