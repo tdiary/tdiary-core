@@ -8,12 +8,12 @@
 def system_update
 	token = @conf['system_update.token'] || ''
 	user  = @conf['system_update.user'] || ''
-	raise StandardError.new('no token or user')
+	raise StandardError.new('no token or user') if token.empty? || user.empty?
 
 	client = Octokit::Client.new(access_token: token)
-	title = "system update on #{Time.local}"
+	title = "system update on #{Time.now}"
 	body = 'update by system_update plugin'
-	pull_request = client.create_pull_request("#{user}/tdiary-core", 'heroku', 'tdiary', title, body)
+	pull_request = client.create_pull_request("#{user}/tdiary-core", 'heroku', 'tdiary:heroku', title, body)
 	client.merge_pull_request("#{user}/tdiary-core", pull_request[:number])
 end
 
@@ -25,6 +25,7 @@ add_conf_proc('system_update', 'システム更新', 'basic') do
 		begin
 			system_update if @cgi.valid?('system_update.run')
 		rescue
+			@logger.error $!
 			@error = $!.message
 		end
 	end
@@ -35,7 +36,7 @@ add_conf_proc('system_update', 'システム更新', 'basic') do
 		<p>GitHub access token (40文字): <input type="text" id="system_update.token" name="system_update.token" size="40" value="#{h @conf['system_update.token']}"></p>
 		<p>GitHub user name: <input type="text" id="system_update.user" name="system_update.user" size="20" value="#{h @conf['system_update.user']}"></p>
 		<hr>
-		<p><label for="system_update">
+		<p><label for="system_update.run">
 			<input type="checkbox" id="system_update.run" name="system_update.run" value="1">システムを更新する</input>
 		</label></p>
 	HTML
