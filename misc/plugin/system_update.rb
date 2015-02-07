@@ -14,7 +14,7 @@ def system_update
 	title = "system update on #{Time.local}"
 	body = 'update by system_update plugin'
 	pull_request = client.create_pull_request("#{user}/tdiary-core", 'heroku', 'tdiary', title, body)
-	#client.merge_pull_request("#{user}/tdiary-core", pull_request[])
+	client.merge_pull_request("#{user}/tdiary-core", pull_request[:number])
 end
 
 add_conf_proc('system_update', 'システム更新', 'basic') do
