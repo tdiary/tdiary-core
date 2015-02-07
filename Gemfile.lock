@@ -60,6 +60,8 @@ GEM
     docile (1.1.5)
     eventmachine (1.0.6)
     execjs (2.3.0)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     fastimage (1.6.6)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.6)
@@ -96,10 +98,13 @@ GEM
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
     multi_json (1.10.1)
+    multipart-post (2.0.0)
     netrc (0.10.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
+    octokit (3.4.0)
+      sawyer (~> 0.5.3)
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
@@ -152,6 +157,9 @@ GEM
       rspec-support (~> 3.2.0)
     rspec-support (3.2.1)
     rubyzip (1.1.7)
+    sawyer (0.5.5)
+      addressable (~> 2.3.5)
+      faraday (~> 0.8, < 0.10)
     selenium-webdriver (2.44.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -222,6 +230,7 @@ DEPENDENCIES
   launchy
   mail
   memcachier
+  octokit
   omniauth
   omniauth-twitter
   pit
