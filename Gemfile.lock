@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/tdiary/tdiary-contrib.git
-  revision: f8315ec60ab37c84eb963f9c5002f31368797ad2
+  revision: 0d79fb0ae755b23cf90bb3a215856549eac7aadd
   specs:
     tdiary-contrib (4.1.1)
       tdiary
@@ -25,7 +25,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.6)
+    addressable (2.3.7)
     bson (2.3.0)
     builder (3.2.2)
     byebug (3.5.1)
@@ -58,9 +58,9 @@ GEM
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    eventmachine (1.0.6)
+    eventmachine (1.0.7)
     execjs (2.3.0)
-    faraday (0.9.0)
+    faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     fastimage (1.6.6)
       addressable (~> 2.3, >= 2.3.5)
@@ -103,8 +103,8 @@ GEM
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
-    octokit (3.4.0)
-      sawyer (~> 0.5.3)
+    octokit (3.7.1)
+      sawyer (~> 0.6.0, >= 0.5.3)
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
@@ -118,7 +118,7 @@ GEM
     origin (2.1.1)
     phantomjs (1.9.8.0)
     pit (0.0.7)
-    posix-spawn (0.3.9)
+    posix-spawn (0.3.10)
     power_assert (0.2.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -157,7 +157,7 @@ GEM
       rspec-support (~> 3.2.0)
     rspec-support (3.2.1)
     rubyzip (1.1.7)
-    sawyer (0.5.5)
+    sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
     selenium-webdriver (2.44.0)
