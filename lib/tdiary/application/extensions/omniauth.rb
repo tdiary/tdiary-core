@@ -23,7 +23,6 @@ TDiary::Application.configure do
 	end
 
 	config.authenticate TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
-		# TODO: an user can setting
-		auth.info.nickname == ENV['TWITTER_NAME']
+		ENV['TWITTER_NAME'].split(/,/).include?(auth.info.nickname)
 	end
 end
