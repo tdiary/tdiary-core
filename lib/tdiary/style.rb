@@ -2,6 +2,7 @@
 
 require 'tdiary/comment_manager'
 require 'tdiary/referer_manager'
+require 'erb'
 
 module TDiary
 	module Style
@@ -46,7 +47,7 @@ module TDiary
 		end
 
 		module BaseDiary
-			include ERB::Util
+			include ::ERB::Util
 			include CommentManager
 			include RefererManager
 

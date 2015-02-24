@@ -342,12 +342,13 @@ def default_ogp
 		uri = @conf.index.dup
 		uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 		uri.gsub!( %r|/\./|, '/' )
+		image = File.join(uri, "#{theme_url}/ogimage.png")
 		if @mode == 'day' then
 			uri += anchor( @date.strftime( '%Y%m%d' ) )
 		end
 		%Q[<meta content="#{title_tag.gsub(/<[^>]*>/, "")}" property="og:title">
 		<meta content="#{(@mode == 'day') ? 'article' : 'website'}" property="og:type">
-		<meta content="#{h uri}#{h theme_url}/ogimage.png" property="og:image">
+		<meta content="#{h image}" property="og:image">
 		<meta content="#{h uri}" property="og:url">]
 	end
 end
@@ -383,7 +384,7 @@ def script_tag
 	require 'uri'
 	query = script_tag_query_string
 	html = @javascripts.sort.map {|script|
-		if URI(script).scheme
+		if URI(script).scheme or script =~ %r|\A//|
 			%Q|<script src="#{script}" type="text/javascript"></script>|
 		else
 			%Q|<script src="#{js_url}/#{script}#{query}" type="text/javascript"></script>|

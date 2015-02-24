@@ -1,24 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'rack'
+gem 'rack', '~> 1.5.0'
 gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
 gem 'gemoji'
+gem 'mail'
 
 group :coffee do
   gem 'coffee-script'
   gem 'therubyracer'
-end
-
-group :server do
-  platforms :mri do
-    gem 'thin'
-  end
-
-  platforms :jruby do
-    gem 'trinidad'
-  end
 end
 
 group :development do

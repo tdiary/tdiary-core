@@ -117,13 +117,15 @@ def referer_update( diary )
 		end
 
 	when 'day'
-		referer_load_current( diary )
-		referer_save_current( diary, @cgi.referer )
-		if latest_day?( diary ) then
-			referer_load_volatile( @referer_volatile )
-		elsif @cgi.referer
-			referer_load_volatile( @referer_volatile )
-			referer_save_volatile( @referer_volatile, @cgi.referer )
+		if diary
+			referer_load_current( diary )
+			referer_save_current( diary, @cgi.referer )
+			if latest_day?( diary ) then
+				referer_load_volatile( @referer_volatile )
+			elsif @cgi.referer
+				referer_load_volatile( @referer_volatile )
+				referer_save_volatile( @referer_volatile, @cgi.referer )
+			end
 		end
 
 	when "edit"

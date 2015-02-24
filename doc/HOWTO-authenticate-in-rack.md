@@ -52,11 +52,20 @@ gem 'omniauth-twitter'
 require 'tdiary/application/extensions/omniauth'
 ```
 
+### Twitter Appsへのアプリケーションの登録
+
+Twitter 認証を使うためには、Twitter のサイトにてアプリケーションを登録する必要があります。[Twitter Apps](https://dev.twitter.com/apps/new)にアクセスし、以下の情報を入力して新しいアプリケーションを登録してください。
+
+  - Name: アプリケーションの名前です。設置する日記のタイトルを設定すると分かりやすいでしょう。
+  - Description: アプリケーションの説明です。迷ったら「日記へログインするためのTwitter認証」などとすると良いでしょう。
+  - Website: アプリケーションのURLです。設置する日記のトップページを設定すると分かりやすいでしょう。
+  - Callback URL: 認証後に移動するURLです。Websiteと同じURLを設定してください。
+
+Name, Description, Websiteに設定した値は、Twitterのアプリ連携画面（認証画面）に表示されます。また、Callback URLを空欄にするとTwitter認証が動作しなくなります。任意のURLで良いので設定してください。
+
 ### 鍵とパスワードの取得と環境変数への設定
 
-Twitter 認証を使うためには、Twitter認証を利用するための鍵 (Consumer key) とパスワード (Consumer secret) としてTWITTER_KEYとTWITTER_SECRETを環境変数として設定する必要があります。これらは[Twitterのサイト](https://dev.twitter.com/apps/new)から取得できます。
-
-鍵とパスワードを取得したら環境変数に設定します。
+Twitterのサイトから鍵とパスワードを取得したら、鍵 (Consumer key) とパスワード (Consumer secret) をそれぞれ環境変数として設定します。
 
 ```
 export TWITTER_KEY="your_consumer_key"

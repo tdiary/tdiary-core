@@ -31,6 +31,7 @@ module TDiary
 			@conf_procs = {}
 			@conf_genre_label = {}
 			@content_procs = {}
+			@startup_procs = []
 			@cookies = []
 			@javascripts = []
 			@javascript_setting = []
@@ -337,6 +338,16 @@ module TDiary
 			@content_procs[key].call( date )
 		end
 
+		def add_startup_proc( block = Proc::new )
+			@startup_procs << block
+		end
+
+		def startup_proc( app )
+			@startup_procs.each do |proc|
+				proc.call( app )
+			end
+		end
+
 		def remove_tag( str )
 			str.gsub( /<[^"'<>]*(?:"[^"]*"[^"'<>]*|'[^']*'[^"'<>]*)*(?:>|(?=<)|$)/, '' )
 		end
@@ -344,8 +355,8 @@ module TDiary
 		def apply_plugin( str, remove_tag = false )
 			return '' unless str
 			r = str.dup
-			if @conf.options['apply_plugin'] and str.index( '<%' ) then
-				r = str.untaint if $SAFE < 3
+			if @conf.options['apply_plugin'] and r.index( '<%' ) then
+				r = r.untaint if $SAFE < 3
 				Safe::safe( @conf.secure ? 4 : 1 ) do
 					begin
 						r = ERB::new( r ).result( binding )

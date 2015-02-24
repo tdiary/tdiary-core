@@ -9,10 +9,10 @@
 
 if !@cgi.mobile_agent? && /\A(?:form|preview|append|edit|update)\z/ =~ @mode
 	add_header_proc do
-		%Q|<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
+		%Q|<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
 	end
 
-	enable_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
+	enable_js('//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
 	enable_js('caretposition.js')
 	enable_js('category_autocomplete.js')
 

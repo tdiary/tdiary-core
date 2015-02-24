@@ -1,3 +1,26 @@
+2015-02-19  TADA Tadashi <t@tdtds.jp>
+	* enable to specify multiple twitter user in OmniAuth
+
+2015-02-02  TADA Tadashi <t@tdtds.jp>
+	* Gemfile: work around about rack 1.6 not separate params with ';'. see #485
+
+2015-01-28  TADA Tadashi <t@tdtds.jp>
+	* use Rack::Session::Dalli automatically if dalli gem loaded
+
+2015-01-27  TADA Tadashi <t@tdtds.jp>
+	* plugin/00default.rb: fix #482 by another code: bad url of og:image
+
+2015-01-26  TADA Tadashi <t@tdtds.jp>
+	* accept external JavaScript or CSS URL without scheme
+	* plugin/theme_online.rb: support another theme site by options
+
+2015-01-24  TADA Tadashi <t@tdtds.jp>
+	* plugin/comment_mail-smtp.rb: use Mail gem instead of Net::SMTP
+	* plugin/comment_ajax.rb: set theme_url into js
+
+2015-01-19  TADA Tadashi <t@tdtds.jp>
+	* plugin/amazon.rb: retry by returning error from rpaproxy
+
 2014-12-27  MATSUOKA Kohei <kohei@machu.jp>
 	* lib/tdiary/application.rb: fix #442: call extensions setup before the core setup
 	* lib/tdiary/application/extensions/omniauth.rb: fix error with base_dir 

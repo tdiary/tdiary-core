@@ -58,7 +58,7 @@ module TDiary
 
 		desc "assets_copy", "copy assets files"
 		def assets_copy
-			require 'tdiary/environment'
+			require 'tdiary'
 			assets_path = File.join(TDiary.server_root, 'public/assets')
 			TDiary::Application.config.assets_paths.each do |path|
 				Dir.glob(File.join(path, '*')).each do |entity|
@@ -96,7 +96,10 @@ module TDiary
 			"bind to the IP"
 		method_option "port", aliases: "p", type: :numeric, default: 19292, banner:
 			"use PORT"
+		method_option "log", aliases: "l", type: :string, banner:
+			"File to redirect output"
 		def server
+			require 'tdiary'
 			require 'tdiary/environment'
 
 			if options[:cgi]
@@ -105,12 +108,13 @@ module TDiary
 					:bind   => options[:bind],
 					:port   => options[:port],
 					:logger => $stderr,
-					:access_log => $stderr,
+					:access_log => options[:log] ? File.open(options[:log], 'a') : $stderr
 				}
 				TDiary::Server.run( opts )
 			elsif
 				# --rack option
 				# Rack::Server reads ARGV as :config, so delete it
+				require 'webrick'
 				ARGV.shift
 				opts = {
 					:environment => ENV['RACK_ENV'] || "development",
@@ -118,9 +122,11 @@ module TDiary
 					:Host        => options[:bind],
 					:Port        => options[:port],
 					:pid         => File.expand_path("tdiary.pid"),
-					:AccessLog   => $stderr,
 					:config      => File.expand_path("config.ru")
 				}
+				if options[:log]
+					opts[:AccessLog] = [[File.open(options[:log], 'a'), WEBrick::AccessLog::CLF]]
+				end
 				::Rack::Server.start( opts )
 			end
 		end
