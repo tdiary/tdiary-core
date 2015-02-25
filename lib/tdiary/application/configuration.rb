@@ -1,7 +1,7 @@
 module TDiary
 	class Application
 		class Configuration
-			attr_accessor :assets_precompile, :plugin_paths, :path, :builder_procs, :authenticate_proc
+			attr_accessor :assets_precompile, :plugin_paths, :path, :builder_procs
 
 			def initialize
 				# if you need to auto compilation for CoffeeScript
@@ -13,15 +13,10 @@ module TDiary
 					assets: '/assets'
 				}
 				@builder_procs = []
-				@authenticate_proc = proc { }
 			end
 
 			def builder(&block)
 				@builder_procs << block
-			end
-
-			def authenticate(middleware, *params, &block)
-				@authenticate_proc = proc { use middleware, *params, &block }
 			end
 
 			def assets_paths

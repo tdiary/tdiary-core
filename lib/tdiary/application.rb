@@ -3,6 +3,11 @@ require 'tdiary'
 require 'rack/builder'
 require 'tdiary/application/configuration'
 require 'tdiary/rack'
+begin
+	require 'omniauth'
+	require 'rack/session/dalli'
+rescue LoadError
+end
 
 # FIXME too dirty hack :-<
 class CGI
@@ -81,6 +86,22 @@ module TDiary
 
 	Application.configure do
 		config.builder do
+			if defined? ::OmniAuth
+				if ::Rack::Session.const_defined? :Dalli
+					use ::Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: 2592000
+				else
+					use ::Rack::Session::Pool, expire_after: 2592000
+				end
+				use OmniAuth::Builder do
+					configure {|conf| conf.path_prefix = "/auth" }
+					provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+				end
+
+				map('/auth') do
+					run TDiary::Rack::Auth::OmniAuth::CallbackHandler.new
+				end
+			end
+
 			map Application.config.path[:index] do
 				use TDiary::Rack::HtmlAnchor
 				use TDiary::Rack::Static, "public"
@@ -89,7 +110,13 @@ module TDiary
 			end
 
 			map Application.config.path[:update] do
-				instance_eval &Application.config.authenticate_proc
+				if defined? OmniAuth
+					use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
+						ENV['TWITTER_NAME'].split(/,/).include?(auth.info.nickname)
+					end
+				else
+					use TDiary::Rack::Auth::Basic, '.htpasswd'
+				end
 				run TDiary::Dispatcher.update
 			end
 
@@ -107,8 +134,6 @@ module TDiary
 				run environment
 			end
 		end
-
-		config.authenticate TDiary::Rack::Auth::Basic, '.htpasswd'
 	end
 end
 
