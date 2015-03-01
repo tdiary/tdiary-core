@@ -32,14 +32,57 @@ module TDiary
 		end
 
 		def initialize( base_dir = '/' )
-			@app = ::Rack::Builder.app {
+			@app = ::Rack::Builder.app do
 				map base_dir do
-					# call extensions setup before the core setup (fixed #442)
-					Application.config.builder_procs.reverse.each do |builder_proc|
-						instance_eval &builder_proc
+					if defined? ::OmniAuth
+						if ::Rack::Session.const_defined? :Dalli
+							use ::Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: 2592000
+						else
+							use ::Rack::Session::Pool, expire_after: 2592000
+						end
+						use OmniAuth::Builder do
+							configure {|conf| conf.path_prefix = "/auth" }
+							provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+						end
+
+						map('/auth') do
+							run TDiary::Rack::Auth::OmniAuth::CallbackHandler.new
+						end
 					end
+
+					map Application.config.path[:index] do
+						use TDiary::Rack::HtmlAnchor
+						use TDiary::Rack::Static, "public"
+						use TDiary::Rack::ValidRequestPath
+						run TDiary::Dispatcher.index
+					end
+
+					map Application.config.path[:update] do
+						if defined? OmniAuth
+							use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
+								ENV['TWITTER_NAME'].split(/,/).include?(auth.info.nickname)
+							end
+						else
+							use TDiary::Rack::Auth::Basic, '.htpasswd'
+						end
+						run TDiary::Dispatcher.update
+					end
+
+					map Application.config.path[:assets] do
+						environment = Sprockets::Environment.new
+						TDiary::Application.config.assets_paths.each {|assets_path|
+							environment.append_path assets_path
+						}
+
+						if Application.config.assets_precompile
+							require 'tdiary/rack/assets/precompile'
+							use TDiary::Rack::Assets::Precompile, environment
+						end
+
+						run environment
+					end	
 				end
-			}
+			end
 			run_plugin_startup_procs
 		end
 
@@ -81,58 +124,6 @@ module TDiary
 
 			# run startup plugin
 			plugin.__send__(:startup_proc, self)
-		end
-	end
-
-	Application.configure do
-		config.builder do
-			if defined? ::OmniAuth
-				if ::Rack::Session.const_defined? :Dalli
-					use ::Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: 2592000
-				else
-					use ::Rack::Session::Pool, expire_after: 2592000
-				end
-				use OmniAuth::Builder do
-					configure {|conf| conf.path_prefix = "/auth" }
-					provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-				end
-
-				map('/auth') do
-					run TDiary::Rack::Auth::OmniAuth::CallbackHandler.new
-				end
-			end
-
-			map Application.config.path[:index] do
-				use TDiary::Rack::HtmlAnchor
-				use TDiary::Rack::Static, "public"
-				use TDiary::Rack::ValidRequestPath
-				run TDiary::Dispatcher.index
-			end
-
-			map Application.config.path[:update] do
-				if defined? OmniAuth
-					use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
-						ENV['TWITTER_NAME'].split(/,/).include?(auth.info.nickname)
-					end
-				else
-					use TDiary::Rack::Auth::Basic, '.htpasswd'
-				end
-				run TDiary::Dispatcher.update
-			end
-
-			map Application.config.path[:assets] do
-				environment = Sprockets::Environment.new
-				TDiary::Application.config.assets_paths.each {|assets_path|
-					environment.append_path assets_path
-				}
-
-				if Application.config.assets_precompile
-					require 'tdiary/rack/assets/precompile'
-					use TDiary::Rack::Assets::Precompile, environment
-				end
-
-				run environment
-			end
 		end
 	end
 end

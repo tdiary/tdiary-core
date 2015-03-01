@@ -1,7 +1,7 @@
 module TDiary
 	class Application
 		class Configuration
-			attr_accessor :assets_precompile, :plugin_paths, :path, :builder_procs
+			attr_accessor :assets_precompile, :plugin_paths, :path
 
 			def initialize
 				# if you need to auto compilation for CoffeeScript
@@ -12,11 +12,6 @@ module TDiary
 					update: '/update.rb',
 					assets: '/assets'
 				}
-				@builder_procs = []
-			end
-
-			def builder(&block)
-				@builder_procs << block
 			end
 
 			def assets_paths
