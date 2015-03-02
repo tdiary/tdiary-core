@@ -4,6 +4,7 @@ module TDiary
 	module Rack
 		autoload :HtmlAnchor,       'tdiary/rack/html_anchor'
 		autoload :ValidRequestPath, 'tdiary/rack/valid_request_path'
+		autoload :Session,          'tdiary/rack/session'
 		autoload :Static,           'tdiary/rack/static'
 
 		module Assets

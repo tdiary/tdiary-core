@@ -35,11 +35,7 @@ module TDiary
 			@app = ::Rack::Builder.app do
 				map base_dir do
 					if defined? ::OmniAuth
-						if ::Rack::Session.const_defined? :Dalli
-							use ::Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: 2592000
-						else
-							use ::Rack::Session::Pool, expire_after: 2592000
-						end
+						use TDiary::Rack::Session
 						use OmniAuth::Builder do
 							configure {|conf| conf.path_prefix = "/auth" }
 							provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
