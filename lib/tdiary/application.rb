@@ -5,7 +5,6 @@ require 'tdiary/application/configuration'
 require 'tdiary/rack'
 begin
 	require 'omniauth'
-	require 'rack/session/dalli'
 rescue LoadError
 end
 
@@ -34,18 +33,6 @@ module TDiary
 		def initialize( base_dir = '/' )
 			@app = ::Rack::Builder.app do
 				map base_dir do
-					if defined? ::OmniAuth
-						use TDiary::Rack::Session
-						use OmniAuth::Builder do
-							configure {|conf| conf.path_prefix = "/auth" }
-							provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-						end
-
-						map('/auth') do
-							run TDiary::Rack::Auth::OmniAuth::CallbackHandler.new
-						end
-					end
-
 					map Application.config.path[:index] do
 						use TDiary::Rack::HtmlAnchor
 						use TDiary::Rack::Static, "public"
@@ -55,6 +42,10 @@ module TDiary
 
 					map Application.config.path[:update] do
 						if defined? OmniAuth
+							use TDiary::Rack::Session
+							use OmniAuth::Builder do
+								provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
+							end
 							use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
 								ENV['TWITTER_NAME'].split(/,/).include?(auth.info.nickname)
 							end
