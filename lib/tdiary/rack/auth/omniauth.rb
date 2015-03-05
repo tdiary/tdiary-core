@@ -2,7 +2,7 @@ require 'omniauth'
 
 module TDiary
 	module Rack
-		module Auth
+		class Auth
 			class OmniAuth
 				def initialize(app, provider, &block)
 					@app = app

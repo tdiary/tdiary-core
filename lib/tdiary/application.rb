@@ -3,10 +3,6 @@ require 'tdiary'
 require 'rack/builder'
 require 'tdiary/application/configuration'
 require 'tdiary/rack'
-begin
-	require 'omniauth'
-rescue LoadError
-end
 
 # FIXME too dirty hack :-<
 class CGI
@@ -41,17 +37,7 @@ module TDiary
 					end
 
 					map Application.config.path[:update] do
-						if defined? OmniAuth
-							use TDiary::Rack::Session
-							use OmniAuth::Builder do
-								provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-							end
-							use TDiary::Rack::Auth::OmniAuth, :twitter do |auth|
-								ENV['TWITTER_NAME'].split(/,/).include?(auth.info.nickname)
-							end
-						else
-							use TDiary::Rack::Auth::Basic, '.htpasswd'
-						end
+						use TDiary::Rack::Auth
 						run TDiary::Dispatcher.update
 					end
 
