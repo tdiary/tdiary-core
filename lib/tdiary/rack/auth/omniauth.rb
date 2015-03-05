@@ -14,7 +14,7 @@ module TDiary
 					if not authenticate?(env)
 						# phase 1: request phase
 						login(env)
-					elsif env['REQUEST_PATH'].match(/callback$/)
+					elsif env['REQUEST_PATH'].match(%r|auth/#{@provider}/callback$|)
 						# phase 2: callback phase
 						callback(env)
 					else
@@ -27,9 +27,9 @@ module TDiary
 				end
 
 				def login(env)
-					env['rack.session']['tdiary.auth.redirect'] =
-						"#{env['REQUEST_PATH']}?#{env['QUERY_STRING']}"
-					redirect = File.join(env['REQUEST_PATH'], "#{::OmniAuth.config.path_prefix}/#{@provider}")
+					req = ::Rack::Request.new(env)
+					env['rack.session']['tdiary.auth.redirect'] = "#{req.base_url}#{req.fullpath}"
+					redirect = File.join("#{req.base_url}#{req.path}", "#{::OmniAuth.config.path_prefix}/#{@provider}")
 					[302, {'Content-Type' => 'text/plain', 'Location' => redirect}, []]
 				end
 
