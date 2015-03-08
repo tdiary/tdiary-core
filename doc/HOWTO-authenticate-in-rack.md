@@ -39,17 +39,11 @@ htpasswd -cd .htpasswd username
 
 ### ライブラリを有効にする
 
-まず、利用する外部サービスに対応したライブラリを有効にします。Twitter認証では `omniauth-twitter` ライブラリを使用します。Gemfile.localにて以下の行が有効になっていることを確認してください。無ければ追加してください。
+利用する外部サービスに対応したライブラリを有効にします。Twitter認証では `omniauth-twitter` ライブラリを使用します。Gemfile.localにて以下の行が有効になっていることを確認してください。無ければ追加してください。
 
 ```
 gem 'omniauth'
 gem 'omniauth-twitter'
-```
-
-次に設定ファイル `config.ru` を編集します。 ```run TDiary::Applicationn.new( base_dir )``` の前に以下の行を追加します。無ければ追加してください。
-
-```
-require 'tdiary/application/extensions/omniauth'
 ```
 
 ### Twitter Appsへのアプリケーションの登録
