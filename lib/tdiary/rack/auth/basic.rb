@@ -3,7 +3,7 @@ require 'webrick/httpauth/htpasswd'
 
 module TDiary
 	module Rack
-		module Auth
+		class Auth
 			class PasswordFileNotFound < StandardError; end
 
 			class Basic
