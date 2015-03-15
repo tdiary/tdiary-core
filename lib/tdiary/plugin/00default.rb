@@ -1002,7 +1002,7 @@ end
 # old ruby alert
 #
 def old_ruby_alert
-	if RUBY_VERSION < '1.9' and !@conf['old_ruby_alert.hide']
+	if RUBY_VERSION < '2.0.0' and !@conf['old_ruby_alert.hide']
 		%Q|<div class="alert-warn">
 			<a href="#" class="action-button" id="alert-old-ruby">&times;</a>
 			#{old_ruby_alert_message}
