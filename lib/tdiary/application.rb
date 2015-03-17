@@ -93,7 +93,6 @@ module TDiary
 				'logger' => TDiary.logger,
 				# 'debug' => true
 			)
-			# binding.pry
 
 			# run startup plugin
 			plugin.__send__(:startup_proc, self)

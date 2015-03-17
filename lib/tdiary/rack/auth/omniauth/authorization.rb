@@ -55,7 +55,6 @@ module TDiary
 					end
 
 					def authenticate?(env)
-						binding.pry
 						env['omniauth.auth'] || env['rack.session']['auth']
 					end
 				end
