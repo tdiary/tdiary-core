@@ -37,7 +37,7 @@ class String
 	end
 
 	def emojify
-		self.gsub(/:([a-zA-Z0-9_+-]+):/) do |match|
+		self.to_str.gsub(/:([a-zA-Z0-9_+-]+):/) do |match|
 			emoji_alias = $1.downcase
 			emoji_url = %Q[<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/%s.png' width='20' height='20' title='%s' alt='%s' class='emoji' />]
 			if emoji_alias == 'plus1' or emoji_alias == '+1'

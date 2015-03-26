@@ -27,14 +27,35 @@ module TDiary
 		end
 
 		def initialize( base_dir = '/' )
-			@app = ::Rack::Builder.app {
+			@app = ::Rack::Builder.app do
 				map base_dir do
-					# call extensions setup before the core setup (fixed #442)
-					Application.config.builder_procs.reverse.each do |builder_proc|
-						instance_eval &builder_proc
+					map Application.config.path[:index] do
+						use TDiary::Rack::HtmlAnchor
+						use TDiary::Rack::Static, "public"
+						use TDiary::Rack::ValidRequestPath
+						run TDiary::Dispatcher.index
 					end
+
+					map Application.config.path[:update] do
+						use TDiary::Rack::Auth
+						run TDiary::Dispatcher.update
+					end
+
+					map Application.config.path[:assets] do
+						environment = Sprockets::Environment.new
+						TDiary::Application.config.assets_paths.each {|assets_path|
+							environment.append_path assets_path
+						}
+
+						if Application.config.assets_precompile
+							require 'tdiary/rack/assets/precompile'
+							use TDiary::Rack::Assets::Precompile, environment
+						end
+
+						run environment
+					end	
 				end
-			}
+			end
 			run_plugin_startup_procs
 		end
 
@@ -72,43 +93,10 @@ module TDiary
 				'logger' => TDiary.logger,
 				# 'debug' => true
 			)
-			# binding.pry
 
 			# run startup plugin
 			plugin.__send__(:startup_proc, self)
 		end
-	end
-
-	Application.configure do
-		config.builder do
-			map Application.config.path[:index] do
-				use TDiary::Rack::HtmlAnchor
-				use TDiary::Rack::Static, "public"
-				use TDiary::Rack::ValidRequestPath
-				run TDiary::Dispatcher.index
-			end
-
-			map Application.config.path[:update] do
-				instance_eval &Application.config.authenticate_proc
-				run TDiary::Dispatcher.update
-			end
-
-			map Application.config.path[:assets] do
-				environment = Sprockets::Environment.new
-				TDiary::Application.config.assets_paths.each {|assets_path|
-					environment.append_path assets_path
-				}
-
-				if Application.config.assets_precompile
-					require 'tdiary/rack/assets/precompile'
-					use TDiary::Rack::Assets::Precompile, environment
-				end
-
-				run environment
-			end
-		end
-
-		config.authenticate TDiary::Rack::Auth::Basic, '.htpasswd'
 	end
 end
 

@@ -1,3 +1,10 @@
+2015-03-15  MATSUOKA Kohei <kohei@machu.jp>
+    * use omniauth automatically if omniauth gem loaded
+    * support some auth providers (twitter, facebook, google, github)
+
+2015-02-19  TADA Tadashi <t@tdtds.jp>
+	* enable to specify multiple twitter user in OmniAuth
+
 2015-02-02  TADA Tadashi <t@tdtds.jp>
 	* Gemfile: work around about rack 1.6 not separate params with ';'. see #485
 
