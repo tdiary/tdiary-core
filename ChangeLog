@@ -2,6 +2,9 @@
     * use omniauth automatically if omniauth gem loaded
     * support some auth providers (twitter, facebook, google, github)
 
+2015-02-25  MATSUOKA Kohei <kohei@machu.jp>
+	* support ruby-2.2 and unsupport ruby-1.9.3
+
 2015-02-19  TADA Tadashi <t@tdtds.jp>
 	* enable to specify multiple twitter user in OmniAuth
 
@@ -22,8 +25,20 @@
 	* plugin/comment_mail-smtp.rb: use Mail gem instead of Net::SMTP
 	* plugin/comment_ajax.rb: set theme_url into js
 
+2015-01-21  MATSUOKA Kohei <kohei@machu.jp>
+	* add add_startup_proc plugin interface
+	* plugin/makerss.rb: create rdf on startup
+
 2015-01-19  TADA Tadashi <t@tdtds.jp>
 	* plugin/amazon.rb: retry by returning error from rpaproxy
+
+2015-01-10  MATSUOKA Kohei <kohei@machu.jp>
+	* diary_container.rb: add the model to get diary directoly without using CGI
+	* Gemfile: use webrick server as default (to use other server, write in Gemfile.local)
+	* cli.rb: add --log option to tdiary server command
+
+2014-12-29  MATSUOKA Kohei <kohei@machu.jp>
+	* release 4.1.1
 
 2014-12-27  MATSUOKA Kohei <kohei@machu.jp>
 	* lib/tdiary/application.rb: fix #442: call extensions setup before the core setup
