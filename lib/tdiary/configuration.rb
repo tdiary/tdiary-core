@@ -60,8 +60,10 @@ module TDiary
 		def base_url
 			if @options['base_url'] && @options['base_url'].length > 0
 				@options['base_url']
-			else
+			elsif @request
 				@request.base_url
+			else
+				''
 			end
 		end
 
