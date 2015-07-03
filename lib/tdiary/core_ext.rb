@@ -43,7 +43,7 @@ class String
 			if emoji_alias == 'plus1' or emoji_alias == '+1'
 				emoji_url % (['plus1']*3)
 			elsif emoji = Emoji.find_by_alias(emoji_alias)
-				emoji_url % ([emoji.name]*3)
+				emoji_url % ([CGI.escape(emoji.name)]*3)
 			else
 				match
 			end
