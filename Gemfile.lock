@@ -31,7 +31,7 @@ GEM
     execjs (2.5.2)
     fastimage (1.7.0)
       addressable (~> 2.3, >= 2.3.5)
-    ffi (1.9.9)
+    ffi (1.9.10)
     gemoji (2.1.0)
     hikidoc (0.1.0)
     http-cookie (1.0.2)
@@ -44,7 +44,7 @@ GEM
     jasmine-core (2.3.4)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.9)
+    libv8 (3.16.14.11)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
@@ -96,7 +96,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sequel (4.23.0)
+    sequel (4.24.0)
     simplecov (0.9.2)
       docile (~> 1.1.0)
       multi_json (~> 1.0)
@@ -136,7 +136,6 @@ DEPENDENCIES
   launchy
   mail
   pit
-  pry
   pry-byebug
   rack
   racksh
