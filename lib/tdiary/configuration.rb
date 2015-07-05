@@ -138,7 +138,7 @@ module TDiary
 			@secure = true unless @secure
 			@options = {}
 
-			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
+			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, nil, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
