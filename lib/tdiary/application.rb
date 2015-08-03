@@ -80,22 +80,27 @@ module TDiary
 			tdiary = TDiary::TDiaryBase.new(cgi, '', conf)
 			io = conf.io_class.new(tdiary)
 
-			plugin = TDiary::Plugin.new(
-				'conf' => conf,
-				'mode' => 'startup',
-				'diaries' => tdiary.diaries,
-				'cgi' => cgi,
-				'years' => nil,
-				'cache_path' => io.cache_path,
-				'date' => Time.now,
-				'comment' => nil,
-				'last_modified' => Time.now,  # FIXME
-				'logger' => TDiary.logger,
-				# 'debug' => true
-			)
+			begin
+				plugin = TDiary::Plugin.new(
+					'conf' => conf,
+					'mode' => 'startup',
+					'diaries' => tdiary.diaries,
+					'cgi' => cgi,
+					'years' => nil,
+					'cache_path' => io.cache_path,
+					'date' => Time.now,
+					'comment' => nil,
+					'last_modified' => Time.now,  # FIXME
+					'logger' => TDiary.logger,
+					# 'debug' => true
+				)
 
-			# run startup plugin
-			plugin.__send__(:startup_proc, self)
+				# run startup plugin
+				plugin.__send__(:startup_proc, self)
+			rescue TDiary::ForceRedirect => e
+				# 90migrate.rb raises TDiary::ForceRedirect at first startup
+				TDiary::logger.warn(e)
+			end
 		end
 	end
 end
