@@ -65,7 +65,7 @@ def amazon_call_ecs( asin, country = nil )
 	url << "&ResponseGroup=Medium"
 	url << "&Version=#{@amazon_require_version}"
 
-	timeout( 10 ) do
+	Timeout::timeout( 10 ) do
 		open( url, proxy: @proxy ) {|f| f.read}
 	end
 end

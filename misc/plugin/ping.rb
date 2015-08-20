@@ -40,7 +40,7 @@ def ping( list )
 		next unless u.host
 		threads << Thread.start( u, xml ) do |u, xml|
 			begin
-				timeout( @conf['ping.timeout'].to_i ) do
+				Timeout::timeout( @conf['ping.timeout'].to_i ) do
 					Net::HTTP.start( u.host, u.port ) do |http|
 						http.post( u.path, xml, 'Content-Type' => 'text/xml' )
 					end

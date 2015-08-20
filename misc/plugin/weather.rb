@@ -310,7 +310,7 @@ class Weather
 		@error = nil
 
 		begin
-			timeout( WAITTIME ) do
+			Timeout::timeout( WAITTIME ) do
 				d = @conf.to_native( fetch( url, MAXREDIRECT, header ) )
 				parse_html( d, items )
 			end
