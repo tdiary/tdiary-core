@@ -192,10 +192,6 @@ module TDiary
 			@name = @cgi.params['name'][0]
 			@mail = @cgi.params['mail'][0]
 			@body = @cgi.params['body'][0]
-			if @cgi.mobile_agent?
-				@name.force_encoding(conf.mobile_encoding)
-				@body.force_encoding(conf.mobile_encoding)
-			end
 			@name = @conf.to_native( @name )
 			@body = @conf.to_native( @body )
 			@comment = Comment::new( @name, @mail, @body )

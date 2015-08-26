@@ -101,15 +101,15 @@ _END
 		end
 
 		# returns an HTML sniplet for configuration interface
-		def html(restore_default_label, mobile = false)
+		def html(restore_default_label)
 			return @default_hash.keys.sort_by{|k| @default_hash[k][:index]}.map{|k|
-				idattr = mobile ? '' : %Q| id="#{h k.to_s}"|
-				idattr_reset = mobile ? '' : %Q| id="#{h k.to_s}.reset"|
-				uncheck = mobile ? '' : ' onfocus="uncheck(this)"'
-				restore = mobile ? '' : ' onchange="restore(this)" onclick="restore(this)"'
+				idattr = %Q| id="#{h k.to_s}"|
+				idattr_reset = %Q| id="#{h k.to_s}.reset"|
+				uncheck = ' onfocus="uncheck(this)"'
+				restore = ' onchange="restore(this)" onclick="restore(this)"'
 				r = %Q|\t<h3 class="subtitle">#{h @default_hash[k][:title]}</h3>\n|
 				description = @default_hash[k][:description]
-				r += %Q|\t<p>#{h description}</p>\n| if description and not mobile
+				r += %Q|\t<p>#{h description}</p>\n| if description
 				unless @default_hash[k][:textarea]
 					r += %Q|\t<p><input name="#{h k.to_s}"#{idattr} type="text" value="#{h(Conf.to_native(self[k]))}"#{uncheck}>|
 				else
@@ -443,7 +443,7 @@ _END
 #{@my_sequel_conf.handler_block}
 <h3>#{@my_sequel_plugin_name}</h3>
 #{@my_sequel_description}
-#{@my_sequel_conf.html(@my_sequel_restore_default_label, @cgi.mobile_agent?).chomp}
+#{@my_sequel_conf.html(@my_sequel_restore_default_label).chomp}
 _HTML
 	end
 
@@ -453,7 +453,7 @@ _HTML
 	# activate this plugin if header procs are called
 	# - This avoids being called from makerss.rb
 	add_header_proc do
-		if not bot? and not @cgi.mobile_agent? then
+		unless bot?
 			@my_sequel_active = true
 			@my_sequel.restore(@diaries.keys)
 			MySequel.css(@my_sequel_conf[:inner_css])
@@ -497,7 +497,7 @@ _HTML
 	# show sequels when leaving a section
 	add_section_leave_proc do
 		r = ''
-		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not bot? and not @cgi.mobile_agent? then
+		if @my_sequel_active and @my_sequel_date and @my_sequel_anchor and not bot? then
 			r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
 				my_sequel_orig_my(src_anchor, anchor_str)
 			}
@@ -510,7 +510,7 @@ _HTML
 	add_body_leave_proc do
 		r = ''
 		if @my_sequel_active and @my_sequel_date then
-			if not bot? and not @cgi.mobile_agent? then
+			unless bot?
 				r = @my_sequel.html(@my_sequel_anchor, @my_sequel_conf[:date_format], @my_sequel_conf[:label]){|src_anchor, anchor_str|
 					my_sequel_orig_my(src_anchor, anchor_str)
 				}

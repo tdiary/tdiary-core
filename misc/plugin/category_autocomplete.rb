@@ -7,7 +7,7 @@
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
-if !@cgi.mobile_agent? && /\A(?:form|preview|append|edit|update)\z/ =~ @mode
+if /\A(?:form|preview|append|edit|update)\z/ =~ @mode
 	add_header_proc do
 		%Q|<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
 	end

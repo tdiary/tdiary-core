@@ -151,13 +151,7 @@ class CGIFake
 	end
 
 	def mobile_agent?
-		self.user_agent =~ %r[
-			^DoCoMo|
-			^(?:KDDI|UP\.Browser)|
-			^(?:J-(?:PHONE|EMULATOR)|Vodafone|SoftBank|MOT-|[VS]emulator)|
-			WILLCOM|DDIPOCKET|
-			PDXGW|ASTEL|Palmscape|Xiino|sharp\ pda\ browser|Windows\ CE|L-mode
-		]x
+		false
 	end
 
 	def smartphone?
