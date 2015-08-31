@@ -39,8 +39,10 @@ autoload :REXML,   'rexml/document'
   'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
 }
 
+enable_js( 'amazon.js' )
+
 if @conf['amazon.bitly'] and @conf['bitly.login'] and @conf['bitly.key'] then
-	enable_js( 'amazon.js' )
+	enable_js( 'amazon_bitly.js' )
 	add_js_setting( '$tDiary.plugin.bitly' )
 	add_js_setting( '$tDiary.plugin.bitly.login', "'#{@conf['bitly.login']}'" )
 	add_js_setting( '$tDiary.plugin.bitly.apiKey', "'#{@conf['bitly.key']}'" )
