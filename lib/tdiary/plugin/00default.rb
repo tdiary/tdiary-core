@@ -206,6 +206,7 @@ add_header_proc do
 	<<-HEADER
 	<meta http-equiv="Content-Type" content="text/html; charset=#{h charset}">
 	<meta name="generator" content="tDiary #{h TDIARY_VERSION}">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	#{last_modified_header}
 	#{content_script_type}
 	#{author_name_tag}
@@ -217,7 +218,6 @@ add_header_proc do
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
 	#{css_tag.chomp}
-	#{smartphone_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
 	HEADER
@@ -417,21 +417,6 @@ def css_tag
 	<link rel="stylesheet" href="#{h theme_url}/base.css" type="text/css" media="all">
 	<link rel="stylesheet" href="#{h css}" title="#{h title}" type="text/css" media="all">
 	CSS
-end
-
-def smartphone_tag
-	if @cgi.smartphone? then
-	<<-CSS
-<meta name = "viewport" content = "width = device-width">
-	<style type="text/css"><!--
-	form.comment textarea {
-		width: 80%;
-	}
-	--></style>
-	CSS
-	else
-		''
-	end
 end
 
 def robot_control
