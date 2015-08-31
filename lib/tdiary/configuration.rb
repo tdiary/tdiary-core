@@ -40,9 +40,9 @@ module TDiary
 			@options2.delete( key )
 		end
 
-		# backword compatibility, you can use @cgi.mobile_agent?
+		# backword compatibility, returns NOT mobile phone always
 		def mobile_agent?
-			@request.mobile_agent?
+			false
 		end
 
 		# backword compatibility, you can use @cgi.smartphone?

@@ -19,9 +19,6 @@
 #
 #
 
-# running on only non mobile mode
-unless @cgi.mobile_agent? then
-
 #
 # hide Pingbacks in TSUKKOMI
 #
@@ -127,9 +124,6 @@ def pingbacks_of_today_long( diary, limit = 100 )
 	r << %Q!\t</div>\n!
 	r
 end
-
-# running on only non mobile mode
-end # unless mobile_agent?
 
 #
 # show Pingback ping URL
