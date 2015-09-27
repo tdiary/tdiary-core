@@ -314,7 +314,7 @@ class Weather
 				d = @conf.to_native( fetch( url, MAXREDIRECT, header ) )
 				parse_html( d, items )
 			end
-		rescue TimeoutError
+		rescue Timeout::Error
 			@error = 'Timeout'
 		rescue
 			@error = @conf.to_native( $!.message.gsub( /[\t\n]/, ' ' ) )

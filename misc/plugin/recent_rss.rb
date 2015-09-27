@@ -165,7 +165,7 @@ def recent_rss_fetch_rss(uri, cache_time)
 				raise InvalidResourceError
 			end
 		end
-	rescue TimeoutError, SocketError, StandardError
+	rescue Timeout::Error, SocketError, StandardError
 		raise InvalidResourceError
 	end
 	rss

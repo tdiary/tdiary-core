@@ -171,7 +171,7 @@ module TDiary
 					debug("lookup:#{domain}.#{dnsbl} address:#{address}: spam host.")
 					return true
 				end
-			rescue TimeoutError, Resolv::ResolvTimeout
+			rescue Timeout::Error, Resolv::ResolvTimeout
 				debug("lookup:#{domain}.#{dnsbl}: safe host.")
 				return false
 			rescue Resolv::ResolvError, Exception
