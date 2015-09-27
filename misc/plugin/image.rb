@@ -73,9 +73,7 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
    	image = image_list( @image_date )[id.to_i]
    	image_t = image_list( @image_date )[thumbnail.to_i] if thumbnail
 	end
-	if @cgi.smartphone? then
-		size = ''
-	elsif size
+	if size
 		if size.kind_of?(Array)
 			if size.length > 1
 				size = %Q| width="#{h size[0]}" height="#{h size[1]}"|

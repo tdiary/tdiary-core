@@ -39,8 +39,10 @@ autoload :REXML,   'rexml/document'
   'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
 }
 
+enable_js( 'amazon.js' )
+
 if @conf['amazon.bitly'] and @conf['bitly.login'] and @conf['bitly.key'] then
-	enable_js( 'amazon.js' )
+	enable_js( 'amazon_bitly.js' )
 	add_js_setting( '$tDiary.plugin.bitly' )
 	add_js_setting( '$tDiary.plugin.bitly.login', "'#{@conf['bitly.login']}'" )
 	add_js_setting( '$tDiary.plugin.bitly.apiKey', "'#{@conf['bitly.key']}'" )
@@ -210,7 +212,7 @@ def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
 		unless image[:src] then
 			img = ''
 		else
-			size = @cgi.smartphone? ? '' : %Q|height="#{h image[:height]}" width="#{h image[:width]}"|
+			size = %Q|height="#{h image[:height]}" width="#{h image[:width]}"|
 			img = <<-HTML
 			<img class="#{h pos}" src="#{h image[:src]}"
 			#{size} alt="#{h alt}">

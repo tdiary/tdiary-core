@@ -9,8 +9,9 @@ module TDiary
 			false
 		end
 
+		# backword compatibility, returns NOT smartphone always
 		def smartphone?
-			self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
+			false
 		end
 	end
 end

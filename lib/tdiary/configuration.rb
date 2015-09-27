@@ -45,9 +45,9 @@ module TDiary
 			false
 		end
 
-		# backword compatibility, you can use @cgi.smartphone?
+		# backword compatibility, returns NOT smartphone always
 		def smartphone?
-			@request.smartphone?
+			false
 		end
 		alias iphone? smartphone?
 
