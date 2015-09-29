@@ -71,7 +71,7 @@ GEM
       rack (>= 1.0)
       rack-test (>= 0.5)
     rake (10.4.2)
-    redcarpet (3.3.2)
+    redcarpet (3.3.3)
     ref (2.0.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
