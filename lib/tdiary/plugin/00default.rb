@@ -206,6 +206,7 @@ add_header_proc do
 	<<-HEADER
 	<meta http-equiv="Content-Type" content="text/html; charset=#{h charset}">
 	<meta name="generator" content="tDiary #{h TDIARY_VERSION}">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 	#{last_modified_header}
 	#{content_script_type}
 	#{author_name_tag}
@@ -217,14 +218,13 @@ add_header_proc do
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
 	#{css_tag.chomp}
-	#{smartphone_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
 	HEADER
 end
 
 def calc_links
-	if /day|edit/ =~ @mode or (@cgi.mobile_agent? and /latest|month|nyear/ =~ @mode) then
+	if /day|edit/ =~ @mode then
 		today = @date.strftime('%Y%m%d')
 		days = []
 		yms = []
@@ -261,11 +261,7 @@ def calc_links
 end
 
 def charset
-	if @cgi.mobile_agent? then
-		@conf.mobile_encoding
-	else
-		@conf.encoding
-	end
+	@conf.encoding
 end
 
 def last_modified_header
@@ -423,21 +419,6 @@ def css_tag
 	CSS
 end
 
-def smartphone_tag
-	if @cgi.smartphone? then
-	<<-CSS
-<meta name = "viewport" content = "width = device-width">
-	<style type="text/css"><!--
-	form.comment textarea {
-		width: 80%;
-	}
-	--></style>
-	CSS
-	else
-		''
-	end
-end
-
 def robot_control
 	if /^form|edit|preview|showcomment$/ =~ @mode then
 		'<meta name="robots" content="noindex,nofollow">'
@@ -468,7 +449,7 @@ add_title_proc do |date, title|
 end
 
 def nyear_link( date, title )
-	if @conf.show_nyear and @mode != 'nyear' and !@cgi.mobile_agent? then
+	if @conf.show_nyear and @mode != 'nyear' then
 		m = date.strftime( '%m' )
 		d = date.strftime( '%d' )
 		years = @years.find_all {|year, months| months.include? m}
@@ -525,20 +506,15 @@ end
 def subtitle_link( date, index, subtitle )
 	r = ''
 
-	if @cgi.mobile_agent? then
-		r << %Q[<A NAME="p#{'%02d' % index}">*</A> ]
-		r << %Q|(#{h @author})| if @multi_user and @author and subtitle
-	else
-		if date then
-			r << "<a "
-			r << %Q[name="p#{'%02d' % index}" ] if @anchor_name
-			param = "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % index}"
-			titleattr = (not subtitle or subtitle.empty?) ? '' : %Q[ title="#{remove_tag( apply_plugin( subtitle )).gsub( /"/, "&quot;" )}"]
-			r << %Q[href="#{h @conf.index}#{anchor param}"#{titleattr}>#{@conf.section_anchor}</a> ]
-		end
-
-		r << %Q[(#{h @author}) ] if @multi_user and @author and subtitle
+	if date then
+		r << "<a "
+		r << %Q[name="p#{'%02d' % index}" ] if @anchor_name
+		param = "#{date.strftime( '%Y%m%d' )}#p#{'%02d' % index}"
+		titleattr = (not subtitle or subtitle.empty?) ? '' : %Q[ title="#{remove_tag( apply_plugin( subtitle )).gsub( /"/, "&quot;" )}"]
+		r << %Q[href="#{h @conf.index}#{anchor param}"#{titleattr}>#{@conf.section_anchor}</a> ]
 	end
+
+	r << %Q[(#{h @author}) ] if @multi_user and @author and subtitle
 	r << make_category_link( subtitle )
 end
 
@@ -843,7 +819,7 @@ def conf_theme_list
 	<input name="css" size="30" value="#{h @conf.css}">
 	</p>
 	<p><img id="theme_thumbnail" src="http://www.tdiary.org/theme.image/#{img}.jpg" alt="#{@theme_thumbnail_label}"></p>
-	#{@theme_location_comment unless @cgi.mobile_agent?}
+	#{@theme_location_comment}
 	HTML
 end
 

@@ -7,7 +7,7 @@
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
-if !@cgi.mobile_agent? && /\A(?:day)\z/ =~ @mode
+if /\A(?:day)\z/ =~ @mode
 	add_header_proc do
 		%Q|<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>|
 	end
@@ -15,7 +15,6 @@ if !@cgi.mobile_agent? && /\A(?:day)\z/ =~ @mode
 	enable_js('//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
 	enable_js('caretposition.js')
 	enable_js('comment_emoji_autocomplete.js')
-
 end
 
 # Local Variables:

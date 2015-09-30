@@ -40,14 +40,14 @@ module TDiary
 			@options2.delete( key )
 		end
 
-		# backword compatibility, you can use @cgi.mobile_agent?
+		# backword compatibility, returns NOT mobile phone always
 		def mobile_agent?
-			@request.mobile_agent?
+			false
 		end
 
-		# backword compatibility, you can use @cgi.smartphone?
+		# backword compatibility, returns NOT smartphone always
 		def smartphone?
-			@request.smartphone?
+			false
 		end
 		alias iphone? smartphone?
 
@@ -138,7 +138,7 @@ module TDiary
 			@secure = true unless @secure
 			@options = {}
 
-			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, b, "(tdiary.conf)", 1 )
+			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, nil, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang

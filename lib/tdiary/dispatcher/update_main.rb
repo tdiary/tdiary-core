@@ -19,24 +19,14 @@ module TDiary
 				@tdiary = create_tdiary
 				begin
 					head = {}; body = ''
-					if request.mobile_agent?
-						body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
-						head = {
-							'Content-Type' => 'text/html',
-							'charset' => conf.mobile_encoding,
-							'Content-Length' => body.bytesize.to_s,
-							'Vary' => 'User-Agent'
-						}
-					else
-						body = tdiary.eval_rhtml
-						head = {
-							'Content-Type' => 'text/html',
-							'charset' => conf.encoding,
-							'Content-Length' => body.bytesize.to_s,
-							'Vary' => 'User-Agent',
-							'X-Frame-Options' => 'SAMEORIGIN'
-						}
-					end
+					body = tdiary.eval_rhtml
+					head = {
+						'Content-Type' => 'text/html',
+						'charset' => conf.encoding,
+						'Content-Length' => body.bytesize.to_s,
+						'Vary' => 'User-Agent',
+						'X-Frame-Options' => 'SAMEORIGIN'
+					}
 					body = ( request.head? ? '' : body )
 					TDiary::Response.new( body, 200, head )
 				rescue TDiary::ForceRedirect

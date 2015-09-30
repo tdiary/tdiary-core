@@ -27,9 +27,6 @@
 #	end
 #
 
-# running on only non mobile mode
-unless @cgi.mobile_agent? then
-
 #
 # show TrackBack ping URL
 #
@@ -179,9 +176,6 @@ def trackbacks_of_today_long( diary, limit = -1 )
 	r << %Q!\t</div>\n!
 	r
 end
-
-# running on only non mobile mode
-end # unless mobile_agent?
 
 # configurations
 @conf['trackback_anchor'] ||= @conf.comment_anchor

@@ -54,23 +54,18 @@ def category_anchor(category)
 		else
 			""
 		end
-	if @category_icon[category] and !@cgi.mobile_agent?
+	if @category_icon[category]
 		%Q|<a href="#{h @index}?#{period_string}category=#{u category}" title="#{h category}"><img class="category" src="#{h @category_icon_url}#{h @category_icon[category]}" alt="#{h category}"></a>|
 	else
 		%Q|[<a href="#{h @index}?#{period_string}category=#{u category}" title="#{h category}">#{h category}</a>]|
 	end
 end
 
-def category_navi_anchor(info, label, mobile = false)
-	if mobile then
-		"|#{info.make_anchor(label)}"
-	else
-		((!label.nil?) && label.empty?) ? '' : %Q[<span class="adminmenu">#{info.make_anchor(label)}</span>\n]
-	end
+def category_navi_anchor(info, label)
+	((!label.nil?) && label.empty?) ? '' : %Q[<span class="adminmenu">#{info.make_anchor(label)}</span>\n]
 end
 
 def category_navi
-	mobile = @cgi.mobile_agent?
 	info = Category::Info.new(@cgi, @years, @conf)
 	mode = info.mode
 
@@ -79,23 +74,21 @@ def category_navi
 	when :year, :half, :quarter, :month
 		all_diary = Category::Info.new(@cgi, @years, @conf, year: -1, month: -1)
 		all = Category::Info.new(@cgi, @years, @conf, category: ['ALL'], year: -1, month: -1)
-		result << category_navi_anchor(info.prev, @conf['category.prev_' + mode.to_s], mobile)
-		result << category_navi_anchor(info.next, @conf['category.next_' + mode.to_s], mobile)
-		unless mobile then
-			result << category_navi_anchor(all_diary, @conf['category.all_diary'])
-			result << category_navi_anchor(all, @conf['category.all'])
-		end
+		result << category_navi_anchor(info.prev, @conf['category.prev_' + mode.to_s])
+		result << category_navi_anchor(info.next, @conf['category.next_' + mode.to_s])
+		result << category_navi_anchor(all_diary, @conf['category.all_diary'])
+		result << category_navi_anchor(all, @conf['category.all'])
 	when :all
 		year = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s)
 		half = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s, month: "#{((Time.now.month - 1) / 6 + 1)}H")
 		quarter = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s, month: "#{((Time.now.month - 1) / 3 + 1)}Q")
 		month = Category::Info.new(@cgi, @years, @conf, year: Time.now.year.to_s, month: '%02d' % Time.now.month)
-		result << category_navi_anchor(year, @conf['category.this_year'], mobile)
-		result << category_navi_anchor(half, @conf['category.this_half'], mobile)
-		result << category_navi_anchor(quarter, @conf['category.this_quarter'], mobile)
-		result << category_navi_anchor(month, @conf['category.this_month'], mobile)
+		result << category_navi_anchor(year, @conf['category.this_year'])
+		result << category_navi_anchor(half, @conf['category.this_half'])
+		result << category_navi_anchor(quarter, @conf['category.this_quarter'])
+		result << category_navi_anchor(month, @conf['category.this_month'])
 	end
-	if !info.category.include?('ALL') and !mobile then
+	if !info.category.include?('ALL') then
 		all_category = Category::Info.new(@cgi, @years, @conf, category: ['ALL'])
 		result << category_navi_anchor(all_category, @conf['category.all_category'])
 	end
@@ -172,7 +165,6 @@ def category_dropdown_list(label = nil, multiple = nil)
 	info = Category::Info.new(@cgi, @years, @conf)
 	category = info.category
 	if category.empty?
-		return '' if @cgi.mobile_agent?
 		category = ['ALL']
 	end
 

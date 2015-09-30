@@ -73,10 +73,6 @@ module TDiary
 
 			@title = @cgi.params['title'][0]
 			@body = @cgi.params['body'][0]
-			if @cgi.mobile_agent?
-				@title.force_encoding(@conf.mobile_encoding)
-				@body.force_encoding(@conf.mobile_encoding)
-			end
 			@title = @conf.to_native( @title )
 			@body = @conf.to_native( @body )
 			@old_date = @cgi.params['old'][0]
@@ -113,10 +109,6 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			@title = cgi.params['title'][0]
 			@body = cgi.params['body'][0]
-			if cgi.mobile_agent?
-				@title.force_encoding(conf.mobile_encoding)
-				@body.force_encoding(conf.mobile_encoding)
-			end
 			@title = conf.to_native( @title )
 			@body = conf.to_native( @body )
 			@hide = cgi.params['hide'][0] == 'true' ? true : false

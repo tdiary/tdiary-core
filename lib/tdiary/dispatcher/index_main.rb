@@ -34,24 +34,18 @@ module TDiary
 							head['Cache-Control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
-							if request.mobile_agent?
-								body = conf.to_mobile( tdiary.eval_rhtml( 'i.' ) )
-								head['charset'] = conf.mobile_encoding
-								head['Content-Length'] = body.bytesize.to_s
+							require 'digest/md5'
+							body = tdiary.eval_rhtml
+							head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
+							if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
+								head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 							else
-								require 'digest/md5'
-								body = tdiary.eval_rhtml
-								head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
-								if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
-									head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
-								else
-									head['charset'] = conf.encoding
-									head['Content-Length'] = body.bytesize.to_s
-								end
-								head['Pragma'] = 'no-cache'
-								head['Cache-Control'] = 'no-cache'
-								head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
+								head['charset'] = conf.encoding
+								head['Content-Length'] = body.bytesize.to_s
 							end
+							head['Pragma'] = 'no-cache'
+							head['Cache-Control'] = 'no-cache'
+							head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
 						end
