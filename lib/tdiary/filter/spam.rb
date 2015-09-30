@@ -165,13 +165,13 @@ module TDiary
 			end
 
 			def lookup(domain, dnsbl, iplookup = false)
-				timeout(5) do
+				Timeout::timeout(5) do
 					domain = IPSocket::getaddress( domain ).split(/\./).reverse.join(".") if iplookup
 					address = Resolv.getaddress( "#{domain}.#{dnsbl}" )
 					debug("lookup:#{domain}.#{dnsbl} address:#{address}: spam host.")
 					return true
 				end
-			rescue TimeoutError, Resolv::ResolvTimeout
+			rescue Timeout::Error, Resolv::ResolvTimeout
 				debug("lookup:#{domain}.#{dnsbl}: safe host.")
 				return false
 			rescue Resolv::ResolvError, Exception

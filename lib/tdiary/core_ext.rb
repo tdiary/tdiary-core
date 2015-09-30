@@ -4,12 +4,14 @@ require 'gemoji'
 
 module TDiary
 	module RequestExtension
+		# backword compatibility, returns NOT mobile phone always
 		def mobile_agent?
-			self.user_agent =~ %r[(DoCoMo|J-PHONE|Vodafone|MOT-|UP\.Browser|DDIPOCKET|ASTEL|PDXGW|Palmscape|Xiino|sharp pda browser|Windows CE|L-mode|WILLCOM|SoftBank|Semulator|Vemulator|J-EMULATOR|emobile|mixi-mobile-converter)]i
+			false
 		end
 
+		# backword compatibility, returns NOT smartphone always
 		def smartphone?
-			self.user_agent =~ /iPhone|iPod|Opera Mini|Android.*Mobile|NetFront|PSP/
+			false
 		end
 	end
 end
@@ -43,7 +45,7 @@ class String
 			if emoji_alias == 'plus1' or emoji_alias == '+1'
 				emoji_url % (['plus1']*3)
 			elsif emoji = Emoji.find_by_alias(emoji_alias)
-				emoji_url % ([emoji.name]*3)
+				emoji_url % ([CGI.escape(emoji.name)]*3)
 			else
 				match
 			end
