@@ -169,7 +169,7 @@ def category_dropdown_list(label = nil, multiple = nil)
 	end
 
 	options = ''
-	(['ALL'] + @categories.sort_by{|e| e.downcase}).each do |c|
+	(['ALL'] + @categories).each do |c|
 		options << %Q|\t\t<option value="#{h c}"#{" selected" if category.include?(c)}>#{h c}</option>\n|
 	end
 
@@ -580,7 +580,7 @@ def category_edit_support_flatlist
 	ret = ''
 	ret << '<div class="field title">'
 	ret << "#{@category_conf_label}:\n"
-	@categories.sort_by{|e| e.downcase}.each do |c|
+	@categories.each do |c|
 		ret << %Q!| <span class="category-item">#{h c}</span>\n!
 	end
 	ret << "|\n</div>\n<br>\n"
@@ -591,7 +591,7 @@ def category_edit_support_dropdown
 	ret = ''
 	ret << '<div class="field title">'
 	ret << %Q|#{@category_conf_label}: <select id="category-candidate" name="category-candidate">\n|
-	@categories.sort_by{|e| e.downcase}.each do |c|
+	@categories.each do |c|
 		ret << %Q!<option>#{h c}</option>\n!
 	end
 	ret << "|\n</select>\n</div>\n<br>\n"
@@ -727,7 +727,7 @@ if @mode == 'conf' || @mode == 'saveconf'
 	end
 end
 
-@categories = @category_cache.restore_categories
+@categories = @category_cache.restore_categories.sort_by{|e| e.downcase}
 if @mode == 'categoryview'
 	info = Category::Info.new(@cgi, @years, @conf)
 	@categorized = @category_cache.categorize(info.category, info.years)
