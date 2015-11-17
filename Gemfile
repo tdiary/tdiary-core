@@ -7,11 +7,6 @@ gem 'fastimage'
 gem 'gemoji'
 gem 'mail'
 
-group :coffee do
-  gem 'coffee-script'
-  gem 'therubyracer'
-end
-
 group :development do
   gem 'pit', require: false
   gem 'racksh', require: false

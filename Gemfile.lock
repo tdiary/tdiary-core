@@ -12,10 +12,6 @@ GEM
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.10.0)
     coveralls (0.7.12)
       multi_json (~> 1.10)
       rest-client (>= 1.6.8, < 2)
@@ -26,7 +22,6 @@ GEM
     docile (1.1.5)
     domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
-    execjs (2.6.0)
     fastimage (1.8.0)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.10)
@@ -42,7 +37,6 @@ GEM
     jasmine-core (2.3.4)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.13)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
@@ -70,7 +64,6 @@ GEM
       rack-test (>= 0.5)
     rake (10.4.2)
     redcarpet (3.3.3)
-    ref (2.0.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -108,9 +101,6 @@ GEM
       tins (~> 1.0)
     test-unit (3.1.5)
       power_assert
-    therubyracer (0.12.2)
-      libv8 (~> 3.16.14.0)
-      ref
     thor (0.19.1)
     tins (1.7.0)
     unf (0.1.4)
@@ -125,7 +115,6 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  coffee-script
   coveralls (~> 0.7.12)
   fastimage
   gemoji
@@ -146,7 +135,6 @@ DEPENDENCIES
   sprockets
   sqlite3
   test-unit
-  therubyracer
 
 BUNDLED WITH
    1.10.6
