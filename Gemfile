@@ -13,7 +13,7 @@ group :development do
   gem 'redcarpet'
 
   group :test do
-    gem 'pry-byebug', platforms: [:ruby_20, :ruby_21]
+    gem 'pry-byebug', platforms: [:ruby_20, :ruby_21, :ruby_22]
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
