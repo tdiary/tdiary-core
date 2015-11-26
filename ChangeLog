@@ -1,6 +1,7 @@
 2015-11-26  MATSUOKA Kohei <kohei@machu.jp>
 	* move gems dependency from Gemfile to .gemspec
 	* specify spec.files without git command
+	* remove specs from gem
 
 2015-09-29  SHIBATA Hiroshi  <shibata.hiroshi@gmail.com>
 	* release 4.2.0
