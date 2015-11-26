@@ -27,8 +27,6 @@ Gem::Specification.new do |spec|
     'lib/**/*',
     'misc/**/*',
     'public/**/*',
-    'spec/**/*',
-    'test/**/*',
     'theme/**/*',
     'vendor/**/*',
     'views/**/*'
