@@ -18,7 +18,7 @@ module TDiary
 			target = File.join(Dir.pwd, name)
 			deploy(target)
 			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
-			template('misc/templates/Gemfile.local.erb', File.join(target, 'Gemfile.local'))
+			template('misc/templates/Gemfile.erb', File.join(target, 'Gemfile'))
 
 			unless options[:'skip-bundle']
 				Bundler.with_clean_env do
@@ -171,8 +171,6 @@ module TDiary
 				empty_directory(File.join(target, 'theme'))
 				%w(
 				README.md
-				Gemfile
-				Gemfile.lock
 				config.ru
 				tdiary.conf.beginner
 				tdiary.conf.sample
