@@ -1,11 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack'
-gem 'sprockets'
-gem 'hikidoc'
-gem 'fastimage'
-gem 'gemoji'
-gem 'mail'
+gemspec
 
 group :coffee do
   gem 'coffee-script'
@@ -15,7 +10,6 @@ end
 group :development do
   gem 'pit', require: false
   gem 'racksh', require: false
-  gem 'rake'
   gem 'redcarpet'
 
   group :test do
