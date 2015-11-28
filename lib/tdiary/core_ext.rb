@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require 'gemoji'
+require 'emot'
 
 module TDiary
 	module RequestExtension
@@ -44,8 +44,8 @@ class String
 			emoji_url = %Q[<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/%s.png' width='20' height='20' title='%s' alt='%s' class='emoji' />]
 			if emoji_alias == 'plus1' or emoji_alias == '+1'
 				emoji_url % (['plus1']*3)
-			elsif emoji = Emoji.find_by_alias(emoji_alias)
-				emoji_url % ([CGI.escape(emoji.name)]*3)
+			elsif Emot.unicode(emoji_alias)
+				emoji_url % ([CGI.escape(emoji_alias)]*3)
 			else
 				match
 			end
