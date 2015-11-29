@@ -4,7 +4,7 @@ gem 'rack'
 gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
-gem 'gemoji'
+gem 'emot'
 gem 'mail'
 
 group :development do

@@ -22,10 +22,11 @@ GEM
     docile (1.1.5)
     domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
+    emot (0.0.4)
+      thor
     fastimage (1.8.0)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.10)
-    gemoji (2.1.0)
     hikidoc (0.1.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -116,8 +117,8 @@ PLATFORMS
 DEPENDENCIES
   capybara
   coveralls (~> 0.7.12)
+  emot
   fastimage
-  gemoji
   hikidoc
   jasmine
   launchy
