@@ -25,11 +25,13 @@ module TDiary
 
 			@app = ::Rack::Builder.app do
 				map base_dir do
-					map index_path do
+					map '/' do
 						use TDiary::Rack::HtmlAnchor
 						use TDiary::Rack::Static, "public"
 						use TDiary::Rack::ValidRequestPath
-						run TDiary::Dispatcher.index
+						map index_path do
+							run TDiary::Dispatcher.index
+						end
 					end
 
 					map update_path do
@@ -50,7 +52,7 @@ module TDiary
 						end
 
 						run environment
-					end	
+					end
 				end
 			end
 			run_plugin_startup_procs
