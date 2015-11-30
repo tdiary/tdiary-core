@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack', '~> 1.5.0'
+gem 'rack'
 gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
@@ -29,7 +29,7 @@ group :development do
     gem 'sqlite3'
     gem 'jasmine'
     gem 'simplecov', require: false
-    gem 'coveralls', require: false
+    gem 'coveralls', '~> 0.7.12', require: false
   end
 end
 

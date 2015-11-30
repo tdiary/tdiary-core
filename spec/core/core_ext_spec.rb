@@ -47,6 +47,13 @@ describe "core extension library" do
 			end
 		end
 
+		context "thumbsupでもemojify" do
+			before { @result = "いいね!:thumbsup:".emojify }
+			it do
+				expect(@result).to eq "いいね!<img src='http://www.emoji-cheat-sheet.com/graphics/emojis/%2B1.png' width='20' height='20' title='%2B1' alt='%2B1' class='emoji' />"
+			end
+		end
+
 		context "絵文字に変換しない" do
 			[
 				":<script type='text/javascript'></script>: は美味しい",

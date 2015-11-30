@@ -310,11 +310,11 @@ class Weather
 		@error = nil
 
 		begin
-			timeout( WAITTIME ) do
+			Timeout::timeout( WAITTIME ) do
 				d = @conf.to_native( fetch( url, MAXREDIRECT, header ) )
 				parse_html( d, items )
 			end
-		rescue TimeoutError
+		rescue Timeout::Error
 			@error = 'Timeout'
 		rescue
 			@error = @conf.to_native( $!.message.gsub( /[\t\n]/, ' ' ) )
@@ -454,11 +454,7 @@ def weather( date = nil, wrap = true )
 	path = @options['weather.dir'] || Weather_default_path
 	w = Weather::restore( path, date || @date )
 	if w then
-		unless @cgi.mobile_agent? then
-			%Q|#{wrap ? '<div class="weather">' : ' '}#{w.to_html( @options['weather.show_error'] )}#{wrap ? "</div>\n" : ''}|
-		else
-			%Q|<P>#{w.to_i_html if @options['weather.show_mobile']}</P>\n|
-		end
+		%Q|#{wrap ? '<div class="weather">' : ' '}#{w.to_html( @options['weather.show_error'] )}#{wrap ? "</div>\n" : ''}|
 	else
 		''
 	end

@@ -130,40 +130,40 @@ add_conf_proc( 'default', 'Site information', 'basic' ) do
 	@conf.banner ||= ''
 	<<-HTML
 	<h3 class="subtitle">Title</h3>
-	#{"<p>The title of your diary. This value is used in HTML &lt;title&gt; element and in mobile mode. Do not use HTML tags.</p>" unless @cgi.mobile_agent?}
+	<p>The title of your diary. This value is used in HTML &lt;title&gt; element. Do not use HTML tags.</p>
 	<p><input name="html_title" value="#{h @conf.html_title}" size="50"></p>
 
 	<h3 class="subtitle">Author</h3>
-	#{"<p>Specify your name. This value is into HTML header.</p>" unless @cgi.mobile_agent?}
+	<p>Specify your name. This value is into HTML header.</p>
 	<p><input name="author_name" value="#{h @conf.author_name}" size="40"></p>
 
 	<h3 class="subtitle">E-mail address</h3>
-	#{"<p>Specify your E-mail address. This value is into HTML header.</p>" unless @cgi.mobile_agent?}
+	<p>Specify your E-mail address. This value is into HTML header.</p>
 	<p><input name="author_mail" value="#{h @conf.author_mail}" size="40"></p>
 
 	<h3 class="subtitle">URL of index page</h3>
-	#{"<p>The URL of index of your website if you have.</p>" unless @cgi.mobile_agent?}
+	<p>The URL of index of your website if you have.</p>
 	<p><input name="index_page" value="#{h @conf.index_page}" size="50"></p>
 
 	<h3 class="subtitle">URL of Your Diary</h3>
-	#{"<p>Specify your diary's URL. This URL is used by some plugins for indicate your diary</p>" unless @cgi.mobile_agent?}
+	<p>Specify your diary's URL. This URL is used by some plugins for indicate your diary</p>
 	#{"<p><strong>NOTICE!! The URL specified below is different from current URL of accessed now.</strong></p>" unless base_url == @cgi.base_url}
 	<p><input name="base_url" value="#{h base_url}" size="70"></p>
 
 	<h3 class="subtitle">Description</h3>
-	#{"<p>A brief description of your diary. Can be left blank.</p>" unless @cgi.mobile_agent?}
+	<p>A brief description of your diary. Can be left blank.</p>
 	<p><input name="description" value="#{h @conf.description}" size="60"></p>
 
 	<h3 class="subtitle">Site icon (favicon)</h3>
-	#{"<p>URL for the small icon (aka 'favicon') of your site. Can be left blank.</p>" unless @cgi.mobile_agent?}
+	<p>URL for the small icon (aka 'favicon') of your site. Can be left blank.</p>
 	<p><input name="icon" value="#{h @conf.icon}" size="60"></p>
 
 	<h3 class="subtitle">Site banner</h3>
-	#{"<p>URL for the banner image of your site. makerss plugin will use this value to make RSS. Can be left blank.</p>" unless @cgi.mobile_agent?}
+	<p>URL for the banner image of your site. makerss plugin will use this value to make RSS. Can be left blank.</p>
 	<p><input name="banner" value="#{h @conf.banner}" size="60"></p>
 
 	<h3 class="subtitle">Permit display in Frames</h3>
-	#{"<p>Permit display your diary included by frames.</p>" unless @cgi.mobile_agent?}
+	<p>Permit display your diary included by frames.</p>
 	<p><select name="x_frame_options">
 		<option value=""#{" selected" unless @conf.x_frame_options}>Permit</option>
 		<option value="SAMEORIGIN"#{" selected" if @conf.x_frame_options == 'SAMEORIGIN'}>Permit in same domain</option>
@@ -178,10 +178,10 @@ add_conf_proc( 'header', 'Header/Footer', 'basic' ) do
 
 	<<-HTML
 	<h3 class="subtitle">Header</h3>
-	#{"<p>This text is inserted into top of each pages. You can use HTML tags. Do not remove \"&lt;%=navi%&gt;\", because it mean Navigation bar inclued \"Update\" button. And \"&lt;%=calendar%&gt;\" mean calendar. So you can specify other plugins also.</p>" unless @cgi.mobile_agent?}
+	<p>This text is inserted into top of each pages. You can use HTML tags. Do not remove "&lt;%=navi%&gt;", because it mean Navigation bar inclued "Update" button. And "&lt;%=calendar%&gt;" mean calendar. So you can specify other plugins also.</p>
 	<p><textarea name="header" cols="60" rows="10">#{h @conf.header}</textarea></p>
 	<h3 class="subtitle">Footer</h3>
-	#{"<p>This text is inserted into bottom of each pages. You can specify as same as Header.</p>" unless @cgi.mobile_agent?}
+	<p>This text is inserted into bottom of each pages. You can specify as same as Header.</p>
 	<p><textarea name="footer" cols="60" rows="10">#{h @conf.footer}</textarea></p>
 	HTML
 end
@@ -192,19 +192,19 @@ add_conf_proc( 'display', 'Display', 'basic' ) do
 
 	<<-HTML
 	<h3 class="subtitle">Section anchor</h3>
-	#{"<p>\"Anchor\" guide to link from other website. Section anchors are insertd into begining of each section. So if you specify \"&lt;span class=\"sanchor\"&gt;_&lt;/span&gt;\", image anchor will be shown Image anchor by themes.</p>" unless @cgi.mobile_agent?}
+	<p>"Anchor" guide to link from other website. Section anchors are insertd into begining of each section. So if you specify "&lt;span class="sanchor"&gt;_&lt;/span&gt;", image anchor will be shown Image anchor by themes.</p>
 	<p><input name="section_anchor" value="#{h @conf.section_anchor}" size="40"></p>
 	<h3 class="subtitle">TSUKKOMI anchor</h3>
-	#{"<p>TSUKKOMI anchor is inserted into begining of each TSUKKOMIs. So You can specify \"&lt;span class=\"canchor\"&gt;_&lt;/span&gt;\" for Image anchor.</p>" unless @cgi.mobile_agent?}
+	<p>TSUKKOMI anchor is inserted into begining of each TSUKKOMIs. So You can specify "&lt;span class="canchor"&gt;_&lt;/span&gt;" for Image anchor.</p>
 	<p><input name="comment_anchor" value="#{h @conf.comment_anchor}" size="40"></p>
 	<h3 class="subtitle">Date format</h3>
-	#{"<p>Format of date. If you specify a charactor after %, it mean special about date formatting: \"%Y\"(Year), \"%m\"(Month), \"%b\"(Short name of month), \"%B\"(Long name of month), \"%d\"(Day), \"%a\"(Short name of day of week), \"%A\"(Long name of day of week).</p>" unless @cgi.mobile_agent?}
+	<p>Format of date. If you specify a charactor after %, it mean special about date formatting: "%Y"(Year), "%m"(Month), "%b"(Short name of month), "%B"(Long name of month), "%d"(Day), "%a"(Short name of day of week), "%A"(Long name of day of week).</p>
 	<p><input name="date_format" value="#{h @conf.date_format}" size="30"></p>
 	<h3 class="subtitle">Max dates of Latest diaplay</h3>
-	#{"<p>In the Latest mode, you can specify the number of days in the page.</p>" unless @cgi.mobile_agent?}
+	<p>In the Latest mode, you can specify the number of days in the page.</p>
 	<p><input name="latest_limit" value="#{h @conf.latest_limit}" size="2"> days in a page.</p>
 	<h3 class="subtitle">My old days</h3>
-	#{"<p>Show the link of \"My old days\"</p>" unless @cgi.mobile_agent?}
+	<p>Show the link of "My old days"</p>
 	<p><select name="show_nyear">
 		<option value="true"#{" selected" if @conf.show_nyear}>Show</option>
 		<option value="false"#{" selected" unless @conf.show_nyear}>Hide</option>
@@ -217,7 +217,7 @@ add_conf_proc( 'timezone', 'Time difference adjustment', 'update' ) do
 	saveconf_timezone
 	<<-HTML
 	<h3 class="subtitle">Time difference adjustment</h3>
-	#{"<p>When updating diary, you can adjust date which is automatically inserted into the form. The unit is hour. For example, if you want to handle the time until 2 a.m. as the previous day, you set this to -2. tDiary inserts the date which is older by 2 hours than the actual time. </p>" unless @cgi.mobile_agent?}
+	<p>When updating diary, you can adjust date which is automatically inserted into the form. The unit is hour. For example, if you want to handle the time until 2 a.m. as the previous day, you set this to -2. tDiary inserts the date which is older by 2 hours than the actual time. </p>
 	<p><input name="hour_offset" value="#{h @conf.hour_offset}" size="5"></p>
 	HTML
 end
@@ -231,7 +231,7 @@ add_conf_proc( 'theme', 'Themes', 'theme' ) do
 
 	r = <<-HTML
 	<h3 class="subtitle">Theme</h3>
-	#{"<p>Specify the design of your diary using Theme or CSS. When you select \"CSS specify\", input URL of CSS into the field right side.</p>" unless @cgi.mobile_agent?}
+	<p>Specify the design of your diary using Theme or CSS. When you select "CSS specify", input URL of CSS into the field right side.</p>
 	<p>
 	<select name="theme" id="theme_selection">
 		<option value="">CSS Specify-&gt;</option>
@@ -245,16 +245,16 @@ add_conf_proc( 'comment', 'TSUKKOMI', 'tsukkomi' ) do
 
 	<<-HTML
 	<h3 class="subtitle">Show TSUKKOMI</h3>
-	#{"<p>Select show or hide TSUKKOMI from readers</p>" unless @cgi.mobile_agent?}
+	<p>Select show or hide TSUKKOMI from readers</p>
 	<p><select name="show_comment">
 		<option value="true"#{" selected" if @conf.show_comment}>Show</option>
 		<option value="false"#{" selected" unless @conf.show_comment}>Hide</option>
 	</select></p>
 	<h3 class="subtitle">Number of TSUKKOMI</h3>
-	#{"<p>In Latest or Month mode, you can specify number of visible TSUKKOMIs. So in Dayly mode, all of TSUKKOMIs are shown.</p>" unless @cgi.mobile_agent?}
+	<p>In Latest or Month mode, you can specify number of visible TSUKKOMIs. So in Dayly mode, all of TSUKKOMIs are shown.</p>
 	<p><input name="comment_limit" value="#{h @conf.comment_limit}" size="3"> TSUKKOMIs</p>
 	<h3 class="subtitle">Limit of TSUKKOMI per a day</h3>
-	#{"<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>" unless @cgi.mobile_agent?}
+	<p>When numbers of TSUKKOMI over this value in a day, nobody can make new TSUKKOMI. If you use TrackBack plugin, this value means sum of TSUKKOMIs and TrackBacks.</p>
 	<p><input name="comment_limit_per_day" value="#{h @conf.comment_limit_per_day}" size="3"> TSUKKOMIs</p>
 	HTML
 end
@@ -273,19 +273,19 @@ def comment_mail_basic_html
 
 	<<-HTML
 	<h3 class="subtitle">Notify TSUKKOMI by E-mail</h3>
-	#{"<p>Select notify or not when your diary gets a new TSUKKOMI. So TSUKKOMI mail need SMTP server settings in tdiary.conf.</p>" unless @cgi.mobile_agent?}
+	<p>Select notify or not when your diary gets a new TSUKKOMI. So TSUKKOMI mail need SMTP server settings in tdiary.conf.</p>
 	<p><select name="comment_mail.enable">
 		<option value="true"#{" selected" if @conf['comment_mail.enable']}>Send Mail</option>
         <option value="false"#{" selected" unless @conf['comment_mail.enable']}>Don't Send</option>
 	</select></p>
 	<h3 class="subtitle">Receivers</h3>
-	#{"<p>Sepecify receivers of TSUKKOMI mail, 1 address per 1 line. If you dose not specify, TSUKKOMI mails will be sent to your address.</p>" unless @cgi.mobile_agent?}
+	<p>Sepecify receivers of TSUKKOMI mail, 1 address per 1 line. If you dose not specify, TSUKKOMI mails will be sent to your address.</p>
 	<p><textarea name="comment_mail.receivers" cols="40" rows="3">#{h( @conf['comment_mail.receivers'].gsub( /[, ]+/, "\n") )}</textarea></p>
 	<h3 class="subtitle">Mail header</h3>
-	#{"<p>Specify a string insert to beginning of mail subject. The subject have a style of \"your_specified_string:DATE-SERIAL NAME\". \"date\" is formatted as same as diary's date you specified. But when you specify another date style in this string, subject style is changed to \"your_specified_string-SERIAL NAME\" (ex: \"hoge:%Y-%m-%d\")</p>" unless @cgi.mobile_agent?}
+	<p>Specify a string insert to beginning of mail subject. The subject have a style of "your_specified_string:DATE-SERIAL NAME". "date" is formatted as same as diary's date you specified. But when you specify another date style in this string, subject style is changed to "your_specified_string-SERIAL NAME" (ex: "hoge:%Y-%m-%d")</p>
 	<p><input name="comment_mail.header" value="#{h @conf['comment_mail.header']}"></p>
 	<h3 class="subtitle">About hidden TSUKKOMI</h3>
-	#{"<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>" unless @cgi.mobile_agent?}
+	<p>Some TSUKKOMI are hidden by filters. You can decide which sending E-mail by hidden TSUKKOMI.</p>
 	<p><label for="comment_mail.sendhidden"><input type="checkbox" id="comment_mail.sendhidden" name="comment_mail.sendhidden" value="#{" checked" if @conf['comment_mail.sendhidden']}">Send mail by hidden TSUKKOMI</label></p>
 	HTML
 end
@@ -317,20 +317,18 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
             '<input type="checkbox" name="check_enabled" value="true">'
         end}Enabled (default)
 	</p>
-	#{"<p>Configures Referer-based CSRF protection.
+	<p>Configures Referer-based CSRF protection.
 	TDiary checks the Referer value sent from your web browser. If the post request comes from some outer page,
 	the request will be rejected. This setting can't be disabled through web-based configuration, for safety reasons.</p>
-	" unless @cgi.mobile_agent?}
 	<h3 class="subtitle">Handling of Referer-disabled browsers</h3>
 	<p><input type="radio" name="check_referer" value="true" #{if [1,3].include?(csrf_protection_method) then " checked" end}>Reject (default)
 	<input type="radio" name="check_referer" value="false" #{if [0,2].include?(csrf_protection_method) then " checked" end}>Accept
 	</p>
-	#{"<p>Configures handling for requests without any Referer: value.
+	<p>Configures handling for requests without any Referer: value.
 	By default tDiary rejects such request for safety reasons.
 	If your browser is configured not to send Referer values, alter that setting to allow sending Referer, at least for
 	originating sites. If it is impossible, configure the key-based CSRF protection below, and
-	change this setting to \"Accept\".</p>
-	" unless @cgi.mobile_agent?}
+	change this setting to "Accept".</p>
 	</div>
 	<div class="section">
 	<h3 class="subtitle">Checking CSRF key</h3>
@@ -338,9 +336,9 @@ add_conf_proc( 'csrf_protection', 'CSRF Protection', 'security' ) do
 	<p><input type="radio" name="check_key" value="true" #{if [2,3].include?(csrf_protection_method) then " checked" end}>Enabled
 	<input type="radio" name="check_key" value="false" #{if [0,1].include?(csrf_protection_method) then " checked" end}>Disabled (default)
 	</p>
-	#{"<p>tDiary can add a secret key for every post form to prevent CSRF. As long as attackers do not know the secret key,
+	<p>tDiary can add a secret key for every post form to prevent CSRF. As long as attackers do not know the secret key,
 	forged requests will not be granted. To enable this feature, tDiary will generate a key automatically.
-	To allow Referer-disabled browsers, you must enable this setting.</p>" unless @cgi.mobile_agent?}
+	To allow Referer-disabled browsers, you must enable this setting.</p>
 	#{"<p class=\"message\">Caution:
 	Your browser seems not to be sending any Referers, although Referer-based protection is enabled.
 	<a href=\"#{h @conf.update}?conf=csrf_protection\">Please open this page again via this link</a>.

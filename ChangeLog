@@ -1,6 +1,19 @@
+2015-06-29  MATSUOKA Kohei <kohei@machu.jp>
+	* release 4.1.3
+	* Gemfile: use rack 1.6.4 which sepatates params with ';'. see #485
+
+2015-05-05  MATSUOKA Kohei <kohei@machu.jp>
+	* catch TDiary::ForceRedirect exception from 90migrate.rb at startup
+
+2015-04-22  TADA Tadashi <t@tdtds.jp>
+	* add full path of lib into LOAD_PATH, fix #481 #483
+
+2015-03-29  MATSUOKA Kohei <kohei@machu.jp>
+	* release 4.1.2
+
 2015-03-15  MATSUOKA Kohei <kohei@machu.jp>
-    * use omniauth automatically if omniauth gem loaded
-    * support some auth providers (twitter, facebook, google, github)
+	* use omniauth automatically if omniauth gem loaded
+	* support some auth providers (twitter, facebook, google, github)
 
 2015-02-25  MATSUOKA Kohei <kohei@machu.jp>
 	* support ruby-2.2 and unsupport ruby-1.9.3

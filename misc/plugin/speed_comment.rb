@@ -20,7 +20,7 @@
 =end
 
 add_body_leave_proc do |date|
-	if /latest|month/ =~ @mode and not @cgi.mobile_agent? then
+	if /latest|month/ =~ @mode
 		@conf['speed_comment.name_size'] = 20 unless @conf['speed_comment.name_size']
 		@conf['speed_comment.body_size'] = 40 unless @conf['speed_comment.body_size']
 		r = ""
