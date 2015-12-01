@@ -46,6 +46,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sprockets'
   spec.add_dependency 'hikidoc'
   spec.add_dependency 'fastimage'
-  spec.add_dependency 'gemoji'
+  spec.add_dependency 'emot'
   spec.add_dependency 'mail'
 end

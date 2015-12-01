@@ -3,8 +3,8 @@ PATH
   specs:
     tdiary (4.2.0.20151126)
       bundler (~> 1.3)
+      emot
       fastimage
-      gemoji
       hikidoc
       mail
       rack
@@ -38,11 +38,12 @@ GEM
       thor (~> 0.19.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    emot (0.0.4)
+      thor
     execjs (2.6.0)
     fastimage (1.8.0)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.10)
-    gemoji (2.1.0)
     hikidoc (0.1.0)
     jasmine (2.3.1)
       jasmine-core (~> 2.3)
@@ -110,7 +111,7 @@ GEM
       simplecov-html (~> 0.9.0)
     simplecov-html (0.9.0)
     slop (3.6.0)
-    sprockets (3.4.0)
+    sprockets (3.4.1)
       rack (> 1, < 3)
     sqlite3 (1.3.11)
     term-ansicolor (1.3.2)
