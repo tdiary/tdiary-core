@@ -13,13 +13,39 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://www.tdiary.org/"
   spec.license       = "GPL2"
 
-  spec.files         = `git ls-files`.split($/)
+  spec.files         = Dir[
+    'ChangeLog',
+    'config.ru',
+    'Gemfile',
+    'Gemfile.lock',
+    'README.md',
+    'Rakefile',
+    'tdiary.conf*',
+    'bin/**/*',
+    'doc/**/*',
+    'js/**/*',
+    'lib/**/*',
+    'misc/**/*',
+    'public/**/*',
+    'theme/**/*',
+    'vendor/**/*',
+    'views/**/*'
+  ]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = '>= 1.9.2'
+  spec.required_ruby_version = '>= 2.0.0'
 
+  # for tdiary command
   spec.add_dependency 'thor', '~> 0.18'
   spec.add_dependency "bundler", "~> 1.3"
+
+  # for tdiary application
+  spec.add_dependency 'rack'
+  spec.add_dependency 'rake'
+  spec.add_dependency 'sprockets'
+  spec.add_dependency 'hikidoc'
+  spec.add_dependency 'fastimage'
+  spec.add_dependency 'emot'
+  spec.add_dependency 'mail'
 end

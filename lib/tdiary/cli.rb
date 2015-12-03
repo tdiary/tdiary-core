@@ -18,7 +18,7 @@ module TDiary
 			target = File.join(Dir.pwd, name)
 			deploy(target)
 			copy_file('tdiary.conf.beginner', File.join(target, 'tdiary.conf'))
-			template('misc/templates/Gemfile.local.erb', File.join(target, 'Gemfile.local'))
+			template('misc/templates/Gemfile.erb', File.join(target, 'Gemfile'))
 
 			unless options[:'skip-bundle']
 				Bundler.with_clean_env do
@@ -75,7 +75,12 @@ module TDiary
 		def test
 			target = File.join(Dir.pwd, 'tmp/test')
 			deploy(target)
-			append_to_file(File.join(target, 'Gemfile'), "path '#{CLI::source_root}'")
+			copy_file('Gemfile', File.join(target, 'Gemfile'))
+			gsub_file(File.join(target, 'Gemfile'),
+				/^gemspec$/,
+				"gemspec path: '#{CLI::source_root}'"
+			)
+			copy_file('Rakefile', File.join(target, 'Rakefile'))
 			directory('spec', File.join(target, 'spec'))
 			directory('test', File.join(target, 'test'))
 
@@ -171,8 +176,6 @@ module TDiary
 				empty_directory(File.join(target, 'theme'))
 				%w(
 				README.md
-				Gemfile
-				Gemfile.lock
 				config.ru
 				tdiary.conf.beginner
 				tdiary.conf.sample
