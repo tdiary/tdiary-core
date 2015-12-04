@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'tdiary'
 require 'rack/builder'
-require 'tdiary/application/configuration'
 require 'tdiary/rack'
 
 # FIXME too dirty hack :-<
@@ -16,44 +15,44 @@ end
 
 module TDiary
 	class Application
-		class << self
-			def configure(&block)
-				instance_eval &block
-			end
+		def initialize( base_dir = nil )
+			index_path   = self.index_path
+			update_path  = self.update_path
+			assets_path  = self.assets_path
+			assets_paths = self.assets_paths
 
-			def config
-				@config ||= Configuration.new
-			end
-		end
+			base_dir ||= self.base_dir
 
-		def initialize( base_dir = '/' )
 			@app = ::Rack::Builder.app do
 				map base_dir do
-					map Application.config.path[:index] do
+					map '/' do
 						use TDiary::Rack::HtmlAnchor
 						use TDiary::Rack::Static, "public"
 						use TDiary::Rack::ValidRequestPath
-						run TDiary::Dispatcher.index
+						map index_path do
+							run TDiary::Dispatcher.index
+						end
 					end
 
-					map Application.config.path[:update] do
+					map update_path do
 						use TDiary::Rack::Auth
 						run TDiary::Dispatcher.update
 					end
 
-					map Application.config.path[:assets] do
+					map assets_path do
 						environment = Sprockets::Environment.new
-						TDiary::Application.config.assets_paths.each {|assets_path|
+						assets_paths.each {|assets_path|
 							environment.append_path assets_path
 						}
 
-						if Application.config.assets_precompile
+						if TDiary.configuration.options['tdiary.assets.precompile']
+							TDiary.logger.info('enable assets.precompile')
 							require 'tdiary/rack/assets/precompile'
 							use TDiary::Rack::Assets::Precompile, environment
 						end
 
 						run environment
-					end	
+					end
 				end
 			end
 			run_plugin_startup_procs
@@ -66,6 +65,34 @@ module TDiary
 				body = ["#{e.class}: #{e}\n"]
 				body << e.backtrace.join("\n")
 				[500, {'Content-Type' => 'text/plain'}, body]
+			end
+		end
+
+	protected
+		def assets_paths
+			TDiary::Extensions::constants.map {|extension|
+				TDiary::Extensions::const_get( extension ).assets_path
+			}.flatten.uniq
+		end
+
+		def index_path
+			(Pathname.new('/') + TDiary.configuration.index).to_s
+		end
+
+		def update_path
+			(Pathname.new('/') + TDiary.configuration.update).to_s
+		end
+
+		def assets_path
+			'/assets'
+		end
+
+		def base_dir
+			base_url = TDiary.configuration.base_url
+			if base_url.empty?
+				'/'
+			else
+				URI.parse(base_url).path
 			end
 		end
 

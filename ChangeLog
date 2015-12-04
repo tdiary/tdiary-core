@@ -1,3 +1,6 @@
+2015-12-01  MATSUOKA Kohei <kohei@machu.jp>
+	* enable to write TDiary::Application settings in tdiary.conf (@index, @update, @options['base_url'])
+
 2015-11-26  MATSUOKA Kohei <kohei@machu.jp>
 	* move gems dependency from Gemfile to .gemspec
 	* specify spec.files without git command
