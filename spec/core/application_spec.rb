@@ -26,7 +26,15 @@ describe TDiary::Application do
 		end
 
 		context "with base_dir" do
-			let(:app) { TDiary::Application.new('/diary') }
+			before do
+				TDiary.configuration.options['base_url'] = 'http://example.com/diary/'
+			end
+
+			after do
+				TDiary.configuration.options['base_url'] = ''
+			end
+
+			let(:app) { TDiary::Application.new }
 
 			it do
 				get '/diary/'
