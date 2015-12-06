@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/tdiary/tdiary-core",
   "devDependencies": {
-    "bower": "*",
     "grunt": "*",
     "grunt-cli": "*",
     "grunt-bower-task": "*",
