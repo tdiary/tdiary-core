@@ -21,9 +21,7 @@
   },
   "homepage": "https://github.com/tdiary/tdiary-core",
   "devDependencies": {
-    "bower": "*",
-    "grunt": "*",
-    "grunt-cli": "*",
-    "grunt-bower-task": "*"
-  }
+    "jquery": "~2.1.0",
+    "jasmine-jquery": "~2.0.3"
+    }
 }
