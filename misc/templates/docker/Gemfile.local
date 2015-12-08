@@ -1,0 +1,4 @@
+gem 'tdiary-contrib', github: 'tdiary/tdiary-contrib'
+gem 'tdiary-style-gfm'
+gem 'omniauth-twitter'
+gem 'puma'
