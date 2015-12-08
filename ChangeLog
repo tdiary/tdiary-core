@@ -1,3 +1,6 @@
+2015-12-08  MATSUOKA Kohei <kohei@machu.jp>
+	* fix #494 authentication error by omniauth and rack::session::pool
+
 2015-12-01  MATSUOKA Kohei <kohei@machu.jp>
 	* enable to write TDiary::Application settings in tdiary.conf (@index, @update, @options['base_url'])
 
