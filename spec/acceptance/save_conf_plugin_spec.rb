@@ -56,8 +56,8 @@ feature 'プラグイン選択設定の利用' do
 
 		expect(page.body).to be_include('caretposition.js')
 		expect(page.body).to be_include('category_autocomplete.js')
-		expect(page.body).to be_include('//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js')
-		expect(page.body).not_to be_include('//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js?')
+		expect(page.body).to be_include('//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
+		expect(page.body).not_to be_include('//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js?')
 	end
 end
 # Local Variables:

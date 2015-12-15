@@ -358,7 +358,7 @@ def description_tag
 end
 
 def jquery_tag
-	%Q[<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>]
+	%Q[<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>]
 end
 
 enable_js( '00default.js' )
