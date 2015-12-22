@@ -58,7 +58,7 @@ end
 def category_transaction(categories)
 	transaction('category') do |db|
 		(categories || db.keys).each do |category|
-			JSON.load(db.get(category) || '{}').sort_by{|d,_|d}.to_h.each do |ymd, diaries|
+			Hash[*JSON.load(db.get(category) || '{}').sort_by{|d,_|d}.flatten(1)].each do |ymd, diaries|
 				yield db, category, ymd, diaries
 			end
 		end
