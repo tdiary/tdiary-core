@@ -1,3 +1,6 @@
+2015-04-22  TADA Tadashi <t@tdtds.jp>
+	* renewal category plugin
+
 2015-12-08  MATSUOKA Kohei <kohei@machu.jp>
 	* fix #494 authentication error by omniauth and rack::session::pool
 
