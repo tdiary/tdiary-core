@@ -673,11 +673,14 @@ div.sidebar div.calendar {
  */
 @media screen and (max-device-width: 480px) {
 	body {
+		box-sizing: border-box;
 	}
 
 	div.adminmenu {
 		font-size: x-small;
 		margin: 0px;
+		padding-left: 0px;
+		padding-right: 0px;
 		width: 100%;
 	}
 
@@ -687,7 +690,7 @@ div.sidebar div.calendar {
 	}
 
 	div.whole-content {
-		width: 100%;
+		width: 95%;
 	}
 
 	div.main {
@@ -738,6 +741,10 @@ div.sidebar div.calendar {
 
 	textarea {
 		font-size: 110%;
+	}
+
+	div.sidebar {
+		display: none;
 	}
 }
 

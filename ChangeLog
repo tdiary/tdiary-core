@@ -1,3 +1,6 @@
+2015-12-25  TADA Tadashi <t@tdtds.jp>
+	* default.css: more adjust CSS for mobile devices
+
 2015-12-08  MATSUOKA Kohei <kohei@machu.jp>
 	* fix #494 authentication error by omniauth and rack::session::pool
 
