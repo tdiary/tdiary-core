@@ -1,3 +1,6 @@
+2015-12-25  MATSUOKA Kohei <kohei@machu.jp>
+	* revert 61b7b6: writing dependency in gemspec, see #527
+
 2015-12-25  TADA Tadashi <t@tdtds.jp>
 	* default.css: more adjust CSS for mobile devices
 

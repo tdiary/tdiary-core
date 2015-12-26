@@ -36,16 +36,6 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.0.0'
 
-  # for tdiary command
   spec.add_dependency 'thor', '~> 0.18'
   spec.add_dependency "bundler", "~> 1.3"
-
-  # for tdiary application
-  spec.add_dependency 'rack'
-  spec.add_dependency 'rake'
-  spec.add_dependency 'sprockets'
-  spec.add_dependency 'hikidoc'
-  spec.add_dependency 'fastimage'
-  spec.add_dependency 'emot'
-  spec.add_dependency 'mail'
 end
