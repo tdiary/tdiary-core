@@ -1,21 +1,7 @@
-PATH
-  remote: .
-  specs:
-    tdiary (4.2.0.20151206)
-      bundler (~> 1.3)
-      emot
-      fastimage
-      hikidoc
-      mail
-      rack
-      rake
-      sprockets
-      thor (~> 0.18)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.3.8)
+    addressable (2.4.0)
     byebug (8.2.1)
     capybara (2.5.0)
       mime-types (>= 1.16)
@@ -60,7 +46,7 @@ GEM
     mini_portile2 (2.0.0)
     multi_json (1.11.2)
     netrc (0.11.0)
-    nokogiri (1.6.7)
+    nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
     phantomjs (1.9.8.0)
     pit (0.0.7)
@@ -110,7 +96,7 @@ GEM
       simplecov-html (~> 0.9.0)
     simplecov-html (0.9.0)
     slop (3.6.0)
-    sprockets (3.5.1)
+    sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sqlite3 (1.3.11)
@@ -133,19 +119,22 @@ PLATFORMS
 DEPENDENCIES
   capybara
   coveralls (~> 0.7.12)
+  emot
+  fastimage
+  hikidoc
   jasmine
   launchy
+  mail
   pit
   pry-byebug
+  rack
   racksh
+  rake
   redcarpet
   rspec
   selenium-webdriver
   sequel
   simplecov
+  sprockets
   sqlite3
-  tdiary!
   test-unit
-
-BUNDLED WITH
-   1.10.6
