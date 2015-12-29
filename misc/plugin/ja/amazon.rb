@@ -80,6 +80,9 @@
 @amazon_label_usedefault = 'デフォルトのイメージを使う'
 @amazon_label_clearcache = 'キャッシュの削除'
 @amazon_label_clearcache_desc = 'イメージ関連情報のキャッシュを削除する(Amazon上の表示と矛盾がある場合に試して下さい)'
+@amazon_label_ssl_img = 'Amazonの商品イメージを HTTPS に'
+@amazon_label_ssl_use = 'する'
+@amazon_label_ssl_unuse = 'しない(APIの値を使う)'
 
 # Local Variables:
 # mode: ruby

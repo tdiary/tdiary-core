@@ -124,6 +124,7 @@ def amazon_image( item )
 		end
 		img = item.elements.to_a("#{size}Image")[0] || item.elements.to_a("ImageSets/ImageSet/#{size}Image")[0]
 		image[:src] = img.elements['URL'].text
+		image[:src].gsub!(/http:\/\/ecx\.images-amazon\.com/, 'https://images-na.ssl-images-amazon.com') if @conf['amazon.ssl.img']
 		image[:height] = img.elements['Height'].text
 		image[:width] = img.elements['Width'].text
 	rescue
@@ -317,6 +318,7 @@ def amazon_conf_proc
 			@conf['amazon.imgsize'] = @cgi.params['amazon.imgsize'][0].to_i
 			@conf['amazon.hidename'] = (@cgi.params['amazon.hidename'][0] == 'true')
 			@conf['amazon.bitly'] = (@cgi.params['amazon.bitly'][0] == 'true')
+			@conf['amazon.ssl.img'] = (@cgi.params['amazon.ssl.img'][0] == 'true')
 			unless @conf.secure then
 				@conf['amazon.nodefault'] = (@cgi.params['amazon.nodefault'][0] == 'true')
 				if @cgi.params['amazon.clearcache'][0] == 'true' then
@@ -344,6 +346,11 @@ def amazon_conf_proc
 			<p><select name="amazon.hidename">
 				<option value="true"#{" selected" if @conf['amazon.hidename']}>#{@amazon_label_hide}</option>
 				<option value="false"#{" selected" unless @conf['amazon.hidename']}>#{@amazon_label_show}</option>
+			</select></p>
+			<h3>#{@amazon_label_ssl_img}</h3>
+			<p><select name="amazon.ssl.img">
+				<option value="true"#{" selected" if @conf['amazon.ssl.img']}>#{@amazon_label_ssl_use}</option>
+				<option value="false"#{" selected" unless @conf['amazon.ssl.img']}>#{@amazon_label_ssl_unuse}</option>
 			</select></p>
 		HTML
 
