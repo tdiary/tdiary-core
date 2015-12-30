@@ -4,13 +4,8 @@ gem 'rack'
 gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
-gem 'gemoji'
+gem 'emot'
 gem 'mail'
-
-group :coffee do
-  gem 'coffee-script'
-  gem 'therubyracer'
-end
 
 group :development do
   gem 'pit', require: false
