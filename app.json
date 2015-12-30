@@ -1,7 +1,7 @@
 {
   "name": "tDiary",
   "website": "http://www.tdiary.org/",
-  "repository": "https://github.com/tdiary/tdiary-core/tree/heroku",
+  "repository": "https://github.com/tdiary/tdiary-core/tree/heroku_to_master",
   "addons": [
     "sendgrid",
     "memcachier",
@@ -13,7 +13,15 @@
   "env": {
     "TWITTER_KEY": "",
     "TWITTER_SECRET": "",
-	 "TWITTER_NAME": "",
+    "TWITTER_NAME": "",
     "RACK_ENV": "production"
-  }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/machu/heroku-buildpack-tdiary"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-ruby"
+    }
+  ]
 }
