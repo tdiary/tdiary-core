@@ -1,3 +1,6 @@
+2015-12-31  TADA Tadashi <t@tdtds.jp>
+	* application.rb: fix error when @index or @update specified with URL in tdiary.conf
+
 2015-12-29  MATSUOKA Kohei <kohei@machu.jp>
 	* release 4.2.1
 
