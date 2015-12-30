@@ -1,5 +1,5 @@
 ruby '2.2.3'
-gem 'thin', require: false
+gem 'puma', require: false
 gem 'tdiary-io-mongodb', github: 'tdiary/tdiary-io-mongodb'
 gem 'tdiary-contrib', github: 'tdiary/tdiary-contrib'
 gem 'tdiary-style-gfm'
