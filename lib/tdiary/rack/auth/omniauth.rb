@@ -19,14 +19,15 @@ class TDiary::Rack::Auth::OmniAuth
 			raise NoStrategyFoundError.new("Not found any strategies. Write the omniauth strategy in your Gemfile.local.")
 		end
 
-		@builder = ::Rack::Builder.new(app) {
+		@app = ::Rack::Builder.new(app) {
 			use TDiary::Rack::Session
-		}
-		@builder.instance_eval(&self.class.provider_procs[provider])
+		}.tap {|builder|
+			builder.instance_eval(&self.class.provider_procs[provider])
+		}.to_app
 	end
 
 	def call(env)
-		@builder.call(env)
+		@app.call(env)
 	end
 
 	add_provider(:Twitter) do

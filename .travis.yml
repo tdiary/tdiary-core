@@ -8,13 +8,13 @@ rvm:
   - 2.0.0
   - 2.1
   - 2.2
+  - 2.3.0
   - ruby-head
 
 cache:
   bundler: true
   directories:
     - node_modules
-    - bower_components
 
 # ignored --deployment option
 bundler_args: "--without server --jobs=3 --retry=3"
@@ -24,7 +24,6 @@ before_install:
 
 before_script:
   - npm install
-  - grunt
 
 script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec jasmine:ci test ; fi
 
