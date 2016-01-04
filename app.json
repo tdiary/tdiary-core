@@ -1,7 +1,7 @@
 {
   "name": "tDiary",
   "website": "http://www.tdiary.org/",
-  "repository": "https://github.com/tdiary/tdiary-core/tree/heroku_to_master",
+  "repository": "https://github.com/tdiary/tdiary-core",
   "addons": [
     "sendgrid",
     "memcachier",
@@ -18,7 +18,7 @@
   },
   "buildpacks": [
     {
-      "url": "https://github.com/machu/heroku-buildpack-tdiary"
+      "url": "https://github.com/tdiary/heroku-buildpack-tdiary"
     },
     {
       "url": "https://github.com/heroku/heroku-buildpack-ruby"
