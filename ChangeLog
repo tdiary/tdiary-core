@@ -1,3 +1,6 @@
+2016-01-05  MATSUOKA Kohei <kohei@machu.jp>
+	* support heroku on master branch
+
 2015-12-31  TADA Tadashi <t@tdtds.jp>
 	* application.rb: fix error when @index or @update specified with URL in tdiary.conf
 
