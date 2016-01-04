@@ -124,6 +124,7 @@ def amazon_image( item )
 		end
 		img = item.elements.to_a("#{size}Image")[0] || item.elements.to_a("ImageSets/ImageSet/#{size}Image")[0]
 		image[:src] = img.elements['URL'].text
+		image[:src].gsub!(/http:\/\/ecx\.images-amazon\.com/, 'https://images-na.ssl-images-amazon.com')
 		image[:height] = img.elements['Height'].text
 		image[:width] = img.elements['Width'].text
 	rescue
