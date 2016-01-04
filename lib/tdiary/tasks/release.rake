@@ -48,23 +48,12 @@ def make_tarball( repo, version = nil )
 			end
 
 			Dir.chdir '.bundle/ruby' do
-				v = `ls`.chomp
-				case v
-				when '2.2.0'
-					FileUtils.cp_r '2.2.0', '2.0.0'
-					FileUtils.cp_r '2.2.0', '2.1.0'
-				when '2.1.0'
-					FileUtils.cp_r '2.1.0', '2.0.0'
-					FileUtils.cp_r '2.1.0', '2.2.0'
-				when '2.0.0'
-					FileUtils.cp_r '2.0.0', '2.1.0'
-					FileUtils.cp_r '2.0.0', '2.2.0'
-				else
-					FileUtils.cp_r v, '2.2.0'
-					FileUtils.cp_r v, '2.1.0'
-					FileUtils.cp_r v, '2.0.0'
-					FileUtils.rm_rf v
-				end
+				versions = %w(2.0.0 2.1.0 2.2.0 2.3.0)
+				current = `ls`.chomp
+				versions.each {|version|
+					FileUtils.cp_r current, version unless current == version
+				}
+				FileUtils.rm_rf current unless versions.member?(current)
 			end
 			Dir.chdir 'misc/lib' do
 				sh 'gem unpack bundler'
