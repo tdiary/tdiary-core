@@ -62,9 +62,6 @@
 @amazon_label_usedefault = 'Use default image'
 @amazon_label_clearcache = 'Clear Cache'
 @amazon_label_clearcache_desc = 'Delete local cache file about book images'
-@amazon_label_ssl_img = 'Use HTTPS protocol for Amazon product image'
-@amazon_label_ssl_use = 'Use HTTPS'
-@amazon_label_ssl_unuse = 'Use HTTP(API variable)'
 
 # Local Variables:
 # mode: ruby
