@@ -11,9 +11,15 @@
     "postdeploy": "bundle exec rake mongodb:index"
   },
   "env": {
-    "TWITTER_KEY": "",
-    "TWITTER_SECRET": "",
-    "TWITTER_NAME": "",
+    "TWITTER_KEY": {
+      "required": true
+    },
+    "TWITTER_SECRET": {
+      "required": true
+    },
+    "TWITTER_NAME": {
+      "required": true
+    },
     "RACK_ENV": "production"
   },
   "buildpacks": [
