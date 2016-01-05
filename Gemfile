@@ -6,11 +6,11 @@ gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
 gem 'mail'
+gem 'rake'
 
 group :development do
   gem 'pit', require: false
   gem 'racksh', require: false
-  gem 'rake'
   gem 'redcarpet'
 
   group :test do
