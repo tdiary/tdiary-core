@@ -1,3 +1,6 @@
+2016-01-05  TADA Tadashi <t@tdtds.jp>
+	* system_update.rb, README.md: enable deploy master branch to heroku
+
 2016-01-05  MATSUOKA Kohei <kohei@machu.jp>
 	* support heroku on master branch
 
