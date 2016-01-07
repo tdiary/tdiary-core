@@ -65,6 +65,7 @@ class CGI
 	end
 
 	def https?
+		return true if env_table['HTTP_X_FORWARDED_PROTO'] == 'https'
 		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS'] or env_table['HTTPS'] == ''
 		true
 	end
