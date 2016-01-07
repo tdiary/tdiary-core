@@ -105,7 +105,7 @@ def calendar2(days_format = nil, navi_format = nil, show_todo = nil)
 	p_c_n = calendar2_prev_current_next
 
 	result = <<CALENDAR_HEAD
-<table class="calendar" summary="calendar">
+<table class="calendar" title="calendar">
 <tr>
  <td class="image" colspan="7"></td>
 </tr>
