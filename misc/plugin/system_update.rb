@@ -15,7 +15,7 @@ def system_update
 		client = Octokit::Client.new(access_token: token)
 		title = "system update on #{Time.now}"
 		body = 'update by system_update plugin'
-		pull_request = client.create_pull_request("#{user}/tdiary-core", 'heroku', 'tdiary:heroku', title, body)
+		pull_request = client.create_pull_request("#{user}/tdiary-core", 'master', 'tdiary:master', title, body)
 		client.merge_pull_request("#{user}/tdiary-core", pull_request[:number])
 		@logger.info 'syatem update finished'
 	rescue Octokit::UnprocessableEntity
@@ -37,7 +37,7 @@ add_conf_proc('system_update', 'システム更新', 'basic') do
 
 	r = <<-HTML
 		<h3 class="subtitle">tDiaryシステムの更新</h3>
-		<p>GitHubとHerokuの連携機能を使って、tDaiaryシステムの更新を行います。あらかじめ<a href="https://github.com/tdiary/tdiary-core">tDiaryの公式リポジトリ</a>をforkし、そのリポジトリをHerokuのGitHub Deployに指定しておく必要があります。(masterではなく)herokuブランチを使うように気をつけて下さい。</p>
+		<p>GitHubとHerokuの連携機能を使って、tDaiaryシステムの更新を行います。あらかじめ<a href="https://github.com/tdiary/tdiary-core">tDiaryの公式リポジトリ</a>をforkし、そのリポジトリをHerokuのGitHub Deployに指定しておく必要があります。更新のさいにはmasterブランチを参照します。</p>
 		<p>GitHub access token (40文字): <input type="text" id="system_update.token" name="system_update.token" size="40" value="#{h @conf['system_update.token']}"></p>
 		<p>GitHub user name: <input type="text" id="system_update.user" name="system_update.user" size="20" value="#{h @conf['system_update.user']}"></p>
 		<hr>
