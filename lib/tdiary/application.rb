@@ -76,11 +76,11 @@ module TDiary
 		end
 
 		def index_path
-			(Pathname.new('/') + TDiary.configuration.index).to_s
+			(Pathname.new('/') + URI(TDiary.configuration.index).path).to_s
 		end
 
 		def update_path
-			(Pathname.new('/') + TDiary.configuration.update).to_s
+			(Pathname.new('/') + URI(TDiary.configuration.update).path).to_s
 		end
 
 		def assets_path

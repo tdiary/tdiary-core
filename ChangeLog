@@ -1,3 +1,21 @@
+2016-01-05  TADA Tadashi <t@tdtds.jp>
+	* system_update.rb, README.md: enable deploy master branch to heroku
+
+2016-01-05  MATSUOKA Kohei <kohei@machu.jp>
+	* support heroku on master branch
+
+2015-12-31  TADA Tadashi <t@tdtds.jp>
+	* application.rb: fix error when @index or @update specified with URL in tdiary.conf
+
+2015-12-29  MATSUOKA Kohei <kohei@machu.jp>
+	* release 4.2.1
+
+2015-12-25  MATSUOKA Kohei <kohei@machu.jp>
+	* revert 61b7b6: writing dependency in gemspec, see #527
+
+2015-12-25  TADA Tadashi <t@tdtds.jp>
+	* default.css: more adjust CSS for mobile devices
+
 2015-12-08  MATSUOKA Kohei <kohei@machu.jp>
 	* fix #494 authentication error by omniauth and rack::session::pool
 

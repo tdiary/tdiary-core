@@ -1,6 +1,12 @@
 source 'https://rubygems.org'
 
-gemspec
+gem 'rack'
+gem 'sprockets'
+gem 'hikidoc'
+gem 'fastimage'
+gem 'emot'
+gem 'mail'
+gem 'rake'
 
 group :development do
   gem 'pit', require: false

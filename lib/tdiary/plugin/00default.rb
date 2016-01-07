@@ -195,7 +195,7 @@ end
 # define DOCTYPE
 #
 def doctype
-	%Q[<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">]
+	%Q|<!DOCTYPE html>|
 end
 
 #
@@ -204,11 +204,9 @@ end
 add_header_proc do
 	calc_links
 	<<-HEADER
-	<meta http-equiv="Content-Type" content="text/html; charset=#{h charset}">
+	<meta charset="#{h charset}">
 	<meta name="generator" content="tDiary #{h TDIARY_VERSION}">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	#{last_modified_header}
-	#{content_script_type}
 	#{author_name_tag}
 	#{author_mail_tag}
 	#{index_page_tag}
@@ -265,15 +263,11 @@ def charset
 end
 
 def last_modified_header
-	if @last_modified then
-		%Q|<meta http-equiv="Last-Modified" content="#{CGI::rfc1123_date( @last_modified )}">|
-	else
-		''
-	end
+	''
 end
 
 def content_script_type
-	%Q[<meta http-equiv="Content-Script-Type" content="text/javascript; charset=#{h charset}">]
+	''
 end
 
 def author_name_tag
@@ -358,7 +352,7 @@ def description_tag
 end
 
 def jquery_tag
-	%Q[<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>]
+	%Q[<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>]
 end
 
 enable_js( '00default.js' )
@@ -381,13 +375,13 @@ def script_tag
 	query = script_tag_query_string
 	html = @javascripts.sort.map {|script|
 		if URI(script).scheme or script =~ %r|\A//|
-			%Q|<script src="#{script}" type="text/javascript"></script>|
+			%Q|<script src="#{script}"></script>|
 		else
-			%Q|<script src="#{js_url}/#{script}#{query}" type="text/javascript"></script>|
+			%Q|<script src="#{js_url}/#{script}#{query}"></script>|
 		end
 	}.join( "\n\t" )
 	html << "\n" << <<-HEAD
-		<script type="text/javascript"><!--
+		<script><!--
 		#{@javascript_setting.map{|a| "#{a[0]} = #{a[1]};"}.join("\n\t\t")}
 		//-->
 		</script>
@@ -413,9 +407,8 @@ def css_tag
 	end
 	title = File::basename( css, '.css' )
 	<<-CSS
-<meta http-equiv="content-style-type" content="text/css">
-	<link rel="stylesheet" href="#{h theme_url}/base.css" type="text/css" media="all">
-	<link rel="stylesheet" href="#{h css}" title="#{h title}" type="text/css" media="all">
+<link rel="stylesheet" href="#{h theme_url}/base.css" media="all">
+	<link rel="stylesheet" href="#{h css}" title="#{h title}" media="all">
 	CSS
 end
 
@@ -613,7 +606,7 @@ add_footer_proc do
 	elsif hide_comment_day_limit
 		r = ''
 		r << <<-JS
-			<script type="text/javascript"><!--
+			<script><!--
 			document.getElementById('comment-form-section').innerHTML = '#{comment_form_text.gsub( /[\r\n]/, '' ).gsub( /<\//, '<\\/' )}';
 			//--></script>
 		JS
