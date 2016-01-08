@@ -57,7 +57,7 @@ def title_tag
 			day_title << apply_plugin(diary.title, true) << ':'
 		end
 		t2 = ''
-		if @plugin_files.grep(/\/category.rb$/).empty? then
+		if @plugin_files.grep(/\/category.*\.rb$/).empty? then
 			t2 << diary.all_subtitles_to_html.join(', ')
 		else
 			t2 << diary.all_stripped_subtitles_to_html.join(', ')

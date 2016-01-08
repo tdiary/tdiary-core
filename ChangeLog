@@ -1,3 +1,6 @@
+2016-01-08  TADA Tadashi <t@tdtds.jp>
+	* title_tag.rb: support category-lite plugin
+
 2016-01-05  TADA Tadashi <t@tdtds.jp>
 	* system_update.rb, README.md: enable deploy master branch to heroku
 
