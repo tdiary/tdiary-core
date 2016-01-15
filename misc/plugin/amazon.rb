@@ -9,7 +9,8 @@
 autoload :Net,     'net/http'
 autoload :URI,     'uri'
 autoload :Timeout, 'timeout'
-autoload :REXML,   'rexml/document'
+#autoload :REXML,   'rexml/document'
+require 'rexml/document'
 
 # do not change these variables
 @amazon_subscription_id = '1CVA98NEF1G753PFESR2'
@@ -278,7 +279,6 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 				File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
 			end
 			begin
-				require 'rexml/encoding'
 				rexml_src = REXML::Source::new(StringIO.new xml)
 				rexml_document = REXML::Document::new(rexml_src)
 				doc = rexml_document.root
