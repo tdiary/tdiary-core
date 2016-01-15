@@ -278,7 +278,7 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 				File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
 			end
 			begin
-				rexml_src = REXML::Source::new(xml)
+				rexml_src = REXML::Source::new(StringIO.new xml)
 				rexml_document = REXML::Document::new(rexml_src)
 				doc = rexml_document.root
 			rescue SecurityError => e
