@@ -10,7 +10,7 @@ require 'json'
 require 'open-uri'
 
 def theme_list_online(list)
-	url = @options['theme_online.url'] || 'http://theme.tdiary.org/'
+	url = @options['theme_online.url'] || '//tdiary.github.io/tdiary-theme/'
 	url = "http:#{url}" if url =~ %r|\A//|
 	begin
 		online_list = JSON.load(open(File.join(url, 'themes.json'), &:read))['themes']
@@ -26,6 +26,6 @@ def theme_list_online(list)
 end
 
 def theme_url_online(theme)
-	url = @options['theme_online.url'] || 'http://theme.tdiary.org/'
+	url = @options['theme_online.url'] || '//tdiary.github.io/tdiary-theme/'
 	File.join(url, "#{h theme}/#{h theme}.css")
 end
