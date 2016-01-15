@@ -253,8 +253,6 @@ def amazon_secure_html( asin, with_image, label, pos, country )
 	%Q|<a href="#{h url}">#{image}#{h label}</a>|
 end
 
-$LOAD_PATH.map!{|path|path.untaint}
-
 def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 	asin = asin.to_s.strip # delete white spaces
 	asin.sub!(/\A([a-z]+):/, '')
@@ -280,8 +278,8 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 				File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
 			end
 			begin
-				rexml_src = REXML::Source.new(xml)
-				rexml_document = REXML::Document.new(rexml_src)
+				rexml_src = REXML::Source::new(xml)
+				rexml_document = REXML::Document::new(rexml_src)
 				doc = rexml_document.root
 			rescue SecurityError => e
 				raise
