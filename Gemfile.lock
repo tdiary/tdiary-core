@@ -126,6 +126,7 @@ DEPENDENCIES
   launchy
   mail
   pit
+  pry
   pry-byebug
   rack
   racksh
