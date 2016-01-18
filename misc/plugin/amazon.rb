@@ -9,8 +9,7 @@
 autoload :Net,     'net/http'
 autoload :URI,     'uri'
 autoload :Timeout, 'timeout'
-
-require 'rexml/document'
+autoload :REXML,   'rexml/document'
 
 # do not change these variables
 @amazon_subscription_id = '1CVA98NEF1G753PFESR2'
