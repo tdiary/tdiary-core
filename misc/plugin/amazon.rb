@@ -277,7 +277,7 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 				xml =  amazon_call_ecs( asin, id_type, country )
 				File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
 			end
-			doc = REXML::Document::new( REXML::Source::new( xml ) ).root
+			doc = REXML::Document.new(REXML::Source.new(xml)).root
 			item = doc.elements.to_a( '*/Item' )[0]
 			if pos == 'detail' then
 				amazon_detail_html( item )
