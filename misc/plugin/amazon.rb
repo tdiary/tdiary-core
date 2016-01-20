@@ -226,33 +226,6 @@ def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
-def amazon_secure_html( asin, with_image, label, pos, country )
-	with_image = false if @mode == 'categoryview'
-	label = asin unless label
-
-	image = ''
-	if with_image and @conf['amazon.secure-cgi'] then
-		image = <<-HTML
-		<img class="#{h pos}"
-		src="#{h @conf['amazon.secure-cgi']}?asin=#{u asin};size=#{u @conf['amazon.imgsize']};country=#{u country}"
-		alt="">
-		HTML
-	end
-	image.gsub!( /\t/, '' )
-
-	if with_image and @conf['amazon.hidename'] || pos != 'amazon' then
-		label = ''
-	end
-
-	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].to_s.empty?
-	aid = @conf["amazon.aid.#{country}"] || ''
-	amazon_url = @amazon_url_hash[country]
-	url =  "#{amazon_url}/#{u asin}"
-	url << "/#{u aid}" unless aid.empty?
-	url << "/ref=nosim/"
-	%Q|<a href="#{h url}">#{image}#{h label}</a>|
-end
-
 def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 	asin = asin.to_s.strip # delete white spaces
 	asin.sub!(/\A([a-z]+):/, '')
@@ -265,44 +238,40 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 		id_type = 'ASIN'
 	end
 
-	if @conf.secure then
-		amazon_secure_html( asin, with_image, label, pos, country )
-	else
+	begin
+		cache = "#{@cache_path}/amazon"
+		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
-			cache = "#{@cache_path}/amazon"
-			Dir::mkdir( cache ) unless File::directory?( cache )
-			begin
-				xml = File::read( "#{cache}/#{country}#{asin}.xml" )
-			rescue Errno::ENOENT
-				xml =  amazon_call_ecs( asin, id_type, country )
-				File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
-			end
-			doc = REXML::Document::new( REXML::Source::new( xml ) ).root
-			item = doc.elements.to_a( '*/Item' )[0]
-			if pos == 'detail' then
-				amazon_detail_html( item )
-			else
-				amazon_to_html( item, with_image, label, pos )
-			end
-		rescue Timeout::Error
-			@logger.error "amazon.rb: Amazon API Timeouted."
-			message = asin
-			if @mode == 'preview' then
-				message << %Q|<span class="message">(Amazon API Timeouted))</span>|
-			end
-			message
-		rescue NoMethodError
-			message = label || asin
-			if @mode == 'preview' then
-				if item == nil then
-					m = doc.elements.to_a( 'Items/Request/Errors/Error/Message' )[0].text
-					message << %Q|<span class="message">(#{h @conf.to_native( m, 'utf-8' )})</span>|
-				else
-					message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|
-				end
-			end
-			message
+			xml = File::read( "#{cache}/#{country}#{asin}.xml" )
+		rescue Errno::ENOENT
+			xml = amazon_call_ecs( asin, id_type, country )
+			File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
 		end
+		doc = REXML::Document::new( REXML::Source::new( xml ) ).root
+		item = doc.elements.to_a( '*/Item' )[0]
+		if pos == 'detail' then
+			amazon_detail_html( item )
+		else
+			amazon_to_html( item, with_image, label, pos )
+		end
+	rescue Timeout::Error
+		@logger.error "amazon.rb: Amazon API Timeouted."
+		message = asin
+		if @mode == 'preview' then
+			message << %Q|<span class="message">(Amazon API Timeouted))</span>|
+		end
+		message
+	rescue NoMethodError
+		message = label || asin
+		if @mode == 'preview' then
+			if item == nil then
+				m = doc.elements.to_a( 'Items/Request/Errors/Error/Message' )[0].text
+				message << %Q|<span class="message">(#{h @conf.to_native( m, 'utf-8' )})</span>|
+			else
+				message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|
+			end
+		end
+		message
 	end
 end
 
