@@ -275,7 +275,7 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 	end
 end
 
-unless @conf.secure and not @conf['amazon.secure-cgi'] then
+unless @conf.secure then
 	add_conf_proc( 'amazon', @amazon_label_conf ) do
 		amazon_conf_proc
 	end
@@ -283,7 +283,7 @@ end
 
 def amazon_conf_proc
 	if @mode == 'saveconf' then
-		unless @conf.secure and not @conf['amazon.secure-cgi'] then
+		unless @conf.secure then
 			@conf['amazon.imgsize'] = @cgi.params['amazon.imgsize'][0].to_i
 			@conf['amazon.hidename'] = (@cgi.params['amazon.hidename'][0] == 'true')
 			@conf['amazon.bitly'] = (@cgi.params['amazon.bitly'][0] == 'true')
@@ -302,7 +302,7 @@ def amazon_conf_proc
 	end
 
 	result = ''
-	unless @conf.secure and not @conf['amazon.secure-cgi'] then
+	unless @conf.secure then
 		result << <<-HTML
 			<h3>#{@amazon_label_imgsize}</h3>
 			<p><select name="amazon.imgsize">
