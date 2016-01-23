@@ -275,25 +275,19 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 	end
 end
 
-unless @conf.secure then
-	add_conf_proc( 'amazon', @amazon_label_conf ) do
-		amazon_conf_proc
-	end
+add_conf_proc( 'amazon', @amazon_label_conf ) do
+	amazon_conf_proc
 end
 
 def amazon_conf_proc
 	if @mode == 'saveconf' then
-		unless @conf.secure then
-			@conf['amazon.imgsize'] = @cgi.params['amazon.imgsize'][0].to_i
-			@conf['amazon.hidename'] = (@cgi.params['amazon.hidename'][0] == 'true')
-			@conf['amazon.bitly'] = (@cgi.params['amazon.bitly'][0] == 'true')
-			unless @conf.secure then
-				@conf['amazon.nodefault'] = (@cgi.params['amazon.nodefault'][0] == 'true')
-				if @cgi.params['amazon.clearcache'][0] == 'true' then
-					Dir["#{@cache_path}/amazon/*"].each do |cache|
-						File::delete( cache.untaint )
-					end
-				end
+		@conf['amazon.imgsize'] = @cgi.params['amazon.imgsize'][0].to_i
+		@conf['amazon.hidename'] = (@cgi.params['amazon.hidename'][0] == 'true')
+		@conf['amazon.bitly'] = (@cgi.params['amazon.bitly'][0] == 'true')
+		@conf['amazon.nodefault'] = (@cgi.params['amazon.nodefault'][0] == 'true')
+		if @cgi.params['amazon.clearcache'][0] == 'true' then
+			Dir["#{@cache_path}/amazon/*"].each do |cache|
+				File::delete( cache.untaint )
 			end
 		end
 		unless @conf['amazon.hideconf'] then
@@ -302,43 +296,41 @@ def amazon_conf_proc
 	end
 
 	result = ''
-	unless @conf.secure then
+
+	result << <<-HTML
+		<h3>#{@amazon_label_imgsize}</h3>
+		<p><select name="amazon.imgsize">
+			<option value="0"#{" selected" if @conf['amazon.imgsize'] == 0}>#{@amazon_label_large}</option>
+			<option value="1"#{" selected" if @conf['amazon.imgsize'] == 1}>#{@amazon_label_regular}</option>
+			<option value="2"#{" selected" if @conf['amazon.imgsize'] == 2}>#{@amazon_label_small}</option>
+		</select></p>
+		<h3>#{@amazon_label_title}</h3>
+		<p><select name="amazon.hidename">
+			<option value="true"#{" selected" if @conf['amazon.hidename']}>#{@amazon_label_hide}</option>
+			<option value="false"#{" selected" unless @conf['amazon.hidename']}>#{@amazon_label_show}</option>
+		</select></p>
+	HTML
+
+	if @options['bitly.login'] and @options['bitly.key'] then
 		result << <<-HTML
-			<h3>#{@amazon_label_imgsize}</h3>
-			<p><select name="amazon.imgsize">
-				<option value="0"#{" selected" if @conf['amazon.imgsize'] == 0}>#{@amazon_label_large}</option>
-				<option value="1"#{" selected" if @conf['amazon.imgsize'] == 1}>#{@amazon_label_regular}</option>
-				<option value="2"#{" selected" if @conf['amazon.imgsize'] == 2}>#{@amazon_label_small}</option>
-			</select></p>
-			<h3>#{@amazon_label_title}</h3>
-			<p><select name="amazon.hidename">
-				<option value="true"#{" selected" if @conf['amazon.hidename']}>#{@amazon_label_hide}</option>
-				<option value="false"#{" selected" unless @conf['amazon.hidename']}>#{@amazon_label_show}</option>
+			<h3>#{@amazon_label_bitly}</h3>
+			<p><select name="amazon.bitly">
+				<option value="true"#{" selected" if @conf['amazon.bitly']}>#{@amazon_label_bitly_enabled}</option>
+				<option value="false"#{" selected" unless @conf['amazon.bitly']}>#{@amazon_label_bitly_disabled}</option>
 			</select></p>
 		HTML
-
-		if @options['bitly.login'] and @options['bitly.key'] then
-			result << <<-HTML
-				<h3>#{@amazon_label_bitly}</h3>
-				<p><select name="amazon.bitly">
-					<option value="true"#{" selected" if @conf['amazon.bitly']}>#{@amazon_label_bitly_enabled}</option>
-					<option value="false"#{" selected" unless @conf['amazon.bitly']}>#{@amazon_label_bitly_disabled}</option>
-				</select></p>
-			HTML
-		end
-
-		unless @conf.secure then
-			result << <<-HTML
-				<h3>#{@amazon_label_notfound}</h3>
-				<p><select name="amazon.nodefault">
-					<option value="true"#{" selected" if @conf['amazon.nodefault']}>#{@amazon_label_usetitle}</option>
-					<option value="false"#{" selected" unless @conf['amazon.nodefault']}>#{@amazon_label_usedefault}</option>
-				</select></p>
-				<h3>#{@amazon_label_clearcache}</h3>
-				<p><label for="amazon.clearcache"><input type="checkbox" id="amazon.clearcache" name="amazon.clearcache" value="true">#{@amazon_label_clearcache_desc}</label></p>
-			HTML
-		end
 	end
+
+	result << <<-HTML
+		<h3>#{@amazon_label_notfound}</h3>
+		<p><select name="amazon.nodefault">
+			<option value="true"#{" selected" if @conf['amazon.nodefault']}>#{@amazon_label_usetitle}</option>
+			<option value="false"#{" selected" unless @conf['amazon.nodefault']}>#{@amazon_label_usedefault}</option>
+		</select></p>
+		<h3>#{@amazon_label_clearcache}</h3>
+		<p><label for="amazon.clearcache"><input type="checkbox" id="amazon.clearcache" name="amazon.clearcache" value="true">#{@amazon_label_clearcache_desc}</label></p>
+	HTML
+
 	unless @conf['amazon.hideconf'] then
 		result << <<-HTML
 			<h3>#{@amazon_label_aid}</h3>
