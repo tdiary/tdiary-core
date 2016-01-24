@@ -12,12 +12,12 @@ function insertImage(text){
 
 $(function(){
 	$('.image-img')
-	.live('hover', function(){
+	.on('hover', function(){
 		$(this).css('cursor', 'pointer');
 	}, function(){
 		$(this).css('cursor', 'default');
 	})
-	.live('click', function(){
+	.on('click', function(){
 		var idx = this.id.replace('image-index-', '');
 		var w = $('#image-info-' + idx + ' .image-width').text();
 		var h = $('#image-info-' + idx + ' .image-height').text();
@@ -107,7 +107,7 @@ $(function(){
 	};
 
 	$('#plugin-image-delimage')
-	.live('submit', function(e){
+	.on('submit', function(e){
 		e.preventDefault();
 		
 		var ids = $.map($('#image-table input[name="plugin_image_id"]:checked'), function(i){
