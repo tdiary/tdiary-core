@@ -68,13 +68,13 @@ module TDiary
 			end
 		end
 
-	protected
 		def assets_paths
 			TDiary::Extensions::constants.map {|extension|
 				TDiary::Extensions::const_get( extension ).assets_path
 			}.flatten.uniq
 		end
 
+	protected
 		def index_path
 			(Pathname.new('/') + URI(TDiary.configuration.index).path).to_s
 		end
