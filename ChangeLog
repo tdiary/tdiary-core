@@ -1,3 +1,6 @@
+2016-01-26  TADA Tadashi <t@tdtds.jp>
+	* title_tag.rb: print only diary name when diary has no subtitles
+
 2016-01-19  TADA Tadashi <t@tdtds.jp>
 	* delete config.ru for Heroku (use default one)
 

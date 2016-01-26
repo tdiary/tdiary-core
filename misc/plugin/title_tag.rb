@@ -58,11 +58,16 @@ def title_tag
 		end
 		t2 = ''
 		if @plugin_files.grep(/\/category.*\.rb$/).empty? then
-			t2 << diary.all_subtitles_to_html.join(', ')
+			t2 << diary.all_subtitles_to_html.delete_if{|s|s.size == 0}.join(', ')
 		else
-			t2 << diary.all_stripped_subtitles_to_html.join(', ')
+			t2 << diary.all_stripped_subtitles_to_html.delete_if{|s|s.size == 0}.join(', ')
 		end
-		return "<title>#{h day_title} #{@conf.shorten(apply_plugin(t2, true))} - #{h( site_title )}</title>"
+		sub_part = "#{h day_title} #{@conf.shorten(apply_plugin(t2, true))}"
+		if sub_part.size <= 1
+			return "<title>#{h( site_title )}</title>"
+		else
+			return "<title>#{sub_part} - #{h( site_title )}</title>"
+		end
 	elsif @mode == 'categoryview' then
 		return @conf.shorten("<title>#{h( @html_title )}#{h( category_title() )}</title>")
 	else
