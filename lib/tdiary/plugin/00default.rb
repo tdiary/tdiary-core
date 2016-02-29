@@ -213,9 +213,9 @@ add_header_proc do
 	#{icon_tag}
 	#{default_ogp}
 	#{description_tag}
+	#{css_tag.chomp}
 	#{jquery_tag.chomp}
 	#{script_tag.chomp}
-	#{css_tag.chomp}
 	#{title_tag.chomp}
 	#{robot_control.chomp}
 	HEADER
