@@ -2,8 +2,6 @@
 #
 # recent_comment3: 最近のツッコミをリストアップする
 #
-#   @secure = true な環境では動作しません．
-#
 # Copyright (c) 2002 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL2 or any later version.
 #
@@ -41,8 +39,6 @@ def recent_comment3_init
 end
 
 def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSOLUTE',*ob_except )
-	return 'DO NOT USE IN SECURE MODE' if @conf.secure
-
 	migrate_old_data
 	recent_comment3_init
 

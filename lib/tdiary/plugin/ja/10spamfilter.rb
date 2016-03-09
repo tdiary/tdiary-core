@@ -42,7 +42,6 @@ def spamfilter_conf_html
 	<textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
 	HTML
 
-	unless @conf.secure then
 	r << <<-HTML
 	<h3>フィルタのログ</h3>
 	<p>フィルタのログを
@@ -52,7 +51,6 @@ def spamfilter_conf_html
 			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>すべて記録する</option>
 		</select></p>
 	HTML
-	end
 
 	r
 end

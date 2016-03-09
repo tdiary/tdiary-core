@@ -151,7 +151,6 @@ class DispRef2SetupIF
 				the search engine names.
 			</table>
 		_HTML
-		unless @setup.secure then
 		r << <<-_HTML
 			<h3>Cache</h3>
 			<p>It isn't available to turn on this option with tDiary2 file format(DefaultIO).</p>
@@ -171,19 +170,14 @@ class DispRef2SetupIF
 			</table>
 			<p>Cache size limit is an approximation. There is a chance that the cache size is bigger than the configured value. Setting the limit to zero disalbes limitation. K or M can be suffixed meaning Kbytes or Mbytes.</p>
 		_HTML
-		end # unless @setup.secure
 		r
 	end
 
 	# shows URL list to be added to the referer_table or no_referer
 	def show_unknown_list
-		if @setup.secure then
+		urls = DispRef2Cache.new( @setup ).urls( DispRef2URL::Unknown ).keys
+		if urls.size == 0 then
 			urls = DispRef2Latest.new( @cgi, 'latest.rhtml', @conf, @setup ).unknown_urls
-		else
-			urls = DispRef2Cache.new( @setup ).urls( DispRef2URL::Unknown ).keys
-			if urls.size == 0 then
-				urls = DispRef2Latest.new( @cgi, 'latest.rhtml', @conf, @setup ).unknown_urls
-			end
 		end
 		urls.reject!{ |url| DispRef2String::url_match?( url, @setup['reflist.ignore_urls'] ) }
 		r = <<-_HTML

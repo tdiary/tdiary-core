@@ -20,8 +20,6 @@ and add the following line:
 to indicate the directory you have put the optional plugins. It can be
 an absolute path.
 
-You can use this plugin in a secure diary.
-
 == Options
 :@conf.options['sp.path']
 	Directory name where the optional plugins are, relative from the

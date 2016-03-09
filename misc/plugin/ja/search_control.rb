@@ -18,8 +18,6 @@
 実際に効果があるかどうかは、検索エンジンのロボットがメタタグを解釈して
 くれるかどうかにかかっています。
 
-secure==trueな日記でも使えます。
-
 == License
 Copyright (C) 2003, 2004 zunda <zunda at freeshell.org>
 

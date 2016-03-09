@@ -48,13 +48,6 @@ describe TDiary::Plugin do
 			is_expected.to eq 'hello sample plugin'
 		end
 
-		context 'secureモード指定の場合' do
-			it 'Safeモード4で実行されること' do
-				expect(Safe).to receive(:safe).with(4)
-				@plugin.eval_src(@src, true)
-			end
-		end
-
 		context 'debugモードがONの場合' do
 			before { @plugin.instance_variable_set(:@debug, true) }
 

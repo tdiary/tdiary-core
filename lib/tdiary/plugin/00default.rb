@@ -181,7 +181,7 @@ def calendar
 end
 
 #
-# insert file. only enable unless @secure.
+# insert file
 #
 def insert( file )
 	begin

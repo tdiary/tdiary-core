@@ -112,14 +112,12 @@ class RackCGI < CGI; end
 == Safe module
 =end
 module Safe
-	def safe( level = 4 )
+	def safe
 		result = nil
-		if $SAFE < level then
+		if $SAFE < 1 then
 			Proc.new {
 				begin
-					$SAFE = level
-				rescue ArgumentError
-					# $SAFE=4 was removed from Ruby 2.1.0.
+					$SAFE = 1
 				ensure
 					result = yield
 				end

@@ -236,8 +236,6 @@ FOOTER
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],
 ]
 
-@secure = false
-
 #
 # この下の行を削除してはいけません
 #

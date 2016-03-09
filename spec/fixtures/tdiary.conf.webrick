@@ -208,5 +208,4 @@ FOOTER
 	['^http://([^\.]*)\.tdiary\.net/.*', 'tDiary.Net[\1]'],
 ]
 
-@secure = false
 load_cgi_conf

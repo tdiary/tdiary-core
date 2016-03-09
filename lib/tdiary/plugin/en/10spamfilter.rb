@@ -44,7 +44,6 @@ def spamfilter_conf_html
 	<p>Show messeges and spam conditions for your subscribers.<br><textarea name="comment_description" cols="70" rows="5">#{h comment_description}</textarea></p>
 	HTML
 
-	unless @conf.secure then
 	r << <<-HTML
 	<h3>for Debug</h3>
 	<p>Debug mode.<br>
@@ -54,7 +53,6 @@ def spamfilter_conf_html
 			<option value="2"#{" selected" if @conf['filter.debug_mode'] == 2}>Full</option>
 		</select></p>
 	HTML
-	end
 
 	r
 end
