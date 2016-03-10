@@ -1,3 +1,6 @@
+2016-03-10  TADA Tadashi <t@tdtds.jp>
+	* style/wiki.rb: untaint plugin code when syntax checking
+
 2016-03-09  TADA Tadashi <t@tdtds.jp>
 	* replace category.rb plugin by contrib/category-lite.rb plugin
 	* kill secure mode (ignore @secure variable in tdiary.conf and more)
