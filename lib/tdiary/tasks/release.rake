@@ -48,7 +48,7 @@ def make_tarball( repo, version = nil )
 			end
 
 			Dir.chdir '.bundle/ruby' do
-				versions = %w(2.0.0 2.1.0 2.2.0 2.3.0)
+				versions = %w(2.1.0 2.2.0 2.3.0)
 				current = `ls`.chomp
 				versions.each {|version|
 					FileUtils.cp_r current, version unless current == version
