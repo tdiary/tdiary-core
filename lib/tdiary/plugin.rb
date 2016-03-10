@@ -92,7 +92,7 @@ module TDiary
 			end
 		end
 
-		def eval_src( src, secure )
+		def eval_src( src )
 			self.taint
 			@conf.taint
 			@title_procs.taint
@@ -103,7 +103,7 @@ module TDiary
 			@comment_leave_procs.taint
 			@subtitle_procs.taint
 			@section_leave_procs.taint
-			ret = Safe::safe( secure ? 4 : 1 ) do
+			ret = Safe::safe do
 				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			end
 			@conf.io_class.plugin_close(@storage)
@@ -312,11 +312,7 @@ module TDiary
 		end
 
 		def add_cookie( cookie )
-			begin
-				@cookies << cookie
-			rescue SecurityError
-				raise SecurityError, "can't use cookies in plugin when secure mode"
-			end
+			@cookies << cookie
 		end
 
 		def enable_js( script )
@@ -356,8 +352,8 @@ module TDiary
 			return '' unless str
 			r = str.dup
 			if @conf.options['apply_plugin'] and r.index( '<%' ) then
-				r = r.untaint if $SAFE < 3
-				Safe::safe( @conf.secure ? 4 : 1 ) do
+				r = r.untaint
+				Safe::safe do
 					begin
 						r = ERB::new( r ).result( binding )
 					rescue Exception

@@ -1,5 +1,6 @@
 2016-03-09  TADA Tadashi <t@tdtds.jp>
 	* replace category.rb plugin by contrib/category-lite.rb plugin
+	* kill secure mode (ignore @secure variable in tdiary.conf and more)
 
 2016-01-26  TADA Tadashi <t@tdtds.jp>
 	* title_tag.rb: print only diary name when diary has no subtitles

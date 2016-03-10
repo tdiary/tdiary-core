@@ -17,8 +17,8 @@ module TDiary
 
 		def save
 			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../views/tdiary.rconf").untaint).result(binding)
-			result.untaint unless @secure
-			Safe::safe( @secure ? 4 : 1 ) do
+			result.untaint
+			Safe::safe do
 				eval( result, binding, "(TDiary::Configuration#save)", 1 )
 			end
 			@io_class.save_cgi_conf(self, result)
@@ -114,11 +114,11 @@ module TDiary
 			end
 
 			cgi_conf = @io_class.load_cgi_conf(self)
-			cgi_conf.untaint unless @secure
+			cgi_conf.untaint
 
 			b = binding.taint
 			eval( def_vars1, b )
-			Safe::safe( @secure ? 4 : 1 ) do
+			Safe::safe do
 				begin
 					eval( cgi_conf, b, "(TDiary::Configuration#load_cgi_conf)", 1 )
 				rescue SyntaxError
@@ -137,7 +137,6 @@ module TDiary
 
 		# loading tdiary.conf in current directory
 		def configure_attrs
-			@secure = true unless @secure
 			@options = {}
 
 			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, nil, "(tdiary.conf)", 1 )

@@ -28,8 +28,6 @@ RECENT_RSS_HTTP_HEADER = {
 }
 
 def recent_rss( url, max = 5, cache_time = 3600, show_modified = true )
-	return 'DO NOT USE IN SECURE MODE' if @conf.secure
-
 	url.untaint
 
 	cache_file = "#{@cache_path}/recent_rss.#{CGI.escape(url)}"

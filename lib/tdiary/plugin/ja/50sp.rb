@@ -25,8 +25,6 @@ pluginディレクトリの下にselectableというディレクトリを作っ�
 などと、選択できるプラグインのあるディレクトリをtdiary.rbのあるディレク
 トリからの相対パスか絶対パスで指定してください。
 
-secure==trueな日記でも使えます。
-
 == オプション
 :@conf.options['sp.path']
   'plugin/selectable'などと、選択できるプラグインのあるディレクトリを、

@@ -110,22 +110,6 @@ If you run tDiary in the environment where you can't use the suffix, ".rb", as C
 
 After you finish configuration, access "http://www.hoge.example.org/~foo/diary/". If you can see an empty page, tDiary works well. Unfortunately, if you encounter "Internal Server Error", you must change configuration. The error-log of Apache is useful in order to investigate the cause.
 
-Security
---------
-
-"tdiary.conf" has the item which change the security level. If you use tDiary on your own server, you may not care about security. But, if you lend tDiary or provide the service of web-log, you need restriction.
-
-In these cases, you set the security level in "tdiary.conf". Normally, these two lines exists at the end of "tdiary.conf".
-
-```
-@secure = false load_cgi_conf
-```
-By changing @secure, you set the security level. If this is false, no security check is carried out. If no security check is executed, users can change tDiary indulgently. When you run tDiary under the dangerous circumstance, you set @secure to true. If you do it, the dangerous operation, for example, file operation or variable assignment, is prohibited when "tdiary.conf" is loaded. The "@secure" affects plugins. If security check is carried out, you can't use some plugins.
-
-"load\_cgi\_conf" is the function which loads the tDiary's configuration file of CGI. In this example, the CGI configuration file is loaded after the security level is configured.
-
-Because you can change the positions of "load\_cgi\_conf" and @secure independently, you can do detailed configuration. If you omit @secure, @secure is set to the default value, true.
-
 run tDiary
 ----------
 

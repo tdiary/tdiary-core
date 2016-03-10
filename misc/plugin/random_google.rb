@@ -49,12 +49,8 @@ def random_google_init
 	@conf['random_google.popup'] ||= '本日のお題: $1'
 	@conf['random_google.append'] ||= ''
 	@conf['random_google.exception'] ||= ''
-	if @conf.secure
-		@conf['random_google.analyzer'] = "internal"
-	else
-		@conf['random_google.analyzer'] ||= "internal"
-		@conf['random_google.analyzer_path'] ||= ""
-	end
+	@conf['random_google.analyzer'] ||= "internal"
+	@conf['random_google.analyzer_path'] ||= ""
 end
 
 if /(latest|day)/ === @mode and !bot?
@@ -93,12 +89,8 @@ def saveconf_random_google
 		@conf['random_google.popup'] = @cgi.params['random_google_popup'][0]
 		@conf['random_google.append'] = @cgi.params['random_google_append'][0]
 		@conf['random_google.exception'] = @cgi.params['random_google_exception'][0]
-		if @conf.secure
-			@conf['random_google.analyzer'] = "internal"
-		else
-			@conf['random_google.analyzer'] = @cgi.params['random_google_analyzer'][0]
-			@conf['random_google.analyzer_path'] = @cgi.params['random_google_analyzer_path'][0]
-		end
+		@conf['random_google.analyzer'] = @cgi.params['random_google_analyzer'][0]
+		@conf['random_google.analyzer_path'] = @cgi.params['random_google_analyzer_path'][0]
 	end
 end
 
@@ -134,7 +126,6 @@ add_conf_proc('RandomGoogle', '関連するかもしれないページ検索') d
 	<p><input name="random_google_exception" size="70" value="#{h @conf['random_google.exception']}"></p>
 	HTML
 
-	unless @conf.secure
 		r << <<-HTML
 	<h3 class="subtitle">形態素解析器の利用</h3>
 	<p>キーワードの抽出に形態素解析器を利用するかどうかを指定します．形態素解析器を使用しない場合は/([亜-瑤]{2,}|[ァ-ヶー]{2,}|[0-9A-Za-z]{2,})/という正規表現でキーワードを抽出しますが，あまり精度はよくありません．</p>
@@ -152,7 +143,6 @@ add_conf_proc('RandomGoogle', '関連するかもしれないページ検索') d
 	<p>例)</p><pre>/usr/local/bin/chasen</pre>
 	<p><input name="random_google_analyzer_path" size="70" value="#{h @conf['random_google.analyzer_path']}"></p>
 	HTML
-	end
 	r
 end
 
