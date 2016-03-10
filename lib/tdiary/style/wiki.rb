@@ -75,7 +75,7 @@ module TDiary
 					begin
 						$SAFE = 1
 					ensure
-						eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
+						eval( "BEGIN {return true}\n#{code.dup.untaint}", nil, "(plugin)", 0 )
 					end
 				}.call
 			rescue SyntaxError
