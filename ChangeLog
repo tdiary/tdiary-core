@@ -1,3 +1,6 @@
+2016-03-16  TADA Tadashi <t@tdtds.jp>
+	* rename category_legacy.rb to category-legacy.rb
+
 2016-03-10  TADA Tadashi <t@tdtds.jp>
 	* style/wiki.rb: untaint plugin code when syntax checking
 

@@ -1,4 +1,4 @@
-# en/category_legacy.rb
+# en/category-legacy.rb
 #
 # Copyright (c) 2004 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL2 or any later version.
