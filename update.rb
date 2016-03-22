@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8; -*-
+# -*- coding: ascii-8bit; -*-
 #
 # update.rb
 #

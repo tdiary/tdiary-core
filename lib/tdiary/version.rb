@@ -1,3 +1,3 @@
 module TDiary
-	VERSION = '4.2.1.20160310'
+	VERSION = '4.2.1.20160322'
 end
