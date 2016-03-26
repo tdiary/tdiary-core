@@ -53,9 +53,9 @@ RSpec.configure do |config|
 
 	excludes = case ENV['TEST_MODE']
 				  when 'webrick'
-					  [:exclude_selenium, :exclude_no_secure]
+					  [:exclude_selenium]
 				  else # rack
-					  [:exclude_rack, :exclude_no_secure]
+					  [:exclude_rack]
 				  end
 	excludes.each do |exclude|
 		config.filter_run_excluding exclude
