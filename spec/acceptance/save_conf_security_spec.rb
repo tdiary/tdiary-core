@@ -249,14 +249,7 @@ BODY
 		expect(page).to have_content 'これはツッコミの注意文です'
 	end
 
-	scenario 'スパムフィルターのログ記録の設定ができない', :exclude_no_secure do
-		append_default_diary
-
-		visit '/update.rb?conf=spamfilter'
-		expect(page).not_to have_field 'filter.debug_mode'
-	end
-
-	scenario 'スパムフィルターのログ記録の設定が保存される', :exclude_secure do
+	scenario 'スパムフィルターのログ記録の設定が保存される' do
 		append_default_diary
 
 		visit '/update.rb?conf=spamfilter'
