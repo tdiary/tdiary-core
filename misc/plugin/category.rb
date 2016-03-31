@@ -19,7 +19,7 @@ module Category
 		end
 
 		def category
-			@name || (@name = @conf.to_native(@cgi.params['category'][0], @conf.encoding_old))
+			@name ||= @conf.to_native(@cgi.params['category'][0] || '', @conf.encoding_old)
 		end
 	end
 end
