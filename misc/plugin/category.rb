@@ -35,9 +35,6 @@ end
 
 def category_list
 	info = Category::Info.new(@cgi, _, @conf)
-	category = info.category
-	category = [] if category.empty?
-
 	@categories.map do |c|
 		%Q|<a href="#{h @index}?category=#{h c}">#{h c}</a>|
 	end.join(" | \n")
