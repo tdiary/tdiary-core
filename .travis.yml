@@ -30,9 +30,5 @@ env:
   - TEST_MODE=rack
   - TEST_MODE=gem
 
-matrix:
-  allow_failures:
-    - rvm: ruby-head
-
 notifications:
   irc: "irc.freenode.org#tdiary"
