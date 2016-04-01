@@ -1,3 +1,7 @@
+2016-04-01  TADA Tadashi <t@tdtds.jp>
+	* category.rb: enable to call category_list and category_dropdown_list
+	plugins in diary header
+
 2016-03-29  MATSUOKA Kohei <kohei@machu.jp>
 	* release 5.0.0
 
