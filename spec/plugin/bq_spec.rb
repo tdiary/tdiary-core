@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require File.expand_path('../plugin_helper', __FILE__)
 
 describe "bq plugin w/" do

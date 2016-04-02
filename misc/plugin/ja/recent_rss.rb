@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # -*- indent-tabs-mode: t -*-
 #
 # Copyright (c) 2003-2005 Kouhei Sutou <kou@cozmixng.org>

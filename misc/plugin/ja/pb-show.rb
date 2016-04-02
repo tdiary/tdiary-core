@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Japanese resource of pb-show.rb
 #
 

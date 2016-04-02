@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # 05referer.rb: load/save and show today's referer plugin
 #

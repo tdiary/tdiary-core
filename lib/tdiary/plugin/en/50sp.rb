@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 # English resources of 50sp.rb
 
 =begin

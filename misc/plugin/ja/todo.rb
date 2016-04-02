@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ja/todo.rb
 #
 # Japanese resources for todo.rb

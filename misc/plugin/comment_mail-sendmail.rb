@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # comment_mail_sendmail.rb
 #
 # sendmailを使ってツッコミをメールで知らせる

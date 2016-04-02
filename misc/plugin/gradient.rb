@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # gradient.rb
 #
 # gradient.rb: 文字の大きさを変化させながら表示

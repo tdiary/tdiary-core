@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ja/category-legacy.rb
 #
 # Copyright (c) 2004 Junichiro KITA <kita@kitaj.no-ip.com>

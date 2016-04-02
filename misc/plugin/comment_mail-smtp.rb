@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # comment_mail-smtp.rb
 #
 # SMTPプロトコルを使ってツッコミをメールで知らせる

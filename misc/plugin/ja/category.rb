@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # ja/category.rb : tDiary plugin for show category pages
 #

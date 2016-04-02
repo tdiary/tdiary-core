@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # class Plugin
 #  plugin management class

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # tlink.rb
 #
 # title 属性付 anchor plugin

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'tdiary'
 require 'rack/builder'
 require 'tdiary/rack'

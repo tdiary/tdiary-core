@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # ENV#[] raises an exception on secure mode
 class CGI
 	ENV = ::ENV.to_hash

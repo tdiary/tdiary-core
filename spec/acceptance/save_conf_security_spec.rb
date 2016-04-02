@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature 'spamフィルタ設定の利用' do

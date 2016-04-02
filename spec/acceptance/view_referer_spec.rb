@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature 'リンク元の表示', exclude_selenium: true do

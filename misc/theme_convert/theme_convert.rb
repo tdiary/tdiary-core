@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # theme_convert.rb: tDiary 1.4 系用テーマを 2.0 系用に*てきとー*に変換する
 #

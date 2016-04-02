@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Japanese resources of edit_today plugin.
 
 @edit_today_caption = 'この日を編集'

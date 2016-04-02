@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature 'ツッコミの更新' do

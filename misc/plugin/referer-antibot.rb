@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # referer-antibot.rb
 #
 # 検索エンジンの巡回BOTには「本日のリンク元」を見せないようにする

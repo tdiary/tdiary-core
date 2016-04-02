@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require 'acceptance_helper'
 
 feature '1.9 でエンコーディングエラーとなるリファラ' do

@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # antispamservice.rb: tDiary comment spam filter using API setup plugin. $Revision: 1.3 $
 #
