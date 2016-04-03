@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# ja/category_legacy.rb
+# ja/category-legacy.rb
 #
 # Copyright (c) 2004 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL2 or any later version.

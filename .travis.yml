@@ -24,11 +24,15 @@ before_install:
 before_script:
   - npm install
 
-script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec jasmine:ci test ; fi
+script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec test ; fi
 
 env:
   - TEST_MODE=rack
   - TEST_MODE=gem
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
 
 notifications:
   irc: "irc.freenode.org#tdiary"

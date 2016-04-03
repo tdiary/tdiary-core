@@ -1,5 +1,5 @@
 #
-# category_legacy.rb : tDiary plugin for show category pages
+# category-legacy.rb : tDiary plugin for show category pages
 #                      legacy version for ruby 2.0 or later
 #
 # Copyright (c) 2003 Junichiro KITA <kita@kitaj.no-ip.com>
