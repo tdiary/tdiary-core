@@ -1,4 +1,3 @@
-# encoding: utf-8
 # by @kou
 # https://github.com/tdiary/tdiary-core/pull/218#issuecomment-10048898
 
@@ -215,4 +214,3 @@ class FetchTest < Test::Unit::TestCase
 		assert_not_nil(weather.data['temperature(C)'])
 	end
 end
-

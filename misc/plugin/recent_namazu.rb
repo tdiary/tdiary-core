@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # recent_namazu.rb
 #
 # recent_namazu: Namazu検索語新しい順

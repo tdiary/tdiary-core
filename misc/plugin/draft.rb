@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # draft.rb: save draft data to Web Storage automatically
 #

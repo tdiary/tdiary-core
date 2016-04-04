@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # recent_comment3: 最近のツッコミをリストアップする
 #

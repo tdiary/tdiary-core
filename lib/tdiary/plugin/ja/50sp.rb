@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 # Japanese resources of 50sp.rb
 
 =begin

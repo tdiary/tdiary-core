@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # server.rb: standalone tdiary cgi server via WEBrick.
 #

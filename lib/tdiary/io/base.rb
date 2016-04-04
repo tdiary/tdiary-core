@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # class IOBase
 #  base of IO class

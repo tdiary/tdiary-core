@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 require File.expand_path('../test_helper', __FILE__)
 require File.expand_path('../test_plugin_helper', __FILE__)
 

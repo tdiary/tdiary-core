@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # gradation.rb
 #
 # gradation.rb: 文字列をグラデーション表示

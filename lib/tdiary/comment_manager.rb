@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # module CommentManager
 #	 Management comments in a day. Include in Diary class.

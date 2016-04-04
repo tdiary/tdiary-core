@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TDiary
 	module Rack
 		autoload :HtmlAnchor,       'tdiary/rack/html_anchor'

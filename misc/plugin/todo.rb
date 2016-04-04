@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # todo.rb
 #
 # todo: show ToDo lists.

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module HelperMethods
 	def append_default_diary(ymd = Date.today.to_s)
 		date = Date.parse(ymd)

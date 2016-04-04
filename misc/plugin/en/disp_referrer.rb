@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 =begin
 = A little bit more powerful display of referrers((-$Id: disp_referrer.rb,v 1.20 2008-03-02 09:01:46 kazuhiko Exp $-))
 English resource

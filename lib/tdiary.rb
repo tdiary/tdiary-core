@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 =begin
 == NAME
 tDiary: the "tsukkomi-able" web diary system.

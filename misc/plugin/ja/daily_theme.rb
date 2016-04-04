@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ja/daily_theme.rb
 #
 # Copyright (c) 2005 SHIBATA Hiroshi <h-sbt@nifty.com>

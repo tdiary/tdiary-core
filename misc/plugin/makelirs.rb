@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # makelirs.rb
 #
 # 更新情報をLIRSフォーマットのファイルに吐き出す

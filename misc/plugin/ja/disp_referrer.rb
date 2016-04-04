@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 =begin
 = 本日のリンク元もうちょっとだけ強化プラグイン((-$Id: disp_referrer.rb,v 1.46 2008-03-02 09:01:46 kazuhiko Exp $-))
 日本語リソース

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # number_anchor.rb
 #
 # number_anchor: アンカーにid属性を付加する

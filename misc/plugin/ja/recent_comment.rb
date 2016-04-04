@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ja/recent_comment.rb
 #
 # Japanese resources for recent_comment.rb

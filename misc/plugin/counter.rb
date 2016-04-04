@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # counter.rb
 #
 # Access counter plugin.
