@@ -233,14 +233,11 @@ module TDiary
 
 			def calendar2
 				calendar = {}
-				Dir["#{@data_path}????"].sort.each do |dir|
-					next unless %r[/\d{4}$] =~ dir
-					Dir["#{dir.untaint}/??????.td2"].sort.each do |file|
-						year, month = file.scan( %r[/(\d{4})(\d\d)\.td2$] )[0]
-						next unless year
-						calendar[year] = [] unless calendar[year]
-						calendar[year] << month
-					end
+				Dir["#{@data_path}????/??????.td2"].sort.each do |file|
+					year, month = file.scan( %r[/(\d{4})(\d\d)\.td2$] )[0]
+					next unless year
+					calendar[year] = [] unless calendar[year]
+					calendar[year] << month
 				end
 				calendar
 			end
