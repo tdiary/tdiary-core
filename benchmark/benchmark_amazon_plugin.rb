@@ -31,14 +31,12 @@ Benchmark.ips do |x|
   xml = File.read('../spec/fixtures/jpB00H91KK26.xml')
   require_relative '../misc/plugin/amazon'
   x.report('rexml') do
-    doc = REXML::Document::new( REXML::Source::new( xml ) ).root
-    item = doc.elements.to_a( '*/Item' )[0]
+    item = AmazonItem.new(xml)
     amazon_detail_html( item )
   end
-  require_relative '../misc/plugin/ogamazon'
   x.report('oga') do
-    doc = Oga.parse_xml(xml)
-    item = doc.xpath('*/*/Item')[0]
-    ogamazon_detail_html(item)
+    require 'oga'
+    item = AmazonItem.new(xml, :oga)
+    amazon_detail_html(item)
   end
 end
