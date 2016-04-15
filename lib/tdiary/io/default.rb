@@ -232,11 +232,12 @@ module TDiary
 			end
 
 			def calendar2
-				calendar = Hash.new([])
+				calendar = {}
 				Dir["#{@data_path}????/??????.td2"].sort.each do |file|
-					year, month = file.scan( %r[/(\d{4})(\d\d)\.td2$] )[0]
-					next unless year
-					calendar[year] << month
+					if file =~ /(\d{4})(\d{2})\.td2$/
+						calendar[$1] = [] unless calendar[$1]
+						calendar[$1] << $2
+					end
 				end
 				calendar
 			end
