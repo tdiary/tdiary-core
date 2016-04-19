@@ -1,3 +1,6 @@
+2016-04-19  MATSUOKA Kohei <kohei@machu.jp>
+	* Dockerfile: support docker
+
 2016-04-01  TADA Tadashi <t@tdtds.jp>
 	* category.rb: enable to call category_list and category_dropdown_list
 	plugins in diary header
