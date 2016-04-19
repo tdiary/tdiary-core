@@ -148,10 +148,10 @@ def amazon_image( item )
 		elsif item.nodes("ImageSets/ImageSet/#{size}Image")[0]
 			node_prefix = "ImageSets/ImageSet/#{size}Image"
 		end
-		image[:src] = item.nodes["#{node_prefix}/URL"][0].text
+		image[:src] = item.nodes("#{node_prefix}/URL")[0].text
 		image[:src].gsub!(/http:\/\/ecx\.images-amazon\.com/, 'https://images-na.ssl-images-amazon.com')
-		image[:height] = item.nodes["#{node_prefix}/Height"][0].text
-		image[:width] = item.nodes["#{node_prefix}/Width"][0].text
+		image[:height] = item.nodes("#{node_prefix}/Height")[0].text
+		image[:width] = item.nodes("#{node_prefix}/Width")[0].text
 	rescue
 		base = @conf['amazon.default_image_base'] || 'http://www.tdiary.org/images/amazondefaults/'
 		case @conf['amazon.imgsize']
