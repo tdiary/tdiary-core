@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 require File.dirname(__FILE__) + "/../plugin/plugin_helper"
@@ -42,17 +41,10 @@ describe TDiary::Plugin do
 			@src = ERB::new('hello <%= sample %><%= undefined_method %>').src
 			@plugin.instance_variable_set(:@debug, false)
 		end
-		subject { @plugin.eval_src(@src, false) }
+		subject { @plugin.eval_src(@src) }
 
 		it 'Pluginオブジェクト内でソースが実行されること' do
 			is_expected.to eq 'hello sample plugin'
-		end
-
-		context 'secureモード指定の場合' do
-			it 'Safeモード4で実行されること' do
-				expect(Safe).to receive(:safe).with(4)
-				@plugin.eval_src(@src, true)
-			end
 		end
 
 		context 'debugモードがONの場合' do

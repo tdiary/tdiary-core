@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # stolen from okkez http://github.com/hiki/hiki/blob/rack/hiki/request.rb
 module TDiary
 	class Request < ::Rack::Request

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature 'カテゴリ機能の動作' do
@@ -25,7 +24,7 @@ BODY
 
 		visit '/'
 		page.find('a', text: "category").click
-		expect(page).to have_content 'Categories'
+		expect(page).to have_content '[category]'
 	end
 end
 

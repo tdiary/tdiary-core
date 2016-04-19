@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 module TDiary
 	#
 	# class TDiaryBase
@@ -63,7 +62,7 @@ module TDiary
 				@io.store_cache( r, prefix ) unless @diaries.empty?
 			end
 
-			r = @plugin.eval_src( r.untaint, @conf.secure ) if @plugin
+			r = @plugin.eval_src( r.untaint ) if @plugin
 
 			@cookies += @plugin.cookies
 

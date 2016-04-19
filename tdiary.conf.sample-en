@@ -325,9 +325,6 @@ FOOTER
 
 #----
 # CGI configuration file(must)
-#   If you enforce security, you set @secure to true. This 
-#   restricts dangerous operation, for example, variables and file loading.
 #----
-@secure = false
 load_cgi_conf
 

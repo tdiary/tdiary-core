@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 =begin
 = Meta-scheme plugin((-$Id: referer_scheme.rb,v 1.9 2008-03-02 09:01:46 kazuhiko Exp $-))
 本日のリンク元置換リストの記述を楽にします。

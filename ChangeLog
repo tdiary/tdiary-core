@@ -1,3 +1,50 @@
+2016-04-01  TADA Tadashi <t@tdtds.jp>
+	* category.rb: enable to call category_list and category_dropdown_list
+	plugins in diary header
+
+2016-03-29  MATSUOKA Kohei <kohei@machu.jp>
+	* release 5.0.0
+
+2016-03-22  TADA Tadashi <t@tdtds.jp>
+	* index.rb, update.rb: set magic comment ascii-8bit to show all error messages
+
+2016-03-16  TADA Tadashi <t@tdtds.jp>
+	* rename category_legacy.rb to category-legacy.rb
+
+2016-03-10  TADA Tadashi <t@tdtds.jp>
+	* style/wiki.rb: untaint plugin code when syntax checking
+
+2016-03-09  TADA Tadashi <t@tdtds.jp>
+	* replace category.rb plugin by contrib/category-lite.rb plugin
+	* kill secure mode (ignore @secure variable in tdiary.conf and more)
+
+2016-01-26  TADA Tadashi <t@tdtds.jp>
+	* title_tag.rb: print only diary name when diary has no subtitles
+
+2016-01-19  TADA Tadashi <t@tdtds.jp>
+	* delete config.ru for Heroku (use default one)
+
+2016-01-08  TADA Tadashi <t@tdtds.jp>
+	* title_tag.rb: support category-lite plugin
+
+2016-01-05  TADA Tadashi <t@tdtds.jp>
+	* system_update.rb, README.md: enable deploy master branch to heroku
+
+2016-01-05  MATSUOKA Kohei <kohei@machu.jp>
+	* support heroku on master branch
+
+2015-12-31  TADA Tadashi <t@tdtds.jp>
+	* application.rb: fix error when @index or @update specified with URL in tdiary.conf
+
+2015-12-29  MATSUOKA Kohei <kohei@machu.jp>
+	* release 4.2.1
+
+2015-12-25  MATSUOKA Kohei <kohei@machu.jp>
+	* revert 61b7b6: writing dependency in gemspec, see #527
+
+2015-12-25  TADA Tadashi <t@tdtds.jp>
+	* default.css: more adjust CSS for mobile devices
+
 2015-12-08  MATSUOKA Kohei <kohei@machu.jp>
 	* fix #494 authentication error by omniauth and rack::session::pool
 

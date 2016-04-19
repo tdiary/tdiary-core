@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 # Japanese resources of 60sf.rb
 # Based on 50sp.rb
 # Modified by KURODA Hiraku.

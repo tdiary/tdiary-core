@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # Wiki_style.rb: Wiki style for tDiary 2.x format. $Revision: 1.32 $
 #
@@ -73,11 +72,9 @@ module TDiary
 			def valid_plugin_syntax?(code)
 				lambda {
 					begin
-						$SAFE = 4
-					rescue ArgumentError
-						# $SAFE=4 was removed from Ruby 2.1.0.
+						$SAFE = 1
 					ensure
-						eval( "BEGIN {return true}\n#{code}", nil, "(plugin)", 0 )
+						eval( "BEGIN {return true}\n#{code.dup.untaint}", nil, "(plugin)", 0 )
 					end
 				}.call
 			rescue SyntaxError

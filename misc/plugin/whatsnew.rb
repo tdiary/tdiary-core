@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # whatsnew.rb
 #
 # 名称：

@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 # 50sp.rb - select-plugins plugin
 
 SP_PREFIX = 'sp'

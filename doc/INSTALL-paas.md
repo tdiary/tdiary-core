@@ -32,7 +32,7 @@ Heroku の New App ページになったら、下記の情報を入力して、D
 tDiary を sqale で動作させるためには以下のツールが必要となります。
 
   - [git](http://git-scm.com)
-  - Ruby 2.0.0 以降
+  - Ruby 2.1.0 以降
   - RubyGems 1.3.7 以降
   - Bundler 1.0.0 以降
 

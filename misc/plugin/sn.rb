@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 =begin
 = 連番生成プラグイン sn.rb
 

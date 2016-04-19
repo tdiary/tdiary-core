@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # module RefererManager
 #	Management referers in a day. Include in Diary class.

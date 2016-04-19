@@ -17,8 +17,6 @@ only index one-day view.
 To this plugin to take effect, we have to wish that the crawlers regards
 the meta-tag.
 
-This plugin also works in a diary with @secure = true.
-
 == License
 Copyright (C) 2003, 2004 zunda <zunda at freeshell.org>
 

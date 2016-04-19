@@ -10,7 +10,7 @@
 #
 #   options:
 #     calendar2.show_image: true or false. show a image that makes by image.rb
-#                  on each date. default is falase, and use only non secure mode.
+#                  on each date. default is falase.
 #                  and if you want to change image size, add CSS to your theme.
 #                  for example (25x25 pixel image):
 #
@@ -105,7 +105,7 @@ def calendar2(days_format = nil, navi_format = nil, show_todo = nil)
 	p_c_n = calendar2_prev_current_next
 
 	result = <<CALENDAR_HEAD
-<table class="calendar" summary="calendar">
+<table class="calendar" title="calendar">
 <tr>
  <td class="image" colspan="7"></td>
 </tr>
@@ -160,7 +160,7 @@ CALENDAR_HEAD
 							subtitles << h( %Q|#{idx}. #{@conf.shorten(apply_plugin( text, true ))}| )
 							idx.succ!
 						end
-						day_img = ((@calendar2_show_image and !@conf.secure) ? calender2_make_image(@diaries[date], date) : day.to_s)
+						day_img = ((@calendar2_show_image) ? calender2_make_image(@diaries[date], date) : day.to_s)
 						day_img = day.to_s if day_img == nil
             %Q|<a href="#{h @index}#{anchor date}" title="#{subtitles.join("&#13;&#10;")}">#{day_img}</a>|
 					end

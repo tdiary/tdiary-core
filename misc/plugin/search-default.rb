@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # search-default.rb - site search plugin sample using DefaultIO.
 #

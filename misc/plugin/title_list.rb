@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # titile_list.rb
 #
 # title_list: 現在表示している月のタイトルリストを表示

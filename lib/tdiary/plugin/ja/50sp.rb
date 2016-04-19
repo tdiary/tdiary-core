@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 # Japanese resources of 50sp.rb
 
 =begin
@@ -24,8 +23,6 @@ pluginディレクトリの下にselectableというディレクトリを作っ�
   @conf.options['sp.path'] = 'misc/plugin'
 などと、選択できるプラグインのあるディレクトリをtdiary.rbのあるディレク
 トリからの相対パスか絶対パスで指定してください。
-
-secure==trueな日記でも使えます。
 
 == オプション
 :@conf.options['sp.path']

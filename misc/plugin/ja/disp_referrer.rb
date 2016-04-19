@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 =begin
 = 本日のリンク元もうちょっとだけ強化プラグイン((-$Id: disp_referrer.rb,v 1.46 2008-03-02 09:01:46 kazuhiko Exp $-))
 日本語リソース
@@ -98,8 +97,6 @@ tdiary-1.5.3-20030509以降で使えます。これ以前のtDiary-1.5では、
 00default.rbにbot?メソッドが定義されていないため、検索エンジンのクロール
 に対してリンク元が表示されてしまいます。
 
-secureモードでも使えますがキャッシュによる高速化ができません。
-
 mod_rubyでの動作は今のところ確認していません。
 
 === インストール方法
@@ -143,7 +140,6 @@ mod_rubyでの動作は今のところ確認していません。
 皆様に感謝いたします。
 
 == Todos
-* secure=trueでリンク元置換リストのテキストフィールドでリターンを押した際の動作
 * parse_as_search高速化: hostnameのキャッシュ？
 
 == 著作権について
@@ -295,7 +291,6 @@ class DispRef2SetupIF
 				<td><label for="dr2.search.expand.false"><input id="dr2.search.expand.false" name="dr2.search.expand" value="false" type="radio"#{' checked'if not @setup['search.expand']}>表示しない</label>。
 			</table>
 		_HTML
-		unless @setup.secure then
 		r << <<-_HTML
 			<h3>キャッシュ</h3>
 			<p>キャッシュ機能は、tDiary2形式(DefaultIO)使用時は利用できません。</p>
@@ -315,19 +310,14 @@ class DispRef2SetupIF
 			</table>
 			<p>キャッシュの大きさの制限は目安です。これよりも大きくなる場合もあります。キャッシュの大きさの制限を0にすると、キャッシュの大きさを制限しなくなります。最後にKやMをつけると、キロバイト、メガバイト単位になります。</p>
 		_HTML
-		end # unless @setup.secure
 		r
 	end
 
 	# shows URL list to be added to the referer_table or no_referer
 	def show_unknown_list
-		if @setup.secure then
+		urls = DispRef2Cache.new( @setup ).urls( DispRef2URL::Unknown ).keys
+		if urls.size == 0 then
 			urls = DispRef2Latest.new( @cgi, 'latest.rhtml', @conf, @setup ).unknown_urls
-		else
-			urls = DispRef2Cache.new( @setup ).urls( DispRef2URL::Unknown ).keys
-			if urls.size == 0 then
-				urls = DispRef2Latest.new( @cgi, 'latest.rhtml', @conf, @setup ).unknown_urls
-			end
 		end
 		urls.reject!{ |url| DispRef2String::url_match?( url, @setup['reflist.ignore_urls'] ) }
 		r = <<-_HTML

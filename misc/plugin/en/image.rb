@@ -25,15 +25,8 @@
 #     You have to set parmission to writable by web server.
 #  @options['image.url']
 #     URL of the image directory. Default is './images/'.
-#  @options['image.maxnum']
-#     Max of number of images per a day. Default is 1.
-#     This option is effective in @secure = true.
-#  @options['image.maxsize']
-#     Max size of an image. Default is 10000 bytes.
-#     This option is effective in @secure = true.
 #  @options['image.maxwidth']
 #     Max display width of image without specified 'size' parameter.
-#     It will ignore when @secure = true.
 #
 def image_error_num( max ); "You can add images upto #{h max} par a day."; end
 def image_error_size( max ); "You can add images upto #{h max} bytes par an image."; end

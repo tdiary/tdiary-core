@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 # English resources of 50sp.rb
 
 =begin
@@ -19,8 +18,6 @@ and add the following line:
   @conf.options['sp.path'] = 'misc/plugin'
 to indicate the directory you have put the optional plugins. It can be
 an absolute path.
-
-You can use this plugin in a secure diary.
 
 == Options
 :@conf.options['sp.path']

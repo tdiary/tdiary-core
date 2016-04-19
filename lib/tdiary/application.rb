@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'tdiary'
 require 'rack/builder'
 require 'tdiary/rack'
@@ -68,19 +67,19 @@ module TDiary
 			end
 		end
 
-	protected
 		def assets_paths
 			TDiary::Extensions::constants.map {|extension|
 				TDiary::Extensions::const_get( extension ).assets_path
 			}.flatten.uniq
 		end
 
+	protected
 		def index_path
-			(Pathname.new('/') + TDiary.configuration.index).to_s
+			(Pathname.new('/') + URI(TDiary.configuration.index).path).to_s
 		end
 
 		def update_path
-			(Pathname.new('/') + TDiary.configuration.update).to_s
+			(Pathname.new('/') + URI(TDiary.configuration.update).path).to_s
 		end
 
 		def assets_path

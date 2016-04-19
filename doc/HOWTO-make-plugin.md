@@ -215,7 +215,7 @@ end
 
 @modeが'saveconf'の時のみ、@cgi経由で渡された設定を保存します。保存先は@conf[]にオプション用のキーワードを指定して代入します。これは従来tdiary.confにて、@optionsとして指定したものと同じです。なお、conf\_procで保存できるオプションは、文字列(String)、整数(Fixnum)、真偽値(TrueClass/FalseClass)、nil(NilClass)で表現されるオブジェクトだけです。
 
-conf\_procを使って設定を保存すると、その後はtdiary.confによる@optionsは効かなくなるので注意が必要です。また、@conf.secureに応じて設定できる項目が変化するようにしておけば、レンタルの場合に不必要な項目をユーザが変更できなくすることも可能です。
+conf\_procを使って設定を保存すると、その後はtdiary.confによる@optionsは効かなくなるので注意が必要です。
 
 プラグインが生成するHTML
 --------------

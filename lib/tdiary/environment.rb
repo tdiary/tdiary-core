@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # name spaces reservation
 module TDiary; end
 module TDiary::Cache; end
@@ -19,18 +17,3 @@ if defined?(Bundler)
   env = env.reject{|e| Bundler.settings.without.include? e }
   Bundler.require *env
 end
-
-# Bundler.require doesn't load gems specified in .gemspec
-# see: https://github.com/bundler/bundler/issues/1041
-#
-# load gems dependented by tdiary
-Bundler.definition.specs.find {|spec|
-  spec.name == 'tdiary'
-}.dependent_specs.each {|spec|
-  begin
-    require spec.name
-  rescue LoadError => e
-    STDERR.puts "failed require '#{spec.name}'"
-    STDERR.puts e
-  end
-}

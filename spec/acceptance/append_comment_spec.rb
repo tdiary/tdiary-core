@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature 'ツッコミの更新' do
@@ -66,7 +65,7 @@ BODY
 		}
 	end
 
-	scenario 'recent_comment3.rb', :exclude_secure do
+	scenario 'recent_comment3.rb' do
 		append_default_diary
 		visit '/'
 		click_link 'ツッコミを入れる'
