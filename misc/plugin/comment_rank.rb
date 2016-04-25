@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # comment_rank.rb
 #
 # comment_rank: ツッコミの数でランキング

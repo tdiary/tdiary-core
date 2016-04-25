@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # navi_user.rb
 #
 # navi_user: 前日，翌日→前の日記，次の日記

@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # ja/10spamfilter.rb: resource of ja
 #

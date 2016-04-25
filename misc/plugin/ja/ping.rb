@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ping.rb Japanese resources
 if /conf/ =~ @mode then
 	@ping_label_conf = '更新通知'

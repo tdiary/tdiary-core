@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 =begin
 = その日の天気プラグイン / Weather-of-today plugin((-$Id: weather.rb,v 1.16 2008-03-02 09:01:45 kazuhiko Exp $-))
 Records the weather when the diary is first updated for the date and

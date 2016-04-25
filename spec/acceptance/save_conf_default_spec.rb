@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature '基本設定の利用' do

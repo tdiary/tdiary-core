@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # comment_mail_qmail.rb
 #
 # qmailを使ってツッコミをメールで知らせる

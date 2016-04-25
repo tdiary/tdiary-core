@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # calendar3.rb
 #
 # calendar3: 現在表示している月のカレンダーを表示します．

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # append-css.rb
 #
 # Append CSS fragment via Preferences Page.

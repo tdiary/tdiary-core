@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # module io/plugin_pstore
 # 	default plugin storage implemented by PStore

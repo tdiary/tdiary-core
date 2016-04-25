@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # ja/antispamservice.rb: Japanese resource of Antispam filter setup plugin. $Revision: 1.2 $
 #

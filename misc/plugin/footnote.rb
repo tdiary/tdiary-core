@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # footnote.rb
 #
 # fn: 脚注plugin

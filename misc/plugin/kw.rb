@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # kw.rb
 #
 # kw: keyword link generator

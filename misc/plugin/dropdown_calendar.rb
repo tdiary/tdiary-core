@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # dropdown_calendar.rb
 #
 # calendar: カレンダーをドロップダウンリストに置き換えるプラグイン

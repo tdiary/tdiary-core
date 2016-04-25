@@ -50,6 +50,27 @@ end
 
 class AmazonRedirectError < StandardError; end
 
+class AmazonItem
+	def initialize(xml, parser = :rexml)
+		@parser = parser
+		if parser == :oga
+			doc = Oga.parse_xml(xml)
+			@item = doc.xpath('*/*/Item')[0]
+		else
+			doc = REXML::Document::new( REXML::Source::new( xml ) ).root
+			@item = doc.elements.to_a( '*/Item' )[0]
+		end
+	end
+
+	def nodes(path)
+		if @parser == :oga
+			@item.xpath(path)
+		else
+			@item.elements.to_a(path)
+		end
+	end
+end
+
 def amazon_fetch( url, limit = 10 )
 	raise ArgumentError, 'HTTP redirect too deep' if limit == 0
 
@@ -100,7 +121,7 @@ def amazon_author( item )
 	begin
 		author = []
 		%w(Author Creator Artist).each do |elem|
-			item.elements.each( "*/#{elem}" ) do |a|
+			item.nodes( "*/#{elem}" ).each do |a|
 				author << a.text
 			end
 		end
@@ -111,7 +132,7 @@ def amazon_author( item )
 end
 
 def amazon_title( item )
-	@conf.to_native( item.elements.to_a( '*/Title' )[0].text, 'utf-8' )
+	@conf.to_native( item.nodes( '*/Title' )[0].text, 'utf-8' )
 end
 
 def amazon_image( item )
@@ -122,11 +143,15 @@ def amazon_image( item )
 		when 2; 'Small'
 		else;   'Medium'
 		end
-		img = item.elements.to_a("#{size}Image")[0] || item.elements.to_a("ImageSets/ImageSet/#{size}Image")[0]
-		image[:src] = img.elements['URL'].text
+		if item.nodes("#{size}Image")[0]
+			node_prefix = "#{size}Image"
+		elsif item.nodes("ImageSets/ImageSet/#{size}Image")[0]
+			node_prefix = "ImageSets/ImageSet/#{size}Image"
+		end
+		image[:src] = item.nodes("#{node_prefix}/URL")[0].text
 		image[:src].gsub!(/http:\/\/ecx\.images-amazon\.com/, 'https://images-na.ssl-images-amazon.com')
-		image[:height] = img.elements['Height'].text
-		image[:width] = img.elements['Width'].text
+		image[:height] = item.nodes("#{node_prefix}/Height")[0].text
+		image[:width] = item.nodes("#{node_prefix}/Width")[0].text
 	rescue
 		base = @conf['amazon.default_image_base'] || 'http://www.tdiary.org/images/amazondefaults/'
 		case @conf['amazon.imgsize']
@@ -148,12 +173,12 @@ def amazon_image( item )
 end
 
 def amazon_url( item )
-	item.elements.to_a( 'DetailPageURL' )[0].text
+	item.nodes( 'DetailPageURL' )[0].text
 end
 
 def amazon_label( item )
 	begin
-		@conf.to_native( item.elements.to_a( '*/Label' )[0].text, 'utf-8' )
+		@conf.to_native( item.nodes( '*/Label' )[0].text, 'utf-8' )
 	rescue
 		'-'
 	end
@@ -161,10 +186,10 @@ end
 
 def amazon_price( item )
 	begin
-		@conf.to_native( item.elements.to_a( '*/LowestNewPrice/FormattedPrice' )[0].text, 'utf-8' )
+		@conf.to_native( item.nodes( '*/LowestNewPrice/FormattedPrice' )[0].text, 'utf-8' )
 	rescue
 		begin
-			@conf.to_native( item.elements.to_a( '*/ListPrice/FormattedPrice' )[0].text, 'utf-8' )
+			@conf.to_native( item.nodes( '*/ListPrice/FormattedPrice' )[0].text, 'utf-8' )
 		rescue
 			'(no price)'
 		end
@@ -247,8 +272,8 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 			xml = amazon_call_ecs( asin, id_type, country )
 			File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
 		end
-		doc = REXML::Document::new( REXML::Source::new( xml ) ).root
-		item = doc.elements.to_a( '*/Item' )[0]
+		parser = defined?(Oga) ? :oga : :rexml
+		item = AmazonItem.new(xml, parser)
 		if pos == 'detail' then
 			amazon_detail_html( item )
 		else
@@ -265,7 +290,7 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 		message = label || asin
 		if @mode == 'preview' then
 			if item == nil then
-				m = doc.elements.to_a( 'Items/Request/Errors/Error/Message' )[0].text
+				m = item.nodes( 'Items/Request/Errors/Error/Message' )[0].text
 				message << %Q|<span class="message">(#{h @conf.to_native( m, 'utf-8' )})</span>|
 			else
 				message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|

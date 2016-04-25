@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # en/00default.rb: English resources of 00default.rb.
 #

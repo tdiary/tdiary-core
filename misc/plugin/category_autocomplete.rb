@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # category_autocomplete.rb : Support the automatic input of the category
 #                            using jQuery UI autocomplete.

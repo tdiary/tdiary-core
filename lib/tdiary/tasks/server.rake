@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # server: script for running standalone tdiary cgi server.
 #

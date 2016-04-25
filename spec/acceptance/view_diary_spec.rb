@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'acceptance_helper'
 
 feature '日記を読む' do

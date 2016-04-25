@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # comment_emoji_autocomplete.rb : Support the automatic input of the emoji
 #                                 using jQuery UI autocomplete.

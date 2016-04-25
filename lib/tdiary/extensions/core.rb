@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module TDiary
 	module Extensions
 		class Core

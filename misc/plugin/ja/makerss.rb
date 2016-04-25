@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # makerss.rb Japanese resources
 def makerss_tsukkomi_label( id )
 	"#{id[0,4]}-#{id[4,2]}-#{id[6,2]}のツッコミ[#{id[/[1-9]\d*$/]}]"

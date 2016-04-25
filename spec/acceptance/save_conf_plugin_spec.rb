@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'acceptance_helper'
 
 feature 'プラグイン選択設定の利用' do

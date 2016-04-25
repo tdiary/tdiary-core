@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8; -*-
 #
 # index.fcgi $Revision: 1.35 $
 #

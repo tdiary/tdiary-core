@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #!/usr/bin/env ruby
 #
 # convert2: convert diary data file format tDiary1 to tDiary2.

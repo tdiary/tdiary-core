@@ -1,4 +1,3 @@
-# -*- coding: utf-8; -*-
 #
 # 05referer.rb: Japanese resource of referer plugin
 #

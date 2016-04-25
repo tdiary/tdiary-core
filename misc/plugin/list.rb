@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # list.rb
 #
 # <ol> 順番付きリスト生成
