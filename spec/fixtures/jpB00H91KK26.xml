@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<ItemLookupResponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+  <OperationRequest>
+    <HTTPHeaders>
+      <Header Name="UserAgent" Value="Ruby"/>
+    </HTTPHeaders>
+    <RequestId>7b5b52d5-0cd2-4f9b-a332-7ff730f0749d</RequestId>
+    <Arguments>
+      <Argument Name="AssociateTag" Value="hsbtdiary-22"/>
+      <Argument Name="IdType" Value="ASIN"/>
+      <Argument Name="ItemId" Value="B00H91KK26"/>
+      <Argument Name="Operation" Value="ItemLookup"/>
+      <Argument Name="ResponseGroup" Value="Medium"/>
+      <Argument Name="Service" Value="AWSECommerceService"/>
+      <Argument Name="SubscriptionId" Value="AKIAIXYTNSOEGXJVP5SQ"/>
+      <Argument Name="Timestamp" Value="2015-08-16T11:06:43Z"/>
+      <Argument Name="Version" Value="2011-08-01"/>
+      <Argument Name="captures" Value="[&quot;jp&quot;]"/>
+      <Argument Name="Signature" Value="AYXTgHcjBz6jmeSpT51Eg1eeNocb75kVca5l+TRfZoo="/>
+    </Arguments>
+    <RequestProcessingTime>0.0122226640000000</RequestProcessingTime>
+  </OperationRequest>
+  <Items>
+    <Request>
+      <IsValid>True</IsValid>
+      <ItemLookupRequest>
+        <IdType>ASIN</IdType>
+        <ItemId>B00H91KK26</ItemId>
+        <ResponseGroup>Medium</ResponseGroup>
+        <VariationPage>All</VariationPage>
+      </ItemLookupRequest>
+    </Request>
+    <Item>
+      <ASIN>B00H91KK26</ASIN>
+      <DetailPageURL>http://www.amazon.co.jp/maaash-jp-IRKit-001-IRKit-iPhone-iPad%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%A4%96%E5%87%BA%E5%85%88%E3%81%8B%E3%82%89%E3%82%A8%E3%82%A2%E3%82%B3%E3%83%B3%E7%AD%89%E3%81%AE%E5%AE%B6%E9%9B%BB%E3%82%92%E6%93%8D%E4%BD%9C%E3%81%A7%E3%81%8D%E3%82%8B%E5%AD%A6%E7%BF%92%E3%83%AA%E3%83%A2%E3%82%B3%E3%83%B3/dp/B00H91KK26%3FSubscriptionId%3DAKIAIXYTNSOEGXJVP5SQ%26tag%3Dhsbtdiary-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00H91KK26</DetailPageURL>
+      <ItemLinks>
+        <ItemLink>
+          <Description>Add To Wishlist</Description>
+          <URL>http://www.amazon.co.jp/gp/registry/wishlist/add-item.html%3Fasin.0%3DB00H91KK26%26SubscriptionId%3DAKIAIXYTNSOEGXJVP5SQ%26tag%3Dhsbtdiary-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D5143%26creativeASIN%3DB00H91KK26</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>Tell A Friend</Description>
+          <URL>http://www.amazon.co.jp/gp/pdp/taf/B00H91KK26%3FSubscriptionId%3DAKIAIXYTNSOEGXJVP5SQ%26tag%3Dhsbtdiary-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D5143%26creativeASIN%3DB00H91KK26</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Customer Reviews</Description>
+          <URL>http://www.amazon.co.jp/review/product/B00H91KK26%3FSubscriptionId%3DAKIAIXYTNSOEGXJVP5SQ%26tag%3Dhsbtdiary-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D5143%26creativeASIN%3DB00H91KK26</URL>
+        </ItemLink>
+        <ItemLink>
+          <Description>All Offers</Description>
+          <URL>http://www.amazon.co.jp/gp/offer-listing/B00H91KK26%3FSubscriptionId%3DAKIAIXYTNSOEGXJVP5SQ%26tag%3Dhsbtdiary-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D5143%26creativeASIN%3DB00H91KK26</URL>
+        </ItemLink>
+      </ItemLinks>
+      <SalesRank>790</SalesRank>
+      <SmallImage>
+        <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL75_.jpg</URL>
+        <Height Units="pixels">53</Height>
+        <Width Units="pixels">75</Width>
+      </SmallImage>
+      <MediumImage>
+        <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL160_.jpg</URL>
+        <Height Units="pixels">114</Height>
+        <Width Units="pixels">160</Width>
+      </MediumImage>
+      <LargeImage>
+        <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL.jpg</URL>
+        <Height Units="pixels">356</Height>
+        <Width Units="pixels">500</Width>
+      </LargeImage>
+      <ImageSets>
+        <ImageSet Category="variant">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/31MfCSF9ujL._SL30_.jpg</URL>
+            <Height Units="pixels">23</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/31MfCSF9ujL._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/31MfCSF9ujL._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/31MfCSF9ujL._SL110_.jpg</URL>
+            <Height Units="pixels">83</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/31MfCSF9ujL._SL160_.jpg</URL>
+            <Height Units="pixels">120</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/31MfCSF9ujL.jpg</URL>
+            <Height Units="pixels">376</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+        </ImageSet>
+        <ImageSet Category="variant">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/31wAZ4hn92L._SL30_.jpg</URL>
+            <Height Units="pixels">22</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/31wAZ4hn92L._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/31wAZ4hn92L._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/31wAZ4hn92L._SL110_.jpg</URL>
+            <Height Units="pixels">82</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/31wAZ4hn92L._SL160_.jpg</URL>
+            <Height Units="pixels">120</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/31wAZ4hn92L.jpg</URL>
+            <Height Units="pixels">375</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+        </ImageSet>
+        <ImageSet Category="variant">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/313dMQCO1sL._SL30_.jpg</URL>
+            <Height Units="pixels">22</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/313dMQCO1sL._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/313dMQCO1sL._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/313dMQCO1sL._SL110_.jpg</URL>
+            <Height Units="pixels">82</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/313dMQCO1sL._SL160_.jpg</URL>
+            <Height Units="pixels">120</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/313dMQCO1sL.jpg</URL>
+            <Height Units="pixels">375</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+        </ImageSet>
+        <ImageSet Category="variant">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yzffM286L._SL30_.jpg</URL>
+            <Height Units="pixels">22</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yzffM286L._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yzffM286L._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yzffM286L._SL110_.jpg</URL>
+            <Height Units="pixels">82</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yzffM286L._SL160_.jpg</URL>
+            <Height Units="pixels">120</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yzffM286L.jpg</URL>
+            <Height Units="pixels">375</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+        </ImageSet>
+        <ImageSet Category="variant">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yBmiV6F%2BL._SL30_.jpg</URL>
+            <Height Units="pixels">22</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yBmiV6F%2BL._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yBmiV6F%2BL._SL75_.jpg</URL>
+            <Height Units="pixels">56</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yBmiV6F%2BL._SL110_.jpg</URL>
+            <Height Units="pixels">82</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yBmiV6F%2BL._SL160_.jpg</URL>
+            <Height Units="pixels">119</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/31yBmiV6F%2BL.jpg</URL>
+            <Height Units="pixels">372</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+        </ImageSet>
+        <ImageSet Category="primary">
+          <SwatchImage>
+            <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL30_.jpg</URL>
+            <Height Units="pixels">21</Height>
+            <Width Units="pixels">30</Width>
+          </SwatchImage>
+          <SmallImage>
+            <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL75_.jpg</URL>
+            <Height Units="pixels">53</Height>
+            <Width Units="pixels">75</Width>
+          </SmallImage>
+          <ThumbnailImage>
+            <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL75_.jpg</URL>
+            <Height Units="pixels">53</Height>
+            <Width Units="pixels">75</Width>
+          </ThumbnailImage>
+          <TinyImage>
+            <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL110_.jpg</URL>
+            <Height Units="pixels">78</Height>
+            <Width Units="pixels">110</Width>
+          </TinyImage>
+          <MediumImage>
+            <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL._SL160_.jpg</URL>
+            <Height Units="pixels">114</Height>
+            <Width Units="pixels">160</Width>
+          </MediumImage>
+          <LargeImage>
+            <URL>http://ecx.images-amazon.com/images/I/31HuSy3ACXL.jpg</URL>
+            <Height Units="pixels">356</Height>
+            <Width Units="pixels">500</Width>
+          </LargeImage>
+        </ImageSet>
+      </ImageSets>
+      <ItemAttributes>
+        <Binding>&#x30A8;&#x30EC;&#x30AF;&#x30C8;&#x30ED;&#x30CB;&#x30AF;&#x30B9;</Binding>
+        <Brand>maaash.jp</Brand>
+        <Color>&#x767D;</Color>
+        <EAN>4580499150012</EAN>
+        <EANList>
+          <EANListElement>4580499150012</EANListElement>
+        </EANList>
+        <Feature>iPhone, iPad, iPodTouch&#x306E;iOS7&#x4EE5;&#x964D;&#x5BFE;&#x5FDC;</Feature>
+        <Feature>Android 2.3&#x4EE5;&#x964D;&#x5BFE;&#x5FDC;</Feature>
+        <Feature>&#x7121;&#x7DDA;LAN:2.4GHz&#x306E;b,g&#x5BFE;&#x5FDC; (5GHz&#x5E2F;&#x306E;a&#x306F;&#x672A;&#x5BFE;&#x5FDC;) DHCP&#x3067;IP&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3068;DNS&#x30B5;&#x30FC;&#x30D0;&#x306E;IP&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3092;&#x53D6;&#x5F97;&#x3067;&#x304D;&#x308B;&#x3053;&#x3068;(IP&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x6307;&#x5B9A;&#x306F;&#x3067;&#x304D;&#x307E;&#x305B;&#x3093;)</Feature>
+        <Feature>&#x96FB;&#x6E90;:USB&#x30DE;&#x30A4;&#x30AF;&#x30ED;B&#x30B1;&#x30FC;&#x30D6;&#x30EB;(&#x5225;&#x58F2;&#x308A;)</Feature>
+        <ItemDimensions>
+          <Height Units="hundredths-inches">67</Height>
+          <Length Units="hundredths-inches">244</Length>
+          <Width Units="hundredths-inches">244</Width>
+        </ItemDimensions>
+        <Label>maaash.jp</Label>
+        <ListPrice>
+          <Amount>7700</Amount>
+          <CurrencyCode>JPY</CurrencyCode>
+          <FormattedPrice>&#xFFE5; 7,700</FormattedPrice>
+        </ListPrice>
+        <Manufacturer>maaash.jp</Manufacturer>
+        <Model>IRKit-001</Model>
+        <MPN>IRKit-001</MPN>
+        <PackageDimensions>
+          <Height Units="hundredths-inches">122</Height>
+          <Length Units="hundredths-inches">366</Length>
+          <Weight Units="hundredths-pounds">12</Weight>
+          <Width Units="hundredths-inches">350</Width>
+        </PackageDimensions>
+        <PackageQuantity>1</PackageQuantity>
+        <PartNumber>IRKit-001</PartNumber>
+        <ProductGroup>CE</ProductGroup>
+        <ProductTypeName>REMOTE_CONTROL</ProductTypeName>
+        <Publisher>maaash.jp</Publisher>
+        <Size>65 x 62 x 17 [mm]</Size>
+        <Studio>maaash.jp</Studio>
+        <Title>IRKit - iPhone,iPad&#x3092;&#x4F7F;&#x3063;&#x3066;&#x5916;&#x51FA;&#x5148;&#x304B;&#x3089;&#x30A8;&#x30A2;&#x30B3;&#x30F3;&#x7B49;&#x306E;&#x5BB6;&#x96FB;&#x3092;&#x64CD;&#x4F5C;&#x3067;&#x304D;&#x308B;&#x5B66;&#x7FD2;&#x30EA;&#x30E2;&#x30B3;&#x30F3;</Title>
+      </ItemAttributes>
+      <OfferSummary>
+        <LowestNewPrice>
+          <Amount>7700</Amount>
+          <CurrencyCode>JPY</CurrencyCode>
+          <FormattedPrice>&#xFFE5; 7,700</FormattedPrice>
+        </LowestNewPrice>
+        <TotalNew>2</TotalNew>
+        <TotalUsed>0</TotalUsed>
+        <TotalCollectible>0</TotalCollectible>
+        <TotalRefurbished>0</TotalRefurbished>
+      </OfferSummary>
+      <EditorialReviews>
+        <EditorialReview>
+          <Source>Product Description</Source>
+          <Content>IRKit&#x306F;&#x3001;WiFi&#x6A5F;&#x80FD;&#x306E;&#x4ED8;&#x3044;&#x305F;&#x30AA;&#x30FC;&#x30D7;&#x30F3;&#x30BD;&#x30FC;&#x30B9;&#x306A;&#x8D64;&#x5916;&#x7DDA;&#x30EA;&#x30E2;&#x30B3;&#x30F3;&#x30C7;&#x30D0;&#x30A4;&#x30B9;&#x3002;&lt;br&gt; &#x5BB6;&#x5EAD;&#x306E;&#x30A8;&#x30A2;&#x30B3;&#x30F3;&#x3084;&#x30C6;&#x30EC;&#x30D3;&#x3001;&#x30E9;&#x30A4;&#x30C8;&#x306A;&#x3069;&#x3001;&#x8D64;&#x5916;&#x7DDA;&#x3067;&#x64CD;&#x4F5C;&#x3067;&#x304D;&#x308B;&#x5BB6;&#x96FB;&#x3092;&#x3001;&lt;br&gt; WiFi&#x3092;&#x3068;&#x304A;&#x3057;&#x3066;&#x3001;iPhone&#x3084;iPad&#x306A;&#x3069;&#x304B;&#x3089;&#x64CD;&#x4F5C;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B;&#x3082;&#x306E;&#x3067;&#x3059;&#x3002;&lt;br&gt; &lt;br&gt; IRKit&#x306F;&#x3001;&#x516C;&#x5F0F;&#x306E;&#x30EA;&#x30E2;&#x30B3;&#x30F3;&#x30A2;&#x30D7;&#x30EA;&#x304B;&#x3089;&#x64CD;&#x4F5C;&#x3067;&#x304D;&#x308B;&#x307B;&#x304B;&#x3001;&lt;br&gt; IRKit iOS-SDK&#x3092;&#x4F7F;&#x3048;&#x3070;&#x3001;&lt;br&gt; &#x4EFB;&#x610F;&#x306E;&#x30BF;&#x30A4;&#x30DF;&#x30F3;&#x30B0;&#x3067;&#x8D64;&#x5916;&#x7DDA;&#x4FE1;&#x53F7;&#x3092;&#x9001;&#x308B;&#x3053;&#x3068;&#x306E;&#x3067;&#x304D;&#x308B;iOS&#x30A2;&#x30D7;&#x30EA;&#x3092;&#x7C21;&#x5358;&#x306B;&#x3064;&#x304F;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&lt;br&gt; &lt;br&gt; &#x4F8B;&#x3048;&#x3070;&lt;br&gt; * &#x4F4D;&#x7F6E;&#x60C5;&#x5831;&#x3092;&#x4F7F;&#x3044;iPhone&#x304C;&#x5BB6;&#x306E;&#x8FD1;&#x304F;&#x306B;&#x6765;&#x305F;&#x3089;&#x81EA;&#x52D5;&#x3067;&#x30A8;&#x30A2;&#x30B3;&#x30F3;&#x3092;&#x4ED8;&#x3051;&#x308B;&#x30A2;&#x30D7;&#x30EA;&lt;br&gt; &lt;br&gt; * &#x30BD;&#x30FC;&#x30B7;&#x30E3;&#x30EB;&#x3068;&#x9023;&#x643A;&#x3057;&#x3066;Facebook&#x53CB;&#x3060;&#x3061;&#x306E;&#x898B;&#x3066;&#x3044;&#x308B;&#x30C6;&#x30EC;&#x30D3;&#x306B;&#x30C1;&#x30E3;&#x30F3;&#x30CD;&#x30EB;&#x3092;&#x5408;&#x308F;&#x305B;&#x308B;&#x30A2;&#x30D7;&#x30EA;&lt;br&gt; &#x306A;&#x3069;&#x3001;&#x5BB6;&#x96FB;&#x3092;&#x64CD;&#x4F5C;&#x3059;&#x308B;&#x69D8;&#x3005;&#x306A;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x53EF;&#x80FD;&#x6027;&#x304C;&#x3042;&#x308B;&#x3067;&#x3057;&#x3087;&#x3046;&#x3002;&lt;br&gt; &lt;br&gt; &#x307E;&#x305F;&#x3001;JavaScript&#x3092;&#x4F7F;&#x3063;&#x3066;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x304B;&#x3089;&#x8D64;&#x5916;&#x7DDA;&#x4FE1;&#x53F7;&#x3092;&#x9001;&#x308B;&#x3053;&#x3068;&#x3082;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&lt;br&gt; &lt;br&gt; IRKit&#x30C7;&#x30D0;&#x30A4;&#x30B9;&#x81EA;&#x4F53;&#x306B;HTTP&#x30B5;&#x30FC;&#x30D0;&#x304C;&#x3042;&#x308A;&#x3001;&lt;br&gt; JSON&#x5F62;&#x5F0F;&#x306E;&#x8D64;&#x5916;&#x7DDA;&#x60C5;&#x5831;&#x3092; HTTP POST&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x306B;&#x306E;&#x305B;&#x3066;&#x9001;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;&#x8D64;&#x5916;&#x7DDA;&#x4FE1;&#x53F7;&#x3092;&#x9001;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x308B;&#x306E;&#x3067;&#x3059;&#x3002;&lt;br&gt; &lt;br&gt; &#x307E;&#x305F;&#x3001;IRKit&#x3068;&#x540C;&#x3058;WiFi&#x306B;&#x3044;&#x306A;&#x304F;&#x3066;&#x3082;&#x3001;&#x5916;&#x51FA;&#x5148;&#x304B;&#x3089;&#x8D64;&#x5916;&#x7DDA;&#x4FE1;&#x53F7;&#x3092;&#x9001;&#x308B;&#x305F;&#x3081;&#x306E;&#x3001;&#x30A4;&#x30F3;&#x30BF;&#x30FC;&#x30CD;&#x30C3;&#x30C8;&#x4E0A;&#x306B;&#x3042;&#x308B;&#x30B5;&#x30FC;&#x30D0;&#x306E;API&#x3082;&#x516C;&#x958B;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&lt;br&gt; &lt;br&gt; IRKit&#x30C7;&#x30D0;&#x30A4;&#x30B9;&#x306F;&#x3001;Arduino Derivative(&#x6D3E;&#x751F;)&#x306E;&#x30D7;&#x30ED;&#x30C0;&#x30AF;&#x30C8;&#x3067;&#x3059;&#x3002;&lt;br&gt; &#x672A;&#x4F7F;&#x7528;&#x306E;&#x30D4;&#x30F3;&#x306F;&#x5F15;&#x304D;&#x51FA;&#x3057;&#x3066;&#x3042;&#x308B;&#x306E;&#x3067;&#x3001;&#x6E29;&#x5EA6;&#x30BB;&#x30F3;&#x30B5;&#x3084;&#x660E;&#x308B;&#x3055;&#x30BB;&#x30F3;&#x30B5;&#x306A;&#x3069;&#x3092;&#x8FFD;&#x52A0;&#x3057;&#x3001;ArduinoIDE&#x3092;&#x4F7F;&#x3063;&#x3066;&#x30D7;&#x30ED;&#x30B0;&#x30E9;&#x30E0;&#x3092;&#x66F8;&#x304D;&#x8FBC;&#x3081;&#x3070;&#x3001;&lt;br&gt; &#x3088;&#x308A;&#x30B9;&#x30DE;&#x30FC;&#x30C8;&#x306A;&#x30EA;&#x30E2;&#x30B3;&#x30F3;&#x3092;&#x3064;&#x304F;&#x308B;&#x3053;&#x3068;&#x3082;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&lt;br&gt; &#x8A73;&#x3057;&#x304F;&#x306F; http://getirkit.com/ &#x3092;&#x3054;&#x89A7;&#x304F;&#x3060;&#x3055;&#x3044;</Content>
+          <IsLinkSuppressed>0</IsLinkSuppressed>
+        </EditorialReview>
+      </EditorialReviews>
+    </Item>
+  </Items>
+</ItemLookupResponse>
