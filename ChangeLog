@@ -1,3 +1,6 @@
+2016-04-26  TADA Tadashi <t@tdtds.jp>
+	* heroku/tdiary.conf: use MONGODB_URI environment variable instead of MONGOLAB_URI
+
 2016-04-19  MATSUOKA Kohei <kohei@machu.jp>
 	* Dockerfile: support docker
 
