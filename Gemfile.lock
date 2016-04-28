@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.4.0)
-    byebug (8.2.3)
+    byebug (8.2.5)
     capybara (2.7.0)
       addressable
       mime-types (>= 1.16)
@@ -45,7 +45,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
-    multi_json (1.11.2)
+    multi_json (1.11.3)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -105,7 +105,7 @@ GEM
     test-unit (3.1.8)
       power_assert
     thor (0.19.1)
-    tins (1.9.0)
+    tins (1.10.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
