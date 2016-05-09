@@ -358,7 +358,7 @@ enable_js( '00default.js', async: false )
 add_js_setting( '$tDiary.style', "'#{@conf.style.downcase.sub( /\Ablog/, '' )}'" )
 
 if /^form|edit|preview|showcomment/ =~ @mode
-	enable_js( '02edit.js' )
+	enable_js( '02edit.js', async: true )
 end
 
 def script_tag_query_string
@@ -749,7 +749,7 @@ def brl; '<br clear="left">';  end
 # preferences (saving methods)
 #
 if @mode =~ /conf|saveconf/
-	enable_js( '01conf.js' )
+	enable_js( '01conf.js', async: true )
 end
 
 # basic (default)

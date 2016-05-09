@@ -314,7 +314,7 @@ module TDiary
 			@cookies << cookie
 		end
 
-		def enable_js( script, async: true )
+		def enable_js( script, async: false )
 			@javascripts[script] = { async: async }
 		end
 
