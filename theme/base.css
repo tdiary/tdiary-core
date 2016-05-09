@@ -266,3 +266,11 @@ div.profile span {
 	font-size: 0.9em;
 	display: block;
 }
+
+/*
+draft plugin
+*/
+div.draft select {
+	width: 60%;
+}
+

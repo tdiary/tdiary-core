@@ -1,3 +1,6 @@
+2016-05-09  TADA Tadashi <t@tdtds.jp>
+	* theme/base.css: set width of dropdown list of draft plugin
+
 2016-04-26  TADA Tadashi <t@tdtds.jp>
 	* heroku/tdiary.conf: use MONGODB_URI environment variable instead of MONGOLAB_URI
 
