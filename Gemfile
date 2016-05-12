@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
 
 gem 'rack'
-gem 'sprockets'
 gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
 gem 'mail'
 gem 'rake'
+
+group :rack do
+  gem 'sprockets'
+end
 
 group :development do
   gem 'pit', require: false

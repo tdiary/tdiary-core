@@ -11,7 +11,7 @@ require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
 $LOAD_PATH.each{|lp| $LOAD_PATH << $LOAD_PATH.shift.dup.untaint}
 
 if defined?(Bundler)
-  env = [:default]
+  env = [:default, :rack]
   env << :development if ENV['RACK_ENV'].nil? || ENV['RACK_ENV'].empty?
   env << ENV['RACK_ENV'].intern if ENV['RACK_ENV']
   env = env.reject{|e| Bundler.settings.without.include? e }
