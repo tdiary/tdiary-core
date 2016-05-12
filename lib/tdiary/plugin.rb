@@ -32,7 +32,7 @@ module TDiary
 			@content_procs = {}
 			@startup_procs = []
 			@cookies = []
-			@javascripts = []
+			@javascripts = {}
 			@javascript_setting = []
 
 			params.each do |key, value|
@@ -314,8 +314,8 @@ module TDiary
 			@cookies << cookie
 		end
 
-		def enable_js( script )
-			@javascripts << script unless @javascripts.index( script )
+		def enable_js( script, async: false )
+			@javascripts[script] = { async: async }
 		end
 
 		def add_js_setting( var, val = 'new Object()' )

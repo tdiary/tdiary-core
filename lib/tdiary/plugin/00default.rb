@@ -354,11 +354,11 @@ def jquery_tag
 	%Q[<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>]
 end
 
-enable_js( '00default.js' )
+enable_js( '00default.js', async: false )
 add_js_setting( '$tDiary.style', "'#{@conf.style.downcase.sub( /\Ablog/, '' )}'" )
 
 if /^form|edit|preview|showcomment/ =~ @mode
-	enable_js( '02edit.js' )
+	enable_js( '02edit.js', async: true )
 end
 
 def script_tag_query_string
@@ -372,11 +372,12 @@ end
 def script_tag
 	require 'uri'
 	query = script_tag_query_string
-	html = @javascripts.sort.map {|script|
+	html = @javascripts.keys.sort.map {|script|
+		async = @javascripts[script][:async] ? "async" : ""
 		if URI(script).scheme or script =~ %r|\A//|
-			%Q|<script src="#{script}"></script>|
+			%Q|<script src="#{script}" #{async}></script>|
 		else
-			%Q|<script src="#{js_url}/#{script}#{query}"></script>|
+			%Q|<script src="#{js_url}/#{script}#{query}" #{async}></script>|
 		end
 	}.join( "\n\t" )
 	html << "\n" << <<-HEAD
@@ -748,7 +749,7 @@ def brl; '<br clear="left">';  end
 # preferences (saving methods)
 #
 if @mode =~ /conf|saveconf/
-	enable_js( '01conf.js' )
+	enable_js( '01conf.js', async: true )
 end
 
 # basic (default)
