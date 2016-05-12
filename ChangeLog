@@ -1,3 +1,6 @@
+2016-05-12  MATSUOKA Kohei <kohei@machu.jp>
+	* plugin.rb: support asynchronous JavaScript loading
+
 2016-05-09  TADA Tadashi <t@tdtds.jp>
 	* theme/base.css: set width of dropdown list of draft plugin
 
