@@ -1,4 +1,5 @@
 require 'tdiary'
+require 'tdiary/extensions/core'
 require 'rack/builder'
 require 'tdiary/rack'
 
