@@ -1,6 +1,7 @@
 #
 # Ralefile for releasing tDiary.
 #
+require 'octokit'
 
 STABLE = `git tag | sort -r | head -1`.chomp
 REPOS = %w(tdiary-core tdiary-theme tdiary-blogkit tdiary-contrib)
@@ -85,6 +86,54 @@ def make_full_package(version = nil)
 	end
 end
 
+#
+# https://developer.github.com/v3/repos/releases/#create-a-release
+#
+def create_github_release(version)
+	name = "tDiary #{version.sub(/v/, '')}"
+	puts "creating github release #{version}, #{name}"
+	begin
+		Octokit.create_release('tdiary/tdiary-core', version, name: name)
+	rescue Octokit::ClientError => e
+		STDERR.puts e
+	end
+end
+
+#
+# https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name
+#
+def find_or_create_github_release(version)
+	begin
+		release = Octokit.release_for_tag('tdiary/tdiary-core', version)
+	rescue Octokit::NotFound
+		release = create_github_release(version)
+	end
+	release
+end
+
+#
+# https://developer.github.com/v3/repos/releases/#upload-a-release-asset
+#
+def upload_github_asset(release, file)
+	puts "updating file to github: #{file}"
+	begin
+		Octokit.upload_asset(release.url, file)
+	rescue Octokit::ClientError => e
+		STDERR.puts e
+	end
+end
+
+#
+# https://developer.github.com/v3/#authentication
+#
+def login_github
+	unless ENV['GITHUB_ACCESS_TOKEN']
+		raise "Missing $GITHUB_ACCESS_TOKEN environment.\nSee: https://help.github.com/articles/creating-an-access-token-for-command-line-use/"
+	end
+	Octokit.configure {|c| c.access_token = ENV['GITHUB_ACCESS_TOKEN'] }
+	Octokit.auto_paginate = true
+end
+
 namespace :package do
 	desc 'fetching all files from GitHub.'
 	task :fetch do
@@ -93,10 +142,15 @@ namespace :package do
 
 	desc 'releasing all files'
 	task :release do
+		login_github
 		Dir.chdir("tmp") do
 			TARBALLS = Dir["*.tar.gz"] if TARBALLS.empty?
 			TARBALLS.each do |tgz|
-				sh "scp -P 443 #{tgz} www.tdiary.org:#{DEST_DIR}"
+				# TODO: v5.0.0.20160501 形式のバージョンに対応させる
+				version = tgz.match(/v?\d\.\d\.\d/).to_a[0]
+				next unless version
+				release = find_or_create_github_release(version)
+				upload_github_asset(release, tgz)
 			end
 		end
 	end
