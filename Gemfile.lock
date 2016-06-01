@@ -26,6 +26,8 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     emot (0.0.4)
       thor
+    faraday (0.9.2)
+      multipart-post (>= 1.2, < 3)
     fastimage (2.0.0)
       addressable (~> 2)
     ffi (1.9.10)
@@ -46,9 +48,12 @@ GEM
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     multi_json (1.11.3)
+    multipart-post (2.0.0)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    octokit (4.3.0)
+      sawyer (~> 0.7.0, >= 0.5.3)
     phantomjs (2.1.1.0)
     pit (0.0.7)
     power_assert (0.2.7)
@@ -85,6 +90,9 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
     rubyzip (1.2.0)
+    sawyer (0.7.0)
+      addressable (>= 2.3.5, < 2.5)
+      faraday (~> 0.8, < 0.10)
     selenium-webdriver (2.53.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
@@ -125,6 +133,7 @@ DEPENDENCIES
   jasmine
   launchy
   mail
+  octokit
   pit
   pry-byebug
   rack
@@ -140,4 +149,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   1.11.2
+   1.12.1
