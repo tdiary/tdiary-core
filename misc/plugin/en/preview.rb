@@ -1,0 +1,5 @@
+@preview_label_conf = 'preview'
+@preview_label_interval = 'refresh interval'
+@preview_label_interval_desc = 'Specify the interval at which to display the preview in seconds.'
+@preview_label_min_width = 'side by side screen width'
+@preview_label_min_width_desc = 'Specifies the width to display the preview screen side-by-side in pixels.'
