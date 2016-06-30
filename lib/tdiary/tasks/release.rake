@@ -1,7 +1,10 @@
 #
 # Ralefile for releasing tDiary.
 #
-require 'octokit'
+begin
+  require 'octokit'
+rescue LoadError
+end
 
 STABLE = `git tag | sort -r | head -1`.chomp
 REPOS = %w(tdiary-core tdiary-theme tdiary-blogkit tdiary-contrib)
@@ -90,6 +93,9 @@ end
 # https://developer.github.com/v3/repos/releases/#create-a-release
 #
 def create_github_release(version)
+	unless defined?(Octokit)
+		raise "Missing octokit gem"
+	end
 	name = "tDiary #{version.sub(/v/, '')}"
 	puts "creating github release #{version}, #{name}"
 	begin
@@ -103,6 +109,9 @@ end
 # https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name
 #
 def find_or_create_github_release(version)
+	unless defined?(Octokit)
+		raise "Missing octokit gem"
+	end
 	begin
 		release = Octokit.release_for_tag('tdiary/tdiary-core', version)
 	rescue Octokit::NotFound
@@ -115,6 +124,9 @@ end
 # https://developer.github.com/v3/repos/releases/#upload-a-release-asset
 #
 def upload_github_asset(release, file)
+	unless defined?(Octokit)
+		raise "Missing octokit gem"
+	end
 	puts "updating file to github: #{file}"
 	begin
 		Octokit.upload_asset(release.url, file)
@@ -127,6 +139,9 @@ end
 # https://developer.github.com/v3/#authentication
 #
 def login_github
+	unless defined?(Octokit)
+		raise "Missing octokit gem"
+	end
 	unless ENV['GITHUB_ACCESS_TOKEN']
 		raise "Missing $GITHUB_ACCESS_TOKEN environment.\nSee: https://help.github.com/articles/creating-an-access-token-for-command-line-use/"
 	end
