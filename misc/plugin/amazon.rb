@@ -69,6 +69,10 @@ class AmazonItem
 			@item.elements.to_a(path)
 		end
 	end
+
+  def has_item?
+    !@item.nil?
+  end
 end
 
 def amazon_fetch( url, limit = 10 )
@@ -289,11 +293,11 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 	rescue NoMethodError
 		message = label || asin
 		if @mode == 'preview' then
-			if item == nil then
+			if item.has_item? then
+				message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|
+			else
 				m = item.nodes( 'Items/Request/Errors/Error/Message' )[0].text
 				message << %Q|<span class="message">(#{h @conf.to_native( m, 'utf-8' )})</span>|
-			else
-				message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|
 			end
 		end
 		message
