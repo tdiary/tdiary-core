@@ -78,9 +78,9 @@ class AmazonItem
 		end
 	end
 
-  def has_item?
-    !@item.nil?
-  end
+	def has_item?
+		!@item.nil?
+	end
 end
 
 def amazon_fetch( url, limit = 10 )
