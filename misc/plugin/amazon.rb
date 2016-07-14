@@ -54,25 +54,33 @@ class AmazonItem
 	def initialize(xml, parser = :rexml)
 		@parser = parser
 		if parser == :oga
-			doc = Oga.parse_xml(xml)
-			@item = doc.xpath('*/*/Item')[0]
+			@doc = Oga.parse_xml(xml)
+			@item = @doc.xpath('*/*/Item')[0]
 		else
-			doc = REXML::Document::new( REXML::Source::new( xml ) ).root
-			@item = doc.elements.to_a( '*/Item' )[0]
+			@doc = REXML::Document::new( REXML::Source::new( xml ) ).root
+			@item = @doc.elements.to_a( '*/Item' )[0]
 		end
 	end
 
 	def nodes(path)
 		if @parser == :oga
-			@item.xpath(path)
+			if @item
+				@item.xpath(path)
+			else
+				@doc.xpath(path)
+			end
 		else
-			@item.elements.to_a(path)
+			if @item
+				@item.elements.to_a(path)
+			else
+				@doc.elements.to_a(path)
+			end
 		end
 	end
 
-  def has_item?
-    !@item.nil?
-  end
+	def has_item?
+		!@item.nil?
+	end
 end
 
 def amazon_fetch( url, limit = 10 )
