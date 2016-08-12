@@ -714,7 +714,7 @@ def comment_mail_send
 		rmail = File::open( "#{TDiary::PATH}/../views/mail.rtxt" ){|f| f.read }
 	end
 	text = @conf.to_mail( ERB::new( rmail.untaint ).result( binding ) )
-	receivers.each { |i| i.untaint }
+	receivers.each(&:untaint)
 	comment_mail( text, receivers )
 end
 
@@ -771,8 +771,8 @@ end
 # header/footer (header)
 def saveconf_header
 	if @mode == 'saveconf' then
-		@conf.header = @conf.to_native( @cgi.params['header'][0] ).lines.map{|s| s.chomp}.join( "\n" ).sub( /\n+\z/, '' )
-		@conf.footer = @conf.to_native( @cgi.params['footer'][0] ).lines.map{|s| s.chomp}.join( "\n" ).sub( /\n+\z/, '' )
+		@conf.header = @conf.to_native( @cgi.params['header'][0] ).lines.map(&:chomp).join( "\n" ).sub( /\n+\z/, '' )
+		@conf.footer = @conf.to_native( @cgi.params['footer'][0] ).lines.map(&:chomp).join( "\n" ).sub( /\n+\z/, '' )
 	end
 end
 

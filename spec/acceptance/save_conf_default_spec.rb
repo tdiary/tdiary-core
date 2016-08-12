@@ -86,7 +86,7 @@ FOOTER
 		click_link '最新'
 		expect(page).to have_content('★')
 		expect(page).to have_content('●')
-		titles = page.all('h2 span.date a').map{|t| t.text }
+		titles = page.all('h2 span.date a').map(&:text)
 		expect(titles).to include("#{today.year}:#{'%02d' % today.month}:#{'%02d' % today.day}")
 		expect(titles).not_to include("#{yestarday.year}:#{'%02d' % yestarday.month}:#{'%02d' % yestarday.day}")
 		expect(page).not_to have_content("長年日記")

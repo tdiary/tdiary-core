@@ -56,7 +56,7 @@ feature '日記を読む' do
 		page.find('h2', text: "2001年04月23日").click_link '2001年04月23日'
 		click_link '長年日記'
 
-		titles = page.all('h2 span.date a').map{|t| t.text }
+		titles = page.all('h2 span.date a').map(&:text)
 		expect(titles).to include '2001年04月23日'
 		expect(titles).to include '2002年04月23日'
 		expect(titles).to include '2003年04月23日'

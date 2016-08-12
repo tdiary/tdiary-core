@@ -145,9 +145,7 @@ module TDiary
 		end
 
 		def update_proc
-			@update_procs.each do |proc|
-				proc.call
-			end
+			@update_procs.each(&:call)
 			''
 		end
 
