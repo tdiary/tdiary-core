@@ -29,13 +29,13 @@ module TDiary
 
 		def initialize( opts )
 			@server = WEBrick::HTTPServer.new(
-				:Port => opts[:port], BindAddress: opts[:bind],
-				:DocumentRoot => TDiary.root,
-				:MimeTypes => tdiary_mime_types,
-				:Logger => webrick_logger_to( opts[:logger] ),
-				:AccessLog => webrick_access_log_to( opts[:access_log] ),
-				:ServerType => opts[:daemon] ? WEBrick::Daemon : nil,
-				:CGIInterpreter => WEBrick::HTTPServlet::CGIHandler::Ruby
+				Port: opts[:port], BindAddress: opts[:bind],
+				DocumentRoot: TDiary.root,
+				MimeTypes: tdiary_mime_types,
+				Logger: webrick_logger_to( opts[:logger] ),
+				AccessLog: webrick_access_log_to( opts[:access_log] ),
+				ServerType: opts[:daemon] ? WEBrick::Daemon : nil,
+				CGIInterpreter: WEBrick::HTTPServlet::CGIHandler::Ruby
 			)
 			@server.logger.level = WEBrick::Log::DEBUG
 			@server.mount("/", WEBrick::HTTPServlet::CGIHandler, TDiary.root + "/index.rb")

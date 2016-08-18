@@ -84,11 +84,11 @@ module TDiary
 
 			def to_html( string )
 				html = HikiDoc::to_html( string,
-					:level => 3,
-					:empty_element_suffix => '>',
-					:use_wiki_name => false,
-					:allow_bracket_inline_image => false,
-					:plugin_syntax => method(:valid_plugin_syntax?) ).strip
+					level: 3,
+					empty_element_suffix: '>',
+					use_wiki_name: false,
+					allow_bracket_inline_image: false,
+					plugin_syntax: method(:valid_plugin_syntax?) ).strip
 				html.gsub!( %r!<span class="plugin">\{\{(.+?)\}\}</span>!m ) do
 					"<%=#{CGI.unescapeHTML($1)}\n%>"
 				end
