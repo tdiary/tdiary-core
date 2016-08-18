@@ -66,7 +66,7 @@ GEM
     pry-byebug (3.4.0)
       byebug (~> 9.0)
       pry (~> 0.10)
-    rack (2.0.1)
+    rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
     racksh (1.0.0)
@@ -138,7 +138,7 @@ DEPENDENCIES
   octokit
   pit
   pry-byebug
-  rack
+  rack (~> 1.6)
   racksh
   rake
   redcarpet
