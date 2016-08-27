@@ -30,6 +30,8 @@ before_script:
 
 script: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec jasmine:ci test ; fi
 
+gemfile: ./Gemfile.ci
+
 env:
   - TEST_MODE=rack
   - TEST_MODE=gem
