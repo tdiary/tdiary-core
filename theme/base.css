@@ -119,6 +119,11 @@ span.amazon-label, span.amazon-price {
 /*
 image plugin
 */
+img.photo {
+	float: right;
+	margin: 0.5em;
+}
+
 img.left {
 	float: left;
 	margin: 0.5em;
@@ -129,11 +134,6 @@ img.right, img.amazon {
 	float: right;
 	margin: 0.5em;
 	margin-top: 0px;
-}
-
-img.photo {
-	float: right;
-	margin: 0.5em;
 }
 
 /*

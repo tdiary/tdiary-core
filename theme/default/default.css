@@ -212,22 +212,24 @@ div.section img {
 	border-width: 1px;
 }
 
+div.section img.photo {
+	display: block;
+	float: none;
+	margin: 0px auto;
+	margin-bottom: 10px;
+}
+
 div.section img.right, img.amazon {
+	display: inline;
 	float: right;
 	margin-left: 10px;
 	margin-bottom: 10px;
 }
 
 div.section img.left {
+	display: inline;
 	float: left;
 	margin-right: 10px;
-	margin-bottom: 10px;
-}
-
-div.section img.photo {
-	display: block;
-	float: none;
-	margin: 0px auto;
 	margin-bottom: 10px;
 }
 
