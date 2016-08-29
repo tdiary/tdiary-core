@@ -103,11 +103,11 @@ module TDiary
 
 			if options[:cgi]
 				opts = {
-					:daemon => ENV['DAEMON'],
-					:bind   => options[:bind],
-					:port   => options[:port],
-					:logger => $stderr,
-					:access_log => options[:log] ? File.open(options[:log], 'a') : $stderr
+					daemon: ENV['DAEMON'],
+					bind: options[:bind],
+					port: options[:port],
+					logger: $stderr,
+					access_log: options[:log] ? File.open(options[:log], 'a') : $stderr
 				}
 				TDiary::Server.run( opts )
 			elsif
@@ -116,12 +116,12 @@ module TDiary
 				require 'webrick'
 				ARGV.shift
 				opts = {
-					:environment => ENV['RACK_ENV'] || "development",
-					:daemonize   => false,
-					:Host        => options[:bind],
-					:Port        => options[:port],
-					:pid         => File.expand_path("tdiary.pid"),
-					:config      => File.expand_path("config.ru")
+					environment: ENV['RACK_ENV'] || "development",
+					daemonize: false,
+					Host: options[:bind],
+					Port: options[:port],
+					pid: File.expand_path("tdiary.pid"),
+					config: File.expand_path("config.ru")
 				}
 				if options[:log]
 					opts[:AccessLog] = [[File.open(options[:log], 'a'), WEBrick::AccessLog::CLF]]
