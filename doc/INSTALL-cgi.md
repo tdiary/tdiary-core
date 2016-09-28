@@ -3,10 +3,10 @@ tDiaryのインストール (CGI環境)
 
 一般的なCGIの実行を許可しているISPやレンタルサーバ上で利用する場合を想定し、以下のような環境を例に説明します。
 
-  - WWWサーバ: Apache 1.3.x
+  - WWWサーバ: Apache 2.x
   - ユーザ名: foo
-  - 日記のURL: http://www.hoge.example.org/~foo/diary/
-  - 上記URLのパス: /home/foo/public\_html/diary
+  - 日記のURL: `http://www.hoge.example.org/~foo/diary/`
+  - 上記URLのパス: `/home/foo/public_html/diary`
 
 ## tDiaryの取得
 
@@ -31,14 +31,12 @@ tDiaryのダウンロードサイトから、配布アーカイブを取得し�
 ```
 % git clone git://github.com/tdiary/tdiary-core.git tdiary
 % cd tdiary
-% bundle install --without coffee:memcached:redis:gfm:server:development:test
+% bundle install --without development
 ```
-
-上記の例では tDiary を動作させるのに最低限必要なライブラリのみインストールしています。もし、memcached にキャッシュを保存したり、GFM スタイルを使用する場合は --without オプションから該当ライブラリの文字列を削除して実行してください。
 
 ## CGIスクリプトの設定
 
-配布アーカイブを展開し、中身をすべて/home/foo/public\_html/diaryにコピーします。以下の2つのファイルがCGIスクリプト本体なので、WWWサーバの権限で実行可能なようにパーミッションを設定してください。
+配布アーカイブを展開し、中身をすべて`/home/foo/public_html/diary`にコピーします。以下の2つのファイルがCGIスクリプト本体なので、WWWサーバの権限で実行可能なようにパーミッションを設定してください。
 
   - index.rb
   - update.rb
@@ -75,7 +73,7 @@ Require user  foo
   - CGIの実行を可能にし、
   - サフィックス「.rb」のファイルをCGIと認識させ、
   - index.rbをデフォルトのファイルに設定し、
-  - *.rhtmlとtdiary.*のファイルの参照を禁止して、
+  - `*.rhtml`と`tdiary.*`のファイルの参照を禁止して、
   - update.rbへのアクセスにはユーザ認証が必要
 
 という設定になっています。とりあえず書き換えが必要なのは、AuthUserFileとRequire userでしょう。意味はWebででも調べて下さい。AuthUseFileは、あらかじめhtpasswdコマンドで作成しておく必要があります(これもWebで調べればわかります)。
