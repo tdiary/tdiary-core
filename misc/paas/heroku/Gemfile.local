@@ -1,4 +1,4 @@
-ruby '2.3.0'
+ruby '2.3.1'
 gem 'puma', require: false
 gem 'tdiary-io-mongodb', github: 'tdiary/tdiary-io-mongodb'
 gem 'tdiary-contrib', github: 'tdiary/tdiary-contrib'
