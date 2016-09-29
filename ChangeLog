@@ -1,3 +1,7 @@
+2016-09-29  TADA Tadashi <t@tdtds.jp>
+	* update some documents: add using Gemfile.local
+	* release 5.0.2
+
 2016-08-23  TADA Tadashi <t@tdtds.jp>
 	* base.css, default.css: define img.right and img.left after img.photo
 
