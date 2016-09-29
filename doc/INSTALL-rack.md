@@ -95,3 +95,19 @@ $ cd [tDiaryの設置ディレクトリ]
 $ tdiary update
 $ bundle install
 ```
+
+## 追加のgemを使うには
+
+tDiaryの関連ライブラリは、別のgemになっている場合があります。これらを使いたい場合、Rubyで一般的な`Gemfile`ではなく、`tdiary new`コマンドで作成した先(このドキュメントの場合はdirayディレクトリ)にある`Gemfile.local`に使いたいgemを指定します。例えばBlogKitを使いたい場合には以下のように指定します:
+
+```
+gem 'tdiary-blogkit'
+```
+
+このあと、`bundle install`をして、指定したgemをインストールします:
+
+```
+$ bundle install
+```
+
+他にも、日記の保存先をデータベースにするIO系のgem、スタイルを追加するgem、Thin以外のWebサーバを使いたい場合にも`Gemfile.local`に記述します。
