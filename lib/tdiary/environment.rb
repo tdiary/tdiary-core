@@ -17,3 +17,19 @@ if defined?(Bundler)
   env = env.reject{|e| Bundler.settings.without.include? e }
   Bundler.require *env
 end
+
+# Bundler.require doesn't load gems specified in .gemspec
+# see: https://github.com/bundler/bundler/issues/1041
+#
+# load gems dependented by tdiary
+tdiary_spec = Bundler.definition.specs.find {|spec| spec.name == 'tdiary'}
+if tdiary_spec
+  tdiary_spec.dependent_specs.each {|dep_spec|
+    begin
+      require dep_spec.name
+    rescue LoadError => e
+      STDERR.puts "failed require '#{dep_spec.name}'"
+      STDERR.puts e
+    end
+  }
+end
