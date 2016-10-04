@@ -7,7 +7,7 @@ PATH
       fastimage
       hikidoc
       mail
-      rack
+      rack (~> 1.6)
       rake
       sprockets
       thor

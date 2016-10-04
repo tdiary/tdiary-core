@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fastimage'
   spec.add_dependency 'hikidoc'
   spec.add_dependency 'mail'
-  spec.add_dependency 'rack'
+  spec.add_dependency 'rack', '~> 1.6' # ~> 2.0 requires ruby 2.2.2 or later.
   spec.add_dependency 'rake'
   spec.add_dependency 'sprockets'
   spec.add_dependency 'thor'
