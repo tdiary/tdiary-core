@@ -1,11 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack', '~> 1.6' # ~> 2.0 requires ruby 2.2.2 or later.
-gem 'hikidoc'
-gem 'fastimage'
-gem 'emot'
-gem 'mail'
-gem 'rake'
+gemspec
 
 group :rack do
   gem 'sprockets'
