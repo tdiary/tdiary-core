@@ -39,23 +39,23 @@ module TDiary
 			@options2.delete( key )
 		end
 
-		# backword compatibility, returns NOT mobile phone always
+		# backward compatibility, returns NOT mobile phone always
 		def mobile_agent?
 			false
 		end
 
-		# backword compatibility, returns NOT smartphone always
+		# backward compatibility, returns NOT smartphone always
 		def smartphone?
 			false
 		end
 		alias iphone? smartphone?
 
-		# backword compatibility, you can use bot? or @conf.bot =~ @cgi.user_agent
+		# backward compatibility, you can use bot? or @conf.bot =~ @cgi.user_agent
 		def bot?
 			@bot =~ @request.user_agent
 		end
 
-		# backword compatibility, you can use TDiary::ViewHelper#base_url
+		# backward compatibility, you can use TDiary::ViewHelper#base_url
 		def base_url
 			if @options['base_url'] && @options['base_url'].length > 0
 				@options['base_url']
@@ -231,7 +231,7 @@ module TDiary
 		end
 	end
 
-	# backword compatibility
+	# backward compatibility
 	Config = Configuration
 end
 
