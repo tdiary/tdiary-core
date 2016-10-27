@@ -2,12 +2,12 @@ require 'emot'
 
 module TDiary
 	module RequestExtension
-		# backword compatibility, returns NOT mobile phone always
+		# backward compatibility, returns NOT mobile phone always
 		def mobile_agent?
 			false
 		end
 
-		# backword compatibility, returns NOT smartphone always
+		# backward compatibility, returns NOT smartphone always
 		def smartphone?
 			false
 		end
