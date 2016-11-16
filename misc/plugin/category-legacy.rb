@@ -548,19 +548,15 @@ private
 
 		idx = 1
 		diary.each_section do |s|
+			shorten = begin
+				body = %Q|apply_plugin(#{s.body_to_html.dump}, true)|
+				@conf.shorten(eval(body.untaint, @binding))
+			rescue NameError
+				""
+			end
 			s.categories.each do |c|
 				categorized[c] = {} if categorized[c].nil?
 				categorized[c][ymd] = [] if categorized[c][ymd].nil?
-				body = <<EVAL
-text = apply_plugin(<<'BODY', true)
-#{s.body_to_html}
-BODY
-EVAL
-				shorten = begin
-					@conf.shorten(eval(body.untaint, @binding))
-				rescue NameError
-					""
-				end
 				categorized[c][ymd] << [idx, s.stripped_subtitle_to_html, shorten]
 			end
 			idx +=1
