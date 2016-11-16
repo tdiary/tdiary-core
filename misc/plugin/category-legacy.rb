@@ -549,7 +549,7 @@ private
 		idx = 1
 		diary.each_section do |s|
 			body = <<-EVAL
-				text = apply_plugin(s.body_to_html.dump, true)
+				apply_plugin(#{s.body_to_html.dump}, true)
 			EVAL
 			shorten = begin
 				@conf.shorten(eval(body.untaint, @binding))
