@@ -1,6 +1,3 @@
-2016-11-14  TADA Tadashi <t@tdtds.jp>
-	* category.rb, category-legacy.rb: fix error about here documents
-
 2016-09-29  TADA Tadashi <t@tdtds.jp>
 	* update some documents: add using Gemfile.local
 	* release 5.0.2
