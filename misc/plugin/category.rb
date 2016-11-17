@@ -113,19 +113,15 @@ def category_serialize(diary)
 
 	idx = 1
 	diary.each_section do |s|
+		shorten = begin
+			body = %Q|apply_plugin(#{s.body_to_html.dump}, true)|
+			@conf.shorten(eval(body.untaint))
+		rescue NameError
+			""
+		end
 		s.categories.each do |c|
 			data[c] ||= {}
 			data[c][ymd] ||= []
-			body = <<-EVAL.gsub(/^\t+/, '')
-				text = apply_plugin(<<'BODY', true)
-				#{s.body_to_html}
-				BODY
-			EVAL
-			shorten = begin
-				@conf.shorten(eval(body.untaint))
-			rescue NameError
-				""
-			end
 			data[c][ymd] << [idx, s.stripped_subtitle_to_html, shorten]
 		end
 		idx +=1
