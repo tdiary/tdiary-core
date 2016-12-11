@@ -1,0 +1,45 @@
+<!doctype html>
+<html ⚡ lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <title><%= amp_title %></title>
+    <link rel="canonical" href="<%= amp_canonical_url(diary) %>" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "<%= amp_headline(diary) %>",
+        "datePublished": "<%= amp_last_modified(diary) %>",
+        "dateModified": "<%= amp_last_modified(diary) %>",
+        "image": [
+          "<%= amp_logo %>"
+        ],
+        "description": "<%= amp_description(diary) %>"
+      }
+    </script>
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <style amp-custom>
+    <%= amp_style %>
+    </style>
+  </head>
+  <body>
+    <div class="whole-content">
+      <div class="adminmenu">
+        <%= navi_user %>
+      </div>
+      <div class="content">
+        <h1><a href="<%= amp_canonical_url(diary) %>"><%= amp_title %></a></h1>
+        <div class="day">
+          <h2><%= amp_day_title(diary) %></h2>
+          <div class="body">
+            <%= amp_body(diary) %>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+      </div>
+    </div>
+  </body>
+</html>

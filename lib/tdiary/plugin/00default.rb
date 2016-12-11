@@ -830,8 +830,7 @@ def conf_theme_list
 end
 
 def theme_list_local(list)
-	theme_paths = [::TDiary::PATH, TDiary.server_root].map {|d| "#{d}/theme/*" }
-	Dir::glob( theme_paths ).sort.map {|dir|
+	Dir::glob( theme_paths_local ).sort.map {|dir|
 		theme = dir.sub( %r[.*/theme/], '')
 		next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
 		name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
@@ -842,6 +841,10 @@ end
 
 def theme_url_local(theme)
 	"#{h theme_url}/#{h theme}/#{h theme}.css"
+end
+
+def theme_paths_local
+	[::TDiary::PATH, TDiary.server_root].map {|d| "#{d}/theme/*" }
 end
 
 def saveconf_theme
