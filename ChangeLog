@@ -1,3 +1,6 @@
+2016-12-11  MATSUOKA Kohei <kohei@machu.jp>
+	* amp.rb, views/amp.rhtml: support amp (Accelerated Mobile Pages)
+
 2016-11-16  TADA Tadashi <t@tdtds.jp>
 	* category.rb, category-legacy.rb: fix error about here documents
 
