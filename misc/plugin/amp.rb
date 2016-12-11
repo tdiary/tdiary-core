@@ -6,8 +6,8 @@
 # Distributed under the GPL2 or any later version.
 #
 
-# This plugin requires Ora gem.
-# Write `gem 'ora'` to your Gemfile.local.
+# This plugin requires Oga gem.
+# Write `gem 'oga'` to your Gemfile.local.
 
 add_header_proc do
   if @mode == 'day'
@@ -22,15 +22,17 @@ add_content_proc('amp') do |date|
 end
 
 def amp_body(diary)
-  # TODO: replace to REXML
-  require 'oga'
-
-  html = Oga.parse_html(apply_plugin(diary.to_html))
-  html.xpath('//img').each do |img|
-    img.name = 'amp-img'
-    img.set('layout', 'responsive')
+  if defined?(Oga)
+    doc = Oga.parse_html(apply_plugin(diary.to_html))
+    doc.xpath('//img').each do |img|
+      img.name = 'amp-img'
+      img.set('layout', 'responsive')
+    end
+    doc.to_xml
+  else
+    apply_plugin(diary.to_html)
+      .gsub(/<img\s([^>]+)>/, '<amp-img \1 layout="responsive">')
   end
-  html.to_xml
 end
 
 def amp_canonical_url(diary)
@@ -70,8 +72,8 @@ end
 def amp_style
   base_css = File.read('theme/base.css')
   theme_css = amp_theme_css
-    .gsub!(/^@charset.*$/, '')
-    .gsub!(/!important/, '')
+    .gsub(/^@charset.*$/, '')
+    .gsub(/!important/, '')
 
   <<-EOL
   #{base_css}
@@ -89,7 +91,12 @@ def amp_theme_css
     uri.scheme ||= 'https'
     URI.parse(uri.to_s).read
   when 'local'
-    File.read("theme/#{theme}.css")
+    theme_path = theme_paths_local.map {|path|
+      File.join(File.dirname(path), "#{theme}/#{theme}.css")
+    }.find {|path|
+      File.exist?(path)
+    }
+    theme_path ? File.read(theme_path) : ''
   end
 end
 
