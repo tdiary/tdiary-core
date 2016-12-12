@@ -24,14 +24,18 @@ end
 def amp_body(diary)
   if defined?(Oga)
     doc = Oga.parse_html(apply_plugin(diary.to_html))
-    doc.xpath('//img').each do |img|
-      img.name = 'amp-img'
-      img.set('layout', 'responsive')
+    doc.xpath('//img').each do |element|
+      element.name = 'amp-img'
+      element.set('layout', 'responsive')
+    end
+    doc.xpath('//script').each do |element|
+      element.remove
     end
     doc.to_xml
   else
     apply_plugin(diary.to_html)
       .gsub(/<img\s([^>]+)>/, '<amp-img \1 layout="responsive">')
+      .gsub(/<script[^<]+<\/script>/, '')
   end
 end
 

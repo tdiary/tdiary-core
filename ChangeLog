@@ -1,3 +1,6 @@
+2016-12-13  MATSUOKA Kohei <kohei@machu.jp>
+	* amp.rb: remove script tag
+
 2016-12-11  MATSUOKA Kohei <kohei@machu.jp>
 	* amp.rb, views/amp.rhtml: support amp (Accelerated Mobile Pages)
 
