@@ -25,7 +25,7 @@ FCGI.each_cgi do |cgi|
 		class << CGI; self; end.class_eval do
 			define_method(:new) {|*args| cgi }
 		end
-		dir = File::dirname( cgi.env_table["SCRIPT_FILENAME"] )
+		dir = File::dirname( cgi.env_table["SCRIPT_FILENAME"] || __FILE__ )
 		Dir.chdir(dir) do
 			load 'update.rb'
 		end
