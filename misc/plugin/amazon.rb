@@ -228,7 +228,7 @@ def amazon_detail_html( item )
 			<span class="amazon-author">#{h author}</span><br>
 			<span class="amazon-label">#{h amazon_label( item )}</span><br>
 			<span class="amazon-price">#{h amazon_price( item )}</span>
-		</span><br style="clear: left">
+		</span>
 	</span></a>
 	HTML
 end
