@@ -4,7 +4,6 @@
 # Copyright (c) 2004 MoonWolf <moonwolf@moonwolf.com>
 # Distributed under the GPL2 or any later version.
 #
-# require Ruby1.8 or xml-rpc(http://raa.ruby-lang.org/project/xml-rpc/)
 
 BEGIN { $stdout.binmode }
 
