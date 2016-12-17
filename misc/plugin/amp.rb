@@ -6,9 +6,6 @@
 # Distributed under the GPL2 or any later version.
 #
 
-# This plugin requires Oga gem.
-# Write `gem 'oga'` to your Gemfile.local.
-
 add_header_proc do
   if @mode == 'day'
     diary = @diaries[@date.strftime('%Y%m%d')]
@@ -22,21 +19,9 @@ add_content_proc('amp') do |date|
 end
 
 def amp_body(diary)
-  if defined?(Oga)
-    doc = Oga.parse_html(apply_plugin(diary.to_html))
-    doc.xpath('//img').each do |element|
-      element.name = 'amp-img'
-      element.set('layout', 'responsive')
-    end
-    doc.xpath('//script').each do |element|
-      element.remove
-    end
-    doc.to_xml
-  else
-    apply_plugin(diary.to_html)
-      .gsub(/<img\s([^>]+)>/, '<amp-img \1 layout="responsive">')
-      .gsub(/<script[^<]+<\/script>/, '')
-  end
+  apply_plugin(diary.to_html)
+    .gsub(/<img\s([^>]+)>/, '<amp-img \1 layout="responsive">')
+    .gsub(/<script[^<]+<\/script>/, '')
 end
 
 def amp_canonical_url(diary)
@@ -47,34 +32,12 @@ def amp_day_title(diary)
   title_proc(Time::at(@date.to_i), diary.title)
 end
 
-def amp_description(diary)
-  section = diary.instance_variable_get(:@sections).first
-  @conf.shorten(apply_plugin(section.body_to_html, true), 200)
-end
-
-def amp_headline(diary)
-  section = diary.instance_variable_get(:@sections).first
-  section.subtitle_to_html
-end
-
 def amp_html_url(diary)
   URI.join(amp_canonical_url(diary), '?plugin=amp')
 end
 
-def amp_last_modified(diary)
-  diary.last_modified.strftime('%FT%T%:z')
-end
-
-def amp_logo
-  if @conf.banner.nil? || @conf.banner.empty?
-    File.join(@conf.base_url, "#{theme_url}/ogimage.png")
-  else
-    @conf.banner
-  end
-end
-
 def amp_style
-  base_css = File.read('theme/base.css')
+  base_css = amp_base_css
   theme_css = amp_theme_css
     .gsub(/^@charset.*$/, '')
     .gsub(/!important/, '')
@@ -83,6 +46,15 @@ def amp_style
   #{base_css}
   #{theme_css}
   EOL
+end
+
+def amp_base_css
+  base_css_path = theme_paths_local.map {|path|
+    File.join(File.dirname(path), "base.css")
+  }.find {|path|
+    File.exist?(path)
+  }
+  base_css_path ? File.read(base_css_path) : ''
 end
 
 def amp_theme_css
