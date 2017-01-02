@@ -15,7 +15,8 @@ end
 
 add_content_proc('amp') do |date|
   diary = @diaries[date]
-  ERB.new(File.read("views/amp.rhtml")).result(binding)
+  template = File.read(File.join(TDiary::root, "views/amp.rhtml"))
+  ERB.new(template).result(binding)
 end
 
 def amp_body(diary)
