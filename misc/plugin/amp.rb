@@ -19,10 +19,45 @@ add_content_proc('amp') do |date|
   ERB.new(template).result(binding)
 end
 
+add_conf_proc('amp', 'AMP') do
+  if @mode == 'saveconf'
+    @conf['amp.analytics.trackingid'] = @cgi.params['amp.analytics.trackingid'][0]
+  end
+  <<-HTML
+    <h3>Google Analytics</h3>
+    <p>your tracking ID (NNNNN-N)</p>
+    <p><input name="amp.analytics.trackingid" value="#{h @conf['amp.analytics.trackingid']}"></p>
+  HTML
+end
+
 def amp_body(diary)
   apply_plugin(diary.to_html)
     .gsub(/<img\s([^>]+)>/, '<amp-img \1 layout="responsive">')
     .gsub(/<script[^<]+<\/script>/, '')
+end
+
+def amp_body_scripts
+  body_scripts = ''
+  if @conf['amp.analytics.trackingid'] && ! @conf['amp.analytics.trackingid'].empty?
+    body_scripts << <<-"HTML"
+      <amp-analytics type="googleanalytics" id="analytics1">
+      <script type="application/json">
+      {
+        "vars": {
+          "account": "UA-#{h @conf['amp.analytics.trackingid']}"
+        },
+        "triggers": {
+          "trackPageview": {
+            "on": "visible",
+            "request": "pageview"
+          }
+        }
+      }
+      </script>
+      </amp-analytics>
+    HTML
+  end
+  body_scripts
 end
 
 def amp_canonical_url(diary)
@@ -31,6 +66,16 @@ end
 
 def amp_day_title(diary)
   title_proc(Time::at(@date.to_i), diary.title)
+end
+
+def amp_header_scripts
+  scripts = {}
+  if @conf['amp.analytics.trackingid'] && ! @conf['amp.analytics.trackingid'].empty?
+    scripts['amp-analytics'] = 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js'
+  end
+  scripts.map {|element, src|
+    %Q|<script async custom-element="#{element}" src="#{src}"></script>|
+  }.join("\n")
 end
 
 def amp_html_url(diary)
