@@ -1,7 +1,7 @@
 ruby '2.3.3'
 gem 'puma', require: false
-gem 'tdiary-io-mongodb', source: https://github.com/tdiary/tdiary-io-mongodb.git
-gem 'tdiary-contrib', source: https://github.com/tdiary/tdiary-contrib.git
+gem 'tdiary-io-mongodb', source: 'https://github.com/tdiary/tdiary-io-mongodb.git'
+gem 'tdiary-contrib', source: 'https://github.com/tdiary/tdiary-contrib.git'
 gem 'tdiary-style-gfm'
 gem 'tdiary-style-rd'
 gem 'omniauth'
