@@ -186,7 +186,7 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.5)
     tins (1.13.0)
-    twitter-text (1.14.3)
+    twitter-text (1.14.2)
       unf (~> 0.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -232,6 +232,7 @@ DEPENDENCIES
   tdiary-style-gfm
   tdiary-style-rd
   test-unit
+  twitter-text (= 1.14.2)
 
 RUBY VERSION
    ruby 2.3.3p222
