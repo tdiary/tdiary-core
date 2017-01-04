@@ -1,3 +1,6 @@
+2017-01-04  TADA Tadashi <t@tdtds.jp>
+	* heroku/Gemfile.local: change some gem source to "https" instead of "github"
+
 2016-12-29  MATSUOKA Kohei <kohei@machu.jp>
 	* release 5.0.3
 
