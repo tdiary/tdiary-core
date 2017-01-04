@@ -9,3 +9,6 @@ gem 'omniauth-twitter'
 gem 'dalli'
 gem 'memcachier'
 gem 'octokit'
+
+# avoid error on gfm-style
+gem 'twitter-text', '= 1.14.2'
