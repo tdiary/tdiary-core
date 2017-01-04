@@ -140,7 +140,7 @@ add_conf_proc( 'dnsblfilter', @dnsblfilter_label_conf, 'security' ) do
 	end
 
 	# initialize IP based DNSBL list
-	@conf['spamlookup.ip.list'] ||= "dnsbl.spam-champuru.livedoor.com"
+	@conf['spamlookup.ip.list'] ||= "bsb.spamlookup.net"
 	auto_migration_spam_champuru
 
 	# initialize DNSBL list
@@ -154,10 +154,12 @@ end
 
 def auto_migration_spam_champuru
 	# auto migration of spam-champuru shutdown.
-	if @conf['spamlookup.ip.list'].scan(/dnsbl\.spam-champuru\.livedoor\.com/).size > 0
+	if @conf['spamlookup.ip.list'] && @conf['spamlookup.ip.list'].scan(/dnsbl\.spam-champuru\.livedoor\.com/).size > 0
 		@conf['spamlookup.ip.list'].gsub!(/dnsbl\.spam-champuru\.livedoor\.com/, "bsb.spamlookup.net")
 	end
 end
+
+auto_migration_spam_champuru
 
 # Local Variables:
 # mode: ruby
