@@ -35,7 +35,7 @@ end
 
 def amp_html_url(diary)
   uri = amp_canonical_url(diary)
-  uri.query = [uri.query, "plugin=amp"].join '&'
+  uri.query = [uri.query, "plugin=amp"].compact.join '&'
   uri
 end
 
