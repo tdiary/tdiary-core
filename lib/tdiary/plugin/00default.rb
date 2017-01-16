@@ -409,11 +409,7 @@ def css_tag
 	if @mode =~ /conf$/ then
 		css = "#{h theme_url}/conf.css"
 	elsif @conf.theme and @conf.theme.length > 0
-		location, name = @conf.theme.split(/\//, 2)
-		unless name
-			name = location
-			location = 'local'
-		end
+		location, name = @conf.theme.split(%r[/], 2)
 		css = __send__("theme_url_#{location}", name)
 	else
 		css = @conf.css

@@ -171,6 +171,7 @@ module TDiary
 			@show_nyear = false unless @show_nyear
 
 			@theme = 'default' if not @theme and not @css
+			@theme = "local/#{@theme}" unless @theme.index('/')
 			@css = '' unless @css
 
 			@show_comment = true unless defined?( @show_comment )
