@@ -15,7 +15,8 @@ end
 
 add_content_proc('amp') do |date|
   diary = @diaries[date]
-  ERB.new(File.read("views/amp.rhtml")).result(binding)
+  template = File.read(File.join(TDiary::root, "views/amp.rhtml"))
+  ERB.new(template).result(binding)
 end
 
 def amp_body(diary)
@@ -33,7 +34,9 @@ def amp_day_title(diary)
 end
 
 def amp_html_url(diary)
-  URI.join(amp_canonical_url(diary), '?plugin=amp')
+  uri = amp_canonical_url(diary)
+  uri.query = [uri.query, "plugin=amp"].compact.join '&'
+  uri
 end
 
 def amp_style
