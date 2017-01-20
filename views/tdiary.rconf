@@ -66,7 +66,7 @@ options2 = {
 <% @options2.keys.sort.each do |k|
 	if @options2[k].class.to_s == "String" then
 		v = @options2[k].force_encoding('ASCII-8BIT').dump
-	elsif @options2[k].class.to_s =~ /^(Fixnum|FalseClass|TrueClass|NilClass)$/
+	elsif @options2[k].class.to_s =~ /^(Integer|Fixnum|FalseClass|TrueClass|NilClass)$/
 		v = @options2[k].inspect
 	else
 		next
