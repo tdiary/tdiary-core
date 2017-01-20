@@ -213,7 +213,7 @@ end
   - security: セキュリティ関連
   - etc: その他
 
-@modeが'saveconf'の時のみ、@cgi経由で渡された設定を保存します。保存先は@conf[]にオプション用のキーワードを指定して代入します。これは従来tdiary.confにて、@optionsとして指定したものと同じです。なお、conf\_procで保存できるオプションは、文字列(String)、整数(Fixnum)、真偽値(TrueClass/FalseClass)、nil(NilClass)で表現されるオブジェクトだけです。
+@modeが'saveconf'の時のみ、@cgi経由で渡された設定を保存します。保存先は@conf[]にオプション用のキーワードを指定して代入します。これは従来tdiary.confにて、@optionsとして指定したものと同じです。なお、conf\_procで保存できるオプションは、文字列(String)、整数(Integer/Fixnum)、真偽値(TrueClass/FalseClass)、nil(NilClass)で表現されるオブジェクトだけです。
 
 conf\_procを使って設定を保存すると、その後はtdiary.confによる@optionsは効かなくなるので注意が必要です。
 
