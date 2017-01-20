@@ -1,3 +1,6 @@
+2017-01-20  TADA Tadashi <t@tdtds.jp>
+	* support ruby 2.4.0
+
 2017-01-16  TADA Tadashi <t@tdtds.jp>
 	* insert theme location (local or online) into @theme in tdiary.conf
 
