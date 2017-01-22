@@ -1,3 +1,13 @@
+2017-01-20  TADA Tadashi <t@tdtds.jp>
+	* support ruby 2.4.0
+	* drop ruby 2.1
+
+2017-01-16  TADA Tadashi <t@tdtds.jp>
+	* insert theme location (local or online) into @theme in tdiary.conf
+
+2017-01-04  TADA Tadashi <t@tdtds.jp>
+	* heroku/Gemfile.local: change some gem source to "https" instead of "github"
+
 2016-12-29  MATSUOKA Kohei <kohei@machu.jp>
 	* release 5.0.3
 

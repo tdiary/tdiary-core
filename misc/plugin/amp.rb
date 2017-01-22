@@ -79,7 +79,9 @@ def amp_header_scripts
 end
 
 def amp_html_url(diary)
-  URI.join(amp_canonical_url(diary), '?plugin=amp')
+  uri = amp_canonical_url(diary)
+  uri.query = [uri.query, "plugin=amp"].compact.join '&'
+  uri
 end
 
 def amp_style
