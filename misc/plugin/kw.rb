@@ -45,7 +45,7 @@ def kw_parse( str )
 end
 
 def kw_generate_dic
-	kw_dic = {nil => ['http://www.google.com/search?ie=utf-8&q=$1', 'utf-8']}
+	kw_dic = {nil => ['https://www.google.com/search?ie=utf-8&q=$1', 'utf-8']}
 
 	kw_list = []
 	case @conf['kw.dic'].class.to_s
@@ -111,7 +111,7 @@ unless @resource_loaded then
 		<h3>リンクリストの指定</h3>
 		<p>特定のサイトへのリンクを、簡単な記述で生成するためのプラグイン(kw)です。
 		「キー URL エンコードスタイル」と空白で区切って指定します。例えば、</p>
-		<pre>google http://www.google.com/search?ie=utf-8&amp;q=$1 utf-8</pre>
+		<pre>google https://www.google.com/search?ie=utf-8&amp;q=$1 utf-8</pre>
 		<p>と指定すると、</p>
 		<pre>&lt;%=kw('google:tdiary')%&gt;</pre>
 		<p>のように日記に書けばgoogleでtdiaryを検索するリンクになります
