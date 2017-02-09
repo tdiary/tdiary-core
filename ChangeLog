@@ -1,3 +1,6 @@
+2017-02-09  TADA Tadashi <t@tdtds.jp>
+	* fix: ignore @css by theme location in tdiary.conf
+
 2017-01-20  TADA Tadashi <t@tdtds.jp>
 	* support ruby 2.4.0
 	* drop ruby 2.1

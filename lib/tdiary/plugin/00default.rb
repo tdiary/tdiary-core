@@ -406,10 +406,10 @@ def theme_url
 end
 
 def css_tag
+	location, name = (@conf.theme || '').split(%r[/], 2)
 	if @mode =~ /conf$/ then
 		css = "#{h theme_url}/conf.css"
-	elsif @conf.theme and @conf.theme.length > 0
-		location, name = @conf.theme.split(%r[/], 2)
+	elsif name && name.length > 0
 		css = __send__("theme_url_#{location}", name)
 		css = theme_url_local('default') unless css # the location is not defined
 	else
