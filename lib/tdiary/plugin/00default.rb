@@ -974,7 +974,7 @@ def saveconf_recommendfilter
 		@conf['spamfilter.max_uris'] = "1"
 		@conf['spamfilter.resolv_check'] = true
 		@conf['spamfilter.resolv_check_mode'] = false
-		@conf['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nsc.surbl.org\r\nrbl.bulkfeeds.jp"
+		@conf['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nmulti.surbl.org\r\nrbl.bulkfeeds.jp"
 		@conf['spamlookup.ip.list'] = "dnsbl.spam-champuru.livedoor.com"
 		@conf['spamlookup.safe_domain.list'] = "www.google.com\r\nwww.google.co.jp\r\nezsch.ezweb.ne.jp\r\nwww.yahoo.co.jp\r\nsearch.mobile.yahoo.co.jp\r\nwww.bing.com"
 	end

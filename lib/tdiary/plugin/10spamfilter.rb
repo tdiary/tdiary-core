@@ -107,7 +107,7 @@ add_conf_proc( 'spamfilter', @spamfilter_label_conf, 'security' ) do
 	auto_migration_spam_champuru
 
 	# initialize DNSBL list
-	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
+	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nmulti.surbl.org\nrbl.bulkfeeds.jp"
 
 	# initialize safe domain list.
 	@conf['spamlookup.safe_domain.list'] ||= "search.yahoo.co.jp\nwww.google.com\nwww.google.co.jp\nsearch.msn.co.jp"
@@ -144,7 +144,7 @@ add_conf_proc( 'dnsblfilter', @dnsblfilter_label_conf, 'security' ) do
 	auto_migration_spam_champuru
 
 	# initialize DNSBL list
-	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
+	@conf['spamlookup.domain.list'] ||= "bsb.spamlookup.net\nmulti.surbl.org\nrbl.bulkfeeds.jp"
 
 	# initialize safe domain list.
 	@conf['spamlookup.safe_domain.list'] ||= "www.google.com\nwww.google.co.jp\nsearch.yahoo.co.jp\nwww.bing.com"
