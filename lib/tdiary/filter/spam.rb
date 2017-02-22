@@ -58,7 +58,7 @@ module TDiary
 				if @conf.options.include?('spamlookup.ip.list')
 					@spamlookup_ip_list = @conf.options['spamlookup.ip.list']
 				else
-					@spamlookup_ip_list = "dnsbl.spam-champuru.livedoor.com"
+					@spamlookup_ip_list = "bsb.spamlookup.net"
 				end
 
 				if @conf.options.include?('spamlookup.domain.list')
