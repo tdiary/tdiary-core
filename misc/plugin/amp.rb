@@ -5,6 +5,32 @@
 # Copyright (c) 2016 MATSUOKA Kohei
 # Distributed under the GPL2 or any later version.
 #
+module AMP
+  def amp_header_procs
+    @amp_header_procs ||= []
+  end
+
+  def amp_body_enter_procs
+    @amp_body_enter_procs ||= []
+  end
+
+  def add_amp_header_proc(block = Proc::new)
+    amp_header_procs << block
+  end
+
+  def add_amp_body_enter_proc(block = Proc::new)
+    amp_body_enter_procs << block
+  end
+
+  def amp_header_proc
+    amp_header_procs.map{|proc| proc.call }.join("\n")
+  end
+
+  def amp_body_enter_proc
+    amp_body_enter_procs.map {|proc| proc.call }.join("\n")
+  end
+end
+extend AMP
 
 add_header_proc do
   if @mode == 'day'

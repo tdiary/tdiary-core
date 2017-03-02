@@ -2,6 +2,7 @@
 <html ⚡ lang="ja">
   <head>
     <meta charset="utf-8">
+    <%= amp_header_proc %>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <title><%= amp_title %></title>
     <link rel="canonical" href="<%= amp_canonical_url(diary) %>" />
@@ -12,6 +13,7 @@
     </style>
   </head>
   <body>
+    <%= amp_body_enter_proc %>
     <div class="whole-content">
       <div class="adminmenu">
         <%= navi_user %>
