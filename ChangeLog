@@ -1,3 +1,6 @@
+2017-03-02  MATSUOKA Kohei <kohei@machu.jp>
+	* amp.rb, extend plugin callback (add_amp_header_proc, add_amp_body_enter_proc)
+
 2017-02-09  TADA Tadashi <t@tdtds.jp>
 	* fix: ignore @css by theme location in tdiary.conf
 
