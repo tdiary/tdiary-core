@@ -18,7 +18,7 @@ group :development do
   gem 'octokit'
 
   group :test do
-    gem 'pry-byebug', platforms: [:ruby_20, :ruby_21]
+    gem 'pry-byebug', platforms: [:ruby_21, :ruby_22, :ruby_23, :ruby_24]
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
