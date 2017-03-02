@@ -110,4 +110,11 @@ describe "amp plugin w/" do
 		it { expect(subject).to include('<html ⚡ lang="ja">') }
 		it { expect(subject).to include('<h3>sample</h3>') }
 	end
+
+	describe "AMP module" do
+		subject { @plugin }
+		it { expect(subject.singleton_class.constants).to include(:AMP) }
+		it { expect(subject.methods).to include(:add_amp_header_proc) }
+		it { expect(subject.methods).to include(:amp_body_enter_proc) }
+	end
 end
