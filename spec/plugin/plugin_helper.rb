@@ -20,6 +20,7 @@ class PluginFake
 		@conf_procs = []
 		@body_enter_procs = []
 		@body_leave_procs = []
+		@content_procs = {}
 	end
 
 	def add_conf_proc( key, label, genre=nil, &block )
@@ -36,6 +37,10 @@ class PluginFake
 
 	def add_update_proc( block = Proc::new )
 		@update_procs << block
+	end
+
+	def add_content_proc( key, block = Proc::new )
+		@content_procs[key] = block
 	end
 
 	def conf_proc
@@ -84,6 +89,10 @@ class PluginFake
 			r << proc.call( date )
 		end
 		r.join.chomp
+	end
+
+	def content_proc( key, date )
+		@content_procs[key].call( date )
 	end
 
 	class Config
