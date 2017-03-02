@@ -406,10 +406,10 @@ def theme_url
 end
 
 def css_tag
+	location, name = (@conf.theme || '').split(%r[/], 2)
 	if @mode =~ /conf$/ then
 		css = "#{h theme_url}/conf.css"
-	elsif @conf.theme and @conf.theme.length > 0
-		location, name = @conf.theme.split(%r[/], 2)
+	elsif name && name.length > 0
 		css = __send__("theme_url_#{location}", name)
 		css = theme_url_local('default') unless css # the location is not defined
 	else
@@ -974,7 +974,7 @@ def saveconf_recommendfilter
 		@conf['spamfilter.max_uris'] = "1"
 		@conf['spamfilter.resolv_check'] = true
 		@conf['spamfilter.resolv_check_mode'] = false
-		@conf['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nsc.surbl.org\r\nrbl.bulkfeeds.jp"
+		@conf['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nmulti.surbl.org\r\nrbl.bulkfeeds.jp"
 		@conf['spamlookup.ip.list'] = "dnsbl.spam-champuru.livedoor.com"
 		@conf['spamlookup.safe_domain.list'] = "www.google.com\r\nwww.google.co.jp\r\nezsch.ezweb.ne.jp\r\nwww.yahoo.co.jp\r\nsearch.mobile.yahoo.co.jp\r\nwww.bing.com"
 	end

@@ -58,13 +58,13 @@ module TDiary
 				if @conf.options.include?('spamlookup.ip.list')
 					@spamlookup_ip_list = @conf.options['spamlookup.ip.list']
 				else
-					@spamlookup_ip_list = "dnsbl.spam-champuru.livedoor.com"
+					@spamlookup_ip_list = "bsb.spamlookup.net"
 				end
 
 				if @conf.options.include?('spamlookup.domain.list')
 					@spamlookup_domain_list = @conf.options['spamlookup.domain.list']
 				else
-					@spamlookup_domain_list = "bsb.spamlookup.net\nsc.surbl.org\nrbl.bulkfeeds.jp"
+					@spamlookup_domain_list = "bsb.spamlookup.net\nmulti.surbl.org\nrbl.bulkfeeds.jp"
 				end
 
 				if @conf.options.include?('spamlookup.safe_domain.list')

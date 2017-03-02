@@ -72,7 +72,7 @@ if /(latest|day)/ === @mode and !bot?
 			popup = h(@conf['random_google.popup'].gsub(/\$1/, rrr)) # escaped
 			<<-HTML
 			<div class="body-enter">
-			[<a href="http://www.google.com/search?lr=lang_ja&amp;ie=utf-8&amp;q=#{rr}" title="#{popup}">
+			[<a href="https://www.google.com/search?lr=lang_ja&amp;ie=utf-8&amp;q=#{rr}" title="#{popup}">
 			#{caption}
 			</a>]
 			</div>

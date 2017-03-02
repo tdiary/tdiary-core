@@ -53,7 +53,7 @@ recent_list.rb
 @options['spamfilter.max_uris'] = "2"
 @options['spamfilter.resolv_check'] = false
 @options['spamfilter.resolv_check_mode'] = false
-@options['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nsc.surbl.org\r\nrbl.bulkfeeds.jp"
+@options['spamlookup.domain.list'] = "bsb.spamlookup.net\r\nmulti.surbl.org\r\nrbl.bulkfeeds.jp"
 @options['spamlookup.safe_domain.list'] = "search.yahoo.co.jp\r\nwww.google.com\r\nwww.google.co.jp\r\nsearch.msn.co.jp"
 
 

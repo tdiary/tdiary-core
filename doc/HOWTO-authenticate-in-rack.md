@@ -137,7 +137,7 @@ export GOOGLE_CLIENT_SECRET="your_client_secret"  # クライアント シーク
 export GOOGLE_EMAIL="your_email@gmail.com"        # アクセスを許可するアカウントのメールアドレス
 ```
 
-IDとシークレットは [Google Developers Console](https://code.google.com/apis/console/) にて取得できます。
+IDとシークレットは [Google API](https://console.developers.google.com/iam-admin/projects) にて取得できます。
 設定画面にて「リダイレクトURL」には、設定する日記のアドレスの末尾に `update.rb/auth/google_oauth2/callback` を加えたものを指定してください。
 日記のアドレスが `http://diary.example.com/` の場合、リダイレクトURLは `http://diary.example.com/update.rb/auth/google_oauth2/callback` となります。
 
