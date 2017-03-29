@@ -1,3 +1,6 @@
+2017-03-29  Tada, Tadashi <t@tdtds.jp>
+	* release 5.0.4
+
 2017-03-02  MATSUOKA Kohei <kohei@machu.jp>
 	* amp.rb, extend plugin callback (add_amp_header_proc, add_amp_body_enter_proc)
 
