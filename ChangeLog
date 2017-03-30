@@ -1,3 +1,6 @@
+2017-06-22  Tada, Tadashi <t@tdtds.jp>
+	* update jQuery and jQuery UI
+
 2017-06-15  Tada, Tadashi <t@tdtds.jp>
 	* plugin/amp.rb: fix error on the day was empty
 
