@@ -324,7 +324,7 @@ end
 
 def default_ogp
 	if @conf.options2['sp.selected'] && @conf.options2['sp.selected'].include?('ogp.rb')
-		if !defined?(@conf.banner) && @conf.banner != ''
+		if !defined?(@conf.banner) || @conf.banner == ''
 			%Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
 		end
 	else
