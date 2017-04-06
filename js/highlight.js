@@ -26,7 +26,7 @@ $(function() {
     .filter(function() {
       return $(this).attr("name").match(/^[pc]/);
     })
-    .bind("click", function() {
+    .on("click", function() {
       highlight(this);
     })
 

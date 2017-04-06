@@ -135,15 +135,15 @@ $(function(){
 				'background': '#ddd',
 				'border': 'dashed 3px #AAA'
 			})
-			.bind('dragenter', function(){
+			.on('dragenter', function(){
 				$(this).css('border', 'solid 3px #AAA');
 				return false;
 			})
-			.bind('dragleave', function(){
+			.on('dragleave', function(){
 				$(this).css('border', 'dashed 3px #CCC');
 				return false;
 			})
-			.bind('drop', function(e){
+			.on('drop', function(e){
 				$('#plugin_image_dnd').hide();
 				$(this).css('border', 'dashed 3px #CCC');
 				$('#plugin-image-addimage form').show();
@@ -157,20 +157,20 @@ $(function(){
 
 		var dnd_timer = false;
 		$('body')
-			.bind('dragenter', function() {
+			.on('dragenter', function() {
 				if (dnd_timer) {
 					clearTimeout( dnd_timer );
 				}
 				$('#plugin-image-addimage form').hide();
 				$('#plugin_image_dnd').show();
 			})
-			.bind('dragover', function(){
+			.on('dragover', function(){
 				if (dnd_timer) {
 					clearTimeout( dnd_timer );
 				}
 				return false;
 			})
-			.bind('dragleave', function(){
+			.on('dragleave', function(){
 				dnd_timer = setTimeout(function(){
 					$('#plugin_image_dnd').hide();
 					$('#plugin-image-addimage form').show();
