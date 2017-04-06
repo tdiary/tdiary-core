@@ -14,7 +14,7 @@ $(function() {
 
     // change document title
     var target = $(anchor).parent();
-    if (target.filter('h3').size() > 0) {
+    if (target.filter('h3').length > 0) {
       document.title = target.children("a").attr("title") + " - " + $tDiary.title;
     }
 
