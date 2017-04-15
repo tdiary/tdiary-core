@@ -773,6 +773,7 @@ def absolutify(html, baseurl)
 					end
 					tag = prefix + location + postfix
 				rescue URI::InvalidURIError
+				rescue ArgumentError
 				end
 			end
 		end
