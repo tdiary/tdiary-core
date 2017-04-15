@@ -6,9 +6,9 @@ tDiaryの設置
 
 tDiaryは様々な環境で動作します。それぞれの環境にあわせた設置手順を参照してください。
 
- - 独自サーバ、VPSサーバなどのRack環境 … [INSTALL-rack.html](INSTALL-rack.html)
- - Heroku、SqaleなどのPaaS環境 … [INSTALL-paas.html](INSTALL-paas.html)
- - レンタルサーバなどのCGI環境 … [INSTALL-cgi.html](INSTALL-cgi.html)
+ - 独自サーバ、VPSサーバなどのRack環境 … [INSTALL-rack.md](INSTALL-rack.md)
+ - Heroku、SqaleなどのPaaS環境 … [INSTALL-paas.md](INSTALL-paas.md)
+ - レンタルサーバなどのCGI環境 … [INSTALL-cgi.md](INSTALL-cgi.md)
 
 tDiaryの設定
 ------------
@@ -80,7 +80,7 @@ tDiaryの実行
 
 フォームで日付を入力して「この日付の日記を編集」ボタンを押すと、(その日の日記がすでに存在すれば)タイトルと本文に過去の日記のデータが読み込まれます。この時、フォームの最後のボタンは「登録」になります(つまり、追加ではありません)。
 
-日記本文には日記向けに少し特殊化したHTMLを使います。多少癖があって人によってはなかなか馴染めないことがあるようなので、[日記の書き方](HOWTO-write-tDiary.html)には必ず目を通して下さい。
+日記本文には日記向けに少し特殊化したHTMLを使います。多少癖があって人によってはなかなか馴染めないことがあるようなので、[日記の書き方](HOWTO-write-tDiary.md)には必ず目を通して下さい。
 
 ### 日記の設定
 
@@ -100,7 +100,7 @@ tDiaryの実行
 
 ### プラグインによるカスタマイズ
 
-tDiaryにはプラグインと呼ばれる機能があります。プラグインを追加することで、tDiaryの機能を増やしたり、変更したりすることが可能です。プラグインについての詳しい説明は、[HOWTO-use-plugin.html](HOWTO-use-plugin.html)(使い方)・[HOWTO-make-plugin.html](HOWTO-make-plugin.html)(作り方)を参照してください。
+tDiaryにはプラグインと呼ばれる機能があります。プラグインを追加することで、tDiaryの機能を増やしたり、変更したりすることが可能です。プラグインについての詳しい説明は、[HOWTO-use-plugin.md](HOWTO-use-plugin.md)(使い方)・[HOWTO-make-plugin.md](HOWTO-make-plugin.md)(作り方)を参照してください。
 
 ### あとは……
 
