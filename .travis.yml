@@ -23,6 +23,7 @@ cache:
 bundler_args: "--without server --jobs=3 --retry=3"
 
 before_install:
+  - gem update bundler --no-document
   - "echo 'gemspec' > Gemfile.local"
   - echo "gem 'phantomjs', '= 1.9.8.0'" >> Gemfile.local
   - bundle update phantomjs
