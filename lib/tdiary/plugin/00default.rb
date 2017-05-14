@@ -210,7 +210,7 @@ add_header_proc do
 	#{author_mail_tag}
 	#{index_page_tag}
 	#{icon_tag}
-	#{default_ogp}
+	#{ogp_tag}
 	#{description_tag}
 	#{css_tag.chomp}
 	#{jquery_tag.chomp}
@@ -322,7 +322,7 @@ def icon_tag
 	end
 end
 
-def default_ogp
+def ogp_tag
 	uri = @conf.index.dup
 	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
