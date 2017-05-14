@@ -323,36 +323,30 @@ def icon_tag
 end
 
 def default_ogp
-	if @conf.options2['sp.selected'] && @conf.options2['sp.selected'].include?('ogp.rb')
-		if !defined?(@conf.banner) || @conf.banner == ''
-			%Q[<meta content="#{base_url}images/ogimage.png" property="og:image">]
-		end
+	uri = @conf.index.dup
+	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+	uri.gsub!( %r|/\./|, '/' )
+	image = (@conf.banner.nil? || @conf.banner == '') ? File.join(uri, "#{theme_url}/ogimage.png") : @conf.banner
+	ogp = {
+		'og:title' => title_tag.gsub(/<[^>]*>/, ""),
+		'og:image' => (h image),
+	}
+	ogp['fb:app_id'] = @conf['ogp.facebook.app_id']
+	ogp['fb:admins'] = @conf['ogp.facebook.admins']
+	if @mode == 'day' then
+		ogp['og:type'] = 'article'
+		ogp['article:author'] = @conf.author_name
+		ogp['og:site_name'] = @conf.html_title
+		ogp['og:url'] = h(uri + anchor( @date.strftime( '%Y%m%d' ) ))
 	else
-		uri = @conf.index.dup
-		uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
-		uri.gsub!( %r|/\./|, '/' )
-		image = (@conf.banner.nil? || @conf.banner == '') ? File.join(uri, "#{theme_url}/ogimage.png") : @conf.banner
-		ogp = {
-			'og:title' => title_tag.gsub(/<[^>]*>/, ""),
-			'og:image' => (h image),
-		}
-		ogp['fb:app_id'] = @conf['ogp.facebook.app_id']
-		ogp['fb:admins'] = @conf['ogp.facebook.admins']
-		if @mode == 'day' then
-			ogp['og:type'] = 'article'
-			ogp['article:author'] = @conf.author_name
-			ogp['og:site_name'] = @conf.html_title
-			ogp['og:url'] = h(uri + anchor( @date.strftime( '%Y%m%d' ) ))
-		else
-			ogp['og:type'] = 'website'
-			ogp['og:description'] = h(@conf.description)
-			ogp['og:url'] = h(uri)
-		end
-
-		ogp.map { |k, v|
-			%Q|<meta property="#{k}" content="#{v}">|
-		}.join("\n")
+		ogp['og:type'] = 'website'
+		ogp['og:description'] = h(@conf.description)
+		ogp['og:url'] = h(uri)
 	end
+
+	ogp.map { |k, v|
+		%Q|<meta property="#{k}" content="#{v}">|
+	}.join("\n")
 end
 
 def description_tag
