@@ -329,7 +329,7 @@ def default_ogp
 	image = (@conf.banner.nil? || @conf.banner == '') ? File.join(uri, "#{theme_url}/ogimage.png") : @conf.banner
 	ogp = {
 		'og:title' => title_tag.gsub(/<[^>]*>/, ""),
-		'og:image' => (h image),
+		'og:image' => image,
 	}
 	ogp['fb:app_id'] = @conf['ogp.facebook.app_id']
 	ogp['fb:admins'] = @conf['ogp.facebook.admins']
@@ -337,15 +337,15 @@ def default_ogp
 		ogp['og:type'] = 'article'
 		ogp['article:author'] = @conf.author_name
 		ogp['og:site_name'] = @conf.html_title
-		ogp['og:url'] = h(uri + anchor( @date.strftime( '%Y%m%d' ) ))
+		ogp['og:url'] = uri + anchor( @date.strftime( '%Y%m%d' ) )
 	else
 		ogp['og:type'] = 'website'
-		ogp['og:description'] = h(@conf.description)
-		ogp['og:url'] = h(uri)
+		ogp['og:description'] = @conf.description
+		ogp['og:url'] = uri
 	end
 
 	ogp.map { |k, v|
-		%Q|<meta property="#{k}" content="#{v}">|
+		%Q|<meta property="#{k}" content="#{h(v)}">|
 	}.join("\n")
 end
 
