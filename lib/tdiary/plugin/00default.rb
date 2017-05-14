@@ -331,8 +331,6 @@ def default_ogp
 		'og:title' => title_tag.gsub(/<[^>]*>/, ""),
 		'og:image' => image,
 	}
-	ogp['fb:app_id'] = @conf['ogp.facebook.app_id']
-	ogp['fb:admins'] = @conf['ogp.facebook.admins']
 	if @mode == 'day' then
 		ogp['og:type'] = 'article'
 		ogp['article:author'] = @conf.author_name
