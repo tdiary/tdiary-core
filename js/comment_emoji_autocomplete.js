@@ -101,7 +101,7 @@ $(function() {
 
          if (png_basename == '+1'){ png_basename = 'plus1' }
 
-         icon_img = $("<img>").attr('src', 'http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/' + png_basename + '.png')
+         icon_img = $("<img>").attr('src', '//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/' + png_basename + '.png')
          .css('width', '20').css('height', '20');
 
       }

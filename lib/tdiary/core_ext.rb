@@ -39,7 +39,7 @@ class String
 	def emojify
 		self.to_str.gsub(/:([a-zA-Z0-9_+-]+):/) do |match|
 			emoji_alias = $1.downcase
-			emoji_url = %Q[<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/%s.png' width='20' height='20' title='%s' alt='%s' class='emoji' />]
+			emoji_url = %Q[<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/%s.png' width='20' height='20' title='%s' alt='%s' class='emoji' />]
 			if emoji_alias == 'plus1' or emoji_alias == '+1'
 				emoji_url % (['plus1']*3)
 			elsif Emot.unicode(emoji_alias)

@@ -21,35 +21,35 @@ describe "core extension library" do
 		context "emojify" do
 			before { @result = ":sushi: は美味しい".emojify }
 			it do
-				expect(@result).to eq "<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+				expect(@result).to eq "<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 			end
 		end
 
 		context "大文字でもemojify" do
 			before { @result = ":SUSHI: は美味しい".emojify }
 			it do
-				expect(@result).to eq "<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+				expect(@result).to eq "<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 			end
 		end
 
 		context "+1でもemojify" do
 			before { @result = "いいね!:+1:".emojify }
 			it do
-				expect(@result).to eq "いいね!<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/plus1.png' width='20' height='20' title='plus1' alt='plus1' class='emoji' />"
+				expect(@result).to eq "いいね!<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/plus1.png' width='20' height='20' title='plus1' alt='plus1' class='emoji' />"
 			end
 		end
 
 		context "plus1でもemojify" do
 			before { @result = "いいね!:plus1:".emojify }
 			it do
-				expect(@result).to eq "いいね!<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/plus1.png' width='20' height='20' title='plus1' alt='plus1' class='emoji' />"
+				expect(@result).to eq "いいね!<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/plus1.png' width='20' height='20' title='plus1' alt='plus1' class='emoji' />"
 			end
 		end
 
 		context "thumbsupでもemojify" do
 			before { @result = "いいね!:thumbsup:".emojify }
 			it do
-				expect(@result).to eq "いいね!<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/thumbsup.png' width='20' height='20' title='thumbsup' alt='thumbsup' class='emoji' />"
+				expect(@result).to eq "いいね!<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/thumbsup.png' width='20' height='20' title='thumbsup' alt='thumbsup' class='emoji' />"
 			end
 		end
 

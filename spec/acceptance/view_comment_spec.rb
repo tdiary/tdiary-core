@@ -35,7 +35,7 @@ BODY
 		today = Date.today.strftime("%Y年%m月%d日")
 		page.find('h2', text: today).click_link today
 		within('div.day div.comment div.commentbody') {
-			expect(page.body).to be_include "<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+			expect(page.body).to be_include "<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 		}
 	end
 
@@ -52,7 +52,7 @@ BODY
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
-			expect(page.body).to be_include "<img src='http://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
+			expect(page.body).to be_include "<img src='//www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/sushi.png' width='20' height='20' title='sushi' alt='sushi' class='emoji' /> は美味しい"
 		}
 	end
 end
