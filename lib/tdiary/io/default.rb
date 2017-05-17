@@ -82,7 +82,7 @@ module TDiary
 						fh.read.split( /\r?\n\.\r?\n/ ).each do |l|
 							headers, body = Default.parse_tdiary( l )
 							next unless body
-							body.each do |r|
+							body.lines.each do |r|
 								count, ref = r.chomp.split( / /, 2 )
 								next unless ref
 								diaries[headers['Date']].add_referer( ref.chomp, count.to_i )
