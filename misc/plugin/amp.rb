@@ -34,15 +34,23 @@ extend AMP
 
 add_header_proc do
   if @mode == 'day'
-    diary = @diaries[@date.strftime('%Y%m%d')]
-    %Q|<link rel="amphtml" href="#{amp_html_url(diary)}">|
+    begin
+    	diary = @diaries[@date.strftime('%Y%m%d')]
+    	%Q|<link rel="amphtml" href="#{amp_html_url(diary)}">|
+    rescue NoMethodError
+      ''
+    end
   end
 end
 
 add_content_proc('amp') do |date|
-  diary = @diaries[date]
-  template = File.read(File.join(TDiary::root, "views/amp.rhtml"))
-  ERB.new(template).result(binding)
+  begin
+    diary = @diaries[date]
+    template = File.read(File.join(TDiary::root, "views/amp.rhtml"))
+    ERB.new(template).result(binding)
+  rescue NoMethodError
+    raise TDiary::NotFound
+  end
 end
 
 def amp_body(diary)
