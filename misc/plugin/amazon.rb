@@ -125,7 +125,7 @@ def amazon_call_ecs( asin, id_type, country )
 	rescue AmazonRedirectError
 		limit = $!.message.to_i
 		retry
-	rescue ArgumentError
+	rescue ArgumentError, SystemCallError
 	end
 end
 
