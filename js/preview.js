@@ -16,7 +16,7 @@ $tDiary.plugin.preview.reload = function() {
     $('form.update').serialize() + "&appendpreview=1",
     function(data) {
       var previewContent = $(data).find('div.autopagerize_page_element');
-      if (previewContent.size() != 0) {
+      if (previewContent.length != 0) {
         $('div.autopagerize_page_element').replaceWith(previewContent);
         intervalRate = 1;
       } else {

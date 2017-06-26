@@ -8,10 +8,10 @@
 
 if /\A(?:form|preview|append|edit|update)\z/ =~ @mode
 	add_header_proc do
-		%Q|<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css"/>|
+		%Q|<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css"/>|
 	end
 
-	enable_js('//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js')
+	enable_js('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js')
 	enable_js('caretposition.js')
 	enable_js('category_autocomplete.js')
 

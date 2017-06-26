@@ -29,7 +29,7 @@ $(function(){
 		});
 	}
 
-	$(window).bind('scroll', function(event){
+	$(window).on('scroll', function(event){
 		var bottom = $(window).height() + $(window).scrollTop();
 		//console.warn('window.bottom: ' + bottom);
 		$('a[href*="://www.amazon.co.jp/"]').each(function(){
