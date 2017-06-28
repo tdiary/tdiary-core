@@ -85,7 +85,7 @@ $.extend({
 		
 		switch($tDiary.style){
 			case 'wiki':
-		        case 'gfm':
+			case 'gfm':
 			case 'markdown':
 				tag = ['{{', '}}'];
 				break;
