@@ -720,6 +720,7 @@ div.sidebar div.calendar {
 		float: none;
 		margin: 10px auto;
 		max-width: 300px !important;
+		height: auto;
 	}
 
 	div.section img.amazon {
