@@ -5,10 +5,6 @@ module TDiary
 		autoload :Session,          'tdiary/rack/session'
 		autoload :Static,           'tdiary/rack/static'
 		autoload :Auth,             'tdiary/rack/auth'
-
-		module Assets
-			autoload :Precompile,    'tdiary/rack/assets/precompile'
-		end
 	end
 end
 

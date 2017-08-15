@@ -45,12 +45,6 @@ module TDiary
 							environment.append_path assets_path
 						}
 
-						if TDiary.configuration.options['tdiary.assets.precompile']
-							TDiary.logger.info('enable assets.precompile')
-							require 'tdiary/rack/assets/precompile'
-							use TDiary::Rack::Assets::Precompile, environment
-						end
-
 						run environment
 					end
 				end
