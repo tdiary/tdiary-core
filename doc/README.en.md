@@ -32,7 +32,7 @@ By plugins, you can add new features to tDiary, and change the existing feature 
 
 ### Selectable Style and IO
 
-You can choice a grammar of writing your diary by 'Style' feature. Some style files are in misc/style. And you can choice data saving format (IO) also. Seee HOWTO-make-io.rd for more information about Style or IO.
+You can choice a grammar of writing your diary by 'Style' feature. Some style files are in misc/style. And you can choice data saving format (IO) also. Seee HOWTO-make-io.html for more information about Style or IO.
 
 ### Written in Ruby
 
