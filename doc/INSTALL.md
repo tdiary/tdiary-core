@@ -65,7 +65,7 @@ tdiary.confに記述しておくことで、CGIの設定画面からは編集で
 
 また、サフィックス.rbのファイルをCGIスクリプトとして指定できない環境では、index.rbやupdate.rbのファイル名を変更する必要がありますが、この変更をtDiaryに教えるために、@indexや@updateという変数が用意されています。環境によってはこれも指定する必要があるでしょう。
 
-tdiary.confの設定が終わったら、http://www.hoge.example.org/~foo/diary/にアクセスしてみましょう。からっぽの日記ページが出れば設定は正しいです。不幸にして「Internal Server Error」が出てしまったら、Apacheのエラーログを参照して間違った設定を修正してください。
+tdiary.confの設定が終わったら、http://www.hoge.example.org/~foo/diary/ にアクセスしてみましょう。からっぽの日記ページが出れば設定は正しいです。不幸にして「Internal Server Error」が出てしまったら、Apacheのエラーログを参照して間違った設定を修正してください。
 
 tDiaryの実行
 ------------
