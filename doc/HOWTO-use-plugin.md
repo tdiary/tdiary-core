@@ -1,7 +1,7 @@
 プラグインの使い方
 =========
 
-**※プラグインの作り方については、[HOWTO-make-plugin.html](HOWTO-make-plugin.html)を参照してください。**
+**※プラグインの作り方については、[HOWTO-make-plugin](HOWTO-make-plugin.md)を参照してください。**
 
 プラグインはシステムに簡単に機能を追加する仕組みです。プラグインは[tDiary.org](http://www.tdiary.org/)から入手することができます。また、tDiaryフルセットを利用している場合には、misc/pluginディレクトリに単独に配布されているのと同等のものが含まれています。これらの.rbファイルを、ファイルごとインストール先にあるmisc/pluginディレクトリに移動することで、利用できるようになります。
 
