@@ -14,7 +14,9 @@ if defined?(Bundler)
   env = [:default, :rack]
   env << :development if ENV['RACK_ENV'].nil? || ENV['RACK_ENV'].empty?
   env << ENV['RACK_ENV'].intern if ENV['RACK_ENV']
-  env = env.reject{|e| Bundler.settings.without.include? e }
+  env = env.reject{|e|
+	  (Bundler.settings.without rescue Bundler.settings[:without]).include? e
+  }
   Bundler.require *env
 end
 
