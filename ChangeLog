@@ -1,3 +1,9 @@
+2017-09-29  Tada, Tadashi <t@tdtds.jp>
+	* release 5.0.6
+
+2017-09-19 Tada, Tadashi <t@tdtds.jp>
+	* fix incompatibirity between bundler 1.15 and 1.16 (#646)
+
 2017-06-29  Tada, Tadashi <t@tdtds.jp>
 	* release 5.0.5
 
