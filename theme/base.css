@@ -274,3 +274,11 @@ div.draft select {
 	width: 60%;
 }
 
+/*
+ * youtube plugin
+ */
+div.youtube-player-wrapper {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
