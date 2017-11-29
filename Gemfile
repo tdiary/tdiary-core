@@ -16,8 +16,11 @@ group :development do
   gem 'racksh', require: false
   gem 'redcarpet'
   gem 'octokit'
-  gem 'ruby-debug-ide'
-  gem 'debase'
+
+  platforms :ruby_21, :ruby_22, :ruby_23, :ruby_24 do
+    gem 'ruby-debug-ide'
+    gem 'debase'
+  end
 
   group :test do
     gem 'pry-byebug', platforms: [:ruby_21, :ruby_22, :ruby_23, :ruby_24]
