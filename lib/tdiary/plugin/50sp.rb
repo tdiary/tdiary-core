@@ -32,7 +32,7 @@ end
 
 # url of the document
 def sp_doc_url( file )
-	"http://docs.tdiary.org/#{@conf.lang}/?#{CGI::escape( file )}"
+	"https://github.com/tdiary/tdiary-docs-#{@conf.lang}/wiki/#{CGI::escape( file )}"
 end
 
 # <li> list of plugins
