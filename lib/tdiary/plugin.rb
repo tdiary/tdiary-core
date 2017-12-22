@@ -375,7 +375,7 @@ module TDiary
 		end
 
 		def help( name )
-			%Q[<span class="help-icon"><a href="http://docs.tdiary.org/#{h @conf.lang}/?#{h name}" target="_blank"><img src="#{theme_url}/help.png" width="19" height="19" alt="Help"></a></span>]
+			%Q[<span class="help-icon"><a href="https://github.com/tdiary/tdiary-docs-#{h @conf.lang}/wiki/#{h name}" target="_blank"><img src="#{theme_url}/help.png" width="19" height="19" alt="Help"></a></span>]
 		end
 
 		def method_missing( *m )

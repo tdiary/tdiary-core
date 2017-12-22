@@ -73,7 +73,7 @@ end
 # link to HOWTO write diary
 #
 def style_howto
-	%Q|/<a href="http://docs.tdiary.org/ja/?#{h @conf.style}%A5%B9%A5%BF%A5%A4%A5%EB">書き方</a>|
+	%Q|/<a href="https://github.com/tdiary/tdiary-docs-ja/wiki/#{h @conf.style}%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB">書き方</a>|
 end
 
 #
