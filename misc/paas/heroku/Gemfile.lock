@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: a7182c4e67c62cafa93f3df94d3184a18b2c97b5
+  revision: 709a0c5205362715d338e1b573e5e49f34bd58fd
   specs:
-    tdiary-contrib (5.0.5)
-      ruby-pushbullet
+    tdiary-contrib (5.0.6)
+      pushbullet_ruby
       tdiary
 
 GIT
@@ -28,14 +28,14 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     bson (4.2.2)
     byebug (9.1.0)
-    capybara (2.15.1)
+    capybara (2.16.1)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    childprocess (0.7.1)
+    childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
@@ -48,7 +48,7 @@ GEM
     dalli (2.7.6)
     debase (0.2.1)
       debase-ruby_core_source
-    debase-ruby_core_source (0.9.10)
+    debase-ruby_core_source (0.10.2)
     diff-lcs (1.3)
     docile (1.1.5)
     domain_name (0.5.20170404)
@@ -57,29 +57,30 @@ GEM
       thor
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
-    fastimage (2.1.0)
+    fastimage (2.1.1)
     ffi (1.9.18)
     github-markdown (0.6.9)
-    hashie (3.5.6)
+    hashie (3.5.7)
     hikidoc (0.1.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (0.8.6)
+    i18n (0.9.1)
+      concurrent-ruby (~> 1.0)
+    idn-ruby (0.1.0)
     jasmine (2.8.0)
       jasmine-core (>= 2.8.0, < 3.0.0)
       phantomjs
       rack (>= 1.2.1)
       rake
     jasmine-core (2.8.0)
-    json (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    mail (2.6.6)
-      mime-types (>= 1.16, < 4)
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
     memcachier (0.0.2)
-    method_source (0.8.2)
+    method_source (0.9.0)
     mime-types (2.99.3)
-    mini_mime (0.1.4)
+    mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     mongo (2.4.3)
@@ -92,10 +93,10 @@ GEM
     netrc (0.11.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
-    oauth (0.5.3)
-    octokit (4.7.0)
+    oauth (0.5.4)
+    octokit (4.8.0)
       sawyer (~> 0.8.0, >= 0.5.3)
-    omniauth (1.6.1)
+    omniauth (1.7.1)
       hashie (>= 3.4.6, < 3.6.0)
       rack (>= 1.6.2, < 3)
     omniauth-oauth (1.1.0)
@@ -106,55 +107,55 @@ GEM
       rack
     phantomjs (2.1.1.0)
     pit (0.0.7)
-    power_assert (1.1.0)
-    pry (0.11.0)
+    power_assert (1.1.1)
+    pry (0.11.3)
       coderay (~> 1.1.0)
-      method_source (~> 0.8.1)
-    pry-byebug (3.5.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.5.1)
       byebug (~> 9.1)
       pry (~> 0.10)
-    public_suffix (3.0.0)
-    puma (3.10.0)
+    public_suffix (3.0.1)
+    puma (3.11.0)
+    pushbullet_ruby (1.1.2)
+      faraday (~> 0.13.0)
+      mime-types
     rack (1.6.8)
-    rack-test (0.7.0)
+    rack-test (0.8.2)
       rack (>= 1.0, < 3)
     racksh (1.0.0)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rake (12.1.0)
+    rake (12.3.0)
     rdtool (0.6.38)
     redcarpet (3.4.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rouge (2.2.1)
-    rspec (3.6.0)
-      rspec-core (~> 3.6.0)
-      rspec-expectations (~> 3.6.0)
-      rspec-mocks (~> 3.6.0)
-    rspec-core (3.6.0)
-      rspec-support (~> 3.6.0)
-    rspec-expectations (3.6.0)
+    rouge (3.1.0)
+    rspec (3.7.0)
+      rspec-core (~> 3.7.0)
+      rspec-expectations (~> 3.7.0)
+      rspec-mocks (~> 3.7.0)
+    rspec-core (3.7.0)
+      rspec-support (~> 3.7.0)
+    rspec-expectations (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.6.0)
-    rspec-mocks (3.6.0)
+      rspec-support (~> 3.7.0)
+    rspec-mocks (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.6.0)
-    rspec-support (3.6.0)
+      rspec-support (~> 3.7.0)
+    rspec-support (3.7.0)
     ruby-debug-ide (0.6.0)
       rake (>= 0.8.1)
-    ruby-pushbullet (0.1.4)
-      json
-      rest-client (~> 1.8.0)
     rubyzip (1.2.1)
     sawyer (0.8.1)
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 1.0)
-    selenium-webdriver (3.5.2)
+    selenium-webdriver (3.8.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-    sequel (5.0.0)
+    sequel (5.3.0)
     simplecov (0.9.2)
       docile (~> 1.1.0)
       multi_json (~> 1.0)
@@ -164,7 +165,7 @@ GEM
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sqlite3 (1.3.13)
-    tdiary (5.0.5)
+    tdiary (5.0.6)
       bundler (~> 1.3)
       emot
       fastimage
@@ -183,14 +184,15 @@ GEM
       rdtool
     term-ansicolor (1.6.0)
       tins (~> 1.0)
-    test-unit (3.2.5)
+    test-unit (3.2.7)
       power_assert
     thor (0.19.4)
     thread_safe (0.3.6)
-    tins (1.15.0)
-    twitter-text (1.14.7)
+    tins (1.16.3)
+    twitter-text (2.1.0)
+      idn-ruby
       unf (~> 0.1.0)
-    tzinfo (1.2.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
@@ -237,7 +239,7 @@ DEPENDENCIES
   test-unit
 
 RUBY VERSION
-   ruby 2.4.2p198
+   ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.0.pre.3
+   1.16.1
