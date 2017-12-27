@@ -4,7 +4,7 @@
 # Copyright (C) 2016 TADA Tadashi
 # Distributed under the GPL2 or any later version.
 #
-
+require 'tdiary/diary_container'
 
 # read cache here so that you can use category with secure mode.
 @conf['category.header1'] = ''

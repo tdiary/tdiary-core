@@ -8,6 +8,7 @@ require 'pstore'
 require 'fileutils'
 require 'time'
 require 'pathname'
+require 'tdiary/diary_container'
 
 def recent_comment3_format(format, *args)
 	format.gsub(/\$(\d)/) {|s| args[$1.to_i - 1]}

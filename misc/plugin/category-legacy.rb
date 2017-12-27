@@ -5,6 +5,7 @@
 # Copyright (c) 2003 Junichiro KITA <kita@kitaj.no-ip.com>
 # Distributed under the GPL2 or any later version.
 #
+require 'tdiary/diary_container'
 
 #
 # initialize
