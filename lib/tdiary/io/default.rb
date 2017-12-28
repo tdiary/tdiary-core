@@ -6,6 +6,7 @@
 #
 require 'fileutils'
 require 'tdiary/io/base'
+require 'tdiary/comment'
 
 module TDiary
 	TDIARY_MAGIC_MAJOR = 'TDIARY2'
