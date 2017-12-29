@@ -20,7 +20,7 @@ end
 # FIXME: TDiary::Application has auth middleware in update.rb, so it cannot be tested.
 # Capybara.app = TDiary::Application.new
 
-Capybara.save_and_open_page_path = File.dirname(__FILE__) + '/../tmp/capybara'
+Capybara.save_path = File.dirname(__FILE__) + '/../tmp/capybara'
 
 RSpec.configure do |config|
 	fixture_conf = File.expand_path('../fixtures/just_installed.conf', __FILE__)
