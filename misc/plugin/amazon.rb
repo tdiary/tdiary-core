@@ -6,10 +6,10 @@
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
-autoload :Net,     'net/http'
-autoload :URI,     'uri'
-autoload :Timeout, 'timeout'
-autoload :REXML,   'rexml/document'
+require 'net/http'
+require 'uri'
+require 'timeout'
+require 'rexml/document'
 
 # do not change these variables
 @amazon_subscription_id = '1CVA98NEF1G753PFESR2'
