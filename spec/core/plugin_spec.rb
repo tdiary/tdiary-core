@@ -51,7 +51,7 @@ describe TDiary::Plugin do
 			before { @plugin.instance_variable_set(:@debug, true) }
 
 			it 'Plugin内のエラーが通知されること' do
-				expect { subject }.to raise_error
+				expect { subject }.to raise_error(NameError)
 			end
 		end
 	end
@@ -368,7 +368,7 @@ describe TDiary::Plugin do
 
 		context 'keyに相当するブロックが存在しない場合' do
 			subject { @plugin.__send__(:content_proc, 'unregistered_key', date) }
-			it { expect { subject }.to raise_error }
+			it { expect { subject }.to raise_error(TDiary::PluginError) }
 		end
 	end
 

@@ -1,14 +1,14 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 709a0c5205362715d338e1b573e5e49f34bd58fd
+  revision: a40096d3fb487a38619e8f24d11367ae59b50238
   specs:
-    tdiary-contrib (5.0.6)
+    tdiary-contrib (5.0.7)
       pushbullet_ruby
       tdiary
 
 GIT
   remote: https://github.com/tdiary/tdiary-io-mongodb.git
-  revision: 3047266c9611f1ecdca4a1d2da896852f15cdd9e
+  revision: f75837e4709c56cb8a8d1d6bf022438973b80ead
   specs:
     tdiary-io-mongodb (5.0.3)
       hikidoc
@@ -28,31 +28,29 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     bson (4.2.2)
     byebug (9.1.0)
-    capybara (2.16.1)
+    capybara (2.17.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
-      xpath (~> 2.0)
+      xpath (>= 2.0, < 4.0)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
-    coveralls (0.7.12)
-      multi_json (~> 1.10)
-      rest-client (>= 1.6.8, < 2)
-      simplecov (~> 0.9.1)
+    coveralls (0.8.21)
+      json (>= 1.8, < 3)
+      simplecov (~> 0.14.1)
       term-ansicolor (~> 1.3)
-      thor (~> 0.19.1)
+      thor (~> 0.19.4)
+      tins (~> 1.6)
     dalli (2.7.6)
     debase (0.2.1)
       debase-ruby_core_source
     debase-ruby_core_source (0.10.2)
     diff-lcs (1.3)
     docile (1.1.5)
-    domain_name (0.5.20170404)
-      unf (>= 0.0.5, < 1.0.0)
     emot (0.0.4)
       thor
     faraday (0.13.1)
@@ -62,41 +60,39 @@ GEM
     github-markdown (0.6.9)
     hashie (3.5.7)
     hikidoc (0.1.0)
-    http-cookie (1.0.3)
-      domain_name (~> 0.5)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
-    idn-ruby (0.1.0)
     jasmine (2.8.0)
       jasmine-core (>= 2.8.0, < 3.0.0)
       phantomjs
       rack (>= 1.2.1)
       rake
     jasmine-core (2.8.0)
+    json (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
     memcachier (0.0.2)
     method_source (0.9.0)
-    mime-types (2.99.3)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.10.3)
+    minitest (5.11.1)
     mongo (2.4.3)
       bson (>= 4.2.1, < 5.0.0)
     mongoid (6.2.1)
       activemodel (~> 5.1)
       mongo (>= 2.4.1, < 3.0.0)
-    multi_json (1.12.2)
     multipart-post (2.0.0)
-    netrc (0.11.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     oauth (0.5.4)
     octokit (4.8.0)
       sawyer (~> 0.8.0, >= 0.5.3)
-    omniauth (1.7.1)
+    omniauth (1.8.1)
       hashie (>= 3.4.6, < 3.6.0)
       rack (>= 1.6.2, < 3)
     omniauth-oauth (1.1.0)
@@ -128,16 +124,12 @@ GEM
     rake (12.3.0)
     rdtool (0.6.38)
     redcarpet (3.4.0)
-    rest-client (1.8.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
     rouge (3.1.0)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
-    rspec-core (3.7.0)
+    rspec-core (3.7.1)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -155,17 +147,17 @@ GEM
     selenium-webdriver (3.8.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-    sequel (5.3.0)
-    simplecov (0.9.2)
+    sequel (5.4.0)
+    simplecov (0.14.1)
       docile (~> 1.1.0)
-      multi_json (~> 1.0)
-      simplecov-html (~> 0.9.0)
-    simplecov-html (0.9.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sqlite3 (1.3.13)
-    tdiary (5.0.6)
+    tdiary (5.0.7)
       bundler (~> 1.3)
       emot
       fastimage
@@ -175,11 +167,11 @@ GEM
       rake
       sprockets
       thor
-    tdiary-style-gfm (0.5.1)
+    tdiary-style-gfm (0.5.2)
       emot
       github-markdown
       rouge (>= 2.2)
-      twitter-text
+      twitter-text (~> 1.0)
     tdiary-style-rd (0.0.3)
       rdtool
     term-ansicolor (1.6.0)
@@ -189,23 +181,22 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tins (1.16.3)
-    twitter-text (2.1.0)
-      idn-ruby
+    twitter-text (1.14.7)
       unf (~> 0.1.0)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
-    xpath (2.1.0)
-      nokogiri (~> 1.3)
+    xpath (3.0.0)
+      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   capybara
-  coveralls (~> 0.7.12)
+  coveralls
   dalli
   debase
   emot
