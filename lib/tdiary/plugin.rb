@@ -80,14 +80,14 @@ module TDiary
 			@resource_loaded = false
 			begin
 				res_file = File::dirname( file ) + "/#{@conf.lang}/" + File::basename( file )
-				open( res_file.untaint ) do |src|
-					instance_eval( src.read.untaint, "(plugin/#{@conf.lang}/#{File::basename( res_file )})", 1 )
+				open( res_file ) do |src|
+					instance_eval( src.read, "(plugin/#{@conf.lang}/#{File::basename( res_file )})", 1 )
 				end
 				@resource_loaded = true
 			rescue IOError, Errno::ENOENT
 			end
-			File::open( file.untaint ) do |src|
-				instance_eval( src.read.untaint, "(plugin/#{File::basename( file )})", 1 )
+			File::open( file ) do |src|
+				instance_eval( src.read, "(plugin/#{File::basename( file )})", 1 )
 			end
 		end
 
@@ -347,7 +347,6 @@ module TDiary
 			return '' unless str
 			r = str.dup
 			if @conf.options['apply_plugin'] and r.index( '<%' ) then
-				r = r.untaint
 				begin
 					r = ERB::new( r ).result( binding )
 				rescue Exception

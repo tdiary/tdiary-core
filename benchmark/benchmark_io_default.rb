@@ -1,5 +1,5 @@
 module TDiary
-	PATH = File::dirname( __FILE__ ).untaint
+	PATH = File::dirname( __FILE__ )
 	class << self
 		def root
 			File.expand_path(File.join(library_root, '..'))
@@ -12,7 +12,7 @@ module TDiary
 
 		# directory where the server was started
 		def server_root
-			Dir.pwd.untaint
+			Dir.pwd
 		end
 	end
 end

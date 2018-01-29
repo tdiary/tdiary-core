@@ -92,7 +92,7 @@ module TDiary
 
 						# convert to referer plugin format
 						diaries.each do |date,diary|
-							fname = file.sub( /\.tdr$/, "#{date[6,2]}.tdr".untaint )
+							fname = file.sub( /\.tdr$/, "#{date[6,2]}.tdr" )
 							File::open( fname, File::WRONLY | File::CREAT ) do |fhr|
 								fhr.flock( File::LOCK_EX )
 								fhr.rewind
@@ -149,12 +149,12 @@ module TDiary
 					conf.data_path += '/' if /\/$/ !~ conf.data_path
 					raise TDiaryError, 'Do not set @data_path as same as tDiary system directory.' if conf.data_path == "#{TDiary::PATH}/"
 
-					File::open( "#{conf.data_path.untaint}tdiary.conf" ){|f| f.read }
+					File::open( "#{conf.data_path}tdiary.conf" ){|f| f.read }
 				rescue IOError, Errno::ENOENT
 				end
 
 				def save_cgi_conf(conf, result)
-					File::open( "#{conf.data_path.untaint}tdiary.conf", 'w' ) {|o| o.print result }
+					File::open( "#{conf.data_path}tdiary.conf", 'w' ) {|o| o.print result }
 				rescue IOError, Errno::ENOENT
 				end
 			end

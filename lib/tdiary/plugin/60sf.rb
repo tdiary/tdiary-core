@@ -121,7 +121,7 @@ end
 # Finally, we can eval the selected plugins as tdiary.rb does
 if sf_option( 'selected' ) && !@sf_filters then
 	@sf_filters = []
-	sf_option( 'selected' ).untaint.split( /\n/ ).collect{ |p| File.basename( p ) }.sort.each do |filename|
+	sf_option( 'selected' ).split( /\n/ ).collect{ |p| File.basename( p ) }.sort.each do |filename|
 		@sf_path.each do |dir|
 			path = "#{dir}/#{filename}"
 			if File.readable?( path ) then

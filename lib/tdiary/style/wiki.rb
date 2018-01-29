@@ -70,7 +70,7 @@ module TDiary
 			private
 
 			def valid_plugin_syntax?(code)
-				eval( "BEGIN {return true}\n#{code.dup.untaint}", nil, "(plugin)", 0 )
+				eval( "BEGIN {return true}\n#{code.dup}", nil, "(plugin)", 0 )
 			rescue SyntaxError
 				lambda { eval('') }.call
 				false

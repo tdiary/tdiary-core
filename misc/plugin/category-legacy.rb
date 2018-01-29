@@ -30,7 +30,7 @@ def category_icon_init
 	@conf['category.icon'].split(/\n/).each do |l|
 		c, i = l.split
 		next if c.nil? or i.nil?
-		@category_icon[c] = i if File.exist?("#{@category_icon_dir}#{i}".untaint)
+		@category_icon[c] = i if File.exist?("#{@category_icon_dir}#{i}")
 	end
 end
 category_icon_init
@@ -532,7 +532,7 @@ class Cache
 private
 	def cache_file(category = nil)
 		if category
-			"#{@dir}/#{u( category ).gsub(/%20/,'+')}".untaint
+			"#{@dir}/#{u( category ).gsub(/%20/,'+')}"
 		else
 			"#{@dir}/category_list"
 		end
@@ -551,7 +551,7 @@ private
 		diary.each_section do |s|
 			shorten = begin
 				body = %Q|apply_plugin(#{s.body_to_html.dump}, true)|
-				@conf.shorten(eval(body.untaint, @binding))
+				@conf.shorten(eval(body, @binding))
 			rescue NameError
 				""
 			end
@@ -636,7 +636,7 @@ def category_icon_find_icons
    return if @category_all_icon
 	@category_all_icon = []
 	%w(png jpg gif bmp).each do |e|
-		@category_all_icon += Dir.glob("#{@category_icon_dir}*.#{e}".untaint).map {|i| File.basename(i)}
+		@category_all_icon += Dir.glob("#{@category_icon_dir}*.#{e}").map {|i| File.basename(i)}
 	end
 	@category_all_icon.sort!
 end

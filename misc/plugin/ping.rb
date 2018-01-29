@@ -36,7 +36,7 @@ def ping( list )
 	require 'timeout'
 	threads = []
 	list.each do |url|
-		u = URI::parse( url.untaint )
+		u = URI::parse( url )
 		next unless u.host
 		threads << Thread.start( u, xml ) do |u, xml|
 			begin

@@ -11,9 +11,9 @@ Encoding::default_external = 'UTF-8'
 require 'tdiary/version'
 TDIARY_VERSION = TDiary::VERSION
 
-$:.unshift File.join(File::dirname(__FILE__), '../misc/lib').untaint
+$:.unshift File.join(File::dirname(__FILE__), '../misc/lib')
 ['../misc/lib/*/lib', '../vendor/*/lib'].each do |path|
-	Dir[File.join(File.dirname(__FILE__), path)].each {|dir| $:.unshift dir.untaint }
+	Dir[File.join(File.dirname(__FILE__), path)].each {|dir| $:.unshift dir }
 end
 
 require 'cgi'
@@ -30,7 +30,7 @@ require 'tdiary/core_ext'
 # module TDiary
 #
 module TDiary
-	PATH = File::dirname( __FILE__ ).untaint
+	PATH = File::dirname( __FILE__ )
 
 	# tDiary configuration class, initialize tdiary.conf and stored configuration.
 	autoload :Configuration,            'tdiary/configuration'
@@ -126,7 +126,7 @@ module TDiary
 
 		# directory where the server was started
 		def server_root
-			Dir.pwd.untaint
+			Dir.pwd
 		end
 
 		def configuration

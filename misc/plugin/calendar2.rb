@@ -80,10 +80,10 @@ def calender2_make_image(diary, date)
 	image_dir = (@calendar2_imageex_yearlydir == 0 ? @calendar2_image_dir : %Q|#{@calendar2_image_dir}/#{date[0,4]}|)
 	image_url = (@calendar2_imageex_yearlydir == 0 ? @calendar2_image_url : %Q|#{@calendar2_image_url}/#{date[0,4]}|)
 
-	f_list = Dir.glob(%Q|#{image_dir}/#{date}_#{$1}*|.untaint)
+	f_list = Dir.glob(%Q|#{image_dir}/#{date}_#{$1}*|)
 	if f_list[0]
 		file = File.basename(f_list[0])
-		file = %Q|s#{file}| if File.exist?(%Q|#{image_dir}/s#{file}|.untaint)
+		file = %Q|s#{file}| if File.exist?(%Q|#{image_dir}/s#{file}|)
 		%Q|<img src="#{image_url}/#{file}">|
 	else
 		nil

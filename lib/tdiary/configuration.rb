@@ -15,8 +15,8 @@ module TDiary
 		end
 
 		def save
-			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../views/tdiary.rconf").untaint).result(binding)
-			result.untaint
+			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../views/tdiary.rconf")).result(binding)
+			result
 			eval( result, binding, "(TDiary::Configuration#save)", 1 )
 			@io_class.save_cgi_conf(self, result)
 		end
@@ -111,7 +111,7 @@ module TDiary
 			end
 
 			cgi_conf = @io_class.load_cgi_conf(self)
-			cgi_conf.untaint
+			cgi_conf
 
 			b = binding.taint
 			eval( def_vars1, b )
@@ -134,12 +134,12 @@ module TDiary
 		def configure_attrs
 			@options = {}
 
-			eval( File::open( 'tdiary.conf' ) {|f| f.read }.untaint, nil, "(tdiary.conf)", 1 )
+			eval( File::open( 'tdiary.conf' ) {|f| f.read }, nil, "(tdiary.conf)", 1 )
 
 			# language setup
 			@lang = 'ja' unless @lang
 			begin
-				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f| f.read }.untaint, "(tdiary/lang/#{@lang}.rb)", 1 )
+				instance_eval( File::open( "#{TDiary::PATH}/tdiary/lang/#{@lang}.rb" ){|f| f.read }, "(tdiary/lang/#{@lang}.rb)", 1 )
 			rescue Errno::ENOENT
 				@lang = 'ja'
 				retry
@@ -216,7 +216,7 @@ module TDiary
 			else
 				require 'logger'
 				log_path = (@log_path || "#{@data_path}/log")
-				FileUtils.mkdir_p(log_path.untaint)
+				FileUtils.mkdir_p(log_path)
 				TDiary.logger = Logger.new(File.join(log_path, "debug.log"), 'daily')
 				TDiary.logger.level = Logger.const_get(@log_level || 'DEBUG')
 			end

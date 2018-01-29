@@ -488,10 +488,10 @@ TOPLEVEL_CLASS
 	def kiriban
 		if kiriban?
 			msg = @options["counter.kiriban_msg"] ? @options["counter.kiriban_msg"] : ""
-			ERB.new(msg.untaint).result(binding)
+			ERB.new(msg).result(binding)
 		elsif kiriban_today?
 			msg = @options["counter.kiriban_today_msg"] ? @options["counter.kiriban_today_msg"] : ""
-			ERB.new(msg.untaint).result(binding)
+			ERB.new(msg).result(binding)
 		else
 			@options["counter.kiriban_nomatch_msg"] ? @options["counter.kiriban_nomatch_msg"] : ""
 		end

@@ -93,7 +93,7 @@ def amazon_fetch( url, limit = 10 )
 	when Net::HTTPSuccess
 		res.body
 	when Net::HTTPRedirection
-		amazon_fetch( res['location'].untaint, limit - 1 )
+		amazon_fetch( res['location'], limit - 1 )
 	when Net::HTTPForbidden, Net::HTTPServiceUnavailable
 		raise AmazonRedirectError.new( limit.to_s )
 	else
@@ -324,7 +324,7 @@ def amazon_conf_proc
 		@conf['amazon.nodefault'] = (@cgi.params['amazon.nodefault'][0] == 'true')
 		if @cgi.params['amazon.clearcache'][0] == 'true' then
 			Dir["#{@cache_path}/amazon/*"].each do |cache|
-				File::delete( cache.untaint )
+				File::delete( cache )
 			end
 		end
 		unless @conf['amazon.hideconf'] then

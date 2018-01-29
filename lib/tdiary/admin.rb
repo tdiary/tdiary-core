@@ -120,7 +120,7 @@ module TDiary
 		def do_eval_rhtml( prefix )
 			super
 			@plugin.instance_eval { update_proc }
-			anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
+			anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"] )
 			@io.clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 			raise ForceRedirect::new( "#{@conf.index}#{anchor_str}" )
 		end

@@ -297,7 +297,7 @@ class Weather
 			when Net::HTTPSuccess
 				res.body
 			when Net::HTTPRedirection
-				fetch( res['location'].untaint, limit - 1 )
+				fetch( res['location'], limit - 1 )
 			else
 				raise ArgumentError, res.error!
 			end

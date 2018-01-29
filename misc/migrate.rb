@@ -17,7 +17,7 @@ begin
 	else
 		org_path = File::dirname( __FILE__ )
 	end
-	$:.unshift( org_path.untaint )
+	$:.unshift( org_path )
 	require 'tdiary'
 
 	class TDiary::MigrateConfig < TDiary::Config

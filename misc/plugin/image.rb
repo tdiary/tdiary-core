@@ -71,7 +71,7 @@ def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
 			size = %Q| width="#{size.to_i}"|
 		end
 	elsif @image_maxwidth then
-		_, w, _ = image_info( "#{@image_dir}/#{image}".untaint )
+		_, w, _ = image_info( "#{@image_dir}/#{image}" )
 		if w > @image_maxwidth then
 			size = %Q[ width="#{h @image_maxwidth}"]
 		else
@@ -167,7 +167,7 @@ if /^formplugin$/ =~ @mode then
 					rescue NameError
 						size = file.stat.size
 					end
-					output = "#{@image_dir}/#{date}_#{images.length}.#{extension}".untaint
+					output = "#{@image_dir}/#{date}_#{images.length}.#{extension}"
 					File::umask( 022 )
 					File::open( output, "wb" ) do |f|
 						f.print file.read
@@ -176,7 +176,7 @@ if /^formplugin$/ =~ @mode then
 			end
 	   elsif @cgi.params['plugin_image_delimage'][0]
 	      @cgi.params['plugin_image_id'].each do |id|
-	         file = "#{@image_dir}/#{images[id.to_i]}".untaint
+	         file = "#{@image_dir}/#{images[id.to_i]}"
 	         if File::file?( file ) && File::exist?( file )
 	            File::delete( file )
 	         end
@@ -203,7 +203,7 @@ add_form_proc do |date|
 		tmp = ''
 	   images.each_with_index do |img,id|
 			next unless img
-			_, img_w, img_h = image_info(File.join(@image_dir,img).untaint)
+			_, img_w, img_h = image_info(File.join(@image_dir,img))
 			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			img_info = ''
 			if img_w && img_h

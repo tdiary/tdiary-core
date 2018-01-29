@@ -85,7 +85,7 @@ module TDiary
 			@filters = []
 			filter_path = @conf.filter_path || "{#{PATH},#{TDiary.server_root}}/tdiary/filter"
 			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
-				require file.untaint
+				require file
 				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf )
 			end
 		end
@@ -225,7 +225,7 @@ module TDiary
 			if @conf.request.xhr?
 				super
 			else
-				anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"].untaint )
+				anchor_str = @plugin.instance_eval( %Q[anchor "#{@diary.date.strftime('%Y%m%d')}"] )
 				raise ForceRedirect::new( "#{@conf.index}#{anchor_str}#c#{'%02d' % @diary.count_comments( true )}" )
 			end
 		end
