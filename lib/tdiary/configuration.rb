@@ -17,9 +17,7 @@ module TDiary
 		def save
 			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../views/tdiary.rconf").untaint).result(binding)
 			result.untaint
-			Safe::safe do
-				eval( result, binding, "(TDiary::Configuration#save)", 1 )
-			end
+			eval( result, binding, "(TDiary::Configuration#save)", 1 )
 			@io_class.save_cgi_conf(self, result)
 		end
 
@@ -117,19 +115,17 @@ module TDiary
 
 			b = binding.taint
 			eval( def_vars1, b )
-			Safe::safe do
-				begin
-					eval( cgi_conf, b, "(TDiary::Configuration#load_cgi_conf)", 1 )
-				rescue SyntaxError
-					enc = case @lang
-							when 'en'
-								'UTF-8'
-							else
-								'EUC-JP'
-							end
-					cgi_conf.force_encoding( enc )
-					retry
-				end
+			begin
+				eval( cgi_conf, b, "(TDiary::Configuration#load_cgi_conf)", 1 )
+			rescue SyntaxError
+				enc = case @lang
+						when 'en'
+							'UTF-8'
+						else
+							'EUC-JP'
+						end
+				cgi_conf.force_encoding( enc )
+				retry
 			end if cgi_conf
 			eval( def_vars2, b )
 		end

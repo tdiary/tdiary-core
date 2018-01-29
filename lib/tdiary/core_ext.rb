@@ -106,28 +106,6 @@ end
 
 class RackCGI < CGI; end
 
-=begin
-== Safe module
-=end
-module Safe
-	def safe
-		result = nil
-		if $SAFE < 1 then
-			Proc.new {
-				begin
-					$SAFE = 1
-				ensure
-					result = yield
-				end
-			}.call
-		else
-			result = yield
-		end
-		result
-	end
-	module_function :safe
-end
-
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t

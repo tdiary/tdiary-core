@@ -102,9 +102,7 @@ module TDiary
 			@comment_leave_procs.taint
 			@subtitle_procs.taint
 			@section_leave_procs.taint
-			ret = Safe::safe do
-				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
-			end
+			ret = eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			@conf.io_class.plugin_close(@storage)
 			return ret
 		end
@@ -350,12 +348,10 @@ module TDiary
 			r = str.dup
 			if @conf.options['apply_plugin'] and r.index( '<%' ) then
 				r = r.untaint
-				Safe::safe do
-					begin
-						r = ERB::new( r ).result( binding )
-					rescue Exception
-						r = %Q|<p class="message">Invalid Text</p>#{r}|
-					end
+				begin
+					r = ERB::new( r ).result( binding )
+				rescue Exception
+					r = %Q|<p class="message">Invalid Text</p>#{r}|
 				end
 			end
 			r = remove_tag( r ) if remove_tag
