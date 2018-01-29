@@ -3,25 +3,6 @@ class CGI
 	ENV = ::ENV.to_hash
 end
 
-# for Ruby 1.9.3
-if ::Object.method_defined?(:untrust)
-	class Object
-		def taint
-			super
-			untrust
-		end
-	end
-end
-
-# for Ruby 1.9.X
-
-# preload transcodes outside $SAFE=4 environment, that is a workaround
-# for the possible SecurityError. see the following uri for the detail.
-# http://redmine.ruby-lang.org/issues/5279
-%w(utf-16be euc-jp iso-2022-jp Shift_JIS).each do |enc|
-	"\uFEFF".encode(enc) rescue nil
-end
-
 # Auto convert ASCII_8BIT pstore data (created by Ruby-1.8) to UTF-8.
 require 'pstore'
 class PStoreRuby18Exception < Exception; end

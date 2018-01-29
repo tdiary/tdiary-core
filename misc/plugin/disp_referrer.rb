@@ -705,7 +705,6 @@ class DispRef2URL
 						break
 					end
 				else
-					name.untaint
 					if title.gsub!( /#{url}/iu ) { eval name } then
 						matched = true
 						break

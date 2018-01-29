@@ -9,12 +9,12 @@
 #
 require 'fcgi'
 # workaround untaint LOAD_PATH for rubygems library path is always tainted.
-$:.each{|path| path.untaint if path.include?('fcgi') && path.tainted? }
+$:.each{|path| path if path.include?('fcgi') }
 
 if FileTest::symlink?( __FILE__ ) then
-	org_path = File::dirname( File::readlink( __FILE__ ) ).untaint
+	org_path = File::dirname( File::readlink( __FILE__ ) )
 else
-	org_path = File::dirname( __FILE__ ).untaint
+	org_path = File::dirname( __FILE__ )
 end
 load "#{org_path}/misc/lib/fcgi_patch.rb"
 

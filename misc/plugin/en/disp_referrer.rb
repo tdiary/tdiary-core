@@ -54,20 +54,20 @@ See ../ChangeLog for changes after this.
 =end
 
 # Message strings
-Disp_referrer2_name = 'Referrer classification'.taint
-Disp_referrer2_abstract = <<'_END'.taint
+Disp_referrer2_name = 'Referrer classification'
+Disp_referrer2_abstract = <<'_END'
 <p>
 	This plugin distinguishes the URLs from antennas and search engines
 	and shows them separately. Search keywords from different engines are
 	compound together.
 </p>
 _END
-Disp_referrer2_cache_info = <<'_END'.taint
+Disp_referrer2_cache_info = <<'_END'
 <p>
 	Total size of the caches is %1$s byte(s).
 </p>
 _END
-Disp_referrer2_update_info = <<'_END'.taint
+Disp_referrer2_update_info = <<'_END'
 <p>
 	Please clear the cache by checking this box:
   <label for="dr2.cache.update"><input id="dr2.cache.update" name="dr2.cache.update" value="force" type="checkbox">clear the cache</label>,
@@ -75,20 +75,20 @@ Disp_referrer2_update_info = <<'_END'.taint
 	after editing the <a href="%1$s">today's link</a> lists.
 </p>
 _END
-Disp_referrer2_move_to_refererlist = <<'_END'.taint
+Disp_referrer2_move_to_refererlist = <<'_END'
 	<a href="%s">Follow this link</a> to edit the referer lists.
 _END
-Disp_referrer2_move_to_config = <<'_END'.taint
+Disp_referrer2_move_to_config = <<'_END'
 	<a href="%s">Follow this link</a> to configure the plug-in.
 _END
-Disp_referrer2_also_todayslink = <<'_END'.taint
+Disp_referrer2_also_todayslink = <<'_END'
 	Referer list can also be edited via &quot;<a href="%s">Today's link</a>&quot;.
 _END
-Disp_referrer2_antenna_label = 'Antennae'.taint
-Disp_referrer2_unknown_label = 'Others'.taint
-Disp_referrer2_search_label = 'Search engines'.taint
-Disp_referrer2_search_unknown_keyword = 'Unknown keyword'.taint
-Disp_referrer2_cache_label = '(cache from %s)'.taint
+Disp_referrer2_antenna_label = 'Antennae'
+Disp_referrer2_unknown_label = 'Others'
+Disp_referrer2_search_label = 'Search engines'
+Disp_referrer2_search_unknown_keyword = 'Unknown keyword'
+Disp_referrer2_cache_label = '(cache from %s)'
 
 class DispRef2SetupIF
 

@@ -715,8 +715,7 @@ def comment_mail_send
 	rescue
 		rmail = File::open( "#{TDiary::PATH}/../views/mail.rtxt" ){|f| f.read }
 	end
-	text = @conf.to_mail( ERB::new( rmail.untaint ).result( binding ) )
-	receivers.each(&:untaint)
+	text = @conf.to_mail( ERB::new( rmail ).result( binding ) )
 	comment_mail( text, receivers )
 end
 
@@ -821,7 +820,7 @@ end
 def theme_list_local(list)
 	Dir::glob( theme_paths_local ).sort.map {|dir|
 		theme = dir.sub( %r[.*/theme/], '')
-		next unless FileTest::file?( "#{dir}/#{theme}.css".untaint )
+		next unless FileTest::file?( "#{dir}/#{theme}.css" )
 		name = theme.split( /_/ ).collect{|s| s.capitalize}.join( ' ' )
 		list << ["local/#{theme}",name]
 	}

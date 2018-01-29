@@ -12,7 +12,7 @@ if FileTest::symlink?( __FILE__ ) then
 else
   org_path = File::dirname( __FILE__ )
 end
-$:.unshift org_path.untaint
+$:.unshift org_path
 require 'tdiary'
 require 'uri'
 

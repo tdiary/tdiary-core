@@ -28,7 +28,7 @@ module TDiary
 		end
 
 		def delete_data(path)
-			File.delete(path.untaint)
+			File.delete(path)
 		end
 
 		def restore_parser_cache(date, key = nil)

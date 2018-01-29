@@ -42,7 +42,7 @@ def recent_comment3(ob_max = 'OBSOLUTE' ,sep = 'OBSOLUTE',ob_date_format = 'OBSO
 	migrate_old_data
 	recent_comment3_init
 
-	cache = @conf['recent_comment3.cache'].untaint
+	cache = @conf['recent_comment3.cache']
 	date_format = @conf['recent_comment3.date_format']
 	excepts = @conf['recent_comment3.except_list'].split(/,/)
 	format = @conf['recent_comment3.format']
@@ -129,7 +129,7 @@ add_update_proc do
 	recent_comment3_init
 
 	date = @date.strftime( '%Y%m%d' )
-	cache = @conf['recent_comment3.cache'].untaint
+	cache = @conf['recent_comment3.cache']
 	size = @conf['recent_comment3.cache_size']
 
 	if @mode == 'comment' && @comment && @comment.visible?

@@ -86,7 +86,7 @@ EOS
 
 		def load_plugins
 			super
-			@plugin.instance_eval("def csrf_protection\n#{(@csrf_protection.untaint || '').dump}\nend;")
+			@plugin.instance_eval("def csrf_protection\n#{(@csrf_protection || '').dump}\nend;")
 		end
 	end
 

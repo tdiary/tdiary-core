@@ -31,7 +31,7 @@ module TDiary
 			end
 
 			def cache_path
-				@_cache_path ||= cache_dir.untaint
+				@_cache_path ||= cache_dir
 				FileUtils.mkdir_p(@_cache_path)
 				@_cache_path
 			end
@@ -41,8 +41,8 @@ module TDiary
 				paths = @tdiary.conf.options['style.path'] ||
 					[TDiary::PATH, TDiary.server_root].map {|base| "#{base}/tdiary/style" }
 				[paths].flatten.uniq.each do |path|
-					path = path.sub(/\/+$/, '').untaint
-					Dir.glob("#{path}/*.rb") {|style_file| require style_file.untaint }
+					path = path.sub(/\/+$/, '')
+					Dir.glob("#{path}/*.rb") {|style_file| require style_file }
 				end
 				TDiary::Style.constants(false).each do |name|
 					prefix = name.slice(/\A(.*)Diary\z/, 1)

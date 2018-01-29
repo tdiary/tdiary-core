@@ -206,7 +206,7 @@ _END
 		unless hash.has_key?(key)
 			hash[key] = Array.new
 			begin
-				hash[key].taint
+				hash[key]
 			rescue SecurityError
 			end
 		end
@@ -215,10 +215,10 @@ _END
 	end
 
 	def initialize(cache_path)
-		@link_srcs = Hash.new.taint	# key:dst anchor value:Array of src anchors
-		@current_dsts = Hash.new.taint	# key:src anchor value:Array of dst anchors
-		@cached_dsts = Hash.new.taint	# for restore_dsts and clean_srcs
-		@vanished_dsts = Hash.new.taint	# key:src date value:Array of dst anchors
+		@link_srcs = Hash.new	# key:dst anchor value:Array of src anchors
+		@current_dsts = Hash.new	# key:src anchor value:Array of dst anchors
+		@cached_dsts = Hash.new	# for restore_dsts and clean_srcs
+		@vanished_dsts = Hash.new	# key:src date value:Array of dst anchors
 		@cache_path = cache_path
 	end
 
@@ -256,7 +256,7 @@ _END
 			next unless MySequel.date(src_anchor) == datestr
 			@current_dsts[src_anchor] = Array.new
 			begin
-				@current_dsts[src_anchor].taint
+				@current_dsts[src_anchor]
 			rescue SecurityError
 			end
 		end
@@ -311,9 +311,9 @@ _END
 			unless @srcs_loaded[cache_key] then
 				each_cached(cache_key, 'src') do |anchor, array|
 					unless @link_srcs.has_key?(anchor)
-						@link_srcs[anchor] = array.taint
+						@link_srcs[anchor] = array
 					else
-						@link_srcs[anchor] += array.taint
+						@link_srcs[anchor] += array
 					end
 				end
 				@srcs_loaded[cache_key] = true
@@ -327,7 +327,6 @@ _END
 		MySequel.each_cache_key(dates) do |cache_key|
 			unless @dsts_loaded[cache_key] then
 				each_cached(cache_key, 'dst') do |anchor, array|
-					array.taint
 					@cached_dsts[anchor] = array
 					@current_dsts[anchor] = array.dup
 				end
@@ -387,7 +386,7 @@ _END
 
 		store(hash_for_cache(@link_srcs, 'src'))
 		store(hash_for_cache(@current_dsts, 'dst'))
-		@vanished_dsts = Hash.new.taint
+		@vanished_dsts = Hash.new
 	end
 
 end

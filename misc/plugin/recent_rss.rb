@@ -28,8 +28,6 @@ RECENT_RSS_HTTP_HEADER = {
 }
 
 def recent_rss( url, max = 5, cache_time = 3600, show_modified = true )
-	url.untaint
-
 	cache_file = "#{@cache_path}/recent_rss.#{CGI.escape(url)}"
 
 	recent_rss_cache_rss(url, cache_file, cache_time.to_i)
@@ -103,7 +101,7 @@ def recent_rss_cache_rss(url, cache_file, cache_time)
 			raise InvalidResourceError if rss_source.nil?
 
 			# parse RSS
-			rss = ::RSS::Parser.parse(rss_source.untaint, false)
+			rss = ::RSS::Parser.parse(rss_source, false)
 			raise ::RSS::Error if rss.nil?
 
 			# pre processing

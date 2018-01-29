@@ -8,7 +8,7 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../../Gemfile', __FILE__)
 require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
 
 # FIXME: workaround fix for tainted path from Gemfile.local
-$LOAD_PATH.each{|lp| $LOAD_PATH << $LOAD_PATH.shift.dup.untaint}
+$LOAD_PATH.each{|lp| $LOAD_PATH << $LOAD_PATH.shift.dup}
 
 if defined?(Bundler)
   env = [:default, :rack]

@@ -5,7 +5,7 @@
 # You can redistribute it and/or modify it under GPL2 or any later version.
 
 task :server do
-  $:.unshift File.expand_path('../../../', __FILE__).untaint
+  $:.unshift File.expand_path('../../../', __FILE__)
   require 'tdiary'
 
   unless File.exist?(TDiary.root + '/tdiary.conf')

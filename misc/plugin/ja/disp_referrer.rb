@@ -186,20 +186,20 @@ See ../ChangeLog for changes after this.
 =end
 
 # Message strings
-Disp_referrer2_name = 'リンク元もうちょっと強化'.taint
-Disp_referrer2_abstract = <<'_END'.taint
+Disp_referrer2_name = 'リンク元もうちょっと強化'
+Disp_referrer2_abstract = <<'_END'
 <p>
 	アンテナからのリンク、サーチエンジンの検索結果を、
 	通常のリンク元の下にまとめて表示します。
 	サーチエンジンの検索結果は、検索語毎にまとめられます。
 </p>
 _END
-Disp_referrer2_cache_info = <<'_END'.taint
+Disp_referrer2_cache_info = <<'_END'
 <p>
 	現在、キャッシュの大きさは%1$sバイトです。
 </p>
 _END
-Disp_referrer2_update_info = <<'_END'.taint
+Disp_referrer2_update_info = <<'_END'
 <p>
 	「<a href="%1$s">リンク元</a>」の変更の後には、
 	このチェックボックス
@@ -208,20 +208,20 @@ Disp_referrer2_update_info = <<'_END'.taint
 	キャッシュのクリアをしてくさい。
 </p>
 _END
-Disp_referrer2_move_to_refererlist = <<'_END'.taint
+Disp_referrer2_move_to_refererlist = <<'_END'
 	その他のリンク元の置換リストの編集に<a href="%s">移る</a>。
 _END
-Disp_referrer2_move_to_config = <<'_END'.taint
+Disp_referrer2_move_to_config = <<'_END'
 	基本的な設定に<a href="%s">移る</a>。
 _END
-Disp_referrer2_also_todayslink = <<'_END'.taint
+Disp_referrer2_also_todayslink = <<'_END'
 	リンク元置換リストは「<a href="%s">リンク元</a>」からも編集できます。
 _END
-Disp_referrer2_antenna_label = 'アンテナ'.taint
-Disp_referrer2_unknown_label = 'その他のリンク元'.taint
-Disp_referrer2_search_label = '検索'.taint
-Disp_referrer2_search_unknown_keyword = 'キーワード不明'.taint
-Disp_referrer2_cache_label = '(%sのキャッシュ)'.taint
+Disp_referrer2_antenna_label = 'アンテナ'
+Disp_referrer2_unknown_label = 'その他のリンク元'
+Disp_referrer2_search_label = '検索'
+Disp_referrer2_search_unknown_keyword = 'キーワード不明'
+Disp_referrer2_cache_label = '(%sのキャッシュ)'
 
 class DispRef2SetupIF
 

@@ -115,7 +115,7 @@ def category_serialize(diary)
 	diary.each_section do |s|
 		shorten = begin
 			body = %Q|apply_plugin(#{s.body_to_html.dump}, true)|
-			@conf.shorten(eval(body.untaint))
+			@conf.shorten(eval(body))
 		rescue NameError
 			""
 		end

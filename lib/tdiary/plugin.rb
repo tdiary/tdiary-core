@@ -80,31 +80,19 @@ module TDiary
 			@resource_loaded = false
 			begin
 				res_file = File::dirname( file ) + "/#{@conf.lang}/" + File::basename( file )
-				open( res_file.untaint ) do |src|
-					instance_eval( src.read.untaint, "(plugin/#{@conf.lang}/#{File::basename( res_file )})", 1 )
+				open( res_file ) do |src|
+					instance_eval( src.read, "(plugin/#{@conf.lang}/#{File::basename( res_file )})", 1 )
 				end
 				@resource_loaded = true
 			rescue IOError, Errno::ENOENT
 			end
-			File::open( file.untaint ) do |src|
-				instance_eval( src.read.untaint, "(plugin/#{File::basename( file )})", 1 )
+			File::open( file ) do |src|
+				instance_eval( src.read, "(plugin/#{File::basename( file )})", 1 )
 			end
 		end
 
 		def eval_src( src )
-			self.taint
-			@conf.taint
-			@title_procs.taint
-			@body_enter_procs.taint
-			@body_leave_procs.taint
-			@section_index.taint
-			@section_enter_procs.taint
-			@comment_leave_procs.taint
-			@subtitle_procs.taint
-			@section_leave_procs.taint
-			ret = Safe::safe do
-				eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
-			end
+			ret = eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			@conf.io_class.plugin_close(@storage)
 			return ret
 		end
@@ -349,13 +337,10 @@ module TDiary
 			return '' unless str
 			r = str.dup
 			if @conf.options['apply_plugin'] and r.index( '<%' ) then
-				r = r.untaint
-				Safe::safe do
-					begin
-						r = ERB::new( r ).result( binding )
-					rescue Exception
-						r = %Q|<p class="message">Invalid Text</p>#{r}|
-					end
+				begin
+					r = ERB::new( r ).result( binding )
+				rescue Exception
+					r = %Q|<p class="message">Invalid Text</p>#{r}|
 				end
 			end
 			r = remove_tag( r ) if remove_tag
