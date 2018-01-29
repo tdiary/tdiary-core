@@ -16,7 +16,6 @@ module TDiary
 
 		def save
 			result = ERB.new(File.read("#{File.dirname(__FILE__)}/../../views/tdiary.rconf")).result(binding)
-			result
 			eval( result, binding, "(TDiary::Configuration#save)", 1 )
 			@io_class.save_cgi_conf(self, result)
 		end
@@ -111,7 +110,6 @@ module TDiary
 			end
 
 			cgi_conf = @io_class.load_cgi_conf(self)
-			cgi_conf
 
 			eval( def_vars1, binding )
 			begin
@@ -192,7 +190,6 @@ module TDiary
 			else
 				@options2 = {}
 			end
-			@options
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor
