@@ -113,10 +113,9 @@ module TDiary
 			cgi_conf = @io_class.load_cgi_conf(self)
 			cgi_conf
 
-			b = binding.taint
-			eval( def_vars1, b )
+			eval( def_vars1, binding )
 			begin
-				eval( cgi_conf, b, "(TDiary::Configuration#load_cgi_conf)", 1 )
+				eval( cgi_conf, binding, "(TDiary::Configuration#load_cgi_conf)", 1 )
 			rescue SyntaxError
 				enc = case @lang
 						when 'en'
@@ -127,7 +126,7 @@ module TDiary
 				cgi_conf.force_encoding( enc )
 				retry
 			end if cgi_conf
-			eval( def_vars2, b )
+			eval( def_vars2, binding )
 		end
 
 		# loading tdiary.conf in current directory
@@ -191,9 +190,9 @@ module TDiary
 			if @options2 then
 				@options.update( @options2 )
 			else
-				@options2 = {}.taint
+				@options2 = {}
 			end
-			@options.taint
+			@options
 
 			# for 1.4 compatibility
 			@section_anchor = @paragraph_anchor unless @section_anchor

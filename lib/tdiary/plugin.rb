@@ -92,16 +92,6 @@ module TDiary
 		end
 
 		def eval_src( src )
-			self.taint
-			@conf.taint
-			@title_procs.taint
-			@body_enter_procs.taint
-			@body_leave_procs.taint
-			@section_index.taint
-			@section_enter_procs.taint
-			@comment_leave_procs.taint
-			@subtitle_procs.taint
-			@section_leave_procs.taint
 			ret = eval( src, binding, "(TDiary::Plugin#eval_src)", 1 )
 			@conf.io_class.plugin_close(@storage)
 			return ret
