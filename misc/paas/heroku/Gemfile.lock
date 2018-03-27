@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: a40096d3fb487a38619e8f24d11367ae59b50238
+  revision: 4d584f3a84096d65d06834cd8245422c8b725459
   specs:
     tdiary-contrib (5.0.7)
       pushbullet_ruby
@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/tdiary/tdiary-io-mongodb.git
-  revision: f75837e4709c56cb8a8d1d6bf022438973b80ead
+  revision: 3f28f1bd1315eec08c044efd89c9ae74ba8a1df1
   specs:
     tdiary-io-mongodb (5.0.3)
       hikidoc
@@ -17,57 +17,58 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.1.4)
-      activesupport (= 5.1.4)
-    activesupport (5.1.4)
+    activemodel (5.1.5)
+      activesupport (= 5.1.5)
+    activesupport (5.1.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    bson (4.2.2)
-    byebug (9.1.0)
-    capybara (2.17.0)
+    bson (4.3.0)
+    byebug (10.0.1)
+    capybara (2.18.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    childprocess (0.8.0)
+    childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
+    commonmarker (0.17.9)
+      ruby-enum (~> 0.5)
     concurrent-ruby (1.0.5)
-    coveralls (0.8.21)
-      json (>= 1.8, < 3)
-      simplecov (~> 0.14.1)
-      term-ansicolor (~> 1.3)
-      thor (~> 0.19.4)
-      tins (~> 1.6)
-    dalli (2.7.6)
-    debase (0.2.1)
-      debase-ruby_core_source
+    coveralls (0.7.2)
+      multi_json (~> 1.3)
+      rest-client (= 1.6.7)
+      simplecov (>= 0.7)
+      term-ansicolor (= 1.2.2)
+      thor (= 0.18.1)
+    dalli (2.7.7)
+    debase (0.2.2)
+      debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.2)
     diff-lcs (1.3)
-    docile (1.1.5)
+    docile (1.3.0)
     emot (0.0.4)
       thor
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     fastimage (2.1.1)
-    ffi (1.9.18)
-    github-markdown (0.6.9)
+    ffi (1.9.23)
     hashie (3.5.7)
     hikidoc (0.1.0)
-    i18n (0.9.1)
+    i18n (0.9.5)
       concurrent-ruby (~> 1.0)
-    jasmine (2.8.0)
-      jasmine-core (>= 2.8.0, < 3.0.0)
+    jasmine (2.99.0)
+      jasmine-core (>= 2.99.0, < 3.0.0)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (2.8.0)
+    jasmine-core (2.99.2)
     json (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -80,14 +81,15 @@ GEM
     mime-types-data (3.2016.0521)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.11.1)
-    mongo (2.4.3)
-      bson (>= 4.2.1, < 5.0.0)
-    mongoid (6.2.1)
-      activemodel (~> 5.1)
-      mongo (>= 2.4.1, < 3.0.0)
+    minitest (5.11.3)
+    mongo (2.5.1)
+      bson (>= 4.3.0, < 5.0.0)
+    mongoid (6.4.0)
+      activemodel (>= 5.1, < 6.0.0)
+      mongo (>= 2.5.1, < 3.0.0)
+    multi_json (1.13.1)
     multipart-post (2.0.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     oauth (0.5.4)
     octokit (4.8.0)
@@ -107,24 +109,25 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    pry-byebug (3.5.1)
-      byebug (~> 9.1)
+    pry-byebug (3.6.0)
+      byebug (~> 10.0)
       pry (~> 0.10)
-    public_suffix (3.0.1)
-    puma (3.11.0)
-    pushbullet_ruby (1.1.2)
+    public_suffix (3.0.2)
+    puma (3.11.3)
+    pushbullet_ruby (1.1.3)
       faraday (~> 0.13.0)
       mime-types
-    rack (1.6.8)
-    rack-test (0.8.2)
+    rack (2.0.4)
+    rack-test (0.8.3)
       rack (>= 1.0, < 3)
     racksh (1.0.0)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rake (12.3.0)
+    rake (12.3.1)
     rdtool (0.6.38)
     redcarpet (3.4.0)
-    rouge (3.1.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -137,19 +140,21 @@ GEM
     rspec-mocks (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
-    rspec-support (3.7.0)
-    ruby-debug-ide (0.6.0)
+    rspec-support (3.7.1)
+    ruby-debug-ide (0.6.1)
       rake (>= 0.8.1)
+    ruby-enum (0.7.2)
+      i18n
     rubyzip (1.2.1)
     sawyer (0.8.1)
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 1.0)
-    selenium-webdriver (3.8.0)
+    selenium-webdriver (3.11.0)
       childprocess (~> 0.5)
-      rubyzip (~> 1.0)
-    sequel (5.4.0)
-    simplecov (0.14.1)
-      docile (~> 1.1.0)
+      rubyzip (~> 1.2)
+    sequel (5.6.0)
+    simplecov (0.16.1)
+      docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
@@ -167,27 +172,26 @@ GEM
       rake
       sprockets
       thor
-    tdiary-style-gfm (0.5.2)
+    tdiary-style-gfm (1.0.0)
+      commonmarker
       emot
-      github-markdown
-      rouge (>= 2.2)
       twitter-text (~> 1.0)
     tdiary-style-rd (0.0.3)
       rdtool
-    term-ansicolor (1.6.0)
-      tins (~> 1.0)
+    term-ansicolor (1.2.2)
+      tins (~> 0.8)
     test-unit (3.2.7)
       power_assert
-    thor (0.19.4)
+    thor (0.18.1)
     thread_safe (0.3.6)
-    tins (1.16.3)
+    tins (0.13.2)
     twitter-text (1.14.7)
       unf (~> 0.1.0)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     xpath (3.0.0)
       nokogiri (~> 1.8)
 
@@ -212,7 +216,7 @@ DEPENDENCIES
   pit
   pry-byebug
   puma
-  rack (~> 1.6)
+  rack (~> 2.0)
   racksh
   rake
   redcarpet
