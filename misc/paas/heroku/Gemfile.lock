@@ -118,7 +118,7 @@ GEM
       faraday (~> 0.13.0)
       mime-types
     rack (2.0.4)
-    rack-test (0.8.3)
+    rack-test (1.0.0)
       rack (>= 1.0, < 3)
     racksh (1.0.0)
       rack (>= 1.0)
@@ -234,7 +234,7 @@ DEPENDENCIES
   test-unit
 
 RUBY VERSION
-   ruby 2.5.0p0
+   ruby 2.5.1p57
 
 BUNDLED WITH
    1.16.1
