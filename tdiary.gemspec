@@ -41,7 +41,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mail'
   spec.add_dependency 'rack'
   spec.add_dependency 'rake'
-  spec.add_dependency 'sprockets'
   spec.add_dependency 'thor'
   spec.add_dependency "bundler", ">= 1.3", "< 3.0"
 end
