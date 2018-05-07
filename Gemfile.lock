@@ -30,7 +30,7 @@ GEM
       thor
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
-    fastimage (2.1.1)
+    fastimage (2.1.3)
     ffi (1.9.23)
     hikidoc (0.1.0)
     jasmine (2.99.0)
