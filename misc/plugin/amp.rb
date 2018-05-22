@@ -55,7 +55,7 @@ end
 
 def amp_body(diary)
   apply_plugin(diary.to_html)
-    .gsub(/<img\s([^>]+)>/, '<amp-img \1 layout="responsive">')
+    .gsub(/<img\s/, '<amp-img layout="responsive" ')
     .gsub(/<script[^<]+<\/script>/, '')
 end
 
