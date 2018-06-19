@@ -125,7 +125,8 @@ def amazon_call_ecs( asin, id_type, country )
 	rescue AmazonRedirectError
 		limit = $!.message.to_i
 		retry
-	rescue ArgumentError, SystemCallError
+	rescue ArgumentError, SystemCallError, Net::HTTPExceptions
+		@logger.error "amazon.rb: #{$!.message} by #{asin}"
 	end
 end
 
