@@ -67,7 +67,8 @@ recent_comment3.rb
 recent_list.rb
 "
 
-@options['dropdown_calendar.label'] = ''
+# dropdown_calendarの先頭に表示するテキスト
+# @options['dropdown_calendar.label'] = '過去の日記'
 
 @options['spamfilter.bad_comment_patts'] = "(href=|casino|gambling|betting|fastsearch\\.eu\\.com|ganzao|poker|holdem|hold.em|roulette|drug|tramadol|viagra|fioricet|oxycontin|biaxin|aldara|business cards|home depot|slot.?machine|insurance|getblog2|video-game|Good site|internet-all\\.com|deai|tdfms|comu2|omaha)\r\n"
 @options['spamfilter.bad_ip_addrs'] = ""

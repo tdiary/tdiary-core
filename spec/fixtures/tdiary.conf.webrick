@@ -38,7 +38,7 @@ recent_comment3.rb
 recent_list.rb
 "
 
-@options['dropdown_calendar.label'] = ''
+@options['dropdown_calendar.label'] = '過去の日記'
 @options['makerss.file'] = 'index.rdf'
 @options['makerss.no_comments.file'] = 'no_comments.rdf'
 
