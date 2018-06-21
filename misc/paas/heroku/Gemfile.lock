@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 485e7a5db9eb4e1f3e18ac3b7ff2ba3cd8444a20
+  revision: 54dfbb4ac311d1b9a609533c38b751ad4e775eb1
   specs:
     tdiary-contrib (5.0.8)
       pushbullet_ruby
@@ -28,13 +28,13 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     bson (4.3.0)
     byebug (10.0.2)
-    capybara (3.1.0)
+    capybara (3.2.1)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      xpath (~> 3.0)
+      xpath (~> 3.1)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
@@ -52,17 +52,18 @@ GEM
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.3)
     diff-lcs (1.3)
-    docile (1.3.0)
+    docile (1.3.1)
     emot (0.0.4)
       thor
-    faraday (0.13.1)
+    faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
     fastimage (2.1.3)
-    ffi (1.9.23)
+    ffi (1.9.25)
     hashie (3.5.7)
     hikidoc (0.1.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    idn-ruby (0.1.0)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
       phantomjs
@@ -89,7 +90,7 @@ GEM
       mongo (>= 2.5.1, < 3.0.0)
     multi_json (1.13.1)
     multipart-post (2.0.0)
-    nokogiri (1.8.2)
+    nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     oauth (0.5.4)
     octokit (4.9.0)
@@ -105,7 +106,7 @@ GEM
       rack
     phantomjs (2.1.1.0)
     pit (0.0.7)
-    power_assert (1.1.1)
+    power_assert (1.1.2)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -114,8 +115,8 @@ GEM
       pry (~> 0.10)
     public_suffix (3.0.2)
     puma (3.11.4)
-    pushbullet_ruby (1.1.3)
-      faraday (~> 0.13.0)
+    pushbullet_ruby (1.1.4)
+      faraday (>= 0.13.0, < 1.0)
       mime-types
     rack (2.0.5)
     rack-test (1.0.0)
@@ -152,13 +153,13 @@ GEM
     selenium-webdriver (3.12.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
-    sequel (5.8.0)
+    sequel (5.9.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sprockets (3.7.1)
+    sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sqlite3 (1.3.13)
@@ -172,10 +173,10 @@ GEM
       rake
       sprockets
       thor
-    tdiary-style-gfm (1.0.0)
+    tdiary-style-gfm (1.1.0)
       commonmarker
       emot
-      twitter-text (~> 1.0)
+      twitter-text (>= 2.0)
     tdiary-style-rd (0.0.3)
       rdtool
     term-ansicolor (1.2.2)
@@ -185,14 +186,15 @@ GEM
     thor (0.18.1)
     thread_safe (0.3.6)
     tins (0.13.2)
-    twitter-text (1.14.7)
+    twitter-text (2.1.0)
+      idn-ruby
       unf (~> 0.1.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
-    xpath (3.0.0)
+    xpath (3.1.0)
       nokogiri (~> 1.8)
 
 PLATFORMS
