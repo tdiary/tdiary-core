@@ -79,7 +79,7 @@ describe "amp plugin w/" do
 				HTML
 			} }
 			it { expect(subject).to include('<h3>subsection</h3>') }
-			it { expect(subject).to include('<amp-img src="image.jpg" weight="640" height="480" layout="responsive">') }
+			it { expect(subject).to include('<amp-img layout="responsive" src="image.jpg" weight="640" height="480">') }
 		end
 
 		describe "when contain script element" do
