@@ -17,13 +17,13 @@ group :development do
   gem 'redcarpet'
   gem 'octokit'
 
-  platforms :ruby_22, :ruby_23, :ruby_24 do
+  platforms :ruby_23, :ruby_24 do
     gem 'ruby-debug-ide'
     gem 'debase'
   end
 
   group :test do
-    gem 'pry-byebug', platforms: [:ruby_22, :ruby_23, :ruby_24]
+    gem 'pry-byebug', platforms: [:ruby_23, :ruby_24]
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
