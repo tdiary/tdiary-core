@@ -1,3 +1,6 @@
+2018-06-29  Tada, Tadashi <t@tdtds.jp>
+	* release 5.0.9
+
 2018-06-21  Tada, Tadashi <t@tdtds.jp>
 	* amp.rb: fix converting img to amp-img tags when parametes have '>' chars
 	* dropdown_calendar.rb: jump to link made by html_anchor plugin using js
