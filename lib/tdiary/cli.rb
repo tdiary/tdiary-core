@@ -148,7 +148,7 @@ module TDiary
 			if password != password2
 				raise StandardError, 'password verification error'
 			end
-			htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
+			htpasswd = WEBrick::HTTPAuth::Htpasswd.new(ENV['HTPASSWD'] || '.htpasswd')
 			htpasswd.set_passwd(nil, username, password)
 			htpasswd.flush
 		end

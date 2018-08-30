@@ -8,7 +8,7 @@ module TDiary
 				if defined? ::OmniAuth
 					@app = TDiary::Rack::Auth::OmniAuth.new(app)
 				else
-					@app = TDiary::Rack::Auth::Basic.new(app, '.htpasswd')
+					@app = TDiary::Rack::Auth::Basic.new(app, ENV['HTPASSWD'] || '.htpasswd')
 				end
 			end
 

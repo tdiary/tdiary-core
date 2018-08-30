@@ -1,3 +1,4 @@
 .bundle
+.htpasswd
 vendor/bundle
 public/assets/*
