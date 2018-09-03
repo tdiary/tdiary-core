@@ -50,7 +50,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
-    octokit (4.10.0)
+    octokit (4.11.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     phantomjs (2.1.1.0)
     pit (0.0.7)
