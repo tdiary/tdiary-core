@@ -16,6 +16,7 @@ group :development do
   gem 'racksh', require: false
   gem 'redcarpet'
   gem 'octokit'
+  gem 'mime-types'
 
   platforms :ruby_23, :ruby_24 do
     gem 'ruby-debug-ide'
