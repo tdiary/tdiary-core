@@ -209,6 +209,7 @@ DEPENDENCIES
   launchy
   mail
   memcachier
+  mime-types
   octokit
   omniauth
   omniauth-twitter
