@@ -1,5 +1,5 @@
 FROM ruby:2.5
-MAINTAINER Tada, Tadashi @tdtds
+LABEL maintainer "@tdtds <t@tdtds.jp>"
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src
