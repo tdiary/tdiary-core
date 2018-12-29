@@ -13,7 +13,7 @@ begin
 	def fetch_files( repo )
 		Dir.chdir("tmp") do
 			rm_rf repo rescue true
-			sh "git clone --depth 10 https://github.com/tdiary/#{repo}.git #{repo}"
+			sh "git clone https://github.com/tdiary/#{repo}.git #{repo}"
 		end
 	end
 
@@ -64,7 +64,7 @@ begin
 		end
 
 		mv repo, dest
-		sh "tar --format=ustar zcf #{dest}.tar.gz #{dest}"
+		sh "tar zcf #{dest}.tar.gz --format=ustar #{dest}"
 		mv dest, repo
 		TARBALLS << "#{dest}.tar.gz"
 	end
@@ -80,7 +80,7 @@ begin
 				mv d, "tdiary-core/theme/" rescue true
 			end
 			mv "tdiary-core", "tdiary#{suffix}"
-			sh "tar --format=ustar zcf tdiary-full#{suffix}.tar.gz tdiary#{suffix}"
+			sh "tar zcf tdiary-full#{suffix}.tar.gz --format=ustar tdiary#{suffix}"
 			TARBALLS << "tdiary-full#{suffix}.tar.gz"
 			rm_rf "tdiary#{suffix}"
 			REPOS.each {|repo| rm_rf repo rescue true }
