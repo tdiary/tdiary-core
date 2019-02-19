@@ -166,7 +166,7 @@ def amazon_image( item )
 		image[:height] = item.nodes("#{node_prefix}/Height")[0].text
 		image[:width] = item.nodes("#{node_prefix}/Width")[0].text
 	rescue
-		base = @conf['amazon.default_image_base'] || 'http://www.tdiary.org/images/amazondefaults/'
+		base = @conf['amazon.default_image_base'] || 'http://tdiary.github.io/tdiary-theme/plugin/amazon/'
 		case @conf['amazon.imgsize']
 		when 0
 			image[:src] = "#{base}large.png"
