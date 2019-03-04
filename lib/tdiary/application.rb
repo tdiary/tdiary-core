@@ -40,7 +40,7 @@ module TDiary
 					end
 
 					map assets_path do
-						use TDiary::Rack::Static, ["js", "theme"]
+						run TDiary::Rack::Static.new(nil, ["js", "theme"])
 					end
 				end
 			end
