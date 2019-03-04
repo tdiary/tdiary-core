@@ -7,7 +7,7 @@ describe TDiary::Rack::Static do
 
 	describe "reserve static files" do
 		let(:app) { TDiary::Rack::Static.new(
-			lambda{|env| [500, {}, ['Internal Server Error']]}, 'doc')}
+			lambda{|env| [500, {}, ['Internal Server Error']]}, ['doc'])}
 
 		it 'should return the file in static directory' do
 			get '/README.md'
@@ -23,5 +23,21 @@ describe TDiary::Rack::Static do
 			post '/index.rb'
 			expect(last_response.status).to be 500
 		end
+	end
+
+	describe "resurve mutiple static files" do
+		let(:app) { TDiary::Rack::Static.new(
+			lambda{|env| [500, {}, ['Internal Server Error']]}, ['js', 'theme'])}
+
+		it 'should return the file in js directory' do
+			get '/00default.js'
+			expect(last_response).to be_ok
+		end
+
+		it 'should return the file in theme directory' do
+			get '/base.css'
+			expect(last_response).to be_ok
+		end
+
 	end
 end
