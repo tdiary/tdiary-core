@@ -18,6 +18,8 @@ module TDiary
 		def initialize( base_dir = nil )
 			index_path   = self.index_path
 			update_path  = self.update_path
+			assets_path  = self.assets_path
+			assets_paths = self.assets_paths
 
 			base_dir ||= self.base_dir
 
@@ -35,6 +37,11 @@ module TDiary
 					map update_path do
 						use TDiary::Rack::Auth
 						run TDiary::Dispatcher.update
+					end
+
+					map assets_path do
+						use TDiary::Rack::Static, "js"
+						use TDiary::Rack::Static, "theme"
 					end
 				end
 			end
@@ -64,6 +71,10 @@ module TDiary
 
 		def update_path
 			(Pathname.new('/') + URI(TDiary.configuration.update).path).to_s
+		end
+
+		def assets_path
+			'/assets'
 		end
 
 		def base_dir
