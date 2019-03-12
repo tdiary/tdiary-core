@@ -227,7 +227,6 @@ DEPENDENCIES
   selenium-webdriver
   sequel
   simplecov
-  sprockets
   sqlite3
   tdiary-contrib!
   tdiary-io-mongodb!
