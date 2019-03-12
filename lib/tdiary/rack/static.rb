@@ -5,11 +5,17 @@ module TDiary
 		class Static
 			def initialize( app, base_dir )
 				@app = app
-				@file = ::Rack::File.new( base_dir )
+				@file = base_dir.map{|dir| ::Rack::File.new(dir) }
 			end
 
 			def call( env )
-				result = @file.call( env )
+				result = []
+
+				@file.each do |f|
+					result = f.call(env)
+					break if result[0].to_i < 400 || result[0].to_i >= 500
+				end
+
 				if result[0].to_i >= 400 && result[0].to_i < 500
 					@app.call( env )
 				else

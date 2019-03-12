@@ -7,10 +7,6 @@ gem 'emot'
 gem 'mail'
 gem 'rake'
 
-group :rack do
-  gem 'sprockets'
-end
-
 group :development do
   gem 'pit', require: false
   gem 'racksh', require: false

@@ -27,7 +27,7 @@ module TDiary
 				map base_dir do
 					map '/' do
 						use TDiary::Rack::HtmlAnchor
-						use TDiary::Rack::Static, "public"
+						use TDiary::Rack::Static, ["public"]
 						use TDiary::Rack::ValidRequestPath
 						map index_path do
 							run TDiary::Dispatcher.index
@@ -40,12 +40,7 @@ module TDiary
 					end
 
 					map assets_path do
-						environment = Sprockets::Environment.new
-						assets_paths.each {|assets_path|
-							environment.append_path assets_path
-						}
-
-						run environment
+						run TDiary::Rack::Static.new(nil, ["js", "theme"])
 					end
 				end
 			end
