@@ -50,7 +50,7 @@ begin
 				end
 
 				Dir.chdir '.bundle/ruby' do
-					versions = %w(2.3.0 2.4.0 2.5.0 2.6.0)
+					versions = %w(2.4.0 2.5.0 2.6.0)
 					current = `ls`.chomp
 					versions.each {|version|
 						FileUtils.cp_r current, version unless current == version
