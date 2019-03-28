@@ -1,34 +1,35 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 9855a4d315f5c053bfdbc8eeca08f62feb4a23ab
+  revision: 30ebc3bed25adead50aba029012c7a27575c1465
   specs:
-    tdiary-contrib (5.0.10)
+    tdiary-contrib (5.0.11)
       pushbullet_ruby
       tdiary
 
 GIT
   remote: https://github.com/tdiary/tdiary-io-mongodb.git
-  revision: 0edc87ec90f3c86c27d01b8276ae2440dfbfc278
+  revision: 01f35dddd0d04467a2ad0404b443e4147c3c0e7b
   specs:
     tdiary-io-mongodb (5.0.3)
       hikidoc
       mongoid (~> 6.0)
+      tdiary (>= 5.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.2.2)
-      activesupport (= 5.2.2)
-    activesupport (5.2.2)
+    activemodel (5.2.3)
+      activesupport (= 5.2.3)
+    activesupport (5.2.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    bson (4.3.0)
-    byebug (10.0.2)
-    capybara (3.12.0)
+    bson (4.4.2)
+    byebug (11.0.1)
+    capybara (3.15.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -41,17 +42,17 @@ GEM
     coderay (1.1.2)
     commonmarker (0.18.2)
       ruby-enum (~> 0.5)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     coveralls (0.8.22)
       json (>= 1.8, < 3)
       simplecov (~> 0.16.1)
       term-ansicolor (~> 1.3)
       thor (~> 0.19.4)
       tins (~> 1.6)
-    dalli (2.7.9)
+    dalli (2.7.10)
     debase (0.2.2)
       debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.3)
+    debase-ruby_core_source (0.10.4)
     diff-lcs (1.3)
     docile (1.3.1)
     emot (0.0.4)
@@ -59,10 +60,10 @@ GEM
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     fastimage (2.1.5)
-    ffi (1.9.25)
+    ffi (1.10.0)
     hashie (3.6.0)
     hikidoc (0.1.0)
-    i18n (1.3.0)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.0)
     jasmine (2.99.0)
@@ -71,7 +72,7 @@ GEM
       rack (>= 1.2.1)
       rake
     jasmine-core (2.99.2)
-    json (2.1.0)
+    json (2.2.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     mail (2.7.1)
@@ -84,13 +85,13 @@ GEM
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
-    mongo (2.6.2)
-      bson (>= 4.3.0, < 5.0.0)
+    mongo (2.8.0)
+      bson (>= 4.4.2, < 5.0.0)
     mongoid (6.4.2)
       activemodel (>= 5.1, < 6.0.0)
       mongo (>= 2.5.1, < 3.0.0)
     multipart-post (2.0.0)
-    nokogiri (1.9.1)
+    nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     octokit (4.13.0)
@@ -106,15 +107,15 @@ GEM
       rack
     phantomjs (2.1.1.0)
     pit (0.0.7)
-    power_assert (1.1.3)
+    power_assert (1.1.4)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    pry-byebug (3.6.0)
-      byebug (~> 10.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
       pry (~> 0.10)
     public_suffix (3.0.3)
-    puma (3.12.0)
+    puma (3.12.1)
     pushbullet_ruby (1.1.4)
       faraday (>= 0.13.0, < 1.0)
       mime-types
@@ -152,7 +153,7 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
-    sequel (5.15.0)
+    sequel (5.18.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -161,8 +162,8 @@ GEM
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sqlite3 (1.3.13)
-    tdiary (5.0.10)
+    sqlite3 (1.4.0)
+    tdiary (5.0.11)
       bundler (~> 1.3)
       emot
       fastimage
@@ -172,15 +173,15 @@ GEM
       rake
       sprockets
       thor
-    tdiary-style-gfm (1.1.0)
+    tdiary-style-gfm (1.2.0)
       commonmarker
       emot
       twitter-text (>= 2.0)
     tdiary-style-rd (0.0.3)
       rdtool
-    term-ansicolor (1.7.0)
+    term-ansicolor (1.7.1)
       tins (~> 1.0)
-    test-unit (3.2.9)
+    test-unit (3.3.1)
       power_assert
     thor (0.19.4)
     thread_safe (0.3.6)
@@ -235,7 +236,7 @@ DEPENDENCIES
   test-unit
 
 RUBY VERSION
-   ruby 2.6.0p0
+   ruby 2.6.2p47
 
 BUNDLED WITH
    1.17.2
