@@ -1,7 +1,19 @@
-2015-12-29  Tada, Tadashi <t@tdtds.jp>
+2019-03-29  Tada, Tadashi <t@tdtds.jp>
+	* release 5.0.12
+
+2019-03-27  Tada, Tadashi <t@tdtds.jp>
+	* stop to support ruby 2.3
+
+2019-03-12  SHIBATA Hiroshi <hsbt@ruby-lang.org>
+	* remove sprockets dependency
+
+2019-03-19  Tada, Tadashi <t@tdtds.jp>
+	* amazon plugin: use https resource on amazon image
+
+2018-12-29  Tada, Tadashi <t@tdtds.jp>
 	* release 5.0.11
 
-2015-09-29  SHIBATA Hiroshi <hsbt@ruby-lang.org>
+2018-09-29  SHIBATA Hiroshi <hsbt@ruby-lang.org>
 	* release 5.0.10
 
 2018-06-29  Tada, Tadashi <t@tdtds.jp>
