@@ -104,7 +104,7 @@ GEM
     sqlite3 (1.4.1)
     term-ansicolor (1.7.1)
       tins (~> 1.0)
-    test-unit (3.3.2)
+    test-unit (3.3.3)
       power_assert
     thor (0.20.3)
     tins (1.20.2)
