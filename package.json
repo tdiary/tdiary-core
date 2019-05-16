@@ -1,6 +1,6 @@
 {
   "name": "tdiary-core",
-  "version": "5.0.7",
+  "version": "5.0.13",
   "description": "",
   "main": "",
   "directories": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/tdiary/tdiary-core",
   "devDependencies": {
-    "jquery": "~3.2.1",
+    "jquery": "~3.4.1",
     "jasmine-jquery": "~2.0.3"
     }
 }
