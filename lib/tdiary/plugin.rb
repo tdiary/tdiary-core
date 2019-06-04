@@ -104,8 +104,8 @@ module TDiary
 			end
 		end
 
-		def add_header_proc( block = Proc::new )
-			@header_procs << block
+		def add_header_proc( &block )
+			@header_procs << block if block_given?
 		end
 
 		def header_proc
@@ -116,8 +116,8 @@ module TDiary
 			r.join.chomp
 		end
 
-		def add_footer_proc( block = Proc::new )
-			@footer_procs << block
+		def add_footer_proc( &block )
+			@footer_procs << block if block_given?
 		end
 
 		def footer_proc
@@ -128,8 +128,8 @@ module TDiary
 			r.join.chomp
 		end
 
-		def add_update_proc( block = Proc::new )
-			@update_procs << block
+		def add_update_proc( &block )
+			@update_procs << block if block_given?
 		end
 
 		def update_proc
@@ -137,8 +137,8 @@ module TDiary
 			''
 		end
 
-		def add_title_proc( block = Proc::new )
-			@title_procs << block
+		def add_title_proc( &block )
+			@title_procs << block if block_given?
 		end
 
 		def title_proc( date, title )
@@ -148,8 +148,8 @@ module TDiary
 			apply_plugin( title )
 		end
 
-		def add_body_enter_proc( block = Proc::new )
-			@body_enter_procs << block
+		def add_body_enter_proc( &block )
+			@body_enter_procs << block if block_given?
 		end
 
 		def body_enter_proc( date )
@@ -160,8 +160,8 @@ module TDiary
 			r.join
 		end
 
-		def add_body_leave_proc( block = Proc::new )
-			@body_leave_procs << block
+		def add_body_leave_proc( &block )
+			@body_leave_procs << block if block_given?
 		end
 
 		def body_leave_proc( date )
@@ -172,8 +172,8 @@ module TDiary
 			r.join
 		end
 
-		def add_section_enter_proc( block = Proc::new )
-			@section_enter_procs << block
+		def add_section_enter_proc( &block )
+			@section_enter_procs << block if block_given?
 		end
 
 		def section_enter_proc( date )
@@ -185,8 +185,8 @@ module TDiary
 			r.join
 		end
 
-		def add_subtitle_proc( block = Proc::new )
-			@subtitle_procs << block
+		def add_subtitle_proc( &block )
+			@subtitle_procs << block if block_given?
 		end
 
 		def subtitle_proc( date, subtitle )
@@ -196,8 +196,8 @@ module TDiary
 			apply_plugin( subtitle )
 		end
 
-		def add_section_leave_proc( block = Proc::new )
-			@section_leave_procs << block
+		def add_section_leave_proc( &block )
+			@section_leave_procs << block if block_given?
 		end
 
 		def section_leave_proc( date )
@@ -208,8 +208,8 @@ module TDiary
 			r.join
 		end
 
-		def add_comment_leave_proc( block = Proc::new )
-			@comment_leave_procs << block
+		def add_comment_leave_proc( &block )
+			@comment_leave_procs << block if block_given?
 		end
 
 		def comment_leave_proc( date )
@@ -220,8 +220,8 @@ module TDiary
 			r.join
 		end
 
-		def add_edit_proc( block = Proc::new )
-			@edit_procs << block
+		def add_edit_proc( &block )
+			@edit_procs << block if block_given?
 		end
 
 		def edit_proc( date )
@@ -232,8 +232,8 @@ module TDiary
 			r.join
 		end
 
-		def add_form_proc( block = Proc::new )
-			@form_procs << block
+		def add_form_proc( &block )
+			@form_procs << block if block_given?
 		end
 
 		def form_proc( date )
@@ -244,11 +244,11 @@ module TDiary
 			r.join
 		end
 
-		def add_conf_proc( key, label, genre = 'etc', block = Proc::new )
+		def add_conf_proc( key, label, genre = 'etc', &block )
 			return unless @mode =~ /^(conf|saveconf)$/
 			genre_and_key = "#{genre}:#{key}"
 			@conf_keys << genre_and_key unless @conf_keys.index( genre_and_key )
-			@conf_procs[key] = [label, block]
+			@conf_procs[key] = [label, block] if block_given?
 		end
 
 		def each_conf_genre
@@ -308,8 +308,8 @@ module TDiary
 			@javascript_setting << [var, val]
 		end
 
-		def add_content_proc( key, block = Proc::new )
-			@content_procs[key] = block
+		def add_content_proc( key, &block )
+			@content_procs[key] = block if block_given?
 		end
 
 		def content_proc( key, date )
@@ -319,8 +319,8 @@ module TDiary
 			@content_procs[key].call( date )
 		end
 
-		def add_startup_proc( block = Proc::new )
-			@startup_procs << block
+		def add_startup_proc( &block )
+			@startup_procs << block if block_given?
 		end
 
 		def startup_proc( app )

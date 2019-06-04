@@ -14,12 +14,12 @@ module AMP
     @amp_body_enter_procs ||= []
   end
 
-  def add_amp_header_proc(block = Proc::new)
-    amp_header_procs << block
+  def add_amp_header_proc(&block)
+    amp_header_procs << block if block_given?
   end
 
-  def add_amp_body_enter_proc(block = Proc::new)
-    amp_body_enter_procs << block
+  def add_amp_body_enter_proc(&block)
+    amp_body_enter_procs << block if block_given?
   end
 
   def amp_header_proc
