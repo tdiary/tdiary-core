@@ -20,5 +20,6 @@ RUN if [ ! -e tdiary.conf ]; then cp tdiary.conf.beginner tdiary.conf; fi && \
 
 VOLUME [ "/usr/src/app/data", "/usr/src/app/public" ]
 EXPOSE 9292
+ENV PORT=9292
 ENV HTPASSWD=data/.htpasswd
-CMD [ "bundle", "exec", "rackup", "-o", "0.0.0.0", "-p", "9292" ]
+CMD bundle exec rackup -o 0.0.0.0 -p ${PORT}
