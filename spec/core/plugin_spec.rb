@@ -58,8 +58,8 @@ describe TDiary::Plugin do
 
 	describe '#header_proc' do
 		before do
-			@plugin.__send__(:add_header_proc, lambda { 'header1 ' })
-			@plugin.__send__(:add_header_proc, lambda { 'header2' })
+			@plugin.__send__(:add_header_proc, ){ 'header1 ' }
+			@plugin.__send__(:add_header_proc, ){ 'header2' }
 		end
 		subject { @plugin.__send__(:header_proc) }
 
@@ -70,8 +70,8 @@ describe TDiary::Plugin do
 
 	describe '#footer_proc' do
 		before do
-			@plugin.__send__(:add_footer_proc, lambda { 'footer1 ' })
-			@plugin.__send__(:add_footer_proc, lambda { 'footer2' })
+			@plugin.__send__(:add_footer_proc, ){ 'footer1 ' }
+			@plugin.__send__(:add_footer_proc, ){ 'footer2' }
 		end
 		subject { @plugin.__send__(:footer_proc) }
 
@@ -84,8 +84,8 @@ describe TDiary::Plugin do
 		let (:proc1) { lambda {} }
 		let (:proc2) { lambda {} }
 		before do
-			@plugin.__send__(:add_update_proc, proc1)
-			@plugin.__send__(:add_update_proc, proc2)
+			@plugin.__send__(:add_update_proc, &proc1)
+			@plugin.__send__(:add_update_proc, &proc2)
 		end
 		subject { @plugin.__send__(:update_proc) }
 
@@ -106,8 +106,8 @@ describe TDiary::Plugin do
 		let (:proc2) { lambda {|date, title| "title2" } }
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
-			@plugin.__send__(:add_title_proc, proc1)
-			@plugin.__send__(:add_title_proc, proc2)
+			@plugin.__send__(:add_title_proc, &proc1)
+			@plugin.__send__(:add_title_proc, &proc2)
 		end
 		subject { @plugin.__send__(:title_proc, date, 'title') }
 
@@ -131,8 +131,8 @@ describe TDiary::Plugin do
 	describe '#body_enter_proc' do
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
-			@plugin.__send__(:add_body_enter_proc, lambda {|date| 'body1 ' })
-			@plugin.__send__(:add_body_enter_proc, lambda {|date| 'body2' })
+			@plugin.__send__(:add_body_enter_proc, ){|date| 'body1 ' }
+			@plugin.__send__(:add_body_enter_proc, ){|date| 'body2' }
 		end
 		subject { @plugin.__send__(:body_enter_proc, date) }
 
@@ -143,8 +143,8 @@ describe TDiary::Plugin do
 
 	describe '#body_leave_proc' do
 		before do
-			@plugin.__send__(:add_body_leave_proc, lambda {|date| 'body1 ' })
-			@plugin.__send__(:add_body_leave_proc, lambda {|date| 'body2' })
+			@plugin.__send__(:add_body_leave_proc, ){|date| 'body1 ' }
+			@plugin.__send__(:add_body_leave_proc, ){|date| 'body2' }
 		end
 		subject { @plugin.__send__(:body_leave_proc, @date) }
 
@@ -159,8 +159,8 @@ describe TDiary::Plugin do
 		let (:date1) { Time.local(2012, 1, 2) }
 		let (:date2) { Time.local(2012, 1, 3) }
 		before do
-			@plugin.__send__(:add_section_enter_proc, proc1)
-			@plugin.__send__(:add_section_enter_proc, proc2)
+			@plugin.__send__(:add_section_enter_proc, &proc1)
+			@plugin.__send__(:add_section_enter_proc, &proc2)
 		end
 		subject { @plugin.__send__(:section_enter_proc, date1) }
 
@@ -184,8 +184,8 @@ describe TDiary::Plugin do
 		let (:date1) { Time.local(2012, 1, 2) }
 		let (:date2) { Time.local(2012, 1, 3) }
 		before do
-			@plugin.__send__(:add_subtitle_proc, proc1)
-			@plugin.__send__(:add_subtitle_proc, proc2)
+			@plugin.__send__(:add_subtitle_proc, &proc1)
+			@plugin.__send__(:add_subtitle_proc, &proc2)
 		end
 		subject { @plugin.__send__(:subtitle_proc, date1, 'subtitle') }
 
@@ -213,8 +213,8 @@ describe TDiary::Plugin do
 		let (:date1) { Time.local(2012, 1, 2) }
 		let (:date2) { Time.local(2012, 1, 3) }
 		before do
-			@plugin.__send__(:add_section_leave_proc, proc1)
-			@plugin.__send__(:add_section_leave_proc, proc2)
+			@plugin.__send__(:add_section_leave_proc, &proc1)
+			@plugin.__send__(:add_section_leave_proc, &proc2)
 		end
 		subject { @plugin.__send__(:section_leave_proc, date1) }
 
@@ -239,8 +239,8 @@ describe TDiary::Plugin do
 	describe '#comment_leave_proc' do
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
-			@plugin.__send__(:add_comment_leave_proc, lambda {|date| 'comment1 ' })
-			@plugin.__send__(:add_comment_leave_proc, lambda {|date| 'comment2' })
+			@plugin.__send__(:add_comment_leave_proc ){|date| 'comment1 ' }
+			@plugin.__send__(:add_comment_leave_proc ){|date| 'comment2' }
 		end
 		subject { @plugin.__send__(:comment_leave_proc, date) }
 
@@ -252,8 +252,8 @@ describe TDiary::Plugin do
 	describe '#edit_proc' do
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
-			@plugin.__send__(:add_edit_proc, lambda {|date| 'edit1 ' })
-			@plugin.__send__(:add_edit_proc, lambda {|date| 'edit2' })
+			@plugin.__send__(:add_edit_proc){|date| 'edit1 ' }
+			@plugin.__send__(:add_edit_proc){|date| 'edit2' }
 		end
 		subject { @plugin.__send__(:edit_proc, date) }
 
@@ -265,8 +265,8 @@ describe TDiary::Plugin do
 	describe '#form_proc' do
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
-			@plugin.__send__(:add_form_proc, lambda {|date| 'form1 ' })
-			@plugin.__send__(:add_form_proc, lambda {|date| 'form2' })
+			@plugin.__send__(:add_form_proc){|date| 'form1 ' }
+			@plugin.__send__(:add_form_proc){|date| 'form2' }
 		end
 		subject { @plugin.__send__(:form_proc, date) }
 
@@ -277,7 +277,7 @@ describe TDiary::Plugin do
 
 	describe '#add_conf_proc' do
 		let(:proc) { lambda { 'conf' } }
-		subject { @plugin.__send__(:add_conf_proc, 'key1', 'label1', nil, proc) }
+		subject { @plugin.__send__(:add_conf_proc, 'key1', 'label1', nil, &proc) }
 
 		context '@modeがconfの場合' do
 			before { @plugin.instance_variable_set(:@mode, 'conf') }
@@ -305,8 +305,8 @@ describe TDiary::Plugin do
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
 			@plugin.instance_variable_set(:@mode, 'conf')
-			@plugin.__send__(:add_conf_proc, 'key1', 'label1', nil, lambda { 'conf1' })
-			@plugin.__send__(:add_conf_proc, 'key2', 'label2', nil, lambda { 'conf2' })
+			@plugin.__send__(:add_conf_proc, 'key1', 'label1', nil){ 'conf1' }
+			@plugin.__send__(:add_conf_proc, 'key2', 'label2', nil){ 'conf2' }
 		end
 		subject { @plugin.__send__(:conf_proc, 'key1') }
 
@@ -357,8 +357,8 @@ describe TDiary::Plugin do
 		let (:proc2) { lambda {|date| "contents2" } }
 		let (:date) { Time.local(2012, 1, 2) }
 		before do
-			@plugin.__send__(:add_content_proc, 'key1', proc1)
-			@plugin.__send__(:add_content_proc, 'key2', proc2)
+			@plugin.__send__(:add_content_proc, 'key1', &proc1)
+			@plugin.__send__(:add_content_proc, 'key2', &proc2)
 		end
 		subject { @plugin.__send__(:content_proc, 'key1', date) }
 

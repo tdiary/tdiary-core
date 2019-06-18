@@ -27,20 +27,20 @@ class PluginFake
 		@conf_procs << block
 	end
 
-	def add_header_proc( block = Proc::new )
-		@header_procs << block
+	def add_header_proc( &block )
+		@header_procs << block if block_given?
 	end
 
-	def add_footer_proc( block = Proc::new )
-		@footer_procs << block
+	def add_footer_proc( &block )
+		@footer_procs << block if block_given?
 	end
 
-	def add_update_proc( block = Proc::new )
-		@update_procs << block
+	def add_update_proc( &block )
+		@update_procs << block if block_given?
 	end
 
-	def add_content_proc( key, block = Proc::new )
-		@content_procs[key] = block
+	def add_content_proc( key, &block )
+		@content_procs[key] = block if block_given?
 	end
 
 	def conf_proc
@@ -67,8 +67,8 @@ class PluginFake
 		r.join.chomp
 	end
 
-	def add_body_enter_proc( block = Proc::new )
-		@body_enter_procs << block
+	def add_body_enter_proc( &block )
+		@body_enter_procs << block if block_given?
 	end
 
 	def body_enter_proc( date )
@@ -79,8 +79,8 @@ class PluginFake
 		r.join.chomp
 	end
 
-	def add_body_leave_proc( block = Proc::new )
-		@body_leave_procs << block
+	def add_body_leave_proc( &block )
+		@body_leave_procs << block if block_given?
 	end
 
 	def body_leave_proc( date )
