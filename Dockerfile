@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY [ "Gemfile", "Gemfile.lock", "/usr/src/app/" ]
-RUN apt update && apt install libidn11-dev; \
+RUN apt update && apt install -y apt-utils libidn11-dev; \
     echo 'gem "puma" \n\
     gem "tdiary-contrib" \n\
     gem "tdiary-style-gfm" \n\

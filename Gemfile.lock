@@ -139,6 +139,3 @@ DEPENDENCIES
   simplecov
   sqlite3
   test-unit
-
-BUNDLED WITH
-   2.1.0.pre.1
