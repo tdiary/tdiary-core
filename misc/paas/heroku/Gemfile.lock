@@ -8,11 +8,11 @@ GIT
 
 GIT
   remote: https://github.com/tdiary/tdiary-io-mongodb.git
-  revision: 01f35dddd0d04467a2ad0404b443e4147c3c0e7b
+  revision: 1de9677c88335583f09716bf97b03f6c6d4fc3af
   specs:
     tdiary-io-mongodb (5.0.3)
       hikidoc
-      mongoid (~> 6.0)
+      mongoid (~> 7.0)
       tdiary (>= 5.0)
 
 GEM
@@ -86,7 +86,7 @@ GEM
     minitest (5.11.3)
     mongo (2.9.0)
       bson (>= 4.4.2, < 5.0.0)
-    mongoid (6.4.4)
+    mongoid (7.0.4)
       activemodel (>= 5.1, < 6.0.0)
       mongo (>= 2.5.1, < 3.0.0)
     multipart-post (2.1.1)
