@@ -64,7 +64,7 @@ begin
 		end
 
 		mv repo, dest
-		sh "tar zcf #{dest}.tar.gz --format=ustar #{dest}"
+		sh "tar zcf #{dest}.tar.gz --format=posix #{dest}"
 		mv dest, repo
 		TARBALLS << "#{dest}.tar.gz"
 	end
@@ -80,7 +80,7 @@ begin
 				mv d, "tdiary-core/theme/" rescue true
 			end
 			mv "tdiary-core", "tdiary#{suffix}"
-			sh "tar zcf tdiary-full#{suffix}.tar.gz --format=ustar tdiary#{suffix}"
+			sh "tar zcf tdiary-full#{suffix}.tar.gz --format=posix tdiary#{suffix}"
 			TARBALLS << "tdiary-full#{suffix}.tar.gz"
 			rm_rf "tdiary#{suffix}"
 			REPOS.each {|repo| rm_rf repo rescue true }
