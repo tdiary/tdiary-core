@@ -281,7 +281,7 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
 			xml = File::read( "#{cache}/#{country}#{asin}.xml" )
-			if xml.chomp == 'true'
+			if xml.chomp == 'true' # ignore dirty cache
 				raise Errno::ENOENT
 			end
 		rescue Errno::ENOENT

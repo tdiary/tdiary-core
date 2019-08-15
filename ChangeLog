@@ -1,3 +1,6 @@
+2019-08-15  HIGUCHI Daisuke (VDR dai) <dai@debian.org>
+	* amazon.rb: support HTTP Found response and discard wrong stored cache
+
 2019-06-29  SHIBATA Hiroshi <hsbt@ruby-lang.org>
 	* release 5.0.14
 
