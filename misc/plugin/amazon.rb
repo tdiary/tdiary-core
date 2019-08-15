@@ -92,7 +92,7 @@ def amazon_fetch( url, limit = 10 )
 	case res
 	when Net::HTTPSuccess
 		res.body
-	when Net::HTTPRedirection
+	when Net::HTTPRedirection, Net::HTTPFound
 		amazon_fetch( res['location'], limit - 1 )
 	when Net::HTTPForbidden, Net::HTTPServiceUnavailable
 		raise AmazonRedirectError.new( limit.to_s )
@@ -281,6 +281,9 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
 			xml = File::read( "#{cache}/#{country}#{asin}.xml" )
+			if xml.chomp == 'true'
+				raise Errno::ENOENT
+			end
 		rescue Errno::ENOENT
 			xml = amazon_call_ecs( asin, id_type, country )
 			File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
