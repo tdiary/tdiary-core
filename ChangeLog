@@ -1,3 +1,6 @@
+2019-08-17  Tada, Tadashi <t@tdtds.jp>
+	* sort commants by date on a new comment added
+
 2019-08-15  HIGUCHI Daisuke (VDR dai) <dai@debian.org>
 	* amazon.rb: support HTTP Found response and discard wrong stored cache
 
