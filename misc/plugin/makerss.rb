@@ -325,11 +325,10 @@ def makerss_header( uri )
 
 	%Q[<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="rss.css" type="text/css"?>
-<rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="#{h @conf.html_lang}">
+<rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xml:lang="#{h @conf.html_lang}">
 	<channel rdf:about="#{h rdf_url}">
 	<title>#{h @conf.html_title}</title>
 	<link>#{h uri}</link>
-	<xhtml:link xhtml:rel="alternate" xhtml:media="handheld" xhtml:type="text/html" xhtml:href="#{h uri}" />
 	<description>#{h desc}</description>
 	<dc:creator>#{h @conf.author_name}</dc:creator>
 	<dc:rights>#{h copyright}</dc:rights>
@@ -369,7 +368,6 @@ def makerss_body( uri, rdfsec )
 	if rdfsec.body? then
 		rdf = %Q|<item rdf:about="#{h uri}#{anchor rdfsec.id}">\n|
 		rdf << %Q|<link>#{h uri}#{anchor rdfsec.id}</link>\n|
-		rdf << %Q|<xhtml:link xhtml:rel="alternate" xhtml:media="handheld" xhtml:type="text/html" xhtml:href="#{h uri}#{anchor rdfsec.id}" />\n|
 		rdf << %Q|<dc:date>#{h rdfsec.time}</dc:date>\n|
 		a = rdfsec.id.scan( /(\d{4})(\d\d)(\d\d)/ ).flatten.map{|s| s.to_i}
 		date = Time::local( *a )
