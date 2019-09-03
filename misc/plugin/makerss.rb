@@ -324,7 +324,6 @@ def makerss_header( uri )
 	copyright += ", copyright of comments by respective authors"
 
 	%Q[<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="rss.css" type="text/css"?>
 <rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xml:lang="#{h @conf.html_lang}">
 	<channel rdf:about="#{h rdf_url}">
 	<title>#{h @conf.html_title}</title>
