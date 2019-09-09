@@ -99,7 +99,7 @@ class PluginFake
 
 		attr_accessor :index, :update, :author_name, :author_mail, :index_page,
 			:html_title, :theme, :css, :date_format, :referer_table, :options, :cgi,
-			:plugin_path, :lang, :style,
+			:plugin_path, :lang, :style, :description, :html_lang,
 			:io_class
 
 		def initialize
