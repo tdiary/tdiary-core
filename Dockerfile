@@ -11,6 +11,7 @@ RUN apt update && apt install -y apt-utils libidn11-dev; \
     gem "tdiary-style-gfm" \n\
     gem "tdiary-style-rd" \n'\
     > Gemfile.local; \
+    gem install bundler && \
     bundle --path=vendor/bundle --without=development:test --jobs=4 --retry=3
 
 COPY . /usr/src/app/
