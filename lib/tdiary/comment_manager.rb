@@ -14,7 +14,7 @@ module TDiary
 
 		public
 		def add_comment( com )
-			@comments << com
+			(@comments << com).sort!{|a, b| a.date <=> b.date}
 			if not @last_modified or @last_modified < com.date
 				@last_modified = com.date
 			end
