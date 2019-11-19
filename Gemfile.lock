@@ -70,7 +70,7 @@ GEM
     racksh (1.0.0)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rake (13.0.0)
+    rake (13.0.1)
     redcarpet (3.5.0)
     regexp_parser (1.6.0)
     rest-client (1.6.7)
