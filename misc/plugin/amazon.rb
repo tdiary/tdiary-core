@@ -6,11 +6,11 @@
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
 
+require 'aws/pa_api'
 require 'net/http'
 require 'uri'
 require 'timeout'
 require 'rexml/document'
-
 # do not change these variables
 @amazon_subscription_id = '1CVA98NEF1G753PFESR2'
 @amazon_require_version = '2011-08-01'
@@ -130,25 +130,19 @@ def amazon_call_ecs( asin, id_type, country )
 	end
 end
 
-def amazon_author( item )
+def amazon_author(item)
 	begin
-		author = []
-		%w(Author Creator Artist).each do |elem|
-			item.nodes( "*/#{elem}" ).each do |a|
-				author << a.text
-			end
-		end
-		@conf.to_native( author.uniq.join( '/' ), 'utf-8' )
+		author = item["ItemInfo"]["ByLineInfo"]["Contributors"][0]["Name"]
 	rescue
 		'-'
 	end
 end
 
-def amazon_title( item )
-	@conf.to_native( item.nodes( '*/Title' )[0].text, 'utf-8' )
+def amazon_title(json)
+	json["ItemInfo"]["Title"]["DisplayValue"]
 end
 
-def amazon_image( item )
+def amazon_image(item)
 	image = {}
 	begin
 		size = case @conf['amazon.imgsize']
@@ -156,15 +150,9 @@ def amazon_image( item )
 		when 2; 'Small'
 		else;   'Medium'
 		end
-		if item.nodes("#{size}Image")[0]
-			node_prefix = "#{size}Image"
-		elsif item.nodes("ImageSets/ImageSet/#{size}Image")[0]
-			node_prefix = "ImageSets/ImageSet/#{size}Image"
-		end
-		image[:src] = item.nodes("#{node_prefix}/URL")[0].text
-		image[:src].gsub!(/http:\/\/ecx\.images-amazon\.com/, 'https://images-na.ssl-images-amazon.com')
-		image[:height] = item.nodes("#{node_prefix}/Height")[0].text
-		image[:width] = item.nodes("#{node_prefix}/Width")[0].text
+		image[:src] = item["Images"]["Primary"][size]["URL"]
+		image[:height] = item["Images"]["Primary"][size]["Height"]
+		image[:width] = item["Images"]["Primary"][size]["Width"]
 	rescue
 		base = @conf['amazon.default_image_base'] || 'https://tdiary.github.io/tdiary-theme/plugin/amazon/'
 		case @conf['amazon.imgsize']
@@ -185,40 +173,36 @@ def amazon_image( item )
 	image
 end
 
-def amazon_url( item )
-	item.nodes( 'DetailPageURL' )[0].text
+def amazon_url(item)
+	item["DetailPageURL"]
 end
 
 def amazon_label( item )
 	begin
-		@conf.to_native( item.nodes( '*/Label' )[0].text, 'utf-8' )
+		item["ItemInfo"]["ByLineInfo"]["Manufacturer"]["DisplayValue"]
 	rescue
 		'-'
 	end
 end
 
-def amazon_price( item )
+def amazon_price(item)
 	begin
-		@conf.to_native( item.nodes( '*/LowestNewPrice/FormattedPrice' )[0].text, 'utf-8' )
+		item["Offers"]["Listings"][0]["Price"]["DisplayAmount"]
 	rescue
-		begin
-			@conf.to_native( item.nodes( '*/ListPrice/FormattedPrice' )[0].text, 'utf-8' )
-		rescue
-			'(no price)'
-		end
+		'(no price)'
 	end
 end
 
-def amazon_detail_html( item )
-	author = amazon_author( item )
-	title = amazon_title( item )
+def amazon_detail_html(item)
+	author = amazon_author(item)
+	title = amazon_title(item)
 
 	size_orig = @conf['amazon.imgsize']
 	@conf['amazon.imgsize'] = 2
-	image = amazon_image( item )
+	image = amazon_image(item)
 	@conf['amazon.imgsize'] = size_orig
 
-	url = amazon_url( item )
+	url = amazon_url(item)
 	<<-HTML
 	<a class="amazon-detail" href="#{url}"><span class="amazon-detail">
 		<img class="amazon-detail left" src="#{h image[:src]}"
@@ -227,27 +211,27 @@ def amazon_detail_html( item )
 		<span class="amazon-detail-desc">
 			<span class="amazon-title">#{h title}</span><br>
 			<span class="amazon-author">#{h author}</span><br>
-			<span class="amazon-label">#{h amazon_label( item )}</span><br>
-			<span class="amazon-price">#{h amazon_price( item )}</span>
+			<span class="amazon-label">#{h amazon_label(item)}</span><br>
+			<span class="amazon-price">#{h amazon_price(item)}</span>
 		</span>
 	</span></a>
 	HTML
 end
 
-def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
+def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 	with_image = false if @mode == 'categoryview'
 
-	author = amazon_author( item )
+	author = amazon_author(item)
 	author = "(#{author})" unless author.empty?
 
-	label ||= %Q|#{amazon_title( item )}#{author}|
+	label ||= %Q|#{amazon_title(item)}#{author}|
 	alt = ''
 	if with_image and @conf['amazon.hidename'] || pos != 'amazon' then
 		label, alt = alt, label
 	end
 
 	if with_image
-		image = amazon_image( item )
+		image = amazon_image(item)
 		unless image[:src] then
 			img = ''
 		else
@@ -260,11 +244,11 @@ def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
 		end
 	end
 
-	url = amazon_url( item )
+	url = amazon_url(item)
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
-def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
+def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 	asin = asin.to_s.strip # delete white spaces
 	asin.sub!(/\A([a-z]+):/, '')
 	country = $1 || @conf['amazon.default_country'] || @amazon_default_country
@@ -280,37 +264,48 @@ def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
 		cache = "#{@cache_path}/amazon"
 		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
-			xml = File::read( "#{cache}/#{country}#{asin}.xml" )
-			if xml.chomp == 'true' # ignore dirty cache
-				raise Errno::ENOENT
-			end
+			json = JSON.parse(File::read("#{cache}/#{country}#{asin}.json"))
 		rescue Errno::ENOENT
-			xml = amazon_call_ecs( asin, id_type, country )
-			File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
+			access_key = @conf['amazon.access_key']
+			secret_key = @conf['amazon.secret_key']
+			partner_tag = @conf['amazon.aid']
+			paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
+			json = paapi.get_items(asin, country.to_sym)
+			p json
+			File::open("#{cache}/#{country}#{asin}.json", 'wb'){|f| f.write(json)}
 		end
-		parser = defined?(Oga) ? :oga : :rexml
-		item = AmazonItem.new(xml, parser)
+		item = json["ItemsResult"]["Items"][0]
 		if pos == 'detail' then
-			amazon_detail_html( item )
+			amazon_detail_html(item)
 		else
-			amazon_to_html( item, with_image, label, pos )
+			amazon_to_html(item, with_image, label, pos)
 		end
-	rescue Timeout::Error
-		@logger.error "amazon.rb: Amazon API Timeouted."
+	rescue Net::HTTPUnauthorized
+		@logger.error "amazon.rb: Amazon API Unauthorized."
 		message = asin
 		if @mode == 'preview' then
-			message << %Q|<span class="message">(Amazon API Timeouted))</span>|
+			message << %Q|<span class="message">(Amazon API Unauthorized))</span>|
+		end
+		message
+	rescue Timeout::Error
+		@logger.error "amazon.rb: PA-API Timeouted."
+		message = asin
+		if @mode == 'preview' then
+			message << %Q|<span class="message">(PA-API Timeouted))</span>|
+		end
+		message
+	rescue Net::HTTPResponse, Net::HTTPExceptions => e
+		@logger.error "amazon.rb: #{e.message}"
+		message = label || asin
+		if @mode == 'preview' then
+			message << %Q|<span class="message">(#{h e.message})</span>|
 		end
 		message
 	rescue NoMethodError
+		@logger.error "amazon.rb: #{json["Errors"][0]["Message"]}"
 		message = label || asin
 		if @mode == 'preview' then
-			if item.has_item? then
-				message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|
-			else
-				m = item.nodes( 'Items/Request/Errors/Error/Message' )[0].text
-				message << %Q|<span class="message">(#{h @conf.to_native( m, 'utf-8' )})</span>|
-			end
+			message << %Q|<span class="message">(#{h json["Errors"][0]["Message"]})</span>|
 		end
 		message
 	end
