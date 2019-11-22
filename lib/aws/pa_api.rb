@@ -36,6 +36,7 @@ module AWS
 					"Images.Primary.Small",
 					"Images.Primary.Medium",
 					"Images.Primary.Large",
+					"ItemInfo.ByLineInfo",
 					"ItemInfo.Title",
 					"Offers.Listings.Price"
 				]
@@ -57,6 +58,8 @@ module AWS
 			http = Net::HTTP.new(uri.host, uri.port)
 			http.use_ssl = true
 			response = http.post(uri.path, payload, headers)
+			response.value # raise on errors
+			return response.body
 		end
 	end
 end
