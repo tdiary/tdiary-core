@@ -2,42 +2,11 @@
 #
 # see document: #{@lang}/amazon.rb
 #
-# Copyright (C) 2005-2007 TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2005-2019 TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
-
 require 'aws/pa_api'
-require 'net/http'
-require 'uri'
 require 'timeout'
-require 'rexml/document'
-# do not change these variables
-@amazon_subscription_id = '1CVA98NEF1G753PFESR2'
-@amazon_require_version = '2011-08-01'
-
-@amazon_url_hash = {
-  'ca' => 'http://www.amazon.ca/exec/obidos/ASIN',
-  'cn' => 'http://www.amazon.cn/exec/obidos/ASIN',
-  'de' => 'http://www.amazon.de/exec/obidos/ASIN',
-  'es' => 'http://www.amazon.es/exec/obidos/ASIN',
-  'fr' => 'http://www.amazon.fr/exec/obidos/ASIN',
-  'it' => 'http://www.amazon.it/exec/obidos/ASIN',
-  'jp' => 'http://www.amazon.co.jp/exec/obidos/ASIN',
-  'uk' => 'http://www.amazon.co.uk/exec/obidos/ASIN',
-  'us' => 'http://www.amazon.com/exec/obidos/ASIN',
-}
-
-@amazon_ecs_url_hash = {
-  'ca' => 'http://rpaproxy.tdiary.org/rpaproxy/ca/',
-  'cn' => 'http://rpaproxy.tdiary.org/rpaproxy/cn/',
-  'de' => 'http://rpaproxy.tdiary.org/rpaproxy/de/',
-  'es' => 'http://rpaproxy.tdiary.org/rpaproxy/es/',
-  'fr' => 'http://rpaproxy.tdiary.org/rpaproxy/fr/',
-  'it' => 'http://rpaproxy.tdiary.org/rpaproxy/it/',
-  'jp' => 'http://rpaproxy.tdiary.org/rpaproxy/jp/',
-  'uk' => 'http://rpaproxy.tdiary.org/rpaproxy/uk/',
-  'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
-}
 
 enable_js( 'amazon.js' )
 
@@ -49,86 +18,6 @@ if @conf['amazon.bitly'] and @conf['bitly.login'] and @conf['bitly.key'] then
 end
 
 class AmazonRedirectError < StandardError; end
-
-class AmazonItem
-	def initialize(xml, parser = :rexml)
-		@parser = parser
-		if parser == :oga
-			@doc = Oga.parse_xml(xml)
-			@item = @doc.xpath('*/*/Item')[0]
-		else
-			@doc = REXML::Document::new( REXML::Source::new( xml ) ).root
-			@item = @doc.elements.to_a( '*/Item' )[0]
-		end
-	end
-
-	def nodes(path)
-		if @parser == :oga
-			if @item
-				@item.xpath(path)
-			else
-				@doc.xpath(path)
-			end
-		else
-			if @item
-				@item.elements.to_a(path)
-			else
-				@doc.elements.to_a(path)
-			end
-		end
-	end
-
-	def has_item?
-		!@item.nil?
-	end
-end
-
-def amazon_fetch( url, limit = 10 )
-	raise ArgumentError, 'HTTP redirect too deep' if limit == 0
-
-	px_host, px_port = (@conf['proxy'] || '').split( /:/ )
-	px_port = 80 if px_host and !px_port
-	res = Net::HTTP::Proxy( px_host, px_port ).get_response( URI::parse( url ) )
-	case res
-	when Net::HTTPSuccess
-		res.body
-	when Net::HTTPRedirection, Net::HTTPFound
-		amazon_fetch( res['location'], limit - 1 )
-	when Net::HTTPForbidden, Net::HTTPServiceUnavailable
-		raise AmazonRedirectError.new( limit.to_s )
-	else
-		raise ArgumentError, res.error!
-	end
-end
-
-def amazon_call_ecs( asin, id_type, country )
-	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].to_s.empty?
-	aid = @conf["amazon.aid.#{country}"] || ''
-
-	url = (@conf['amazon.endpoints'] || @amazon_ecs_url_hash)[country].dup
-	url << "?Service=AWSECommerceService"
-	url << "&SubscriptionId=#{@amazon_subscription_id}"
-	url << "&AssociateTag=#{aid}" unless aid.empty?
-	url << "&Operation=ItemLookup"
-	url << "&ItemId=#{asin}"
-	url << "&IdType=#{id_type}"
-	url << "&SearchIndex=Books" if id_type == 'ISBN'
-	url << "&SearchIndex=All"   if id_type == 'EAN'
-	url << "&ResponseGroup=Medium"
-	url << "&Version=#{@amazon_require_version}"
-
-	limit = 10
-	begin
-		Timeout.timeout( limit ) do
-			amazon_fetch( url )
-		end
-	rescue AmazonRedirectError
-		limit = $!.message.to_i
-		retry
-	rescue ArgumentError, SystemCallError, Net::HTTPExceptions
-		@logger.error "amazon.rb: #{$!.message} by #{asin}"
-	end
-end
 
 def amazon_author(item)
 	begin
