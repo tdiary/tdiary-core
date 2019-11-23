@@ -160,7 +160,6 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 			partner_tag = @conf['amazon.aid']
 			paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
 			json = paapi.get_items(asin, country.to_sym)
-			p json
 			File::open("#{cache}/#{country}#{asin}.json", 'wb'){|f| f.write(json)}
 		end
 		item = json["ItemsResult"]["Items"][0]
