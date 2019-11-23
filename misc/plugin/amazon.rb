@@ -138,29 +138,25 @@ def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 end
 
 def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
-	asin = asin.to_s.strip # delete white spaces
-	asin.sub!(/\A([a-z]+):/, '')
-	country = $1 || @conf['amazon.default_country'] || @amazon_default_country
-	digit = asin.gsub( /[^\d]/, '' )
-	if digit.length == 13 then # ISBN-13
-		asin = digit
-		id_type = /^97[89]/ =~ digit ? 'ISBN' : 'EAN'
-	else
-		id_type = 'ASIN'
+	asin = asin.to_s.strip.gsub(/-/, '')
+	country, item_id = asin.scan(/\A(..):(.*)/).flatten
+	unless country
+		country = @conf['amazon.default_country'] || @amazon_default_country
+		item_id = asin
 	end
 
 	begin
 		cache = "#{@cache_path}/amazon"
 		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
-			json = JSON.parse(File::read("#{cache}/#{country}#{asin}.json"))
+			json = JSON.parse(File::read("#{cache}/#{country}#{item_id}.json"))
 		rescue Errno::ENOENT
 			access_key = @conf['amazon.access_key']
 			secret_key = @conf['amazon.secret_key']
 			partner_tag = @conf['amazon.aid']
 			paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
-			json = paapi.get_items(asin, country.to_sym)
-			File::open("#{cache}/#{country}#{asin}.json", 'wb'){|f| f.write(json)}
+			json = paapi.get_items(item_id, country.to_sym)
+			File::open("#{cache}/#{country}#{item_id}.json", 'wb'){|f| f.write(json)}
 		end
 		item = json["ItemsResult"]["Items"][0]
 		if pos == 'detail' then
@@ -169,6 +165,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 			amazon_to_html(item, with_image, label, pos)
 		end
 	rescue Net::HTTPUnauthorized
+		p country, item_id
 		@logger.error "amazon.rb: Amazon API Unauthorized."
 		message = asin
 		if @mode == 'preview' then

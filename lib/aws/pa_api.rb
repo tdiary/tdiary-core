@@ -27,6 +27,7 @@ module AWS
 		end
 
 		def get_items(asin, locale)
+			asin = isbn13to10(asin) if asin.length == 13
 			payload = {
 				"PartnerTag" => @partner_tag,
 				"PartnerType" => "Associates",
@@ -60,6 +61,12 @@ module AWS
 			response = http.post(uri.path, payload, headers)
 			response.value # raise on errors
 			return response.body
+		end
+
+	private
+		def isbn13to10(isbn13)
+			sum, = isbn13[3, 9].split(//).map(&:to_i).reduce([0,10]){|s,d|[s[0] + d * s[1], s[1]-1]}
+			return isbn13[3, 9] + %w(0 1 2 3 4 5 6 7 8 9 X 0)[11 - sum % 11]
 		end
 	end
 end
