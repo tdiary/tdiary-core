@@ -2,42 +2,11 @@
 #
 # see document: #{@lang}/amazon.rb
 #
-# Copyright (C) 2005-2007 TADA Tadashi <sho@spc.gr.jp>
+# Copyright (C) 2005-2019 TADA Tadashi <t@tdtds.jp>
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
-
-require 'net/http'
-require 'uri'
+require 'aws/pa_api'
 require 'timeout'
-require 'rexml/document'
-
-# do not change these variables
-@amazon_subscription_id = '1CVA98NEF1G753PFESR2'
-@amazon_require_version = '2011-08-01'
-
-@amazon_url_hash = {
-  'ca' => 'http://www.amazon.ca/exec/obidos/ASIN',
-  'cn' => 'http://www.amazon.cn/exec/obidos/ASIN',
-  'de' => 'http://www.amazon.de/exec/obidos/ASIN',
-  'es' => 'http://www.amazon.es/exec/obidos/ASIN',
-  'fr' => 'http://www.amazon.fr/exec/obidos/ASIN',
-  'it' => 'http://www.amazon.it/exec/obidos/ASIN',
-  'jp' => 'http://www.amazon.co.jp/exec/obidos/ASIN',
-  'uk' => 'http://www.amazon.co.uk/exec/obidos/ASIN',
-  'us' => 'http://www.amazon.com/exec/obidos/ASIN',
-}
-
-@amazon_ecs_url_hash = {
-  'ca' => 'http://rpaproxy.tdiary.org/rpaproxy/ca/',
-  'cn' => 'http://rpaproxy.tdiary.org/rpaproxy/cn/',
-  'de' => 'http://rpaproxy.tdiary.org/rpaproxy/de/',
-  'es' => 'http://rpaproxy.tdiary.org/rpaproxy/es/',
-  'fr' => 'http://rpaproxy.tdiary.org/rpaproxy/fr/',
-  'it' => 'http://rpaproxy.tdiary.org/rpaproxy/it/',
-  'jp' => 'http://rpaproxy.tdiary.org/rpaproxy/jp/',
-  'uk' => 'http://rpaproxy.tdiary.org/rpaproxy/uk/',
-  'us' => 'http://rpaproxy.tdiary.org/rpaproxy/us/',
-}
 
 enable_js( 'amazon.js' )
 
@@ -50,105 +19,19 @@ end
 
 class AmazonRedirectError < StandardError; end
 
-class AmazonItem
-	def initialize(xml, parser = :rexml)
-		@parser = parser
-		if parser == :oga
-			@doc = Oga.parse_xml(xml)
-			@item = @doc.xpath('*/*/Item')[0]
-		else
-			@doc = REXML::Document::new( REXML::Source::new( xml ) ).root
-			@item = @doc.elements.to_a( '*/Item' )[0]
-		end
-	end
-
-	def nodes(path)
-		if @parser == :oga
-			if @item
-				@item.xpath(path)
-			else
-				@doc.xpath(path)
-			end
-		else
-			if @item
-				@item.elements.to_a(path)
-			else
-				@doc.elements.to_a(path)
-			end
-		end
-	end
-
-	def has_item?
-		!@item.nil?
-	end
-end
-
-def amazon_fetch( url, limit = 10 )
-	raise ArgumentError, 'HTTP redirect too deep' if limit == 0
-
-	px_host, px_port = (@conf['proxy'] || '').split( /:/ )
-	px_port = 80 if px_host and !px_port
-	res = Net::HTTP::Proxy( px_host, px_port ).get_response( URI::parse( url ) )
-	case res
-	when Net::HTTPSuccess
-		res.body
-	when Net::HTTPRedirection, Net::HTTPFound
-		amazon_fetch( res['location'], limit - 1 )
-	when Net::HTTPForbidden, Net::HTTPServiceUnavailable
-		raise AmazonRedirectError.new( limit.to_s )
-	else
-		raise ArgumentError, res.error!
-	end
-end
-
-def amazon_call_ecs( asin, id_type, country )
-	@conf["amazon.aid.#{@amazon_default_country}"] = @conf['amazon.aid'] unless @conf['amazon.aid'].to_s.empty?
-	aid = @conf["amazon.aid.#{country}"] || ''
-
-	url = (@conf['amazon.endpoints'] || @amazon_ecs_url_hash)[country].dup
-	url << "?Service=AWSECommerceService"
-	url << "&SubscriptionId=#{@amazon_subscription_id}"
-	url << "&AssociateTag=#{aid}" unless aid.empty?
-	url << "&Operation=ItemLookup"
-	url << "&ItemId=#{asin}"
-	url << "&IdType=#{id_type}"
-	url << "&SearchIndex=Books" if id_type == 'ISBN'
-	url << "&SearchIndex=All"   if id_type == 'EAN'
-	url << "&ResponseGroup=Medium"
-	url << "&Version=#{@amazon_require_version}"
-
-	limit = 10
+def amazon_author(item)
 	begin
-		Timeout.timeout( limit ) do
-			amazon_fetch( url )
-		end
-	rescue AmazonRedirectError
-		limit = $!.message.to_i
-		retry
-	rescue ArgumentError, SystemCallError, Net::HTTPExceptions
-		@logger.error "amazon.rb: #{$!.message} by #{asin}"
-	end
-end
-
-def amazon_author( item )
-	begin
-		author = []
-		%w(Author Creator Artist).each do |elem|
-			item.nodes( "*/#{elem}" ).each do |a|
-				author << a.text
-			end
-		end
-		@conf.to_native( author.uniq.join( '/' ), 'utf-8' )
+		author = item["ItemInfo"]["ByLineInfo"]["Contributors"][0]["Name"]
 	rescue
 		'-'
 	end
 end
 
-def amazon_title( item )
-	@conf.to_native( item.nodes( '*/Title' )[0].text, 'utf-8' )
+def amazon_title(json)
+	json["ItemInfo"]["Title"]["DisplayValue"]
 end
 
-def amazon_image( item )
+def amazon_image(item)
 	image = {}
 	begin
 		size = case @conf['amazon.imgsize']
@@ -156,15 +39,9 @@ def amazon_image( item )
 		when 2; 'Small'
 		else;   'Medium'
 		end
-		if item.nodes("#{size}Image")[0]
-			node_prefix = "#{size}Image"
-		elsif item.nodes("ImageSets/ImageSet/#{size}Image")[0]
-			node_prefix = "ImageSets/ImageSet/#{size}Image"
-		end
-		image[:src] = item.nodes("#{node_prefix}/URL")[0].text
-		image[:src].gsub!(/http:\/\/ecx\.images-amazon\.com/, 'https://images-na.ssl-images-amazon.com')
-		image[:height] = item.nodes("#{node_prefix}/Height")[0].text
-		image[:width] = item.nodes("#{node_prefix}/Width")[0].text
+		image[:src] = item["Images"]["Primary"][size]["URL"]
+		image[:height] = item["Images"]["Primary"][size]["Height"]
+		image[:width] = item["Images"]["Primary"][size]["Width"]
 	rescue
 		base = @conf['amazon.default_image_base'] || 'https://tdiary.github.io/tdiary-theme/plugin/amazon/'
 		case @conf['amazon.imgsize']
@@ -185,40 +62,36 @@ def amazon_image( item )
 	image
 end
 
-def amazon_url( item )
-	item.nodes( 'DetailPageURL' )[0].text
+def amazon_url(item)
+	item["DetailPageURL"]
 end
 
 def amazon_label( item )
 	begin
-		@conf.to_native( item.nodes( '*/Label' )[0].text, 'utf-8' )
+		item["ItemInfo"]["ByLineInfo"]["Manufacturer"]["DisplayValue"]
 	rescue
 		'-'
 	end
 end
 
-def amazon_price( item )
+def amazon_price(item)
 	begin
-		@conf.to_native( item.nodes( '*/LowestNewPrice/FormattedPrice' )[0].text, 'utf-8' )
+		item["Offers"]["Listings"][0]["Price"]["DisplayAmount"]
 	rescue
-		begin
-			@conf.to_native( item.nodes( '*/ListPrice/FormattedPrice' )[0].text, 'utf-8' )
-		rescue
-			'(no price)'
-		end
+		'(no price)'
 	end
 end
 
-def amazon_detail_html( item )
-	author = amazon_author( item )
-	title = amazon_title( item )
+def amazon_detail_html(item)
+	author = amazon_author(item)
+	title = amazon_title(item)
 
 	size_orig = @conf['amazon.imgsize']
 	@conf['amazon.imgsize'] = 2
-	image = amazon_image( item )
+	image = amazon_image(item)
 	@conf['amazon.imgsize'] = size_orig
 
-	url = amazon_url( item )
+	url = amazon_url(item)
 	<<-HTML
 	<a class="amazon-detail" href="#{url}"><span class="amazon-detail">
 		<img class="amazon-detail left" src="#{h image[:src]}"
@@ -227,27 +100,27 @@ def amazon_detail_html( item )
 		<span class="amazon-detail-desc">
 			<span class="amazon-title">#{h title}</span><br>
 			<span class="amazon-author">#{h author}</span><br>
-			<span class="amazon-label">#{h amazon_label( item )}</span><br>
-			<span class="amazon-price">#{h amazon_price( item )}</span>
+			<span class="amazon-label">#{h amazon_label(item)}</span><br>
+			<span class="amazon-price">#{h amazon_price(item)}</span>
 		</span>
 	</span></a>
 	HTML
 end
 
-def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
+def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 	with_image = false if @mode == 'categoryview'
 
-	author = amazon_author( item )
+	author = amazon_author(item)
 	author = "(#{author})" unless author.empty?
 
-	label ||= %Q|#{amazon_title( item )}#{author}|
+	label ||= %Q|#{amazon_title(item)}#{author}|
 	alt = ''
 	if with_image and @conf['amazon.hidename'] || pos != 'amazon' then
 		label, alt = alt, label
 	end
 
 	if with_image
-		image = amazon_image( item )
+		image = amazon_image(item)
 		unless image[:src] then
 			img = ''
 		else
@@ -260,57 +133,64 @@ def amazon_to_html( item, with_image = true, label = nil, pos = 'amazon' )
 		end
 	end
 
-	url = amazon_url( item )
+	url = amazon_url(item)
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
-def amazon_get( asin, with_image = true, label = nil, pos = 'amazon' )
-	asin = asin.to_s.strip # delete white spaces
-	asin.sub!(/\A([a-z]+):/, '')
-	country = $1 || @conf['amazon.default_country'] || @amazon_default_country
-	digit = asin.gsub( /[^\d]/, '' )
-	if digit.length == 13 then # ISBN-13
-		asin = digit
-		id_type = /^97[89]/ =~ digit ? 'ISBN' : 'EAN'
-	else
-		id_type = 'ASIN'
+def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
+	asin = asin.to_s.strip.gsub(/-/, '')
+	country, item_id = asin.scan(/\A(..):(.*)/).flatten
+	unless country
+		country = @conf['amazon.default_country'] || @amazon_default_country
+		item_id = asin
 	end
 
 	begin
 		cache = "#{@cache_path}/amazon"
 		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
-			xml = File::read( "#{cache}/#{country}#{asin}.xml" )
-			if xml.chomp == 'true' # ignore dirty cache
-				raise Errno::ENOENT
-			end
+			json = JSON.parse(File::read("#{cache}/#{country}#{item_id}.json"))
 		rescue Errno::ENOENT
-			xml = amazon_call_ecs( asin, id_type, country )
-			File::open( "#{cache}/#{country}#{asin}.xml", 'wb' ) {|f| f.write( xml )}
+			access_key = @conf['amazon.access_key']
+			secret_key = @conf['amazon.secret_key']
+			partner_tag = @conf['amazon.aid']
+			paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
+			json = paapi.get_items(item_id, country.to_sym)
+			File::open("#{cache}/#{country}#{item_id}.json", 'wb'){|f| f.write(json)}
 		end
-		parser = defined?(Oga) ? :oga : :rexml
-		item = AmazonItem.new(xml, parser)
+		item = json["ItemsResult"]["Items"][0]
 		if pos == 'detail' then
-			amazon_detail_html( item )
+			amazon_detail_html(item)
 		else
-			amazon_to_html( item, with_image, label, pos )
+			amazon_to_html(item, with_image, label, pos)
 		end
-	rescue Timeout::Error
-		@logger.error "amazon.rb: Amazon API Timeouted."
+	rescue Net::HTTPUnauthorized
+		p country, item_id
+		@logger.error "amazon.rb: Amazon API Unauthorized."
 		message = asin
 		if @mode == 'preview' then
-			message << %Q|<span class="message">(Amazon API Timeouted))</span>|
+			message << %Q|<span class="message">(Amazon API Unauthorized))</span>|
+		end
+		message
+	rescue Timeout::Error
+		@logger.error "amazon.rb: PA-API Timeouted."
+		message = asin
+		if @mode == 'preview' then
+			message << %Q|<span class="message">(PA-API Timeouted))</span>|
+		end
+		message
+	rescue Net::HTTPResponse, Net::HTTPExceptions => e
+		@logger.error "amazon.rb: #{e.message}"
+		message = label || asin
+		if @mode == 'preview' then
+			message << %Q|<span class="message">(#{h e.message})</span>|
 		end
 		message
 	rescue NoMethodError
+		@logger.error "amazon.rb: #{json["Errors"][0]["Message"]}"
 		message = label || asin
 		if @mode == 'preview' then
-			if item.has_item? then
-				message << %Q|<span class="message">(#{h $!}\n#{h $@.join( ' / ' )})</span>|
-			else
-				m = item.nodes( 'Items/Request/Errors/Error/Message' )[0].text
-				message << %Q|<span class="message">(#{h @conf.to_native( m, 'utf-8' )})</span>|
-			end
+			message << %Q|<span class="message">(#{h json["Errors"][0]["Message"]})</span>|
 		end
 		message
 	end
