@@ -1,3 +1,6 @@
+2019-11-24  Tada, Tadashi <t@tdtds.jp>
+	* amazon.rb: update to use PA-API v5
+
 2019-08-17  Tada, Tadashi <t@tdtds.jp>
 	* sort commants by date on a new comment added
 
