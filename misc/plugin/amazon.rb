@@ -27,8 +27,8 @@ def amazon_author(item)
 	end
 end
 
-def amazon_title(json)
-	json["ItemInfo"]["Title"]["DisplayValue"]
+def amazon_title(item)
+	item["ItemInfo"]["Title"]["DisplayValue"]
 end
 
 def amazon_image(item)
@@ -149,7 +149,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		cache = "#{@cache_path}/amazon"
 		Dir::mkdir( cache ) unless File::directory?( cache )
 		begin
-			json = JSON.parse(File::read("#{cache}/#{country}#{item_id}.json"))
+			json = File::read("#{cache}/#{country}#{item_id}.json")
 		rescue Errno::ENOENT
 			access_key = @conf['amazon.access_key']
 			secret_key = @conf['amazon.secret_key']
@@ -158,14 +158,13 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 			json = paapi.get_items(item_id, country.to_sym)
 			File::open("#{cache}/#{country}#{item_id}.json", 'wb'){|f| f.write(json)}
 		end
-		item = json["ItemsResult"]["Items"][0]
+		item = JSON.parse(json)["ItemsResult"]["Items"][0]
 		if pos == 'detail' then
 			amazon_detail_html(item)
 		else
 			amazon_to_html(item, with_image, label, pos)
 		end
 	rescue Net::HTTPUnauthorized
-		p country, item_id
 		@logger.error "amazon.rb: Amazon API Unauthorized."
 		message = asin
 		if @mode == 'preview' then
