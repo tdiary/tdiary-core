@@ -24,7 +24,7 @@ bundler_args: "--without server --jobs=3 --retry=3"
 
 before_install:
   - "echo 'gemspec' > Gemfile.local"
-  - gem update --system
+  - yes | gem update --system
   - gem update bundler
 
 before_script:
