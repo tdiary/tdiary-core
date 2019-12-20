@@ -193,6 +193,7 @@ add_conf_proc( 'default', 'サイトの情報', 'basic' ) do
 
 	<h3 class="subtitle">バナー画像</h3>
 	<p>この日記を表す画像(バナー)があればそのURLを指定します。makerssプラグインなどでRSSを出力する場合などに使われます。何も入力しなくてもかまいません。</p>
+	<p>tDiary 標準のバナーを用いる場合は日記を設置している URL に "/theme/ogimage.png" を付与して入力してください。</p>
 	<p><input name="banner" value="#{h @conf.banner}" size="70"></p>
 
 	<h3 class="subtitle">フレーム内表示</h3>
