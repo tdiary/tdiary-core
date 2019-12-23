@@ -105,7 +105,7 @@ GEM
       tins (~> 1.0)
     test-unit (3.3.4)
       power_assert
-    thor (0.20.3)
+    thor (1.0.1)
     tins (1.22.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
