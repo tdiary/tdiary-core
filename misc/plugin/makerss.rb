@@ -748,7 +748,7 @@ end
 # http://github.com/zunda/ruby-absolutify/tree/master
 def absolutify(html, baseurl)
 	@@_absolutify_attr_regexp ||= Hash.new
-	baseuri = URI.parse(URI.encode(baseurl))
+	baseuri = URI.parse(CGI.escape(baseurl))
 	r = html.gsub(%r|<\S[^>]*/?>|) do |tag|
 		type = tag.scan(/\A<(\S+)/)[0][0].downcase
 		if attr = {'a' => 'href', 'img' => 'src'}[type]
