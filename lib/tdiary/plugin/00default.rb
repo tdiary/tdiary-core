@@ -323,14 +323,17 @@ def icon_tag
 end
 
 def ogp_tag
+	ogp = {
+		'og:title' => title_tag.gsub(/<[^>]*>/, ""),
+	}
+
+	if @conf.banner && !@conf.banner.empty?
+		ogp['og:image'] = @conf.banner
+	end
+
 	uri = @conf.index.dup
 	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
 	uri.gsub!( %r|/\./|, '/' )
-	image = (@conf.banner.nil? || @conf.banner == '') ? File.join(uri, "#{theme_url}/ogimage.png") : @conf.banner
-	ogp = {
-		'og:title' => title_tag.gsub(/<[^>]*>/, ""),
-		'og:image' => image,
-	}
 	if @mode == 'day' then
 		ogp['og:type'] = 'article'
 		ogp['article:author'] = @conf.author_name
