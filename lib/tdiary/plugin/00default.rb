@@ -331,6 +331,9 @@ def ogp_tag
 		ogp['og:image'] = @conf.banner
 	end
 
+	uri = @conf.index.dup
+	uri[0, 0] = base_url if %r|^https?://|i !~ @conf.index
+	uri.gsub!( %r|/\./|, '/' )
 	if @mode == 'day' then
 		ogp['og:type'] = 'article'
 		ogp['article:author'] = @conf.author_name
