@@ -1,4 +1,4 @@
-FROM ruby:2.6
+FROM ruby:2.7
 MAINTAINER MATSUOKA Kohei @machu
 
 RUN mkdir -p /usr/src/app
