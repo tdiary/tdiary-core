@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack', '~> 2.0' # ~> 2.0 requires ruby 2.2.2 or later.
+gem 'rack', '~> 2.1' # ~> 2.0 requires ruby 2.2.2 or later.
 gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
