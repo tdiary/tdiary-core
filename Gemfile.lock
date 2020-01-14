@@ -14,20 +14,20 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     coderay (1.1.2)
-    coveralls (0.8.23)
-      json (>= 1.8, < 3)
-      simplecov (~> 0.16.1)
-      term-ansicolor (~> 1.3)
-      thor (>= 0.19.4, < 2.0)
-      tins (~> 1.6)
+    coveralls (0.7.2)
+      multi_json (~> 1.3)
+      rest-client (= 1.6.7)
+      simplecov (>= 0.7)
+      term-ansicolor (= 1.2.2)
+      thor (= 0.18.1)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.8)
+    debase-ruby_core_source (0.10.9)
     diff-lcs (1.3)
     docile (1.3.2)
     emot (0.0.4)
       thor
-    faraday (0.17.3)
+    faraday (1.0.0)
       multipart-post (>= 1.2, < 3)
     fastimage (2.1.7)
     hikidoc (0.1.0)
@@ -48,6 +48,7 @@ GEM
     mime-types-data (3.2019.1009)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
+    multi_json (1.14.1)
     multipart-post (2.1.1)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
@@ -63,8 +64,8 @@ GEM
     pry-byebug (3.7.0)
       byebug (~> 11.0)
       pry (~> 0.10)
-    public_suffix (3.1.1)
-    rack (2.0.8)
+    public_suffix (4.0.3)
+    rack (2.1.1)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     racksh (1.0.0)
@@ -73,19 +74,21 @@ GEM
     rake (13.0.1)
     redcarpet (3.5.0)
     regexp_parser (1.6.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
       rspec-mocks (~> 3.9.0)
-    rspec-core (3.9.0)
-      rspec-support (~> 3.9.0)
+    rspec-core (3.9.1)
+      rspec-support (~> 3.9.1)
     rspec-expectations (3.9.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
-    rspec-mocks (3.9.0)
+    rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
-    rspec-support (3.9.0)
+    rspec-support (3.9.2)
     ruby-debug-ide (0.7.0)
       rake (>= 0.8.1)
     rubyzip (2.0.0)
@@ -96,18 +99,18 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     sequel (5.28.0)
-    simplecov (0.16.1)
+    simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     sqlite3 (1.4.2)
-    term-ansicolor (1.7.1)
-      tins (~> 1.0)
+    term-ansicolor (1.2.2)
+      tins (~> 0.8)
     test-unit (3.3.5)
       power_assert
-    thor (1.0.1)
-    tins (1.22.2)
+    thor (0.18.1)
+    tins (0.13.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -128,7 +131,7 @@ DEPENDENCIES
   octokit
   pit
   pry-byebug
-  rack (~> 2.0)
+  rack
   racksh
   rake
   redcarpet
@@ -141,4 +144,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
