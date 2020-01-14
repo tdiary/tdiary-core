@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack', '~> 2.0' # ~> 2.0 requires ruby 2.2.2 or later.
+gem 'rack'
 gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
@@ -14,13 +14,13 @@ group :development do
   gem 'octokit'
   gem 'mime-types'
 
-  platforms :ruby_23, :ruby_24 do
+  platforms :ruby_24 do
     gem 'ruby-debug-ide'
     gem 'debase'
   end
 
   group :test do
-    gem 'pry-byebug', platforms: [:ruby_23, :ruby_24]
+    gem 'pry-byebug', platforms: [:ruby_24]
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
