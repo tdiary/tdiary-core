@@ -153,6 +153,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		rescue Errno::ENOENT
 			access_key = @conf['amazon.access_key']
 			secret_key = @conf['amazon.secret_key']
+			return asin unless access_key && secret_key
 			partner_tag = @conf['amazon.aid']
 			paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
 			json = paapi.get_items(item_id, country.to_sym)
