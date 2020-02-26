@@ -34,6 +34,11 @@ def category_conf_html
 				<option value="0"#{" selected" if @conf['category.edit_support'] == 0}>表示しない</option>
 			</select>
 		</p>
+
+		<h3 class="subtitle">表示順</h3>
+		<p><label for="category.show_reverse">
+		<input type="checkbox" id="category.show_reverse" name="category.show_reverse" value="true"#{" checked" if @conf['category.show_reverse']}>リストを新しい順に表示
+		</label></p>
 	HTML
 	r
 end

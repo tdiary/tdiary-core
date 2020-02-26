@@ -26,4 +26,8 @@ $(function(){
 			insertCategoryItem($(this));
 		});
 	});
+
+	// reverse list of category
+	var list = $('ul.category li').toArray().reverse();
+	$('ul.category').empty().append(list);
 });

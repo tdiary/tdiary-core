@@ -219,11 +219,16 @@ if @mode =~ /^(form|edit)$/ and @conf['category.edit_support'] != 0
 	end
 end
 
+if @mode =~ /^categoryview$/ and @conf['category.show_reverse']
+	enable_js('category.js')
+end
+
 if @mode == 'conf' || @mode == 'saveconf'
 	add_conf_proc('category', @category_conf_label, 'basic') do
 		if @mode == 'saveconf'
 			category_rebuild(@years) if @cgi.valid?('category_initialize')
 			@conf['category.edit_support'] = (@cgi.params['category.edit_support'][0] || '1').to_i
+			@conf['category.show_reverse'] = !!(@cgi.params['category.show_reverse'][0] == 'true')
 		end
 		category_conf_html
 	end
