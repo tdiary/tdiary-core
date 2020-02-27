@@ -1,3 +1,6 @@
+2020-02-27  Tada, Tadashi <t@tdtds.jp>
+	* category.rb: add an option to sort reverse the category list
+
 2020-02-25  Tada, Tadashi <t@tdtds.jp>
 	* amazon.rb: check access_key and secret_key are specified
 
