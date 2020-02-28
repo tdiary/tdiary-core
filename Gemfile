@@ -30,7 +30,7 @@ group :development do
     gem 'sqlite3'
     gem 'jasmine', '< 3'
     gem 'simplecov', require: false
-    gem 'coveralls', require: false
+    gem 'coveralls', '~> 0.8', require: false
   end
 end
 
