@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 680043284b0872104b4298f66f0e9b18c1c0c28b
+  revision: 8d97251ac26cfa5e89df2f3a0e8989b1b64556c1
   specs:
-    tdiary-contrib (5.1.0)
+    tdiary-contrib (5.1.1)
       pushbullet_ruby
       tdiary (~> 5.0)
 
@@ -29,7 +29,7 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    bson (4.8.0)
+    bson (4.8.2)
     byebug (11.1.1)
     capybara (3.31.0)
       addressable
@@ -61,7 +61,7 @@ GEM
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     fastimage (2.1.7)
-    hashie (3.6.0)
+    hashie (4.1.0)
     hikidoc (0.1.0)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
@@ -92,14 +92,14 @@ GEM
       mongo (>= 2.5.1, < 3.0.0)
     multipart-post (2.1.1)
     nio4r (2.5.2)
-    nokogiri (1.10.8)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     octokit (4.16.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    omniauth (1.9.0)
-      hashie (>= 3.4.6, < 3.7.0)
+    omniauth (1.9.1)
+      hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
     omniauth-oauth (1.1.0)
       oauth
@@ -117,7 +117,7 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.10)
     public_suffix (4.0.3)
-    puma (4.3.2)
+    puma (4.3.3)
       nio4r (~> 2.0)
     pushbullet_ruby (1.1.4)
       faraday (>= 0.13.0, < 1.0)
@@ -156,7 +156,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sequel (5.29.0)
+    sequel (5.30.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -164,7 +164,7 @@ GEM
     simplecov-html (0.10.2)
     sqlite3 (1.4.2)
     sync (0.5.0)
-    tdiary (5.1.0)
+    tdiary (5.1.1)
       bundler (>= 1.3, < 3.0)
       emot
       fastimage
@@ -197,7 +197,7 @@ GEM
     unf_ext (0.0.7.6)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.2.2)
+    zeitwerk (2.3.0)
 
 PLATFORMS
   ruby
