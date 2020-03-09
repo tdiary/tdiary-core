@@ -314,6 +314,8 @@ def icon_tag
 	if @conf.icon and not(@conf.icon.empty?) then
 		if /\.ico$/ =~ @conf.icon then
 			%Q[<link rel="shortcut icon" href="#{h @conf.icon}">]
+		elsif /\.svg$/ =~ @conf.icon then
+			%Q[<link rel="icon" href="#{h @conf.icon}" type="image/svg+xml">]
 		else
 			%Q[<link rel="icon" href="#{h @conf.icon}">]
 		end
