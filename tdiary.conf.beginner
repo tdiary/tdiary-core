@@ -116,7 +116,6 @@ FOOTER
 
 @latest_limit = 10
 
-@theme = 'green_leaves'
 @theme = 'default'
 
 @show_comment = true
