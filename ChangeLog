@@ -1,3 +1,19 @@
+2020-05-29  Tada, Tadashi <t@tdtds.jp>
+	* release 5.1.2
+	* stop support of ruby 2.4
+
+2020-05-01  Tada, Tadashi <t@tdtds.jp>
+	* (experimental) add 03purge_cache plugin into default
+
+2020-04-30  Tada, Tadashi <t@tdtds.jp>
+	* update jQuery to 3.5.0
+
+2020-04-16  Tada, Tadashi <t@tdtds.jp>
+	* fix error in makerss by bad CGI.escape
+
+2020-03-09  Nyoho <algebraicallyClosedField@gmail.com>
+	* support SVG type for favicon
+
 2020-02-29  Tada, Tadashi <t@tdtds.jp>
 	* release 5.1.1
 
