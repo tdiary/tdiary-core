@@ -1,7 +1,7 @@
 ---
 name: release checklist
 about: 毎回のリリース作業チェックリストを提供する
-title: 'X.Y.Z リリース作業 on YYYY-MM-29'
+title: X.Y.Z リリース作業 on YYYY-MM-29
 labels: release
 assignees: ''
 
