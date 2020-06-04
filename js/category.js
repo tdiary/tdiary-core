@@ -28,6 +28,8 @@ $(function(){
 	});
 
 	// reverse list of category
-	var list = $('ul.category li').toArray().reverse();
-	$('ul.category').empty().append(list);
+	$('ul.category').each(function(){
+		var ul = $(this);
+		ul.append(ul.children().toArray().reverse());
+	});
 });
