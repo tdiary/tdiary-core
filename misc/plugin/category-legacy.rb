@@ -597,7 +597,7 @@ def category_edit_support_dropdown
 	ret
 end
 
-if @conf['category.edit_support'] != 0 then
+if @mode =~ /^(form|edit)$/ and @conf['category.edit_support'] != 0 then
 	enable_js( 'category.js' )
 	add_edit_proc do |date|
 		ret = ''
@@ -611,6 +611,9 @@ if @conf['category.edit_support'] != 0 then
 	end
 end
 
+if @mode =~ /^categoryview$/ and @conf['category.show_reverse']
+	enable_js('category.js')
+end
 
 #
 # when update diary, update cache
@@ -695,6 +698,7 @@ if @mode == 'conf' || @mode == 'saveconf'
 				@conf["category.period"] = @cgi.params["category.period"][0]
 			end
 			@conf['category.edit_support'] = (@cgi.params['category.edit_support'][0] || '1').to_i
+			@conf['category.show_reverse'] = !!(@cgi.params['category.show_reverse'][0] == 'true')
 		end
 		category_conf_html
 	end

@@ -73,6 +73,11 @@ def category_conf_html
 </select>
 </p>
 
+<h3 class="subtitle">表示順</h3>
+<p><label for="category.show_reverse">
+<input type="checkbox" id="category.show_reverse" name="category.show_reverse" value="true"#{" checked" if @conf['category.show_reverse']}>リストを新しい順に表示
+</label></p>
+
 <h3 class="subtitle">表示期間の初期状態</h3>
 <p>
 カテゴリ表示画面を表示した時の、最初の表示期間を指定します。
