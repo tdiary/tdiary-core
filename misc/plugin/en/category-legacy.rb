@@ -71,6 +71,11 @@ Category names can be shown under the 'Article' form.
 </select>
 </p>
 
+<h3 class="subtitle">Display Order</h3>
+<p><label for="category.show_reverse">
+<input type="checkbox" id="category.show_reverse" name="category.show_reverse" value="true"#{" checked" if @conf['category.show_reverse']}>Sorts the list from newest to oldest
+</label></p>
+
 <h3 class="subtitle">Default period</h3>
 <p>
 Specify the default display period for category view.
