@@ -18,3 +18,4 @@ doc/*.html
 /Gemfile.local
 spec/javascripts/lib
 node_modules
+public/assets

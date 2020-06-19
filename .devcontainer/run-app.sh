@@ -1,5 +1,4 @@
 #!/bin/bash
-cd /usr/src/app
 if [ ! -f tdiary.conf ]; then
 	cp tdiary.conf.beginner tdiary.conf
 fi
