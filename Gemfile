@@ -13,14 +13,10 @@ group :development do
   gem 'redcarpet'
   gem 'octokit'
   gem 'mime-types'
-
-  platforms :ruby_24 do
-    gem 'ruby-debug-ide'
-    gem 'debase'
-  end
+  gem "ruby-debug-ide"
+  gem "debase"
 
   group :test do
-    gem 'pry-byebug', platforms: [:ruby_24]
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'

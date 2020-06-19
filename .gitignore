@@ -19,3 +19,4 @@ doc/*.html
 spec/javascripts/lib
 node_modules
 public/assets
+tdiary.pid
