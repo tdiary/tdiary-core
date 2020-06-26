@@ -9,4 +9,4 @@ bundle exec rake assets:copy
 if [ ! -f .htpasswd ]; then
 	bundle exec bin/tdiary htpasswd
 fi
-git fetch
+git ls-remote -q > /dev/null
