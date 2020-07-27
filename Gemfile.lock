@@ -27,7 +27,7 @@ GEM
       thor
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
-    fastimage (2.1.7)
+    fastimage (2.2.0)
     hikidoc (0.1.0)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
