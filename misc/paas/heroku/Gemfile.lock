@@ -1,8 +1,9 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 8d97251ac26cfa5e89df2f3a0e8989b1b64556c1
+  revision: 598fffd94fcecf25527a27ed5481fcbf668c8812
   specs:
-    tdiary-contrib (5.1.1)
+    tdiary-contrib (5.1.3)
+      coderay
       pushbullet_ruby
       tdiary (~> 5.0)
 
@@ -19,9 +20,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.3.1)
-      activesupport (= 6.0.3.1)
-    activesupport (6.0.3.1)
+    activemodel (6.0.3.2)
+      activesupport (= 6.0.3.2)
+    activesupport (6.0.3.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -29,8 +30,8 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    bson (4.8.2)
-    capybara (3.32.2)
+    bson (4.10.0)
+    capybara (3.33.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -39,9 +40,10 @@ GEM
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
     childprocess (3.0.0)
+    coderay (1.1.3)
     commonmarker (0.21.0)
       ruby-enum (~> 0.5)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
       simplecov (~> 0.16.1)
@@ -51,17 +53,17 @@ GEM
     dalli (2.7.10)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.9)
-    diff-lcs (1.3)
+    debase-ruby_core_source (0.10.10)
+    diff-lcs (1.4.4)
     docile (1.3.2)
     emot (0.0.4)
       thor
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
-    fastimage (2.1.7)
+    fastimage (2.2.0)
     hashie (4.1.0)
     hikidoc (0.1.0)
-    i18n (1.8.2)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.0)
     jasmine (2.99.0)
@@ -70,7 +72,7 @@ GEM
       rack (>= 1.2.1)
       rake
     jasmine-core (2.99.2)
-    json (2.3.0)
+    json (2.3.1)
     launchy (2.5.0)
       addressable (~> 2.7)
     mail (2.7.1)
@@ -84,12 +86,12 @@ GEM
     minitest (5.14.1)
     mongo (2.8.0)
       bson (>= 4.4.2, < 5.0.0)
-    mongoid (7.1.1)
+    mongoid (7.1.2)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.7.0, < 3.0.0)
     multipart-post (2.1.1)
     nio4r (2.5.2)
-    nokogiri (1.10.9)
+    nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     octokit (4.18.0)
@@ -113,7 +115,7 @@ GEM
     pushbullet_ruby (1.1.4)
       faraday (>= 0.13.0, < 1.0)
       mime-types
-    rack (2.2.2)
+    rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     racksh (1.0.0)
@@ -122,7 +124,7 @@ GEM
     rake (13.0.1)
     rdtool (0.6.38)
     redcarpet (3.5.0)
-    regexp_parser (1.7.0)
+    regexp_parser (1.7.1)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -147,7 +149,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sequel (5.32.0)
+    sequel (5.35.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -155,7 +157,7 @@ GEM
     simplecov-html (0.10.2)
     sqlite3 (1.4.2)
     sync (0.5.0)
-    tdiary (5.1.1)
+    tdiary (5.1.2)
       bundler (>= 1.3, < 3.0)
       emot
       fastimage
@@ -172,7 +174,7 @@ GEM
       rdtool
     term-ansicolor (1.7.1)
       tins (~> 1.0)
-    test-unit (3.3.5)
+    test-unit (3.3.6)
       power_assert
     thor (1.0.1)
     thread_safe (0.3.6)
@@ -188,7 +190,7 @@ GEM
     unf_ext (0.0.7.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.3.0)
+    zeitwerk (2.4.0)
 
 PLATFORMS
   ruby
