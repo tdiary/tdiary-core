@@ -28,7 +28,7 @@ GEM
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
-    fastimage (2.2.0)
+    fastimage (2.2.1)
     hikidoc (0.1.0)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
