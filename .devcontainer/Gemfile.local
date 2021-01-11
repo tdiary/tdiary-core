@@ -1,0 +1,2 @@
+gem 'tdiary-contrib'
+gem 'puma'

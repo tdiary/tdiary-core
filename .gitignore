@@ -9,7 +9,7 @@ pkg
 tmp
 rdoc
 index.rdf
-tdiary.conf
+/tdiary.conf
 vendor/bundle/
 spec/reports
 doc/*.html
