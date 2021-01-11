@@ -46,12 +46,8 @@ def calendar2_make_cal(year, month)
 	result
 end
 
-def calendar2_prev_current_next
-	yyyymm = if /^(latest|search)$/ =~ @mode
-					Time.now
-				else
-					@date
-				end.strftime "%Y%m"
+def calendar2_prev_current_next(date)
+	yyyymm = date.strftime "%Y%m"
 	yms = [yyyymm]
 	@years.keys.each do |y|
 		yms |= @years[y].collect {|i| y + i}
@@ -95,14 +91,11 @@ def calendar2(days_format = nil, navi_format = nil, show_todo = nil)
 	navi_format ||= @calendar2_navi_format
 
 	return '' if /TAMATEBAKO/ =~ @cgi.user_agent
-	date = if /^(latest|search)$/ =~ @mode
-				Time.now
-			else
-				@date
-			end
+	date = @date || @diaries.values.map{|v|v.date}.sort.first || Time.now
+	                # adopt the oldest date in @diaries
 	year = date.year
 	month = date.month
-	p_c_n = calendar2_prev_current_next
+	p_c_n = calendar2_prev_current_next(date)
 
 	result = <<CALENDAR_HEAD
 <table class="calendar" title="calendar">
