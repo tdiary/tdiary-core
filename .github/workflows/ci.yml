@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: build (${{ matrix.ruby }})
+    name: build (${{ matrix.ruby }}/${{ matrix.test_mode }})
     strategy:
       matrix:
         ruby: [ '3.0', 2.7, 2.6, 2.5, head ]
