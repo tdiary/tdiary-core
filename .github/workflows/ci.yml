@@ -19,7 +19,8 @@ jobs:
     - uses: niden/actions-memcached@v7
     - name: Install dependencies
       run: |
-        gem install bundler --no-document
+        echo 'gemspec' > Gemfile.local
+        gem update bundler --no-document
         bundle install --without server --jobs=3 --retry=3
         npm install
     - name: Run test
