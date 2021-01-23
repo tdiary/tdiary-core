@@ -655,7 +655,7 @@ class DispRef2URL
 							k = key.to_s
 							if values[k] and not (encoded_uri = values[k][0]).empty? then
 								begin
-									original_uri = URI::parse( urlbase ) + URI::parse( URI::decode(encoded_uri) )
+									original_uri = URI::parse( urlbase ) + URI::parse( URI.decode_www_form_component(encoded_uri) )
 									throw :done if original_uri == urlbase	# denial of service?
 									self.replace_with( DispRef2URL.new( original_uri.to_s ).parse( setup ) )
 									return self

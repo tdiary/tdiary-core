@@ -1,0 +1,29 @@
+name: ubuntu
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: build (${{ matrix.ruby }}/${{ matrix.test_mode }})
+    strategy:
+      matrix:
+        ruby: [ '3.0', 2.7, 2.6, 2.5 ]
+        test_mode: [ rack, gem ]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - uses: niden/actions-memcached@v7
+    - name: Install dependencies
+      run: |
+        echo 'gemspec' > Gemfile.local
+        gem update bundler --no-document
+        bundle install --without server --jobs=3 --retry=3
+        npm install
+    - name: Run test
+      run: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec jasmine:ci test ; fi
+      env:
+        TEST_MODE: ${{ matrix.test_mode }}
