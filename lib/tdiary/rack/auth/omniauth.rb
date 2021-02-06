@@ -19,6 +19,7 @@ class TDiary::Rack::Auth::OmniAuth
 			raise NoStrategyFoundError.new("Not found any strategies. Write the omniauth strategy in your Gemfile.local.")
 		end
 
+		OmniAuth.config.allowed_request_methods = [:get] # FixMe
 		@app = ::Rack::Builder.new(app) {
 			use TDiary::Rack::Session
 		}.tap {|builder|
