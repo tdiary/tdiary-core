@@ -186,7 +186,7 @@ module TDiary
 					else
 						diaries.update( cache )
 					end
-					dirty = yield( diaries ) if iterator?
+					dirty = yield( diaries ) if block_given?
 					store( fh, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_DIARY) != 0
 					store_comment( cfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_COMMENT) != 0
 					store_referer( rfile, diaries ) if ((dirty | force_save) & TDiaryBase::DIRTY_REFERER) != 0

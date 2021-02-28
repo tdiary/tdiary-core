@@ -66,6 +66,7 @@ GEM
     rake (13.0.3)
     redcarpet (3.5.1)
     regexp_parser (2.0.3)
+    rexml (3.2.4)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -103,6 +104,7 @@ GEM
     thor (1.1.0)
     tins (1.26.0)
       sync
+    webrick (1.7.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -126,6 +128,7 @@ DEPENDENCIES
   racksh
   rake
   redcarpet
+  rexml
   rspec
   ruby-debug-ide
   selenium-webdriver
@@ -133,6 +136,7 @@ DEPENDENCIES
   simplecov
   sqlite3
   test-unit
+  webrick
 
 BUNDLED WITH
    2.1.4
