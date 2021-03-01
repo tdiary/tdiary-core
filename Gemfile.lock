@@ -47,9 +47,10 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0225)
     mini_mime (1.0.2)
+    mini_portile2 (2.4.0)
     multipart-post (2.1.1)
-    nokogiri (1.11.1-x86_64-linux)
-      racc (~> 1.4)
+    nokogiri (1.9.1)
+      mini_portile2 (~> 2.4.0)
     octokit (4.20.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
@@ -57,7 +58,6 @@ GEM
     pit (0.0.7)
     power_assert (2.0.0)
     public_suffix (4.0.6)
-    racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -91,7 +91,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sequel (5.41.0)
+    sequel (5.42.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -111,6 +111,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
