@@ -1,3 +1,8 @@
+2021-05-29 Tada, Tadashi <t@tdtds.jp>
+	* support ruby 3.0
+	* stop support ruby 2.5
+	* release 5.1.6
+
 2021-02-28 Tada, Tadashi <t@tdtds.jp>
 	* release 5.1.5
 
