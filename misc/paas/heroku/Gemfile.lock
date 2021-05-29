@@ -52,6 +52,7 @@ GEM
       thor (>= 0.19.4, < 2.0)
       tins (~> 1.6)
     dalli (2.7.11)
+    date (3.1.1)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.12)
@@ -207,6 +208,7 @@ DEPENDENCIES
   capybara
   coveralls (~> 0.8)
   dalli
+  date (>= 3.1.1)
   debase
   emot
   fastimage
