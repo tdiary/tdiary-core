@@ -20,6 +20,7 @@ group :development do
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
+	 gem 'date', '>= 3.1.1' # for compatibility of capybara
     gem 'selenium-webdriver'
     gem 'launchy'
     gem 'sequel'
