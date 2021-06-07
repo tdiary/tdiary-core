@@ -30,6 +30,11 @@
 #require 'tdiary/pstoreio'
 #@io_class = TDiary::PStoreIO
 
+# Subdirectory used as URL of diary(optional)
+#   Specify the subdirectory that starts from '/(slash)'.
+#   In default, tDiary not use subdirectory.
+#@base_url = '/diary'
+
 # Script names for reading or updating your diary(optional)
 #   You can set @index and @update to the script filenames for 
 #   reading or updating your diary. Normally, these variables have 
