@@ -39,7 +39,7 @@ GEM
     faraday-excon (1.1.0)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
-    fastimage (2.2.3)
+    fastimage (2.2.4)
     hikidoc (0.1.0)
     io-wait (0.1.0)
     jasmine (2.99.0)
