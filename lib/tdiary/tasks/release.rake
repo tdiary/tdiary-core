@@ -57,9 +57,6 @@ begin
 					}
 					FileUtils.rm_rf current unless versions.member?(current)
 				end
-				Dir.chdir 'misc/lib' do
-					sh 'gem unpack bundler'
-				end
 			end
 		end
 
