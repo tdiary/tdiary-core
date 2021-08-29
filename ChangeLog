@@ -1,3 +1,7 @@
+2021-08-29 Tada, Tadashi <t@tdtds.jp>
+	* fix heroku button: add MONGODB_URI into env section
+	* release 5.1.7
+
 2021-05-29 Tada, Tadashi <t@tdtds.jp>
 	* support ruby 3.0
 	* stop support ruby 2.5
