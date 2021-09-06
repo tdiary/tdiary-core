@@ -1,5 +1,5 @@
-FROM ruby:2.7
-MAINTAINER MATSUOKA Kohei @machu
+FROM ruby:3.0
+LABEL maintainer "@tdtds <t@tdtds.jp>"
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
