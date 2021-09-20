@@ -98,7 +98,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
-    ruby-debug-ide (0.7.2)
+    ruby-debug-ide (0.7.3)
       rake (>= 0.8.1)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
