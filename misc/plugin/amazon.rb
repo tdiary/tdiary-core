@@ -185,7 +185,12 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		if @mode == 'preview' then
 			message << %Q|<span class="message">(#{h e.message})</span>|
 		end
-		message
+		# Handle 429 "Too Many Requests"
+		if /^429/ =~ e.message then
+			%Q|<a href="https://www.amazon.co.jp/dp/#{h asin}">https://www.amazon.co.jp/dp/#{h asin}</a>|
+		else
+			message
+		end
 	rescue NoMethodError
 		@logger.error "amazon.rb: #{json["Errors"][0]["Message"]}"
 		message = label || asin
