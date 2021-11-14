@@ -100,6 +100,7 @@ module TDiary
 		def server
 			require 'tdiary'
 			require 'tdiary/environment'
+			require 'webrick'
 
 			if options[:cgi]
 				opts = {
@@ -113,7 +114,6 @@ module TDiary
 			elsif
 				# --rack option
 				# Rack::Server reads ARGV as :config, so delete it
-				require 'webrick'
 				ARGV.shift
 				opts = {
 					environment: ENV['RACK_ENV'] || "development",
