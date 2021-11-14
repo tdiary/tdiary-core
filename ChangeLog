@@ -1,5 +1,6 @@
 2021-11-14 Tada, Tadashi <t@tdtds.jp>
 	* fix error in `String#encode` cause by keyword parameter incompatible
+	* fix debugging on vscode
 
 2021-08-29 Tada, Tadashi <t@tdtds.jp>
 	* fix heroku button: add MONGODB_URI into env section
