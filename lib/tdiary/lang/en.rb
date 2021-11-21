@@ -31,13 +31,6 @@ def migrate_to_utf8( str )
 end
 
 #
-# 'to_mail' method converts string automatically to E-mail encoding.
-#
-def to_mail( str )
-	str.dup
-end
-
-#
 # 'shorten' method cuts string length.
 #
 def shorten( str, length = 120 )
