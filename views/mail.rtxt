@@ -2,17 +2,11 @@ From: <%= name %> <<%= mail %>>
 To: <%= receivers.join(', ') %>
 Date: <%= date %>
 Message-Id: <%= message_id %>
-Subject: <%= mail_header %>-<%= serial %> 
+Subject: <%= subject_header %>-<%= serial %> 
  <%= name %>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 Errors-To: <%= receivers[0] %>
 X-Mailer: tDiary <%= TDIARY_VERSION %>
 X-URL: http://www.tdiary.org/
-
-<%= body %>
---
-<%= @conf.index =~ %r|^https?://|i ? '': @conf.base_url %><%= @conf.index.sub(%r|^\./|, '') %><%= anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial)) %>
-IP: <%=@cgi.remote_addr%>
-Status: <%= @comment.visible? ? 'shown' : 'hidden'%>

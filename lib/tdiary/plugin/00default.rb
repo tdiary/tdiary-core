@@ -648,6 +648,13 @@ end
 #
 # service methods for comment_mail
 #
+def comment_mail_mime( str )
+	require 'nkf'
+	NKF::nkf("-w -m0 -f30", str).lines.map do |s|
+		%Q|=?UTF-8?B?#{[s.chomp].pack('m').gsub(/\n/, '')}?=|
+	end
+end
+
 def comment_mail_send
 	return unless @comment
 	return unless @conf['comment_mail.enable']
@@ -665,9 +672,7 @@ def comment_mail_send
 	receivers = [@conf.author_mail] if receivers.compact.empty?
 	return if receivers.empty?
 
-	require 'socket'
-
-	name = comment_mail_mime( @conf.to_mail( @comment.name ) )[0]
+	name = comment_mail_mime(@comment.name)[0]
 	body = @comment.body.sub( /[\r\n]+\Z/, '' )
 	mail = @comment.mail
 	mail = @conf.author_mail unless mail =~ %r<[0-9a-zA-Z_.-]+@[\(\)%!0-9a-zA-Z_$@.&+-,'"*-]+>
@@ -679,22 +684,25 @@ def comment_mail_send
 	tz = (g.to_i - l.to_i) / 36
 	date = now.strftime( "%a, %d %b %Y %X " ) + sprintf( "%+05d", tz )
 
+	require 'socket'
 	serial = @diaries[@date.strftime( '%Y%m%d' )].count_comments( true )
 	message_id = %Q!<tdiary.#{[@conf['comment_mail.header'] || ''].pack('m').gsub(/\n/,'')}.#{now.strftime('%Y%m%d%H%M%S')}.#{serial}@#{Socket::gethostname}>!
 
-	mail_header = (@conf['comment_mail.header'] || '').dup
-	mail_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ mail_header
-	mail_header = @date.strftime( mail_header )
-	mail_header = comment_mail_mime( @conf.to_mail( mail_header ) ).join( "\n " ) #if /[\x80-\xff]/ =~ mail_header
+	subject_header = (@conf['comment_mail.header'] || '').dup
+	subject_header << ":#{@conf.date_format}" unless /%[a-zA-Z%]/ =~ subject_header
+	subject_header = @date.strftime(subject_header)
+	subject_header = comment_mail_mime(subject_header).join("\n ")
+	rmail = File::open("#{TDiary::PATH}/../views/mail.rtxt").read
+	header = ERB::new(rmail).result(binding)
 
-	rmail = ''
-	begin
-		rmail = File::open( "#{TDiary::PATH}/../views/mail.rtxt.#{@conf.lang}" ){|f| f.read }
-	rescue
-		rmail = File::open( "#{TDiary::PATH}/../views/mail.rtxt" ){|f| f.read }
-	end
-	text = @conf.to_mail( ERB::new( rmail ).result( binding ) )
-	comment_mail( text, receivers )
+	text = NKF.nkf('-w -MB', [
+		body,
+		"-- ",
+		"#{@conf.index =~ %r|^https?://|i ? '': @conf.base_url}#{@conf.index.sub(%r|^\./|, '')}#{anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial))}",
+		"IP: #{@cgi.remote_addr}",
+		"Status: #{@comment.visible? ? 'shown' : 'hidden'}"
+	].join("\r\n"))
+	comment_mail([header, text].join("\r\n"), receivers)
 end
 
 def comment_mail( text )
