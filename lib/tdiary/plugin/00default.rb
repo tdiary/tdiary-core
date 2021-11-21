@@ -630,33 +630,6 @@ def comment_form
 	comment_form_text
 end
 
-def comment_form_mobile_mail_field
-	%Q|#{comment_mail_label_short}: <INPUT NAME="mail"><BR>|
-end
-
-def comment_form_mobile
-	return '' if @conf.hide_comment_form
-	return '' if bot?
-	return '' if hide_comment_day_limit
-
-	if @diaries[@date.strftime('%Y%m%d')].count_comments( true ) >= @conf.comment_limit_per_day then
-		return "<HR><P>#{comment_limit_label}</P>"
-	end
-
-	return <<-FORM
-		<HR>
-		<FORM METHOD="POST" ACTION="#{h @conf.index}">
-			<INPUT TYPE="HIDDEN" NAME="date" VALUE="#{@date.strftime( '%Y%m%d' )}">
-			<P>#{comment_description_short}<BR>
-			#{comment_name_label_short}: <INPUT NAME="name"><BR>
-			#{comment_form_mobile_mail_field}
-			#{comment_body_label_short}:<BR>
-			<TEXTAREA NAME="body" COLS="100%" ROWS="5"></TEXTAREA><BR>
-			<INPUT TYPE="SUBMIT" NAME="comment" value="#{comment_submit_label_short}"></P>
-		</FORM>
-	FORM
-end
-
 def hide_comment_day_limit
 	if @conf.options.include?('spamfilter.date_limit') &&
 			@conf.options['spamfilter.date_limit'] &&
