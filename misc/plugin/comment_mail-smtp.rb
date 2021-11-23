@@ -56,6 +56,7 @@ def comment_mail( text, to )
 		mail.deliver
 	rescue
 		$stderr.puts $!
+		$stderr.puts mail.delivery_method.settings
 	end
 end
 
