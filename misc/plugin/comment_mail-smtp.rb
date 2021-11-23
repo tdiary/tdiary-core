@@ -41,15 +41,18 @@ def comment_mail( text, to )
 		require 'mail'
 
 		mail = Mail.new( text )
-		delivery_opts = {
+		mail.delivery_method(:smtp,
 			address: @conf['comment_mail.smtp_host'] || 'localhost',
 			port: @conf['comment_mail.smtp_port'] || 25,
-			authentication: @conf['comment_mail.authentication'],
-			user_name: @conf['comment_mail.user_name'],
-			password: @conf['comment_mail.password'],
-			enable_starttls_auto: @conf['comment_mail.starttls']
-		}.delete_if{|k,v| v == nil}
-		mail.delivery_method( :smtp, delivery_opts )
+			authentication: @conf['comment_mail.authentication'] || false,
+			user_name: @conf['comment_mail.user_name'] || nil,
+			password: @conf['comment_mail.password'] || nil,
+			tls: @conf['comment_mail.starttls'] || false,
+			enable_starttls_auto: @conf['comment_mail.starttls'] || false
+		)
+		if mail.delivery_method.settings[:port] == 25 # never connect with TLS
+			mail.delivery_method(:smtp, enable_starttls: true, openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
+		end
 		mail.deliver
 	rescue
 		$stderr.puts $!
