@@ -47,7 +47,6 @@ def comment_mail( text, to )
 			authentication: @conf['comment_mail.authentication'] || false,
 			user_name: @conf['comment_mail.user_name'] || nil,
 			password: @conf['comment_mail.password'] || nil,
-			tls: @conf['comment_mail.starttls'] || false,
 			enable_starttls_auto: @conf['comment_mail.starttls'] || false,
 			openssl_verify_mode: "none"
 		)
