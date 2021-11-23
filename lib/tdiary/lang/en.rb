@@ -24,30 +24,9 @@ def encoding_old
 end
 
 #
-# 'mobile_encoding' method returns charactor encoding in mobile mode.
-#
-def mobile_encoding
-	'UTF-8'
-end
-
-#
 # 'migrate_to_utf8' method converts string to UTF-8, but dummy in en.
 #
 def migrate_to_utf8( str )
-	str.dup
-end
-
-#
-# 'to_mobile' method converts string automatically to mobile mode encoding.
-#
-def to_mobile( str )
-	str.dup
-end
-
-#
-# 'to_mail' method converts string automatically to E-mail encoding.
-#
-def to_mail( str )
 	str.dup
 end
 
