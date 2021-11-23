@@ -39,24 +39,25 @@
 def comment_mail( text, to )
 	begin
 		require 'mail'
-
 		mail = Mail.new( text )
 		mail.delivery_method(:smtp,
 			address: @conf['comment_mail.smtp_host'] || 'localhost',
 			port: @conf['comment_mail.smtp_port'] || 25,
 			authentication: @conf['comment_mail.authentication'] || false,
 			user_name: @conf['comment_mail.user_name'] || nil,
-			password: @conf['comment_mail.password'] || nil,
-			enable_starttls_auto: @conf['comment_mail.starttls'] || false,
-			openssl_verify_mode: "none"
+			password: @conf['comment_mail.password'] || nil
 		)
-		if mail.delivery_method.settings[:port] == 25 # never connect with TLS
-			mail.delivery_method(:smtp, enable_starttls: true, openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
-		end
-		mail.deliver
 	rescue
 		$stderr.puts $!
-		$stderr.puts mail.delivery_method.settings
+	end
+	begin
+		mail.deliver
+	rescue
+		unless mail.delivery_method.settings[:openssl_verify_mode] == 'none'
+			mail.delivery_method(:smtp, openssl_verify_mode: "none")
+			retry
+		end
+		$stderr.puts $!
 	end
 end
 
