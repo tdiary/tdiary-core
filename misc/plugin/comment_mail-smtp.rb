@@ -49,7 +49,7 @@ def comment_mail( text, to )
 			password: @conf['comment_mail.password'] || nil,
 			tls: @conf['comment_mail.starttls'] || false,
 			enable_starttls_auto: @conf['comment_mail.starttls'] || false,
-			openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
+			openssl_verify_mode: "none"
 		)
 		if mail.delivery_method.settings[:port] == 25 # never connect with TLS
 			mail.delivery_method(:smtp, enable_starttls: true, openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
