@@ -22,12 +22,12 @@ GEM
     date (3.2.2)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.12)
+    debase-ruby_core_source (0.10.13)
     diff-lcs (1.4.4)
     docile (1.4.0)
     emot (0.0.4)
       thor
-    faraday (1.7.0)
+    faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -54,7 +54,7 @@ GEM
       rack (>= 1.2.1)
       rake
     jasmine-core (2.99.2)
-    json (2.5.1)
+    json (2.6.1)
     launchy (2.5.0)
       addressable (~> 2.7)
     mail (2.7.1)
@@ -99,7 +99,7 @@ GEM
     rspec-mocks (3.10.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
-    rspec-support (3.10.2)
+    rspec-support (3.10.3)
     ruby-debug-ide (0.7.3)
       rake (>= 0.8.1)
     ruby2_keywords (0.0.5)
@@ -162,4 +162,4 @@ DEPENDENCIES
   webrick
 
 BUNDLED WITH
-   2.2.22
+   2.2.32
