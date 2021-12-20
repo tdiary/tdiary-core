@@ -46,7 +46,7 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
-    fastimage (2.2.5)
+    fastimage (2.2.6)
     hikidoc (0.1.0)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
