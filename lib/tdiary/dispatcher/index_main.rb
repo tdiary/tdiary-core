@@ -33,9 +33,9 @@ module TDiary
 							head['Cache-Control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
-							require 'digest/md5'
+							require 'openssl'
 							body = tdiary.eval_rhtml
-							head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
+							head['ETag'] = %Q["#{OpenSSL::Digest::SHA256.hexdigest( body )}"]
 							if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
 								head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 							else
