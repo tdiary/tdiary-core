@@ -24,6 +24,7 @@ GEM
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.13)
     diff-lcs (1.4.4)
+    digest (3.1.0)
     docile (1.4.0)
     emot (0.0.4)
       thor
@@ -48,6 +49,7 @@ GEM
     faraday-rack (1.0.0)
     fastimage (2.2.6)
     hikidoc (0.1.0)
+    io-wait (0.2.1)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
       phantomjs
@@ -66,6 +68,13 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.6.1)
     multipart-post (2.1.1)
+    net-protocol (0.1.2)
+      io-wait
+      timeout
+    net-smtp (0.3.1)
+      digest
+      net-protocol
+      timeout
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
@@ -124,6 +133,7 @@ GEM
     test-unit (3.5.3)
       power_assert
     thor (1.1.0)
+    timeout (0.2.0)
     tins (1.29.1)
       sync
     webrick (1.7.0)
@@ -145,6 +155,7 @@ DEPENDENCIES
   launchy
   mail
   mime-types
+  net-smtp
   octokit
   pit
   rack
