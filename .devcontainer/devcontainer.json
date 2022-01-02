@@ -21,7 +21,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"rebornix.Ruby",
-		"KoichiSasada.vscode-rdbg"
+		"KoichiSasada.vscode-rdbg",
+		"github.vscode-pull-request-github"
 	],
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
