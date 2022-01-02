@@ -14,14 +14,13 @@ group :development do
   gem 'redcarpet'
   gem 'octokit'
   gem 'mime-types'
-  gem "ruby-debug-ide"
-  gem "debase"
+  gem "debug"
 
   group :test do
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
-	 gem 'date', '>= 3.1.1' # for compatibility of capybara
+    gem 'date', '>= 3.1.1' # for compatibility of capybara
     gem 'selenium-webdriver'
     gem 'launchy'
     gem 'sequel'
