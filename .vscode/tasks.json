@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "rake",
+			"task": "spec",
+			"problemMatcher": [],
+			"label": "rake: spec",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
