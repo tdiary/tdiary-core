@@ -3,23 +3,12 @@
     "configurations": [
         {
             "name": "Debug tDiary",
-            "type": "Ruby",
+            "type": "rdbg",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/bin/tdiary",
+            "script": "bin/tdiary",
             "args": [
                 "server", "-p", "9292"
-            ],
-            "useBundler": true
-        },
-        {
-            "name": "RSpec - all",
-            "type": "Ruby",
-            "request": "launch",
-            "cwd": "${workspaceRoot}",
-            "program": "bundle",
-            "args": [
-                "exec", "rake", "spec"
             ],
             "useBundler": true
         }

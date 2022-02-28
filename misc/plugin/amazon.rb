@@ -191,7 +191,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		if @mode == 'preview' then
 			message << %Q|<span class="message">(#{h e.message})</span>|
 		end
-			message
+		message
 	rescue NoMethodError
 		@logger.error "amazon.rb: #{json["Errors"][0]["Message"]}"
 		message = label || asin

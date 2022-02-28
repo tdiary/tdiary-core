@@ -1,3 +1,12 @@
+2022-02-28 Tada, Tadashi <t@tdtds.jp>
+	* release 5.2.0
+
+2022-01-31 OGAWA KenIchi <kenichi@ice.email.ne.jp>
+	* image.js: Restore the same behavior as when 'live()' was used
+
+2021-12-06 oɹıɥɐsɐɯ ɐʇıɾnɟ <mfjt@users.noreplypgithub.com>
+	* amazon.rb: When amazon returned 429 error, print value of the argument "label" instead of raw URL if specified it
+
 2021-11-29 Tada, Tadashi <t@tdtds.jp>
 	* release 5.2.0
 

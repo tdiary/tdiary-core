@@ -11,13 +11,13 @@ function insertImage(text){
 }
 
 $(function(){
-	$('.image-img')
-	.on('hover', function(){
+	$(document)
+	.on('hover', '.image-img', function(){
 		$(this).css('cursor', 'pointer');
 	}, function(){
 		$(this).css('cursor', 'default');
 	})
-	.on('click', function(){
+	.on('click', '.image-img', function(){
 		var idx = this.id.replace('image-index-', '');
 		var w = $('#image-info-' + idx + ' .image-width').text();
 		var h = $('#image-info-' + idx + ' .image-height').text();
