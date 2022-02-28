@@ -21,17 +21,16 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.1.4.4)
-      activesupport (= 6.1.4.4)
-    activesupport (6.1.4.4)
+    activemodel (7.0.2.2)
+      activesupport (= 7.0.2.2)
+    activesupport (7.0.2.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    bson (4.13.0)
+    bson (4.14.1)
     capybara (3.36.0)
       addressable
       matrix
@@ -61,13 +60,13 @@ GEM
     docile (1.4.0)
     emot (0.0.4)
       thor
-    faraday (0.17.4)
+    faraday (0.17.5)
       multipart-post (>= 1.2, < 3)
     fastimage (2.2.6)
     hashie (5.0.0)
     hikidoc (0.1.0)
     holiday_japan (1.4.4)
-    i18n (1.8.11)
+    i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.4)
     io-console (0.5.11)
@@ -89,14 +88,13 @@ GEM
     memcachier (0.0.2)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.1115)
+    mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
-    mini_portile2 (2.6.1)
     minitest (5.15.0)
     mongo (2.17.0)
       bson (>= 4.8.2, < 5.0.0)
-    mongoid (7.3.3)
-      activemodel (>= 5.1, < 6.2)
+    mongoid (7.3.4)
+      activemodel (>= 5.1, < 7.1, != 7.0.0)
       mongo (>= 2.10.5, < 3.0.0)
       ruby2_keywords (~> 0.0.5)
     multipart-post (2.1.1)
@@ -108,11 +106,10 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
-    octokit (4.21.0)
+    octokit (4.22.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
     omniauth (2.0.4)
@@ -129,14 +126,14 @@ GEM
     pit (0.0.7)
     power_assert (2.0.1)
     public_suffix (4.0.6)
-    puma (5.5.2)
+    puma (5.6.2)
       nio4r (~> 2.0)
     pushbullet_ruby (1.1.4)
       faraday (>= 0.13.0, < 1.0)
       mime-types
     racc (1.6.0)
     rack (2.2.3)
-    rack-protection (2.1.0)
+    rack-protection (2.2.0)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -146,23 +143,23 @@ GEM
     rake (13.0.6)
     rdtool (0.6.38)
     redcarpet (3.5.1)
-    regexp_parser (2.2.0)
+    regexp_parser (2.2.1)
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
-    rspec (3.10.0)
-      rspec-core (~> 3.10.0)
-      rspec-expectations (~> 3.10.0)
-      rspec-mocks (~> 3.10.0)
-    rspec-core (3.10.1)
-      rspec-support (~> 3.10.0)
-    rspec-expectations (3.10.1)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-mocks (3.10.2)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-support (3.10.3)
+      rspec-support (~> 3.11.0)
+    rspec-support (3.11.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sawyer (0.8.2)
@@ -172,7 +169,7 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    sequel (5.52.0)
+    sequel (5.53.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -201,9 +198,9 @@ GEM
       tins (~> 1.0)
     test-unit (3.5.3)
       power_assert
-    thor (1.1.0)
+    thor (1.2.1)
     timeout (0.2.0)
-    tins (1.30.0)
+    tins (1.31.0)
       sync
     twitter-text (3.1.0)
       idn-ruby
@@ -216,7 +213,6 @@ GEM
     webrick (1.7.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.3)
 
 PLATFORMS
   x86_64-linux
@@ -259,7 +255,7 @@ DEPENDENCIES
   webrick
 
 RUBY VERSION
-   ruby 3.1.0p0
+   ruby 3.1.1p18
 
 BUNDLED WITH
-   2.3.4
+   2.3.8

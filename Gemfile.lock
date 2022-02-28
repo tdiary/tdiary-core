@@ -28,7 +28,7 @@ GEM
     docile (1.4.0)
     emot (0.0.4)
       thor
-    faraday (1.9.3)
+    faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -71,7 +71,7 @@ GEM
     matrix (0.4.2)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.1115)
+    mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     multipart-post (2.1.1)
@@ -101,7 +101,7 @@ GEM
       rack-test (>= 0.5)
     rake (13.0.6)
     redcarpet (3.5.1)
-    regexp_parser (2.2.0)
+    regexp_parser (2.2.1)
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
@@ -141,7 +141,7 @@ GEM
       power_assert
     thor (1.2.1)
     timeout (0.2.0)
-    tins (1.30.0)
+    tins (1.31.0)
       sync
     webrick (1.7.0)
     xpath (3.2.0)
@@ -179,4 +179,4 @@ DEPENDENCIES
   webrick
 
 BUNDLED WITH
-   2.2.32
+   2.3.8
