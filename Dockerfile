@@ -1,4 +1,4 @@
-FROM ruby:3.0
+FROM ruby:3.1
 LABEL maintainer "@tdtds <t@tdtds.jp>"
 
 RUN mkdir -p /usr/src/app
