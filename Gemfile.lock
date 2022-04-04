@@ -127,7 +127,7 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    sequel (5.54.0)
+    sequel (5.55.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
