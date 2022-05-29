@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 リリース作業リスト
-- [ ] lib/tdiary/tasks/release.rakeに今回サポートを追加/停止するrubyのバージョンが含まれるか確認、修正する
+- [ ] lib/tdiary/tasks/release.rake` と `.github/workflow/ci.yml` に今回サポートを追加/停止するrubyのバージョンが含まれるか確認、修正する
 - [ ] [releases](https://github.com/tdiary/tdiary-core/releases)にエントリを追加してリリースノートを書く
 - [ ] coreおよびblogkitのChangeLogに「release L.M.N」のエントリを追加する
 - [ ] 以下のファイルのバージョンをあげてcommitする
