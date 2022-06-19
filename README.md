@@ -6,7 +6,7 @@
 
 ## tDiary, The TSUKKOMI-able Weblog.
 
-At first, see doc/README-en.rd
+At first, see [doc/README-en.md](https://github.com/tdiary/tdiary-core/blob/master/doc/README.en.md)
 
 ## tDiary, ツッコミ可能なWeb日記システム
 
