@@ -1,6 +1,10 @@
+2022-08-29 Tada, Tadashi <t@tdtds.jp>
+	* remove Heroku button from README
+	* release 5.2.3
+
 2022-05-29 Tada, Tadashi <t@tdtds.jp>
 	* remove support of ruby 2.6
-	* release 5.2.0
+	* release 5.2.2
 
 2022-02-28 Tada, Tadashi <t@tdtds.jp>
 	* release 5.2.1

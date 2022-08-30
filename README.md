@@ -1,7 +1,5 @@
 # tDiary
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://www.heroku.com/deploy?template=https://github.com/tdiary/tdiary-core)
-
 [![Gem Version](https://badge.fury.io/rb/tdiary.png)](https://rubygems.org/gems/tdiary) [![Build Status](https://github.com/tdiary/tdiary-core/actions/workflows/ci.yml/badge.svg)](https://github.com/tdiary/tdiary-core/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/tdiary/tdiary-core/badge.png?branch=master)](https://coveralls.io/r/tdiary/tdiary-core) [![Code Climate](https://codeclimate.com/github/tdiary/tdiary-core.png)](https://codeclimate.com/github/tdiary/tdiary-core)
 
 ## tDiary, The TSUKKOMI-able Weblog.
