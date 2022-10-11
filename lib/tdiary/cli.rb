@@ -126,7 +126,7 @@ module TDiary
 				if options[:log]
 					opts[:AccessLog] = [[File.open(options[:log], 'a'), WEBrick::AccessLog::CLF]]
 				end
-				::RackUp::Server.start( opts )
+				::Rackup::Server.start( opts )
 			end
 		end
 
