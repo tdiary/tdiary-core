@@ -71,6 +71,9 @@ GEM
     racksh (1.0.0)
       rack (>= 1.0)
       rack-test (>= 0.5)
+    rackup (0.2.2)
+      rack (>= 3.0.0.beta1)
+      webrick
     rake (13.0.6)
     redcarpet (3.5.1)
     regexp_parser (2.5.0)
@@ -142,6 +145,7 @@ DEPENDENCIES
   pit
   rack
   racksh
+  rackup
   rake
   redcarpet
   rexml
