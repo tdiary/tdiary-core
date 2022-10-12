@@ -32,7 +32,7 @@ begin
 	status, headers, body = TDiary::Dispatcher.index.dispatch_cgi( request, @cgi )
 
 	TDiary::Dispatcher.send_headers( status, headers )
-	::Rack::Handler::CGI.send_body(body)
+	::Rackup::Handler::CGI.send_body(body)
 rescue Exception
 	if @cgi then
 		print @cgi.header( 'status' => CGI::HTTP_STATUS['SERVER_ERROR'], 'type' => 'text/html' )
