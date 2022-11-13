@@ -20,7 +20,6 @@ module TDiary
 				if ::Rack::Session.const_defined? :Dalli
 					::Rack::Session::Dalli.new(
 						app,
-						cache: Dalli::Client.new,
 						expire_after: 2592000
 					)
 				else
