@@ -1,3 +1,8 @@
+2022-11-29 Tada, Tadashi <t@tdtds.jp>
+	* support rack 3.x
+	* support dalli 3.x
+	* release 5.2.4
+
 2022-08-29 Tada, Tadashi <t@tdtds.jp>
 	* remove Heroku button from README
 	* release 5.2.3
