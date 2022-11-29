@@ -23,4 +23,5 @@ VOLUME [ "/usr/src/app/data", "/usr/src/app/public" ]
 EXPOSE 9292
 ENV PORT=9292
 ENV HTPASSWD=data/.htpasswd
+ENV RACK_ENV=deployment
 CMD bundle exec rackup -o 0.0.0.0 -p ${PORT}
