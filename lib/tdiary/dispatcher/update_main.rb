@@ -22,7 +22,7 @@ module TDiary
 					head = {
 						'content-type' => 'text/html; charset=UTF-8',
 						'charset' => conf.encoding,
-						'Content-Length' => body.bytesize.to_s,
+						'content-length' => body.bytesize.to_s,
 						'Vary' => 'User-Agent',
 						'X-Frame-Options' => 'SAMEORIGIN'
 					}

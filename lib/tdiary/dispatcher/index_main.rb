@@ -40,7 +40,7 @@ module TDiary
 								head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 							else
 								head['charset'] = conf.encoding
-								head['Content-Length'] = body.bytesize.to_s
+								head['content-length'] = body.bytesize.to_s
 							end
 							head['Pragma'] = 'no-cache'
 							head['Cache-Control'] = 'no-cache'
