@@ -30,7 +30,7 @@ module TDiary
 
 						if request.head?
 							head['Pragma'] = 'no-cache'
-							head['Cache-Control'] = 'no-cache'
+							head['cache-control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
 							require 'openssl'
@@ -43,7 +43,7 @@ module TDiary
 								head['content-length'] = body.bytesize.to_s
 							end
 							head['Pragma'] = 'no-cache'
-							head['Cache-Control'] = 'no-cache'
+							head['cache-control'] = 'no-cache'
 							head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
