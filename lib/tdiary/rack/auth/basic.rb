@@ -22,7 +22,7 @@ module TDiary
 					begin
 						@authenticator.call(env)
 					rescue PasswordFileNotFound => e
-						[403, {"Content-Type" => "text/plain"}, [e.message]]
+						[403, {"content-type" => "text/plain"}, [e.message]]
 					end
 				end
 			end

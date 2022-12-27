@@ -20,7 +20,7 @@ module TDiary
 					head = {}; body = ''
 					body = tdiary.eval_rhtml
 					head = {
-						'Content-Type' => 'text/html; charset=UTF-8',
+						'content-type' => 'text/html; charset=UTF-8',
 						'charset' => conf.encoding,
 						'Content-Length' => body.bytesize.to_s,
 						'Vary' => 'User-Agent',
@@ -31,7 +31,7 @@ module TDiary
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'Content-Type' => 'text/html',
+						'content-type' => 'text/html',
 					}
 					body = %Q[
 								<html>

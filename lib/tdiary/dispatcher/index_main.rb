@@ -21,7 +21,7 @@ module TDiary
 
 					begin
 						head = {
-							'Content-Type' => 'text/html; charset=UTF-8',
+							'content-type' => 'text/html; charset=UTF-8',
 							'Vary' => 'User-Agent'
 						}
 						head['status'] = status if status
@@ -52,12 +52,12 @@ module TDiary
 						body = %Q[
 									<h1>404 Not Found</h1>
 									<div>#{' ' * 500}</div>]
-						TDiary::Response.new( body, 404, { 'Content-Type' => 'text/html' } )
+						TDiary::Response.new( body, 404, { 'content-type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'Content-Type' => 'text/html',
+						'content-type' => 'text/html',
 					}
 					body = %Q[
 								<html>

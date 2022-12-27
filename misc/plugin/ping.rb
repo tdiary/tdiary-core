@@ -42,7 +42,7 @@ def ping( list )
 			begin
 				Timeout::timeout( @conf['ping.timeout'].to_i ) do
 					Net::HTTP.start( u.host, u.port ) do |http|
-						http.post( u.path, xml, 'Content-Type' => 'text/xml' )
+						http.post( u.path, xml, 'content-type' => 'text/xml' )
 					end
 				end
 			rescue Exception,Timeout::Error
