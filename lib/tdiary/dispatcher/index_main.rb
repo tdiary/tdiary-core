@@ -35,8 +35,8 @@ module TDiary
 						else
 							require 'openssl'
 							body = tdiary.eval_rhtml
-							head['ETag'] = %Q["#{OpenSSL::Digest::SHA256.hexdigest( body )}"]
-							if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
+							head['etag'] = %Q["#{OpenSSL::Digest::SHA256.hexdigest( body )}"]
+							if ENV['HTTP_IF_NONE_MATCH'] == head['etag'] and request.get? then
 								head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 							else
 								head['charset'] = conf.encoding
