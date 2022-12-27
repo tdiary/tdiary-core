@@ -22,7 +22,7 @@ module TDiary
 					begin
 						head = {
 							'content-type' => 'text/html; charset=UTF-8',
-							'Vary' => 'User-Agent'
+							'vary' => 'User-Agent'
 						}
 						head['status'] = status if status
 						body = ''
