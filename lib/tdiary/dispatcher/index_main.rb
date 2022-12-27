@@ -29,7 +29,7 @@ module TDiary
 						head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
 						if request.head?
-							head['Pragma'] = 'no-cache'
+							head['pragma'] = 'no-cache'
 							head['cache-control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
@@ -42,7 +42,7 @@ module TDiary
 								head['charset'] = conf.encoding
 								head['content-length'] = body.bytesize.to_s
 							end
-							head['Pragma'] = 'no-cache'
+							head['pragma'] = 'no-cache'
 							head['cache-control'] = 'no-cache'
 							head['x-frame-options'] = conf.x_frame_options if conf.x_frame_options
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
