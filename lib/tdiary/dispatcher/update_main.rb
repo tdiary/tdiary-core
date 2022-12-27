@@ -24,7 +24,7 @@ module TDiary
 						'charset' => conf.encoding,
 						'content-length' => body.bytesize.to_s,
 						'cary' => 'User-Agent',
-						'X-Frame-Options' => 'SAMEORIGIN'
+						'x-frame-options' => 'SAMEORIGIN'
 					}
 					body = ( request.head? ? '' : body )
 					TDiary::Response.new( body, 200, head )

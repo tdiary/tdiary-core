@@ -44,7 +44,7 @@ module TDiary
 							end
 							head['Pragma'] = 'no-cache'
 							head['cache-control'] = 'no-cache'
-							head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
+							head['x-frame-options'] = conf.x_frame_options if conf.x_frame_options
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
 						end
