@@ -38,7 +38,7 @@ rescue Exception
 		print @cgi.header( 'status' => '500 Internal Server Error', 'type' => 'text/html' )
 	else
 		print "Status: 500 Internal Server Error\n"
-		print "Content-Type: text/html\n\n"
+		print "content-type: text/html\n\n"
 	end
 	puts "<h1>500 Internal Server Error</h1>"
 	puts "<pre>"

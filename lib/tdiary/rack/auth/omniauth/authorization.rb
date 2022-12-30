@@ -32,7 +32,7 @@ module TDiary
 						req = ::Rack::Request.new(env)
 						env['rack.session']['tdiary.auth.redirect'] = "#{req.base_url}#{req.fullpath}"
 						redirect = File.join("#{req.base_url}#{req.path}", "#{::OmniAuth.config.path_prefix}/#{@provider}")
-						[302, {'Content-Type' => 'text/plain', 'Location' => redirect}, []]
+						[302, {'content-type' => 'text/plain', 'Location' => redirect}, []]
 					end
 
 					def logout(env)
@@ -40,7 +40,7 @@ module TDiary
 					end
 
 					def forbidden
-						[403, {'Content-Type' => 'text/plain'}, ['forbidden']]
+						[403, {'content-type' => 'text/plain'}, ['forbidden']]
 					end
 
 					def callback(env)
@@ -51,7 +51,7 @@ module TDiary
 						env['rack.session']['auth'] = auth
 						env['REMOTE_USER'] = "#{auth.uid}@#{auth.provider}"
 						redirect = env['rack.session']['tdiary.auth.redirect'] || '/'
-						[302, {'Content-Type' => 'text/plain', 'Location' => redirect}, []]
+						[302, {'content-type' => 'text/plain', 'Location' => redirect}, []]
 					end
 
 					def authenticate?(env)

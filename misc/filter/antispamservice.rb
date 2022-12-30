@@ -72,7 +72,7 @@ module TDiary::Filter
 		def check( uri, data )
 			header = {
 				'User-Agent' => "tDiary/#{TDIARY_VERSION} | Antispam filter/$Revision: 1.4 $",
-				'Content-Type' => 'application/x-www-form-urlencoded'
+				'content-type' => 'application/x-www-form-urlencoded'
 			}
 			debug( "antispam request: #{data}", DEBUG_FULL )
 			proxy_h, proxy_p = (@conf['proxy'] || '').split( /:/ )
