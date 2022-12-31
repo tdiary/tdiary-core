@@ -43,8 +43,8 @@ GEM
       rake
     jasmine-core (2.99.2)
     json (2.6.2)
-    launchy (2.5.0)
-      addressable (~> 2.7)
+    launchy (2.5.2)
+      addressable (~> 2.8)
     mail (2.8.0)
       mini_mime (>= 0.1.1)
       net-imap
@@ -75,7 +75,7 @@ GEM
     phantomjs (2.1.1.0)
     pit (0.0.7)
     power_assert (2.0.2)
-    public_suffix (5.0.0)
+    public_suffix (5.0.1)
     racc (1.6.1)
     rack (3.0.3)
     rack-test (2.0.2)
