@@ -88,7 +88,7 @@ GEM
       rack (>= 3)
       webrick
     rake (13.0.6)
-    redcarpet (3.5.1)
+    redcarpet (3.6.0)
     regexp_parser (2.5.0)
     reline (0.3.2)
       io-console (~> 0.5)
