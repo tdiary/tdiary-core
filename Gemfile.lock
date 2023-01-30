@@ -132,7 +132,7 @@ GEM
     timeout (0.3.1)
     tins (1.31.1)
       sync
-    webrick (1.7.0)
+    webrick (1.8.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
