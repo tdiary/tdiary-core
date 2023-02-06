@@ -45,7 +45,7 @@ GEM
     json (2.6.2)
     launchy (2.5.2)
       addressable (~> 2.8)
-    mail (2.8.0.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
