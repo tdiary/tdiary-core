@@ -128,7 +128,7 @@ GEM
       tins (~> 1.0)
     test-unit (3.5.7)
       power_assert
-    thor (1.2.1)
+    thor (1.2.2)
     timeout (0.3.1)
     tins (1.31.1)
       sync
