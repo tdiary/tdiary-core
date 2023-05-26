@@ -6,7 +6,6 @@ gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
 gem 'mail'
-gem 'net-smtp' # https://github.com/mikel/mail/pull/1439
 gem 'rake'
 
 group :development do
