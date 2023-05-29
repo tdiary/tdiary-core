@@ -20,6 +20,8 @@ class TDiary::Rack::Auth::OmniAuth
 		end
 
 		OmniAuth.config.allowed_request_methods = [:get] # FixMe
+		OmniAuth.config.request_validation_phase = nil # FixMe
+
 		@app = ::Rack::Builder.new(app) {
 			use TDiary::Rack::Session
 		}.tap {|builder|
