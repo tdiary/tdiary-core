@@ -3,6 +3,7 @@ GEM
   specs:
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
+    bigdecimal (3.1.4)
     capybara (3.39.1)
       addressable
       matrix
@@ -114,7 +115,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sequel (5.71.0)
+    sequel (5.72.0)
+      bigdecimal
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
