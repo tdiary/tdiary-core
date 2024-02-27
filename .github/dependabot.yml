@@ -10,3 +10,7 @@ updates:
   - dependency-name: jasmine
     versions:
     - ">= 3.0.a, < 4"
+- package-ecosystem: 'github-actions'
+  directory: '/'
+  schedule:
+    interval: 'weekly'
