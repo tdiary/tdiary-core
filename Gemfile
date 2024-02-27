@@ -14,7 +14,6 @@ group :development do
   gem 'redcarpet'
   gem 'octokit'
   gem 'mime-types'
-  gem "debug"
 
   group :test do
     gem 'test-unit'
