@@ -23,7 +23,7 @@ module TDiary
 						'content-type' => 'text/html; charset=UTF-8',
 						'charset' => conf.encoding,
 						'content-length' => body.bytesize.to_s,
-						'cary' => 'User-Agent',
+						'vary' => 'User-Agent',
 						'x-frame-options' => 'SAMEORIGIN'
 					}
 					body = ( request.head? ? '' : body )
