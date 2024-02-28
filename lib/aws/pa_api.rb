@@ -53,7 +53,7 @@ module AWS
 				"X-Amz-Date" => time_stamp,
 				"X-Amz-Content-Sha256" => OpenSSL::Digest::SHA256.hexdigest(payload),
 				"Authorization" => authorization,
-				"content-type" => "application/json; charset=utf-8"
+				"Content-Type" => "application/json; charset=utf-8"
 			}
 			uri = URI("https://#{MARKETS[locale].host}/paapi5/getitems")
 			http = Net::HTTP.new(uri.host, uri.port)

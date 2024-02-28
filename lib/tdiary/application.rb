@@ -53,7 +53,7 @@ module TDiary
 			rescue Exception => e
 				body = ["#{e.class}: #{e}\n"]
 				body << e.backtrace.join("\n")
-				[500, {'content-type' => 'text/plain'}, body]
+				[500, {'Content-Type' => 'text/plain'}, body]
 			end
 		end
 

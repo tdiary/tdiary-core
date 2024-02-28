@@ -21,30 +21,30 @@ module TDiary
 
 					begin
 						head = {
-							'content-type' => 'text/html; charset=UTF-8',
-							'vary' => 'User-Agent'
+							'Content-Type' => 'text/html; charset=UTF-8',
+							'Vary' => 'User-Agent'
 						}
 						head['status'] = status if status
 						body = ''
 						head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
 						if request.head?
-							head['pragma'] = 'no-cache'
-							head['cache-control'] = 'no-cache'
+							head['Pragma'] = 'no-cache'
+							head['Cache-Control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
 							require 'openssl'
 							body = tdiary.eval_rhtml
-							head['etag'] = %Q["#{OpenSSL::Digest::SHA256.hexdigest( body )}"]
-							if ENV['HTTP_IF_NONE_MATCH'] == head['etag'] and request.get? then
+							head['ETag'] = %Q["#{OpenSSL::Digest::SHA256.hexdigest( body )}"]
+							if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
 								head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 							else
 								head['charset'] = conf.encoding
-								head['content-length'] = body.bytesize.to_s
+								head['Content-Length'] = body.bytesize.to_s
 							end
-							head['pragma'] = 'no-cache'
-							head['cache-control'] = 'no-cache'
-							head['x-frame-options'] = conf.x_frame_options if conf.x_frame_options
+							head['Pragma'] = 'no-cache'
+							head['Cache-Control'] = 'no-cache'
+							head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
 							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
 						end
@@ -52,12 +52,12 @@ module TDiary
 						body = %Q[
 									<h1>404 Not Found</h1>
 									<div>#{' ' * 500}</div>]
-						TDiary::Response.new( body, 404, { 'content-type' => 'text/html' } )
+						TDiary::Response.new( body, 404, { 'Content-Type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'content-type' => 'text/html',
+						'Content-Type' => 'text/html',
 					}
 					body = %Q[
 								<html>
