@@ -20,18 +20,18 @@ module TDiary
 					head = {}; body = ''
 					body = tdiary.eval_rhtml
 					head = {
-						'content-type' => 'text/html; charset=UTF-8',
+						'Content-Type' => 'text/html; charset=UTF-8',
 						'charset' => conf.encoding,
-						'content-length' => body.bytesize.to_s,
-						'vary' => 'User-Agent',
-						'x-frame-options' => 'SAMEORIGIN'
+						'Content-Length' => body.bytesize.to_s,
+						'Vary' => 'User-Agent',
+						'X-Frame-Options' => 'SAMEORIGIN'
 					}
 					body = ( request.head? ? '' : body )
 					TDiary::Response.new( body, 200, head )
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'content-type' => 'text/html',
+						'Content-Type' => 'text/html',
 					}
 					body = %Q[
 								<html>

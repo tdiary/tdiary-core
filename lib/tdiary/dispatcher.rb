@@ -31,12 +31,12 @@ module TDiary
 			# stolen from Rack::Handler::CGI.send_headers
 			def send_headers(status, headers)
 				begin
-					headers['type'] = headers.delete('content-type')
+					headers['type'] = headers.delete('Content-Type')
 					$stdout.print CGI.new.header({'Status'=>status}.merge(headers))
 				rescue EOFError
 					charset = headers.delete('charset')
-					headers['content-type'] ||= headers.delete( 'type' )
-					headers['content-type'] += "; charset=#{charset}" if charset
+					headers['Content-Type'] ||= headers.delete( 'type' )
+					headers['Content-Type'] += "; charset=#{charset}" if charset
 					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
 				end
 				$stdout.flush
@@ -71,12 +71,7 @@ module TDiary
 			req = TDiary::Request.new( env )
 			req.params # fill params to tdiary_request
 			$RACK_ENV = req.env
-			# Rack 3.x has been removed rack.input rewinding
-			begin
-				env["rack.input"].instance_variable_get(:@input).rewind
-			rescue
-				env["rack.input"].rewind
-			end
+			env["rack.input"].rewind
 			fake_stdin_as_params
 			req
 		end

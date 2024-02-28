@@ -17,9 +17,9 @@ module TDiary
 
 				body = "Not Found: #{env['PATH_INFO']}"
 				if env["REQUEST_METHOD"] == "HEAD"
-					[404, {'content-type' => 'text/plain', 'content-length' => body.length.to_s}, []]
+					[404, {'Content-Type' => 'text/plain', 'Content-Length' => body.length.to_s}, []]
 				else
-					[404, {'content-type' => 'text/plain'}, [body]]
+					[404, {'Content-Type' => 'text/plain'}, [body]]
 				end
 			end
 		end
