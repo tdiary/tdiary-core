@@ -1,3 +1,8 @@
+2024-02-29 Hiroshi SHIBATA <hsbt@ruby-lang.org>
+	* support Ruby 3.2 and 3.3.
+	* drop to support Ruby 2.7.
+	* release 5.3.0
+
 2022-11-29 Tada, Tadashi <t@tdtds.jp>
 	* support rack 3.x
 	* support dalli 3.x
