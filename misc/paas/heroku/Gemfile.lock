@@ -143,17 +143,20 @@ GEM
       faraday (>= 0.13.0, < 1.0)
       mime-types
     racc (1.7.3)
-    rack (2.2.8.1)
-    rack-protection (3.2.0)
+    rack (3.0.9.1)
+    rack-protection (4.0.0)
       base64 (>= 0.1.0)
-      rack (~> 2.2, >= 2.2.4)
-    rack-session (1.0.2)
-      rack (< 3)
+      rack (>= 3.0.0, < 4)
+    rack-session (2.0.0)
+      rack (>= 3.0.0)
     rack-test (2.1.0)
       rack (>= 1.3)
     racksh (1.0.1)
       rack (>= 1.0)
       rack-test (>= 0.5)
+    rackup (2.1.0)
+      rack (>= 3)
+      webrick (~> 1.8)
     rake (13.1.0)
     rdtool (0.6.38)
     redcarpet (3.6.0)
@@ -258,9 +261,10 @@ DEPENDENCIES
   omniauth-github
   pit
   puma
-  rack (< 3)
+  rack
   rack-session
   racksh
+  rackup
   rake
   redcarpet
   rexml
