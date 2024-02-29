@@ -74,12 +74,15 @@ GEM
     power_assert (2.0.3)
     public_suffix (5.0.4)
     racc (1.7.3)
-    rack (2.2.8.1)
+    rack (3.0.9.1)
     rack-test (2.1.0)
       rack (>= 1.3)
     racksh (1.0.1)
       rack (>= 1.0)
       rack-test (>= 0.5)
+    rackup (2.1.0)
+      rack (>= 3)
+      webrick (~> 1.8)
     rake (13.1.0)
     redcarpet (3.6.0)
     regexp_parser (2.9.0)
@@ -147,8 +150,9 @@ DEPENDENCIES
   mime-types
   octokit
   pit
-  rack (< 3)
+  rack
   racksh
+  rackup
   rake
   redcarpet
   rexml
