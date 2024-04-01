@@ -30,7 +30,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
-    fastimage (2.3.0)
+    fastimage (2.3.1)
     hikidoc (0.1.0)
     jasmine (2.99.0)
       jasmine-core (>= 2.99.0, < 3.0.0)
