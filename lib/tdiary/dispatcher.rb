@@ -71,12 +71,6 @@ module TDiary
 			req = TDiary::Request.new( env )
 			req.params # fill params to tdiary_request
 			$RACK_ENV = req.env
-			# Rack 3.x has been removed rack.input rewinding
-			begin
-				env["rack.input"].instance_variable_get(:@input).rewind
-			rescue
-				env["rack.input"].rewind
-			end
 			fake_stdin_as_params
 			req
 		end
