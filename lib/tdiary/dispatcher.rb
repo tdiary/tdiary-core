@@ -68,27 +68,18 @@ module TDiary
 	private
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
+			body = env["rack.input"].read
+			env["rack.input"] = StringIO.new(body)
 			req = TDiary::Request.new( env )
 			req.params # fill params to tdiary_request
 			$RACK_ENV = req.env
-			# Rack 3.x has been removed rack.input rewinding
-			begin
-				env["rack.input"].instance_variable_get(:@input).rewind
-			rescue
-				env["rack.input"].rewind
-			end
-			fake_stdin_as_params
+			fake_stdin_as_params(body)
 			req
 		end
 
 		# FIXME dirty hack
-		def fake_stdin_as_params
-			stdin_spy = StringIO.new
-			if $RACK_ENV && $RACK_ENV['rack.input']
-				stdin_spy.print($RACK_ENV['rack.input'].read)
-				stdin_spy.rewind
-			end
-			$stdin = stdin_spy
+		def fake_stdin_as_params(body)
+			$stdin = StringIO.new(body)
 		end
 	end
 end
