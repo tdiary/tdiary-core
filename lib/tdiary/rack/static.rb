@@ -1,11 +1,11 @@
-require 'rack/file'
+require 'rack/files'
 
 module TDiary
 	module Rack
 		class Static
 			def initialize( app, base_dir )
 				@app = app
-				@file = base_dir.map{|dir| ::Rack::File.new(dir) }
+				@file = base_dir.map{|dir| ::Rack::Files.new(dir) }
 			end
 
 			def call( env )
