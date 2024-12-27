@@ -21,12 +21,6 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - run: |
-        gem install bundler --no-document -v '2.4.22'
-      if: matrix.ruby == '2.7'
-    - run: |
-        gem update --system --no-document
-      if: matrix.ruby != '2.7'
     - name: Install dependencies
       run: |
         echo 'gemspec' > Gemfile.local
