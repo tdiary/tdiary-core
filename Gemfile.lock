@@ -65,7 +65,15 @@ GEM
       timeout
     net-smtp (0.4.0.1)
       net-protocol
+    nokogiri (1.16.2-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.2-arm-linux)
+      racc (~> 1.4)
     nokogiri (1.16.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.2-x86-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.2-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
@@ -120,7 +128,11 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    sqlite3 (1.7.2-aarch64-linux)
+    sqlite3 (1.7.2-arm-linux)
     sqlite3 (1.7.2-arm64-darwin)
+    sqlite3 (1.7.2-x86-linux)
+    sqlite3 (1.7.2-x86_64-darwin)
     sqlite3 (1.7.2-x86_64-linux)
     sync (0.5.0)
     term-ansicolor (1.7.1)
@@ -138,8 +150,11 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
-  arm64-darwin-23
-  arm64-darwin-24
+  aarch64-linux
+  arm-linux
+  arm64-darwin
+  x86-linux
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
