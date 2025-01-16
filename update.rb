@@ -32,6 +32,7 @@ begin
 	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
 
 	TDiary::Dispatcher.send_headers( status, headers )
+	require 'rackup/handler/cgi'
 	::Rackup::Handler::CGI.send_body(body)
 rescue Exception
 	if @cgi then
