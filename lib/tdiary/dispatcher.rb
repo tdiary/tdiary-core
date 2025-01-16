@@ -68,7 +68,7 @@ module TDiary
 	private
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
-			body = env["rack.input"].read
+			body = env["rack.input"]&.read || ""
 			env["rack.input"] = StringIO.new(body)
 			req = TDiary::Request.new( env )
 			req.params # fill params to tdiary_request
