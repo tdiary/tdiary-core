@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rack'
-gem 'rackup'
+gem 'rack', "< 3.1"
+gem 'rackup', "< 2.2"
 gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
