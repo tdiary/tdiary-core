@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rack'
+gem 'rack-session'
 gem 'rackup'
 gem 'hikidoc'
 gem 'fastimage'
