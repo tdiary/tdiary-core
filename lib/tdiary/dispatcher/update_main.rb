@@ -41,9 +41,10 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
-					head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 					# TODO return code should be 302? (current behaviour returns 200)
-					TDiary::Response.new( body, 200, head )
+					res = TDiary::Response.new( body, 200, head )
+					res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
+					res
 				end
 			end
 

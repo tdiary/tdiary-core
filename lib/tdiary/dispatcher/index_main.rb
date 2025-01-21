@@ -45,8 +45,9 @@ module TDiary
 							head['pragma'] = 'no-cache'
 							head['cache-control'] = 'no-cache'
 							head['x-frame-options'] = conf.x_frame_options if conf.x_frame_options
-							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
+							res = TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
+							res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
+							res
 						end
 					rescue TDiary::NotFound
 						body = %Q[
@@ -67,9 +68,10 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
-					head['cookie'] = tdiary.cookies if tdiary && tdiary.cookies.size > 0
 					# TODO return code should be 302? (current behaviour returns 200)
-					TDiary::Response.new( body, 200, head )
+					res = TDiary::Response.new( body, 200, head )
+					res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
+					res
 				end
 			end
 
