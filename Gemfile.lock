@@ -42,11 +42,11 @@ GEM
       rake
     jasmine-core (2.99.2)
     json (2.9.1)
-    launchy (3.1.0)
+    launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
-    logger (1.6.5)
+    logger (1.6.6)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
