@@ -21,43 +21,44 @@ module TDiary
 
 					begin
 						head = {
-							'Content-Type' => 'text/html; charset=UTF-8',
-							'Vary' => 'User-Agent'
+							'content-type' => 'text/html; charset=UTF-8',
+							'vary' => 'User-Agent'
 						}
 						head['status'] = status if status
 						body = ''
 						head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
 
 						if request.head?
-							head['Pragma'] = 'no-cache'
-							head['Cache-Control'] = 'no-cache'
+							head['pragma'] = 'no-cache'
+							head['cache-control'] = 'no-cache'
 							return TDiary::Response.new( '', 200, head )
 						else
-							require 'digest/md5'
+							require 'openssl'
 							body = tdiary.eval_rhtml
-							head['ETag'] = %Q["#{Digest::MD5.hexdigest( body )}"]
-							if ENV['HTTP_IF_NONE_MATCH'] == head['ETag'] and request.get? then
+							head['etag'] = %Q["#{OpenSSL::Digest::SHA256.hexdigest( body )}"]
+							if ENV['HTTP_IF_NONE_MATCH'] == head['etag'] and request.get? then
 								head['status'] = CGI::HTTP_STATUS['NOT_MODIFIED']
 							else
 								head['charset'] = conf.encoding
-								head['Content-Length'] = body.bytesize.to_s
+								head['content-length'] = body.bytesize.to_s
 							end
-							head['Pragma'] = 'no-cache'
-							head['Cache-Control'] = 'no-cache'
-							head['X-Frame-Options'] = conf.x_frame_options if conf.x_frame_options
-							head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
-							TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
+							head['pragma'] = 'no-cache'
+							head['cache-control'] = 'no-cache'
+							head['x-frame-options'] = conf.x_frame_options if conf.x_frame_options
+							res = TDiary::Response.new( body, ::TDiary::Dispatcher.extract_status_for_legacy_tdiary( head ), head )
+							res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
+							res
 						end
 					rescue TDiary::NotFound
 						body = %Q[
 									<h1>404 Not Found</h1>
 									<div>#{' ' * 500}</div>]
-						TDiary::Response.new( body, 404, { 'Content-Type' => 'text/html' } )
+						TDiary::Response.new( body, 404, { 'content-type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'Content-Type' => 'text/html',
+						'content-type' => 'text/html',
 					}
 					body = %Q[
 								<html>
@@ -67,9 +68,10 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
-					head['cookie'] = tdiary.cookies if tdiary && tdiary.cookies.size > 0
 					# TODO return code should be 302? (current behaviour returns 200)
-					TDiary::Response.new( body, 200, head )
+					res = TDiary::Response.new( body, 200, head )
+					res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
+					res
 				end
 			end
 

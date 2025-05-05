@@ -17,18 +17,6 @@ def encoding_old
 	'EUC-JP'
 end
 
-def mobile_encoding
-	'Shift_JIS'
-end
-
-def to_mobile( str )
-	str.encode(mobile_encoding, {invalid: :replace, undef: :replace})
-end
-
-def to_mail( str )
-	str.encode('iso-2022-jp', {invalid: :replace, undef: :replace})
-end
-
 def migrate_to_utf8( str )
 	to_native( str, encoding_old )
 end

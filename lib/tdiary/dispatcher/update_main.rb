@@ -20,18 +20,18 @@ module TDiary
 					head = {}; body = ''
 					body = tdiary.eval_rhtml
 					head = {
-						'Content-Type' => 'text/html; charset=UTF-8',
+						'content-type' => 'text/html; charset=UTF-8',
 						'charset' => conf.encoding,
-						'Content-Length' => body.bytesize.to_s,
-						'Vary' => 'User-Agent',
-						'X-Frame-Options' => 'SAMEORIGIN'
+						'content-length' => body.bytesize.to_s,
+						'vary' => 'User-Agent',
+						'x-frame-options' => 'SAMEORIGIN'
 					}
 					body = ( request.head? ? '' : body )
 					TDiary::Response.new( body, 200, head )
 				rescue TDiary::ForceRedirect
 					head = {
 						#'Location' => $!.path
-						'Content-Type' => 'text/html',
+						'content-type' => 'text/html',
 					}
 					body = %Q[
 								<html>
@@ -41,9 +41,10 @@ module TDiary
 								</head>
 								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
 								</html>]
-					head['cookie'] = tdiary.cookies if tdiary.cookies.size > 0
 					# TODO return code should be 302? (current behaviour returns 200)
-					TDiary::Response.new( body, 200, head )
+					res = TDiary::Response.new( body, 200, head )
+					res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
+					res
 				end
 			end
 

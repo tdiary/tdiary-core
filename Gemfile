@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rack'
+gem 'rack-session'
+gem 'rackup'
 gem 'hikidoc'
 gem 'fastimage'
 gem 'emot'
@@ -13,14 +15,12 @@ group :development do
   gem 'redcarpet'
   gem 'octokit'
   gem 'mime-types'
-  gem "ruby-debug-ide"
-  gem "debase"
 
   group :test do
     gem 'test-unit'
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
-	 gem 'date', '>= 3.1.1' # for compatibility of capybara
+    gem 'date', '>= 3.1.1' # for compatibility of capybara
     gem 'selenium-webdriver'
     gem 'launchy'
     gem 'sequel'

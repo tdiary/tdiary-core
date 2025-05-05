@@ -40,6 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'hikidoc'
   spec.add_dependency 'mail'
   spec.add_dependency 'rack'
+  spec.add_dependency 'nkf'
   spec.add_dependency 'rake'
   spec.add_dependency 'thor'
   spec.add_dependency 'rexml'

@@ -30,28 +30,32 @@
 #          SMTP認証が必要な場合のユーザ名とパスワード
 #     @options['comment_mail.authentication']
 #          SMTP認証の方式。:plainや:loginなど(Mail gemに指定できるもの)
-#     @options['comment_mail.starttls']
-#          TLSに自動接続する(true/false) (Mail gem)
 #
 # Copyright (c) 2015 TADA Tadashi <t@tdtds.jp>
 # You can distribute this file under the GPL2 or any later version.
 #
-def comment_mail( text, to )
+def comment_mail(text, to)
 	begin
 		require 'mail'
-
-		mail = Mail.new( text )
-		delivery_opts = {
+		mail = Mail.new(text)
+		mail.delivery_method(:smtp,
 			address: @conf['comment_mail.smtp_host'] || 'localhost',
 			port: @conf['comment_mail.smtp_port'] || 25,
 			authentication: @conf['comment_mail.authentication'],
 			user_name: @conf['comment_mail.user_name'],
-			password: @conf['comment_mail.password'],
-			enable_starttls_auto: @conf['comment_mail.starttls']
-		}.delete_if{|k,v| v == nil}
-		mail.delivery_method( :smtp, delivery_opts )
+			password: @conf['comment_mail.password']
+		)
+	rescue
+		$stderr.puts $!
+	end
+	begin
 		mail.deliver
 	rescue
+		# retry without verify when SSL error
+		unless mail.delivery_method.settings[:openssl_verify_mode] == 'none'
+			mail.delivery_method(:smtp, openssl_verify_mode: 'none')
+			retry
+		end
 		$stderr.puts $!
 	end
 end

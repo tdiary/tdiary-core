@@ -63,7 +63,7 @@ def antispam_verify_key?( host, key )
 	data = "key=#{key}&blog=#{blog}"
 	header = {
 		'User-Agent' => "tDiary/#{TDIARY_VERSION} | Antispam filter",
-		'Content-Type' => 'application/x-www-form-urlencoded'
+		'content-type' => 'application/x-www-form-urlencoded'
 	}
 	proxy_h, proxy_p = (@conf['proxy'] || '').split( /:/ )
 	res = ::Net::HTTP::Proxy( proxy_h, proxy_p ).start( uri.host, uri.port ) do |http|

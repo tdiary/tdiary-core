@@ -259,11 +259,6 @@ add_conf_proc( 'comment', 'TSUKKOMI', 'tsukkomi' ) do
 	HTML
 end
 
-# comment mail
-def comment_mail_mime( str )
-	[str.dup]
-end
-
 def comment_mail_conf_label; 'TSUKKOMI Mail'; end
 
 def comment_mail_basic_html

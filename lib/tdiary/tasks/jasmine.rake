@@ -1,4 +1,5 @@
 begin
+	require_relative "../../rack/server"
 	require 'jasmine'
 	load 'jasmine/tasks/jasmine.rake'
 rescue LoadError

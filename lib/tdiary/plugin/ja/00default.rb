@@ -36,13 +36,6 @@ end
 #
 # TSUKKOMI mail
 #
-def comment_mail_mime( str )
-	require 'nkf'
-	NKF::nkf( "-j -m0 -f50", str ).lines.collect do |s|
-		%Q|=?ISO-2022-JP?B?#{[s.chomp].pack( 'm' ).gsub( /\n/, '' )}?=|
-	end
-end
-
 def comment_mail_conf_label; 'ツッコミメール'; end
 
 def comment_mail_basic_html

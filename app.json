@@ -17,7 +17,12 @@
       "required": true
     },
     "TWITTER_NAME": {
-      "required": true
+      "required": true,
+      "description": "only the Twitter user can log into this diary"
+    },
+    "MONGODB_URI": {
+      "required": true,
+      "description": "specify your MongoDB URI, for example on https://www.mongodb.com/cloud/atlas"
     },
     "RACK_ENV": "production"
   },

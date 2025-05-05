@@ -181,7 +181,13 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		message
 	rescue Net::HTTPResponse, Net::HTTPExceptions => e
 		@logger.error "amazon.rb: #{e.message}"
-		message = label || asin
+		message = ''
+		# Handle 429 "Too Many Requests"
+		if /^429/ =~ e.message then
+			url = "https://www.amazon.co.jp/dp/#{h asin}"
+			label ||= url
+			message << %Q|<a href="#{h url}">#{h label}</a>|
+		end
 		if @mode == 'preview' then
 			message << %Q|<span class="message">(#{h e.message})</span>|
 		end
