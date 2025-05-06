@@ -129,7 +129,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sequel (5.91.0)
+    sequel (5.92.0)
       bigdecimal
     simplecov (0.16.1)
       docile (~> 1.1)
