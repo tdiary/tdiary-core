@@ -1,4 +1,8 @@
-require 'rack/files'
+begin
+	require 'rack/files'
+rescue LoadError
+	require 'rack/file'
+end
 
 module TDiary
 	module Rack
