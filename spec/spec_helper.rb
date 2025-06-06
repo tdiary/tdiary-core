@@ -6,9 +6,7 @@ require 'tdiary/environment'
 
 if ENV['COVERAGE'] = 'simplecov'
 	require 'simplecov'
-	require 'coveralls'
 
-	SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 	SimpleCov.start do
 		add_filter '/spec/'
 		add_filter '/test/'
