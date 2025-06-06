@@ -37,3 +37,4 @@ jobs:
       run: if [ $TEST_MODE = "gem" ] ; then bundle exec tdiary test ; else bundle exec rake spec jasmine:ci test ; fi
       env:
         TEST_MODE: ${{ matrix.test_mode }}
+        OPENSSL_CONF: /etc/ssl
