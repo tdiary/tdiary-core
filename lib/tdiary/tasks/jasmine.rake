@@ -1,10 +1,14 @@
 begin
 	require_relative "../../rack/server"
-	require 'jasmine'
-	load 'jasmine/tasks/jasmine.rake'
+	
+	desc "Run JavaScript tests with Jasmine"
+	task :jasmine do
+		puts "Running JavaScript tests with npm jasmine..."
+		system("npm test") || abort("JavaScript tests failed")
+	end
 rescue LoadError
 	task :jasmine do
-		abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
+		abort "Node.js and npm are required to run JavaScript tests. Please install Node.js and run 'npm install'"
 	end
 end
 
