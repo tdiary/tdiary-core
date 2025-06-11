@@ -55,8 +55,8 @@ jobs:
         tags: |
           type=ref,event=branch
           type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=semver,pattern={{major}}
+          type=semver,pattern={{major}}.{{minor}},enable=${{ !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
+          type=semver,pattern={{major}},enable=${{ !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
           type=raw,value=latest,enable={{is_default_branch}}
         flavor: |
           latest=false
@@ -104,11 +104,23 @@ jobs:
       run: |
         # Extract metadata from build job
         METADATA='${{ needs.build.outputs.metadata }}'
+        echo "Metadata: $METADATA"
+
         TAGS=$(echo "$METADATA" | jq -r '.tags[]')
+        echo "Generated tags:"
+        echo "$TAGS"
+
+        if [ -z "$TAGS" ]; then
+          echo "No tags generated, exiting"
+          exit 1
+        fi
 
         # Get digests from build outputs
         AMD64_DIGEST="${{ needs.build.outputs.image-digest-amd64 }}"
         ARM64_DIGEST="${{ needs.build.outputs.image-digest-arm64 }}"
+
+        echo "AMD64 Digest: $AMD64_DIGEST"
+        echo "ARM64 Digest: $ARM64_DIGEST"
 
         # Create and push manifest for each tag
         for tag in $TAGS; do
