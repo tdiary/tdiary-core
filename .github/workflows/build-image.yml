@@ -2,6 +2,7 @@ name: Build Docker Image
 
 on:
   push:
+    branches: [ 'master' ]
     tags: [ 'v*' ]
   workflow_dispatch:
 
@@ -72,7 +73,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ matrix.platform }}
         provenance: false
-        outputs: type=image,name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
+        outputs: type=image,name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
 
     - name: Build and push Docker image (ARM64)
       id: build-arm64
@@ -86,7 +87,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ matrix.platform }}
         provenance: false
-        outputs: type=image,name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
+        outputs: type=image,name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true
 
   merge:
     runs-on: ubuntu-latest
