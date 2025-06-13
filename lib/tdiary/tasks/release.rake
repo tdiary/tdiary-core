@@ -4,7 +4,7 @@
 begin
 	require 'octokit'
 
-	STABLE = `git tag | sort -r -V | head -1`.chomp
+	STABLE = `git tag | grep -v beta | sort -r -V | head -1`.chomp
 	REPOS = %w(tdiary-core tdiary-theme tdiary-blogkit tdiary-contrib)
 
 	DEST_DIR = "/var/www/tdiary.org/htdocs/download"
