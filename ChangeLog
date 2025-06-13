@@ -1,3 +1,9 @@
+2025-06-13 Hiroshi SHIBATA <hsbt@ruby-lang.org>
+	* support Ruby 3.4.
+	* drop to support Ruby 3.0.
+	* support Rack 3.1
+	* release 5.4.0
+
 2024-02-29 Hiroshi SHIBATA <hsbt@ruby-lang.org>
 	* support Ruby 3.2 and 3.3.
 	* drop to support Ruby 2.7.
