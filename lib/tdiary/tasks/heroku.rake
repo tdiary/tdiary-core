@@ -22,6 +22,15 @@ namespace :heroku do
 		raise NotImplementedError
 	end
 
+	task :update_gemfile do
+		FileUtils.cp 'misc/paas/heroku/Gemfile.local', 'Gemfile.local'
+		FileUtils.cp 'misc/paas/heroku/Gemfile.lock', 'Gemfile.lock'
+		sh "bundle update"
+		FileUtils.cp 'Gemfile.local', 'misc/paas/heroku/Gemfile.local'
+		FileUtils.cp 'Gemfile.lock', 'misc/paas/heroku/Gemfile.lock'
+		sh "git checkout Gemfile.lock"
+	end
+
 	task :clean do
 		sh "git checkout master"
 		sh "git branch -D deploy"
