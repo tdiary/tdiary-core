@@ -28,7 +28,7 @@ GEM
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     fastimage (2.4.0)
-    hikidoc (0.1.0)
+    hikidoc (0.1.1)
     json (2.12.2)
     launchy (3.1.1)
       addressable (~> 2.8)
