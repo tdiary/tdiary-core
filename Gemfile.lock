@@ -132,18 +132,18 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
-    sqlite3 (2.8.0)
+    sqlite3 (2.8.1)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (2.8.0-aarch64-linux-gnu)
-    sqlite3 (2.8.0-aarch64-linux-musl)
-    sqlite3 (2.8.0-arm-linux-gnu)
-    sqlite3 (2.8.0-arm-linux-musl)
-    sqlite3 (2.8.0-arm64-darwin)
-    sqlite3 (2.8.0-x86-linux-gnu)
-    sqlite3 (2.8.0-x86-linux-musl)
-    sqlite3 (2.8.0-x86_64-darwin)
-    sqlite3 (2.8.0-x86_64-linux-gnu)
-    sqlite3 (2.8.0-x86_64-linux-musl)
+    sqlite3 (2.8.1-aarch64-linux-gnu)
+    sqlite3 (2.8.1-aarch64-linux-musl)
+    sqlite3 (2.8.1-arm-linux-gnu)
+    sqlite3 (2.8.1-arm-linux-musl)
+    sqlite3 (2.8.1-arm64-darwin)
+    sqlite3 (2.8.1-x86-linux-gnu)
+    sqlite3 (2.8.1-x86-linux-musl)
+    sqlite3 (2.8.1-x86_64-darwin)
+    sqlite3 (2.8.1-x86_64-linux-gnu)
+    sqlite3 (2.8.1-x86_64-linux-musl)
     test-unit (3.7.1)
       power_assert
     thor (1.4.0)
@@ -180,7 +180,7 @@ DEPENDENCIES
   launchy
   mail
   mime-types
-  nkf (~> 0.2.0)
+  nkf
   octokit
   pit
   rack
