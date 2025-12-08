@@ -95,7 +95,7 @@ GEM
     racksh (1.0.1)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rackup (2.2.1)
+    rackup (2.3.1)
       rack (>= 3)
     rake (13.3.1)
     redcarpet (3.6.1)
