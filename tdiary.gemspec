@@ -45,5 +45,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor'
   spec.add_dependency 'rexml'
   spec.add_dependency 'webrick'
-  spec.add_dependency "bundler", ">= 2.6", "< 3.0"
 end
