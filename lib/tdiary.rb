@@ -16,6 +16,7 @@ $:.unshift File.join(File::dirname(__FILE__), '../misc/lib')
 	Dir[File.join(File.dirname(__FILE__), path)].each {|dir| $:.unshift dir }
 end
 
+gem 'cgi' if RUBY_VERSION >= '4.0'
 require 'cgi'
 require 'uri'
 require 'fileutils'

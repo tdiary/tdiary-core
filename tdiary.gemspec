@@ -44,5 +44,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rake'
   spec.add_dependency 'thor'
   spec.add_dependency 'rexml'
+  spec.add_dependency 'cgi'
   spec.add_dependency 'webrick'
 end
