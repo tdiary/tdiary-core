@@ -15,6 +15,7 @@ Patch written by:
 
 class FCGI
   def self::each_cgi(*args)
+    gem 'cgi' if RUBY_VERSION >= '4.0'
     require 'cgi'
 
     eval(<<-EOS,TOPLEVEL_BINDING)
