@@ -144,7 +144,7 @@ GEM
     sqlite3 (2.8.1-x86_64-darwin)
     sqlite3 (2.8.1-x86_64-linux-gnu)
     sqlite3 (2.8.1-x86_64-linux-musl)
-    test-unit (3.7.3)
+    test-unit (3.7.6)
       power_assert
     thor (1.4.0)
     timeout (0.4.3)
