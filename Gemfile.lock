@@ -148,7 +148,7 @@ GEM
       power_assert
     thor (1.4.0)
     timeout (0.4.3)
-    uri (1.0.3)
+    uri (1.0.4)
     webrick (1.9.2)
     websocket (1.2.11)
     xpath (3.2.0)
