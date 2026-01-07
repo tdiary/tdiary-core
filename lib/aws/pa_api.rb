@@ -7,7 +7,7 @@ module AWS
 		Market = Struct.new(:host, :region)
 		MARKETS = {
 			au: Market.new('webservices.amazon.com.au', 'us-west-2'),
-			br: Market.new('webservices.amazon.com.br'  'us-east-1'),
+			br: Market.new('webservices.amazon.com.br', 'us-east-1'),
 			ca: Market.new('webservices.amazon.ca',     'us-east-1'),
 			fr: Market.new('webservices.amazon.fr',     'eu-west-1'),
 			de: Market.new('webservices.amazon.de',     'eu-west-1'),
@@ -39,7 +39,11 @@ module AWS
 					"Images.Primary.Large",
 					"ItemInfo.ByLineInfo",
 					"ItemInfo.Title",
-					"Offers.Listings.Price"
+					"OffersV2.Listings.Price",
+					"OffersV2.Listings.MerchantInfo",
+					"OffersV2.Listings.Availability",
+					"OffersV2.Listings.Condition",
+					"OffersV2.Listings.IsBuyBoxWinner"
 				]
 			}.to_json
 			time_stamp = Time.now.utc.strftime("%Y%m%dT%H%M%SZ")
