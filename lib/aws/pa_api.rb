@@ -7,7 +7,7 @@ module AWS
 		Market = Struct.new(:host, :region)
 		MARKETS = {
 			au: Market.new('webservices.amazon.com.au', 'us-west-2'),
-			br: Market.new('webservices.amazon.com.br'  'us-east-1'),
+			br: Market.new('webservices.amazon.com.br', 'us-east-1'),
 			ca: Market.new('webservices.amazon.ca',     'us-east-1'),
 			fr: Market.new('webservices.amazon.fr',     'eu-west-1'),
 			de: Market.new('webservices.amazon.de',     'eu-west-1'),
