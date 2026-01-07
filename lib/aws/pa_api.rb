@@ -39,7 +39,11 @@ module AWS
 					"Images.Primary.Large",
 					"ItemInfo.ByLineInfo",
 					"ItemInfo.Title",
-					"Offers.Listings.Price"
+					"OffersV2.Listings.Price",
+					"OffersV2.Listings.MerchantInfo",
+					"OffersV2.Listings.Availability",
+					"OffersV2.Listings.Condition",
+					"OffersV2.Listings.IsBuyBoxWinner"
 				]
 			}.to_json
 			time_stamp = Time.now.utc.strftime("%Y%m%dT%H%M%SZ")

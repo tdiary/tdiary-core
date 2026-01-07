@@ -76,7 +76,8 @@ end
 
 def amazon_price(item)
 	begin
-		item["Offers"]["Listings"][0]["Price"]["DisplayAmount"]
+		# OffersV2 API response structure
+		item["OffersV2"]["Listings"][0]["Price"]["Money"]["DisplayAmount"]
 	rescue
 		'(no price)'
 	end
