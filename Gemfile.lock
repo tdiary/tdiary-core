@@ -146,7 +146,7 @@ GEM
     sqlite3 (2.8.1-x86_64-linux-musl)
     test-unit (3.7.7)
       power_assert
-    thor (1.4.0)
+    thor (1.5.0)
     timeout (0.4.3)
     uri (1.0.4)
     webrick (1.9.2)
