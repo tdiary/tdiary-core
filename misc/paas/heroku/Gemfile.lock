@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 00a556a4a2e2bc9a56fd95862ab17694f38f476a
+  revision: a01a5a94655cb5b92b6c4d9b424efa15fcb759ac
   specs:
     tdiary-contrib (5.4.0)
       coderay
@@ -21,18 +21,26 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (7.0.8.7)
-      activesupport (= 7.0.8.7)
-    activesupport (7.0.8.7)
+    activemodel (7.0.10)
+      activesupport (= 7.0.10)
+    activesupport (7.0.10)
+      base64
+      benchmark (>= 0.3)
+      bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
+      drb
       i18n (>= 1.6, < 2)
+      logger (>= 1.4.2)
       minitest (>= 5.1)
+      mutex_m
+      securerandom (>= 0.3)
       tzinfo (~> 2.0)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
+    addressable (2.8.8)
+      public_suffix (>= 2.0.2, < 8.0)
     base64 (0.3.0)
-    bigdecimal (3.2.2)
-    bson (5.1.1)
+    benchmark (0.5.0)
+    bigdecimal (4.0.1)
+    bson (5.2.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -45,23 +53,30 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     coderay (1.1.3)
-    commonmarker (2.3.1-arm64-darwin)
-    commonmarker (2.3.1-x86_64-linux)
-    concurrent-ruby (1.3.5)
-    connection_pool (2.5.3)
-    dalli (3.2.8)
-    date (3.4.1)
+    commonmarker (2.6.3-aarch64-linux)
+    commonmarker (2.6.3-arm-linux)
+    commonmarker (2.6.3-arm64-darwin)
+    commonmarker (2.6.3-x86_64-darwin)
+    commonmarker (2.6.3-x86_64-linux)
+    commonmarker (2.6.3-x86_64-linux-musl)
+    concurrent-ruby (1.3.6)
+    connection_pool (3.0.2)
+    dalli (5.0.0)
+      logger
+    date (3.5.1)
     diff-lcs (1.6.2)
     docile (1.4.1)
+    drb (2.2.3)
     emot (0.0.4)
       thor
     faraday (0.17.6)
       multipart-post (>= 1.2, < 3)
     fastimage (2.4.0)
-    hashie (5.0.0)
-    hikidoc (0.1.0)
+    hashie (5.1.0)
+      logger
+    hikidoc (0.1.1)
     holiday_japan (1.4.4)
-    i18n (1.14.7)
+    i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.5)
     jwt (3.1.2)
@@ -71,7 +86,8 @@ GEM
       childprocess (~> 5.0)
       logger (~> 1.6)
     logger (1.7.0)
-    mail (2.8.1)
+    mail (2.9.0)
+      logger
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -81,20 +97,22 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0708)
+    mime-types-data (3.2026.0203)
     mini_mime (1.1.5)
-    minitest (5.25.5)
-    mongo (2.21.1)
+    minitest (6.0.1)
+      prism (~> 1.5)
+    mongo (2.23.0)
       base64
       bson (>= 4.14.1, < 6.0.0)
-    mongoid (7.5.4)
+    mongoid (7.6.1)
       activemodel (>= 5.1, < 7.1, != 7.0.0)
       mongo (>= 2.10.5, < 3.0.0)
       ruby2_keywords (~> 0.0.5)
-    multi_xml (0.7.2)
-      bigdecimal (~> 3.1)
+    multi_xml (0.8.1)
+      bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
-    net-imap (0.5.9)
+    mutex_m (0.3.0)
+    net-imap (0.6.3)
       date
       net-protocol
     net-pop (0.1.2)
@@ -103,44 +121,58 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    nio4r (2.7.4)
+    nio4r (2.7.5)
     nkf (0.2.0)
-    nokogiri (1.18.8-arm64-darwin)
+    nokogiri (1.19.1-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-gnu)
+    nokogiri (1.19.1-aarch64-linux-musl)
       racc (~> 1.4)
-    oauth2 (2.0.12)
+    nokogiri (1.19.1-arm-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.19.1-arm-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.19.1-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.1-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.1-x86_64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.19.1-x86_64-linux-musl)
+      racc (~> 1.4)
+    oauth2 (2.0.18)
       faraday (>= 0.17.3, < 4.0)
       jwt (>= 1.0, < 4.0)
       logger (~> 1.2)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
-      version_gem (>= 1.1.8, < 3)
+      version_gem (~> 1.1, >= 1.1.9)
     octokit (4.22.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    omniauth (2.1.3)
+    omniauth (2.1.4)
       hashie (>= 3.4.6)
+      logger
       rack (>= 2.2.3)
       rack-protection
     omniauth-github (2.0.1)
       omniauth (~> 2.0)
       omniauth-oauth2 (~> 1.8)
-    omniauth-oauth2 (1.8.0)
-      oauth2 (>= 1.4, < 3)
+    omniauth-oauth2 (1.9.0)
+      oauth2 (>= 2.0.2, < 3)
       omniauth (~> 2.0)
     pit (0.0.7)
-    power_assert (2.0.5)
-    public_suffix (6.0.2)
-    puma (6.6.0)
+    power_assert (3.0.1)
+    prism (1.9.0)
+    public_suffix (7.0.2)
+    puma (7.2.0)
       nio4r (~> 2.0)
     pushbullet_ruby (1.1.4)
       faraday (>= 0.13.0, < 1.0)
       mime-types
     racc (1.8.1)
-    rack (3.1.16)
-    rack-protection (4.1.1)
+    rack (3.2.5)
+    rack-protection (4.2.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
@@ -152,50 +184,57 @@ GEM
     racksh (1.0.1)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rackup (2.2.1)
+    rackup (2.3.1)
       rack (>= 3)
-    rake (13.3.0)
+    rake (13.3.1)
     rdtool (0.6.38)
     redcarpet (3.6.1)
-    regexp_parser (2.10.0)
-    rexml (3.4.1)
-    rspec (3.13.1)
+    regexp_parser (2.11.3)
+    rexml (3.4.4)
+    rspec (3.13.2)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
       rspec-mocks (~> 3.13.0)
-    rspec-core (3.13.5)
+    rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.5)
+    rspec-mocks (3.13.7)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.4)
+    rspec-support (3.13.7)
     ruby2_keywords (0.0.5)
-    rubyzip (2.4.1)
+    rubyzip (3.2.2)
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    selenium-webdriver (4.34.0)
+    securerandom (0.4.1)
+    selenium-webdriver (4.40.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
+      rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sequel (5.94.0)
+    sequel (5.101.0)
       bigdecimal
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
-    simplecov-html (0.13.1)
+    simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
     snaky_hash (2.0.3)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
-    sqlite3 (2.7.2-arm64-darwin)
-    sqlite3 (2.7.2-x86_64-linux-gnu)
+    sqlite3 (2.9.0-aarch64-linux-gnu)
+    sqlite3 (2.9.0-aarch64-linux-musl)
+    sqlite3 (2.9.0-arm-linux-gnu)
+    sqlite3 (2.9.0-arm-linux-musl)
+    sqlite3 (2.9.0-arm64-darwin)
+    sqlite3 (2.9.0-x86_64-darwin)
+    sqlite3 (2.9.0-x86_64-linux-gnu)
+    sqlite3 (2.9.0-x86_64-linux-musl)
     tdiary (5.4.0)
       bundler (>= 2.6, < 3.0)
       emot
@@ -208,16 +247,16 @@ GEM
       rexml
       thor
       webrick
-    tdiary-style-gfm (1.2.0)
-      commonmarker
+    tdiary-style-gfm (1.4.0)
+      commonmarker (>= 1.0)
       emot
       twitter-text (>= 2.0)
     tdiary-style-rd (0.0.3)
       rdtool
-    test-unit (3.7.0)
+    test-unit (3.7.7)
       power_assert
-    thor (1.3.2)
-    timeout (0.4.3)
+    thor (1.5.0)
+    timeout (0.6.0)
     twitter-text (3.1.0)
       idn-ruby
       unf (~> 0.1.0)
@@ -226,17 +265,24 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.9.1)
-    version_gem (1.1.8)
-    webrick (1.9.1)
+    version_gem (1.1.9)
+    webrick (1.9.2)
     websocket (1.2.11)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
 PLATFORMS
-  arm64-darwin-22
-  arm64-darwin-23
-  arm64-darwin-25
+  aarch64-linux
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
+  x86_64-darwin
   x86_64-linux
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   capybara
@@ -250,6 +296,7 @@ DEPENDENCIES
   mail
   memcachier
   mime-types
+  nkf
   octokit
   omniauth
   omniauth-github
