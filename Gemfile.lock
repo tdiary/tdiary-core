@@ -27,7 +27,7 @@ GEM
       logger
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
-    fastimage (2.4.0)
+    fastimage (2.4.1)
     hikidoc (0.1.1)
     json (2.18.1)
     launchy (3.1.1)
