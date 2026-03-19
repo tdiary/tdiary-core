@@ -29,7 +29,7 @@ GEM
       net-http (~> 0.5)
     fastimage (2.4.1)
     hikidoc (0.1.1)
-    json (2.18.1)
+    json (2.19.2)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
