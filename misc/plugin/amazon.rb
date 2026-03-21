@@ -181,7 +181,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		end
 		message
 	rescue Net::HTTPResponse, Net::HTTPExceptions => e
-		@logger.error "amazon.rb: #{e.message}"
+		@logger.error "amazon.rb: #{e.message}\n#{e.response.body}"
 		message = ''
 		# Handle 429 "Too Many Requests" and 403 "Forbidden"
 		if /^429|^403/ =~ e.message then
