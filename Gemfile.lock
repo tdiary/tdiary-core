@@ -97,7 +97,7 @@ GEM
       rack-test (>= 0.5)
     rackup (2.3.1)
       rack (>= 3)
-    rake (13.3.1)
+    rake (13.4.2)
     redcarpet (3.6.1)
     regexp_parser (2.10.0)
     rexml (3.4.4)
