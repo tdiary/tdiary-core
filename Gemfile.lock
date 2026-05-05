@@ -50,7 +50,7 @@ GEM
     mini_portile2 (2.8.9)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.5.12)
+    net-imap (0.5.14)
       date
       net-protocol
     net-pop (0.1.2)
@@ -147,7 +147,7 @@ GEM
     test-unit (3.7.7)
       power_assert
     thor (1.5.0)
-    timeout (0.4.3)
+    timeout (0.6.1)
     uri (1.1.1)
     webrick (1.9.2)
     websocket (1.2.11)
