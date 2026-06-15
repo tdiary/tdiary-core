@@ -86,20 +86,52 @@ module TDiary
 				@plugin.last_modified = last_modified
 				@plugin.comment = @comment
 				@plugin
+			elsif (cached = reusable_cached_plugin)
+				# reuse a plugin instance loaded by a previous request, skipping
+				# the file read + instance_eval of every plugin file.
+				@plugin = cached.prepare_for_reuse( plugin_params )
 			else
-				@plugin = Plugin::new(
-					'conf' => @conf,
-					'mode' => mode,
-					'diaries' => @diaries,
-					'cgi' => @cgi,
-					'years' => @years,
-					'cache_path' => @io.cache_path,
-					'date' => @date,
-					'comment' => @comment,
-					'last_modified' => last_modified,
-					'logger' => TDiary.logger
-				)
+				@plugin = Plugin::new( plugin_params )
+				if plugin_cache_enabled? and not @plugin.respond_to?( 'blog_category' )
+					Plugin.cache_store( plugin_cache_key, @plugin )
+				end
+				@plugin
 			end
+		end
+
+		# read-only views whose plugins do no request-specific work at load time,
+		# so a loaded instance is safe to reuse across requests.
+		PLUGIN_CACHEABLE_MODES = %w[latest day month nyear].freeze
+
+		def plugin_cache_enabled?
+			@conf.options['plugin.cache'] && PLUGIN_CACHEABLE_MODES.include?( mode )
+		end
+
+		def plugin_cache_key
+			[mode, @conf.data_path]
+		end
+
+		def reusable_cached_plugin
+			return nil unless plugin_cache_enabled?
+			cached = Plugin.cache_fetch( plugin_cache_key )
+			return nil unless cached
+			return nil if cached.respond_to?( 'blog_category' )
+			cached
+		end
+
+		def plugin_params
+			{
+				'conf' => @conf,
+				'mode' => mode,
+				'diaries' => @diaries,
+				'cgi' => @cgi,
+				'years' => @years,
+				'cache_path' => @io.cache_path,
+				'date' => @date,
+				'comment' => @comment,
+				'last_modified' => last_modified,
+				'logger' => TDiary.logger
+			}
 		end
 
 		def <<( diary )

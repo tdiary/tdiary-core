@@ -12,6 +12,26 @@ module TDiary
 		attr_reader :cookies
 		attr_writer :comment, :date, :diaries, :last_modified
 
+		#
+		# Process-wide cache of loaded plugin instances, keyed by the caller.
+		# Used only when the @options['plugin.cache'] option is enabled. tDiary
+		# handles one request at a time per process (the dispatcher mutates
+		# process globals), so a plain Hash is sufficient here.
+		#
+		class << self
+			def cache_fetch( key )
+				( @instance_cache ||= {} )[key]
+			end
+
+			def cache_store( key, plugin )
+				( @instance_cache ||= {} )[key] = plugin
+			end
+
+			def cache_clear
+				@instance_cache = {}
+			end
+		end
+
 		def initialize( params )
 			@header_procs = []
 			@footer_procs = []
@@ -35,22 +55,7 @@ module TDiary
 			@javascripts = {}
 			@javascript_setting = []
 
-			params.each do |key, value|
-				instance_variable_set( "@#{key}", value )
-			end
-
-			# for 1.4 compatibility
-			@index = @conf.index
-			@update = @conf.update
-			@author_name = @conf.author_name || ''
-			@author_mail = @conf.author_mail || ''
-			@index_page = @conf.index_page || ''
-			@html_title = @conf.html_title || ''
-			@theme = @conf.theme
-			@css = @conf.css
-			@date_format = @conf.date_format
-			@referer_table = @conf.referer_table
-			@options = @conf.options
+			apply_request_params( params )
 
 			# setup plugin storage
 			unless @conf.io_class.method_defined?(:plugin_open)
@@ -74,6 +79,22 @@ module TDiary
 			rescue Exception
 				raise PluginError::new( "Plugin error in '#{File::basename( plugin_file )}'.\n#{$!}\n#{$!.backtrace[0]}" )
 			end
+
+			# remember the post-load state so the instance can be reused for
+			# another request without re-reading and re-parsing plugin files.
+			snapshot_reusable_state
+		end
+
+		#
+		# Re-use a fully-loaded plugin instance for a new request. Refreshes the
+		# request-scoped data and rolls the per-request accumulators back to the
+		# state right after plugins were loaded. This skips load_plugin (file
+		# read + instance_eval), which is the dominant cost of rendering.
+		#
+		def prepare_for_reuse( params )
+			apply_request_params( params )
+			restore_reusable_state
+			self
 		end
 
 		def load_plugin( file )
@@ -98,6 +119,45 @@ module TDiary
 		end
 
 	private
+		def apply_request_params( params )
+			params.each do |key, value|
+				instance_variable_set( "@#{key}", value )
+			end
+
+			# for 1.4 compatibility
+			@index = @conf.index
+			@update = @conf.update
+			@author_name = @conf.author_name || ''
+			@author_mail = @conf.author_mail || ''
+			@index_page = @conf.index_page || ''
+			@html_title = @conf.html_title || ''
+			@theme = @conf.theme
+			@css = @conf.css
+			@date_format = @conf.date_format
+			@referer_table = @conf.referer_table
+			@options = @conf.options
+		end
+
+		# Accumulators that plugins fill while rendering a single request. Their
+		# post-load values are captured so a reused instance starts each request
+		# from the same baseline (usually empty, but a plugin may seed them at
+		# load time via enable_js / add_js_setting).
+		def snapshot_reusable_state
+			@reusable_state = {
+				cookies:            @cookies.dup,
+				section_index:      @section_index.dup,
+				javascripts:        @javascripts.dup,
+				javascript_setting: @javascript_setting.map( &:dup ),
+			}
+		end
+
+		def restore_reusable_state
+			@cookies            = @reusable_state[:cookies].dup
+			@section_index      = @reusable_state[:section_index].dup
+			@javascripts        = @reusable_state[:javascripts].dup
+			@javascript_setting = @reusable_state[:javascript_setting].map( &:dup )
+		end
+
 		def transaction(plugin_name)
 			@conf.io_class.plugin_transaction(@storage, plugin_name) do |db|
 				yield db
