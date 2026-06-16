@@ -282,3 +282,13 @@ div.youtube-player-wrapper {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+/*
+ * editor textarea sizing
+ */
+textarea#body {
+	box-sizing: border-box;
+	width: 100%;
+	height: clamp(15rem, 50dvh, 50rem);
+	resize: vertical;
+}
