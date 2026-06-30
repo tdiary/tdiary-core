@@ -646,7 +646,7 @@ end
 #
 def comment_mail_mime( str )
 	str.chars.each_slice(10).map do |chunk|
-		%Q|=?UTF-8?B?#{[chunk.join].pack('m').gsub(/\n/, '')}?=|
+		%Q|=?UTF-8?B?#{[chunk.join].pack('m0')}?=|
 	end
 end
 
