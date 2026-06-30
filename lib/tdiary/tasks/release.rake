@@ -64,7 +64,7 @@ begin
 
 		# reduce filesize: keep only lib/ and data/ in each vendored gem
 		Dir["#{vendor}/gems/*/*/"].each do |dir|
-			rm_rf dir unless File.basename(dir).match(/lib|data/)
+			rm_rf dir unless %w(lib data).include?(File.basename(dir))
 		end
 
 		# Ship a bundler config that excludes dev/test but sets no path, so
