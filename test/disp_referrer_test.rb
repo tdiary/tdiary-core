@@ -4,7 +4,6 @@ require File.expand_path('../test_plugin_helper', __FILE__)
 include TDiary::PluginTestStub
 
 require 'ja/disp_referrer'
-require 'nkf'
 require 'uri'
 
 # Test cases which are far from complete:

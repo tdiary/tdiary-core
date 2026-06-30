@@ -645,9 +645,8 @@ end
 # service methods for comment_mail
 #
 def comment_mail_mime( str )
-	require 'nkf'
-	NKF::nkf("-w -m0 -f30", str).lines.map do |s|
-		%Q|=?UTF-8?B?#{[s.chomp].pack('m').gsub(/\n/, '')}?=|
+	str.chars.each_slice(10).map do |chunk|
+		%Q|=?UTF-8?B?#{[chunk.join].pack('m').gsub(/\n/, '')}?=|
 	end
 end
 
@@ -691,13 +690,13 @@ def comment_mail_send
 	rmail = File::open("#{TDiary::PATH}/../views/mail.rtxt").read
 	header = ERB::new(rmail).result(binding)
 
-	text = NKF.nkf('-w -MB', [
+	text = [[
 		body,
 		"-- ",
 		"#{@conf.index =~ %r|^https?://|i ? '': @conf.base_url}#{@conf.index.sub(%r|^\./|, '')}#{anchor(@date.strftime('%Y%m%d') + ('#c%02d' % serial))}",
 		"IP: #{@cgi.remote_addr}",
 		"Status: #{@comment.visible? ? 'shown' : 'hidden'}"
-	].join("\r\n"))
+	].join("\r\n")].pack('m')
 	comment_mail([header, text].join("\r\n"), receivers)
 end
 
