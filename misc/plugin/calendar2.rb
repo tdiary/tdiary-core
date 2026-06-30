@@ -90,7 +90,7 @@ def calendar2(days_format = nil, navi_format = nil, show_todo = nil)
  	days_format ||= @calendar2_days_format
 	navi_format ||= @calendar2_navi_format
 
-	date = @date || @diaries.values.map{|v|v.date}.sort.first || Time.now
+	date = @date || @diaries.values.map{|v|v.date}.min || Time.now
 	                # adopt the oldest date in @diaries
 	year = date.year
 	month = date.month

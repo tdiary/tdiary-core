@@ -261,7 +261,7 @@ module TDiary
 					@date = date
 					@io.transaction( @date ) do |diaries|
 						@diaries = diaries
-						@diary = @diaries[@diaries.keys.sort.reverse[0]]
+						@diary = @diaries[@diaries.keys.max]
 						DIRTY_NONE
 					end
 				end
@@ -341,7 +341,7 @@ module TDiary
 								break
 							end
 						end
-						@diary = @diaries[@diaries.keys.sort.reverse[0]] unless @diary
+						@diary = @diaries[@diaries.keys.max] unless @diary
 						@date = @diary.date if @diary
 					end
 					DIRTY_NONE
