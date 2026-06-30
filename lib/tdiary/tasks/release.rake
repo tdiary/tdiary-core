@@ -17,6 +17,62 @@ begin
 		end
 	end
 
+	# Gems that ship a C extension but also provide a pure-ruby implementation,
+	# so we can vendor the .rb files and drop the compiled extension.
+	NATIVE_GEMS_WITH_RUBY_FALLBACK = %w(cgi)
+
+	# Build a self-contained vendor/bundle for the full tarball.
+	#
+	# Only pure-ruby gems are vendored, into a single flat gem repository
+	# (vendor/bundle/{gems,specifications}) that every supported Ruby shares.
+	# Native gems are not copied across ABIs: date is a Ruby default gem, and
+	# cgi is vendored without its compiled escape extension (pure-ruby fallback).
+	def vendor_pure_ruby_gems
+		build_dir = File.expand_path('.vendor-build')
+		vendor = File.expand_path('vendor/bundle')
+		rm_rf build_dir
+		rm_rf vendor
+		mkdir_p "#{vendor}/gems"
+		mkdir_p "#{vendor}/specifications"
+
+		Bundler.with_unbundled_env do
+			ENV['BUNDLE_PATH'] = build_dir
+			ENV['BUNDLE_WITHOUT'] = 'development:test'
+			ENV['BUNDLE_FROZEN'] = 'true'
+			sh 'bundle install'
+		end
+
+		abi = Dir["#{build_dir}/ruby/*"].first
+		Dir["#{abi}/specifications/*.gemspec"].each do |spec_file|
+			spec = Gem::Specification.load(spec_file)
+			next if spec.nil?
+			name_version = "#{spec.name}-#{spec.version}"
+			gem_dir = "#{abi}/gems/#{name_version}"
+			if spec.extensions.empty?
+				cp_r gem_dir, "#{vendor}/gems/#{name_version}"
+				cp spec_file, "#{vendor}/specifications/"
+			elsif NATIVE_GEMS_WITH_RUBY_FALLBACK.include?(spec.name)
+				cp_r gem_dir, "#{vendor}/gems/#{name_version}"
+				spec.extensions.clear
+				File.write("#{vendor}/specifications/#{File.basename(spec_file)}", spec.to_ruby)
+				puts "vendored without native extension: #{name_version}"
+			else
+				puts "skipped native gem (provided at deploy time): #{name_version}"
+			end
+		end
+		rm_rf build_dir
+
+		# reduce filesize: keep only lib/ and data/ in each vendored gem
+		Dir["#{vendor}/gems/*/*/"].each do |dir|
+			rm_rf dir unless File.basename(dir).match(/lib|data/)
+		end
+
+		# Ship a bundler config that excludes dev/test but sets no path, so
+		# bundler/setup resolves the vendored gems from GEM_PATH at runtime.
+		mkdir_p '.bundle'
+		File.write('.bundle/config', %Q(---\nBUNDLE_WITHOUT: "development:test"\n))
+	end
+
 	def make_tarball( repo, version = nil )
 		suffix = version ? "-#{version}" : '-snapshot'
 		dest = "#{repo == 'tdiary-core' ? 'tdiary' : repo}#{suffix}"
@@ -35,28 +91,7 @@ begin
 			Dir.chdir 'tdiary-core' do
 				sh "chmod +x index.rb index.fcgi update.rb update.fcgi"
 				sh 'rake doc'
-				Bundler.with_clean_env do
-						sh "bundle --path .bundle --without rack:development:test"
-				end
-
-				# reduce filesize
-				Dir.glob('.bundle/ruby/*/cache/*').each do |file|
-					# cached gem file
-					rm_rf file
-				end
-				Dir.glob('.bundle/ruby/*/gems/*/*/').each do |dir|
-					# spec, fixtures etc..
-					rm_rf dir unless File.basename(dir).match(/lib|data/)
-				end
-
-				Dir.chdir '.bundle/ruby' do
-					versions = %w(3.1.0 3.2.0 3.3.0 3.4.0)
-					current = `ls`.chomp
-					versions.each {|version|
-						FileUtils.cp_r current, version unless current == version
-					}
-					FileUtils.rm_rf current unless versions.member?(current)
-				end
+				vendor_pure_ruby_gems
 			end
 		end
 
