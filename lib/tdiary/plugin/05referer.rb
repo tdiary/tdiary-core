@@ -70,7 +70,7 @@ class RefererDiary
 		return if (@refs.keys.max || '') > newest
 		@refs[newest] = {} unless @refs[newest]
 		return if @refs.keys.size <= @keep
-		@refs.delete( @refs.keys.sort[0] )
+		@refs.delete( @refs.keys.min )
 	end
 
 	alias :each_referer_orig :each_referer
