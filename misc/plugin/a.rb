@@ -93,12 +93,7 @@ def a_convert_charset(option, charset)
 	return "" unless option
 	return option unless charset
 	if charset =~ A_REG_CHARSET2
-		ret = if String.method_defined?(:encode)
-					option.encode(charset == 'jis' ? 'ISO-2022-JP' : charset)
-				else
-					require 'nkf'
-					NKF::nkf("-#{charset[0].chr}", option)
-				end
+		ret = option.encode(charset == 'jis' ? 'ISO-2022-JP' : charset)
 	else
 		ret = option
 	end

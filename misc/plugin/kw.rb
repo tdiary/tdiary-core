@@ -29,10 +29,6 @@
 # You can distribute this under GPL2 or any later version.
 #
 
-unless String.method_defined?(:encode)
-	require 'nkf'
-end
-
 def kw_parse( str )
 	kw_list = []
 	str.each_line do |pair|
@@ -77,23 +73,8 @@ def kw( keyword, name = nil, title = nil )
 		inter = nil
 	end
 	style = @kw_dic[inter][1]
-	if String.method_defined?(:encode)
-		if style
-			key = key.encode({'jis'=>'ISO-2022-JP', 'sjis'=>'Shift_JIS'}[style] || style)
-		end
-	else
-		key = case style
-			when 'euc-jp'
-				NKF::nkf( '-m0 -W -e', key )
-			when 'sjis'
-				NKF::nkf( '-m0 -W -s', key )
-			when 'jis'
-				NKF::nkf( '-m0 -W -j', key )
-			when 'utf-8'
-				key
-			else # none
-				key
-		end
+	if style
+		key = key.encode({'jis'=>'ISO-2022-JP', 'sjis'=>'Shift_JIS'}[style] || style)
 	end
 	%Q[<a href="#{h @kw_dic[inter][0].sub( /\$1/, u( key ))}"#{title}>#{h name}</a>]
 end

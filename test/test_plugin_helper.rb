@@ -11,17 +11,10 @@ module TDiary
 		def enable_js(*args); end
 		def add_js_setting(*args); end
 		def to_native( str, charset = nil )
-			from = case charset
-				when /^utf-8$/i
-					'W'
-				when /^shift_jis/i
-					'S'
-				when /^EUC-JP/i
-					'E'
-				else
-					''
-			end
-			NKF::nkf( "-m0 -#{from}w", str )
+			str = str.dup
+			str.force_encoding( charset || 'utf-8' ) if str.encoding == Encoding::ASCII_8BIT
+			str.encode!( 'utf-8', invalid: :replace, undef: :replace ) unless str.encoding == Encoding::UTF_8
+			str
 		end
 	end
 

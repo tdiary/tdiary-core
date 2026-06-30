@@ -8,7 +8,7 @@ gem 'fastimage'
 gem 'emot'
 gem 'mail'
 gem 'rake'
-gem "nkf"
+gem 'cgi'
 
 group :development do
   gem 'pit', require: false
