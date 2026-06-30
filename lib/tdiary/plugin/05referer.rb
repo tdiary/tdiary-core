@@ -55,7 +55,7 @@ class RefererDiary
 	alias :add_referer_orig :add_referer
 	def add_referer( ref, count = 1 )
 		return nil unless ref
-		current = @current_date || @refs.keys.sort[-1] || '00000101'
+		current = @current_date || @refs.keys.max || '00000101'
 		ref_info = add_referer_orig( ref, count )
 		uref = CGI::unescape( ref )
 		@refs[current] ||= {}
@@ -67,7 +67,7 @@ class RefererDiary
 	end
 
 	def clear_oldest_referer( newest )
-		return if (@refs.keys.sort[-1] || '') > newest
+		return if (@refs.keys.max || '') > newest
 		@refs[newest] = {} unless @refs[newest]
 		return if @refs.keys.size <= @keep
 		@refs.delete( @refs.keys.sort[0] )
@@ -97,9 +97,9 @@ end
 
 def latest_day?( diary )
 	return false unless diary
-	y = @years.keys.sort[-1]
-	m = @years[y].sort[-1]
-	diary.date.year == y.to_i and diary.date.month == m.to_i and diary.date.day == @diaries.keys.sort[-1][6,2].to_i
+	y = @years.keys.max
+	m = @years[y].max
+	diary.date.year == y.to_i and diary.date.month == m.to_i and diary.date.day == @diaries.keys.max[6,2].to_i
 end
 
 def referer_update( diary )
