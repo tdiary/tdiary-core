@@ -285,10 +285,14 @@ div.youtube-player-wrapper {
 
 /*
  * editor textarea sizing
+ *
+ * Widen the editor 10% past the form column, splitting the overflow
+ * evenly on both sides so it stays centered with the fields around it.
  */
 textarea#body {
 	box-sizing: border-box;
-	width: 100%;
-	height: clamp(15rem, 50dvh, 50rem);
+	width: 110%;
+	margin-inline: -5%;
+	height: clamp(10rem, 33dvh, 33rem);
 	resize: vertical;
 }
