@@ -286,13 +286,14 @@ div.youtube-player-wrapper {
 /*
  * editor textarea sizing
  *
- * Widen the editor 10% past the form column, splitting the overflow
- * evenly on both sides so it stays centered with the fields around it.
+ * The inline margins are zeroed on purpose: themes indent textareas
+ * (tdiary2 uses margin-left: 3em), which would push the editor out of
+ * line with the fields above it.
  */
 textarea#body {
 	box-sizing: border-box;
-	width: 110%;
-	margin-inline: -5%;
+	width: 100%;
+	margin-inline: 0;
 	height: clamp(10rem, 33dvh, 33rem);
 	resize: vertical;
 }
