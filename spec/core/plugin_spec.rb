@@ -384,6 +384,56 @@ describe TDiary::Plugin do
 			@plugin.__send__(:startup_proc, app)
 		end
 	end
+
+	describe '#prepare_for_reuse' do
+		before do
+			@plugin.load_plugin('spec/fixtures/plugin/sample.rb')
+			# simulate state accumulated while rendering a request
+			@plugin.__send__(:add_cookie, 'dummy-cookie')
+			@plugin.instance_variable_get(:@section_index)['20200101'] = 3
+		end
+
+		it 'プラグインを再読み込みせずに再利用できること' do
+			expect(@plugin).not_to receive(:load_plugin)
+			@plugin.prepare_for_reuse('conf' => @plugin.instance_variable_get(:@conf))
+		end
+
+		it 'ロード済みプラグインのメソッドが再利用後も呼び出せること' do
+			@plugin.prepare_for_reuse('conf' => @plugin.instance_variable_get(:@conf))
+			expect(@plugin.sample).to eq 'sample plugin'
+		end
+
+		it 'リクエストごとのアキュムレータがリセットされること' do
+			@plugin.prepare_for_reuse('conf' => @plugin.instance_variable_get(:@conf))
+			expect(@plugin.cookies).to eq []
+			expect(@plugin.instance_variable_get(:@section_index)).to eq({})
+		end
+
+		it 'リクエストデータが更新されること' do
+			diaries = { '20200101' => :dummy }
+			@plugin.prepare_for_reuse('conf' => @plugin.instance_variable_get(:@conf), 'diaries' => diaries)
+			expect(@plugin.instance_variable_get(:@diaries)).to equal(diaries)
+		end
+	end
+
+	describe '.cache_store / .cache_fetch / .cache_clear' do
+		after { TDiary::Plugin.cache_clear }
+
+		it 'キーでインスタンスを保存・取得できること' do
+			TDiary::Plugin.cache_store('latest', @plugin)
+			expect(TDiary::Plugin.cache_fetch('latest')).to equal(@plugin)
+		end
+
+		it '未登録キーはnilを返すこと' do
+			expect(TDiary::Plugin.cache_fetch('unknown')).to be_nil
+		end
+
+		it 'cache_clearで空になること' do
+			TDiary::Plugin.cache_store('latest', @plugin)
+			TDiary::Plugin.cache_clear
+			expect(TDiary::Plugin.cache_fetch('latest')).to be_nil
+		end
+	end
 end
 
 # Local Variables:
