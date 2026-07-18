@@ -45,4 +45,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rexml'
   spec.add_dependency 'cgi'
   spec.add_dependency 'webrick'
+  spec.add_dependency 'pstore'
 end

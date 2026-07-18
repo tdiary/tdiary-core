@@ -9,6 +9,7 @@ gem 'emot'
 gem 'mail'
 gem 'rake'
 gem 'cgi'
+gem 'pstore'
 
 group :development do
   gem 'pit', require: false
