@@ -4,7 +4,7 @@ module TDiary
 	#  provides the CGI compatible interface consumed by plugins as @cgi on
 	#  top of TDiary::Request. Behaviour is locked by the shared examples in
 	#  spec/support/cgi_compat_shared_examples.rb, which are also applied to
-	#  RackCGI. Not wired into the dispatcher yet.
+	#  RackCGI, the subclass the dispatcher hands to plugins on the Rack path.
 	#
 	class CGICompat
 		include TDiary::RequestExtension
@@ -146,6 +146,9 @@ module TDiary
 		def read_raw_body
 			input = env_table['rack.input']
 			return '' unless input
+			# Rack::Request#POST leaves rack.input at EOF, so rewind first in
+			# case the request params were already parsed
+			input.rewind if input.respond_to?( :rewind )
 			body = input.read
 			input.rewind if input.respond_to?( :rewind )
 			body || ''

@@ -17,7 +17,7 @@ module TDiary
 
 		def call( env )
 			req = adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_cgi(req, RackCGI.new)
+			dispatch_cgi(req, req.cgi_compat)
 		end
 
 		# FIXME rename method name to more suitable one.
@@ -68,18 +68,13 @@ module TDiary
 	private
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
+			# rebuffer rack.input into a rewindable StringIO; both
+			# Rack::Request and CGICompat read the body from it
 			body = env["rack.input"]&.read || ""
 			env["rack.input"] = StringIO.new(body)
 			req = TDiary::Request.new( env )
 			req.params # fill params to tdiary_request
-			$RACK_ENV = req.env
-			fake_stdin_as_params(body)
 			req
-		end
-
-		# FIXME dirty hack
-		def fake_stdin_as_params(body)
-			$stdin = StringIO.new(body)
 		end
 	end
 end

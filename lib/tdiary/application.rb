@@ -1,3 +1,4 @@
+require 'stringio'
 require 'tdiary'
 require 'tdiary/extensions/core'
 require 'rack/builder'
@@ -87,11 +88,19 @@ module TDiary
 
 	private
 		def run_plugin_startup_procs
-			# avoid offline mode at CGI.new
-			ARGV.replace([""])
-			cgi = RackCGI.new
-
-			request = TDiary::Request.new(ENV, cgi)
+			# minimal Rack env for the request handed to startup plugins
+			env = {
+				'REQUEST_METHOD'  => 'GET',
+				'SCRIPT_NAME'     => '',
+				'PATH_INFO'       => '/',
+				'QUERY_STRING'    => '',
+				'SERVER_NAME'     => 'localhost',
+				'SERVER_PORT'     => '80',
+				'rack.url_scheme' => 'http',
+				'rack.input'      => StringIO.new('')
+			}
+			request = TDiary::Request.new(env)
+			cgi = request.cgi_compat
 			conf = TDiary::Configuration.new(cgi, request)
 			tdiary = TDiary::TDiaryBase.new(cgi, '', conf)
 			io = conf.io_class.new(tdiary)
