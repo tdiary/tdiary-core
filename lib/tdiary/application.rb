@@ -4,16 +4,6 @@ require 'tdiary/extensions/core'
 require 'rack/builder'
 require 'tdiary/rack'
 
-# FIXME too dirty hack :-<
-class CGI
-	def env_table_rack
-		$RACK_ENV || ENV
-	end
-
-	alias :env_table_orig :env_table
-	alias :env_table :env_table_rack
-end
-
 module TDiary
 	class Application
 		def initialize( base_dir = nil )
