@@ -10,6 +10,18 @@ feature '日記を読む' do
 		expect(page).to have_css('a[href="update.rb?conf=default"]')
 	end
 
+	scenario 'RackアプリではCSSとJavaScriptがassets配下から配信される', :exclude_selenium do
+		visit '/'
+		stylesheet_hrefs = page.all('link[rel=stylesheet]', visible: false).map {|link| link[:href] }
+		expect(stylesheet_hrefs).not_to be_empty
+		expect(stylesheet_hrefs).to all( start_with 'assets/' )
+
+		script_srcs = page.all('script[src]', visible: false).map {|script| script[:src] }
+		local_script_srcs = script_srcs.reject {|src| src.start_with?('http', '//') }
+		expect(local_script_srcs).not_to be_empty
+		expect(local_script_srcs).to all( start_with 'assets/' )
+	end
+
 	scenario '月またぎの日記の表示' do
 		append_default_diary('20100430')
 		append_default_diary('20100501')
