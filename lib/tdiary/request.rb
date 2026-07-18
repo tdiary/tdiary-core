@@ -11,9 +11,17 @@ module TDiary
 		end
 
 		# the @cgi object handed to plugins: the real CGI instance under
-		# CGI/FCGI hosting, otherwise a RackCGI facade over this request
+		# CGI/FCGI hosting, otherwise a facade over this request. Endpoints
+		# behind a web server (CGI/FCGI) set tdiary.cgi_hosting in the env to
+		# get the base CGICompat, so @cgi.is_a?(RackCGI) is false and plugins
+		# keep the static js/theme URLs served by the web server.
 		def cgi_compat
-			@cgi || (@cgi_compat ||= ::RackCGI.new( self ))
+			@cgi || (@cgi_compat ||=
+				if @env['tdiary.cgi_hosting']
+					TDiary::CGICompat.new( self )
+				else
+					::RackCGI.new( self )
+				end)
 		end
 
 		def params
