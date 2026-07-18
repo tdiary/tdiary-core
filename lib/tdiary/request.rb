@@ -10,6 +10,12 @@ module TDiary
 			@cgi = cgi
 		end
 
+		# the @cgi object handed to plugins: the real CGI instance under
+		# CGI/FCGI hosting, otherwise a RackCGI facade over this request
+		def cgi_compat
+			@cgi || (@cgi_compat ||= ::RackCGI.new( self ))
+		end
+
 		def params
 			if @cgi
 				return @params if @params
