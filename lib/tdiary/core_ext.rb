@@ -104,7 +104,11 @@ class CGI
 	end
 end
 
-class RackCGI < CGI; end
+require 'tdiary/cgi_compat'
+
+# the @cgi facade for Rack-hosted requests. Kept as a toplevel constant
+# because plugins switch behaviour with @cgi.is_a?(RackCGI).
+class RackCGI < TDiary::CGICompat; end
 
 # Local Variables:
 # mode: ruby
