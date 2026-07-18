@@ -157,7 +157,21 @@ module TDiary
 				# read, which is all the consumers use
 				value[:tempfile]
 			else
-				value.to_s
+				repair_encoding( value.to_s )
+			end
+		end
+
+		# CGI/FCGI hosting retries broken UTF-8 input as Shift_JIS (index.rb,
+		# misc/lib/fcgi_patch.rb). The facade implements the same fallback on
+		# each value: invalid UTF-8 is converted from Shift_JIS when possible,
+		# otherwise scrubbed.
+		def repair_encoding( str )
+			str = str.dup.force_encoding( Encoding::UTF_8 ) unless str.encoding == Encoding::UTF_8
+			return str if str.valid_encoding?
+			begin
+				str.dup.force_encoding( Encoding::Shift_JIS ).encode( Encoding::UTF_8 )
+			rescue EncodingError
+				str.scrub
 			end
 		end
 	end
