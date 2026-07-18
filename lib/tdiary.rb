@@ -57,6 +57,8 @@ module TDiary
 	# Rack Request and Reponse, If you don't use Rack, adopt Rack interface.
 	autoload :Request,                  'tdiary/request'
 	autoload :Response,                 'tdiary/response'
+	# CGI compatible facade over TDiary::Request, passed to plugins as @cgi
+	autoload :CGICompat,                'tdiary/cgi_compat'
 
 	# ViewController created by Dispatcher
 	autoload :TDiaryBase,               'tdiary/base'
