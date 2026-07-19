@@ -101,6 +101,7 @@ module TDiary
 					'mode' => 'startup',
 					'diaries' => tdiary.diaries,
 					'cgi' => cgi,
+					'request' => request,
 					'years' => nil,
 					'cache_path' => io.cache_path,
 					'date' => Time.now,

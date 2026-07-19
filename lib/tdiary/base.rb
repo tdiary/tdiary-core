@@ -134,6 +134,7 @@ module TDiary
 				'mode' => mode,
 				'diaries' => @diaries,
 				'cgi' => @cgi,
+				'request' => @request,
 				'years' => @years,
 				'cache_path' => @io.cache_path,
 				'date' => @date,
