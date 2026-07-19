@@ -1,37 +1,39 @@
 #!/usr/bin/env ruby
 #
-# index.fcgi $Revision: 1.35 $
+# update.fcgi
 #
 # Copyright (C) 2004, Akinori MUSHA
 # Copyright (C) 2006, moriq
 # Copyright (C) 2011, Kazuhiko <kazuhiko@fdiary.net>
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
-require 'fcgi'
-# workaround untaint LOAD_PATH for rubygems library path is always tainted.
-$:.each{|path| path if path.include?('fcgi') }
+BEGIN { $stdout.binmode }
 
 if FileTest::symlink?( __FILE__ ) then
 	org_path = File::dirname( File::readlink( __FILE__ ) )
 else
 	org_path = File::dirname( __FILE__ )
 end
-load "#{org_path}/misc/lib/fcgi_patch.rb"
+$:.unshift( org_path + '/lib' ) unless $:.include?( org_path + '/lib' )
+require 'tdiary'
+require 'tdiary/fcgi_adapter'
+require 'fcgi'
 
-FCGI.each_cgi do |cgi|
-	begin
-		ENV.clear
-		ENV.update(cgi.env_table)
-		class << CGI; self; end.class_eval do
-			define_method(:new) {|*args| cgi }
-		end
-		dir = File::dirname( cgi.env_table["SCRIPT_FILENAME"] || __FILE__ )
-		Dir.chdir(dir) do
-			load 'update.rb'
-		end
-	ensure
-		class << CGI
-			remove_method :new
+dispatcher = TDiary::Dispatcher.update
+if FCGI::is_cgi? then
+	$stdin.binmode
+	plain_cgi = Struct.new( :env, :in, :out, :err ) do
+		def finish; end
+	end
+	dir = File::dirname( ENV['SCRIPT_FILENAME'] || __FILE__ )
+	Dir.chdir( dir ) do
+		TDiary::FCGIAdapter.run( plain_cgi.new( ENV.to_hash, $stdin, $stdout, $stderr ), dispatcher )
+	end
+else
+	FCGI::each do |request|
+		dir = File::dirname( request.env['SCRIPT_FILENAME'] || __FILE__ )
+		Dir.chdir( dir ) do
+			TDiary::FCGIAdapter.run( request, dispatcher )
 		end
 	end
 end
