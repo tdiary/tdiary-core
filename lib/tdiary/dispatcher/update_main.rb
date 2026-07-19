@@ -1,15 +1,15 @@
 module TDiary
 	class Dispatcher
 		class UpdateMain
-			def self.run( request, cgi )
-				new( request, cgi ).run
+			def self.run( request )
+				new( request ).run
 			end
 
 			attr_reader :request, :cgi, :conf, :tdiary, :params
 
-			def initialize( request, cgi )
+			def initialize( request )
 				@request = request
-				@cgi = cgi
+				@cgi = request.cgi_compat
 				@conf = TDiary::Configuration::new( cgi, request )
 				@params = request.params
 			end
