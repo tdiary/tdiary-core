@@ -16,20 +16,20 @@ else
 end
 $:.unshift( org_path + '/lib' ) unless $:.include?( org_path + '/lib' )
 require 'tdiary'
-require 'tdiary/cgi_hosting_adapter'
+require 'tdiary/cgi_adapter'
 require 'fcgi'
 
 dispatcher = TDiary::Dispatcher.index
 if FCGI::is_cgi? then
 	dir = File::dirname( ENV['SCRIPT_FILENAME'] || __FILE__ )
 	Dir.chdir( dir ) do
-		TDiary::CGIHostingAdapter.run_cgi( dispatcher )
+		TDiary::CGIAdapter.run_cgi( dispatcher )
 	end
 else
 	FCGI::each do |request|
 		dir = File::dirname( request.env['SCRIPT_FILENAME'] || __FILE__ )
 		Dir.chdir( dir ) do
-			TDiary::CGIHostingAdapter.run( request, dispatcher )
+			TDiary::CGIAdapter.run( request, dispatcher )
 		end
 	end
 end

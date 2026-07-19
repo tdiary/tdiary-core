@@ -16,9 +16,9 @@ begin
 	end
 	$:.unshift( (org_path + '/lib') ) unless $:.include?( org_path + '/lib' )
 	require 'tdiary'
-	require 'tdiary/cgi_hosting_adapter'
+	require 'tdiary/cgi_adapter'
 
-	TDiary::CGIHostingAdapter.run_cgi( TDiary::Dispatcher.index )
+	TDiary::CGIAdapter.run_cgi( TDiary::Dispatcher.index )
 rescue Exception
 	print "Status: 500 Internal Server Error\n"
 	print "content-type: text/html\n\n"
