@@ -8,12 +8,12 @@ module TDiary
 
 		def initialize( cgi, rhtml, conf )
 			super
-			csrf_check( @cgi, conf )
+			csrf_check( @request, conf )
 		end
 
 	private
 
-		def csrf_check( cgi, conf )
+		def csrf_check( request, conf )
 			# CSRF condition check
 			protection_method = conf.options['csrf_protection_method']
 			masterkey = conf.options['csrf_protection_key']
@@ -36,7 +36,7 @@ module TDiary
 				@csrf_protection="<!-- no CSRF protection key used -->"
 			end
 
-			referer = cgi.referer || ''
+			referer = request.referer || ''
 			referer = referer.sub(/\?.*$/, '')
 			base_uri = URI.parse(base_url)
 			config_uri = URI.parse(base_url) + conf.update
@@ -45,17 +45,10 @@ module TDiary
 			referer_uri = URI.parse(referer) if !referer_is_empty
 			referer_is_config = !referer_is_empty && config_uri == referer_uri
 			referer_is_config ||= Regexp.new(updaterb_regexp) =~ referer if !referer_is_empty && updaterb_regexp != ''
-			is_post = cgi.request_method == 'POST'
+			is_post = request.post?
 
-			given_key = nil
-			if cgi.valid?('csrf_protection_key')
-				given_key = cgi.params['csrf_protection_key'][0]
-				case given_key
-				when String
-				else
-					given_key = given_key.read
-				end
-			end
+			given_key = request.params['csrf_protection_key']
+			given_key = nil if given_key == ''
 
 			is_key_ok = masterkey != '' && given_key == masterkey
 

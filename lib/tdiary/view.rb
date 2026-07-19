@@ -86,7 +86,7 @@ module TDiary
 			filter_path = @conf.filter_path || "{#{PATH},#{TDiary.server_root}}/tdiary/filter"
 			Dir::glob( "#{filter_path}/*.rb" ).sort.each do |file|
 				require file
-				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @cgi, @conf )
+				@filters << TDiary::Filter::const_get( "#{File::basename( file, '.rb' ).capitalize}Filter" )::new( @request, @conf )
 			end
 		end
 
