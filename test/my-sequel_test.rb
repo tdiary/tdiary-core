@@ -12,7 +12,7 @@ class TestMySequel < Test::Unit::TestCase
 	}
 
 	def setup
-		@cache_path = File.join(Dir.tmpdir, "#{__FILE__}-#{$$}")
+		@cache_path = File.join(Dir.tmpdir, "#{File.basename(__FILE__)}-#{$$}")
 		FileUtils.mkdir_p(@cache_path)
 
 		@orig_src_dates = OrigLinks.keys.map{|a| MySequel.date(a)}
