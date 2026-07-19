@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tdiary/fcgi_adapter'
+require 'tdiary/cgi_hosting_adapter'
 require 'stringio'
 
 class MockFCGIRequest
@@ -22,7 +22,7 @@ class MockFCGIRequest
 	end
 end
 
-describe TDiary::FCGIAdapter do
+describe TDiary::CGIHostingAdapter do
 	def fcgi_env( overrides = {} )
 		{
 			'REQUEST_METHOD' => 'GET',

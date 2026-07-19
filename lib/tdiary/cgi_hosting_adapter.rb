@@ -2,14 +2,25 @@ require 'stringio'
 
 module TDiary
 	#
-	# class FCGIAdapter
-	#  bridges FastCGI requests to the Rack interface: builds a Rack env
-	#  from an FCGI request and writes the Rack response triplet back to
+	# class CGIHostingAdapter
+	#  bridges CGI/FastCGI hosted requests to the Rack interface: builds a
+	#  Rack env from a request and writes the Rack response triplet back to
 	#  it. The request is duck-typed (env/in/out/err/finish) so that this
 	#  file works without the fcgi gem.
 	#
-	class FCGIAdapter
+	class CGIHostingAdapter
+		# a plain CGI process serves exactly one request through ENV and
+		# the standard streams
+		PlainCGIRequest = Struct.new( :env, :in, :out, :err ) do
+			def finish; end
+		end
+
 		class << self
+			def run_cgi( dispatcher )
+				$stdin.binmode
+				run( PlainCGIRequest.new( ENV.to_hash, $stdin, $stdout, $stderr ), dispatcher )
+			end
+
 			def run( request, dispatcher )
 				env = build_env( request.env.to_hash, request.in, request.err )
 				write_response( request.out, *dispatcher.call( env ) )
