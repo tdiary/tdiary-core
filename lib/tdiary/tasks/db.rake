@@ -3,10 +3,23 @@ namespace :db do
 	task :import do
 		$:.unshift '.'
 		require 'tdiary'
+		require 'rack'
+		require 'stringio'
 
-		cgi = CGI.new
-		conf = TDiary::Config.new(cgi)
-		base = TDiary::TDiaryBase.new(cgi, 'day.rhtml', conf)
+		# TDiaryBase still expects the @cgi facade; build one from a minimal
+		# Rack env, there is no real HTTP request in a rake task
+		env = {
+			'REQUEST_METHOD'  => 'GET',
+			'SCRIPT_NAME'     => '',
+			'PATH_INFO'       => '/',
+			'QUERY_STRING'    => '',
+			'SERVER_NAME'     => 'localhost',
+			'SERVER_PORT'     => '80',
+			'rack.url_scheme' => 'http',
+			'rack.input'      => StringIO.new('')
+		}
+		conf = TDiary::Config.new
+		base = TDiary::TDiaryBase.new(TDiary::Request.new(env).cgi_compat, 'day.rhtml', conf)
 		io = conf.io_class.new(base)
 		io.load_styles
 
@@ -94,7 +107,7 @@ namespace :db do
 
 	desc "drop database"
 	task :drop do
-		conf = TDiary::Config.new(CGI.new)
+		conf = TDiary::Config.new
 		Sequel.connect(conf.database_url || ENV['DATABASE_URL']) do |db|
 			db.drop_table :diaries, :comments, :conf
 		end

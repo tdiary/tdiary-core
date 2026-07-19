@@ -6,7 +6,7 @@ module TDiary
 	class Configuration
 		attr_reader :database_url
 
-		def initialize( cgi = nil, request = nil )
+		def initialize( request = nil )
 			@request = request
 			configure_attrs
 			configure_bot_pattern

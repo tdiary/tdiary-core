@@ -10,7 +10,7 @@ module TDiary
 			def initialize( request )
 				@request = request
 				@cgi = request.cgi_compat
-				@conf = TDiary::Configuration::new( cgi, request )
+				@conf = TDiary::Configuration::new( request )
 				@params = request.params
 			end
 
