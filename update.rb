@@ -16,31 +16,12 @@ begin
 	end
 	$:.unshift( (org_path + '/lib') ) unless $:.include?( org_path + '/lib' )
 	require 'tdiary'
+	require 'tdiary/cgi_hosting_adapter'
 
-	encoding_error = {}
-	cgi = CGI::new(accept_charset: "UTF-8") do |name, value|
-		encoding_error[name] = value
-	end
-	if encoding_error.empty?
-		@cgi = cgi
-	else
-		@cgi = CGI::new(accept_charset: 'shift_jis')
-		@cgi.params = cgi.params.dup
-	end
-
-	request = TDiary::Request.new( ENV, @cgi )
-	status, headers, body = TDiary::Dispatcher.update.dispatch_cgi( request, @cgi )
-
-	TDiary::Dispatcher.send_headers( status, headers )
-	require 'rackup/handler/cgi'
-	::Rackup::Handler::CGI.send_body(body)
+	TDiary::CGIHostingAdapter.run_cgi( TDiary::Dispatcher.update )
 rescue Exception
-	if @cgi then
-		print @cgi.header( 'status' => '500 Internal Server Error', 'type' => 'text/html' )
-	else
-		print "Status: 500 Internal Server Error\n"
-		print "content-type: text/html\n\n"
-	end
+	print "Status: 500 Internal Server Error\n"
+	print "content-type: text/html\n\n"
 	puts "<h1>500 Internal Server Error</h1>"
 	puts "<pre>"
 	puts CGI::escapeHTML( "#{$!} (#{$!.class})" )
