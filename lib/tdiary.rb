@@ -24,7 +24,6 @@ require 'pstore'
 require 'json'
 require 'erb'
 require 'tdiary/environment'
-require 'tdiary/compatible'
 require 'tdiary/core_ext'
 
 #
