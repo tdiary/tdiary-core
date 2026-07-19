@@ -51,8 +51,8 @@ describe TDiary::CGIAdapter do
 			expect( env['rack.errors'] ).to equal errors
 		end
 
-		it 'sets the tdiary.cgi_hosting flag' do
-			expect( build_env['tdiary.cgi_hosting'] ).to be true
+		it 'sets the tdiary.static_assets flag' do
+			expect( build_env['tdiary.static_assets'] ).to be true
 		end
 
 		it 'removes HTTP_CONTENT_LENGTH' do
@@ -146,7 +146,7 @@ describe TDiary::CGIAdapter do
 
 			described_class.run( request, dispatcher )
 
-			expect( captured['tdiary.cgi_hosting'] ).to be true
+			expect( captured['tdiary.static_assets'] ).to be true
 			expect( captured['rack.input'].read ).to eq 'comment=hello'
 			expect( request.out.string ).to eq "Status: 200\r\ncontent-type: text/plain\r\n\r\nhello"
 			expect( request ).to be_finished

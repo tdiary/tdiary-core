@@ -40,7 +40,7 @@ module TDiary
 				env['rack.url_scheme'] = url_scheme( env )
 				# tell Request#cgi_compat that js/theme are served statically
 				# by the web server, not by the Rack app
-				env['tdiary.cgi_hosting'] = true
+				env['tdiary.static_assets'] = true
 				env
 			end
 
