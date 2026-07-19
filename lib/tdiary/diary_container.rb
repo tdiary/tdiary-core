@@ -1,3 +1,6 @@
+require 'rack'
+require 'stringio'
+
 module TDiary
 	class DiaryContainer
 		# YYYYMMDD
@@ -16,13 +19,12 @@ module TDiary
 		end
 
 		def initialize(conf, year, month, day = nil)
-			cgi = FakeCGI.new
 			if year && month && day
-				cgi.params['date'] = ["#{year}#{month}#{day}"]
-				@controller = TDiaryDayWithoutFilter::new(cgi, '', conf)
+				request = build_request("#{year}#{month}#{day}")
+				@controller = TDiaryDayWithoutFilter::new(request, '', conf)
 			elsif year && month
-				cgi.params['date'] = ["#{year}#{month}"]
-				@controller = TDiaryMonthWithoutFilter::new(cgi, '', conf)
+				request = build_request("#{year}#{month}")
+				@controller = TDiaryMonthWithoutFilter::new(request, '', conf)
 			else
 				raise StandardError.new
 			end
@@ -37,11 +39,21 @@ module TDiary
 			@controller.diaries
 		end
 
-		class FakeCGI < CGI
-			def refeter; nil end
-			def user_agent; nil; end
-			def mobile_agent?; nil; end
-			def request_method; 'GET'; end
+	private
+
+		# there is no real HTTP request behind a container lookup; fake one
+		# with a minimal Rack env carrying the date parameter
+		def build_request(date)
+			TDiary::Request.new(
+				'REQUEST_METHOD'  => 'GET',
+				'SCRIPT_NAME'     => '',
+				'PATH_INFO'       => '/',
+				'QUERY_STRING'    => "date=#{date}",
+				'SERVER_NAME'     => 'localhost',
+				'SERVER_PORT'     => '80',
+				'rack.url_scheme' => 'http',
+				'rack.input'      => StringIO.new('')
+			)
 		end
 	end
 end

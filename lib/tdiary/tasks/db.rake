@@ -6,7 +6,7 @@ namespace :db do
 		require 'rack'
 		require 'stringio'
 
-		# TDiaryBase still expects the @cgi facade; build one from a minimal
+		# TDiaryBase expects a TDiary::Request; build one from a minimal
 		# Rack env, there is no real HTTP request in a rake task
 		env = {
 			'REQUEST_METHOD'  => 'GET',
@@ -19,7 +19,7 @@ namespace :db do
 			'rack.input'      => StringIO.new('')
 		}
 		conf = TDiary::Config.new
-		base = TDiary::TDiaryBase.new(TDiary::Request.new(env).cgi_compat, 'day.rhtml', conf)
+		base = TDiary::TDiaryBase.new(TDiary::Request.new(env), 'day.rhtml', conf)
 		io = conf.io_class.new(base)
 		io.load_styles
 

@@ -92,7 +92,7 @@ module TDiary
 			request = TDiary::Request.new(env)
 			cgi = request.cgi_compat
 			conf = TDiary::Configuration.new(request)
-			tdiary = TDiary::TDiaryBase.new(cgi, '', conf)
+			tdiary = TDiary::TDiaryBase.new(request, '', conf)
 			io = conf.io_class.new(tdiary)
 
 			begin

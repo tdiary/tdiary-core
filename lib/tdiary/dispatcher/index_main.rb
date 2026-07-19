@@ -78,31 +78,31 @@ module TDiary
 			def create_tdiary
 				begin
 					if params['comment']
-						tdiary = TDiary::TDiaryComment::new( cgi, "day.rhtml", conf )
+						tdiary = TDiary::TDiaryComment::new( request, "day.rhtml", conf )
 					elsif params['plugin']
-						tdiary = TDiary::TDiaryPluginView::new( cgi, '', conf )
+						tdiary = TDiary::TDiaryPluginView::new( request, '', conf )
 					elsif (date = params['date'])
 						if /^\d{8}-\d+$/ =~ date
-							tdiary = TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf )
+							tdiary = TDiary::TDiaryLatest::new( request, "latest.rhtml", conf )
 						elsif /^\d{8}$/ =~ date
-							tdiary = TDiary::TDiaryDay::new( cgi, "day.rhtml", conf )
+							tdiary = TDiary::TDiaryDay::new( request, "day.rhtml", conf )
 						elsif /^\d{6}$/ =~ date
-							tdiary = TDiary::TDiaryMonth::new( cgi, "month.rhtml", conf )
+							tdiary = TDiary::TDiaryMonth::new( request, "month.rhtml", conf )
 						elsif /^\d{4}$/ =~ date
-							tdiary = TDiary::TDiaryNYear::new( cgi, "month.rhtml", conf )
+							tdiary = TDiary::TDiaryNYear::new( request, "month.rhtml", conf )
 						end
 					elsif params['category']
-						tdiary = TDiary::TDiaryCategoryView::new( cgi, "category.rhtml", conf )
+						tdiary = TDiary::TDiaryCategoryView::new( request, "category.rhtml", conf )
 					elsif params['q']
-						tdiary = TDiary::TDiarySearch::new( cgi, "search.rhtml", conf )
+						tdiary = TDiary::TDiarySearch::new( request, "search.rhtml", conf )
 					else
-						tdiary = TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf )
+						tdiary = TDiary::TDiaryLatest::new( request, "latest.rhtml", conf )
 					end
 				rescue TDiary::PermissionError
 					raise
 				rescue TDiary::TDiaryError
 				end
-				( tdiary ? tdiary : TDiary::TDiaryLatest::new( cgi, "latest.rhtml", conf ) )
+				( tdiary ? tdiary : TDiary::TDiaryLatest::new( request, "latest.rhtml", conf ) )
 			end
 		end
 	end

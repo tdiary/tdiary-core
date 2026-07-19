@@ -8,7 +8,7 @@ module TDiary
 
 		def initialize( cgi, rhtml, conf )
 			super
-			csrf_check( cgi, conf )
+			csrf_check( @cgi, conf )
 		end
 
 	private
