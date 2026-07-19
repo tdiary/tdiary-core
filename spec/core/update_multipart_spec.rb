@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rack/test'
+require 'rack/lint'
 require 'tdiary/application'
 
 # Locks the multipart form-data POST behaviour of the Rack update path,
@@ -10,10 +11,12 @@ describe 'multipart POST to the update dispatcher' do
 	def app
 		@app ||= Rack::Builder.new do
 			map '/' do
+				use Rack::Lint
 				run TDiary::Dispatcher.index
 			end
 
 			map '/update.rb' do
+				use Rack::Lint
 				run TDiary::Dispatcher.update
 			end
 		end

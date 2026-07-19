@@ -3,16 +3,20 @@ require 'spec_helper'
 Dir["#{File.dirname(__FILE__)}/acceptance/support/**/*.rb"].each {|f| require f}
 
 require 'tdiary/application'
+require 'rack/lint'
 Capybara.app = Rack::Builder.new do
 	map '/' do
+		use Rack::Lint
 		run TDiary::Dispatcher.index
 	end
 
 	map '/index.rb' do
+		use Rack::Lint
 		run TDiary::Dispatcher.index
 	end
 
 	map '/update.rb' do
+		use Rack::Lint
 		run TDiary::Dispatcher.update
 	end
 end
