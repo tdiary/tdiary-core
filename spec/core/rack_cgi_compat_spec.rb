@@ -29,12 +29,6 @@ describe RackCGI do
 		expect(request.cgi_compat).to equal(request.cgi_compat)
 	end
 
-	it 'yields to a real CGI instance passed by the CGI hosting path' do
-		real_cgi = Object.new
-		request = TDiary::Request.new({}, real_cgi)
-		expect(request.cgi_compat).to equal(real_cgi)
-	end
-
 	it 'keeps the params readable after Rack::Request consumed the body' do
 		rack_env = Rack::MockRequest.env_for('http://www.example.com/')
 		rack_env.merge!(

@@ -16,32 +16,13 @@ module TDiary
 		end
 
 		def call( env )
-			req = adopt_rack_request_to_plain_old_tdiary_style( env )
-			dispatch_cgi(req, req.cgi_compat)
-		end
-
-		# FIXME rename method name to more suitable one.
-		def dispatch_cgi(request, cgi)
-			result = @target.run( request, cgi )
+			request = adopt_rack_request_to_plain_old_tdiary_style( env )
+			result = @target.run( request )
 			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
 			result.to_a
 		end
 
 		class << self
-			# stolen from Rack::Handler::CGI.send_headers
-			def send_headers(status, headers)
-				begin
-					headers['type'] = headers.delete('content-type')
-					$stdout.print CGI.new.header({'Status'=>status}.merge(headers))
-				rescue EOFError
-					charset = headers.delete('charset')
-					headers['content-type'] ||= headers.delete( 'type' )
-					headers['content-type'] += "; charset=#{charset}" if charset
-					$stdout.print headers.map{|k,v| "#{k}: #{v}\r\n"}.join << "\r\n"
-				end
-				$stdout.flush
-			end
-
 			# FIXME temporary method during (scratch) refactoring
 			def extract_status_for_legacy_tdiary( head )
 				status_str = head.delete('status')
