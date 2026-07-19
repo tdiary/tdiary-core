@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rack/test'
+require 'rack/lint'
 require 'tdiary/application'
 
 describe TDiary::Application do
@@ -9,7 +10,7 @@ describe TDiary::Application do
 	end
 
 	describe '#call' do
-		let(:app) { TDiary::Application.new }
+		let(:app) { Rack::Lint.new(TDiary::Application.new) }
 
 		context "when is accessed to index"
 		it do
@@ -33,7 +34,7 @@ describe TDiary::Application do
 				TDiary.configuration.options['base_url'] = ''
 			end
 
-			let(:app) { TDiary::Application.new }
+			let(:app) { Rack::Lint.new(TDiary::Application.new) }
 
 			it do
 				get '/diary/'

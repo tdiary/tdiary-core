@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rack/test'
+require 'rack/lint'
 require 'tdiary/application'
 
 describe TDiary::Dispatcher do
@@ -7,6 +8,7 @@ describe TDiary::Dispatcher do
 
 	let(:app) do
 		Rack::Builder.new do
+			use Rack::Lint
 			run TDiary::Dispatcher.index
 		end
 	end
