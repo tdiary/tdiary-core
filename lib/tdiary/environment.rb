@@ -24,6 +24,8 @@ if defined?(Bundler)
   env = [:default, :rack]
   env << :development if ENV['RACK_ENV'].nil? || ENV['RACK_ENV'].empty?
   env << ENV['RACK_ENV'].intern if ENV['RACK_ENV']
+  # optional groups enabled via BUNDLE_WITH (:heroku, :docker)
+  env |= (Bundler.settings.with rescue Bundler.settings[:with])
   env = env.reject{|e|
 	  (Bundler.settings.without rescue Bundler.settings[:without]).include? e
   }
