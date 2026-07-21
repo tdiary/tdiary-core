@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '~> 3.4' if ENV['BUNDLE_WITH'].to_s.split(/[:,\s]/).include?('heroku')
+
 gem 'rack'
 gem 'rack-session'
 gem 'rackup'
@@ -31,6 +33,20 @@ group :development do
     gem "rexml"
     gem "webrick"
   end
+end
+
+# Installed only on Heroku via BUNDLE_WITH=heroku, see misc/paas/heroku
+group :heroku, optional: true do
+  gem 'puma', require: false
+  gem 'tdiary-io-mongodb', git: 'https://github.com/tdiary/tdiary-io-mongodb.git'
+  gem 'tdiary-contrib', git: 'https://github.com/tdiary/tdiary-contrib.git'
+  gem 'tdiary-style-gfm'
+  gem 'tdiary-style-rd'
+  gem 'omniauth'
+  gem 'omniauth-github'
+  gem 'dalli'
+  gem 'connection_pool'
+  gem 'memcachier'
 end
 
 # https://github.com/redmine/redmine/blob/master/Gemfile#L89
