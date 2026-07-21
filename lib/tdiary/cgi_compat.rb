@@ -15,7 +15,7 @@ module TDiary
 			@request = request
 			# built eagerly so that a clone (Object#clone copies instance
 			# variables by reference) shares the same params Hash, like a
-			# cloned CGI instance does. 00default.rb relies on this.
+			# cloned CGI instance does. Plugins may still rely on this.
 			@params = build_params
 		end
 
@@ -75,8 +75,8 @@ module TDiary
 			env_table['SERVER_PORT'].to_i
 		end
 
-		# the URL helpers below duplicate the CGI patches in core_ext.rb,
-		# which stay there for standalone scripts (misc/migrate.rb etc.)
+		# the URL helpers below come from the CGI patches that used to live
+		# in core_ext.rb
 		def https?
 			return true if env_table['HTTP_X_FORWARDED_PROTO'] == 'https'
 			return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS'] or env_table['HTTPS'] == ''

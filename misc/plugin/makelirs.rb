@@ -52,12 +52,9 @@ add_update_proc do
 	file = @options['makelirs.file'] || 'antenna.lirs'
 
 	# create_lirs
-	cgi = @cgi.clone
 	conf = @conf.clone
-	def cgi.mobile_agent?; false; end
-	def cgi.mobile_agent?; false; end
 
-	t = TDiaryLatest::new( cgi, "latest.rhtml", conf )
+	t = TDiaryLatest::new( @request, "latest.rhtml", conf )
 	body = t.eval_rhtml
 	# escape comma
 	e = proc{|str| str.gsub(/[,\\]/){ "\\#{$&}" }.gsub( /[\r\n]/, '' ) }
