@@ -1,10 +1,10 @@
 # tDiary
 
-[![Gem Version](https://badge.fury.io/rb/tdiary.png)](https://rubygems.org/gems/tdiary) [![Build Status](https://github.com/tdiary/tdiary-core/actions/workflows/ci.yml/badge.svg)](https://github.com/tdiary/tdiary-core/actions/workflows/ci.yml) [![Code Climate](https://codeclimate.com/github/tdiary/tdiary-core.png)](https://codeclimate.com/github/tdiary/tdiary-core)
+[![Gem Version](https://badge.fury.io/rb/tdiary.svg)](https://rubygems.org/gems/tdiary) [![Build Status](https://github.com/tdiary/tdiary-core/actions/workflows/ci.yml/badge.svg)](https://github.com/tdiary/tdiary-core/actions/workflows/ci.yml)
 
 ## tDiary, The TSUKKOMI-able Weblog.
 
-At first, see [doc/README-en.md](https://github.com/tdiary/tdiary-core/blob/master/doc/README.en.md)
+At first, see [doc/README.en.md](https://github.com/tdiary/tdiary-core/blob/master/doc/README.en.md)
 
 ## tDiary, ツッコミ可能なWeb日記システム
 
@@ -18,7 +18,7 @@ tDiaryには以下のような特徴があります。
 
 ### レンタルサーバーユーザにやさしい
 
-必要なのはRuby(2.1.0以降に対応)だけ。単独でCGIとして動作し、基本機能はデータベースや追加のライブラリを必要としません。
+必要なのはRuby(3.1以降に対応)だけ。単独でCGIとして動作し、基本機能はデータベースや追加のライブラリを必要としません。
 
 ### プラグインで拡張できます
 
@@ -30,4 +30,4 @@ tDiaryには以下のような特徴があります。
 
 ### その他
 
-インストールにはドキュメント(doc/INSTALL.html)を参照して下さい。動作にはruby(2.1.0以降)と、CGIもしくはRackをサポートするWebサーバが必要です。
+インストールにはドキュメント([doc/INSTALL.md](doc/INSTALL.md))を参照して下さい。動作にはruby(3.1以降)と、CGIもしくはRackをサポートするWebサーバが必要です。

@@ -6,22 +6,22 @@ tDiary-3.1.3 以降のバージョンでは tDiary を [Heroku](http://www.herok
 
 ## 動かし方 - Heroku の場合
 
-Webブラウザだけあれば動作させることが可能です。
+以前提供していた Heroku ボタンによるデプロイは廃止されました。Heroku CLI を使ってデプロイします。
 
-日記の更新時にTwitterのOAuthを使って認証するようになっています。あらかじめ[Twitter Developpers](https://developer.twitter.com/en/apps)にてアプリケーションを作成し、API key と API secret key を取得しておきます。
+日記の更新時にTwitterのOAuthを使って認証するようになっています。あらかじめ[Twitter Developers](https://developer.twitter.com/en/apps)にてアプリケーションを作成し、API key と API secret key を取得しておきます。
 
-続いて GitHub 上にある[tDiaryのリポジトリ](https://github.com/tdiary/tdiary-core)から、Herokuボタンを使ってデプロイしてください(トップページ下部のREADMEにあります)。
+続いて GitHub 上にある[tDiaryのリポジトリ](https://github.com/tdiary/tdiary-core)を clone し、Heroku アプリケーションを作成して以下の環境変数を設定します。
 
-Heroku の New App ページになったら、下記の情報を入力して、Deploy for Free ボタンを押します。
+```
+heroku create
+heroku config:set TWITTER_KEY=<Twitter の API key>
+heroku config:set TWITTER_SECRET=<Twitter の API secret key>
+heroku config:set TWITTER_NAME=<認証に使う Twitter のユーザ名>
+```
 
-* App Name (任意)
-* TWITTER_KEY: Twitter の API key
-* TWITTER_SECRET: Twitter の API secret key
-* TWITTER_NAME: 認証に使う Twitter のユーザ名
+misc/paas/heroku 以下にある tdiary.conf をリポジトリ直下にコピーしてコミットし、`git push heroku master` でデプロイすると利用可能になります。
 
-「Deployed to Heroku」まで進めば利用可能です。「View it」のリンクから日記に飛んで下さい。
-
-【注意】View itから飛んだ先のURLは https://～ になっています。いったん http://～ にしないと認証が通らないので注意してください。なお、設定画面で「日記のURL」を https://～ に変更することで https での利用が可能です。
+【注意】デプロイ直後のURLは https://～ になっています。いったん http://～ にしないと認証が通らないので注意してください。なお、設定画面で「日記のURL」を https://～ に変更することで https での利用が可能です。
 
 また、tDiary 5.10 より、amazonプラグインを利用する場合に特別な設定が必要になっています。[tDiary 5.1.0のリリース](http://www.tdiary.org/20191129.html)にある方法でAmazon PA-APIのアクセスキーとシークレットキーを取得し、Herokuの環境変数(Settings→Config Vars)にてぞれぞれ以下の変数に指定します。
 
