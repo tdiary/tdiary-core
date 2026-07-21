@@ -29,3 +29,25 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: gh release create "$GITHUB_REF_NAME" --title "tDiary ${GITHUB_REF_NAME#v}" --generate-notes --verify-tag
+
+  package:
+    name: Build and attach full tarball
+    needs: push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby
+        bundler-cache: true
+    - name: Build tarballs
+      env:
+        VERSION: ${{ github.ref_name }}
+      run: bundle exec rake package:stable
+    - name: Attach tarballs to the release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release upload "$GITHUB_REF_NAME" tmp/*.tar.gz

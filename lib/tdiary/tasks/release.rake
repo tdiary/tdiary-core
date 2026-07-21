@@ -13,6 +13,24 @@ def fetch_files( repo )
 	end
 end
 
+# Check out the release tag in a cloned repo. Sibling repos are not always
+# tagged for core-only patch releases, so fall back to the latest tag of the
+# same minor series, then to the default branch as cloned.
+def checkout_release( repo, version )
+	Dir.chdir repo do
+		tags = `git tag`.split(/\n/)
+		unless tags.include?(version)
+			minor = version[/\Av\d+\.\d+\./]
+			version = tags.grep(/\A#{Regexp.escape(minor)}\d+(\.\d+)*\z/).max_by {|t| Gem::Version.new(t.sub(/\Av/, '')) } if minor
+		end
+		if version && tags.include?(version)
+			sh "git checkout #{version}"
+		else
+			puts "#{repo}: no matching tag, using default branch"
+		end
+	end
+end
+
 # Gems that ship a C extension but also provide a pure-ruby implementation,
 # so we can vendor the .rb files and drop the compiled extension.
 NATIVE_GEMS_WITH_RUBY_FALLBACK = %w(cgi)
@@ -73,11 +91,7 @@ def make_tarball( repo, version = nil )
 	suffix = version ? "-#{version}" : '-snapshot'
 	dest = "#{repo == 'tdiary-core' ? 'tdiary' : repo}#{suffix}"
 
-	if version then
-		Dir.chdir repo do
-			sh "git checkout #{version}"
-		end
-	end
+	checkout_release( repo, version ) if version
 	rm_rf "#{repo}/.git"
 
 	sh "find #{repo} -type f | xargs chmod 644"
@@ -126,9 +140,9 @@ namespace :package do
 		make_full_package
 	end
 
-	desc 'making packages of stable.'
+	desc 'making packages of stable. VERSION=vX.Y.Z overrides the latest tag.'
 	task :stable => :fetch do
-		make_full_package(STABLE)
+		make_full_package(ENV['VERSION'] || STABLE)
 	end
 
 	desc 'cleanup all files.'
