@@ -10,8 +10,18 @@ module TDiary
 			DEBUG_SPAM = 1
 			DEBUG_FULL = 2
 
-			def initialize( cgi, conf )
-				@cgi, @conf = cgi, conf
+			def initialize( request, conf )
+				if request.respond_to?( :cgi_compat )
+					@request = request
+					# filter subclasses read the request through the @cgi facade
+					@cgi = request.cgi_compat
+				else
+					# transitional: 60sf.rb constructs spam filters with the
+					# @cgi facade handed to plugins
+					@cgi = request
+					@request = request.respond_to?( :request ) ? request.request : nil
+				end
+				@conf = conf
 
 				if @conf.options.include?('filter.debug_mode')
 					@debug_mode = @conf.options['filter.debug_mode']

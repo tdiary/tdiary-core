@@ -13,11 +13,20 @@ module TDiary
 		DIRTY_REFERER = 4
 
 		attr_reader :cookies, :date, :diaries
-		attr_reader :cgi, :rhtml, :conf
+		attr_reader :request, :cgi, :rhtml, :conf
 		attr_reader :ignore_parser_cache
 
-		def initialize( cgi, rhtml, conf )
-			@cgi, @rhtml, @conf = cgi, rhtml, conf
+		def initialize( request, rhtml, conf )
+			if request.respond_to?( :cgi_compat )
+				@request = request
+				@cgi = request.cgi_compat
+			else
+				# transitional: 00default.rb's month navigation hands a cloned
+				# @cgi facade with rewritten params, which must stay @cgi as-is
+				@cgi = request
+				@request = request.respond_to?( :request ) ? request.request : nil
+			end
+			@rhtml, @conf = rhtml, conf
 			@diaries = {}
 			@cookies = []
 			@io = @conf.io_class.new( self )
@@ -125,6 +134,7 @@ module TDiary
 				'mode' => mode,
 				'diaries' => @diaries,
 				'cgi' => @cgi,
+				'request' => @request,
 				'years' => @years,
 				'cache_path' => @io.cache_path,
 				'date' => @date,
@@ -199,7 +209,7 @@ module TDiary
 		def initialize(cgi, rhtml, conf)
 			super
 
-			tdiary = tdiary_class(cgi.params['date'][0] || '').new(cgi, '', conf)
+			tdiary = tdiary_class(@cgi.params['date'][0] || '').new(@request, '', conf)
 			@date = tdiary.date
 			@diaries = tdiary.diaries
 			@last_modified = Time.now

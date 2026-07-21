@@ -106,12 +106,14 @@ module TDiary
 	#  super class of diary saving classes
 	#
 	class TDiaryUpdate < TDiaryAdmin
-		def initialize( cgi, rhtml, conf )
-			@title = cgi.params['title'][0]
-			@body = cgi.params['body'][0]
+		def initialize( request, rhtml, conf )
+			# @cgi is not derived yet before super; peel the facade off here
+			params = request.respond_to?( :cgi_compat ) ? request.cgi_compat.params : request.params
+			@title = params['title'][0]
+			@body = params['body'][0]
 			@title = conf.to_native( @title )
 			@body = conf.to_native( @body )
-			@hide = cgi.params['hide'][0] == 'true' ? true : false
+			@hide = params['hide'][0] == 'true' ? true : false
 			super
 		end
 

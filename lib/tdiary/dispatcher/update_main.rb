@@ -53,28 +53,28 @@ module TDiary
 			def create_tdiary
 				begin
 					if params['plugin']
-						tdiary = TDiary::TDiaryFormPlugin::new( cgi, 'update.rhtml', conf )
+						tdiary = TDiary::TDiaryFormPlugin::new( request, 'update.rhtml', conf )
 					elsif params['append']
-						tdiary = TDiary::TDiaryAppend::new( cgi, nil, conf )
+						tdiary = TDiary::TDiaryAppend::new( request, nil, conf )
 					elsif params['edit']
-						tdiary = TDiary::TDiaryEdit::new( cgi, 'update.rhtml', conf )
+						tdiary = TDiary::TDiaryEdit::new( request, 'update.rhtml', conf )
 					elsif params['replace']
-						tdiary = TDiary::TDiaryReplace::new( cgi, nil, conf )
+						tdiary = TDiary::TDiaryReplace::new( request, nil, conf )
 					elsif params['appendpreview'] or params['replacepreview']
-						tdiary = TDiary::TDiaryPreview::new( cgi, 'preview.rhtml', conf )
+						tdiary = TDiary::TDiaryPreview::new( request, 'preview.rhtml', conf )
 					elsif params['comment']
-						tdiary = TDiary::TDiaryShowComment::new( cgi, 'update.rhtml', conf )
+						tdiary = TDiary::TDiaryShowComment::new( request, 'update.rhtml', conf )
 					elsif params['saveconf']
-						tdiary = TDiary::TDiarySaveConf::new( cgi, 'conf.rhtml', conf )
+						tdiary = TDiary::TDiarySaveConf::new( request, 'conf.rhtml', conf )
 					elsif params['conf']
-						tdiary = TDiary::TDiaryConf::new( cgi, 'conf.rhtml', conf )
+						tdiary = TDiary::TDiaryConf::new( request, 'conf.rhtml', conf )
 					elsif params['referer']
-						tdiary = TDiary::TDiaryConf::new( cgi, 'referer.rhtml', conf )
+						tdiary = TDiary::TDiaryConf::new( request, 'referer.rhtml', conf )
 					else
-						tdiary = TDiary::TDiaryForm::new( cgi, 'update.rhtml', conf )
+						tdiary = TDiary::TDiaryForm::new( request, 'update.rhtml', conf )
 					end
 				rescue TDiary::TDiaryError
-					tdiary = TDiary::TDiaryForm::new( cgi, 'update.rhtml', conf )
+					tdiary = TDiary::TDiaryForm::new( request, 'update.rhtml', conf )
 				end
 				tdiary
 			end
