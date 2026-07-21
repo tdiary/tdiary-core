@@ -35,13 +35,18 @@ group :development do
   end
 end
 
-# Installed only on Heroku via BUNDLE_WITH=heroku, see misc/paas/heroku
-group :heroku, optional: true do
+# Installed on Heroku (BUNDLE_WITH=heroku) and in the Docker image
+# (BUNDLE_WITH=docker), see misc/paas/heroku and Dockerfile
+group :heroku, :docker, optional: true do
   gem 'puma', require: false
-  gem 'tdiary-io-mongodb', git: 'https://github.com/tdiary/tdiary-io-mongodb.git'
   gem 'tdiary-contrib', git: 'https://github.com/tdiary/tdiary-contrib.git'
   gem 'tdiary-style-gfm'
   gem 'tdiary-style-rd'
+end
+
+# Installed only on Heroku via BUNDLE_WITH=heroku
+group :heroku, optional: true do
+  gem 'tdiary-io-mongodb', git: 'https://github.com/tdiary/tdiary-io-mongodb.git'
   gem 'omniauth'
   gem 'omniauth-github'
   gem 'dalli'

@@ -1,22 +1,20 @@
-FROM ruby:3.1
+FROM ruby:3.4
 LABEL maintainer "@tdtds <t@tdtds.jp>"
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY [ "Gemfile", "Gemfile.lock", "/usr/src/app/" ]
+ENV BUNDLE_WITH=docker \
+    BUNDLE_WITHOUT=development:test \
+    BUNDLE_PATH=vendor/bundle
 RUN apt update && apt install -y apt-utils libidn11-dev; \
-    echo 'gem "puma" \n\
-    gem "tdiary-contrib" \n\
-    gem "tdiary-style-gfm" \n\
-    gem "tdiary-style-rd" \n'\
-    > Gemfile.local; \
     gem install bundler && \
-    bundle --path=vendor/bundle --without=development:test --jobs=4 --retry=3
+    bundle install --jobs=4 --retry=3
 
 COPY . /usr/src/app/
 RUN if [ ! -e tdiary.conf ]; then cp tdiary.conf.beginner tdiary.conf; fi && \
-    bundle && \
+    bundle install && \
     bundle exec rake assets:copy
 
 VOLUME [ "/usr/src/app/data", "/usr/src/app/public" ]
