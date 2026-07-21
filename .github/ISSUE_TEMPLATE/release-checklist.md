@@ -8,21 +8,20 @@ assignees: ''
 ---
 
 リリース作業リスト
-- [ ] lib/tdiary/tasks/release.rake` と `.github/workflow/ci.yml` に今回サポートを追加/停止するrubyのバージョンが含まれるか確認、修正する
-- [ ] [releases](https://github.com/tdiary/tdiary-core/releases)にエントリを追加してリリースノートを書く
+- [ ] core の `lib/tdiary/tasks/release.rake` と `.github/workflows/ci.yml` に今回サポートを追加/停止するrubyのバージョンが含まれるか確認、修正する
 - [ ] coreおよびblogkitのChangeLogに「release L.M.N」のエントリを追加する
 - [ ] 以下のファイルのバージョンをあげてcommitする
   - coreの lib/tdiary/version.rb
   - blogkitの lib/tdiary/blogkit/version.rb
   - contribの lib/tdiary/contrib/version.rb
 - [ ] core / blogkit / contrib / theme に tag を打つ (`git pull --tags; git tag vL.M.N; git push origin vL.M.N`)
+  - coreはtag pushで `.github/workflows/release.yml` が起動し、trusted publishing で gem を rubygems.org に publish、GitHub Release の自動作成と full tarball の添付まで行う。`.github/workflows/build-image.yml` が Docker イメージも build/push する
+- [ ] coreの [Actions](https://github.com/tdiary/tdiary-core/actions) で Release ワークフローの成功と、rubygems.org / GitHub Release (full tarball 添付含む) / Docker イメージへの反映を確認する
+- [ ] 自動生成された core の [GitHub Release](https://github.com/tdiary/tdiary-core/releases) のノートを必要に応じて加筆する
 - [ ] 以下の各リポジトリ配下で`bundle clean; bundle exec rake release` コマンドを実行する (gemを最新にしてrubygemsにアップロード)
-  - core
   - blogkit
   - contrib
-- [ ] core配下で`bundle exec rake package:stable package:release` コマンドを実行する(GitHub に tar.gz をアップロードする。GITHUB_ACCESS_TOKEN環境変数が必要なので注意, see #573)
 - [ ] themeのmasterブランチをgh-pagesブランチへmerge、pushする (`git checkout gh-pages; git merge master; git push origin gh-pages`)
-- [ ] core配下で `docker build . -t tdiary/tdiary:L.M.N` を実行してから、`push` する (`L.M`, `L`, `latest` も同様)
 - [ ] tdiary.org の以下のエントリーを書く
   - [ダウンロード](https://github.com/tdiary/tdiary.github.io/blob/master/download.md)
   - [サイドバー](https://github.com/tdiary/tdiary.github.io/blob/master/_includes/sidebar.html)

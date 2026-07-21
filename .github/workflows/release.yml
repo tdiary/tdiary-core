@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  push:
+    name: Push gem to RubyGems.org
+    if: github.repository == 'tdiary/tdiary-core'
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby
+        bundler-cache: true
+    - name: Publish to RubyGems.org
+      uses: rubygems/release-gem@v1
+    - name: Create GitHub Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        case "$GITHUB_REF_NAME" in
+          *beta*|*rc*) PRERELEASE=--prerelease ;;
+        esac
+        gh release create "$GITHUB_REF_NAME" --title "tDiary ${GITHUB_REF_NAME#v}" --generate-notes --verify-tag $PRERELEASE
+
+  package:
+    name: Build and attach full tarball
+    needs: push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby
+        bundler-cache: true
+    - name: Build tarballs
+      env:
+        VERSION: ${{ github.ref_name }}
+      run: bundle exec rake package:stable
+    - name: Attach tarballs to the release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release upload "$GITHUB_REF_NAME" tmp/*.tar.gz

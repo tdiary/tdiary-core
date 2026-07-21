@@ -17,7 +17,6 @@ group :development do
   gem 'pit', require: false
   gem 'racksh', require: false
   gem 'redcarpet'
-  gem 'octokit'
   gem 'mime-types'
 
   group :test do
