@@ -332,6 +332,7 @@ DEPENDENCIES
   pit
   pstore
   puma
+  racc
   rack
   rack-session
   racksh

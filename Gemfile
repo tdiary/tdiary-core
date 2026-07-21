@@ -42,6 +42,7 @@ group :heroku, :docker, optional: true do
   gem 'tdiary-contrib', git: 'https://github.com/tdiary/tdiary-contrib.git'
   gem 'tdiary-style-gfm'
   gem 'tdiary-style-rd'
+  gem 'racc', require: false # rdtool needs racc, a bundled gem since Ruby 3.3
 end
 
 # Installed only on Heroku via BUNDLE_WITH=heroku
