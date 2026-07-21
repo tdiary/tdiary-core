@@ -28,7 +28,11 @@ jobs:
     - name: Create GitHub Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh release create "$GITHUB_REF_NAME" --title "tDiary ${GITHUB_REF_NAME#v}" --generate-notes --verify-tag
+      run: |
+        case "$GITHUB_REF_NAME" in
+          *beta*|*rc*) PRERELEASE=--prerelease ;;
+        esac
+        gh release create "$GITHUB_REF_NAME" --title "tDiary ${GITHUB_REF_NAME#v}" --generate-notes --verify-tag $PRERELEASE
 
   package:
     name: Build and attach full tarball
