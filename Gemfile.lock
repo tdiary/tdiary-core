@@ -194,7 +194,7 @@ DEPENDENCIES
   redcarpet
   rexml
   rspec
-  selenium-webdriver
+  selenium-webdriver (< 4.45)
   sequel
   simplecov
   sqlite3
