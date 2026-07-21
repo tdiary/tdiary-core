@@ -6,6 +6,9 @@
 # Copyright (C) 2007, Kazuhiko <kazuhiko@fdiary.net>
 # You can redistribute it and/or modify it under GPL2 or any later version.
 #
+# NOTE: this script is obsolete and no longer expected to work with the
+# current tDiary. To use it, check out a past version of tDiary.
+#
 BEGIN { $stdout.binmode }
 
 require "fileutils"

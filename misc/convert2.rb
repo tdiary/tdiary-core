@@ -4,6 +4,9 @@
 #
 # Copyright (C) 2001,2002, All right reserved by TADA Tadashi <sho@spc.gr.jp>
 # You can redistribute it and/or modify it under GPL2 or any later version.
+#
+# NOTE: this script is obsolete and no longer expected to work with the
+# current tDiary. To use it, check out a past version of tDiary.
 
 =begin How to usage
 ruby convert2.rb [-p <tDiary path>] [-c <tdiary.conf path>]

@@ -51,59 +51,6 @@ class String
 	end
 end
 
-=begin
-== CGI class
-enhanced CGI class
-=end
-class CGI
-	include TDiary::RequestExtension
-
-	def valid?( param, idx = 0 )
-		self.params[param] and self.params[param][idx] and self.params[param][idx].length > 0
-	end
-
-	def https?
-		return true if env_table['HTTP_X_FORWARDED_PROTO'] == 'https'
-		return false if env_table['HTTPS'].nil? or /off/i =~ env_table['HTTPS'] or env_table['HTTPS'] == ''
-		true
-	end
-
-	def request_uri
-		_request_uri = env_table['REQUEST_URI']
-		_script_name = env_table['SCRIPT_NAME']
-		if !_request_uri || _request_uri == '' || _request_uri == _script_name then
-			_path_info    = env_table['PATH_INFO'] || ''
-			_query_string = env_table['QUERY_STRING'] || ''
-			# Workaround for IIS-style PATH_INFO ('/dir/script.cgi/path', not '/path')
-			# See http://support.microsoft.com/kb/184320/
-			_request_uri = _path_info.include?(_script_name) ? '' : _script_name.dup
-			_request_uri << _path_info
-			_request_uri << '?' + _query_string if _query_string != ''
-		end
-		_request_uri
-	end
-
-	def redirect_url
-		env_table['REDIRECT_URL']
-	end
-
-	def base_url
-		return '' unless script_name
-		begin
-			script_dirname = script_name.empty? ? '' : File::dirname(script_name)
-			if https?
-				port = (server_port == 443) ? '' : ':' + server_port.to_s
-				"https://#{server_name}#{port}#{script_dirname}/"
-			else
-				port = (server_port == 80) ? '' : ':' + server_port.to_s
-				"http://#{server_name}#{port}#{script_dirname}/"
-			end.sub(%r|/+$|, '/')
-		rescue SecurityError
-			''
-		end
-	end
-end
-
 require 'tdiary/cgi_compat'
 
 # the @cgi facade for Rack-hosted requests. Kept as a toplevel constant
