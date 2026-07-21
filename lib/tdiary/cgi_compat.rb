@@ -15,7 +15,7 @@ module TDiary
 			@request = request
 			# built eagerly so that a clone (Object#clone copies instance
 			# variables by reference) shares the same params Hash, like a
-			# cloned CGI instance does. 00default.rb relies on this.
+			# cloned CGI instance does. Plugins may still rely on this.
 			@params = build_params
 		end
 

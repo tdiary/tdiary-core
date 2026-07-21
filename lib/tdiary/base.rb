@@ -17,15 +17,9 @@ module TDiary
 		attr_reader :ignore_parser_cache
 
 		def initialize( request, rhtml, conf )
-			if request.respond_to?( :cgi_compat )
-				@request = request
-				@cgi = request.cgi_compat
-			else
-				# transitional: 00default.rb's month navigation hands a cloned
-				# @cgi facade with rewritten params, which must stay @cgi as-is
-				@cgi = request
-				@request = request.respond_to?( :request ) ? request.request : nil
-			end
+			@request = request
+			# plugins read the request through the @cgi facade
+			@cgi = request.cgi_compat
 			@rhtml, @conf = rhtml, conf
 			@diaries = {}
 			@cookies = []

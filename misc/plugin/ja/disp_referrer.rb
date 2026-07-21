@@ -309,7 +309,7 @@ class DispRef2SetupIF
 	def show_unknown_list
 		urls = DispRef2Cache.new( @setup ).urls( DispRef2URL::Unknown ).keys
 		if urls.size == 0 then
-			urls = DispRef2Latest.new( @cgi, 'latest.rhtml', @conf, @setup ).unknown_urls
+			urls = DispRef2Latest.new( @request, 'latest.rhtml', @conf, @setup ).unknown_urls
 		end
 		urls.reject!{ |url| DispRef2String::url_match?( url, @setup['reflist.ignore_urls'] ) }
 		r = <<-_HTML

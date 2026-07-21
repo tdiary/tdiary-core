@@ -235,11 +235,12 @@ def calc_links
 		yms.unshift(nil).push(nil)
 		yms[yms.index(this_month) - 1, 3].each do |ym|
 			next unless ym
-			now = @cgi.params['date'] # backup
-			cgi = @cgi.clone
-			cgi.params['date'] = [ym]
-			m = TDiaryMonthWithoutFilter.new(cgi, '', @conf)
-			@cgi.params['date'] = now # restore
+			# look up the neighbour month with a request whose query carries
+			# the month instead of the current date
+			env = @request.env.dup
+			env['REQUEST_METHOD'] = 'GET'
+			env['QUERY_STRING'] = "date=#{ym}"
+			m = TDiaryMonthWithoutFilter.new(TDiary::Request.new(env), '', @conf)
 			m.diaries.delete_if {|date,diary| !diary.visible?}
 			days += m.diaries.keys.sort
 		end

@@ -107,8 +107,8 @@ module TDiary
 	#
 	class TDiaryUpdate < TDiaryAdmin
 		def initialize( request, rhtml, conf )
-			# @cgi is not derived yet before super; peel the facade off here
-			params = request.respond_to?( :cgi_compat ) ? request.cgi_compat.params : request.params
+			# @cgi is not derived yet before super; go through the facade here
+			params = request.cgi_compat.params
 			@title = params['title'][0]
 			@body = params['body'][0]
 			@title = conf.to_native( @title )
