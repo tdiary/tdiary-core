@@ -14,6 +14,10 @@ jobs:
     permissions:
       contents: write
       id-token: write
+    env:
+      # Building and pushing the gem needs no dev/test gems, and their
+      # native extensions do not build on every Ruby the runner may pick.
+      BUNDLE_WITHOUT: development:test
     steps:
     - uses: actions/checkout@v7
       with:
@@ -21,7 +25,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ruby
+        ruby-version: '3.4'
         bundler-cache: true
     - name: Publish to RubyGems.org
       uses: rubygems/release-gem@v1
@@ -40,12 +44,16 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      # rake doc needs redcarpet from the development group, but the test
+      # group with its native extensions is unnecessary for packaging.
+      BUNDLE_WITHOUT: test
     steps:
     - uses: actions/checkout@v7
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ruby
+        ruby-version: '3.4'
         bundler-cache: true
     - name: Build tarballs
       env:
