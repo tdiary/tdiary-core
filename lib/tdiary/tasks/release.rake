@@ -67,6 +67,9 @@ def vendor_pure_ruby_gems
 			cp spec_file, "#{vendor}/specifications/"
 		elsif NATIVE_GEMS_WITH_RUBY_FALLBACK.include?(spec.name)
 			cp_r gem_dir, "#{vendor}/gems/#{name_version}"
+			# bundle install compiles the extension into lib; drop the ABI-specific
+			# artifacts so only the pure-ruby fallback is shipped
+			Dir["#{vendor}/gems/#{name_version}/**/*.{so,bundle,dll,o}"].each {|f| rm_f f }
 			spec.extensions.clear
 			File.write("#{vendor}/specifications/#{File.basename(spec_file)}", spec.to_ruby)
 			puts "vendored without native extension: #{name_version}"
