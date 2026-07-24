@@ -203,7 +203,8 @@ module TDiary
 				if @diary and comment_filter( @diary, @comment ) then
 					@diary.add_comment( @comment )
 					dirty = DIRTY_COMMENT
-					cookie_path = File::dirname( @cgi.script_name )
+					script_name = @request.script_name
+					cookie_path = script_name.empty? ? '/' : File::dirname( script_name )
 					cookie_path += '/' if cookie_path !~ /\/$/
 					@cookies << CGI::Cookie::new( {
 						'name' => 'tdiary',
