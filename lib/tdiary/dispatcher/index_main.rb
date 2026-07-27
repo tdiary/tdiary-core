@@ -52,20 +52,7 @@ module TDiary
 						TDiary::Response.new( body, 404, { 'content-type' => 'text/html' } )
 					end
 				rescue TDiary::ForceRedirect
-					head = {
-						#'Location' => $!.path
-						'content-type' => 'text/html',
-					}
-					body = %Q[
-								<html>
-								<head>
-								<meta http-equiv="refresh" content="1;url=#{$!.path}">
-								<title>moving...</title>
-								</head>
-								<body>Wait or <a href="#{$!.path}">Click here!</a></body>
-								</html>]
-					# TODO return code should be 302? (current behaviour returns 200)
-					res = TDiary::Response.new( body, 200, head )
+					res = TDiary::Response.new( '', 303, { 'location' => $!.path } )
 					res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
 					res
 				end

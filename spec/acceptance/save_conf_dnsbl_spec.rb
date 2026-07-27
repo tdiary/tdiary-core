@@ -119,13 +119,15 @@ BODY
 		expect(IPSocket).to receive(:getaddress).exactly(0)
 		expect(Resolv).to receive(:getaddress).exactly(0)
 
-		append_default_diary
-
 		visit '/update.rb?conf=dnsblfilter'
 		fill_in 'spamlookup.ip.list', with: "bsb.spamlookup.net"
 		fill_in 'spamlookup.domain.list', with: "bsb.spamlookup.net"
 		fill_in 'spamlookup.safe_domain.list', with: "www.example.com"
 		page.all('div.saveconf').first.click_button 'OK'
+
+		# configure the safe list before appending; following the 303 after
+		# the append carries an own-site referer through the spam filter
+		append_default_diary
 
 		visit "/"
 		click_link 'ツッコミを入れる'

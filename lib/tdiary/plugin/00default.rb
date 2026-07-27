@@ -887,7 +887,8 @@ def saveconf_csrf_protection
 			if (check_method & 2 == 2 &&
 			    (old_method & 2 == 0 || old_key != check_key))
 				@conf.save
-				raise ForceRedirect, "#{h @conf.update}?conf=csrf_protection#{@cgi.referer ? '&amp;referer_exists=true' : ''}"
+				# the path is sent as a Location header now, so no HTML escaping
+				raise ForceRedirect, "#{@conf.update}?conf=csrf_protection#{@cgi.referer ? '&referer_exists=true' : ''}"
 			end
 		end
 		err

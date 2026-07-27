@@ -89,10 +89,10 @@ describe 'index.rb comment POST as a plain CGI program' do
 		FileUtils.remove_entry @workdir
 	end
 
-	it 'accepts the comment and sets the tdiary cookie' do
-		expect(@head).to match(/^Status: 200/), -> { "head: #{@head.inspect}\nstderr: #{@stderr}" }
+	it 'accepts the comment, sets the tdiary cookie and redirects to the day' do
+		expect(@head).to match(/^Status: 303/), -> { "head: #{@head.inspect}\nstderr: #{@stderr}" }
 		expect(@head).to match(/^set-cookie: tdiary=alice/i), -> { "head: #{@head.inspect}\nstderr: #{@stderr}" }
-		expect(@body).to include('Click here!')
+		expect(@head).to match(/^location: .*date=20260719/i), -> { "head: #{@head.inspect}\nstderr: #{@stderr}" }
 	end
 end
 

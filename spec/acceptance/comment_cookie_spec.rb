@@ -9,7 +9,7 @@ feature 'ツッコミ後のcookie' do
 		fill_in "mail", with: "alice@example.com"
 		fill_in "body", with: "こんにちは!こんにちは!"
 		click_button '投稿'
-		expect(page).to have_content "Click here!"
+		expect(page).to have_content "こんにちは!こんにちは!"
 
 		today = Date.today.strftime('%Y%m%d')
 		visit "/?date=#{today}"
