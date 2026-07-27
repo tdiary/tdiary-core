@@ -43,14 +43,14 @@ describe 'multipart POST to the update dispatcher' do
 			'year' => '2026', 'month' => '4', 'day' => '15',
 			'title' => 'multipart test', 'body' => 'first version', 'append' => '追記'
 		}, 'HTTP_REFERER' => referer
-		expect(last_response.status).to eq 200
+		expect(last_response.status).to eq 303
 
 		post '/update.rb', {
 			'year' => '2026', 'month' => '4', 'day' => '15', 'old' => '20260415',
 			'title' => 'multipart test', 'body' => 'replaced version', 'replace' => '上書き',
 			'date' => Rack::Test::UploadedFile.new(StringIO.new('20260415'), 'text/plain', original_filename: 'date.txt')
 		}, 'HTTP_REFERER' => referer
-		expect(last_response.status).to eq 200
+		expect(last_response.status).to eq 303
 
 		get '/?date=20260415'
 		expect(last_response.status).to eq 200

@@ -65,7 +65,7 @@ BODY
 		within('div.textarea') { fill_in "body", with: '' }
 
 		click_button "登録"
-		expect(page).to have_content "Click here!"
+		expect(page.current_url).to include "date=#{Date.today.strftime('%Y%m%d')}"
 
 		visit '/'
 		within('div.day') { expect(page).to have_no_css('h3') }
@@ -82,7 +82,7 @@ BODY
 		check 'hide'
 
 		click_button "登録"
-		expect(page).to have_content "Click here!"
+		expect(page.current_url).to include "date=#{Date.today.strftime('%Y%m%d')}"
 
 		visit '/'
 		expect(page).to have_no_css('div[class="day"]')

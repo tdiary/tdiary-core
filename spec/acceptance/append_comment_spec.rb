@@ -11,7 +11,7 @@ feature 'ツッコミの更新' do
 BODY
 
 		click_button '投稿'
-		expect(page).to have_content "Click here!"
+		expect(page).to have_content "こんにちは!こんにちは!"
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
@@ -43,7 +43,7 @@ BODY
 BODY
 
 		click_button '投稿'
-		expect(page).to have_content "Click here!"
+		expect(page).to have_content "こんばんは!こんばんは!"
 
 		visit "/"
 		within('div.day div.comment div.commentshort') {
@@ -75,7 +75,7 @@ BODY
 BODY
 
 		click_button '投稿'
-		expect(page).to have_content "Click here!"
+		expect(page).to have_content "こんにちは!こんにちは!"
 
 		visit "/"
 		within('ol.recent-comment > li') do

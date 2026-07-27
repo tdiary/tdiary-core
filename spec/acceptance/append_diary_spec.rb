@@ -56,7 +56,7 @@ BODY
 		}
 
 		click_button "追記"
-		expect(page).to have_content "Click here!"
+		expect(page).to have_content "さて、Hikiのテストである。"
 
 		visit '/'
 		within('div.day span.title'){ expect(page).to have_content "Hikiのテスト" }

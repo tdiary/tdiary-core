@@ -31,7 +31,7 @@ feature 'ツッコミ設定の利用' do
 BODY
 
 		click_button '投稿'
-		expect(page).to have_content "Click here!"
+		expect(page).to have_content "こんばんは!こんばんは!"
 
 		visit '/update.rb?conf=comment'
 		fill_in 'comment_limit', with: '1'

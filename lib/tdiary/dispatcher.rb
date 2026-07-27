@@ -17,24 +17,10 @@ module TDiary
 
 		def call( env )
 			request = adopt_rack_request_to_plain_old_tdiary_style( env )
-			result = @target.run( request )
-			result.headers.reject!{|k,v| k.to_s.downcase == "status" }
-			result.to_a
+			@target.run( request ).to_a
 		end
 
 		class << self
-			# FIXME temporary method during (scratch) refactoring
-			def extract_status_for_legacy_tdiary( head )
-				status_str = head.delete('status')
-				return 200 if !status_str || status_str.empty?
-
-				if m = status_str.match(/(\d+)\s(.+)\Z/)
-					m[1].to_i
-				else
-					200
-				end
-			end
-
 			def index
 				new( :index )
 			end

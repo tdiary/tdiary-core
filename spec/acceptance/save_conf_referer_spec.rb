@@ -16,12 +16,15 @@ feature 'リンク元設定の利用' do
 	end
 
 	scenario 'リンク元記録の除外設定が動いている' do
-		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'no_referer', with: '^http://www\.example\.com/.*'
 
 		page.all('div.saveconf').first.click_button('OK')
 		# within('title') { page.should have_content('(設定完了)') }
+
+		# configure the exclusion before appending; following the 303 after
+		# the append carries an own-site referer that would be recorded
+		append_default_diary
 
 		click_link '最新'
 		today = Date.today.strftime('%Y年%m月%d日')
