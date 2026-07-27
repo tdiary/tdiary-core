@@ -7,12 +7,12 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 
-			unless referer_filter( @cgi.referer )
-				def @cgi.referer; nil; end
+			unless referer_filter( @request.referer )
+				@request.hide_referer!
 			end
 
 			# save referer to latest
-			if (!@conf.referer_day_only or (@cgi.params['date'][0] and @cgi.params['date'][0].length == 8)) and @cgi.referer then
+			if (!@conf.referer_day_only or (@request.param('date') and @request.param('date').length == 8)) and @request.referer then
 				ym = latest_month
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
@@ -23,7 +23,7 @@ module TDiary
 						break if @diary.visible?
 					end
 					if @diary then
-						@diary.add_referer( @cgi.referer )
+						@diary.add_referer( @request.referer )
 						dirty = DIRTY_REFERER
 					end
 					dirty
@@ -121,7 +121,7 @@ module TDiary
 
 			begin
 				# time is noon for easy to calc leap second.
-				@date = Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60
+				@date = Time::local( *@request.param('date').scan( /^(\d{4})(\d\d)(\d\d)$/ )[0] ) + 12*60*60
 				load( @date )
 			rescue ArgumentError, NameError
 				raise TDiaryError, 'bad date'
@@ -149,8 +149,8 @@ module TDiary
 					@diaries = diaries
 					dirty = DIRTY_NONE
 					@diary = self[date]
-					if @diary and @cgi.referer then
-						@diary.add_referer( @cgi.referer )
+					if @diary and @request.referer then
+						@diary.add_referer( @request.referer )
 						dirty = DIRTY_REFERER
 					end
 					dirty
@@ -161,11 +161,11 @@ module TDiary
 		end
 
 		def cookie_name
-			@cgi.cookies['tdiary'][0] or ''
+			@request.cgi_cookies['tdiary'][0] or ''
 		end
 
 		def cookie_mail
-			@cgi.cookies['tdiary'][1] or ''
+			@request.cgi_cookies['tdiary'][1] or ''
 		end
 	end
 
@@ -189,9 +189,9 @@ module TDiary
 
 		def load( date )
 			@date = date
-			@name = @cgi.params['name'][0]
-			@mail = @cgi.params['mail'][0]
-			@body = @cgi.params['body'][0]
+			@name = @request.param('name')
+			@mail = @request.param('mail')
+			@body = @request.param('body')
 			@name = @conf.to_native( @name )
 			@body = @conf.to_native( @body )
 			@comment = Comment::new( @name, @mail, @body )
@@ -259,7 +259,7 @@ module TDiary
 			super
 
 			begin
-				date = Time::local( *@cgi.params['date'][0].scan( /^(\d{4})(\d\d)$/ )[0] )
+				date = Time::local( *@request.param('date').scan( /^(\d{4})(\d\d)$/ )[0] )
 				d1 = @date.dup.gmtime if @date
 				d2 = date.dup.gmtime
 				if not @date or d1.year != d2.year or d1.month != d2.month then
@@ -285,7 +285,7 @@ module TDiary
 			super
 
 			@diaries = {}
-			month, day = @cgi.params['date'][0].scan(/^(\d\d)(\d\d)$/)[0]
+			month, day = @request.param('date').scan(/^(\d\d)(\d\d)$/)[0]
 			nyear(month).each do |y, m|
 				@date = Time::local(y, m)
 				@io.transaction(@date) do |diaries|
@@ -323,8 +323,8 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 
-			if @cgi.params['date'][0] then
-				ym = [@cgi.params['date'][0][0,4].to_i, @cgi.params['date'][0][4,2].to_i]
+			if @request.param('date') then
+				ym = [@request.param('date')[0,4].to_i, @request.param('date')[4,2].to_i]
 				@date = nil
 			else
 				ym = latest_month
@@ -334,8 +334,8 @@ module TDiary
 				@date = ym ? Time::local( ym[0], ym[1] ) : Time::now
 				@io.transaction( @date ) do |diaries|
 					@diaries = diaries
-					if @cgi.params['date'][0] then
-						@diary = @diaries[@cgi.params['date'][0][0,8]]
+					if @request.param('date') then
+						@diary = @diaries[@request.param('date')[0,8]]
 						@date = @diary.date if @diary
 					end
 					unless @diary then
@@ -447,16 +447,16 @@ module TDiary
 		end
 
 		def start_date
-			if @cgi.params['date'][0] then
-				@cgi.params['date'][0][0,8]
+			if @request.param('date') then
+				@request.param('date')[0,8]
 			else
 				'99999999' # max of date string
 			end
 		end
 
 		def limit_size( default_limit )
-			if @cgi.params['date'][0] then
-				date = @cgi.params['date'][0]
+			if @request.param('date') then
+				date = @request.param('date')
 				limit = date[9,date.length-9].to_i
 				limit = 30 if limit > 30
 				limit

@@ -91,11 +91,11 @@ EOS
 		def initialize( cgi, rhtm, conf )
 			super
 
-			if @cgi.valid?( 'date' ) then
-				if @cgi.params['date'][0].kind_of?( String ) then
-					date = @cgi.params['date'][0]
+			if @request.valid?( 'date' ) then
+				if @request.param('date').kind_of?( String ) then
+					date = @request.param('date')
 				else
-					date = @cgi.params['date'][0].read
+					date = @request.param('date').read
 				end
 				@date = Time::local( *date.scan( /(\d{4})(\d\d)(\d\d)/ )[0] )
 			else
@@ -125,7 +125,7 @@ EOS
 
 		def initialize( cgi, rhtml, conf )
 			super
-			@key = @cgi.params['conf'][0] || ''
+			@key = @request.param('conf') || ''
 		end
 	end
 
