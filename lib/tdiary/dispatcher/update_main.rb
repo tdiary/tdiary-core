@@ -21,7 +21,6 @@ module TDiary
 					body = tdiary.eval_rhtml
 					head = {
 						'content-type' => 'text/html; charset=UTF-8',
-						'charset' => conf.encoding,
 						'content-length' => body.bytesize.to_s,
 						'vary' => 'User-Agent',
 						'x-frame-options' => 'SAMEORIGIN'
