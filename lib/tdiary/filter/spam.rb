@@ -228,8 +228,8 @@ module TDiary
 					return @filter_mode
 				end
 
-				if @bad_ips.detect {|p| p =~ @cgi.remote_addr}
-					debug( "ip address blacklisted: /#{p}/ =~ #{@cgi.remote_addr}" )
+				if @bad_ips.detect {|p| p =~ @request.remote_addr}
+					debug( "ip address blacklisted: /#{p}/ =~ #{@request.remote_addr}" )
 					comment.show = false
 					return @filter_mode
 				end

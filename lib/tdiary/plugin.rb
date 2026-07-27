@@ -349,7 +349,7 @@ module TDiary
 		end
 
 		def conf_current_style( key )
-			if key == @cgi.params['conf'][0] then
+			if key == @request.param('conf') then
 				'selected'
 			else
 				'other'
