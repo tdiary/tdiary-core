@@ -222,13 +222,13 @@ GEM
       rspec-support (~> 3.13.0)
     rspec-support (3.13.6)
     ruby2_keywords (0.0.5)
-    rubyzip (2.4.1)
+    rubyzip (3.4.1)
     securerandom (0.4.1)
-    selenium-webdriver (4.33.0)
+    selenium-webdriver (4.46.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
+      rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
     sequel (5.106.0)
       bigdecimal
@@ -335,7 +335,7 @@ DEPENDENCIES
   redcarpet
   rexml
   rspec
-  selenium-webdriver (< 4.45)
+  selenium-webdriver (< 4.47)
   sequel
   simplecov
   sqlite3

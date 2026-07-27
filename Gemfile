@@ -25,7 +25,7 @@ group :development do
     gem 'rspec'
     gem 'capybara', require: 'capybara/rspec'
     gem 'date', '>= 3.1.1' # for compatibility of capybara
-    gem 'selenium-webdriver', '< 4.45' # 4.45+ requires Ruby >= 3.3
+    gem 'selenium-webdriver', '< 4.47' # 4.45+ requires Ruby >= 3.3
     gem 'launchy'
     gem 'sequel'
     gem 'sqlite3'
