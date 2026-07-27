@@ -206,11 +206,15 @@ module TDiary
 					script_name = @request.script_name
 					cookie_path = script_name.empty? ? '/' : File::dirname( script_name )
 					cookie_path += '/' if cookie_path !~ /\/$/
-					@cookies << CGI::Cookie::new( {
-						'name' => 'tdiary',
-						'value' => [@name,@mail],
-						'path' => cookie_path,
-						'expires' => Time::now.gmtime + 90*24*60*60 # 90days
+					# the escaped 'name&mail' multi-value format must be kept;
+					# CGI::Cookie.parse on the reading side splits on '&'
+					@cookies << ::Rack::Utils.set_cookie_header( 'tdiary', {
+						value: [@name, @mail],
+						path: cookie_path,
+						expires: Time::now.gmtime + 90*24*60*60, # 90days
+						secure: @request.ssl?,
+						http_only: true,
+						same_site: :lax
 					} )
 					@io.clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )
 				else

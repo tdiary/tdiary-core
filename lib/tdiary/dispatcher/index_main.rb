@@ -25,7 +25,7 @@ module TDiary
 							'vary' => 'User-Agent'
 						}
 						body = ''
-						head['Last-Modified'] = CGI::rfc1123_date( tdiary.last_modified )
+						head['last-modified'] = tdiary.last_modified.httpdate
 
 						if request.head?
 							head['cache-control'] = 'no-cache'
