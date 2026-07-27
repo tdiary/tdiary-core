@@ -317,6 +317,7 @@ DEPENDENCIES
   fastimage
   hikidoc
   launchy
+  logger
   mail
   memcachier
   mime-types

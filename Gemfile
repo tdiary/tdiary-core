@@ -12,6 +12,7 @@ gem 'mail'
 gem 'rake'
 gem 'cgi'
 gem 'pstore'
+gem 'logger'
 
 group :development do
   gem 'pit', require: false
