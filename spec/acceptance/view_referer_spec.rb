@@ -1,6 +1,6 @@
 require 'acceptance_helper'
 
-feature 'リンク元の表示', exclude_selenium: true do
+feature 'リンク元の表示', exclude_webrick: true do
 	scenario '日表示にリンク元が表示されている' do
 		append_default_diary
 		visit '/'

@@ -124,7 +124,7 @@ FOOTER
 		expect(page).to have_field('hour_offset', with: '-24.0')
 	end
 
-	scenario 'Rack 環境でテーマ選択が保存される', :exclude_selenium do
+	scenario 'Rack 環境でテーマ選択が保存される', :exclude_webrick do
 		visit '/update.rb?conf=theme'
 		select 'Tdiary1', from: 'theme'
 
@@ -147,10 +147,8 @@ FOOTER
 		page.all('div.saveconf').first.click_button "OK"
 
 		click_link '最新'
-		within('head') {
-			expect(page).to have_css('link[href="theme/base.css"]')
-			expect(page).to have_css('link[href="theme/tdiary1/tdiary1.css"]')
-		}
+		expect(page.body).to be_include('href="theme/base.css"')
+		expect(page.body).to be_include('href="theme/tdiary1/tdiary1.css"')
 
 		visit '/update.rb?conf=theme'
 		within('select option[selected]'){

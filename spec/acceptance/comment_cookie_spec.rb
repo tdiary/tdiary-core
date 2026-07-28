@@ -1,7 +1,7 @@
 require 'acceptance_helper'
 
 feature 'ツッコミ後のcookie' do
-	scenario '次回のコメントフォームにnameとmailが補完される', :exclude_selenium do
+	scenario '次回のコメントフォームにnameとmailが補完される', :exclude_webrick do
 		append_default_diary
 		visit '/'
 		click_link 'ツッコミを入れる'

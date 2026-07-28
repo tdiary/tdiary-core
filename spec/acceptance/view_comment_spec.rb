@@ -20,7 +20,7 @@ feature 'ツッコミの表示' do
 		expect(page).to have_no_content "こんにちは!こんにちは!"
 	end
 
-	scenario "日付表示だと絵文字を表示できる", :exclude_selenium do
+	scenario "日付表示だと絵文字を表示できる", :exclude_webrick do
 		append_default_diary
 
 		visit "/"
@@ -39,7 +39,7 @@ BODY
 		}
 	end
 
-	scenario "一覧表示でも絵文字を表示できる", :exclude_selenium do
+	scenario "一覧表示でも絵文字を表示できる", :exclude_webrick do
 		append_default_diary
 
 		visit "/"
