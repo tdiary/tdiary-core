@@ -1,7 +1,7 @@
 require 'acceptance_helper'
 require 'resolv'
 
-feature 'spamフィルタ設定の利用', :exclude_selenium do
+feature 'spamフィルタ設定の利用', :exclude_webrick do
 	scenario 'IPベースのブラックリストの spam-champuru が spamlookup に置き換わる' do
 		visit '/update.rb?conf=dnsblfilter'
 		fill_in 'spamlookup.ip.list', with: "dnsbl.spam-champuru.livedoor.com"

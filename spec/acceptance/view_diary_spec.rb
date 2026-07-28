@@ -10,7 +10,7 @@ feature '日記を読む' do
 		expect(page).to have_css('a[href="update.rb?conf=default"]')
 	end
 
-	scenario 'RackアプリではCSSとJavaScriptがassets配下から配信される', :exclude_selenium do
+	scenario 'RackアプリではCSSとJavaScriptがassets配下から配信される', :exclude_webrick do
 		visit '/'
 		stylesheet_hrefs = page.all('link[rel=stylesheet]', visible: false).map {|link| link[:href] }
 		expect(stylesheet_hrefs).not_to be_empty

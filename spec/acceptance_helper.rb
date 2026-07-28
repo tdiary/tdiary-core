@@ -51,13 +51,21 @@ RSpec.configure do |config|
 	end
 
 	if ENV['TEST_MODE'] == 'webrick'
-		Capybara.default_driver = :selenium
-		Capybara.app_host = 'http://localhost:' + (ENV['PORT'] || '19292')
+		require 'capybara/cuprite'
+		Capybara.register_driver(:cuprite) do |app|
+			Capybara::Cuprite::Driver.new(app, window_size: [1024, 768])
+		end
+		Capybara.default_driver = :cuprite
+		# The CGI server under test is started separately by `rake server`.
+		Capybara.run_server = false
+		# Not 'localhost': Chrome resolves it to ::1, and the spam filter specs
+		# expect REMOTE_ADDR to be 127.0.0.1.
+		Capybara.app_host = 'http://127.0.0.1:' + (ENV['PORT'] || '19292')
 	end
 
 	excludes = case ENV['TEST_MODE']
 				  when 'webrick'
-					  [:exclude_selenium]
+					  [:exclude_webrick]
 				  else # rack
 					  [:exclude_rack]
 				  end

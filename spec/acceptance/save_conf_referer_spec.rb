@@ -32,7 +32,7 @@ feature 'リンク元設定の利用' do
 		within('div.day div.refererlist') { expect(page).to have_no_link('http://www.example.com') }
 	end
 
-	scenario 'リンク元の置換が動いている', :exclude_selenium do
+	scenario 'リンク元の置換が動いている', :exclude_webrick do
 		append_default_diary
 		visit '/update.rb?conf=referer'
 		fill_in 'referer_table', with: <<-REFERER
