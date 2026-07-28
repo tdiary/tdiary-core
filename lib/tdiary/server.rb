@@ -12,6 +12,28 @@ module TDiary
 		require 'webrick/accesslog'
 		require 'tempfile'
 
+		# WEBrick's CGI runner clears the environment of the CGI child process
+		# before exec'ing it, so the child cannot find the gems the server itself
+		# runs with. Hand the RubyGems and Bundler locations back to it.
+		module CGIEnvironment
+			def meta_vars
+				super.merge( {
+					'HOME' => ENV['HOME'],
+					'GEM_HOME' => Gem.dir,
+					'GEM_PATH' => Gem.path.join( File::PATH_SEPARATOR ),
+					'BUNDLE_GEMFILE' => ENV['BUNDLE_GEMFILE'],
+				}.compact )
+			end
+		end
+
+		class CGIHandler < WEBrick::HTTPServlet::CGIHandler
+			def do_GET( req, res )
+				req.extend( CGIEnvironment )
+				super
+			end
+			alias do_POST do_GET
+		end
+
 		class << self
 			def run( option )
 				@@server = new( option )
@@ -38,9 +60,9 @@ module TDiary
 				CGIInterpreter: WEBrick::HTTPServlet::CGIHandler::Ruby
 			)
 			@server.logger.level = WEBrick::Log::DEBUG
-			@server.mount("/", WEBrick::HTTPServlet::CGIHandler, TDiary.root + "/index.rb")
-			@server.mount("/index.rb", WEBrick::HTTPServlet::CGIHandler, TDiary.root + '/index.rb')
-			@server.mount("/update.rb", WEBrick::HTTPServlet::CGIHandler, TDiary.root + "/update.rb")
+			@server.mount("/", CGIHandler, TDiary.root + "/index.rb")
+			@server.mount("/index.rb", CGIHandler, TDiary.root + '/index.rb')
+			@server.mount("/update.rb", CGIHandler, TDiary.root + "/update.rb")
 			@server.mount("/theme", WEBrick::HTTPServlet::FileHandler, TDiary.root + '/theme')
 			@server.mount("/js", WEBrick::HTTPServlet::FileHandler, TDiary.root + '/js')
 		end
