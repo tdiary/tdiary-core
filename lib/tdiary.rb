@@ -16,6 +16,12 @@ $:.unshift File.join(File::dirname(__FILE__), '../misc/lib')
 	Dir[File.join(File.dirname(__FILE__), path)].each {|dir| $:.unshift dir }
 end
 
+# Set up the bundle before requiring anything that ships as a default gem.
+# A CGI process starts without RUBYOPT or BUNDLE_GEMFILE (WEBrick's CGI runner
+# wipes the environment), so requiring 'cgi' first activates the version bundled
+# with Ruby and Bundler then fails on the version the Gemfile asks for.
+require 'tdiary/environment'
+
 gem 'cgi' if RUBY_VERSION >= '4.0'
 require 'cgi'
 require 'uri'
@@ -23,7 +29,6 @@ require 'fileutils'
 require 'pstore'
 require 'json'
 require 'erb'
-require 'tdiary/environment'
 require 'tdiary/core_ext'
 
 #
