@@ -15,6 +15,7 @@ module TDiary
 			base_dir ||= self.base_dir
 
 			@app = ::Rack::Builder.app do
+				use TDiary::Rack::ErrorHandler
 				map base_dir do
 					map '/' do
 						use TDiary::Rack::HtmlAnchor
@@ -39,13 +40,7 @@ module TDiary
 		end
 
 		def call( env )
-			begin
-				@app.call( env )
-			rescue Exception => e
-				body = ["#{e.class}: #{e}\n"]
-				body << e.backtrace.join("\n")
-				[500, {'content-type' => 'text/plain'}, body]
-			end
+			@app.call( env )
 		end
 
 		def assets_paths

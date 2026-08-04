@@ -1,4 +1,5 @@
 require 'stringio'
+require 'tdiary/rack/error_handler'
 
 module TDiary
 	#
@@ -23,9 +24,10 @@ module TDiary
 
 			def run( request, dispatcher )
 				env = build_env( request.env.to_hash, request.in, request.err )
-				write_response( request.out, *dispatcher.call( env ) )
+				app = TDiary::Rack::ErrorHandler.new( dispatcher )
+				write_response( request.out, *app.call( env ) )
 			rescue Exception => e
-				write_error( request.out, e )
+				write_error( request, e )
 			ensure
 				request.finish
 			end
@@ -69,9 +71,9 @@ module TDiary
 				end
 			end
 
-			def write_error( out, e )
-				body = "<h1>500 Internal Server Error</h1>\n<pre>#{CGI::escapeHTML( "#{e} (#{e.class})\n\n#{e.backtrace.join( "\n" )}" )}</pre>\n"
-				write_response( out, 500, { 'content-type' => 'text/html' }, [body] )
+			def write_error( request, e )
+				TDiary::Rack::ErrorHandler.report( request.err, e )
+				write_response( request.out, 500, { 'content-type' => 'text/plain' }, ["500 Internal Server Error\n"] )
 			end
 		end
 	end
