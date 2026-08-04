@@ -1,5 +1,6 @@
 module TDiary
 	module Rack
+		autoload :ErrorHandler,     'tdiary/rack/error_handler'
 		autoload :HtmlAnchor,       'tdiary/rack/html_anchor'
 		autoload :ValidRequestPath, 'tdiary/rack/valid_request_path'
 		autoload :Session,          'tdiary/rack/session'
