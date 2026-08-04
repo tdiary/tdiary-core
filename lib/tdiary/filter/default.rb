@@ -9,7 +9,7 @@ module TDiary
 	module Filter
 		class DefaultFilter < Filter
 			def comment_filter( diary, comment )
-				if 'POST' != @cgi.request_method then
+				if 'POST' != @request.request_method then
 					return false
 				end
 				if comment.name.strip.empty? or comment.body.strip.empty? then
@@ -29,7 +29,7 @@ module TDiary
 					false
 				#elsif /[\x00-\x20\x7f-\xff]/ =~ referer then
 				#	false
-				elsif @conf.bot =~ @cgi.user_agent
+				elsif @conf.bot =~ @request.user_agent
 					false
 				elsif %r|^https?://|i =~ referer
 					ref = CGI::unescape( referer.sub( /#.*$/, '' ).sub( /\?\d{8}$/, '' ) ).force_encoding('ASCII-8BIT')

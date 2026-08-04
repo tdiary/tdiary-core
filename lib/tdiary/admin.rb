@@ -8,7 +8,7 @@ module TDiary
 			super
 
 			begin
-				@date = Time::local( @cgi.params['year'][0].to_i, @cgi.params['month'][0].to_i, @cgi.params['day'][0].to_i )
+				@date = Time::local( @request.param('year').to_i, @request.param('month').to_i, @request.param('day').to_i )
 			rescue ArgumentError, NameError
 				raise TDiaryError, 'bad date'
 			end
@@ -71,12 +71,12 @@ module TDiary
 		def initialize( cgi, rhtm, conf )
 			super
 
-			@title = @cgi.params['title'][0]
-			@body = @cgi.params['body'][0]
+			@title = @request.param('title')
+			@body = @request.param('body')
 			@title = @conf.to_native( @title )
 			@body = @conf.to_native( @body )
-			@old_date = @cgi.params['old'][0]
-			@hide = @cgi.params['hide'][0] == 'true' ? true : false
+			@old_date = @request.param('old')
+			@hide = @request.param('hide') == 'true' ? true : false
 
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -107,13 +107,11 @@ module TDiary
 	#
 	class TDiaryUpdate < TDiaryAdmin
 		def initialize( request, rhtml, conf )
-			# @cgi is not derived yet before super; go through the facade here
-			params = request.cgi_compat.params
-			@title = params['title'][0]
-			@body = params['body'][0]
+			@title = request.param('title')
+			@body = request.param('body')
 			@title = conf.to_native( @title )
 			@body = conf.to_native( @body )
-			@hide = params['hide'][0] == 'true' ? true : false
+			@hide = request.param('hide') == 'true' ? true : false
 			super
 		end
 
@@ -140,7 +138,7 @@ module TDiary
 				@date = newdate
 			end
 
-			@author = @conf.multi_user ? @cgi.remote_user : nil
+			@author = @conf.multi_user ? @request.remote_user : nil
 
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -166,7 +164,7 @@ module TDiary
 	class TDiaryReplace < TDiaryUpdate
 		def initialize( cgi, rhtm, conf )
 			super
-			old_date = @cgi.params['old'][0]
+			old_date = @request.param('old')
 
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -203,7 +201,7 @@ module TDiary
 				if @diary then
 					idx = 0
 					@diary.each_comment do |com|
-						com.show = @cgi.params[(idx += 1).to_s][0] == 'true' ? true : false;
+						com.show = @request.param((idx += 1).to_s) == 'true' ? true : false;
 					end
 					self << @diary
 					@io.clear_cache( /(latest|#{@date.strftime( '%Y%m' )})/ )

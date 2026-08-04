@@ -35,7 +35,7 @@ module TDiary
 				return if @debug_mode == DEBUG_NONE
 				return if @debug_mode == DEBUG_SPAM and level == DEBUG_FULL
 
-				TDiary.logger.info("#{@cgi.remote_addr}->#{(@cgi.params['date'][0] || 'no date').dump}: #{msg}")
+				TDiary.logger.info("#{@request.remote_addr}->#{(@request.param('date') || 'no date').dump}: #{msg}")
 			end
 		end
 	end

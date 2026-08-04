@@ -203,7 +203,7 @@ module TDiary
 		def initialize(cgi, rhtml, conf)
 			super
 
-			tdiary = tdiary_class(@cgi.params['date'][0] || '').new(@request, '', conf)
+			tdiary = tdiary_class(@request.param('date') || '').new(@request, '', conf)
 			@date = tdiary.date
 			@diaries = tdiary.diaries
 			@last_modified = Time.now
@@ -221,7 +221,7 @@ module TDiary
 
 		def plugin_name
 			# plugin name MUST contain only words ([a-zA-Z0-9_])
-			@plugin_name ||= (@cgi.params['plugin'][0] || '').match(/^(\w+)$/).to_a[1]
+			@plugin_name ||= (@request.param('plugin') || '').match(/^(\w+)$/).to_a[1]
 			raise TDiary::PermissionError.new('invalid plugin name') unless @plugin_name
 			@plugin_name
 		end
