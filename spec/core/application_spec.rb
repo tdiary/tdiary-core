@@ -52,14 +52,17 @@ describe TDiary::Application do
 		context "when the application raises exception" do
 			before do
 				allow(TDiary::Dispatcher).to receive_message_chain(:index).and_return(
-					lambda {|env| raise StandardError.new }
+					lambda {|env| raise StandardError.new('boom') }
 				)
 			end
 
-			it do
-				get '/'
+			let(:errors) { StringIO.new }
+
+			it 'returns a plain 500 and reports the exception to rack.errors' do
+				get '/', {}, 'rack.errors' => errors
 				expect(last_response.status).to eq 500
-				expect(last_response.body).to match(/^StandardError/)
+				expect(last_response.body).not_to include 'StandardError'
+				expect(errors.string).to match(/^StandardError: boom$/)
 			end
 		end
 	end

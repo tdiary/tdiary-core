@@ -152,14 +152,26 @@ describe TDiary::CGIAdapter do
 			expect( request ).to be_finished
 		end
 
-		it 'writes a 500 response and finishes the request when dispatch raises' do
+		it 'writes a plain 500 and reports to the error stream when dispatch raises' do
 			request = MockFCGIRequest.new( fcgi_env )
 			dispatcher = lambda {|env| raise 'boom' }
 
 			described_class.run( request, dispatcher )
 
 			expect( request.out.string ).to start_with "Status: 500\r\n"
-			expect( request.out.string ).to include 'boom'
+			expect( request.out.string ).not_to include 'boom'
+			expect( request.err.string ).to match( /^RuntimeError: boom$/ )
+			expect( request ).to be_finished
+		end
+
+		it 'writes a plain 500 and reports to the error stream when the env cannot be built' do
+			request = MockFCGIRequest.new( nil )
+			dispatcher = lambda {|env| [200, {}, []] }
+
+			described_class.run( request, dispatcher )
+
+			expect( request.out.string ).to start_with "Status: 500\r\n"
+			expect( request.err.string ).to match( /^NoMethodError: / )
 			expect( request ).to be_finished
 		end
 	end
