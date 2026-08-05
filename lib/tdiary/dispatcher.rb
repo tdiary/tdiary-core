@@ -19,7 +19,7 @@ module TDiary
 			request = adopt_rack_request_to_plain_old_tdiary_style( env )
 			main = @target.new( request )
 			response = main.run
-			apply_security_headers( response, main.conf )
+			apply_security_headers( response, request, main.conf )
 			response.to_a
 		end
 
@@ -37,9 +37,11 @@ module TDiary
 
 	private
 
-		def apply_security_headers( response, conf )
+		def apply_security_headers( response, request, conf )
 			response.set_header( 'x-content-type-options', 'nosniff' )
 			apply_frame_restrictions( response, conf )
+			response.set_header( 'referrer-policy', conf.referrer_policy ) if conf.referrer_policy
+			response.set_header( 'strict-transport-security', conf.hsts ) if conf.hsts && request.ssl?
 		end
 
 		# The update target is an authenticated admin UI and always forbids

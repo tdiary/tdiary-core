@@ -196,6 +196,21 @@ add_conf_proc( 'default', 'サイトの情報', 'basic' ) do
 		<option value="SAMEORIGIN"#{" selected" if @conf.x_frame_options == 'SAMEORIGIN'}>同一ドメインなら許可する</option>
 		<option value="DENY"#{" selected" if @conf.x_frame_options == 'DENY'}>禁止する</option>
 	</select></p>
+
+	<h3 class="subtitle">Referrerポリシー</h3>
+	<p>日記内のリンクをたどって他のサイトへ移動するときに、ブラウザが送信するReferrerの範囲を指定します。標準の設定はブラウザの既定動作と同じです。</p>
+	<p><select name="referrer_policy">
+		<option value="strict-origin-when-cross-origin"#{" selected" if @conf.referrer_policy == 'strict-origin-when-cross-origin'}>他サイトへはURLの先頭部分のみ送信する(標準)</option>
+		<option value="same-origin"#{" selected" if @conf.referrer_policy == 'same-origin'}>他サイトへは送信しない</option>
+		<option value="no-referrer"#{" selected" if @conf.referrer_policy == 'no-referrer'}>常に送信しない</option>
+	</select></p>
+
+	<h3 class="subtitle">HTTPSの強制(HSTS)</h3>
+	<p>HTTPSでアクセスされたときに、以後もHTTPSの使用をブラウザに強制するStrict-Transport-Securityヘッダを送出します。HTTPで運用しているサイトでは無効のままにしてください。</p>
+	<p><select name="hsts">
+		<option value=""#{" selected" unless @conf.hsts}>無効</option>
+		<option value="max-age=31536000"#{" selected" if @conf.hsts == 'max-age=31536000'}>有効(期間1年)</option>
+	</select></p>
 	HTML
 end
 

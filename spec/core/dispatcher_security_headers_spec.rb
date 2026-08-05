@@ -97,6 +97,44 @@ describe 'security headers of the dispatcher' do
 			expect(last_response.headers['x-frame-options']).to eq 'ALLOW-FROM https://example.net/'
 		end
 	end
+
+	describe 'Referrer-Policy' do
+		it 'defaults to strict-origin-when-cross-origin' do
+			get '/'
+			expect(last_response.headers['referrer-policy']).to eq 'strict-origin-when-cross-origin'
+		end
+
+		it 'follows conf.referrer_policy' do
+			write_data_conf "referrer_policy = 'no-referrer'"
+			get '/'
+			expect(last_response.headers['referrer-policy']).to eq 'no-referrer'
+		end
+	end
+
+	describe 'Strict-Transport-Security' do
+		it 'is absent by default even on HTTPS' do
+			get 'https://www.example.org/'
+			expect(last_response.headers['strict-transport-security']).to be_nil
+		end
+
+		it 'is sent on HTTPS when conf.hsts is set' do
+			write_data_conf "hsts = 'max-age=63072000; includeSubDomains'"
+			get 'https://www.example.org/'
+			expect(last_response.headers['strict-transport-security']).to eq 'max-age=63072000; includeSubDomains'
+		end
+
+		it 'maps conf.hsts = true to a one year max-age' do
+			write_data_conf "hsts = true"
+			get 'https://www.example.org/'
+			expect(last_response.headers['strict-transport-security']).to eq 'max-age=31536000'
+		end
+
+		it 'is not sent on plain HTTP even when conf.hsts is set' do
+			write_data_conf "hsts = true"
+			get '/'
+			expect(last_response.headers['strict-transport-security']).to be_nil
+		end
+	end
 end
 
 # Local Variables:
