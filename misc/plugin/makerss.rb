@@ -177,10 +177,10 @@ class MakeRssFull
 	end
 
 	def document_root
-		if @cgi.is_a?(RackCGI)
-			File.join(TDiary.server_root, 'public')
-		else
+		if @cgi.static_assets?
 			TDiary.server_root
+		else
+			File.join(TDiary.server_root, 'public')
 		end
 	end
 end

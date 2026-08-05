@@ -15,6 +15,14 @@ module TDiary
 			false
 		end
 
+		# true when the endpoint runs behind a web server (CGI/FCGI hosting,
+		# which sets tdiary.static_assets in the env) that serves the js/ and
+		# theme/ directories itself; false on the Rack path, where
+		# TDiary::Application serves them under assets/
+		def static_assets?
+			env['tdiary.static_assets'] ? true : false
+		end
+
 		# params with CGI semantics, unlike Rack::Request#params: POST reads
 		# only the body, every value is an Array, unknown keys yield [],
 		# duplicated keys collect all values, broken UTF-8 input is retried
@@ -188,7 +196,8 @@ end
 require 'tdiary/cgi_compat'
 
 # the @cgi facade for Rack-hosted requests. Kept as a toplevel constant
-# because plugins switch behaviour with @cgi.is_a?(RackCGI).
+# only for third-party plugins that switch behaviour with
+# @cgi.is_a?(RackCGI); in-repo code reads static_assets? instead.
 class RackCGI < TDiary::CGICompat; end
 
 # Local Variables:

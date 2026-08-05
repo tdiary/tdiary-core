@@ -45,6 +45,44 @@ describe 'index.rb as a plain CGI program' do
 	end
 end
 
+# Locks the conf priority: an explicit assets_url wins over the static
+# js/theme URLs of CGI hosting.
+describe 'index.rb as a plain CGI program with assets_url configured' do
+	before(:all) do
+		repo_root = File.expand_path('../../..', __FILE__)
+		@workdir = Dir.mktmpdir('tdiary-cgi-smoke')
+		data_dir = File.join(@workdir, 'tmp/data')
+		FileUtils.mkdir_p data_dir
+		FileUtils.cp File.join(repo_root, 'spec/fixtures/tdiary.conf.webrick'), File.join(@workdir, 'tdiary.conf')
+		File.write File.join(@workdir, 'tdiary.conf'), "\n@options['assets_url'] = 'https://assets.example.org/tdiary/'\n", mode: 'a'
+		FileUtils.cp File.join(repo_root, 'spec/fixtures/just_installed.conf'), File.join(data_dir, 'tdiary.conf')
+
+		env = {
+			'GATEWAY_INTERFACE' => 'CGI/1.1',
+			'REQUEST_METHOD' => 'GET',
+			'QUERY_STRING' => '',
+			'SCRIPT_NAME' => '/index.rb',
+			'SERVER_NAME' => 'www.example.com',
+			'SERVER_PORT' => '80',
+			'HTTP_HOST' => 'www.example.com',
+			'SERVER_PROTOCOL' => 'HTTP/1.1',
+			'REMOTE_ADDR' => '127.0.0.1'
+		}
+		stdout, @stderr, @process_status = Open3.capture3(env, RbConfig.ruby, File.join(repo_root, 'index.rb'), chdir: @workdir)
+		@head, _separator, @body = stdout.partition(/\r?\n\r?\n/)
+	end
+
+	after(:all) do
+		FileUtils.remove_entry @workdir
+	end
+
+	it 'links css and scripts under the configured URL' do
+		expect(@head).to match(/^Status: 200/), -> { "head: #{@head.inspect}\nstderr: #{@stderr}" }
+		expect(@body).to match(%r|<link rel="stylesheet" href="https://assets\.example\.org/tdiary/base\.css"|)
+		expect(@body).to match(%r|<script src="https://assets\.example\.org/tdiary/00default\.js|)
+	end
+end
+
 # Locks the POST path and the expansion of Array header values (Set-Cookie)
 # into one header line each.
 describe 'index.rb comment POST as a plain CGI program' do

@@ -372,8 +372,18 @@ def script_tag_query_string
 	"?#{TDIARY_VERSION}#{Time::now.strftime('%Y%m%d')}"
 end
 
+# base URL the static assets are served from, when specified in
+# tdiary.conf: @options['assets_url'] = 'https://assets.example.org/tdiary'
+# It expects the merged layout the Rack assets/ mount serves (js files and
+# theme directories under one root) and wins over the hosting default on
+# every path (Rack, CGI and FCGI).
+def configured_assets_url
+	url = @conf['assets_url']
+	url && !url.empty? ? url.chomp('/') : nil
+end
+
 def js_url
-	@cgi.is_a?(RackCGI) ? 'assets' : 'js'
+	configured_assets_url || (@cgi.static_assets? ? 'js' : 'assets')
 end
 
 def script_tag
@@ -396,7 +406,7 @@ def script_tag
 end
 
 def theme_url
-	@cgi.is_a?(RackCGI) ? 'assets' : 'theme'
+	configured_assets_url || (@cgi.static_assets? ? 'theme' : 'assets')
 end
 
 def css_tag

@@ -22,6 +22,21 @@ feature '日記を読む' do
 		expect(local_script_srcs).to all( start_with 'assets/' )
 	end
 
+	scenario 'confのassets_url指定時はCSSとJavaScriptがそのURLから配信される', :exclude_webrick do
+		assets_url = 'https://assets.example.org/tdiary/'
+		conf_path = File.expand_path('../../tmp/data/tdiary.conf', __dir__)
+		File.write(conf_path, "options2 = { 'assets_url' => '#{assets_url}' }\n", mode: 'a')
+
+		visit '/'
+		stylesheet_hrefs = page.all('link[rel=stylesheet]', visible: false).map {|link| link[:href] }
+		expect(stylesheet_hrefs).not_to be_empty
+		expect(stylesheet_hrefs).to all( start_with assets_url )
+
+		script_srcs = page.all('script[src]', visible: false).map {|script| script[:src] }
+		expect(script_srcs.select {|src| src.start_with?(assets_url) }).not_to be_empty
+		expect(script_srcs.grep(%r{\A(assets|js)/})).to be_empty
+	end
+
 	scenario '月またぎの日記の表示' do
 		append_default_diary('20100430')
 		append_default_diary('20100501')
