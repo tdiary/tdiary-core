@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'rack'
 
 describe TDiary::Request do
-	describe '#cgi_compat' do
-		def build_request(env = {})
-			rack_env = Rack::MockRequest.env_for('http://www.example.com/')
-			rack_env.merge!(env)
-			TDiary::Request.new(rack_env)
-		end
+	def build_request(env = {})
+		rack_env = Rack::MockRequest.env_for('http://www.example.com/')
+		rack_env.merge!(env)
+		TDiary::Request.new(rack_env)
+	end
 
+	describe '#cgi_compat' do
 		it 'returns a RackCGI facade on the Rack path' do
 			expect(build_request.cgi_compat).to be_a(RackCGI)
 		end
@@ -22,6 +22,21 @@ describe TDiary::Request do
 		it 'is memoized on the request' do
 			request = build_request('tdiary.static_assets' => true)
 			expect(request.cgi_compat).to equal(request.cgi_compat)
+		end
+	end
+
+	describe '#static_assets?' do
+		it 'is false on the Rack path' do
+			expect(build_request.static_assets?).to be false
+		end
+
+		it 'is true when tdiary.static_assets is set' do
+			expect(build_request('tdiary.static_assets' => true).static_assets?).to be true
+		end
+
+		it 'is visible through the cgi_compat facade' do
+			expect(build_request.cgi_compat.static_assets?).to be false
+			expect(build_request('tdiary.static_assets' => true).cgi_compat.static_assets?).to be true
 		end
 	end
 end
