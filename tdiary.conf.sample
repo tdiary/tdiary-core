@@ -75,6 +75,14 @@
 #   必要です。blog-category プラグイン利用時は自動的に無効になります。
 #@options['plugin.cache'] = true
 
+# 静的アセットの配信元URL【オプション】
+#   テーマやJavaScriptなどの静的ファイルを、CDNや別ホストなど任意のURLから
+#   配信する場合に指定します。指定すると、Rack・CGI・FCGIのどの実行形態でも
+#   このURLを元にテーマやJavaScriptのURLを生成します。配信元には、Rackアプ
+#   リのassets配下と同じ構成(jsディレクトリとthemeディレクトリの内容をひと
+#   つのディレクトリにまとめた構成)でファイルを配置してください。
+#@options['assets_url'] = 'https://assets.example.org/tdiary'
+
 # プラグインに渡すオプション【オプション】
 #   プラグインによっては、tdiary.conf経由でオプションを渡すことで挙動を
 #   変更できるものがあります。@optionsはそのオプションを指定する時に使う

@@ -62,6 +62,14 @@
 #   any directory for cache files by this variable.
 #@cache_path = 'path of cache files'
 
+# base URL of static assets. (optional)
+#   Set this to serve theme and JavaScript files from another URL, such
+#   as a CDN. When set, every hosting mode (Rack, CGI and FCGI) builds
+#   theme and JavaScript URLs from it. The serving location must use the
+#   same merged layout as the assets/ mount of the Rack application (the
+#   contents of the js and theme directories under one root).
+#@options['assets_url'] = 'https://assets.example.org/tdiary'
+
 # options for plugins. (optional)
 #   Some plugins can receive options from tdiary.conf.
 #     ex: a option "foo" of plugin "sample".
