@@ -5,8 +5,9 @@ module TDiary
 
 		# the @cgi object handed to plugins: a facade over this request.
 		# Endpoints behind a web server (CGI/FCGI) set tdiary.static_assets in
-		# the env to get the base CGICompat, so @cgi.is_a?(RackCGI) is false and
-		# plugins keep the static js/theme URLs served by the web server.
+		# the env to get the base CGICompat. The RackCGI/CGICompat split only
+		# serves third-party plugins that check @cgi.is_a?(RackCGI); in-repo
+		# code reads the flag through RequestExtension#static_assets?.
 		def cgi_compat
 			@cgi_compat ||=
 				if env['tdiary.static_assets']

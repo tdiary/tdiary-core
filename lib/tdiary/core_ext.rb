@@ -196,7 +196,8 @@ end
 require 'tdiary/cgi_compat'
 
 # the @cgi facade for Rack-hosted requests. Kept as a toplevel constant
-# because plugins switch behaviour with @cgi.is_a?(RackCGI).
+# only for third-party plugins that switch behaviour with
+# @cgi.is_a?(RackCGI); in-repo code reads static_assets? instead.
 class RackCGI < TDiary::CGICompat; end
 
 # Local Variables:
