@@ -6,6 +6,17 @@ module TDiary
 	class TDiaryAuthorOnlyBase < TDiaryBase
 		def csrf_protection_get_is_okay; false; end
 
+		# pure decision helper for csrf_check, a class method so unit specs
+		# can exercise it without building a full TDiaryBase
+		#
+		# referer must be non-empty with its query string stripped; it is
+		# allowed when it names the update page itself or matches the
+		# admin-configured regexp
+		def self.csrf_referer_allowed?( referer, config_uri, allowed_referer_regexp )
+			return true if config_uri == URI.parse( referer )
+			allowed_referer_regexp != '' && Regexp.new( allowed_referer_regexp ).match?( referer )
+		end
+
 		def initialize( cgi, rhtml, conf )
 			super
 			csrf_check( @request, conf )
@@ -43,8 +54,7 @@ module TDiary
 
 			referer_is_empty = referer == ''
 			referer_uri = URI.parse(referer) if !referer_is_empty
-			referer_is_config = !referer_is_empty && config_uri == referer_uri
-			referer_is_config ||= Regexp.new(updaterb_regexp) =~ referer if !referer_is_empty && updaterb_regexp != ''
+			referer_is_config = !referer_is_empty && self.class.csrf_referer_allowed?(referer, config_uri, updaterb_regexp)
 			is_post = request.post?
 
 			given_key = request.params['csrf_protection_key']
