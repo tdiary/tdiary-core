@@ -17,7 +17,10 @@ module TDiary
 
 		def call( env )
 			request = adopt_rack_request_to_plain_old_tdiary_style( env )
-			@target.run( request ).to_a
+			main = @target.new( request )
+			response = main.run
+			apply_security_headers( response )
+			response.to_a
 		end
 
 		class << self
@@ -33,6 +36,10 @@ module TDiary
 		end
 
 	private
+
+		def apply_security_headers( response )
+			response.set_header( 'x-content-type-options', 'nosniff' )
+		end
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
 			# rebuffer rack.input into a rewindable StringIO; both
