@@ -40,7 +40,6 @@ module TDiary
 								head['content-length'] = body.bytesize.to_s
 							end
 							head['cache-control'] = 'no-cache'
-							head['x-frame-options'] = conf.x_frame_options if conf.x_frame_options
 							res = TDiary::Response.new( body, status, head )
 							res.set_header('Set-Cookie', tdiary.cookies.map(&:to_s)) if tdiary && tdiary.cookies.size > 0
 							res

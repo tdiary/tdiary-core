@@ -62,6 +62,41 @@ describe 'security headers of the dispatcher' do
 			expect(last_response.headers['x-content-type-options']).to eq 'nosniff'
 		end
 	end
+
+	describe 'frame embedding control' do
+		it 'restricts the update response to same-origin framing' do
+			get '/update.rb'
+			expect(last_response.headers['content-security-policy']).to eq "frame-ancestors 'self'"
+			expect(last_response.headers['x-frame-options']).to eq 'SAMEORIGIN'
+		end
+
+		it 'leaves the index response unrestricted by default' do
+			get '/'
+			expect(last_response.headers['content-security-policy']).to be_nil
+			expect(last_response.headers['x-frame-options']).to be_nil
+		end
+
+		it 'maps x_frame_options SAMEORIGIN to frame-ancestors self on the index response' do
+			write_data_conf "x_frame_options = 'SAMEORIGIN'"
+			get '/'
+			expect(last_response.headers['content-security-policy']).to eq "frame-ancestors 'self'"
+			expect(last_response.headers['x-frame-options']).to eq 'SAMEORIGIN'
+		end
+
+		it 'maps x_frame_options DENY to frame-ancestors none on the index response' do
+			write_data_conf "x_frame_options = 'DENY'"
+			get '/'
+			expect(last_response.headers['content-security-policy']).to eq "frame-ancestors 'none'"
+			expect(last_response.headers['x-frame-options']).to eq 'DENY'
+		end
+
+		it 'passes an unmappable x_frame_options value through without CSP' do
+			write_data_conf "x_frame_options = 'ALLOW-FROM https://example.net/'"
+			get '/'
+			expect(last_response.headers['content-security-policy']).to be_nil
+			expect(last_response.headers['x-frame-options']).to eq 'ALLOW-FROM https://example.net/'
+		end
+	end
 end
 
 # Local Variables:

@@ -19,7 +19,7 @@ module TDiary
 			request = adopt_rack_request_to_plain_old_tdiary_style( env )
 			main = @target.new( request )
 			response = main.run
-			apply_security_headers( response )
+			apply_security_headers( response, main.conf )
 			response.to_a
 		end
 
@@ -37,8 +37,27 @@ module TDiary
 
 	private
 
-		def apply_security_headers( response )
+		def apply_security_headers( response, conf )
 			response.set_header( 'x-content-type-options', 'nosniff' )
+			apply_frame_restrictions( response, conf )
+		end
+
+		# The update target is an authenticated admin UI and always forbids
+		# cross-origin framing; the index target follows conf.x_frame_options.
+		# CSP frame-ancestors is the standard control, X-Frame-Options is kept
+		# alongside for legacy user agents.
+		def apply_frame_restrictions( response, conf )
+			if @target == UpdateMain
+				response.set_header( 'content-security-policy', "frame-ancestors 'self'" )
+				response.set_header( 'x-frame-options', 'SAMEORIGIN' )
+			elsif conf.x_frame_options
+				ancestors = case conf.x_frame_options.upcase
+								when 'SAMEORIGIN' then "'self'"
+								when 'DENY' then "'none'"
+								end
+				response.set_header( 'content-security-policy', "frame-ancestors #{ancestors}" ) if ancestors
+				response.set_header( 'x-frame-options', conf.x_frame_options )
+			end
 		end
 
 		def adopt_rack_request_to_plain_old_tdiary_style( env )
