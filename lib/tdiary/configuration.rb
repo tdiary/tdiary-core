@@ -87,6 +87,7 @@ module TDiary
 				:tdiary_version,
 				:html_title, :author_name, :author_mail, :index_page, :hour_offset,
 				:description, :icon, :banner, :x_frame_options,
+				:referrer_policy, :hsts,
 				:header, :footer,
 				:section_anchor, :comment_anchor, :date_format, :latest_limit, :show_nyear,
 				:theme, :css,
@@ -155,6 +156,9 @@ module TDiary
 
 			@html_title = '' unless @html_title
 			@x_frame_options = nil unless @x_frame_options
+			@referrer_policy = 'strict-origin-when-cross-origin' unless @referrer_policy
+			@hsts = nil unless @hsts
+			@hsts = 'max-age=31536000' if @hsts == true
 			@header = '' unless @header
 			@footer = '' unless @footer
 

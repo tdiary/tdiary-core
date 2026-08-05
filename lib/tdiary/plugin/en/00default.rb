@@ -169,6 +169,21 @@ add_conf_proc( 'default', 'Site information', 'basic' ) do
 		<option value="SAMEORIGIN"#{" selected" if @conf.x_frame_options == 'SAMEORIGIN'}>Permit in same domain</option>
 		<option value="DENY"#{" selected" if @conf.x_frame_options == 'DENY'}>Deny</option>
 	</select></p>
+
+	<h3 class="subtitle">Referrer Policy</h3>
+	<p>Controls how much referrer information the browser sends when following links from your diary to other sites. The default matches the browser's standard behavior.</p>
+	<p><select name="referrer_policy">
+		<option value="strict-origin-when-cross-origin"#{" selected" if @conf.referrer_policy == 'strict-origin-when-cross-origin'}>Send origin only to other sites (default)</option>
+		<option value="same-origin"#{" selected" if @conf.referrer_policy == 'same-origin'}>Do not send to other sites</option>
+		<option value="no-referrer"#{" selected" if @conf.referrer_policy == 'no-referrer'}>Never send</option>
+	</select></p>
+
+	<h3 class="subtitle">Force HTTPS (HSTS)</h3>
+	<p>Sends the Strict-Transport-Security header on HTTPS responses so browsers keep using HTTPS afterwards. Leave disabled if your site is served over HTTP.</p>
+	<p><select name="hsts">
+		<option value=""#{" selected" unless @conf.hsts}>Disabled</option>
+		<option value="max-age=31536000"#{" selected" if @conf.hsts == 'max-age=31536000'}>Enabled (1 year)</option>
+	</select></p>
 	HTML
 end
 

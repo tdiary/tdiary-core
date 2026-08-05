@@ -748,6 +748,10 @@ def saveconf_default
 		@conf['base_url'] = @cgi.params['base_url'][0]
 		@conf.x_frame_options = @cgi.params['x_frame_options'][0]
 		@conf.x_frame_options = nil if @conf.x_frame_options.empty?
+		@conf.referrer_policy = @cgi.params['referrer_policy'][0]
+		@conf.referrer_policy = nil if @conf.referrer_policy.empty?
+		@conf.hsts = @cgi.params['hsts'][0]
+		@conf.hsts = nil if @conf.hsts.empty?
 	end
 end
 
