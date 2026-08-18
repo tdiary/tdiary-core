@@ -231,7 +231,7 @@ GEM
     rspec-support (3.13.6)
     ruby2_keywords (0.0.5)
     securerandom (0.4.1)
-    sequel (5.106.0)
+    sequel (5.107.0)
       bigdecimal
     simplecov (1.1.1)
     snaky_hash (2.0.7)
