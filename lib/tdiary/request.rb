@@ -16,6 +16,15 @@ module TDiary
 					::RackCGI.new( self )
 				end
 		end
+
+	private
+
+		# CGI splits the query string on ';' as well as '&', and tDiary's own
+		# edit links (00default.rb, edit_today.rb) still use ';'; Rack 3
+		# dropped the ';' separator, so restore it for Rack::Request#params
+		def parse_query( qs, d = '&' )
+			super( qs, '&;' )
+		end
 	end
 end
 

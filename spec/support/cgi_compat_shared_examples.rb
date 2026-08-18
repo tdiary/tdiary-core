@@ -30,6 +30,18 @@ RSpec.shared_examples 'CGI compatible request facade' do
 			end
 		end
 
+		# 00default.rb and edit_today.rb generate ';'-separated edit links
+		context 'with semicolon separated GET query string' do
+			let(:cgi) { build_cgi({ 'REQUEST_METHOD' => 'GET', 'QUERY_STRING' => 'edit=true;year=2026;month=8;day=9' }) }
+
+			it 'splits parameters on semicolons like CGI' do
+				expect(cgi.params['edit']).to eq ['true']
+				expect(cgi.params['year']).to eq ['2026']
+				expect(cgi.params['month']).to eq ['8']
+				expect(cgi.params['day']).to eq ['9']
+			end
+		end
+
 		context 'with POST body' do
 			let(:cgi) {
 				build_cgi(
