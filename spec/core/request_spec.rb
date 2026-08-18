@@ -25,6 +25,15 @@ describe TDiary::Request do
 		end
 	end
 
+	describe '#params' do
+		# the update dispatcher branches on request.params, and
+		# 00default.rb generates ';'-separated edit links
+		it 'splits the query string on semicolons like CGI' do
+			request = build_request('QUERY_STRING' => 'edit=true;year=2026;month=8;day=9')
+			expect(request.params).to eq({ 'edit' => 'true', 'year' => '2026', 'month' => '8', 'day' => '9' })
+		end
+	end
+
 	describe '#static_assets?' do
 		it 'is false on the Rack path' do
 			expect(build_request.static_assets?).to be false
