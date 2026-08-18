@@ -127,11 +127,13 @@ module TDiary
 						@request.POST
 					else
 						# Rack's nested query parser behind request.POST keeps only
-						# the last of duplicated keys; CGI collects all of them
-						::Rack::Utils.parse_query( read_raw_body )
+						# the last of duplicated keys; CGI collects all of them.
+						# CGI also splits on ';' as well as '&', and tDiary's own edit
+						# links (00default.rb, edit_today.rb) still use ';'
+						::Rack::Utils.parse_query( read_raw_body, '&;' )
 					end
 				else
-					::Rack::Utils.parse_query( env_table['QUERY_STRING'].to_s )
+					::Rack::Utils.parse_query( env_table['QUERY_STRING'].to_s, '&;' )
 				end
 
 			params = {}
