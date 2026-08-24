@@ -6,8 +6,25 @@ on:
       - 'v*'
 
 jobs:
+  guard:
+    name: Verify tag matches version.rb
+    if: github.repository == 'tdiary/tdiary-core'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Compare tag with TDiary::VERSION
+      run: |
+        version=$(ruby -Ilib -rtdiary/version -e 'print TDiary::VERSION')
+        if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+          echo "::error::tag $GITHUB_REF_NAME does not match TDiary::VERSION $version"
+          exit 1
+        fi
+
   push:
     name: Push gem to RubyGems.org
+    needs: guard
     if: github.repository == 'tdiary/tdiary-core'
     runs-on: ubuntu-latest
     environment: release
@@ -38,9 +55,69 @@ jobs:
         esac
         gh release create "$GITHUB_REF_NAME" --title "tDiary ${GITHUB_REF_NAME#v}" --generate-notes --verify-tag $PRERELEASE
 
+  fanout:
+    name: Propagate release to sibling repositories
+    needs: push
+    # Prerelease tags stay on tdiary-core only: sibling repos have never
+    # carried beta/rc tags (v5.5.0.beta1/beta2 precedent), and
+    # package:stable falls back to their latest stable tag anyway.
+    if: ${{ !contains(github.ref_name, 'beta') && !contains(github.ref_name, 'rc') }}
+    runs-on: ubuntu-latest
+    env:
+      # Fine-grained PAT with contents:write and issues:write on the
+      # tdiary org repositories. Configured manually in the repo secrets.
+      GH_TOKEN: ${{ secrets.TDIARY_RELEASE_TOKEN }}
+      TAG: ${{ github.ref_name }}
+    steps:
+    - name: Tag tdiary-blogkit and tdiary-contrib
+      run: |
+        version="${TAG#v}"
+        for repo in tdiary-blogkit tdiary-contrib; do
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/tdiary/${repo}.git"
+          (
+            cd "$repo"
+            if git rev-parse -q --verify "refs/tags/$TAG" > /dev/null; then
+              echo "$repo: tag $TAG already exists, skipping"
+              exit 0
+            fi
+            version_file="lib/tdiary/${repo#tdiary-}/version.rb"
+            if grep -q "VERSION = \"$version\"" "$version_file"; then
+              echo "$repo: version is already $version, tagging without bump"
+            else
+              sed -i "s/VERSION = \".*\"/VERSION = \"$version\"/" "$version_file"
+              git -c user.name='github-actions[bot]' \
+                  -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                  commit -am "Bump version to $version"
+            fi
+            git tag "$TAG"
+            git push origin HEAD "$TAG"
+          )
+        done
+    - name: Notify tdiary.github.io
+      run: |
+        gh api repos/tdiary/tdiary.github.io/dispatches \
+          -f event_type=tdiary-release \
+          -f "client_payload[version]=${TAG#v}" \
+          -f "client_payload[tag]=$TAG"
+    - name: Open next release checklist issue
+      run: |
+        gh issue create --repo tdiary/tdiary-core \
+          --title "Next release checklist" \
+          --body "Pushing a release tag automates gem publishing, sibling repository tagging, full tarball packaging, and the website update. The remaining manual steps are:
+
+        - [ ] Update \`ChangeLog\`
+        - [ ] Bump \`TDiary::VERSION\` in \`lib/tdiary/version.rb\`
+        - [ ] Push the release tag: \`git tag vX.Y.Z && git push origin vX.Y.Z\`
+        - [ ] Review and merge the auto-generated PR on \`tdiary.github.io\`
+
+        Opened automatically by the release workflow after \`$TAG\`."
+
   package:
     name: Build and attach full tarball
-    needs: push
+    needs: [push, fanout]
+    # package:stable clones sibling repos and picks up the tags fanout has
+    # just pushed. fanout is skipped for prereleases; build the tarball then.
+    if: ${{ !cancelled() && needs.push.result == 'success' && (needs.fanout.result == 'success' || needs.fanout.result == 'skipped') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
