@@ -69,10 +69,10 @@ jobs:
       GH_TOKEN: ${{ secrets.TDIARY_RELEASE_TOKEN }}
       TAG: ${{ github.ref_name }}
     steps:
-    - name: Tag tdiary-blogkit and tdiary-contrib
+    - name: Tag tdiary-blogkit, tdiary-contrib and tdiary-theme
       run: |
         version="${TAG#v}"
-        for repo in tdiary-blogkit tdiary-contrib; do
+        for repo in tdiary-blogkit tdiary-contrib tdiary-theme; do
           git clone "https://x-access-token:${GH_TOKEN}@github.com/tdiary/${repo}.git"
           (
             cd "$repo"
@@ -80,9 +80,10 @@ jobs:
               echo "$repo: tag $TAG already exists, skipping"
               exit 0
             fi
+            # tdiary-theme ships no gem, so it has no version file to bump.
             version_file="lib/tdiary/${repo#tdiary-}/version.rb"
-            if grep -q "VERSION = \"$version\"" "$version_file"; then
-              echo "$repo: version is already $version, tagging without bump"
+            if [ ! -f "$version_file" ] || grep -q "VERSION = \"$version\"" "$version_file"; then
+              echo "$repo: no version bump needed, tagging as is"
             else
               sed -i "s/VERSION = \".*\"/VERSION = \"$version\"/" "$version_file"
               git -c user.name='github-actions[bot]' \
