@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: b4fa12059634cfb6cea6e1a7d1b1d6341bd4024b
+  revision: 79c4f1909a8941a9f7feb856b8213af74a8e6cf3
   specs:
     tdiary-contrib (5.4.0)
       coderay
@@ -113,7 +113,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0603)
+    mime-types-data (3.2026.0701)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (6.0.6)
@@ -130,12 +130,12 @@ GEM
       bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
     mutex_m (0.3.0)
-    net-imap (0.5.15)
+    net-imap (0.6.6)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.2)
+    net-protocol (0.3.0)
       timeout
     net-smtp (0.5.1)
       net-protocol
@@ -249,13 +249,13 @@ GEM
     sqlite3 (2.9.6-x86_64-darwin)
     sqlite3 (2.9.6-x86_64-linux-gnu)
     sqlite3 (2.9.6-x86_64-linux-musl)
-    tdiary (5.4.0)
-      bundler (>= 2.6, < 3.0)
+    tdiary (5.5.1)
+      cgi
       emot
       fastimage
       hikidoc
       mail
-      nkf
+      pstore
       rack
       rake
       rexml
