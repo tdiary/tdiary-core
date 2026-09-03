@@ -9,7 +9,6 @@ assignees: ''
 
 リリース作業リスト
 - [ ] core の `lib/tdiary/tasks/release.rake` と `.github/workflows/ci.yml` に今回サポートを追加/停止するrubyのバージョンが含まれるか確認、修正する
-- [ ] coreおよびblogkitのChangeLogに「release L.M.N」のエントリを追加する
 - [ ] 以下のファイルのバージョンをあげてcommitする
   - coreの lib/tdiary/version.rb
   - blogkitの lib/tdiary/blogkit/version.rb
