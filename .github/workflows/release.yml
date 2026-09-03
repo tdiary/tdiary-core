@@ -106,7 +106,6 @@ jobs:
           --title "Next release checklist" \
           --body "Pushing a release tag automates gem publishing, sibling repository tagging, full tarball packaging, and the website update. The remaining manual steps are:
 
-        - [ ] Update \`ChangeLog\`
         - [ ] Bump \`TDiary::VERSION\` in \`lib/tdiary/version.rb\`
         - [ ] Push the release tag: \`git tag vX.Y.Z && git push origin vX.Y.Z\`
         - [ ] Review and merge the auto-generated PR on \`tdiary.github.io\`

@@ -1,3 +1,5 @@
+This ChangeLog is no longer updated. Changes in 5.5.0 and later are recorded in the release notes at https://github.com/tdiary/tdiary-core/releases.
+
 2025-06-13 Hiroshi SHIBATA <hsbt@ruby-lang.org>
 	* support Ruby 3.4.
 	* drop to support Ruby 3.0.
