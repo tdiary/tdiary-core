@@ -69,9 +69,9 @@ GEM
     commonmarker (2.9.0-x86_64-linux-musl)
     concurrent-ruby (1.3.8)
     connection_pool (3.0.2)
-    cuprite (0.17)
+    cuprite (0.18)
       capybara (~> 3.0)
-      ferrum (~> 0.17.0)
+      ferrum (~> 0.18.0)
     dalli (5.1.0)
       logger
     date (3.5.1)
@@ -82,11 +82,10 @@ GEM
     faraday (0.17.6)
       multipart-post (>= 1.2, < 3)
     fastimage (2.4.1)
-    ferrum (0.17.2)
+    ferrum (0.18.0)
       addressable (~> 2.5)
       base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
-      webrick (~> 1.7)
       websocket-driver (~> 0.7)
     hashie (5.1.0)
       logger
@@ -108,7 +107,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    matrix (0.4.2)
+    matrix (0.4.3)
     memcachier (0.0.2)
     mime-types (3.7.0)
       logger
@@ -214,7 +213,7 @@ GEM
     rdtool (0.6.39)
       nkf (>= 0.1, < 1.0)
     redcarpet (3.6.1)
-    regexp_parser (2.10.0)
+    regexp_parser (2.12.0)
     rexml (3.4.4)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
