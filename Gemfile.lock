@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 79c4f1909a8941a9f7feb856b8213af74a8e6cf3
+  revision: 1c265fc47175dbe7573b166fc865b5893036c771
   specs:
-    tdiary-contrib (5.4.0)
+    tdiary-contrib (5.6.0)
       coderay
       holiday_japan
       pushbullet_ruby
@@ -249,7 +249,7 @@ GEM
     sqlite3 (2.9.6-x86_64-darwin)
     sqlite3 (2.9.6-x86_64-linux-gnu)
     sqlite3 (2.9.6-x86_64-linux-musl)
-    tdiary (5.5.1)
+    tdiary (5.6.0)
       cgi
       emot
       fastimage
