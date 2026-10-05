@@ -153,6 +153,7 @@ if /^formplugin$/ =~ @mode then
    maxnum = @options['image.maxnum'] || 1
    maxsize = @options['image.maxsize'] || 10000
 
+	@image_added = []
 	begin
 	   date = @date.strftime( "%Y%m%d" )
 		images = image_list( date )
@@ -167,7 +168,9 @@ if /^formplugin$/ =~ @mode then
 					rescue NameError
 						size = file.stat.size
 					end
-					output = "#{@image_dir}/#{date}_#{images.length}.#{extension}"
+					number = images.length + @image_added.length
+					output = "#{@image_dir}/#{date}_#{number}.#{extension}"
+					@image_added << number
 					File::umask( 022 )
 					File::open( output, "wb" ) do |f|
 						f.print file.read
