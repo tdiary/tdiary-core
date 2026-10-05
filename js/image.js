@@ -36,6 +36,33 @@ $(function(){
 		});
 	};
 
+	var shrink = function(file){
+		if(!window.createImageBitmap || file.type == 'image/gif'){
+			return Promise.resolve(file);
+		}
+		return createImageBitmap(file, {imageOrientation: 'from-image'}).then(function(bitmap){
+			var scale = Math.min(1, $tDiary.plugin.image.resize / Math.max(bitmap.width, bitmap.height));
+			var type = file.type == 'image/png' && scale == 1 ? 'image/png' : 'image/jpeg';
+			var canvas = document.createElement('canvas');
+			canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+			canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+			var context = canvas.getContext('2d');
+			if(type == 'image/jpeg'){
+				context.fillStyle = '#fff';
+				context.fillRect(0, 0, canvas.width, canvas.height);
+			}
+			context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+			bitmap.close();
+			return new Promise(function(resolve){
+				canvas.toBlob(function(blob){
+					resolve(blob || file);
+				}, type, 0.85);
+			});
+		}).catch(function(){
+			return file;
+		});
+	};
+
 	var ImagePlugin = function(url){
 		this.url =url;
 	};
@@ -108,6 +135,14 @@ $(function(){
 		var marker = '[Uploading image ' + (++uploads) + '...]';
 		$('#body').insertAtCaret(marker);
 		uploading = uploading.then(function(){
+			return files.reduce(function(shrunk, file){
+				return shrunk.then(function(images){
+					return shrink(file).then(function(image){
+						return images.concat([image]);
+					});
+				});
+			}, Promise.resolve([]));
+		}).then(function(images){
 			var formData = new FormData();
 			formData.append('plugin', 'image');
 			formData.append('plugin_image_addimage', 'true');
@@ -115,8 +150,8 @@ $(function(){
 			$('form.update [name=csrf_protection_key]').first().each(function(){
 				formData.append(this.name, this.value);
 			});
-			$.each(files, function(i, file){
-				formData.append('plugin_image_file', file);
+			$.each(images, function(i, image){
+				formData.append('plugin_image_file', image, image.name || (image.type == 'image/png' ? 'image.png' : 'image.jpg'));
 			});
 
 			var imagePlugin = new ImagePlugin($('form.update').attr('action'));

@@ -7,7 +7,7 @@ const defaultSource = fs.readFileSync(path.join(__dirname, '../../js/00default.j
 const imageSource = fs.readFileSync(path.join(__dirname, '../../js/image.js'), 'utf8');
 
 describe("image.js", function() {
-  let win, requests;
+  let win, drawn, closed, requests;
 
   function imageList(sizes, added = []) {
     const cells = sizes.map((size, id) => `<td><img id="image-index-${id}" class="image-img form"${added.includes(id) ? ' data-added="true"' : ''} src="images/20261005_${id}.jpg"></td>`);
@@ -36,9 +36,17 @@ describe("image.js", function() {
     win.eval(jquerySource);
     win.eval(defaultSource);
     win.$tDiary.style = 'gfm';
-    win.$tDiary.plugin.image = { alt: 'image', drop_here: 'drop here', failed: 'upload failed', date: '20261005' };
+    win.$tDiary.plugin.image = { alt: 'image', drop_here: 'drop here', failed: 'upload failed', resize: 1600, date: '20261005' };
     win.alert = jasmine.createSpy('alert');
     win.console.error = function() {};
+
+    drawn = jasmine.createSpy('drawImage');
+    win.HTMLCanvasElement.prototype.getContext = () => ({ fillRect() {}, drawImage: drawn });
+    win.HTMLCanvasElement.prototype.toBlob = function(callback, type) {
+      callback(new win.Blob(['encoded'], { type: type }));
+    };
+    closed = jasmine.createSpy('close');
+    win.createImageBitmap = jasmine.createSpy('createImageBitmap').and.returnValue(Promise.resolve({ width: 3200, height: 1800, close: closed }));
 
     requests = [];
     win.$.ajax = function(options) {
@@ -92,7 +100,8 @@ describe("image.js", function() {
     expect(sent.get('csrf_protection_key')).toEqual('secret');
     expect(sent.get('date')).toEqual('20261005');
     expect(sent.get('plugin_image_addimage')).toEqual('true');
-    expect(sent.get('plugin_image_file').name).toEqual('image.png');
+    expect(sent.get('plugin_image_file').type).toEqual('image/jpeg');
+    expect(sent.get('plugin_image_file').name).toEqual('image.jpg');
     expect(win.$('#body').val()).toEqual('text[Uploading image 1...]');
 
     respond(requests[0], [[640, 480], [1600, 900]], [1]);
@@ -150,6 +159,64 @@ describe("image.js", function() {
     await settle();
 
     expect(win.$('#body').val()).toEqual("text{{image 1, 'image', nil, [1600,900]}}");
+  });
+
+  it("shrinks the longer side to the configured size", async function() {
+    await boot([]);
+
+    paste([png()]);
+    await settle();
+
+    expect(drawn).toHaveBeenCalledWith(jasmine.any(Object), 0, 0, 1600, 900);
+    expect(closed).toHaveBeenCalled();
+    expect(win.createImageBitmap).toHaveBeenCalledWith(jasmine.any(win.File), { imageOrientation: 'from-image' });
+  });
+
+  it("keeps at least one pixel on the shorter side", async function() {
+    await boot([]);
+    win.createImageBitmap = file => Promise.resolve({ width: 10000, height: 2, close() {} });
+
+    paste([png()]);
+    await settle();
+
+    expect(drawn).toHaveBeenCalledWith(jasmine.any(Object), 0, 0, 1600, 1);
+  });
+
+  it("keeps a PNG that needs no shrinking lossless", async function() {
+    await boot([]);
+    win.createImageBitmap = file => Promise.resolve({ width: 800, height: 600, close() {} });
+
+    paste([png()]);
+    await settle();
+
+    const sent = requests[0].options.data.get('plugin_image_file');
+    expect(sent.type).toEqual('image/png');
+    expect(sent.name).toEqual('image.png');
+  });
+
+  it("decodes the images of one paste one at a time", async function() {
+    await boot([]);
+    const decoding = [];
+    win.createImageBitmap = file => new Promise(resolve => decoding.push(resolve));
+
+    paste([png(), png()]);
+    await settle();
+    expect(decoding.length).toEqual(1);
+
+    decoding[0]({ width: 800, height: 600, close() {} });
+    await settle();
+    expect(decoding.length).toEqual(2);
+  });
+
+  it("sends a GIF as it is", async function() {
+    await boot([]);
+    const gif = new win.File(['gif'], 'anime.gif', { type: 'image/gif' });
+
+    paste([gif]);
+    await settle();
+
+    expect(drawn).not.toHaveBeenCalled();
+    expect(requests[0].options.data.get('plugin_image_file').name).toEqual('anime.gif');
   });
 
   it("sends a chosen file whose type the browser does not know", async function() {

@@ -36,6 +36,9 @@
 #  @options['image.maxwidth']
 #     sizeを指定しなかった場合に指定できる画像の最大表示幅。無指定時はnil
 #     表示のたびにファイルアクセスが入るので、重くなるかも?
+#  @options['image.resize']
+#     アップロード時に縮小する画像の長辺のピクセル数。無指定時は1600
+#     縮小と同時に位置情報などのExifも取り除かれます(GIFを除く)。
 #
 # ライセンスについて:
 # Copyright (c) 2002,2003 Daisuke Kato <dai@kato-agri.com>
@@ -150,6 +153,8 @@ if /^(form|edit|formplugin|showcomment|preview)$/ =~ @mode then
 	add_js_setting( '$tDiary.plugin.image.drop_here', %Q|'#{image_label_drop_here}'| )
 	add_js_setting( '$tDiary.plugin.image.failed', %Q|'#{image_label_upload_failed}'| )
 	add_js_setting( '$tDiary.plugin.image.date', %Q|'#{@date.strftime( '%Y%m%d' )}'| )
+	resize = @options['image.resize'].to_i
+	add_js_setting( '$tDiary.plugin.image.resize', resize > 0 ? resize : 1600 )
 end
 
 if /^formplugin$/ =~ @mode then

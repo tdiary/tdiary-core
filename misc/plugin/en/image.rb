@@ -27,6 +27,10 @@
 #     URL of the image directory. Default is './images/'.
 #  @options['image.maxwidth']
 #     Max display width of image without specified 'size' parameter.
+#  @options['image.resize']
+#     Images are shrunk on upload so that the longer side fits in this
+#     many pixels. Default is 1600. Exif, including the location, is
+#     dropped at the same time (except GIF).
 #
 def image_error_num( max ); "You can add images upto #{h max} par a day."; end
 def image_error_size( max ); "You can add images upto #{h max} bytes par an image."; end

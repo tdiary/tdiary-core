@@ -51,6 +51,19 @@ describe "image plugin" do
 		settings = image_plugin( 'preview' ).instance_variable_get( :@javascript_setting ).to_h
 		expect( settings['$tDiary.plugin.image.date'] ).to eq "'20261005'"
 	end
+
+	it "tells the update form how far to shrink images" do
+		settings = image_plugin( 'form' ).instance_variable_get( :@javascript_setting ).to_h
+		expect( settings['$tDiary.plugin.image.resize'] ).to eq 1600
+
+		conf.options['image.resize'] = '2048'
+		settings = image_plugin( 'form' ).instance_variable_get( :@javascript_setting ).to_h
+		expect( settings['$tDiary.plugin.image.resize'] ).to eq 2048
+
+		conf.options['image.resize'] = '0'
+		settings = image_plugin( 'form' ).instance_variable_get( :@javascript_setting ).to_h
+		expect( settings['$tDiary.plugin.image.resize'] ).to eq 1600
+	end
 end
 
 # Local Variables:
