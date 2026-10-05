@@ -36,6 +36,9 @@
 #  @options['image.maxwidth']
 #     sizeを指定しなかった場合に指定できる画像の最大表示幅。無指定時はnil
 #     表示のたびにファイルアクセスが入るので、重くなるかも?
+#  @options['image.resize']
+#     アップロード時に縮小する画像の長辺のピクセル数。無指定時は1600
+#     縮小と同時に位置情報などのExifも取り除かれます(GIFを除く)。
 #
 # ライセンスについて:
 # Copyright (c) 2002,2003 Daisuke Kato <dai@kato-agri.com>
@@ -55,6 +58,7 @@ unless @resource_loaded then
 	def image_label_only_jpeg; 'JPEGのみ'; end
 	def image_label_add_image; 'この画像をアップロードする'; end
 	def image_label_drop_here; 'ここにファイルをドロップ'; end
+	def image_label_upload_failed; '画像をアップロードできませんでした'; end
 end
 
 def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
@@ -142,17 +146,22 @@ def image_list( date )
 	list
 end
 
-if /^(form|edit|formplugin|showcomment)$/ =~ @mode then
+if /^(form|edit|formplugin|showcomment|preview)$/ =~ @mode then
 	enable_js( 'image.js' )
 	add_js_setting( '$tDiary.plugin.image' )
 	add_js_setting( '$tDiary.plugin.image.alt', %Q|'#{image_label_description}'| )
 	add_js_setting( '$tDiary.plugin.image.drop_here', %Q|'#{image_label_drop_here}'| )
+	add_js_setting( '$tDiary.plugin.image.failed', %Q|'#{image_label_upload_failed}'| )
+	add_js_setting( '$tDiary.plugin.image.date', %Q|'#{@date.strftime( '%Y%m%d' )}'| )
+	resize = @options['image.resize'].to_i
+	add_js_setting( '$tDiary.plugin.image.resize', resize > 0 ? resize : 1600 )
 end
 
 if /^formplugin$/ =~ @mode then
    maxnum = @options['image.maxnum'] || 1
    maxsize = @options['image.maxsize'] || 10000
 
+	@image_added = []
 	begin
 	   date = @date.strftime( "%Y%m%d" )
 		images = image_list( date )
@@ -167,7 +176,9 @@ if /^formplugin$/ =~ @mode then
 					rescue NameError
 						size = file.stat.size
 					end
-					output = "#{@image_dir}/#{date}_#{images.length}.#{extension}"
+					number = images.length + @image_added.length
+					output = "#{@image_dir}/#{date}_#{number}.#{extension}"
+					@image_added << number
 					File::umask( 022 )
 					File::open( output, "wb" ) do |f|
 						f.print file.read
@@ -204,7 +215,7 @@ add_form_proc do |date|
 	   images.each_with_index do |img,id|
 			next unless img
 			_, img_w, img_h = image_info(File.join(@image_dir,img))
-			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
+			r << %Q[<td><img id="image-index-#{id}" class="image-img form"#{' data-added="true"' if @image_added&.include?( id )} src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			img_info = ''
 			if img_w && img_h
 				img_info << %Q|<span class="image-width">#{img_w}</span> x <span class="image-height">#{img_h}</span>|

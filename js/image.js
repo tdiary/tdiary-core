@@ -18,20 +18,57 @@ $(function(){
 		$(this).css('cursor', 'default');
 	})
 	.on('click', '.image-img', function(){
-		var idx = this.id.replace('image-index-', '');
-		var w = $('#image-info-' + idx + ' .image-width').text();
-		var h = $('#image-info-' + idx + ' .image-height').text();
-		$('#body').insertAtCaret($.makePluginTag('image', function(){
-			return [idx, "'" + $tDiary.plugin.image.alt + "'", 'nil', '[' + w + ',' + h + ']']
-		}));
+		$('#body').insertAtCaret(imageTag(this));
 	});
-	
+
+	var imageTag = function(img, context){
+		var idx = img.id.replace('image-index-', '');
+		var w = $('#image-info-' + idx + ' .image-width', context).text();
+		var h = $('#image-info-' + idx + ' .image-height', context).text();
+		return $.makePluginTag('image', function(){
+			return [idx, "'" + $tDiary.plugin.image.alt + "'", 'nil', '[' + w + ',' + h + ']']
+		});
+	};
+
+	var imageFiles = function(files){
+		return $.grep(files, function(file){
+			return /^image\//.test(file.type);
+		});
+	};
+
+	var shrink = function(file){
+		if(!window.createImageBitmap || file.type == 'image/gif'){
+			return Promise.resolve(file);
+		}
+		return createImageBitmap(file, {imageOrientation: 'from-image'}).then(function(bitmap){
+			var scale = Math.min(1, $tDiary.plugin.image.resize / Math.max(bitmap.width, bitmap.height));
+			var type = file.type == 'image/png' && scale == 1 ? 'image/png' : 'image/jpeg';
+			var canvas = document.createElement('canvas');
+			canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+			canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+			var context = canvas.getContext('2d');
+			if(type == 'image/jpeg'){
+				context.fillStyle = '#fff';
+				context.fillRect(0, 0, canvas.width, canvas.height);
+			}
+			context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+			bitmap.close();
+			return new Promise(function(resolve){
+				canvas.toBlob(function(blob){
+					resolve(blob || file);
+				}, type, 0.85);
+			});
+		}).catch(function(){
+			return file;
+		});
+	};
+
 	var ImagePlugin = function(url){
 		this.url =url;
 	};
 	ImagePlugin.prototype = {
-		upload: function(formData, callback){
-			$.ajax({
+		upload: function(formData){
+			return $.ajax({
 				url: this.url,
 				type: 'post',
 				data: formData,
@@ -40,9 +77,6 @@ $(function(){
 				beforeSend: function(){
 					$('#plugin-image-addimage input[type="submit"]').attr('disabled', 'disabled');
 					$('#plugin-image-uploading').show();
-				},
-				success: function(data){
-					callback(data);
 				},
 				complete: function(){
 					$('#plugin-image-addimage input[type="submit"]').removeAttr('disabled');
@@ -74,40 +108,96 @@ $(function(){
 		}
 		e.preventDefault();
 		
-		uploadFiles(this.plugin_image_file.files);
+		uploadFiles($.makeArray(this.plugin_image_file.files));
 		this.reset();
 		return false;
 	});
 	
-	var uploadFiles = function(files) {
-		var formData = new FormData();
-		formData.append('plugin', 'image');
-		$.each($('#plugin-image-addimage input[type="hidden"]'), function(){
-			formData.append($(this).attr('name'), $(this).val());
-		});
-		$.each(files, function(i, file){
-			formData.append('plugin_image_file', file);
-		});
+	var replaceMarker = function(marker, text){
+		var body = $('#body').get(0);
+		var start = body.value.indexOf(marker);
+		if(start < 0){
+			if(text){
+				$('#body').insertAtCaret(text);
+			}
+			return;
+		}
+		var end = start + marker.length;
+		body.setRangeText(text, start, end, body.selectionStart == end ? 'end' : 'preserve');
+	};
 
-		var imagePlugin = new ImagePlugin($(this).attr('action'));
-		imagePlugin.upload(formData, function(result){
+	var uploads = 0;
+	var uploading = Promise.resolve();
+	var uploadFiles = function(files) {
+		if(!files.length){
+			return false;
+		}
+		var marker = '[Uploading image ' + (++uploads) + '...]';
+		$('#body').insertAtCaret(marker);
+		uploading = uploading.then(function(){
+			return files.reduce(function(shrunk, file){
+				return shrunk.then(function(images){
+					return shrink(file).then(function(image){
+						return images.concat([image]);
+					});
+				});
+			}, Promise.resolve([]));
+		}).then(function(images){
+			var formData = new FormData();
+			formData.append('plugin', 'image');
+			formData.append('plugin_image_addimage', 'true');
+			formData.append('date', $tDiary.plugin.image.date);
+			$('form.update [name=csrf_protection_key]').first().each(function(){
+				formData.append(this.name, this.value);
+			});
+			$.each(images, function(i, image){
+				formData.append('plugin_image_file', image, image.name || (image.type == 'image/png' ? 'image.png' : 'image.jpg'));
+			});
+
+			var imagePlugin = new ImagePlugin($('form.update').attr('action'));
+			return imagePlugin.upload(formData);
+		}).then(function(result){
+			var list = $('#plugin-image-delimage', result).parents('div.form');
+			var tags = $.map(list.find('.image-img[data-added]'), function(img){
+				return imageTag(img, list);
+			});
+			if(!tags.length){
+				throw new Error('no image was saved');
+			}
 			$('#plugin-image-delimage').parents('div.form').remove();
 			$('<div>')
 				.attr({
 					'class': 'form'
 				})
-				.append($('#plugin-image-delimage', result).parents('div.form').html())
+				.append(list.html())
 				.insertBefore('#plugin-image-addimage');
 			var timestamp = new Date().getTime();
 			$.each($('#plugin-image-delimage img'), function(){
 				$(this).attr('src', $(this).attr('src') + '?' + timestamp);
 			});
+			replaceMarker(marker, tags.join("\n"));
+		}).catch(function(error){
+			replaceMarker(marker, '');
+			console.error(error);
+			alert($tDiary.plugin.image.failed);
 		});
 		return false;
 	};
 
-	$('#plugin-image-delimage')
-	.on('submit', function(e){
+	$('#body').on('paste', function(e){
+		var clipboard = e.originalEvent.clipboardData;
+		if(!clipboard || $.inArray('text/plain', clipboard.types) >= 0){
+			return;
+		}
+		var files = imageFiles(clipboard.files);
+		if(files.length){
+			e.preventDefault();
+			this.setRangeText('', this.selectionStart, this.selectionEnd, 'end');
+			uploadFiles(files);
+		}
+	});
+
+	$(document).on('submit', '#plugin-image-delimage', function(e){
 		e.preventDefault();
 		
 		var ids = $.map($('#image-table input[name="plugin_image_id"]:checked'), function(i){
@@ -147,13 +237,22 @@ $(function(){
 				$('#plugin_image_dnd').hide();
 				$(this).css('border', 'dashed 3px #CCC');
 				$('#plugin-image-addimage form').show();
-				var files = e.originalEvent.dataTransfer.files;
-				uploadFiles(files);
+				uploadFiles($.makeArray(e.originalEvent.dataTransfer.files));
 				return false;
 			})
 			.text($tDiary.plugin.image.drop_here)
 			.hide()
 			.appendTo('#plugin-image-addimage');
+
+		$('#body').on('drop', function(e){
+			var files = imageFiles(e.originalEvent.dataTransfer.files);
+			if(files.length){
+				e.preventDefault();
+				$('#plugin_image_dnd').hide();
+				$('#plugin-image-addimage form').show();
+				uploadFiles(files);
+			}
+		});
 
 		var dnd_timer = false;
 		$('body')
