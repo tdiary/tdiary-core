@@ -55,6 +55,7 @@ unless @resource_loaded then
 	def image_label_only_jpeg; 'JPEGのみ'; end
 	def image_label_add_image; 'この画像をアップロードする'; end
 	def image_label_drop_here; 'ここにファイルをドロップ'; end
+	def image_label_upload_failed; '画像をアップロードできませんでした'; end
 end
 
 def image( id, alt = 'image', thumbnail = nil, size = nil, place = 'photo' )
@@ -142,11 +143,13 @@ def image_list( date )
 	list
 end
 
-if /^(form|edit|formplugin|showcomment)$/ =~ @mode then
+if /^(form|edit|formplugin|showcomment|preview)$/ =~ @mode then
 	enable_js( 'image.js' )
 	add_js_setting( '$tDiary.plugin.image' )
 	add_js_setting( '$tDiary.plugin.image.alt', %Q|'#{image_label_description}'| )
 	add_js_setting( '$tDiary.plugin.image.drop_here', %Q|'#{image_label_drop_here}'| )
+	add_js_setting( '$tDiary.plugin.image.failed', %Q|'#{image_label_upload_failed}'| )
+	add_js_setting( '$tDiary.plugin.image.date', %Q|'#{@date.strftime( '%Y%m%d' )}'| )
 end
 
 if /^formplugin$/ =~ @mode then
@@ -207,7 +210,7 @@ add_form_proc do |date|
 	   images.each_with_index do |img,id|
 			next unless img
 			_, img_w, img_h = image_info(File.join(@image_dir,img))
-			r << %Q[<td><img id="image-index-#{id}" class="image-img form" src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
+			r << %Q[<td><img id="image-index-#{id}" class="image-img form"#{' data-added="true"' if @image_added&.include?( id )} src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			img_info = ''
 			if img_w && img_h
 				img_info << %Q|<span class="image-width">#{img_w}</span> x <span class="image-height">#{img_h}</span>|

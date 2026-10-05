@@ -33,6 +33,24 @@ describe "image plugin" do
 
 		expect( Dir.children( @image_dir ).sort ).to eq %w(20261005_0.gif 20261005_1.gif 20261005_2.gif)
 	end
+
+	it "marks the images just uploaded in the form" do
+		File.binwrite( File.join( @image_dir, '20261005_0.gif' ), gif )
+
+		plugin = image_plugin( 'formplugin',
+			'plugin_image_addimage' => ['true'],
+			'plugin_image_file' => [StringIO.new( gif )] )
+		plugin.instance_eval { def csrf_protection; ''; end }
+		form = plugin.instance_eval { form_proc( Time.local( 2026, 10, 5 ) ) }
+
+		expect( form ).to include '<img id="image-index-1" class="image-img form" data-added="true"'
+		expect( form ).to include '<img id="image-index-0" class="image-img form" src='
+	end
+
+	it "lets the preview page upload images of the day" do
+		settings = image_plugin( 'preview' ).instance_variable_get( :@javascript_setting ).to_h
+		expect( settings['$tDiary.plugin.image.date'] ).to eq "'20261005'"
+	end
 end
 
 # Local Variables:
