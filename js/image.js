@@ -197,8 +197,7 @@ $(function(){
 		}
 	});
 
-	$('#plugin-image-delimage')
-	.on('submit', function(e){
+	$(document).on('submit', '#plugin-image-delimage', function(e){
 		e.preventDefault();
 		
 		var ids = $.map($('#image-table input[name="plugin_image_id"]:checked'), function(i){

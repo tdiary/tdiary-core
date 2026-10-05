@@ -267,6 +267,19 @@ describe("image.js", function() {
     expect(requests.length).toEqual(0);
   });
 
+  it("deletes from the list replaced by an upload without leaving the page", async function() {
+    await boot([]);
+
+    paste([png()]);
+    await settle();
+    respond(requests[0], [[1600, 900]], [0]);
+    await settle();
+
+    win.$('#plugin-image-delimage').trigger('submit');
+    expect(requests.length).toEqual(2);
+    expect(requests[1].options.data).toContain('plugin=image');
+  });
+
   it("waits for the previous upload before sending the next", async function() {
     await boot([]);
 
