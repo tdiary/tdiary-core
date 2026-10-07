@@ -14,6 +14,9 @@ def makerss_conf_html
 	<li>フィードに本文全体を<select name="makerss.hidecontent">
 		<option value="f"#{' selected' unless @conf['makerss.hidecontent']}>含める</option>
 		<option value="t"#{' selected' if @conf['makerss.hidecontent']}>含めない</option></select></li>
+	<li>フィードの本文にサブタイトルを<select name="makerss.hidesubtitle">
+		<option value="f"#{' selected' unless @conf['makerss.hidesubtitle']}>含める</option>
+		<option value="t"#{' selected' if @conf['makerss.hidesubtitle']}>含めない</option></select></li>
 	<li>フィードに含める説明を<select name="makerss.shortdesc">
 		<option value="f"#{' selected' unless @conf['makerss.shortdesc']}>できるだけ長くする</option>
 		<option value="t"#{' selected' if @conf['makerss.shortdesc']}>最初だけにする</option></select></li>

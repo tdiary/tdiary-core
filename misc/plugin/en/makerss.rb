@@ -16,6 +16,10 @@ def makerss_conf_html
 		<option value="f"#{' selected' unless @conf['makerss.hidecontent']}>Include</option>
 		<option value="t"#{' selected' if @conf['makerss.hidecontent']}>Hide</option></select>
 		encoded contents of your diary in the feed.
+	<li><select name="makerss.hidesubtitle">
+		<option value="f"#{' selected' unless @conf['makerss.hidesubtitle']}>Include</option>
+		<option value="t"#{' selected' if @conf['makerss.hidesubtitle']}>Hide</option></select>
+		subtitles in the encoded contents.
 	<li>Include summary of your contents<select name="makerss.shortdesc">
 		<option value="f"#{' selected' unless @conf['makerss.shortdesc']}>as long as possible</option>
 		<option value="t"#{' selected' if @conf['makerss.shortdesc']}>only some portion</option></select>

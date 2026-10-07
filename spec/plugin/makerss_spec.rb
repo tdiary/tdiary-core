@@ -1,5 +1,6 @@
 require File.expand_path("../plugin_helper", __FILE__)
 require "rexml/document"
+require "tmpdir"
 
 describe "makerss plugin" do
 	before do
@@ -9,6 +10,7 @@ describe "makerss plugin" do
 		}
 		@plugin = TDiary::Plugin.new(
 			conf: @conf,
+			mode: "append",
 		).tap {|plugin|
 			plugin.load_plugin("misc/plugin/makerss.rb")
 		}
@@ -71,6 +73,53 @@ describe "makerss plugin" do
 				expect(rights.text).to eq(
 					"Copyright #{Time.now.year} #{@conf.author_name}" \
 					", copyright of comments by respective authors")
+			end
+		end
+	end
+
+	describe "#makerss_body" do
+		subject(:content) do
+			REXML::Document.new(@plugin.makerss_header(uri) + "</channel>" + @plugin.makerss_body(uri, rdfsec) + @plugin.makerss_footer)
+				.elements["//item/content:encoded"].text
+		end
+		let(:uri) { "http://example.com/test" }
+		let(:rdfsec) do
+			TDiary::RDFSection.new("20261007p01", nil, nil, data: {
+				"time" => "2026-10-07T00:00:00+09:00",
+				"is_comment" => false,
+				"section" => {"subtitle" => "Subtitle", "body" => "<p>Body</p>", "category" => [], "visibility" => true}
+			})
+		end
+
+		before { allow(@conf).to receive(:shorten) {|str, len| str } }
+
+		context "without makerss.hidesubtitle" do
+			it { expect(content).to start_with("<h3>Subtitle</h3><p>Body</p>") }
+		end
+
+		context "with makerss.hidesubtitle" do
+			before { @conf["makerss.hidesubtitle"] = true }
+			it { expect(content).to start_with("<p>Body</p>") }
+		end
+	end
+
+	describe "makerss.hidesubtitle setting" do
+		around do |example|
+			Dir.mktmpdir {|dir| @dir = dir; example.run }
+		end
+
+		%w(ja en).each do |lang|
+			it "is saved from the #{lang} form" do
+				@conf.lang = lang
+				@conf["makerss.file"] = File.join(@dir, "index.rdf")
+				cgi = Struct.new(:params).new(Hash.new([]).merge("makerss.hidesubtitle" => ["t"]))
+				plugin = TDiary::Plugin.new(conf: @conf, mode: "saveconf", cgi: cgi).tap {|plugin|
+					plugin.load_plugin("misc/plugin/makerss.rb")
+				}
+
+				html = plugin.__send__(:conf_proc, "makerss")
+				expect(@conf["makerss.hidesubtitle"]).to be true
+				expect(html).to match(%r|<select name="makerss.hidesubtitle">\s*<option value="f">[^<]*</option>\s*<option value="t" selected>|)
 			end
 		end
 	end
