@@ -673,7 +673,7 @@ div.sidebar div.calendar {
 /*
  design for smart phones
  */
-@media screen and (max-device-width: 480px) {
+@media screen and (max-width: 480px) {
 	body {
 		box-sizing: border-box;
 	}
