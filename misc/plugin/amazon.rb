@@ -138,6 +138,13 @@ def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
+# Books Amazon doesn't answer for are asked of a plugin defining amazon_book_item(isbn), like amazon_rakuten.rb.
+def amazon_book_json(item_id)
+	return nil unless defined?(amazon_book_item) && /\A(?:\d{9}[\dX]|97[89]\d{10})\z/i =~ item_id
+	item = amazon_book_item(item_id)
+	{'ItemsResult' => {'Items' => [item]}}.to_json if item
+end
+
 def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 	asin = asin.to_s.strip.gsub(/-/, '')
 	country, item_id = asin.scan(/\A(..):(.*)/).flatten
@@ -154,10 +161,19 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		rescue Errno::ENOENT
 			access_key = @conf['amazon.access_key']
 			secret_key = @conf['amazon.secret_key']
-			return asin unless access_key && secret_key
-			partner_tag = @conf['amazon.aid']
-			paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
-			json = paapi.get_items(item_id, country.to_sym)
+			if access_key && secret_key
+				begin
+					partner_tag = @conf['amazon.aid']
+					paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
+					json = paapi.get_items(item_id, country.to_sym)
+				rescue Net::HTTPExceptions
+					json = amazon_book_json(item_id)
+					raise unless json
+				end
+			else
+				json = amazon_book_json(item_id)
+				return asin unless json
+			end
 			File::open("#{cache}/#{country}#{item_id}.json", 'wb'){|f| f.write(json)}
 		end
 		item = JSON.parse(json)["ItemsResult"]["Items"][0]
