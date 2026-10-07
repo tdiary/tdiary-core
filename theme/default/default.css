@@ -15,6 +15,11 @@ Copyright 2011 (C) TADA Tadashi <t@tdtds.jp>
 	padding: 0px;
 }
 
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
 body {
 	text-align: center;
 	width: 100%;
@@ -107,6 +112,10 @@ div.refererlist {
 	margin: 16px;
 }
 
+div.body {
+	overflow-wrap: anywhere;
+}
+
 div.section {
 	margin-top: 30px;
 }
@@ -147,6 +156,7 @@ div.section pre {
 	padding: 8px;
 	background-color: #eee;
 	border-radius: 8px;
+	overflow-x: auto;
 }
 
 div.section blockquote {
@@ -210,6 +220,8 @@ div.section img {
 	border-style: solid;
 	border-color: #888;
 	border-width: 1px;
+	max-width: 100%;
+	height: auto;
 }
 
 div.section img.photo {
@@ -554,7 +566,7 @@ div.search-navi {
 div.category {
 	text-align: left;
 	margin: 0px auto;
-	width: 900px;
+	max-width: 900px;
 }
 
 div.category ul {
@@ -671,19 +683,34 @@ div.sidebar div.calendar {
 
 
 /*
+ stack the sidebar under the main column below the width of div.whole-content
+ */
+@media screen and (max-width: 899px) {
+	div.main {
+		float: none;
+		max-width: none;
+	}
+}
+
+/*
  design for smart phones
  */
-@media screen and (max-device-width: 480px) {
+@media screen and (max-width: 480px) {
 	body {
 		box-sizing: border-box;
 	}
 
 	div.adminmenu {
-		font-size: x-small;
+		font-size: small;
 		margin: 0px;
 		padding-left: 0px;
 		padding-right: 0px;
 		width: 100%;
+	}
+
+	div.adminmenu a {
+		display: inline-block;
+		padding: 0.5em 0.75em;
 	}
 
 	h1 {
@@ -742,12 +769,10 @@ div.sidebar div.calendar {
 		width: 100%;
 	}
 
+	input,
+	select,
 	textarea {
-		font-size: 110%;
-	}
-
-	div.sidebar {
-		display: none;
+		font-size: 16px;
 	}
 }
 
