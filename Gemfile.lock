@@ -72,7 +72,7 @@ GEM
     cuprite (0.18)
       capybara (~> 3.0)
       ferrum (~> 0.18.0)
-    dalli (5.1.0)
+    dalli (5.1.1)
       logger
     date (3.5.1)
     diff-lcs (1.6.2)
