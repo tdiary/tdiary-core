@@ -146,6 +146,11 @@ def amazon_book_json(item_id)
 	{'ItemsResult' => {'Items' => [item]}}.to_json if item
 end
 
+def amazon_dp_link(asin, label)
+	url = "https://www.amazon.co.jp/dp/#{asin}"
+	%Q|<a href="#{h url}">#{h(label || url)}</a>|
+end
+
 def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 	asin = asin.to_s.strip.gsub(/-/, '')
 	country, item_id = asin.scan(/\A(..):(.*)/).flatten
@@ -157,25 +162,31 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 	begin
 		cache = "#{@cache_path}/amazon"
 		Dir::mkdir( cache ) unless File::directory?( cache )
+		file = "#{cache}/#{country}#{item_id}.json"
 		begin
-			json = File::read("#{cache}/#{country}#{item_id}.json")
+			json = File::read(file)
+			raise Errno::ENOENT if json.empty?
 		rescue Errno::ENOENT
 			access_key = @conf['amazon.access_key']
 			secret_key = @conf['amazon.secret_key']
-			if access_key && secret_key
+			if access_key && secret_key && !File::exist?(file)
 				begin
 					partner_tag = @conf['amazon.aid']
 					paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
 					json = paapi.get_items(item_id, country.to_sym)
-				rescue Net::HTTPExceptions
+				rescue Net::HTTPExceptions => e
+					# An empty cache records a 403, which PA-API keeps answering, so the item isn't asked about again until the cache is cleared
+					File::write(file, '') if e.response.code == '403'
 					json = amazon_book_json(item_id)
 					raise unless json
 				end
 			else
 				json = amazon_book_json(item_id)
-				return asin unless json
+				unless json
+					return File::exist?(file) ? amazon_dp_link(asin, label) : asin
+				end
 			end
-			File::open("#{cache}/#{country}#{item_id}.json", 'wb'){|f| f.write(json)}
+			File::open(file, 'wb'){|f| f.write(json)}
 		end
 		item = JSON.parse(json)["ItemsResult"]["Items"][0]
 		if pos == 'detail' then
@@ -202,9 +213,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		message = ''
 		# Handle 429 "Too Many Requests" and 403 "Forbidden"
 		if /^429|^403/ =~ e.message then
-			url = "https://www.amazon.co.jp/dp/#{h asin}"
-			label ||= url
-			message << %Q|<a href="#{h url}">#{h label}</a>|
+			message << amazon_dp_link(asin, label)
 		end
 		if @mode == 'preview' then
 			message << %Q|<span class="message">(#{h e.message})</span>|

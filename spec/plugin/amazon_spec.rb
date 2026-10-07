@@ -43,12 +43,15 @@ describe "amazon plugin" do
 		}
 	end
 
+	let(:paapi) { double( 'paapi' ) }
+
 	def amazon_refuses
 		conf.options['amazon.access_key'] = 'access'
 		conf.options['amazon.secret_key'] = 'secret'
 		forbidden = Net::HTTPForbidden.new( '1.1', '403', 'Forbidden' )
-		allow( forbidden ).to receive( :body ).and_return( '' )
-		allow_any_instance_of( AWS::PAAPI ).to receive( :get_items ).and_raise( Net::HTTPClientException.new( '403 "Forbidden"', forbidden ) )
+		allow( forbidden ).to receive( :body ).and_return( '{"Errors":[{"Code":"AssociateNotEligible"}]}' )
+		allow( AWS::PAAPI ).to receive( :new ).and_return( paapi )
+		allow( paapi ).to receive( :get_items ).and_raise( Net::HTTPClientException.new( '403 "Forbidden"', forbidden ) )
 	end
 
 	def amazon_plugin( *files )
@@ -97,6 +100,34 @@ describe "amazon plugin" do
 
 		expect( plugin.isbn_image( '4873119049' ) ).to include 'href="https://hb.afl.rakuten.co.jp/hgc/aff-id/?pc=https%3A%2F%2Fbooks.rakuten.co.jp%2Frb%2F16199514%2F"'
 		expect( URI.decode_www_form( rakuten_requests.first.query ).to_h ).to include( 'affiliateId' => 'aff-id' )
+	end
+
+	it "doesn't ask Amazon about an item it refused until the cache is cleared" do
+		amazon_refuses
+		rakuten_returns( book )
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+		refused = "#{@cache_path}/amazon/jpB000067P0I.json"
+
+		expect( plugin.isbn_image( 'B000067P0I', 'CD' ) ).to eq '<a href="https://www.amazon.co.jp/dp/B000067P0I">CD</a>'
+		expect( File.size( refused ) ).to eq 0
+		expect( plugin.isbn_image( 'B000067P0I', 'CD' ) ).to eq '<a href="https://www.amazon.co.jp/dp/B000067P0I">CD</a>'
+		expect( paapi ).to have_received( :get_items ).once
+
+		File.delete( refused )
+		plugin.isbn_image( 'B000067P0I' )
+		expect( paapi ).to have_received( :get_items ).twice
+	end
+
+	it "goes to Rakuten Books for a book Amazon refused before" do
+		amazon_refuses
+		rakuten_returns( book )
+		Dir.mkdir( "#{@cache_path}/amazon" )
+		File.write( "#{@cache_path}/amazon/jp4873119049.json", '' )
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '4873119049' ) ).to include 'href="https://books.rakuten.co.jp/rb/16199514/"'
+		expect( paapi ).not_to have_received( :get_items )
+		expect( File.read( "#{@cache_path}/amazon/jp4873119049.json" ) ).to include 'books.rakuten.co.jp'
 	end
 
 	it "keeps the link to Amazon when Rakuten Books doesn't know the book" do
