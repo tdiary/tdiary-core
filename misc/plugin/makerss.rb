@@ -4,6 +4,7 @@
 #
 # options configurable through settings:
 #   @conf['makerss.hidecontent'] : hide full-text content. default: false
+#   @conf['makerss.hidesubtitle'] : hide subtitle in full-text content. default: false
 #   @conf['makerss.shortdesc'] : shorter description. default: false
 #   @conf['makerss.comment_link'] : insert tsukkomi's link. default: false
 #
@@ -395,7 +396,7 @@ def makerss_body( uri, rdfsec )
 		rdf << %Q|<description>#{h makerss_desc_shorten( desc )}</description>\n|
 		unless @conf['makerss.hidecontent']
 			text = ''
-			text << '<h3>' + apply_plugin( subtitle.sub( /^(\[([^\]]+)\])+ */, '' ) ).strip + '</h3>' if subtitle and not subtitle.empty?
+			text << '<h3>' + apply_plugin( subtitle.sub( /^(\[([^\]]+)\])+ */, '' ) ).strip + '</h3>' if subtitle and not subtitle.empty? and not @conf['makerss.hidesubtitle']
 			text << body_enter
 			text << body
 			text << body_leave
@@ -451,7 +452,7 @@ add_header_proc {
 
 add_conf_proc( 'makerss', @makerss_conf_label, 'update' ) do
 	if @mode == 'saveconf' then
-		%w( hidecontent shortdesc comment_link no_comments).each do |s|
+		%w( hidecontent hidesubtitle shortdesc comment_link no_comments).each do |s|
 			item = "makerss.#{s}"
 			@conf[item] = ( 't' == @cgi.params[item][0] )
 		end
