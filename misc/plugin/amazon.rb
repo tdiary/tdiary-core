@@ -92,11 +92,12 @@ def amazon_detail_html(item)
 	image = amazon_image(item)
 	@conf['amazon.imgsize'] = size_orig
 
+	size = %Q|height="#{h image[:height]}" width="#{h image[:width]}"| if image[:height]
 	url = amazon_url(item)
 	<<-HTML
 	<a class="amazon-detail" href="#{url}"><span class="amazon-detail">
 		<img class="amazon-detail left" src="#{h image[:src]}"
-		height="#{h image[:height]}" width="#{h image[:width]}"
+		#{size}
 		alt="">
 		<span class="amazon-detail-desc">
 			<span class="amazon-title">#{h title}</span><br>
@@ -125,7 +126,7 @@ def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 		unless image[:src] then
 			img = ''
 		else
-			size = %Q|height="#{h image[:height]}" width="#{h image[:width]}"|
+			size = %Q|height="#{h image[:height]}" width="#{h image[:width]}"| if image[:height]
 			img = <<-HTML
 			<img class="#{h pos}" src="#{h image[:src]}"
 			#{size} alt="#{h alt}">
