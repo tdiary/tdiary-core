@@ -566,7 +566,7 @@ div.search-navi {
 div.category {
 	text-align: left;
 	margin: 0px auto;
-	width: 900px;
+	max-width: 900px;
 }
 
 div.category ul {
