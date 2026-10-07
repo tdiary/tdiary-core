@@ -671,6 +671,16 @@ div.sidebar div.calendar {
 
 
 /*
+ stack the sidebar under the main column below the width of div.whole-content
+ */
+@media screen and (max-width: 899px) {
+	div.main {
+		float: none;
+		max-width: none;
+	}
+}
+
+/*
  design for smart phones
  */
 @media screen and (max-width: 480px) {
