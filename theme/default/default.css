@@ -764,8 +764,10 @@ div.sidebar div.calendar {
 		width: 100%;
 	}
 
+	input,
+	select,
 	textarea {
-		font-size: 110%;
+		font-size: 16px;
 	}
 }
 
