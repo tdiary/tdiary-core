@@ -696,11 +696,16 @@ div.sidebar div.calendar {
 	}
 
 	div.adminmenu {
-		font-size: x-small;
+		font-size: small;
 		margin: 0px;
 		padding-left: 0px;
 		padding-right: 0px;
 		width: 100%;
+	}
+
+	div.adminmenu a {
+		display: inline-block;
+		padding: 0.5em 0.75em;
 	}
 
 	h1 {
