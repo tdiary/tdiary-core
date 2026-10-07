@@ -15,6 +15,11 @@ Copyright 2011 (C) TADA Tadashi <t@tdtds.jp>
 	padding: 0px;
 }
 
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
 body {
 	text-align: center;
 	width: 100%;
