@@ -14,8 +14,12 @@
 	var day = function(root) {
 		return root.find('div.update').prevAll('div.day').first();
 	};
+	var shown = function() {
+		var current = day($(document));
+		return current.length > 0 && current.css('display') != 'none';
+	};
 
-	// a response is dropped once a newer request is sent
+	// a response is dropped once a newer request is sent or the preview is hidden
 	var latest = 0;
 
 	var load = function() {
@@ -32,7 +36,7 @@
 				if (current.length == 0) {
 					current = rendered.insertBefore('div.update');
 				} else {
-					current.attr('class', rendered.attr('class')).empty().append(rendered.contents());
+					current.attr('class', rendered.attr('class')).empty().append(rendered.contents()).show();
 				}
 				current[0].scrollIntoView();
 			})
@@ -40,6 +44,12 @@
 				// the preview page shows what went wrong
 				if (id == latest) { form()[0].requestSubmit(button()[0]); }
 			});
+	};
+
+	var hide = function() {
+		latest++;
+		day($(document)).hide();
+		$('#body').focus();
 	};
 
 	$(function() {
@@ -50,6 +60,14 @@
 		button().on('click', function(e) {
 			e.preventDefault();
 			load();
+		});
+
+		$(document).on('keydown', function(e) {
+			if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey &&
+					e.key.toLowerCase() == 'p' && !e.originalEvent.isComposing) {
+				e.preventDefault();
+				if (shown()) { hide(); } else { load(); }
+			}
 		});
 	});
 })();

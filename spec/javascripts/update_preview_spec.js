@@ -63,6 +63,11 @@ describe("update_preview.js", function() {
     return win.$('div.update').prevAll('div.day');
   }
 
+  function press(keys) {
+    const event = new win.KeyboardEvent('keydown', Object.assign({ key: 'P', shiftKey: true, bubbles: true, cancelable: true }, keys));
+    return win.document.getElementById('body').dispatchEvent(event);
+  }
+
   afterEach(function() {
     win.close();
   });
@@ -116,6 +121,42 @@ describe("update_preview.js", function() {
       win.$('[name=appendpreview]')[0].click();
       await settle();
       expect(form.requestSubmit).toHaveBeenCalledWith(win.$('[name=appendpreview]')[0]);
+    });
+  });
+
+  describe("when Cmd or Ctrl+Shift+P is pressed", function() {
+    it("switches between writing and the preview", async function() {
+      await boot();
+      expect(press({ metaKey: true })).toBe(false);
+      await settle();
+      expect(preview().find('h2').text()).toEqual('rendered');
+
+      press({ metaKey: true });
+      await settle();
+      expect(preview().css('display')).toEqual('none');
+      expect(win.document.activeElement.id).toEqual('body');
+
+      press({ ctrlKey: true });
+      await settle();
+      expect(preview().css('display')).not.toEqual('none');
+      expect(win.fetch).toHaveBeenCalledTimes(2);
+    });
+
+    it("keeps the preview hidden when it is hidden while loading", async function() {
+      await boot({ day: '<div class="day autopagerize_page_element"><h2>old</h2></div>' });
+      win.$('[name=appendpreview]')[0].click();
+      press({ ctrlKey: true });
+      await settle();
+      expect(preview().css('display')).toEqual('none');
+      expect(preview().find('h2').text()).toEqual('old');
+    });
+
+    it("leaves Shift+P to the text", async function() {
+      await boot();
+      expect(press({})).toBe(true);
+      expect(press({ metaKey: true, isComposing: true })).toBe(true);
+      await settle();
+      expect(win.fetch).not.toHaveBeenCalled();
     });
   });
 });
