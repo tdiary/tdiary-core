@@ -189,7 +189,8 @@ saveDraft = function() {
 loadDraft = function() {
   var value = draft.load(select.val());
   if (value != null) {
-    textarea.val(value);
+    textarea.focus();
+    $.replaceText(textarea[0], value, 0, textarea.val().length);
   }
   showSelectForm(false);
 };

@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const jquerySource = fs.readFileSync(path.join(__dirname, '../../node_modules/jquery/dist/jquery.js'), 'utf8');
+const defaultSource = fs.readFileSync(path.join(__dirname, '../../js/00default.js'), 'utf8');
 const draftSource = fs.readFileSync(path.join(__dirname, '../../js/draft.js'), 'utf8');
 
 describe("draft.js", function() {
@@ -20,6 +21,7 @@ describe("draft.js", function() {
     </body></html>`, { url: 'http://localhost/update.rb', runScripts: 'outside-only', pretendToBeVisual: true });
     win = dom.window;
     win.eval(jquerySource);
+    win.eval(defaultSource);
     win.$tDiary = { plugin: { draft: {
       server: Object.assign({ drafts: [], deleted: [], max: 10 }, options.server),
       interval: 300

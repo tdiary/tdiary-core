@@ -31,5 +31,53 @@ describe("$", function() {
       $('#body').insertAtCaret('[category] ');
       expect($('#body').val()).toEqual('[category] sample diary');
     });
+
+    it('should insert text before the selection and leave the caret after it', function() {
+      $('#body')[0].setSelectionRange(0, 6);
+      $('#body').insertAtCaret('[c]');
+      expect($('#body').val()).toEqual('[c]sample diary');
+      expect($('#body')[0].selectionStart).toEqual(3);
+      expect($('#body')[0].selectionEnd).toEqual(3);
+    });
+  });
+
+  describe("#replaceText", function() {
+    let body;
+
+    beforeEach(function() {
+      loadFixtures('00default.html');
+      body = $('#body')[0];
+    });
+
+    afterEach(function() {
+      delete document.execCommand;
+    });
+
+    it('should edit through the browser command to keep the undo history', function() {
+      document.execCommand = jasmine.createSpy('execCommand').and.callFake(function(command, ui, text) {
+        body.setRangeText(text, body.selectionStart, body.selectionEnd, 'end');
+        return true;
+      });
+      body.focus();
+      body.setSelectionRange(12, 12);
+
+      $.replaceText(body, 'my', 0, 6);
+
+      expect(document.execCommand).toHaveBeenCalledWith('insertText', false, 'my');
+      expect(body.value).toEqual('my diary');
+      expect(body.selectionStart).toEqual(8);
+    });
+
+    it('should leave the focus where it is', function() {
+      document.execCommand = jasmine.createSpy('execCommand');
+      body.blur();
+      body.setSelectionRange(12, 12);
+
+      $.replaceText(body, 'my', 0, 6);
+
+      expect(document.execCommand).not.toHaveBeenCalled();
+      expect(body.value).toEqual('my diary');
+      expect(body.selectionStart).toEqual(8);
+    });
   });
 });
