@@ -6,64 +6,26 @@
  */
 $(function() {
 
-var previewButton = $('input[name*="preview"]');
-var intervalRate = 1;
-
-$tDiary.plugin.preview.reload = function() {
-  previewButton.prop("disabled", true);
-  $.post(
-    'update.rb',
-    $('form.update').serialize() + "&appendpreview=1",
-    function(data) {
-      var previewContent = $(data).find('div.autopagerize_page_element');
-      if (previewContent.length != 0) {
-        $('div.autopagerize_page_element').replaceWith(previewContent);
-        intervalRate = 1;
-      } else {
-        intervalRate *= 2;
-        console.info('[preview.js] update failed, the next update will be after '
-          + $tDiary.plugin.preview.interval * intervalRate + 'sec.');
-      }
-      $('div.day')
-        .css('flex', "1 1 " + $tDiary.plugin.preview.minWidth / 2 + "px");
-    },
-    'html'
-  )
-  .fail(function() {
-    intervalRate *= 2;
-    console.info('[preview.js] update failed, the next update will be after '
-      + $tDiary.plugin.preview.interval * intervalRate + 'sec.');
-  })
-  .always(function() {
-    previewButton.prop("disabled", false);
-    setTimeout($tDiary.plugin.preview.reload,
-      $tDiary.plugin.preview.interval * 1000 * intervalRate);
-  });
-}
-
-if ($('div.autopagerize_page_element').length == 0) {
-  $('div.update').before(
-    '<div class="day autopagerize_page_element">'
-  );
+var update = $('div.update');
+var day = update.prevAll('div.day').first();
+if (day.length == 0) {
+  day = $('<div class="day autopagerize_page_element"></div>').insertBefore(update);
+  $tDiary.preview.refresh();
 }
 
 $('<div class="preview-container"></div>')
   .css('display', 'flex')
   .css('flex-flow', 'row-reverse wrap')
   .insertAfter('h1')
-  .append($('div.day'));
-$('div.day')
+  .append(day, update);
+day.add(update)
   .css('flex', "1 1 " + $tDiary.plugin.preview.minWidth / 2 + "px");
 $("div.whole-content").css('max-width', 'none');
 
-// プレビューボタンを押した時もajaxで更新するよう設定
-previewButton.click(
-  function(event) {
-    event.preventDefault();
-    $tDiary.plugin.preview.reload();
-  }
-);
-
-$tDiary.plugin.preview.reload();
+var timer;
+$('#body').closest('form').on('input', function() {
+  clearTimeout(timer);
+  timer = setTimeout($tDiary.preview.refresh, 1000);
+});
 
 });

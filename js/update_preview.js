@@ -22,7 +22,7 @@
 	// a response is dropped once a newer request is sent or the preview is hidden
 	var latest = 0;
 
-	var load = function() {
+	var load = function(explicit) {
 		var data = new URLSearchParams(form().serialize());
 		data.append(button().attr('name'), button().val());
 		var id = ++latest;
@@ -38,11 +38,11 @@
 				} else {
 					current.attr('class', rendered.attr('class')).empty().append(rendered.contents()).show();
 				}
-				current[0].scrollIntoView();
+				if (explicit) { current[0].scrollIntoView(); }
 			})
 			.catch(function() {
 				// the preview page shows what went wrong
-				if (id == latest) { form()[0].requestSubmit(button()[0]); }
+				if (explicit && id == latest) { form()[0].requestSubmit(button()[0]); }
 			});
 	};
 
@@ -52,6 +52,12 @@
 		$('#body').focus();
 	};
 
+	$tDiary.preview = {
+		refresh: function() {
+			if (shown()) { return load(false); }
+		}
+	};
+
 	$(function() {
 		if (button().length == 0) { return; }
 
@@ -59,14 +65,14 @@
 		// the scripts that take a submit for posting the diary are not run
 		button().on('click', function(e) {
 			e.preventDefault();
-			load();
+			load(true);
 		});
 
 		$(document).on('keydown', function(e) {
 			if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey &&
 					e.key.toLowerCase() == 'p' && !e.originalEvent.isComposing) {
 				e.preventDefault();
-				if (shown()) { hide(); } else { load(); }
+				if (shown()) { hide(); } else { load(true); }
 			}
 		});
 	});

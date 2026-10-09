@@ -159,4 +159,21 @@ describe("update_preview.js", function() {
       expect(win.fetch).not.toHaveBeenCalled();
     });
   });
+
+  describe("$tDiary.preview.refresh", function() {
+    it("updates the shown preview without scrolling to it", async function() {
+      await boot({ day: '<div class="day autopagerize_page_element"><h2>old</h2></div>' });
+      win.$tDiary.preview.refresh();
+      await settle();
+      expect(preview().find('h2').text()).toEqual('rendered');
+      expect(win.Element.prototype.scrollIntoView).not.toHaveBeenCalled();
+    });
+
+    it("does nothing while no preview is shown", async function() {
+      await boot();
+      win.$tDiary.preview.refresh();
+      await settle();
+      expect(win.fetch).not.toHaveBeenCalled();
+    });
+  });
 });
