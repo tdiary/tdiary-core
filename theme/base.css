@@ -300,3 +300,12 @@ textarea#body {
 	font-size: 16px;
 	line-height: 1.6;
 }
+
+@supports (field-sizing: content) {
+	textarea#body {
+		field-sizing: content;
+		height: auto;
+		min-height: clamp(10rem, 33dvh, 33rem);
+		max-height: 75dvh;
+	}
+}
