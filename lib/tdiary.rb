@@ -104,6 +104,7 @@ module TDiary
 	class BadStyleError < TDiaryError; end
 	class NotFound < TDiaryError;	end
 	class BadDateError < TDiaryError; end
+	class ConflictError < TDiaryError; end
 
 	# class ForceRedirect
 	#  force redirect to another page

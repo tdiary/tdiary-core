@@ -24,10 +24,13 @@ end
 <div class="form">
 	<% if @rejected.kind_of?( BadDateError ) then %>
 	<p class="message">日付「<%=h @rejected.message %>」は存在しないため、保存していません。日付を指定し直して、もう一度送ってください。</p>
+	<% elsif @rejected.kind_of?( ConflictError ) then %>
+	<p class="message">このフォームを開いた後に、この日の日記が別の場所で更新されています。もう一度送ると、その更新を上書きします。</p>
 	<% end %>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">日記本文</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
+		<input type="hidden" name="last_modified" value="<%= @diary.last_modified.to_i %>">
 		<%=@csrf_protection%>
 		<span class="field year">
 			<input class="field" id="year" name="year" tabindex="1"<%= accesskeys['year'] %> size="4" value="<%= @date.year %>">年

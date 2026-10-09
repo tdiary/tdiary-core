@@ -42,6 +42,10 @@ describe 'update form posts that are not saved' do
 		last_response.body
 	end
 
+	def stamp_in(body)
+		body[/name="last_modified" value="(\d+)"/, 1]
+	end
+
 	describe 'with a date that does not exist' do
 		it 'does not move 2/30 to March but shows the text again' do
 			post_diary('2026-2-30', 'old' => '20261007', 'append' => '追記')
@@ -86,6 +90,55 @@ describe 'update form posts that are not saved' do
 
 			expect(last_response.status).to eq 303
 			expect(diary_of(Time.now.strftime('%Y%m%d'))).to include 'dateless text'
+		end
+	end
+
+	describe 'over an update made after the form was opened' do
+		before do
+			post_diary('2026-10-7', 'old' => '20261007', 'append' => '追記', 'body' => 'first text')
+			get '/update.rb?edit=true;year=2026;month=10;day=7'
+			@opened = stamp_in(last_response.body)
+		end
+
+		def replace_with(text, stamp)
+			post_diary('2026-10-7', 'old' => '20261007', 'replace' => '登録', 'body' => text, 'last_modified' => stamp)
+		end
+
+		it 'saves when nothing was saved in between' do
+			replace_with('my text', @opened)
+
+			expect(last_response.status).to eq 303
+			expect(diary_of('20261007')).to include 'my text'
+		end
+
+		it 'shows the text again instead of overwriting the other update' do
+			replace_with('other text', (@opened.to_i - 10).to_s)
+
+			expect(last_response.status).to eq 200
+			expect(last_response.body).to include 'この日の日記が別の場所で更新されています'
+			expect(last_response.body).to include 'other text'
+			expect(diary_of('20261007')).to include 'first text'
+		end
+
+		it 'overwrites when the shown text is sent again' do
+			replace_with('other text', (@opened.to_i - 10).to_s)
+			replace_with('other text', stamp_in(last_response.body))
+
+			expect(last_response.status).to eq 303
+			expect(diary_of('20261007')).to include 'other text'
+		end
+
+		it 'carries the stamp through the preview' do
+			post_diary('2026-10-7', 'old' => '20261007', 'replacepreview' => 'プレビュー', 'last_modified' => @opened)
+
+			expect(stamp_in(last_response.body)).to eq @opened
+		end
+
+		it 'saves posts from tools that do not send the stamp' do
+			post_diary('2026-10-7', 'old' => '20261007', 'replace' => '登録', 'body' => 'tool text')
+
+			expect(last_response.status).to eq 303
+			expect(diary_of('20261007')).to include 'tool text'
 		end
 	end
 end

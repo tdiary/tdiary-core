@@ -7,10 +7,13 @@
 <div class="form">
 	<% if @rejected.kind_of?( BadDateError ) then %>
 	<p class="message">The date "<%=h @rejected.message %>" does not exist, so the diary was not saved. Set the date again and send it once more.</p>
+	<% elsif @rejected.kind_of?( ConflictError ) then %>
+	<p class="message">This day was updated somewhere else after this form was opened. Sending it again overwrites that update.</p>
 	<% end %>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">Diary Body</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
+		<input type="hidden" name="last_modified" value="<%= @diary.last_modified.to_i %>">
 		<%=@csrf_protection%>
 		<span class="field year">
 			<input class="field" id="year" name="year" tabindex="1" accesskey="Y" size="4" value="<%= @date.year %>">-

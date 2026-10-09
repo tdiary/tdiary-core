@@ -52,6 +52,7 @@ end
 <div class="form">
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<input type="hidden" name="old" value="<%=h @old_date %>">
+		<input type="hidden" name="last_modified" value="<%=h @request.param( 'last_modified' ) %>">
 		<%=@csrf_protection%>
 		<span class="field year">
 			<input type="hidden" id="year" name="year" value="<%= @date.year %>"><%= @date.year %>年

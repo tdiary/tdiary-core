@@ -174,6 +174,7 @@ module TDiary
 		def initialize( cgi, rhtm, conf )
 			super
 			old_date = @request.param('old')
+			conflict = false
 
 			@io.transaction( @date ) do |diaries|
 				@diaries = diaries
@@ -182,6 +183,10 @@ module TDiary
 					if @date.strftime( '%Y%m%d' ) != old_date then
 						@diary.append( @body, @append )
 						@diary.set_title( @title ) if @title.length > 0
+					elsif @request.valid?( 'last_modified' ) and @request.param( 'last_modified' ).to_i != @diary.last_modified.to_i then
+						# saved from another browser after this form was opened
+						conflict = true
+						next DIRTY_NONE
 					else
 						@diary.replace( @date, @title, @body )
 					end
@@ -192,6 +197,7 @@ module TDiary
 				self << @diary
 				DIRTY_DIARY
 			end
+			raise ConflictError if conflict
 		end
 	end
 
@@ -219,6 +225,13 @@ module TDiary
 				@conf.style = diary.style if diary
 				@diary = @io.diary_factory( @date, title, body, @conf.style )
 				@diary.show( @request.param( 'hide' ) != 'true' )
+				# once the conflict is shown, sending the text again overwrites
+				# the other update
+				if diary and ( @rejected.kind_of?( ConflictError ) or not @request.valid?( 'last_modified' ) ) then
+					@diary.last_modified = diary.last_modified
+				else
+					@diary.last_modified = Time::at( @request.param( 'last_modified' ).to_i )
+				end
 				DIRTY_NONE
 			end
 		end
