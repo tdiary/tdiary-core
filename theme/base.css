@@ -284,7 +284,7 @@ div.youtube-player-wrapper {
 }
 
 /*
- * editor textarea sizing
+ * editor textarea
  *
  * The inline margins are zeroed on purpose: themes indent textareas
  * (tdiary2 uses margin-left: 3em), which would push the editor out of
@@ -296,4 +296,7 @@ textarea#body {
 	margin-inline: 0;
 	height: clamp(10rem, 33dvh, 33rem);
 	resize: vertical;
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 1.6;
 }
