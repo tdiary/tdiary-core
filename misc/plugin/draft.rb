@@ -65,6 +65,10 @@ if /\A(form|edit|preview|showcomment)\z/ === @mode then
 	# keep the drafts from closing the script element
 	add_js_setting( '$tDiary.plugin.draft.server', server.to_json.gsub( '<', '\\u003c' ) )
 	add_js_setting( '$tDiary.plugin.draft.interval', (@conf['draft.sync_interval'] || 300).to_i )
+	add_js_setting( '$tDiary.plugin.draft.label', {
+		'saved' => '下書きを保存しました (このブラウザ %local、サーバー %server)',
+		'unsent' => '未送信'
+	}.to_json )
 end
 
 if @mode == 'formplugin' and @cgi.params['plugin_draft_sync'][0] then
@@ -88,6 +92,7 @@ add_edit_proc do
 		下書き:
 		<select name="drafts"></select>
 		<button type="button" id="draft_load">読み込み</button>
+		<span id="draft_status"></span>
 		<input type="hidden" name="plugin_draft_id" value="">
 	</div>
 	EOS

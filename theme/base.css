@@ -273,6 +273,9 @@ draft plugin
 div.draft select {
 	width: 60%;
 }
+div.draft #draft_status {
+	display: inline-block;
+}
 
 /*
  * youtube plugin

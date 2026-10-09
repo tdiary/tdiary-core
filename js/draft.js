@@ -108,6 +108,13 @@ Draft.prototype = {
     });
   },
 
+  // 編集している下書きを保存した日時と、サーバーにある版の日時を返す
+  saved: function() {
+    var item = DraftUtils.find(this.items, this.current);
+    if (!item) { return null; }
+    return { local: item.date, server: this.synced[item.id] };
+  },
+
   // 最大でmaxCount件数の履歴を保持
   truncate: function() {
     this.items.sort(function(a, b) { return a.date - b.date; });
@@ -149,6 +156,12 @@ var DraftUtils = {
         return s;
       }
   },
+  // 日時を HH:MM 形式に変換する（今日でなければ YYYY-mm-dd HH:MM 形式）
+  timeToString: function(date) {
+    var text = DraftUtils.dateToString(date).slice(0, -3);
+    var today = DraftUtils.dateToString().slice(0, 10);
+    return text.slice(0, 10) == today ? text.slice(11) : text;
+  },
   // 文字列から改行と空白文字を取り除く
   trim: function(str) {
     return str.replace(/\s+/g, "");
@@ -172,6 +185,10 @@ var textarea = $("[name=body]");
 var form = textarea.closest("form");
 // 下書き一覧を表示するセレクトボックス
 var select = $("[name=drafts]");
+// 下書きを保存した時刻の表示
+var status = $("#draft_status");
+// 表示する文言
+var label = $tDiary.plugin.draft.label;
 // 自動保存の間隔（ミリ秒）
 var autoSaveInterval = 5 * 1000;
 // サーバーへ保存する間隔（ミリ秒）
@@ -184,6 +201,7 @@ var syncing = false;
 saveDraft = function() {
   draft.save(textarea.val());
   showSelectForm(true);
+  showSaved();
 };
 // 下書き読み込み
 loadDraft = function() {
@@ -193,6 +211,7 @@ loadDraft = function() {
     $.replaceText(textarea[0], value, 0, textarea.val().length);
   }
   showSelectForm(false);
+  showSaved();
 };
 // サーバーに無い下書きをサーバーへ保存
 syncDraft = function(keepalive) {
@@ -209,7 +228,10 @@ syncDraft = function(keepalive) {
   syncing = true;
   fetch(form.attr("action"), { method: "POST", body: params, keepalive: keepalive })
     .then(function(response) {
-      if (response.ok) { draft.markSynced(items); }
+      if (response.ok) {
+        draft.markSynced(items);
+        showSaved();
+      }
     }, function() {})
     .then(function() { syncing = false; });
 };
@@ -224,6 +246,14 @@ showSelectForm = function(keepSelection) {
     selected = draft.current || select.children().last().val();
   }
   select.val(selected);
+};
+// 下書きを保存した時刻を、このブラウザとサーバーに分けて表示
+showSaved = function() {
+  var saved = draft.saved();
+  if (!saved) { return; }
+  var local = DraftUtils.timeToString(new Date(saved.local));
+  var server = saved.server ? DraftUtils.timeToString(new Date(saved.server)) : label.unsent;
+  status.text(label.saved.replace("%local", local).replace("%server", server));
 };
 
 // DOMイベント設定
@@ -245,6 +275,7 @@ form.submit(function() {
 });
 
 showSelectForm(false);
+showSaved();
 // console.log("ready");
 
 });

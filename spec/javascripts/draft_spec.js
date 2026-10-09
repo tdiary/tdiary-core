@@ -16,6 +16,7 @@ describe("draft.js", function() {
         <textarea id="body" name="body">${options.body || ''}</textarea>
         <select name="drafts"></select>
         <button type="button" id="draft_load">load</button>
+        <span id="draft_status"></span>
         <input type="hidden" name="plugin_draft_id" value="">
       </form>
     </body></html>`, { url: 'http://localhost/update.rb', runScripts: 'outside-only', pretendToBeVisual: true });
@@ -24,7 +25,8 @@ describe("draft.js", function() {
     win.eval(defaultSource);
     win.$tDiary = { plugin: { draft: {
       server: Object.assign({ drafts: [], deleted: [], max: 10 }, options.server),
-      interval: 300
+      interval: 300,
+      label: { saved: 'saved: here %local, server %server', unsent: 'not yet' }
     } } };
     if (options.local) {
       win.localStorage.drafts = JSON.stringify(options.local);
@@ -51,6 +53,15 @@ describe("draft.js", function() {
   function submittedId() {
     win.$('form').triggerHandler('submit');
     return win.$('[name=plugin_draft_id]').val();
+  }
+
+  function status() {
+    return win.$('#draft_status').text();
+  }
+
+  function clock(time) {
+    const date = new Date(time);
+    return [date.getHours(), date.getMinutes()].map(n => String(n).padStart(2, '0')).join(':');
   }
 
   afterEach(function() {
@@ -160,6 +171,33 @@ describe("draft.js", function() {
       await hide();
       await hide();
       expect(win.fetch).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe("the time of the last save", function() {
+    it("is not shown while the diary is as it was opened", async function() {
+      await boot({ body: 'existing diary' });
+      expect(status()).toEqual('');
+    });
+
+    it("tells the save in this browser from the one on the server", async function() {
+      await boot({ body: 'existing diary' });
+      win.$('#body').val('changed').trigger('change');
+      const saved = clock(stored()[0].date);
+      expect(status()).toEqual(`saved: here ${saved}, server not yet`);
+      await hide();
+      expect(status()).toEqual(`saved: here ${saved}, server ${saved}`);
+    });
+
+    it("shows the date of a save made on another day", async function() {
+      const local = new Date(2026, 0, 2, 3, 4, 5).getTime();
+      const server = new Date(2026, 0, 1, 23, 45, 0).getTime();
+      await boot({
+        body: 'same text',
+        local: [{ id: 'a1', date: local, value: 'same text' }],
+        server: { drafts: [{ id: 'a1', date: server, value: 'older text' }] }
+      });
+      expect(status()).toEqual('saved: here 2026-01-02 03:04, server 2026-01-01 23:45');
     });
   });
 });
