@@ -559,6 +559,8 @@ def preview_command
 	end
 end
 
+enable_js( 'update_preview.js' ) if /\A(form|edit|preview|showcomment|formplugin)\z/ =~ @mode
+
 #
 # make comment form
 #
