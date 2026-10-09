@@ -26,7 +26,10 @@ describe("draft.js", function() {
     win.$tDiary = { plugin: { draft: {
       server: Object.assign({ drafts: [], deleted: [], max: 10 }, options.server),
       interval: 300,
-      label: { saved: 'saved: here %local, server %server', unsent: 'not yet' }
+      label: {
+        saved: 'saved: here %local, server %server', unsent: 'not yet',
+        found: 'found %title', restore: 'restore', dismiss: 'dismiss'
+      }
     } } };
     if (options.local) {
       win.localStorage.drafts = JSON.stringify(options.local);
@@ -57,6 +60,10 @@ describe("draft.js", function() {
 
   function status() {
     return win.$('#draft_status').text();
+  }
+
+  function notice() {
+    return win.$('.draft-notice');
   }
 
   function clock(time) {
@@ -198,6 +205,39 @@ describe("draft.js", function() {
         server: { drafts: [{ id: 'a1', date: server, value: 'older text' }] }
       });
       expect(status()).toEqual('saved: here 2026-01-02 03:04, server 2026-01-01 23:45');
+    });
+  });
+
+  describe("a draft newer than the body", function() {
+    it("is offered above the body and restored in one click", async function() {
+      const date = new Date(2026, 0, 2, 3, 4, 5).getTime();
+      await boot({ body: 'existing diary', local: [{ id: 'a1', date: 1, value: 'older' }, { id: 'b2', date: date, value: 'newer' }] });
+      expect(notice().text()).toEqual('found newer (2026-01-02 03:04:05) restore dismiss');
+      expect(win.$('#body').prev().is(notice())).toBe(true);
+      notice().find('button:contains(restore)').trigger('click');
+      expect(win.$('#body').val()).toEqual('newer');
+      expect(submittedId()).toEqual('b2');
+      expect(notice().length).toEqual(0);
+    });
+
+    it("is not offered when it holds the body", async function() {
+      await boot({ body: 'same text\n', local: [{ id: 'a1', date: 1, value: 'other' }, { id: 'b2', date: 2, value: 'same text' }] });
+      expect(notice().length).toEqual(0);
+    });
+
+    it("is not offered again once dismissed until it changes", async function() {
+      await boot({ local: [{ id: 'a1', date: 1, value: 'draft' }] });
+      notice().find('button:contains(dismiss)').trigger('click');
+      expect(notice().length).toEqual(0);
+      const dismissed = stored();
+      win.close();
+
+      await boot({ local: dismissed });
+      expect(notice().length).toEqual(0);
+      win.close();
+
+      await boot({ local: dismissed, server: { drafts: [{ id: 'a1', date: 2, value: 'changed elsewhere' }] } });
+      expect(notice().length).toEqual(1);
     });
   });
 });

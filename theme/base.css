@@ -276,6 +276,10 @@ div.draft select {
 div.draft #draft_status {
 	display: inline-block;
 }
+p.draft-notice {
+	border: solid 1px #999;
+	padding: 4px 8px;
+}
 
 /*
  * youtube plugin

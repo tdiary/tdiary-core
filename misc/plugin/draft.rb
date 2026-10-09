@@ -67,7 +67,10 @@ if /\A(form|edit|preview|showcomment)\z/ === @mode then
 	add_js_setting( '$tDiary.plugin.draft.interval', (@conf['draft.sync_interval'] || 300).to_i )
 	add_js_setting( '$tDiary.plugin.draft.label', {
 		'saved' => '下書きを保存しました (このブラウザ %local、サーバー %server)',
-		'unsent' => '未送信'
+		'unsent' => '未送信',
+		'found' => '未投稿の下書きがあります: %title',
+		'restore' => '復元する',
+		'dismiss' => '閉じる'
 	}.to_json )
 end
 

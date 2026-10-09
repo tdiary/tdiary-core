@@ -115,6 +115,21 @@ Draft.prototype = {
     return { local: item.date, server: this.synced[item.id] };
   },
 
+  // テキストエリアと異なる最新の下書きを返す（勧めるのを断られた版は除く）
+  latest: function() {
+    var item = this.items[this.items.length - 1];
+    if (!item || item.id == this.current || item.dismissed == item.date) { return null; }
+    return item;
+  },
+
+  // 指定した下書きのこの版を、次から勧めない
+  dismiss: function(id) {
+    var item = DraftUtils.find(this.items, id);
+    if (!item) { return; }
+    item.dismissed = item.date;
+    this.store();
+  },
+
   // 最大でmaxCount件数の履歴を保持
   truncate: function() {
     this.items.sort(function(a, b) { return a.date - b.date; });
@@ -255,6 +270,24 @@ showSaved = function() {
   var server = saved.server ? DraftUtils.timeToString(new Date(saved.server)) : label.unsent;
   status.text(label.saved.replace("%local", local).replace("%server", server));
 };
+// 本文と異なる新しい下書きがあれば、テキストエリアの上で復元を勧める
+offerDraft = function() {
+  var item = draft.latest();
+  if (!item) { return; }
+  var title = DraftUtils.find(draft.titles(), item.id).title;
+  var notice = $("<p/>").addClass("draft-notice")
+    .text(label.found.replace("%title", function() { return title; }));
+  notice.append(" ", $("<button type='button'/>").text(label.restore).click(function() {
+    select.val(item.id);
+    loadDraft();
+    notice.remove();
+  }));
+  notice.append(" ", $("<button type='button'/>").text(label.dismiss).click(function() {
+    draft.dismiss(item.id);
+    notice.remove();
+  }));
+  textarea.before(notice);
+};
 
 // DOMイベント設定
 $("#draft_load").click(loadDraft);
@@ -276,6 +309,7 @@ form.submit(function() {
 
 showSelectForm(false);
 showSaved();
+offerDraft();
 // console.log("ready");
 
 });
