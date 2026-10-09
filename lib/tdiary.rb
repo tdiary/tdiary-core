@@ -78,6 +78,7 @@ module TDiary
 	autoload :TDiaryEdit,               'tdiary/admin'
 	autoload :TDiaryPreview,            'tdiary/admin'
 	autoload :TDiaryUpdate,             'tdiary/admin'
+	autoload :TDiaryRetry,              'tdiary/admin'
 	autoload :TDiaryAppend,             'tdiary/admin'
 	autoload :TDiaryReplace,            'tdiary/admin'
 	autoload :TDiaryShowComment,        'tdiary/admin'
@@ -102,6 +103,7 @@ module TDiary
 	class PluginError < TDiaryError; end
 	class BadStyleError < TDiaryError; end
 	class NotFound < TDiaryError;	end
+	class BadDateError < TDiaryError; end
 
 	# class ForceRedirect
 	#  force redirect to another page

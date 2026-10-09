@@ -22,6 +22,9 @@ end
 <div class="update day">
 <h2><span class="title">日記の更新</span></h2>
 <div class="form">
+	<% if @rejected.kind_of?( BadDateError ) then %>
+	<p class="message">日付「<%=h @rejected.message %>」は存在しないため、保存していません。日付を指定し直して、もう一度送ってください。</p>
+	<% end %>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">日記本文</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">

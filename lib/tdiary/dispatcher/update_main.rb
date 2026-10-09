@@ -58,6 +58,12 @@ module TDiary
 					else
 						tdiary = TDiary::TDiaryForm::new( request, 'update.rhtml', conf )
 					end
+				rescue TDiary::BadDateError
+					if %w(append replace appendpreview replacepreview).any? {|key| params[key] }
+						tdiary = TDiary::TDiaryRetry::new( request, 'update.rhtml', conf, $! )
+					else
+						tdiary = TDiary::TDiaryForm::new( request, 'update.rhtml', conf )
+					end
 				rescue TDiary::TDiaryError
 					tdiary = TDiary::TDiaryForm::new( request, 'update.rhtml', conf )
 				end

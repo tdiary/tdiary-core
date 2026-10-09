@@ -5,6 +5,9 @@
 <div class="update day">
 <h2><span class="title">Updating Diary</span></h2>
 <div class="form">
+	<% if @rejected.kind_of?( BadDateError ) then %>
+	<p class="message">The date "<%=h @rejected.message %>" does not exist, so the diary was not saved. Set the date again and send it once more.</p>
+	<% end %>
 	<form class="update" method="post" action="<%=h @conf.update %>"><div>
 		<h3 class="subtitle">Diary Body</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">

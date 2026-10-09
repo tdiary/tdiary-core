@@ -7,11 +7,18 @@ module TDiary
 		def initialize( cgi, rhtml, conf )
 			super
 
+			ymd = %w(year month day).map {|key| @request.param( key ) }
 			begin
-				@date = Time::local( @request.param('year').to_i, @request.param('month').to_i, @request.param('day').to_i )
-			rescue ArgumentError, NameError
-				raise TDiaryError, 'bad date'
+				y, m, d = ymd.map( &:to_i )
+			rescue NameError
+				raise BadDateError, 'bad date'
 			end
+			# Time::local would roll 2/30 over into March, and the data files
+			# are named after a four digit year
+			unless (1000..9999).cover?( y ) and Date.valid_date?( y, m, d )
+				raise BadDateError, ymd.join( '-' )
+			end
+			@date = Time::local( y, m, d )
 		end
 	end
 
@@ -135,6 +142,8 @@ module TDiary
 			begin
 				super
 			rescue TDiaryError
+				# a post without a date goes to today, a wrong date to nowhere
+				raise if %w(year month day).any? {|key| @request.valid?( key ) }
 				@date = newdate
 			end
 
@@ -182,6 +191,47 @@ module TDiary
 				@diary.show( ! @hide )
 				self << @diary
 				DIRTY_DIARY
+			end
+		end
+	end
+
+	#
+	# class TDiaryRetry
+	#  show the update form again with the text that was not saved
+	#
+	class TDiaryRetry < TDiaryAuthorOnlyBase
+		def initialize( request, rhtml, conf, rejected )
+			super( request, rhtml, conf )
+			@rejected = rejected
+
+			y, m, d = @request.param( 'old' ).to_s.scan( /\A(\d{4})(\d\d)(\d\d)\z/ )[0]
+			if y and Date.valid_date?( y.to_i, m.to_i, d.to_i ) then
+				@date = Time::local( y.to_i, m.to_i, d.to_i )
+			else
+				@date = Time::now + (@conf.hour_offset * 3600).to_i
+			end
+			title = @conf.to_native( @request.param( 'title' ) || '' )
+			body = @conf.to_native( @request.param( 'body' ) || '' )
+
+			@io.transaction( @date ) do |diaries|
+				@diaries = diaries
+				diary = self[@date]
+				@conf.style = diary.style if diary
+				@diary = @io.diary_factory( @date, title, body, @conf.style )
+				@diary.show( @request.param( 'hide' ) != 'true' )
+				DIRTY_NONE
+			end
+		end
+
+	protected
+
+		# plugins add their parts of the form by mode, so keep the one the
+		# rejected form had
+		def mode
+			if @request.valid?( 'append' ) or @request.valid?( 'appendpreview' ) then
+				'form'
+			else
+				'edit'
 			end
 		end
 	end
