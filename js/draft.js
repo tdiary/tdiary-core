@@ -201,7 +201,8 @@ var form = textarea.closest("form");
 // 下書き一覧を表示するセレクトボックス
 var select = $("[name=drafts]");
 // 下書きを保存した時刻の表示
-var status = $("#draft_status");
+// ボタンより上に置くと、ボタンを押したときの change で表示が増えてボタンがずれ、クリックが外れる
+var status = $("<p/>").addClass("draft-status").appendTo(form);
 // 表示する文言
 var label = $tDiary.plugin.draft.label;
 // 自動保存の間隔（ミリ秒）

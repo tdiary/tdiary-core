@@ -16,8 +16,8 @@ describe("draft.js", function() {
         <textarea id="body" name="body">${options.body || ''}</textarea>
         <select name="drafts"></select>
         <button type="button" id="draft_load">load</button>
-        <span id="draft_status"></span>
         <input type="hidden" name="plugin_draft_id" value="">
+        <input type="submit" name="append" value="save">
       </form>
     </body></html>`, { url: 'http://localhost/update.rb', runScripts: 'outside-only', pretendToBeVisual: true });
     win = dom.window;
@@ -59,7 +59,7 @@ describe("draft.js", function() {
   }
 
   function status() {
-    return win.$('#draft_status').text();
+    return win.$('.draft-status').text();
   }
 
   function notice() {
@@ -185,6 +185,11 @@ describe("draft.js", function() {
     it("is not shown while the diary is as it was opened", async function() {
       await boot({ body: 'existing diary' });
       expect(status()).toEqual('');
+    });
+
+    it("is put below the submit button so that the button does not move under the cursor", async function() {
+      await boot({ body: 'existing diary' });
+      expect(win.$('[name=append]').nextAll('.draft-status').length).toEqual(1);
     });
 
     it("tells the save in this browser from the one on the server", async function() {

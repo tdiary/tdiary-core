@@ -95,7 +95,6 @@ add_edit_proc do
 		下書き:
 		<select name="drafts"></select>
 		<button type="button" id="draft_load">読み込み</button>
-		<span id="draft_status"></span>
 		<input type="hidden" name="plugin_draft_id" value="">
 	</div>
 	EOS
