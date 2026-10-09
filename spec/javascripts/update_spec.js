@@ -103,4 +103,26 @@ describe("update.js", function() {
       expect(leave()).toBe(true);
     });
   });
+
+  describe("sending the form", function() {
+    it("sends a save only once", async function() {
+      await boot();
+      expect(submitWith('replace')).toBe(false);
+      expect(submitWith('replace')).toBe(true);
+      expect(submitWith('replacepreview')).toBe(true);
+    });
+
+    it("sends again after coming back to the page", async function() {
+      await boot();
+      submitWith('replace');
+      win.dispatchEvent(new win.Event('pageshow'));
+      expect(submitWith('replace')).toBe(false);
+    });
+
+    it("does not count opening another day as a save", async function() {
+      await boot();
+      submitWith('edit');
+      expect(submitWith('replace')).toBe(false);
+    });
+  });
 });

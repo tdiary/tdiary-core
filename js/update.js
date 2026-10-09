@@ -34,9 +34,17 @@ $(function() {
 		}
 	});
 
+	// a second press while the first post is on its way appends the text twice
 	form.on('submit', function(e) {
 		var submitter = e.originalEvent && e.originalEvent.submitter;
 		if (submitter && submitter.name == 'edit') { return; }
+		if (saving) {
+			e.preventDefault();
+		}
 		saving = true;
+	});
+
+	$(window).on('pageshow', function() {
+		saving = false;
 	});
 });
