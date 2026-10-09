@@ -6,11 +6,11 @@ const jquerySource = fs.readFileSync(path.join(__dirname, '../../node_modules/jq
 const updateSource = fs.readFileSync(path.join(__dirname, '../../js/update.js'), 'utf8');
 
 describe("update.js", function() {
-  let win, title, body;
+  let win, form, title, body;
 
-  async function boot() {
+  async function boot(unsaved) {
     const dom = new JSDOM(`<!DOCTYPE html><html><body>
-      <form class="update" method="post" action="update.rb">
+      <form class="update" method="post" action="update.rb"${unsaved ? ' data-unsaved="true"' : ''}>
         <input name="year" value="2026">
         <input type="submit" name="edit" value="edit this day">
         <input id="title" name="title" value="title">
@@ -23,6 +23,7 @@ describe("update.js", function() {
     win.eval(jquerySource);
     win.eval(updateSource);
     await new Promise(resolve => win.$(resolve));
+    form = win.document.querySelector('form');
     title = win.document.getElementById('title');
     body = win.document.getElementById('body');
   }
@@ -31,6 +32,18 @@ describe("update.js", function() {
     const event = new win.KeyboardEvent('keydown', Object.assign({ key: 'Enter', bubbles: true, cancelable: true }, init));
     target.dispatchEvent(event);
     return event;
+  }
+
+  function leave() {
+    const event = new win.Event('beforeunload', { cancelable: true });
+    win.dispatchEvent(event);
+    return event.defaultPrevented;
+  }
+
+  function submitWith(name) {
+    const event = new win.SubmitEvent('submit', { bubbles: true, cancelable: true, submitter: form.elements[name] });
+    form.dispatchEvent(event);
+    return event.defaultPrevented;
   }
 
   afterEach(function() {
@@ -50,6 +63,44 @@ describe("update.js", function() {
       title.focus();
       expect(press(title, { isComposing: true }).defaultPrevented).toBe(false);
       expect(win.document.activeElement).toBe(title);
+    });
+  });
+
+  describe("leaving the page", function() {
+    it("goes on when nothing was changed", async function() {
+      await boot();
+      expect(leave()).toBe(false);
+    });
+
+    it("asks when the body was changed", async function() {
+      await boot();
+      body.value = 'saved text and more';
+      expect(leave()).toBe(true);
+    });
+
+    it("asks when the title was changed", async function() {
+      await boot();
+      title.value = 'new title';
+      expect(leave()).toBe(true);
+    });
+
+    it("asks on a page holding text that was never saved", async function() {
+      await boot(true);
+      expect(leave()).toBe(true);
+    });
+
+    it("goes on while the text is being saved", async function() {
+      await boot();
+      body.value = 'saved text and more';
+      submitWith('replace');
+      expect(leave()).toBe(false);
+    });
+
+    it("asks when another day is opened over changed text", async function() {
+      await boot();
+      body.value = 'saved text and more';
+      submitWith('edit');
+      expect(leave()).toBe(true);
     });
   });
 });

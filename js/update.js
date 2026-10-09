@@ -19,4 +19,24 @@ $(function() {
 			body.focus();
 		}
 	});
+
+	var saving = false;
+	var unsaved = function() {
+		return form.data('unsaved') ||
+			title.val() != title.prop('defaultValue') ||
+			body.val() != body.prop('defaultValue');
+	};
+
+	$(window).on('beforeunload', function(e) {
+		if (!saving && unsaved()) {
+			e.preventDefault();
+			e.originalEvent.returnValue = '';
+		}
+	});
+
+	form.on('submit', function(e) {
+		var submitter = e.originalEvent && e.originalEvent.submitter;
+		if (submitter && submitter.name == 'edit') { return; }
+		saving = true;
+	});
 });

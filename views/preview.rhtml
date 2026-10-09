@@ -50,7 +50,7 @@ end
 <div class="update day">
 <h2><span class="title">更新フォーム</span></h2>
 <div class="form">
-	<form class="update" method="post" action="<%=h @conf.update %>"><div>
+	<form class="update" method="post" action="<%=h @conf.update %>" data-unsaved="true"><div>
 		<input type="hidden" name="old" value="<%=h @old_date %>">
 		<input type="hidden" name="last_modified" value="<%=h @request.param( 'last_modified' ) %>">
 		<%=@csrf_protection%>

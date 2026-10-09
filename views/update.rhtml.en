@@ -10,7 +10,7 @@
 	<% elsif @rejected.kind_of?( ConflictError ) then %>
 	<p class="message">This day was updated somewhere else after this form was opened. Sending it again overwrites that update.</p>
 	<% end %>
-	<form class="update" method="post" action="<%=h @conf.update %>"><div>
+	<form class="update" method="post" action="<%=h @conf.update %>"<% if @rejected then %> data-unsaved="true"<% end %>><div>
 		<h3 class="subtitle">Diary Body</h3>
 		<input type="hidden" name="old" value="<%= @date.strftime( '%Y%m%d' ) %>">
 		<input type="hidden" name="last_modified" value="<%= @diary.last_modified.to_i %>">
