@@ -276,6 +276,53 @@ RSpec.shared_examples 'CGI compatible request facade' do
 		it 'provides the plain field content' do
 			expect(read_value(cgi.params['title'][0])).to eq 'multipart title'
 		end
+
+		# cgi.rb gave uploaded files original_filename, content_type and
+		# local_path, which file upload plugins rely on
+		describe 'file field' do
+			let(:file) { cgi.params['date'][0] }
+
+			it { expect(file.read).to eq '20260101' }
+			it { expect(file.original_filename).to eq 'date.txt' }
+			it { expect(file.content_type).to eq 'text/plain' }
+
+			it 'exposes the path of the uploaded file as local_path' do
+				expect(File.read(file.local_path)).to eq '20260101'
+			end
+		end
+
+		# cgi.rb returned the other parts as Strings responding to read,
+		# original_filename and content_type
+		describe 'plain field' do
+			let(:value) { cgi.params['title'][0] }
+
+			it { expect(value).to be_a(String) }
+			it { expect(value).to eq 'multipart title' }
+			it { expect(value.encoding).to eq Encoding::UTF_8 }
+			it { expect(value.read).to eq 'multipart title' }
+			it { expect(value.original_filename).to eq '' }
+			it { expect(value.content_type).to eq '' }
+		end
+	end
+
+	describe 'non-multipart POST' do
+		let(:cgi) {
+			build_cgi(
+				{
+					'REQUEST_METHOD' => 'POST',
+					'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+				},
+				body: 'title=plain'
+			)
+		}
+
+		# the multipart helpers are attached only to multipart values
+		it 'returns plain Strings without the multipart interface' do
+			value = cgi.params['title'][0]
+			expect(value).to eq 'plain'
+			expect(value).not_to respond_to(:read)
+			expect(value).not_to respond_to(:original_filename)
+		end
 	end
 end
 
