@@ -97,10 +97,37 @@ module TDiary
 
 	private
 
+		# the interface cgi.rb gave to an uploaded file in a multipart request
+		module CGIMultipartFile
+			attr_reader :original_filename, :content_type
+
+			def local_path
+				path
+			end
+		end
+
+		# cgi.rb returned the other parts of a multipart request as Strings
+		# responding to read, so plugins call params[key][0].read on them
+		module CGIMultipartValue
+			def read
+				self
+			end
+
+			def original_filename
+				''
+			end
+
+			def content_type
+				''
+			end
+		end
+
 		def build_cgi_params
+			multipart = false
 			source =
 				if env['REQUEST_METHOD'] == 'POST'
 					if %r|\Amultipart/form-data|.match?( env['CONTENT_TYPE'].to_s )
+						multipart = true
 						self.POST
 					else
 						# Rack's nested query parser behind Rack::Request#POST keeps
@@ -116,7 +143,7 @@ module TDiary
 			params = {}
 			source.each do |key, value|
 				values = value.kind_of?( Array ) ? value : [value]
-				params[key] = values.map {|v| normalize_cgi_value( v ) }
+				params[key] = values.map {|v| normalize_cgi_value( v, multipart ) }
 			end
 			params.default = []
 			params
@@ -133,13 +160,16 @@ module TDiary
 			body || ''
 		end
 
-		def normalize_cgi_value( value )
+		def normalize_cgi_value( value, multipart = false )
 			if value.kind_of?( Hash ) and value[:tempfile]
-				# Rack multipart file upload: expose an object responding to
-				# read, which is all the consumers use
-				value[:tempfile]
+				# Rack multipart file upload: restore the cgi.rb interface
+				file = value[:tempfile]
+				file.instance_variable_set( :@original_filename, value[:filename].to_s )
+				file.instance_variable_set( :@content_type, value[:type].to_s )
+				file.extend( CGIMultipartFile )
 			else
-				repair_encoding( value.to_s )
+				str = repair_encoding( value.to_s )
+				multipart ? str.dup.extend( CGIMultipartValue ) : str
 			end
 		end
 
