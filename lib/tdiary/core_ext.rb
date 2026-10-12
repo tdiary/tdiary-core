@@ -126,9 +126,12 @@ module TDiary
 			multipart = false
 			source =
 				if env['REQUEST_METHOD'] == 'POST'
-					if %r|\Amultipart/form-data|.match?( env['CONTENT_TYPE'].to_s )
+					if media_type == 'multipart/form-data'
 						multipart = true
-						self.POST
+						# Rack::Request#POST nests 'a[b]' and keeps only the last of
+						# duplicated names; form_pairs, which POST is built from, keeps
+						# them flat like CGI (image.js posts several files under one name)
+						form_pairs
 					else
 						# Rack's nested query parser behind Rack::Request#POST keeps
 						# only the last of duplicated keys; CGI collects all of them.
@@ -143,7 +146,7 @@ module TDiary
 			params = {}
 			source.each do |key, value|
 				values = value.kind_of?( Array ) ? value : [value]
-				params[key] = values.map {|v| normalize_cgi_value( v, multipart ) }
+				( params[key] ||= [] ).concat( values.map {|v| normalize_cgi_value( v, multipart ) } )
 			end
 			params.default = []
 			params
