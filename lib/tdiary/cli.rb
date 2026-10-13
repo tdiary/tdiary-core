@@ -20,7 +20,7 @@ module TDiary
 			template('misc/templates/Gemfile.local.erb', File.join(target, 'Gemfile.local'))
 
 			unless options[:'skip-bundle']
-				Bundler.with_clean_env do
+				Bundler.with_unbundled_env do
 					inside(target) do
 						run('bundle install --without test development')
 						run('bundle exec tdiary htpasswd')
@@ -46,7 +46,7 @@ module TDiary
 			deploy(target)
 
 			unless options[:'skip-bundle']
-				Bundler.with_clean_env do
+				Bundler.with_unbundled_env do
 					inside(target) do
 						run('bundle install --without test development')
 					end
@@ -78,7 +78,7 @@ module TDiary
 			directory('spec', File.join(target, 'spec'))
 			directory('test', File.join(target, 'test'))
 
-			Bundler.with_clean_env do
+			Bundler.with_unbundled_env do
 				inside(target) do
 					run('bundle install')
 					run('bundle exec rake spec')
