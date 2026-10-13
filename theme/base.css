@@ -289,6 +289,7 @@ div.youtube-player-wrapper {
  * The inline margins are zeroed on purpose: themes indent textareas
  * (tdiary2 uses margin-left: 3em), which would push the editor out of
  * line with the fields above it.
+ * The font likewise overrides theme textarea fonts on purpose.
  */
 textarea#body {
 	box-sizing: border-box;
