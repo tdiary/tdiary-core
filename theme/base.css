@@ -297,7 +297,7 @@ textarea#body {
 	height: clamp(10rem, 33dvh, 33rem);
 	resize: vertical;
 	font-family: inherit;
-	font-size: 16px;
+	font-size: max(16px, 1rem);
 	line-height: 1.6;
 }
 
