@@ -146,8 +146,10 @@ def amazon_book_json(item_id)
 	{'ItemsResult' => {'Items' => [item]}}.to_json if item
 end
 
-def amazon_dp_link(asin, label)
-	url = "https://www.amazon.co.jp/dp/#{asin}"
+# Amazon has a page for the ISBN-10 of a book but not for its ISBN-13
+def amazon_dp_link(item_id, label)
+	item_id = AWS::PAAPI.isbn13to10(item_id) if /\A978\d{10}\z/ =~ item_id
+	url = "https://www.amazon.co.jp/dp/#{item_id}"
 	%Q|<a href="#{h url}">#{h(label || url)}</a>|
 end
 
@@ -183,7 +185,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 			else
 				json = amazon_book_json(item_id)
 				unless json
-					return File::exist?(file) ? amazon_dp_link(asin, label) : asin
+					return File::exist?(file) ? amazon_dp_link(item_id, label) : asin
 				end
 			end
 			File::open(file, 'wb'){|f| f.write(json)}
@@ -213,7 +215,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		message = ''
 		# Handle 429 "Too Many Requests" and 403 "Forbidden"
 		if /^429|^403/ =~ e.message then
-			message << amazon_dp_link(asin, label)
+			message << amazon_dp_link(item_id, label)
 		end
 		if @mode == 'preview' then
 			message << %Q|<span class="message">(#{h e.message})</span>|

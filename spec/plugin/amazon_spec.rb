@@ -138,6 +138,14 @@ describe "amazon plugin" do
 		expect( plugin.isbn_image( '4873119049', 'TypeScript' ) ).to eq '<a href="https://www.amazon.co.jp/dp/4873119049">TypeScript</a>'
 	end
 
+	it "links to the page of the ISBN-10 for a book given by ISBN-13" do
+		amazon_refuses
+		rakuten_returns
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '978-4-87311-904-5', 'TypeScript' ) ).to eq '<a href="https://www.amazon.co.jp/dp/4873119049">TypeScript</a>'
+	end
+
 	it "doesn't look up items other than books" do
 		rakuten_returns( book )
 		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
