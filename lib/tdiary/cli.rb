@@ -22,7 +22,8 @@ module TDiary
 			unless options[:'skip-bundle']
 				Bundler.with_unbundled_env do
 					inside(target) do
-						run('bundle install --without test development')
+						run('bundle config set --local without test:development')
+						run('bundle install')
 						run('bundle exec tdiary htpasswd')
 					end
 				end
@@ -48,7 +49,8 @@ module TDiary
 			unless options[:'skip-bundle']
 				Bundler.with_unbundled_env do
 					inside(target) do
-						run('bundle install --without test development')
+						run('bundle config set --local without test:development')
+						run('bundle install')
 					end
 				end
 			end
