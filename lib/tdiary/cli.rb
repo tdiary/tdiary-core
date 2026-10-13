@@ -10,6 +10,10 @@ module TDiary
 			File.expand_path('../../..', __FILE__)
 		end
 
+		def self.exit_on_failure?
+			true
+		end
+
 		desc "new DIR_NAME", "Create a new tDiary directory"
 		method_option "skip-bundle", type: :boolean, banner:
 			"don't run bundle and .htpasswd generation"
