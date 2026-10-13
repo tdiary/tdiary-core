@@ -9,9 +9,11 @@ $(function() {
 
 if (!localStorage) { return; }
 
-var Draft = function(storage, text, server) {
+var Draft = function(storage, text, server, form) {
   // 保存先のストレージ
   this.storage = storage;
+  // このページのフォーム（追記か編集かと、その日付）
+  this.form = form;
   // 下書きの保存件数
   this.maxCount = server.max;
   // 下書き一覧
@@ -42,6 +44,7 @@ Draft.prototype = {
       } else if (local.date < remote.date) {
         local.date = remote.date;
         local.value = remote.value;
+        local.form = remote.form;
       }
     });
     // 空の下書きと、日記として投稿済みの下書きを削除する
@@ -78,6 +81,7 @@ Draft.prototype = {
     }
     item.date = new Date().getTime();
     item.value = text;
+    item.form = this.form;
     this.items.push(item);
     this.truncate();
     this.store();
@@ -115,10 +119,13 @@ Draft.prototype = {
     return { local: item.date, server: this.synced[item.id] };
   },
 
-  // テキストエリアと異なる最新の下書きを返す（勧めるのを断られた版は除く）
+  // このフォームで書いた最新の下書きを、テキストエリアと異なり勧めるのを断られていなければ返す
+  // 別の日や、追記と編集の間で勧めると、復元してそのまま登録したときに日記が重複したり消えたりする
   latest: function() {
-    var item = this.items[this.items.length - 1];
-    if (!item || item.id == this.current || item.dismissed == item.date) { return null; }
+    var form = this.form;
+    var item = $.grep(this.items, function(item) { return item.form == form; }).pop();
+    if (!item || DraftUtils.trim(item.value) == DraftUtils.trim(this.text) ||
+        item.dismissed == item.date) { return null; }
     return item;
   },
 
@@ -198,6 +205,9 @@ var DraftUtils = {
 var textarea = $("[name=body]");
 // 日記の更新フォーム
 var form = textarea.closest("form");
+// 追記か編集かと、フォームを開いた日付（例: "replace:20261008"）
+var formKey = (form.find("[name=replace]").length ? "replace:" : "append:") +
+  (form.find("[name=old]").val() || "");
 // 下書き一覧を表示するセレクトボックス
 var select = $("[name=drafts]");
 // 下書きを保存した時刻の表示
@@ -210,7 +220,7 @@ var autoSaveInterval = 5 * 1000;
 // サーバーへ保存する間隔（ミリ秒）
 var syncInterval = $tDiary.plugin.draft.interval * 1000;
 
-var draft = new Draft(localStorage, textarea.val(), $tDiary.plugin.draft.server);
+var draft = new Draft(localStorage, textarea.val(), $tDiary.plugin.draft.server, formKey);
 var syncing = false;
 
 // 下書き保存
@@ -232,7 +242,7 @@ loadDraft = function() {
 // サーバーに無い下書きをサーバーへ保存
 syncDraft = function(keepalive) {
   var items = $.map(draft.pending(), function(item) {
-    return { id: item.id, date: item.date, value: item.value };
+    return { id: item.id, date: item.date, value: item.value, form: item.form };
   });
   if (syncing || items.length == 0) { return; }
   var params = new URLSearchParams();

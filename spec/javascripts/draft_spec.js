@@ -16,8 +16,9 @@ describe("draft.js", function() {
         <textarea id="body" name="body">${options.body || ''}</textarea>
         <select name="drafts"></select>
         <button type="button" id="draft_load">load</button>
+        <input type="hidden" name="old" value="${options.old || '20261008'}">
         <input type="hidden" name="plugin_draft_id" value="">
-        <input type="submit" name="append" value="save">
+        <input type="submit" name="${options.command || 'append'}" value="save">
       </form>
     </body></html>`, { url: 'http://localhost/update.rb', runScripts: 'outside-only', pretendToBeVisual: true });
     win = dom.window;
@@ -87,10 +88,10 @@ describe("draft.js", function() {
 
     it("takes the newer version of the same draft", async function() {
       await boot({
-        local: [{ id: 'a1', date: 1, value: 'old' }],
-        server: { drafts: [{ id: 'a1', date: 2, value: 'new' }] }
+        local: [{ id: 'a1', date: 1, value: 'old', form: 'append:20261007' }],
+        server: { drafts: [{ id: 'a1', date: 2, value: 'new', form: 'replace:20261008' }] }
       });
-      expect(stored()).toEqual([{ id: 'a1', date: 2, value: 'new' }]);
+      expect(stored()).toEqual([{ id: 'a1', date: 2, value: 'new', form: 'replace:20261008' }]);
     });
 
     it("drops a draft submitted as a diary", async function() {
@@ -131,6 +132,14 @@ describe("draft.js", function() {
       expect(stored().length).toEqual(1);
       expect(stored()[0].value).toEqual('second change');
       expect(submittedId()).toEqual(stored()[0].id);
+    });
+
+    it("remembers the form the draft was written in", async function() {
+      await boot({ body: 'existing diary', command: 'replace', old: '20261007' });
+      win.$('#body').val('changed').trigger('change');
+      expect(stored()[0].form).toEqual('replace:20261007');
+      await hide();
+      expect(uploaded()[0].form).toEqual('replace:20261007');
     });
 
     it("keeps editing the draft holding the same text", async function() {
@@ -213,10 +222,12 @@ describe("draft.js", function() {
     });
   });
 
-  describe("a draft newer than the body", function() {
+  describe("a draft written on the same form", function() {
+    const form = 'append:20261008';
+
     it("is offered above the body and restored in one click", async function() {
       const date = new Date(2026, 0, 2, 3, 4, 5).getTime();
-      await boot({ body: 'existing diary', local: [{ id: 'a1', date: 1, value: 'older' }, { id: 'b2', date: date, value: 'newer' }] });
+      await boot({ body: 'existing diary', local: [{ id: 'a1', date: 1, value: 'older', form }, { id: 'b2', date: date, value: 'newer', form }] });
       expect(notice().text()).toEqual('found newer (2026-01-02 03:04:05) restore dismiss');
       expect(win.$('#body').prev().is(notice())).toBe(true);
       notice().find('button:contains(restore)').trigger('click');
@@ -225,13 +236,26 @@ describe("draft.js", function() {
       expect(notice().length).toEqual(0);
     });
 
+    it("is the only one offered, not one for another day or the other kind of form", async function() {
+      await boot({
+        body: 'diary of the day', command: 'replace',
+        local: [
+          { id: 'a1', date: 1, value: 'edit of this day', form: 'replace:20261008' },
+          { id: 'b2', date: 2, value: 'edit of another day', form: 'replace:20261007' },
+          { id: 'c3', date: 3, value: 'append to this day', form: 'append:20261008' },
+          { id: 'd4', date: 4, value: 'saved by an older version' }
+        ]
+      });
+      expect(notice().text()).toMatch(/^found edit of this day /);
+    });
+
     it("is not offered when it holds the body", async function() {
-      await boot({ body: 'same text\n', local: [{ id: 'a1', date: 1, value: 'other' }, { id: 'b2', date: 2, value: 'same text' }] });
+      await boot({ body: 'same text\n', local: [{ id: 'a1', date: 1, value: 'other', form }, { id: 'b2', date: 2, value: 'same text', form }] });
       expect(notice().length).toEqual(0);
     });
 
     it("is not offered again once dismissed until it changes", async function() {
-      await boot({ local: [{ id: 'a1', date: 1, value: 'draft' }] });
+      await boot({ local: [{ id: 'a1', date: 1, value: 'draft', form }] });
       notice().find('button:contains(dismiss)').trigger('click');
       expect(notice().length).toEqual(0);
       const dismissed = stored();
@@ -241,7 +265,7 @@ describe("draft.js", function() {
       expect(notice().length).toEqual(0);
       win.close();
 
-      await boot({ local: dismissed, server: { drafts: [{ id: 'a1', date: 2, value: 'changed elsewhere' }] } });
+      await boot({ local: dismissed, server: { drafts: [{ id: 'a1', date: 2, value: 'changed elsewhere', form }] } });
       expect(notice().length).toEqual(1);
     });
   });

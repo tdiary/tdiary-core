@@ -26,7 +26,8 @@ def draft_valid?( item )
 	item.kind_of?( Hash ) and
 		draft_id?( item['id'] ) and
 		item['date'].kind_of?( Integer ) and
-		item['value'].kind_of?( String ) and !item['value'].empty?
+		item['value'].kind_of?( String ) and !item['value'].empty? and
+		( item['form'].nil? or /\A(append|replace):\d{0,8}\z/.match?( item['form'].to_s ) )
 end
 
 def draft_sync( items )
@@ -37,9 +38,9 @@ def draft_sync( items )
 			next if !draft_valid?( item ) or deleted.include?( item['id'] )
 			stored = drafts.find {|d| d['id'] == item['id'] }
 			if !stored
-				drafts << item.slice( 'id', 'date', 'value' )
+				drafts << item.slice( 'id', 'date', 'value', 'form' )
 			elsif stored['date'] < item['date']
-				stored.update( item.slice( 'date', 'value' ) )
+				stored.update( item.slice( 'date', 'value', 'form' ) )
 			end
 		end
 		db.set( 'drafts', drafts.sort_by {|d| d['date'] }.last( draft_max_count ).to_json )

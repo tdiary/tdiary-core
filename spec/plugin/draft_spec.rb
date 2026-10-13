@@ -94,8 +94,16 @@ describe "draft plugin" do
 			expect( stored( 'drafts' ) ).to eq []
 		end
 
+		it "keeps the form a draft was written in" do
+			upload( [draft( 'a1', 1 ).merge( 'form' => 'replace:20261008' )] )
+			upload( [draft( 'a1', 2, 'new' ).merge( 'form' => 'append:20261009' )] )
+
+			expect( stored( 'drafts' ) ).to eq [draft( 'a1', 2, 'new' ).merge( 'form' => 'append:20261009' )]
+		end
+
 		it "rejects malformed drafts" do
-			upload( [draft( 'A!', 1 ), draft( 'a1', '1' ), draft( 'b2', 1, '' ), 'c3'] )
+			upload( [draft( 'A!', 1 ), draft( 'a1', '1' ), draft( 'b2', 1, '' ), 'c3',
+				draft( 'd4', 1 ).merge( 'form' => 'edit:20261008' )] )
 
 			expect( stored( 'drafts' ) ).to eq []
 		end
