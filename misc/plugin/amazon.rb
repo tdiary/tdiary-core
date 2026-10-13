@@ -139,9 +139,9 @@ def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
-# Books Amazon doesn't answer for are asked of a plugin defining amazon_book_item(isbn), like amazon_rakuten.rb.
+# Items given by ISBN or JAN code that Amazon doesn't answer for are asked of a plugin defining amazon_book_item(code), like amazon_rakuten.rb.
 def amazon_book_json(item_id)
-	return nil unless defined?(amazon_book_item) && /\A(?:\d{9}[\dX]|97[89]\d{10})\z/i =~ item_id
+	return nil unless defined?(amazon_book_item) && /\A(?:\d{9}[\dX]|\d{13})\z/i =~ item_id
 	item = amazon_book_item(item_id)
 	{'ItemsResult' => {'Items' => [item]}}.to_json if item
 end
