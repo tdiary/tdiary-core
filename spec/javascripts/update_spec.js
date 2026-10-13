@@ -119,6 +119,23 @@ describe("update.js", function() {
       expect(submitWith('replace')).toBe(false);
     });
 
+    it("sends again and asks on leaving after a post that was stopped", async function() {
+      await boot();
+      win.setTimeout = (fn, ms) => setTimeout(fn, ms);
+      jasmine.clock().install();
+      try {
+        body.value = 'saved text and more';
+        submitWith('replace');
+        jasmine.clock().tick(9999);
+        expect(submitWith('replace')).toBe(true);
+        jasmine.clock().tick(1);
+        expect(leave()).toBe(true);
+        expect(submitWith('replace')).toBe(false);
+      } finally {
+        jasmine.clock().uninstall();
+      }
+    });
+
     it("does not count opening another day as a save", async function() {
       await boot();
       submitWith('edit');

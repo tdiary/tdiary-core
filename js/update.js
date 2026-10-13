@@ -34,14 +34,18 @@ $(function() {
 		}
 	});
 
-	// a second press while the first post is on its way appends the text twice
+	// a second press while the first post is on its way appends the text twice.
+	// A post stopped by the author brings no pageshow, so the guard also ends by
+	// time instead of blocking every later post and the question on leaving.
 	form.on('submit', function(e) {
 		var submitter = e.originalEvent && e.originalEvent.submitter;
 		if (submitter && submitter.name == 'edit') { return; }
 		if (saving) {
 			e.preventDefault();
+			return;
 		}
 		saving = true;
+		setTimeout(function() { saving = false; }, 10 * 1000);
 	});
 
 	$(window).on('pageshow', function() {
