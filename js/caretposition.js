@@ -118,6 +118,7 @@ Measurement = new function() {
 			dummyTextArea.style.maxWidth = textAreaStyle.width;
 			dummyTextArea.style.backgroundColor = textAreaStyle.backgroundColor;
 			dummyTextArea.style.fontFamily = textAreaStyle.fontFamily;
+			dummyTextArea.style.lineHeight = textAreaStyle.lineHeight;
 			
 			targetElement.parentNode.appendChild(dummyTextArea);
 		}
