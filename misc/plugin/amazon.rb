@@ -139,15 +139,25 @@ def amazon_to_html(item, with_image = true, label = nil, pos = 'amazon')
 	%Q|<a href="#{h url}">#{img}#{h label}</a>|
 end
 
-# Books Amazon doesn't answer for are asked of a plugin defining amazon_book_item(isbn), like amazon_rakuten.rb.
+# Items given by ISBN or JAN code that Amazon doesn't answer for are asked of a plugin defining amazon_book_item(code), like amazon_rakuten.rb.
 def amazon_book_json(item_id)
-	return nil unless defined?(amazon_book_item) && /\A(?:\d{9}[\dX]|97[89]\d{10})\z/i =~ item_id
+	return nil unless defined?(amazon_book_item) && /\A(?:\d{9}[\dX]|\d{13})\z/i =~ item_id
 	item = amazon_book_item(item_id)
 	{'ItemsResult' => {'Items' => [item]}}.to_json if item
 end
 
-def amazon_dp_link(asin, label)
-	url = "https://www.amazon.co.jp/dp/#{asin}"
+# PA-API and the pages of Amazon take an ASIN, which is the ISBN-10 for a book and which a JAN code doesn't have
+def amazon_asin(item_id)
+	case item_id
+	when /\A978\d{10}\z/ then AWS::PAAPI.isbn13to10(item_id)
+	when /\A\d{13}\z/ then nil
+	else item_id
+	end
+end
+
+def amazon_link(item_id, label)
+	asin = amazon_asin(item_id)
+	url = asin ? "https://www.amazon.co.jp/dp/#{asin}" : "https://www.amazon.co.jp/s?k=#{item_id}"
 	%Q|<a href="#{h url}">#{h(label || url)}</a>|
 end
 
@@ -165,11 +175,12 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		file = "#{cache}/#{country}#{item_id}.json"
 		begin
 			json = File::read(file)
-			raise Errno::ENOENT if json.empty?
+			# PA-API answered a code without an ASIN with an error, which was cached before such codes went to amazon_book_json
+			raise Errno::ENOENT if json.empty? || !amazon_asin(item_id) && !JSON.parse(json)['ItemsResult']
 		rescue Errno::ENOENT
 			access_key = @conf['amazon.access_key']
 			secret_key = @conf['amazon.secret_key']
-			if access_key && secret_key && !File::exist?(file)
+			if access_key && secret_key && !File::exist?(file) && amazon_asin(item_id)
 				begin
 					partner_tag = @conf['amazon.aid']
 					paapi = AWS::PAAPI.new(access_key, secret_key, partner_tag)
@@ -183,7 +194,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 			else
 				json = amazon_book_json(item_id)
 				unless json
-					return File::exist?(file) ? amazon_dp_link(asin, label) : asin
+					return (access_key && secret_key || File::exist?(file)) ? amazon_link(item_id, label) : asin
 				end
 			end
 			File::open(file, 'wb'){|f| f.write(json)}
@@ -213,7 +224,7 @@ def amazon_get(asin, with_image = true, label = nil, pos = 'amazon')
 		message = ''
 		# Handle 429 "Too Many Requests" and 403 "Forbidden"
 		if /^429|^403/ =~ e.message then
-			message << amazon_dp_link(asin, label)
+			message << amazon_link(item_id, label)
 		end
 		if @mode == 'preview' then
 			message << %Q|<span class="message">(#{h e.message})</span>|
