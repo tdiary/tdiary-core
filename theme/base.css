@@ -294,7 +294,8 @@ textarea#body {
 	box-sizing: border-box;
 	width: 100%;
 	margin-inline: 0;
-	height: clamp(10rem, 33dvh, 33rem);
+	--editor-height: clamp(10rem, 33dvh, 33rem);
+	height: var(--editor-height);
 	resize: vertical;
 	font-family: inherit;
 	font-size: max(16px, 1rem);
@@ -305,7 +306,7 @@ textarea#body {
 	textarea#body {
 		field-sizing: content;
 		height: auto;
-		min-height: clamp(10rem, 33dvh, 33rem);
+		min-height: var(--editor-height);
 		max-height: 75dvh;
 	}
 }
