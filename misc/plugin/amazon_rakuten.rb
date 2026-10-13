@@ -4,7 +4,9 @@
 # PA-API refuses Associates accounts that don't meet its eligibility
 # requirements, which leaves amazon.rb without titles and images. With
 # this plugin, books given by ISBN come from Rakuten Books Book Search
-# API instead, and link to Rakuten Books as its terms require.
+# API instead, and magazines, DVDs, games and other items given by JAN
+# code from Rakuten Books Total Search API. They link to Rakuten Books
+# as its terms require.
 #
 # options:
 #   @options['rakuten.app_id']       : application ID of Rakuten Web Service
@@ -21,13 +23,14 @@
 require 'json'
 require 'net/http'
 
-def amazon_book_item(isbn)
+def amazon_book_item(code)
 	app_id = @conf['rakuten.app_id']
 	access_key = @conf['rakuten.access_key']
 	return nil unless app_id && access_key
 
-	uri = URI('https://openapi.rakuten.co.jp/services/api/BooksBook/Search/20170404')
-	params = {applicationId: app_id, accessKey: access_key, isbn: isbn, outOfStockFlag: 1, formatVersion: 2}
+	api, key = /\A(?:\d{9}[\dX]|97[89]\d{10})\z/i =~ code ? ['BooksBook', :isbn] : ['BooksTotal', :isbnjan]
+	uri = URI("https://openapi.rakuten.co.jp/services/api/#{api}/Search/20170404")
+	params = {applicationId: app_id, accessKey: access_key, key => code, outOfStockFlag: 1, formatVersion: 2}
 	params[:affiliateId] = @conf['rakuten.affiliate_id'] if @conf['rakuten.affiliate_id']
 	uri.query = URI.encode_www_form(params)
 	# Rakuten answers 429 to more than one request a second
@@ -43,8 +46,9 @@ def amazon_book_item(isbn)
 		'ItemInfo' => {
 			'Title' => {'DisplayValue' => book['title']},
 			'ByLineInfo' => {
-				'Contributors' => [{'Name' => book['author'][%r{[^/]*}]}],
-				'Manufacturer' => {'DisplayValue' => book['publisherName']}
+				# DVDs and CDs have artistName and label in place of author and publisherName
+				'Contributors' => [{'Name' => [book['author'], book['artistName']].find {|name| !name.to_s.empty? }.to_s[%r{[^/]*}]}],
+				'Manufacturer' => {'DisplayValue' => [book['publisherName'], book['label']].find {|name| !name.to_s.empty? }}
 			}
 		},
 		'Images' => {

@@ -71,6 +71,7 @@ describe "amazon plugin" do
 		expect( html ).to include 'プログラミングTypeScript(Boris Cherny)'
 		expect( plugin.instance_eval { footer_proc } ).to include 'Supported by Rakuten Developers'
 
+		expect( rakuten_requests.first.path ).to eq '/services/api/BooksBook/Search/20170404'
 		expect( URI.decode_www_form( rakuten_requests.first.query ).to_h ).to include( 'applicationId' => 'app-id', 'accessKey' => 'pk_key', 'isbn' => '4873119049' )
 	end
 
@@ -81,6 +82,16 @@ describe "amazon plugin" do
 		expect( html ).to include %Q|src="#{book['smallImageUrl']}"|
 		expect( html ).to include '<span class="amazon-label">オライリー・ジャパン</span>'
 		expect( html ).to include '<span class="amazon-price">￥3,520</span>'
+	end
+
+	it "shows a DVD from Rakuten Books by its JAN code" do
+		rakuten_returns( book.merge( 'title' => 'LIVE Blu-ray', 'author' => '', 'artistName' => '(V.A.)', 'publisherName' => '', 'label' => 'キングレコード(株)' ) )
+		html = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' ).isbn_detail( '4988003891459' )
+
+		expect( html ).to include '<span class="amazon-author">(V.A.)</span>'
+		expect( html ).to include '<span class="amazon-label">キングレコード(株)</span>'
+		expect( rakuten_requests.first.path ).to eq '/services/api/BooksTotal/Search/20170404'
+		expect( URI.decode_www_form( rakuten_requests.first.query ).to_h ).to include( 'isbnjan' => '4988003891459' )
 	end
 
 	it "falls back to Rakuten Books when Amazon refuses the request" do
@@ -146,7 +157,54 @@ describe "amazon plugin" do
 		expect( plugin.isbn_image( '978-4-87311-904-5', 'TypeScript' ) ).to eq '<a href="https://www.amazon.co.jp/dp/4873119049">TypeScript</a>'
 	end
 
-	it "doesn't look up items other than books" do
+	it "asks Rakuten Books rather than Amazon about a JAN code" do
+		conf.options['amazon.access_key'] = 'access'
+		conf.options['amazon.secret_key'] = 'secret'
+		allow( AWS::PAAPI ).to receive( :new ).and_return( paapi )
+		allow( paapi ).to receive( :get_items ).and_return( '{"Errors":[{"Code":"InvalidParameterValue"}]}' )
+		rakuten_returns( book )
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '4988003891459' ) ).to include 'href="https://books.rakuten.co.jp/rb/16199514/"'
+		expect( paapi ).not_to have_received( :get_items )
+	end
+
+	it "asks Rakuten Books about a JAN code whose cache holds an error from Amazon" do
+		rakuten_returns( book )
+		Dir.mkdir( "#{@cache_path}/amazon" )
+		File.write( "#{@cache_path}/amazon/jp4988003891459.json", '{"Errors":[{"Code":"InvalidParameterValue"}]}' )
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '4988003891459' ) ).to include 'href="https://books.rakuten.co.jp/rb/16199514/"'
+		expect( File.read( "#{@cache_path}/amazon/jp4988003891459.json" ) ).to include 'books.rakuten.co.jp'
+	end
+
+	it "searches Amazon for a JAN code Rakuten Books doesn't know" do
+		amazon_refuses
+		rakuten_returns
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '4988003891459', 'Blu-ray' ) ).to eq '<a href="https://www.amazon.co.jp/s?k=4988003891459">Blu-ray</a>'
+	end
+
+	it "keeps a JAN code Rakuten Books doesn't know as it is without the keys of Amazon" do
+		rakuten_returns
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '4988003891459', 'Blu-ray' ) ).to eq '4988003891459'
+	end
+
+	it "asks Rakuten Books rather than Amazon about an ISBN starting with 979" do
+		amazon_refuses
+		rakuten_returns
+		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
+
+		expect( plugin.isbn_image( '9791090636071', 'Book' ) ).to eq '<a href="https://www.amazon.co.jp/s?k=9791090636071">Book</a>'
+		expect( paapi ).not_to have_received( :get_items )
+		expect( rakuten_requests.first.path ).to eq '/services/api/BooksBook/Search/20170404'
+	end
+
+	it "doesn't look up items without an ISBN or a JAN code" do
 		rakuten_returns( book )
 		plugin = amazon_plugin( 'amazon.rb', 'amazon_rakuten.rb' )
 
