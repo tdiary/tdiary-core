@@ -74,7 +74,7 @@ module TDiary
 		def test
 			target = File.join(Dir.pwd, 'tmp/test')
 			deploy(target)
-			append_to_file(File.join(target, 'Gemfile'), "path '#{CLI::source_root}'")
+			append_to_file(File.join(target, 'Gemfile'), "gem 'tdiary', path: '#{CLI::source_root}'")
 			directory('spec', File.join(target, 'spec'))
 			directory('test', File.join(target, 'test'))
 
