@@ -10,6 +10,10 @@ module TDiary
 			File.expand_path('../../..', __FILE__)
 		end
 
+		def self.exit_on_failure?
+			true
+		end
+
 		desc "new DIR_NAME", "Create a new tDiary directory"
 		method_option "skip-bundle", type: :boolean, banner:
 			"don't run bundle and .htpasswd generation"
@@ -20,9 +24,10 @@ module TDiary
 			template('misc/templates/Gemfile.local.erb', File.join(target, 'Gemfile.local'))
 
 			unless options[:'skip-bundle']
-				Bundler.with_clean_env do
+				Bundler.with_unbundled_env do
 					inside(target) do
-						run('bundle install --without test development')
+						run('bundle config set --local without test:development')
+						run('bundle install')
 						run('bundle exec tdiary htpasswd')
 					end
 				end
@@ -46,9 +51,10 @@ module TDiary
 			deploy(target)
 
 			unless options[:'skip-bundle']
-				Bundler.with_clean_env do
+				Bundler.with_unbundled_env do
 					inside(target) do
-						run('bundle install --without test development')
+						run('bundle config set --local without test:development')
+						run('bundle install')
 					end
 				end
 			end
@@ -74,11 +80,11 @@ module TDiary
 		def test
 			target = File.join(Dir.pwd, 'tmp/test')
 			deploy(target)
-			append_to_file(File.join(target, 'Gemfile'), "path '#{CLI::source_root}'")
+			append_to_file(File.join(target, 'Gemfile'), "gem 'tdiary', path: '#{CLI::source_root}'")
 			directory('spec', File.join(target, 'spec'))
 			directory('test', File.join(target, 'test'))
 
-			Bundler.with_clean_env do
+			Bundler.with_unbundled_env do
 				inside(target) do
 					run('bundle install')
 					run('bundle exec rake spec')
