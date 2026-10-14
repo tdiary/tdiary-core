@@ -273,6 +273,10 @@ draft plugin
 div.draft select {
 	width: 60%;
 }
+p.draft-notice {
+	border: solid 1px #999;
+	padding: 4px 8px;
+}
 
 /*
  * youtube plugin

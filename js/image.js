@@ -122,8 +122,7 @@ $(function(){
 			}
 			return;
 		}
-		var end = start + marker.length;
-		body.setRangeText(text, start, end, body.selectionStart == end ? 'end' : 'preserve');
+		$.replaceText(body, text, start, start + marker.length);
 	};
 
 	var uploads = 0;
@@ -192,7 +191,7 @@ $(function(){
 		var files = imageFiles(clipboard.files);
 		if(files.length){
 			e.preventDefault();
-			this.setRangeText('', this.selectionStart, this.selectionEnd, 'end');
+			$.replaceText(this, '', this.selectionStart, this.selectionEnd);
 			uploadFiles(files);
 		}
 	});

@@ -26,7 +26,8 @@ def draft_valid?( item )
 	item.kind_of?( Hash ) and
 		draft_id?( item['id'] ) and
 		item['date'].kind_of?( Integer ) and
-		item['value'].kind_of?( String ) and !item['value'].empty?
+		item['value'].kind_of?( String ) and !item['value'].empty? and
+		( item['form'].nil? or /\A(append|replace):\d{0,8}\z/.match?( item['form'].to_s ) )
 end
 
 def draft_sync( items )
@@ -37,9 +38,9 @@ def draft_sync( items )
 			next if !draft_valid?( item ) or deleted.include?( item['id'] )
 			stored = drafts.find {|d| d['id'] == item['id'] }
 			if !stored
-				drafts << item.slice( 'id', 'date', 'value' )
+				drafts << item.slice( 'id', 'date', 'value', 'form' )
 			elsif stored['date'] < item['date']
-				stored.update( item.slice( 'date', 'value' ) )
+				stored.update( item.slice( 'date', 'value', 'form' ) )
 			end
 		end
 		db.set( 'drafts', drafts.sort_by {|d| d['date'] }.last( draft_max_count ).to_json )
@@ -65,6 +66,13 @@ if /\A(form|edit|preview|showcomment)\z/ === @mode then
 	# keep the drafts from closing the script element
 	add_js_setting( '$tDiary.plugin.draft.server', server.to_json.gsub( '<', '\\u003c' ) )
 	add_js_setting( '$tDiary.plugin.draft.interval', (@conf['draft.sync_interval'] || 300).to_i )
+	add_js_setting( '$tDiary.plugin.draft.label', {
+		'saved' => '下書きを保存しました (このブラウザ %local、サーバー %server)',
+		'unsent' => '未送信',
+		'found' => '未投稿の下書きがあります: %title',
+		'restore' => '復元する',
+		'dismiss' => '閉じる'
+	}.to_json )
 end
 
 if @mode == 'formplugin' and @cgi.params['plugin_draft_sync'][0] then

@@ -63,22 +63,32 @@ $.fn.extend({
 	insertAtCaret: function(text){
 		var elem = this.get(0);
 		elem.focus();
-
-		if(jQuery.browser.msie){
-			var selection = document.selection.createRange();
-			selection.text = text;
-			selection.select();
-		}else{
-			var orig = elem.value;
-			var posStart = elem.selectionStart;
-			var posEnd = posStart + text.length;
-			elem.value = orig.substr(0, posStart) + text + orig.substr(posStart);
-			elem.setSelectionRange(posEnd, posEnd);
-		}
+		elem.setSelectionRange(elem.selectionStart, elem.selectionStart);
+		$.replaceText(elem, text, elem.selectionStart, elem.selectionStart);
 	}
 });
 
 $.extend({
+	// replaces start..end of a textarea, moving the selection after it along.
+	// Assigning value or calling setRangeText() wipes the undo history of the
+	// textarea, so the editing command is used while it has the focus.
+	replaceText: function(elem, text, start, end){
+		var selStart = elem.selectionStart, selEnd = elem.selectionEnd;
+		if(document.activeElement === elem && document.execCommand){
+			elem.setSelectionRange(start, end);
+			if(document.execCommand('insertText', false, text)){
+				var shift = function(pos){
+					if(pos >= end){ return pos + text.length - (end - start); }
+					return pos > start ? start + text.length : pos;
+				};
+				elem.setSelectionRange(shift(selStart), shift(selEnd));
+				return;
+			}
+			elem.setSelectionRange(selStart, selEnd);
+		}
+		elem.setRangeText(text, start, end, selStart == end ? 'end' : 'preserve');
+	},
+
 	makePluginTag: function(name, params){
 		params = params || [];
 		var tag = [];

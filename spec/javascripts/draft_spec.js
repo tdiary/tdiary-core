@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const jquerySource = fs.readFileSync(path.join(__dirname, '../../node_modules/jquery/dist/jquery.js'), 'utf8');
+const defaultSource = fs.readFileSync(path.join(__dirname, '../../js/00default.js'), 'utf8');
 const draftSource = fs.readFileSync(path.join(__dirname, '../../js/draft.js'), 'utf8');
 
 describe("draft.js", function() {
@@ -15,14 +16,21 @@ describe("draft.js", function() {
         <textarea id="body" name="body">${options.body || ''}</textarea>
         <select name="drafts"></select>
         <button type="button" id="draft_load">load</button>
+        <input type="hidden" name="old" value="${options.old || '20261008'}">
         <input type="hidden" name="plugin_draft_id" value="">
+        <input type="submit" name="${options.command || 'append'}" value="save">
       </form>
     </body></html>`, { url: 'http://localhost/update.rb', runScripts: 'outside-only', pretendToBeVisual: true });
     win = dom.window;
     win.eval(jquerySource);
+    win.eval(defaultSource);
     win.$tDiary = { plugin: { draft: {
       server: Object.assign({ drafts: [], deleted: [], max: 10 }, options.server),
-      interval: 300
+      interval: 300,
+      label: {
+        saved: 'saved: here %local, server %server', unsent: 'not yet',
+        found: 'found %title', restore: 'restore', dismiss: 'dismiss'
+      }
     } } };
     if (options.local) {
       win.localStorage.drafts = JSON.stringify(options.local);
@@ -51,6 +59,19 @@ describe("draft.js", function() {
     return win.$('[name=plugin_draft_id]').val();
   }
 
+  function status() {
+    return win.$('.draft-status').text();
+  }
+
+  function notice() {
+    return win.$('.draft-notice');
+  }
+
+  function clock(time) {
+    const date = new Date(time);
+    return [date.getHours(), date.getMinutes()].map(n => String(n).padStart(2, '0')).join(':');
+  }
+
   afterEach(function() {
     win.close();
   });
@@ -67,10 +88,10 @@ describe("draft.js", function() {
 
     it("takes the newer version of the same draft", async function() {
       await boot({
-        local: [{ id: 'a1', date: 1, value: 'old' }],
-        server: { drafts: [{ id: 'a1', date: 2, value: 'new' }] }
+        local: [{ id: 'a1', date: 1, value: 'old', form: 'append:20261007' }],
+        server: { drafts: [{ id: 'a1', date: 2, value: 'new', form: 'replace:20261008' }] }
       });
-      expect(stored()).toEqual([{ id: 'a1', date: 2, value: 'new' }]);
+      expect(stored()).toEqual([{ id: 'a1', date: 2, value: 'new', form: 'replace:20261008' }]);
     });
 
     it("drops a draft submitted as a diary", async function() {
@@ -111,6 +132,14 @@ describe("draft.js", function() {
       expect(stored().length).toEqual(1);
       expect(stored()[0].value).toEqual('second change');
       expect(submittedId()).toEqual(stored()[0].id);
+    });
+
+    it("remembers the form the draft was written in", async function() {
+      await boot({ body: 'existing diary', command: 'replace', old: '20261007' });
+      win.$('#body').val('changed').trigger('change');
+      expect(stored()[0].form).toEqual('replace:20261007');
+      await hide();
+      expect(uploaded()[0].form).toEqual('replace:20261007');
     });
 
     it("keeps editing the draft holding the same text", async function() {
@@ -158,6 +187,86 @@ describe("draft.js", function() {
       await hide();
       await hide();
       expect(win.fetch).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe("the time of the last save", function() {
+    it("is not shown while the diary is as it was opened", async function() {
+      await boot({ body: 'existing diary' });
+      expect(status()).toEqual('');
+    });
+
+    it("is put below the submit button so that the button does not move under the cursor", async function() {
+      await boot({ body: 'existing diary' });
+      expect(win.$('[name=append]').nextAll('.draft-status').length).toEqual(1);
+    });
+
+    it("tells the save in this browser from the one on the server", async function() {
+      await boot({ body: 'existing diary' });
+      win.$('#body').val('changed').trigger('change');
+      const saved = clock(stored()[0].date);
+      expect(status()).toEqual(`saved: here ${saved}, server not yet`);
+      await hide();
+      expect(status()).toEqual(`saved: here ${saved}, server ${saved}`);
+    });
+
+    it("shows the date of a save made on another day", async function() {
+      const local = new Date(2026, 0, 2, 3, 4, 5).getTime();
+      const server = new Date(2026, 0, 1, 23, 45, 0).getTime();
+      await boot({
+        body: 'same text',
+        local: [{ id: 'a1', date: local, value: 'same text' }],
+        server: { drafts: [{ id: 'a1', date: server, value: 'older text' }] }
+      });
+      expect(status()).toEqual('saved: here 2026-01-02 03:04, server 2026-01-01 23:45');
+    });
+  });
+
+  describe("a draft written on the same form", function() {
+    const form = 'append:20261008';
+
+    it("is offered above the body and restored in one click", async function() {
+      const date = new Date(2026, 0, 2, 3, 4, 5).getTime();
+      await boot({ body: 'existing diary', local: [{ id: 'a1', date: 1, value: 'older', form }, { id: 'b2', date: date, value: 'newer', form }] });
+      expect(notice().text()).toEqual('found newer (2026-01-02 03:04:05) restore dismiss');
+      expect(win.$('#body').prev().is(notice())).toBe(true);
+      notice().find('button:contains(restore)').trigger('click');
+      expect(win.$('#body').val()).toEqual('newer');
+      expect(submittedId()).toEqual('b2');
+      expect(notice().length).toEqual(0);
+    });
+
+    it("is the only one offered, not one for another day or the other kind of form", async function() {
+      await boot({
+        body: 'diary of the day', command: 'replace',
+        local: [
+          { id: 'a1', date: 1, value: 'edit of this day', form: 'replace:20261008' },
+          { id: 'b2', date: 2, value: 'edit of another day', form: 'replace:20261007' },
+          { id: 'c3', date: 3, value: 'append to this day', form: 'append:20261008' },
+          { id: 'd4', date: 4, value: 'saved by an older version' }
+        ]
+      });
+      expect(notice().text()).toMatch(/^found edit of this day /);
+    });
+
+    it("is not offered when it holds the body", async function() {
+      await boot({ body: 'same text\n', local: [{ id: 'a1', date: 1, value: 'other', form }, { id: 'b2', date: 2, value: 'same text', form }] });
+      expect(notice().length).toEqual(0);
+    });
+
+    it("is not offered again once dismissed until it changes", async function() {
+      await boot({ local: [{ id: 'a1', date: 1, value: 'draft', form }] });
+      notice().find('button:contains(dismiss)').trigger('click');
+      expect(notice().length).toEqual(0);
+      const dismissed = stored();
+      win.close();
+
+      await boot({ local: dismissed });
+      expect(notice().length).toEqual(0);
+      win.close();
+
+      await boot({ local: dismissed, server: { drafts: [{ id: 'a1', date: 2, value: 'changed elsewhere', form }] } });
+      expect(notice().length).toEqual(1);
     });
   });
 });

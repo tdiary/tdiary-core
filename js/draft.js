@@ -9,9 +9,11 @@ $(function() {
 
 if (!localStorage) { return; }
 
-var Draft = function(storage, text, server) {
+var Draft = function(storage, text, server, form) {
   // 保存先のストレージ
   this.storage = storage;
+  // このページのフォーム（追記か編集かと、その日付）
+  this.form = form;
   // 下書きの保存件数
   this.maxCount = server.max;
   // 下書き一覧
@@ -42,6 +44,7 @@ Draft.prototype = {
       } else if (local.date < remote.date) {
         local.date = remote.date;
         local.value = remote.value;
+        local.form = remote.form;
       }
     });
     // 空の下書きと、日記として投稿済みの下書きを削除する
@@ -78,6 +81,7 @@ Draft.prototype = {
     }
     item.date = new Date().getTime();
     item.value = text;
+    item.form = this.form;
     this.items.push(item);
     this.truncate();
     this.store();
@@ -106,6 +110,31 @@ Draft.prototype = {
     $.each(items, function(index, item) {
       synced[item.id] = item.date;
     });
+  },
+
+  // 編集している下書きを保存した日時と、サーバーにある版の日時を返す
+  saved: function() {
+    var item = DraftUtils.find(this.items, this.current);
+    if (!item) { return null; }
+    return { local: item.date, server: this.synced[item.id] };
+  },
+
+  // このフォームで書いた最新の下書きを、テキストエリアと異なり勧めるのを断られていなければ返す
+  // 別の日や、追記と編集の間で勧めると、復元してそのまま登録したときに日記が重複したり消えたりする
+  latest: function() {
+    var form = this.form;
+    var item = $.grep(this.items, function(item) { return item.form == form; }).pop();
+    if (!item || DraftUtils.trim(item.value) == DraftUtils.trim(this.text) ||
+        item.dismissed == item.date) { return null; }
+    return item;
+  },
+
+  // 指定した下書きのこの版を、次から勧めない
+  dismiss: function(id) {
+    var item = DraftUtils.find(this.items, id);
+    if (!item) { return; }
+    item.dismissed = item.date;
+    this.store();
   },
 
   // 最大でmaxCount件数の履歴を保持
@@ -149,6 +178,12 @@ var DraftUtils = {
         return s;
       }
   },
+  // 日時を HH:MM 形式に変換する（今日でなければ YYYY-mm-dd HH:MM 形式）
+  timeToString: function(date) {
+    var text = DraftUtils.dateToString(date).slice(0, -3);
+    var today = DraftUtils.dateToString().slice(0, 10);
+    return text.slice(0, 10) == today ? text.slice(11) : text;
+  },
   // 文字列から改行と空白文字を取り除く
   trim: function(str) {
     return str.replace(/\s+/g, "");
@@ -170,33 +205,44 @@ var DraftUtils = {
 var textarea = $("[name=body]");
 // 日記の更新フォーム
 var form = textarea.closest("form");
+// 追記か編集かと、フォームを開いた日付（例: "replace:20261008"）
+var formKey = (form.find("[name=replace]").length ? "replace:" : "append:") +
+  (form.find("[name=old]").val() || "");
 // 下書き一覧を表示するセレクトボックス
 var select = $("[name=drafts]");
+// 下書きを保存した時刻の表示
+// ボタンより上に置くと、ボタンを押したときの change で表示が増えてボタンがずれ、クリックが外れる
+var status = $("<p/>").addClass("draft-status").appendTo(form);
+// 表示する文言
+var label = $tDiary.plugin.draft.label;
 // 自動保存の間隔（ミリ秒）
 var autoSaveInterval = 5 * 1000;
 // サーバーへ保存する間隔（ミリ秒）
 var syncInterval = $tDiary.plugin.draft.interval * 1000;
 
-var draft = new Draft(localStorage, textarea.val(), $tDiary.plugin.draft.server);
+var draft = new Draft(localStorage, textarea.val(), $tDiary.plugin.draft.server, formKey);
 var syncing = false;
 
 // 下書き保存
 saveDraft = function() {
   draft.save(textarea.val());
   showSelectForm(true);
+  showSaved();
 };
 // 下書き読み込み
 loadDraft = function() {
   var value = draft.load(select.val());
   if (value != null) {
-    textarea.val(value);
+    textarea.focus();
+    $.replaceText(textarea[0], value, 0, textarea.val().length);
   }
   showSelectForm(false);
+  showSaved();
 };
 // サーバーに無い下書きをサーバーへ保存
 syncDraft = function(keepalive) {
   var items = $.map(draft.pending(), function(item) {
-    return { id: item.id, date: item.date, value: item.value };
+    return { id: item.id, date: item.date, value: item.value, form: item.form };
   });
   if (syncing || items.length == 0) { return; }
   var params = new URLSearchParams();
@@ -208,7 +254,10 @@ syncDraft = function(keepalive) {
   syncing = true;
   fetch(form.attr("action"), { method: "POST", body: params, keepalive: keepalive })
     .then(function(response) {
-      if (response.ok) { draft.markSynced(items); }
+      if (response.ok) {
+        draft.markSynced(items);
+        showSaved();
+      }
     }, function() {})
     .then(function() { syncing = false; });
 };
@@ -223,6 +272,32 @@ showSelectForm = function(keepSelection) {
     selected = draft.current || select.children().last().val();
   }
   select.val(selected);
+};
+// 下書きを保存した時刻を、このブラウザとサーバーに分けて表示
+showSaved = function() {
+  var saved = draft.saved();
+  if (!saved) { return; }
+  var local = DraftUtils.timeToString(new Date(saved.local));
+  var server = saved.server ? DraftUtils.timeToString(new Date(saved.server)) : label.unsent;
+  status.text(label.saved.replace("%local", local).replace("%server", server));
+};
+// 本文と異なる新しい下書きがあれば、テキストエリアの上で復元を勧める
+offerDraft = function() {
+  var item = draft.latest();
+  if (!item) { return; }
+  var title = DraftUtils.find(draft.titles(), item.id).title;
+  var notice = $("<p/>").addClass("draft-notice")
+    .text(label.found.replace("%title", function() { return title; }));
+  notice.append(" ", $("<button type='button'/>").text(label.restore).click(function() {
+    select.val(item.id);
+    loadDraft();
+    notice.remove();
+  }));
+  notice.append(" ", $("<button type='button'/>").text(label.dismiss).click(function() {
+    draft.dismiss(item.id);
+    notice.remove();
+  }));
+  textarea.before(notice);
 };
 
 // DOMイベント設定
@@ -244,6 +319,8 @@ form.submit(function() {
 });
 
 showSelectForm(false);
+showSaved();
+offerDraft();
 // console.log("ready");
 
 });
