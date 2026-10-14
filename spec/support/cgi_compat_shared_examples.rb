@@ -248,6 +248,28 @@ RSpec.shared_examples 'CGI compatible request facade' do
 				'Content-Disposition: form-data; name="title"',
 				'',
 				'multipart title',
+				"--#{boundary}",
+				'Content-Disposition: form-data; name="plugin_image_file"; filename="photo.png"',
+				'Content-Type: image/png',
+				'',
+				'PHOTO',
+				"--#{boundary}",
+				'Content-Disposition: form-data; name="plugin_image_file"; filename="map.png"',
+				'Content-Type: image/png',
+				'',
+				'MAP',
+				"--#{boundary}",
+				'Content-Disposition: form-data; name="tag"',
+				'',
+				'ruby',
+				"--#{boundary}",
+				'Content-Disposition: form-data; name="tag"',
+				'',
+				'rack',
+				"--#{boundary}",
+				'Content-Disposition: form-data; name="a[b]"',
+				'',
+				'x',
 				"--#{boundary}--",
 				''
 			].join("\r\n")
@@ -262,9 +284,8 @@ RSpec.shared_examples 'CGI compatible request facade' do
 			)
 		}
 
-		# The raw value type (String or IO) is not fixed here. The only
-		# consumer of file uploads normalizes values with this pattern
-		# (TDiary::TDiaryFormPlugin in lib/tdiary/author_only_base.rb).
+		# the way TDiary::TDiaryFormPlugin (lib/tdiary/author_only_base.rb)
+		# reads the date field, which is a String or an uploaded file
 		def read_value(value)
 			value.kind_of?(String) ? value : value.read
 		end
@@ -302,6 +323,41 @@ RSpec.shared_examples 'CGI compatible request facade' do
 			it { expect(value.read).to eq 'multipart title' }
 			it { expect(value.original_filename).to eq '' }
 			it { expect(value.content_type).to eq '' }
+		end
+
+		# image.js posts several images under one name and image.rb saves
+		# every one of them
+		it 'collects the files of a duplicated name in order' do
+			files = cgi.params['plugin_image_file']
+			expect(files.map(&:original_filename)).to eq ['photo.png', 'map.png']
+			expect(files.map(&:read)).to eq ['PHOTO', 'MAP']
+		end
+
+		it 'collects the values of a duplicated name in order' do
+			expect(cgi.params['tag']).to eq ['ruby', 'rack']
+		end
+
+		# cgi.rb did not expand brackets into nested Hashes
+		it 'keeps a bracketed name as is' do
+			expect(cgi.params['a[b]']).to eq ['x']
+			expect(cgi.params['a']).to eq []
+		end
+
+		context 'with a mixed-case content type' do
+			let(:cgi) {
+				build_cgi(
+					{
+						'REQUEST_METHOD' => 'POST',
+						'CONTENT_TYPE' => "Multipart/Form-Data; boundary=#{boundary}"
+					},
+					body: multipart_body
+				)
+			}
+
+			it 'parses the body as multipart' do
+				expect(cgi.params['title']).to eq ['multipart title']
+				expect(cgi.params['date'][0].original_filename).to eq 'date.txt'
+			end
 		end
 	end
 
