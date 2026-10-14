@@ -284,16 +284,30 @@ div.youtube-player-wrapper {
 }
 
 /*
- * editor textarea sizing
+ * editor textarea
  *
  * The inline margins are zeroed on purpose: themes indent textareas
  * (tdiary2 uses margin-left: 3em), which would push the editor out of
  * line with the fields above it.
+ * The font likewise overrides theme textarea fonts on purpose.
  */
 textarea#body {
 	box-sizing: border-box;
 	width: 100%;
 	margin-inline: 0;
-	height: clamp(10rem, 33dvh, 33rem);
+	--editor-height: clamp(10rem, 33dvh, 33rem);
+	height: var(--editor-height);
 	resize: vertical;
+	font-family: inherit;
+	font-size: max(16px, 1rem);
+	line-height: 1.6;
+}
+
+@supports (field-sizing: content) {
+	textarea#body {
+		field-sizing: content;
+		height: auto;
+		min-height: var(--editor-height);
+		max-height: 75dvh;
+	}
 }
