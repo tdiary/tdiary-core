@@ -31,7 +31,7 @@ module TDiary
 					#
 					# end
 					def db.keys
-						self.roots
+						self.roots.reject{|k| k == :__ruby_version}
 					end
 
 					yield db
