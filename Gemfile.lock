@@ -74,7 +74,7 @@ GEM
       ferrum (~> 0.18.0)
     dalli (5.2.2)
       logger
-    date (3.5.1)
+    date (3.6.0)
     diff-lcs (1.6.2)
     drb (2.2.3)
     emot (0.0.4)
