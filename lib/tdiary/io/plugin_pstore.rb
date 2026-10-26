@@ -31,6 +31,7 @@ module TDiary
 					#
 					# end
 					def db.keys
+						# :__ruby_version was written by the PStore patch formerly in tdiary/compatible.rb
 						self.roots.reject{|k| k == :__ruby_version}
 					end
 
