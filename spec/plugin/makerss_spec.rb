@@ -103,6 +103,38 @@ describe "makerss plugin" do
 		end
 	end
 
+	describe "#makerss_update" do
+		let(:rss) { double(head: nil, item: nil, foot: nil, write: nil) }
+		let(:db) do
+			{
+				"20261007p01" => TDiary::RDFSection.new("20261007p01", nil, nil, data: {
+					"time" => "2026-10-07T00:00:00+09:00",
+					"is_comment" => false,
+					"section" => {"subtitle" => "Subtitle", "body" => "<p>Body</p>", "category" => [], "visibility" => true}
+				}).to_json,
+				"20261007p02" => "3.2.4",
+			}.tap {|h|
+				def h.get(key) self[key] end
+				def h.set(key, value) self[key] = value end
+			}
+		end
+
+		before do
+			allow(@conf).to receive(:shorten) {|str, len| str }
+			allow(@conf).to receive(:banner)
+			@plugin = TDiary::Plugin.new(conf: @conf, mode: "startup", date: Time.local(2026, 10, 7), diaries: {}).tap {|plugin|
+				plugin.load_plugin("misc/plugin/makerss.rb")
+			}
+			@plugin.instance_variable_set(:@makerss_rsses, [rss])
+			allow(@plugin).to receive(:transaction).with("makerss").and_yield(db)
+		end
+
+		it "skips entries it cannot decode" do
+			expect(rss).to receive(:item).once
+			@plugin.makerss_update
+		end
+	end
+
 	describe "makerss.hidesubtitle setting" do
 		around do |example|
 			Dir.mktmpdir {|dir| @dir = dir; example.run }

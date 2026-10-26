@@ -285,8 +285,8 @@ def makerss_update
 			end
 
 			rsses.each{|rss| rss.head( makerss_header( uri ) ) }
-			db.keys.map{|k|get(db, k)}.sort.each_with_index do |rdfsec, idx|
-				if rdfsec && rdfsec.section['visibility']
+			db.keys.map{|k|get(db, k)}.compact.sort.each_with_index do |rdfsec, idx|
+				if rdfsec.section['visibility']
 					rsses.each {|rss|
 						rss.item( makerss_seq( uri, rdfsec ), makerss_body( uri, rdfsec ), rdfsec )
 					}
