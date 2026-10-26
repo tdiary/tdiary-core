@@ -9,7 +9,7 @@ jobs:
       matrix:
         ruby: [ '3.4', '3.3', '3.2', '3.1' ]
         test_mode: [ rack, gem ]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.ruby == '3.1' && 'ubuntu-24.04' || 'ubuntu-latest' }}
     services:
       memcached:
         image: memcached:latest
