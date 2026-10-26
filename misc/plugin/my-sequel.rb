@@ -289,6 +289,7 @@ _END
 		begin
 			PStore.new(path).transaction(true) do |db|
 				db.roots.each do |cached_anchor|
+					next if cached_anchor == :__ruby_version
 					yield(cached_anchor, db[cached_anchor])
 				end
 			end

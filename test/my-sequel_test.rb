@@ -106,6 +106,13 @@ class TestMySequel < Test::Unit::TestCase
 		assert_equal(['20061231#p02'], cached.srcs('20061001#p01'))
 	end
 
+	def testlegacy_key	# confirms caches holding :__ruby_version still work
+		Dir.glob(File.join(MySequel.cache_dir(@cache_path), '*', '*.dat')).each do |path|
+			PStore.new(path).transaction {|db| db[:__ruby_version] = '3.2.4' }
+		end
+		testadd
+	end
+
 	def teardown
 		FileUtils.rmtree(@cache_path)
 	end
