@@ -259,3 +259,28 @@ span.help-icon {
 span.help-icon img {
 	border-width: 0px;
 }
+
+/*
+ design for smart phones, below the width where the form beside the menu gets narrower than on a phone
+ */
+@media screen and (max-width: 640px) {
+	div.sidebar {
+		float: none;
+		width: auto;
+	}
+
+	div.sidebar ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.2em 0.5em;
+		margin-left: 0px;
+	}
+
+	div.sidebar li {
+		margin-bottom: 0px;
+	}
+
+	form.conf {
+		margin: 0px 16px 2em 16px;
+	}
+}
