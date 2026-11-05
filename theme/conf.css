@@ -156,6 +156,13 @@ form.conf dd {
 	margin-bottom: 1em;
 }
 
+form.conf input,
+form.conf select,
+form.conf textarea {
+	box-sizing: border-box;
+	max-width: 100%;
+}
+
 p.message {
 	text-align: center;
 	font-size: large;
