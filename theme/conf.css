@@ -280,6 +280,16 @@ span.help-icon img {
 
 	div.sidebar li {
 		margin-bottom: 0px;
+		padding: 0px;
+	}
+
+	div.sidebar li a {
+		display: block;
+		padding: 0.3em 0.5em;
+	}
+
+	div.sidebar li:has(> a:empty) {
+		display: none;
 	}
 
 	form.conf {
