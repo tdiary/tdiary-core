@@ -138,6 +138,7 @@ form.conf p {
 form.conf pre {
 	line-height: 150%;
 	margin: 0px 1em 0.7em 3em;
+	overflow-x: auto;
 }
 
 form.conf ul {
