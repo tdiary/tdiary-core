@@ -5,11 +5,17 @@ Copyright (C) 2005 TADA Tadashi <sho@spc.gr.jp>
 You can redistribute it and/or modify it under GPL2 or any later version.
 */
 
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
 body {
 	background-color: #fff;
 	color: #000;
 	margin: 0px;
 	padding: 0px;
+	overflow-wrap: anywhere;
 }
 
 h1 {
@@ -138,6 +144,7 @@ form.conf p {
 form.conf pre {
 	line-height: 150%;
 	margin: 0px 1em 0.7em 3em;
+	overflow-x: auto;
 }
 
 form.conf ul {
@@ -154,6 +161,13 @@ form.conf dl {
 
 form.conf dd {
 	margin-bottom: 1em;
+}
+
+form.conf input,
+form.conf select,
+form.conf textarea {
+	box-sizing: border-box;
+	max-width: 100%;
 }
 
 p.message {
@@ -251,4 +265,50 @@ span.help-icon {
 
 span.help-icon img {
 	border-width: 0px;
+}
+
+/*
+ design for smart phones, below the width where the form beside the menu gets narrower than on a phone
+ */
+@media screen and (max-width: 640px) {
+	div.adminmenu a {
+		display: inline-block;
+		padding: 0.5em 0.75em;
+	}
+
+	div.sidebar {
+		float: none;
+		width: auto;
+	}
+
+	div.sidebar ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.2em 0.5em;
+		margin-left: 0px;
+	}
+
+	div.sidebar li {
+		margin-bottom: 0px;
+		padding: 0px;
+	}
+
+	div.sidebar li a {
+		display: block;
+		padding: 0.3em 0.5em;
+	}
+
+	div.sidebar li:has(> a:empty) {
+		display: none;
+	}
+
+	form.conf {
+		margin: 0px 16px 2em 16px;
+	}
+
+	input,
+	select,
+	textarea {
+		font-size: 16px;
+	}
 }
