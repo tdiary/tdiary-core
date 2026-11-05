@@ -300,4 +300,10 @@ span.help-icon img {
 	form.conf {
 		margin: 0px 16px 2em 16px;
 	}
+
+	input,
+	select,
+	textarea {
+		font-size: 16px;
+	}
 }
