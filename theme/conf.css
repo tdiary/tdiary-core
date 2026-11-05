@@ -266,6 +266,11 @@ span.help-icon img {
  design for smart phones, below the width where the form beside the menu gets narrower than on a phone
  */
 @media screen and (max-width: 640px) {
+	div.adminmenu a {
+		display: inline-block;
+		padding: 0.5em 0.75em;
+	}
+
 	div.sidebar {
 		float: none;
 		width: auto;
