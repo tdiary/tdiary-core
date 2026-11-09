@@ -136,6 +136,18 @@ img.right, img.amazon {
 	margin-top: 0px;
 }
 
+div#image-table {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+	align-items: end;
+	gap: 0.5em;
+}
+
+div#image-table img {
+	display: block;
+	max-width: 100%;
+}
+
 /*
 calendar3 plugin
 */

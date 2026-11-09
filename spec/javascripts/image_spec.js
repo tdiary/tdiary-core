@@ -10,9 +10,8 @@ describe("image.js", function() {
   let win, drawn, closed, requests;
 
   function imageList(sizes, added = []) {
-    const cells = sizes.map((size, id) => `<td><img id="image-index-${id}" class="image-img form"${added.includes(id) ? ' data-added="true"' : ''} src="images/20261005_${id}.jpg"></td>`);
-    const infos = sizes.map((size, id) => `<td id="image-info-${id}"><span class="image-width">${size[0]}</span> x <span class="image-height">${size[1]}</span></td>`);
-    return `<div class="form"><form id="plugin-image-delimage"><table id="image-table"><tr>${cells.join('')}</tr><tr>${infos.join('')}</tr></table></form></div>`;
+    const items = sizes.map((size, id) => `<div class="image-item"><img id="image-index-${id}" class="image-img form"${added.includes(id) ? ' data-added="true"' : ''} src="images/20261005_${id}.jpg"><label id="image-info-${id}"><span class="image-width">${size[0]}</span> x <span class="image-height">${size[1]}</span></label></div>`);
+    return `<div class="form"><form id="plugin-image-delimage"><div id="image-table">${items.join('')}</div></form></div>`;
   }
 
   async function boot(sizes, preview) {
