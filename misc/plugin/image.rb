@@ -209,25 +209,20 @@ add_form_proc do |date|
 		</div>
 		<form id="plugin-image-delimage" class="update" method="post" action="#{h @update}"><div>
 		#{csrf_protection}
-		<table id="image-table">
-		<tr>]
-		tmp = ''
+		<div id="image-table">]
 	   images.each_with_index do |img,id|
 			next unless img
 			_, img_w, img_h = image_info(File.join(@image_dir,img))
-			r << %Q[<td><img id="image-index-#{id}" class="image-img form"#{' data-added="true"' if @image_added&.include?( id )} src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}"></td>]
 			img_info = ''
 			if img_w && img_h
 				img_info << %Q|<span class="image-width">#{img_w}</span> x <span class="image-height">#{img_h}</span>|
 			end
-			tmp << %Q[<td id="image-info-#{id}">
-			<label><input type="checkbox" tabindex="#{tabidx+id*2}" name="plugin_image_id" value="#{id}">&nbsp;#{img_info}</label>
-			</td>]
+			r << %Q[<div class="image-item">
+			<img id="image-index-#{id}" class="image-img form"#{' data-added="true"' if @image_added&.include?( id )} src="#{h @image_url}/#{h img}" alt="#{id}" width="#{h( (img_w && img_w > 160) ? 160 : (img_w ? img_w : 160) )}">
+			<label id="image-info-#{id}"><input type="checkbox" tabindex="#{tabidx+id*2}" name="plugin_image_id" value="#{id}">&nbsp;#{img_info}</label>
+			</div>]
 	   end
-		r << "</tr><tr>"
-		r << tmp
-	   r << %Q[</tr>
-		</table>
+	   r << %Q[</div>
 		<input type="hidden" name="plugin_image_delimage" value="true">
 	   <input type="hidden" name="date" value="#{date.strftime( '%Y%m%d' )}">
 	   <input type="submit" tabindex="#{tabidx+97}" name="plugin" value="#{image_label_delete}">

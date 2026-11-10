@@ -206,7 +206,6 @@ $(function(){
 		imagePlugin.remove($(this).serialize() + '&plugin=image', function(){
 			$.each(ids, function(i, id){
 				$('#image-index-' + id).parent().fadeOut();
-				$('#image-info-' + id).fadeOut();
 			});
 		});
 		return false;
