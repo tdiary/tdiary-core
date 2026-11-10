@@ -81,7 +81,7 @@ GEM
       thor
     faraday (0.17.6)
       multipart-post (>= 1.2, < 3)
-    fastimage (2.4.1)
+    fastimage (2.4.3)
     ferrum (0.20.1)
       addressable (~> 2.5)
       base64 (~> 0.2)
