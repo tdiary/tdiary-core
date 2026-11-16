@@ -185,7 +185,7 @@ GEM
     prism (1.9.0)
     pstore (0.3.0)
     public_suffix (7.0.5)
-    puma (8.0.2)
+    puma (8.0.3)
       nio4r (~> 2.0)
     pushbullet_ruby (1.1.4)
       faraday (>= 0.13.0, < 1.0)
