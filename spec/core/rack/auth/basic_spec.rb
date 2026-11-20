@@ -13,7 +13,9 @@ describe TDiary::Rack::Auth::Basic do
 		end
 	end
 
-	let(:app) { TDiary::Rack::Auth::Basic.new(lambda{|env| [200, {}, ['Awesome']]}, @htpasswd) }
+	let(:app) do
+		TDiary::Rack::Auth::Basic.new(lambda{|env| [200, {}, [env['tdiary.legacy_password'] ? 'legacy' : 'bcrypt']]}, @htpasswd)
+	end
 
 	describe 'bcrypt password file' do
 		before do
@@ -25,6 +27,7 @@ describe TDiary::Rack::Auth::Basic do
 			basic_authorize 'alice', 'secret passphrase'
 			get '/'
 			expect(last_response).to be_ok
+			expect(last_response.body).to eq 'bcrypt'
 		end
 
 		it 'rejects a wrong password' do
@@ -46,10 +49,11 @@ describe TDiary::Rack::Auth::Basic do
 			File.write(@htpasswd, "alice:EY.0WvbqI6dx2\n")
 		end
 
-		it 'accepts the right password' do
+		it 'accepts the right password and marks it as legacy' do
 			basic_authorize 'alice', 'secret passphrase'
 			get '/'
 			expect(last_response).to be_ok
+			expect(last_response.body).to eq 'legacy'
 		end
 
 		it 'rejects a wrong password' do
@@ -63,7 +67,7 @@ describe TDiary::Rack::Auth::Basic do
 		File.write(@htpasswd, "alice:EY.0WvbqI6dx2\nbob:$2y$05$gDJJdu6rLpNcPJCwlLRrKO8XBRlvFCIKBQvmWQA97L7xWZeVDWb12\n")
 		basic_authorize 'bob', 'secret passphrase'
 		get '/'
-		expect(last_response).to be_ok
+		expect(last_response.body).to eq 'bcrypt'
 	end
 
 	it 'returns 403 for an MD5 password' do
@@ -113,7 +117,7 @@ describe TDiary::Rack::Auth::Basic do
 			TDiary::Rack::Auth::Basic.write_password(@htpasswd, 'alice', 'secret passphrase')
 			basic_authorize 'alice', 'secret passphrase'
 			get '/'
-			expect(last_response).to be_ok
+			expect(last_response.body).to eq 'bcrypt'
 		end
 
 		it 'replaces only the line of the user' do
@@ -123,10 +127,10 @@ describe TDiary::Rack::Auth::Basic do
 
 			basic_authorize 'alice', 'new passphrase'
 			get '/'
-			expect(last_response).to be_ok
+			expect(last_response.body).to eq 'bcrypt'
 			basic_authorize 'bob', 'secret passphrase'
 			get '/'
-			expect(last_response).to be_ok
+			expect(last_response.body).to eq 'legacy'
 		end
 	end
 end

@@ -9,7 +9,8 @@ module TDiary
 			class Basic
 				BCRYPT = /\A\$2[aby]\$\d{2}\$.{53}\z/
 				# DES crypt(3), still verified by String#crypt until it leaves Ruby
-				# (Feature #14915)
+				# (Feature #14915); RequestExtension#legacy_password? tells the
+				# update form to ask for a bcrypt password instead
 				CRYPT = %r{\A[a-zA-Z0-9./]{13}\z}
 				RECREATE = 'Please remove it and create it again by `tdiary htpasswd` or `htpasswd -cB`.'
 
@@ -34,7 +35,11 @@ module TDiary
 
 				def initialize(app, file = '.htpasswd')
 					@file = file
-					@authenticator = ::Rack::Auth::Basic.new(app) do |user, pass|
+					mark_legacy = lambda do |env|
+						env['tdiary.legacy_password'] = true if CRYPT.match?(stored_password(env['REMOTE_USER']))
+						app.call(env)
+					end
+					@authenticator = ::Rack::Auth::Basic.new(mark_legacy) do |user, pass|
 						authenticate(user, pass)
 					end
 				end
