@@ -138,7 +138,7 @@ module TDiary
 
 		desc "htpasswd", "Create a .htpasswd file"
 		def htpasswd
-			require 'webrick/httpauth/htpasswd'
+			require 'tdiary/rack/auth/basic'
 			say "Input your username/password"
 			print 'Username: '
 			ARGV.replace([])
@@ -154,9 +154,7 @@ module TDiary
 			if password != password2
 				raise StandardError, 'password verification error'
 			end
-			htpasswd = WEBrick::HTTPAuth::Htpasswd.new(ENV['HTPASSWD'] || '.htpasswd')
-			htpasswd.set_passwd(nil, username, password)
-			htpasswd.flush
+			TDiary::Rack::Auth::Basic.write_password(ENV['HTPASSWD'] || '.htpasswd', username, password)
 		end
 
 		desc "version", "Prints the tDiary's version information"
