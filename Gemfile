@@ -14,6 +14,13 @@ gem 'cgi'
 gem 'pstore'
 gem 'logger'
 
+# Only TDiary::Rack::Auth::Basic needs bcrypt, a C extension. The full
+# tarball for CGI hosting, where the web server authenticates, leaves this
+# group out (see lib/tdiary/tasks/release.rake)
+group :rack do
+  gem 'bcrypt', require: false
+end
+
 group :development do
   gem 'pit', require: false
   gem 'racksh', require: false

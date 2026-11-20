@@ -24,13 +24,13 @@ Basic認証では、パスワードを2つの方法で格納できます。通�
   1. IDとパスワードを格納する.htpasswdファイルを作成する
   2. 設定ファイル (config.ru) にIDとパスワードを記述する
 
-htpasswdコマンドを使って`.htpasswd`ファイルを作成します。
+`tdiary htpasswd`コマンドを実行すると、ユーザ名とパスワードを尋ねられ、`.htpasswd`ファイルが作成されます。Apacheのhtpasswdコマンドで作成する場合は次のようにします。
 
 ```
-htpasswd -cd .htpasswd username
+htpasswd -cB .htpasswd username
 ```
 
--cオプションはファイルの新規作成、-dオプションは暗号化にCRYPT方式を利用します。現時点ではCRYPT方式にのみ対応しており、MD5やSHA1方式には対応していないため、必ず-dオプションを指定してください。
+-cオプションはファイルの新規作成、-Bオプションはパスワードのハッシュ化にbcrypt方式を利用します。MD5やSHA1方式には対応していないため、必ず-Bオプションを指定してください。サーバーでコマンドを実行できない場合は、手元のhtpasswdコマンドで作ったファイルをサーバーに置いてください。なお、bcrypt方式のパスワードを確かめるため、サーバーにはbcrypt gem (C拡張) が必要です。full tarballは`.bundle/config`の`BUNDLE_WITHOUT`でbcrypt gemを含む`rack`グループを外しているので、`rack`を消してから`bundle install`してください。CRYPT方式で作成した古い`.htpasswd`ファイルでも当面はログインできますが、CRYPT方式はRubyで非推奨になったため、更新画面に作り直しを促す表示が出ます。`.htpasswd`ファイルを削除してから作り直してください。
 
 外部サービス認証
 ----

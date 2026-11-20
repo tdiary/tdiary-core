@@ -22,6 +22,9 @@ end
 <div class="update day">
 <h2><span class="title">日記の更新</span></h2>
 <div class="form">
+	<% if @request.legacy_password? then %>
+	<p class="message">パスワードが古いCRYPT方式で保存されています。CRYPT方式はRubyで非推奨になり、いずれログインできなくなります。.htpasswdファイルを削除してから、tdiary htpasswdコマンドでbcrypt方式のパスワードを作り直してください。Apacheのhtpasswdコマンドでも「htpasswd -cB .htpasswd ユーザ名」で作れるので、サーバーでコマンドを実行できない場合は、手元で作ったファイルをサーバーに置いてください。</p>
+	<% end %>
 	<% if @rejected.kind_of?( BadDateError ) then %>
 	<p class="message">日付「<%=h @rejected.message %>」は存在しないため、保存していません。日付を指定し直して、もう一度送ってください。</p>
 	<% elsif @rejected.kind_of?( ConflictError ) then %>

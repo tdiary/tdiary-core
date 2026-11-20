@@ -51,7 +51,7 @@ def vendor_pure_ruby_gems
 
 	Bundler.with_unbundled_env do
 		ENV['BUNDLE_PATH'] = build_dir
-		ENV['BUNDLE_WITHOUT'] = 'development:test'
+		ENV['BUNDLE_WITHOUT'] = 'development:test:rack'
 		ENV['BUNDLE_FROZEN'] = 'true'
 		sh 'bundle install'
 	end
@@ -84,10 +84,11 @@ def vendor_pure_ruby_gems
 		rm_rf dir unless %w(lib data).include?(File.basename(dir))
 	end
 
-	# Ship a bundler config that excludes dev/test but sets no path, so
-	# bundler/setup resolves the vendored gems from GEM_PATH at runtime.
+	# Ship a bundler config that excludes dev/test and the native gems of the
+	# rack group but sets no path, so bundler/setup resolves the vendored gems
+	# from GEM_PATH at runtime.
 	mkdir_p '.bundle'
-	File.write('.bundle/config', %Q(---\nBUNDLE_WITHOUT: "development:test"\n))
+	File.write('.bundle/config', %Q(---\nBUNDLE_WITHOUT: "development:test:rack"\n))
 end
 
 def make_tarball( repo, version = nil )

@@ -68,6 +68,11 @@ module TDiary
 			env['REMOTE_USER']
 		end
 
+		# true when TDiary::Rack::Auth::Basic accepted a DES crypt password
+		def legacy_password?
+			env['tdiary.legacy_password'] ? true : false
+		end
+
 		def https?
 			return true if env['HTTP_X_FORWARDED_PROTO'] == 'https'
 			return false if env['HTTPS'].nil? or /off/i =~ env['HTTPS'] or env['HTTPS'] == ''

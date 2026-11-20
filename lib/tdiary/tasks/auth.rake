@@ -2,7 +2,7 @@ namespace :auth do
 	namespace :password do
 		desc "create password"
 		task :create do
-			require 'webrick/httpauth/htpasswd'
+			require 'tdiary/rack/auth/basic'
 			puts 'create .htpasswd file'
 			print 'Username: '
 			ARGV.replace([])
@@ -18,9 +18,7 @@ namespace :auth do
 			if password != password2
 				raise StandardError, 'password verification error'
 			else
-				htpasswd = WEBrick::HTTPAuth::Htpasswd.new('.htpasswd')
-				htpasswd.set_passwd(nil, username, password)
-				htpasswd.flush
+				TDiary::Rack::Auth::Basic.write_password('.htpasswd', username, password)
 				puts "Adding password for user #{username}"
 			end
 		end

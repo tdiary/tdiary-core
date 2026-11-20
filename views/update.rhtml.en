@@ -5,6 +5,9 @@
 <div class="update day">
 <h2><span class="title">Updating Diary</span></h2>
 <div class="form">
+	<% if @request.legacy_password? then %>
+	<p class="message">Your password is stored in the old CRYPT format. CRYPT is deprecated in Ruby, and you will not be able to log in with it in the future. Remove the .htpasswd file and create a bcrypt password again with the tdiary htpasswd command. Apache's htpasswd command also creates it with "htpasswd -cB .htpasswd username", so if you cannot run commands on the server, create the file on your computer and put it on the server.</p>
+	<% end %>
 	<% if @rejected.kind_of?( BadDateError ) then %>
 	<p class="message">The date "<%=h @rejected.message %>" does not exist, so the diary was not saved. Set the date again and send it once more.</p>
 	<% elsif @rejected.kind_of?( ConflictError ) then %>
