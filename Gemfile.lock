@@ -1,11 +1,10 @@
 GIT
   remote: https://github.com/tdiary/tdiary-contrib.git
-  revision: 4c1f0ffb35eaa5dd4006037d87fe07388a737cb2
+  revision: b74812c87ceacc2356b07da982209f828a1e1525
   specs:
-    tdiary-contrib (5.6.1)
+    tdiary-contrib (5.7.0)
       coderay
       holiday_japan
-      pushbullet_ruby
       tdiary (~> 5.0)
 
 GIT
@@ -81,8 +80,12 @@ GEM
     drb (2.2.3)
     emot (0.0.4)
       thor
-    faraday (0.17.6)
-      multipart-post (>= 1.2, < 3)
+    faraday (2.15.1)
+      faraday-net_http (>= 2.0, < 3.6)
+      json
+      logger
+    faraday-net_http (3.5.0)
+      net-http (~> 0.5)
     fastimage (2.4.3)
     ferrum (0.20.1)
       addressable (~> 2.5)
@@ -96,6 +99,7 @@ GEM
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     idn-ruby (0.1.5)
+    json (3.1.0)
     jwt (3.2.0)
       base64
     launchy (3.1.1)
@@ -114,7 +118,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.1027)
+    mime-types-data (3.2026.1103)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (6.0.6)
@@ -129,8 +133,10 @@ GEM
       ruby2_keywords (~> 0.0.5)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
-    multipart-post (2.4.1)
     mutex_m (0.3.0)
+    net-http (0.10.0)
+      net-protocol (>= 0.3.0)
+      uri (>= 0.11.1)
     net-imap (0.6.8)
       date
       net-protocol
@@ -189,9 +195,6 @@ GEM
     public_suffix (7.0.5)
     puma (8.0.3)
       nio4r (~> 2.0)
-    pushbullet_ruby (1.1.4)
-      faraday (>= 0.13.0, < 1.0)
-      mime-types
     racc (1.8.1)
     rack (3.2.8)
     rack-protection (4.2.1)
@@ -250,14 +253,15 @@ GEM
     sqlite3 (2.10.2-x86_64-darwin)
     sqlite3 (2.10.2-x86_64-linux-gnu)
     sqlite3 (2.10.2-x86_64-linux-musl)
-    tdiary (5.6.1)
+    tdiary (5.7.0)
+      bcrypt
       cgi
       emot
       fastimage
       hikidoc
       mail
       pstore
-      rack
+      rack (>= 3.2)
       rake
       rexml
       thor
@@ -280,6 +284,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.9.1)
+    uri (1.1.2)
     version_gem (1.1.14)
     webrick (1.9.2)
     websocket-driver (0.8.2)
